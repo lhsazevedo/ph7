@@ -96,7 +96,7 @@ int main(void) {
 
 Compile with:
 ```sh
-gcc -o ph7_test ph7_test.c -Lbuild -lph7
+gcc -o ph7_test ph7_test.c -Iinclude -Lbuild -lph7
 ```
 
 And run:

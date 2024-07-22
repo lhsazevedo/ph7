@@ -27,9 +27,9 @@ TARGET_EXEC = ph7
 # Default target
 all: $(BUILD_DIR) lib exec
 
-lib: $(BUILD_DIR)/$(TARGET_LIB)
+lib: $(BUILD_DIR) $(BUILD_DIR)/$(TARGET_LIB)
 
-exec: $(BUILD_DIR)/$(TARGET_EXEC)
+exec: $(BUILD_DIR) $(BUILD_DIR)/$(TARGET_EXEC)
 
 
 $(BUILD_DIR):
