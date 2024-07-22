@@ -1,3 +1,9 @@
+/*
+ * ----------------------------------------------------------
+ * File: ph7.h
+ * MD5: b5527f9c7eb410a9f9367a6b03014a65
+ * ----------------------------------------------------------
+ */
 /* This file was automatically generated.  Do not edit (except for compile time directive)! */ 
 #ifndef _PH7_H_
 #define _PH7_H_
@@ -712,3 +718,4 @@ PH7_APIEXPORT const char * ph7_lib_copyright(void);
 }
 #endif /* __cplusplus */
 #endif /* _PH7_H_ */
+
