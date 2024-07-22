@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en"><head>
+
+
+
+
+
+
+  
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type"><title>PH7 C/C++ API Reference</title><!-- Copyright (C) 2011 Symisc Systems,http://www.symisc.net contact@symisc.net -->
+  
+
+  
+
+  
+  <link rel="stylesheet" href="symisc.css" type="text/css">
+
+  
+  <meta content="Symisc Systems &lt;chm@symisc.net&gt;" name="author"></head><body>
+<div style="width: 1092px;" id="main_div"><a href="http://ph7.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc PH7 Engine" title="Symisc PH7 Engine" src="images/symisc_ph7_tr.png"></a><br>
+<div style="text-align: left; width: 190px;" align="right"><small style="color: black; font-family: Verdana;"><small>An Embeddable PHP5 Engine</small></small><br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<ul id="nav">
+  <li id="nav-1"><a href="index.html">About</a></li>
+<li id="nav-8"><a href="features.html">Distinctive Features<br>
+</a></li>
+  <li id="nav-2"><a href="intro.html">Getting Started<br>
+    </a></li>
+  <li id="nav-3"><a href="c_api.html">Documentation<br>
+    </a></li>
+  <li id="nav-4"><a href="downloads.html">Downloads<br>
+    </a></li>
+  <li id="nav-5"><a href="licensing.html">Licensing<br>
+    </a></li>
+  <li id="nav-6"><a href="faq.html">FAQ<br>
+    </a></li>
+  <li id="nav-7"><a href="support.html">Online Community Support<br>
+    </a></li>
+</ul>
+<h1><small><small><font face="Verdana, sans-serif"><b>PH7 C/C++ API
+Reference.</b></font></small></small></h1>
+
+<div align="left">
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">These
+pages define the C-language interface to PH7.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This
+is not a tutorial. These pages are designed to be precise, not easy
+to read.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> For a tutorial introduction see </font></font><a href="intro.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">PH7 In 5 Minutes Or Less</span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+and/or </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"><a href="api_intro.html">An
+Introduction To The PH7 C/C++ Interface</a></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">. <br>
+</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font>
+</p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This
+version of the C-language interface reference is broken down into
+small pages for easy viewing.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The same content is also available as a
+single large HTML or PDF file for those who prefer that format.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+interface is broken down into three categories:</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<table style="text-align: left; height: 136px; margin-left: 58px; width: 729px;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 150px;">
+      <p><a href="c_api_object.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>List
+Of Objects.</b></font></font></a></p>
+      </td>
+      <td style="vertical-align: top; width: 28px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 447px;">
+      <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This
+is a list of all abstract objects and datatypes used by the PH7
+library. There are seven objects in total, but the two most important
+objects are: An engine handle <a href="c_api_object.html#ph7">ph7</a>
+and a
+virtual machine object <a href="c_api_object.html#ph7_vm">ph7_vm</a>.</font></font></p>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 150px;">
+      <p><a href="c_api_const.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>List
+Of Constants.</b></font></font></a></p>
+      </td>
+      <td style="vertical-align: top; width: 28px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 447px;">
+      
+      <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This
+is a list of numeric constants used by PH7 and represented by
+#defines in the ph7.h header file. These constants are things such as
+numeric return parameters from various interfaces (ex:&nbsp;<a href="c_api_const.html">PH7_OK</a>, <a href="c_api_const.html">PH7_ABORT</a>, etc...). Also, compile-time directives such as <a href="c_api_const.html#compile_time">PH7_ENBALE_THREADS</a>, PH7_ENABLE_MATH_FUNC, etc. are
+discussed here.<br>
+      </font></font></p>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 150px;">
+      <p><a href="c_api_func.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>List
+Of Functions.</b></font></font></a></p>
+      </td>
+      <td style="vertical-align: top; width: 28px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 447px;">
+      <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This
+is a list of all functions and methods operating on the <a href="c_api_object.html">objects</a>
+and using and/or returning <a href="c_api_const.html">constants</a>.
+There are many functions, but most applications only use a handful. </font></font>
+      </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+</div>
+<hr style="width: 100%; height: 2px;">
+<div style="text-align: right; margin-top: 0px; height: 91px;"><small><small><a href="http://www.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc Systems" src="images/symisc.png"></a></small></small>
+<div style="text-align: left; margin-top: 0px; height: 14px;"><small><small style="font-family: Verdana;">Copyright © <a href="http://www.symisc.net/">Symisc Systems</a></small></small><br>
+</div>
+</div>
+</div>
+
+</body></html>

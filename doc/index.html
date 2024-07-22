@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en"><head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type"><title>PH7 Engine</title><!-- Copyright (C) 2011 Symisc Systems,http://www.symisc.net contact@symisc.net -->
+  
+
+  
+
+  
+  <link rel="stylesheet" href="symisc.css" type="text/css">
+
+  
+  <meta content="Symisc Systems &lt;chm@symisc.net&gt;" name="author"></head><body>
+<div style="width: 1092px;" id="main_div"><a href="http://ph7.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc PH7 Engine" title="Symisc PH7 Engine" src="images/symisc_ph7_tr.png"></a><br>
+<div style="text-align: left; width: 190px;" align="right"><small style="color: black; font-family: Verdana;"><small>An Embeddable PHP5 Engine</small></small></div>
+<hr style="width: 100%; height: 2px;">
+<ul id="nav">
+  <li id="nav-1"><a href="index.html">About</a></li>
+  <li id="nav-8"><a href="features.html">Distinctive Features<br>
+  </a></li>
+  <li id="nav-2"><a href="intro.html">Getting Started<br>
+    </a></li>
+  <li id="nav-3"><a href="c_api.html">Documentation<br>
+    </a></li>
+  <li id="nav-4"><a href="downloads.html">Downloads<br>
+    </a></li>
+  <li id="nav-5"><a href="licensing.html">Licensing<br>
+    </a></li>
+  <li id="nav-6"><a href="faq.html">FAQ<br>
+    </a></li>
+  <li id="nav-7"><a href="support.html">Online Community Support<br>
+    </a></li>
+</ul>
+<h1 style="text-align: left; font-family: Verdana;"><small><small>About
+The PH7 Engine</small></small></h1>
+<div style="text-align: right;">
+<p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+is a in-process software library that implements a highly-efficient embeddable
+bytecode compiler and a virtual machine for the PHP programming
+language. In other words, PH7 is a PHP engine which allow the host application to
+compile and execute PHP scripts in-process. PH7 is to <a href="http://www.php.net">PHP</a> what <a href="http://www.sqlite.org">SQLite</a> is to SQL.<br>
+</font></font></p>
+<p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+PH7 implements most of the
+constructs introduced by the PHP 5.3 release such as
+heredoc, nowdoc, gotos, classes, anonymous functions, closures and so on and
+<span style="font-family: Verdana;">introduces very
+powerful extensions to the PHP </span></font></font><font style="font-size: 10pt; font-family: Verdana;" size="2">programming </font><font style="font-family: Verdana;" face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">language such as:</font></font></p>
+
+<table style="text-align: left; height: 372px; width: 1082px;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 662px;">
+      <div style="margin-top: 11px; height: 385px;" id="code"><ul><li>
+    <p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="features.html#overloading">Function
+&amp; Method Overloading</a>.</font></font></p>
+  </li><li>
+    <p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="features.html#full_type_hinting">Full
+Type Hinting</a>.</font></font></p></li>
+        <li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Introducing
+	<a href="features.html#comma">comma expressions</a>.</font></font></p></li>
+        <li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Introducing
+	<a href="features.html#eq_op">the eq and ne operators</a> for strict string
+	comparison.</font></font></p></li>
+        <li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Improved
+	operators precedences.</font></font></p></li>
+        <li><p style="margin-bottom: 0cm; font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Powerful
+	OO subsystem.</font></font></p></li>
+        <li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="features.html#complex">Function
+	arguments</a> can take any <a href="features.html#complex">complex expressions as
+	their default values</a>.</font></font></p></li>
+        <li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">64-bit
+	integer arithmetic for all platforms.</font></font></p></li>
+        <li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="features.html#utf8">Native
+	UTF-8 support</a>.</font></font></p></li>
+        <li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+	is <a href="features.html#hand_coded">100% hand-coded</a>, written
+	in <a href="features.html#hand_coded">ANSI C</a>, compile and
+	run unmodified in any platform including restricted embedded devices
+	with a C compiler.</font></font></p></li>
+        <li>
+          <p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="features.html#amalgamation">Amalgamation</a>:
+All C source code for PH7 are combined into a single source file.</font></font></p>
+        </li>
+        <li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="builtin_func.html">Built
+	with more 470 function</a>
+including an XML parser (with namespace support), INI processor, CSV
+reader/writer, UTF-8 encoder/decoder, zip archive extractor, JSON
+encoder/decoder, random number/strings generator, native and efficient
+File IO for Windows and UNIX systems and <a href="builtin_func.html">many
+	more</a> without the need of any external library to link with.</font></font></p></li>
+        <li><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7 is an <a href="licensing.html">Open-Source product</a>.</font></font></li>
+        
+</ul>
+      <div style="text-align: right;">&nbsp; <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Refer to the <a href="features.html">feature page</a> for a detailed description.<br>
+</font></font></div>
+
+
+
+
+
+
+
+</div>
+      </td>
+
+      <td style="vertical-align: top; width: 229px; text-align: center;">
+      <div style="margin-top: 9px; height: 309px; text-align: right;"><table style="text-align: left; margin-left: auto; margin-right: 0px;" border="0" cellpadding="2" cellspacing="2"><tbody><tr style="font-family: Verdana;" align="right"><td style="vertical-align: top; height: 61px;"><small style="font-weight: bold;"><small>Current Public Release: <a href="downloads.html">2.1.4</a></small></small></td></tr><tr><td style="vertical-align: top; height: 317px;"><a href="http://opensource.org/docs/definition.php"><img style="border: 0px solid ; width: 240px; height: 275px;" alt="Open Source Software" title="Open Source Software" src="images/osi_standard_logo.png"></a></td></tr></tbody></table></div>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ul></ul>
+<div style="text-align: left;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"></font></font></font>
+<p style="margin-bottom: 0cm;" lang="en-US"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7 </font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">is
+the ideal library for enhancing your application (i.e: SCM, Server,
+CMS, Control panel, Search engine, etc.) or device (i.e: router, set-top box, etc.)
+with dynamic web interfaces, </font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">with all benefits and power of the
+PHP(5) programming language without the overhead uncured by the insecure CGI mechanism and it's high costs such as </font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">process
+creation (fork(), exec())</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> since
+PH7 run in-process.</font></font></font></p></div>
+<p style="margin-bottom: 0cm; text-align: left;"></p>
+<p align="left"><br>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"></span></font></font></p>
+<p align="left">
+</p>
+
+<p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">As
+an embedded interpreter, it allows multiple interpreter states to
+coexist in the same program, without any interference between them.
+Programmatically, <a href="func_intro.html">foreign functions</a> in C can be added and values can
+be defined in the PHP environment. Being a quite small program, it is
+easy to comprehend, get to grips with, and use.<span style="font-weight: normal;"><br>
+</span></font></font></p>
+<p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"><br>
+</span></font></font></p>
+<p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">PH7
+is 100% hand-coded, written in ANSI C, c</span>ompiles
+unmodified <span style="font-weight: normal;">and should run in any
+platform including restricted embedded device with a C compiler.</span></font></font></p>
+
+
+<p align="left">
+</p>
+
+<p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+PH7 is extensively tested on Windows and UNIX systems especially
+Linux, FreeBSD, Oracle Solaris and Mac OS X.</span></font></font></p>
+<p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"><br>
+</span></font></font></p>
+
+<p align="left">
+</p>
+
+<p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+is a compact library. With all features enabled, the library size can
+be less than 600KiB, depending on compiler optimization settings.
+(Some compiler optimizations such as aggressive function inlining and
+loop unrolling can cause the object code to be much larger.) If
+optional features are omitted, the size of the PH7 library can be
+reduced below 220KiB. PH7 can also be made to run in very little
+heap (2MB), making PH7 a popular PHP engine choice on memory
+constrained gadgets such as cellphones, tablets, numeric devices and
+so on.</font></font></p>
+<p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+is an open-source, dual-licensed product available free of charge for open-source
+projects under the term of the <a href="http://www.symisc.net/spl.txt">Symisc
+Public License </a>(SPL) which is a GPL compatible </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">license and is <span style="font-weight: bold;">equivalent</span></font><font face="Verdana, sans-serif">
+to the more popular <a href="http://opensource.org/licenses/Sleepycat">Sleepycat
+license</a> (An OSI approved license)</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">. See the <a href="licensing.html">licensing
+page</a> for additional information.</font></font></p>
+<h1 style="text-align: left;"><small><small><font face="Verdana, sans-serif"><b>Useful links to start with</b></font></small></small><br>
+</h1>
+<div style="text-align: left; margin-left: 59px; width: 735px;">
+<table style="text-align: left; margin-left: auto; margin-right: auto; width: 733px;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 216px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a style="font-weight: bold;" href="downloads.html">Download</a></font></font></td>
+      <td style="vertical-align: top; width: 32px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 410px; font-family: Verdana;"><font style="font-size: 10pt;" size="2">Get a copy of the last public
+release of the
+PH7 engine, start embedding and enjoy
+programming with.<br>
+      </font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 216px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"><a style="font-weight: bold;" href="features.html">Distinctive&nbsp;Features</a></span></font></font></td>
+      <td style="vertical-align: top; width: 32px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 410px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">This document enumerates and describes
+some of the features and the
+powerfull extensions introduced by the PH7 engine.<br>
+      </span></font></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 216px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"><a style="font-weight: bold;" href="faq.html">Frequently&nbsp;Asked&nbsp;Questions</a></span></font></font></td>
+      <td style="vertical-align: top; width: 32px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 410px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">FAQ: The
+title of the document says all...<br>
+      <br>
+      </span></font></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 216px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"><a style="font-weight: bold;" href="licensing.html">Copyright/Licensing</a></span></font></font></td>
+      <td style="vertical-align: top; width: 32px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 410px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">PH7 is dual-licensed and is available
+free of charge for open source
+projects. Find more on the licensing situation there.<br>
+      </span></font></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"><a style="font-weight: bold;" href="support.html">Online Community Support</a></span></font></font></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top; width: 410px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">Need some help, join
+the PH7 online
+community.</span></font></font></td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin-bottom: 0cm; font-weight: normal;" align="left"> </p>
+</div>
+<h1 style="text-align: left; font-family: Verdana;"><small><small>PH7
+Programming Interfaces</small></small></h1>
+<div style="text-align: left; margin-left: 56px; width: 738px;">
+<p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">Documentation
+describing the APIs used to program PH7. Note that </span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+is very easy to learn, even for new programmer. Here is some useful
+links to start with:</font></font></p>
+<table style="text-align: left; height: 242px; width: 739px;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 373px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"><a style="font-weight: bold;" href="intro.html">PH7 In 5 Minutes Or Less<br>
+</a></span></font></font></td>
+      <td style="vertical-align: top; width: 19px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 323px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">Gives a
+high-level overview on the how to embed the PH7 engine in a
+host application.</span></font></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 373px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"><a style="font-weight: bold;" href="api_intro.html">An
+Introduction To The PH7 C/C++ Interface</a></span></font></font></td>
+      <td style="vertical-align: top; width: 19px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 323px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">Gives an overview and
+roadmap to the C/C++ interface to PH7.</span></font></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 373px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"><a style="font-weight: bold;" href="c_api.html">C/C++&nbsp;API&nbsp;Reference
+Guide</a></span></font></font></td>
+      <td style="vertical-align: top; width: 19px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 323px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">This document describes each API function
+in details.</span></font></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 373px;"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><span style="font-weight: normal;"><a style="font-weight: bold;" href="func_intro.html">Foreign
+Function Implementation</a></span></font></font></td>
+      <td style="vertical-align: top; width: 19px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 323px;"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><span style="font-weight: normal;">Is a how-to guide on how to install C functions and invoke them from your PHP script.</span></font></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 373px;"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><span style="font-weight: normal;"><a style="font-weight: bold;" href="const_intro.html">Constant
+Expansion Mechanism</a></span></font></font></td>
+      <td style="vertical-align: top; width: 19px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 323px;"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><span style="font-weight: normal;">Is a how-to guide on how to install foreign constants and expand their values from your PHP script.</span></font></font></td>
+    </tr>
+  </tbody>
+</table>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;" align="left"> </p>
+</div>
+<br>
+<p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+</div>
+<hr style="width: 100%; height: 2px;">
+<div style="text-align: right; margin-top: 0px; height: 91px;"><small><small><a href="http://www.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc Systems" src="images/symisc.png"></a></small></small>
+<div style="text-align: left; margin-top: 0px; height: 14px;"><small><small style="font-family: Verdana;">Copyright © <a href="http://www.symisc.net/">Symisc Systems</a></small></small><br>
+</div>
+</div>
+</div>
+
+</body></html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en"><head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type"><title>Introduction To The PH7 C/C++ Interface</title><!-- Copyright (C) 2011 Symisc Systems,http://www.symisc.net contact@symisc.net -->
+  
+
+  
+
+  
+  <link rel="stylesheet" href="symisc.css" type="text/css">
+
+  
+  <meta content="Symisc Systems &lt;chm@symisc.net&gt;" name="author"></head><body>
+<div style="width: 1092px;" id="main_div"><a href="http://ph7.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc PH7 Engine" title="Symisc PH7 Engine" src="images/symisc_ph7_tr.png"></a><br>
+<div style="text-align: left; width: 190px;" align="right"><small style="color: black; font-family: Verdana;"><small>An Embeddable PHP5 Engine</small></small><br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<ul id="nav">
+  <li id="nav-1"><a href="index.html">About</a></li>
+<li id="nav-8"><a href="features.html">Distinctive Features<br>
+</a></li>
+  <li id="nav-2"><a href="intro.html">Getting Started<br>
+    </a></li>
+  <li id="nav-3"><a href="c_api.html">Documentation<br>
+    </a></li>
+  <li id="nav-4"><a href="downloads.html">Downloads<br>
+    </a></li>
+  <li id="nav-5"><a href="licensing.html">Licensing<br>
+    </a></li>
+  <li id="nav-6"><a href="faq.html">FAQ<br>
+    </a></li>
+  <li id="nav-7"><a href="support.html">Online Community Support<br>
+    </a></li>
+</ul>
+<h1 style="font-weight: bold;"><small><small><span style="font-family: Verdana;">An Introduction To The PH7
+C/C++ Interface</span><small><small><font face="Verdana, sans-serif">.</font></small></small></small></small></h1>
+
+<div>
+
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This
+article provides an overview and roadmap to the C/C++ interface to
+PH7.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Early
+versions of the PH7 engine were very easy to learn since they only
+supported 12 C/C++ interfaces. But as the PH7 engine has grown in
+capability, new C/C++ interfaces have been added so that now there
+are over 80 distinct APIs. This can be overwhelming to a new
+programmer. Fortunately, most of the C/C++ interfaces in the PH7
+engine are very specialized and never need to be used. Despite having
+so many entry points, the core API is still relatively simple and
+easy to code to. This article aims to provide all of the background
+information needed to easily understand how the PH7 engine works.</font></font></p>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">A
+separate document, </font></font><a href="c_api.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+PH7 engine C/C++ Interface</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">,
+provides detailed specifications for all of the various C/C++ APIs
+for the PH7 engine. Once the reader understands the basic principles
+of operation for the PH7 engine, </font></font><a href="c_api.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">that
+document</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+should be used as a reference guide. This article is intended as
+introduction only and is neither a complete nor authoritative
+reference for the PH7 API.</font></font></p>
+
+<h1 style="font-weight: bold;"><small><small><font face="Verdana, sans-serif"><font size="4"><small><small>1.0
+Core Objects And Interfaces</small></small></font></font></small></small></h1>
+<font face="Verdana, sans-serif"><font size="4">
+
+</font></font>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+principal task of a PHP engine is to compile and execute PHP code. In
+order to accomplish this purpose, the developer needs to know about
+two objects: </font></font>
+</p>
+<ul>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The PH7 engine handle: <b>ph7 </b></font></font>
+    </p>
+  </li>
+  <li>
+    <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The PH7 virtual machine object: <b>ph7_vm</b> </font></font>
+    </p>
+  </li>
+</ul>
+<h1 class="western"><small><font face="Verdana, sans-serif"><font size="3"><small>PH7
+engine Handle</small></font></font></small></h1>
+<pre class="western" style="margin-left: 1cm; margin-right: 1cm; margin-bottom: 0.5cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b><font color="#0000ff">typedef struct</font> ph7 ph7;</b></font></font></pre>
+<p>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Each
+active </font></font><a href="c_api_object.html#ph7"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+engine</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+is represented by a pointer to an instance of the opaque structure
+named "ph7". It is useful to think of an ph7 pointer as an
+object.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> The </font></font><a href="c_api_func.html#ph7_init"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_init()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+interface is its constructor and </font></font><a href="c_api_func.html#ph7_release"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_release()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+is its destructor.</font></font></p>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> There is also the </font></font><a href="c_api_func.html#ph7_config"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_config()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+interface which is used to configure a working ph7 engine.</font></font></p>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+most important interfaces are the compile interfaces:
+</font></font><a href="c_api_func.html#ph7_compile"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">, </font></font><a href="c_api_func.html#ph7_compile_v2"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile_v2()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+and </font></font><a href="c_api_func.html#ph7_compile_file"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile_file()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.
+That is, these interfaces takes as their input a PHP program to
+compile and produces PH7 bytecodes represented by an opaque pointer
+to the </font></font><a href="c_api_object.html#ph7_vm"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_vm</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+structure (see below for more information on this structure).</font></font></p>
+<h1 class="western"><small><font face="Verdana, sans-serif"><font size="3"><small>PH7
+virtual machine Object</small></font></font></small></h1>
+<pre class="western" style="margin-left: 1cm; margin-right: 1cm; margin-bottom: 0.5cm; font-family: Verdana;"><small><b><font color="#0000ff">typedef struct</font> ph7_vm ph7_vm;</b></small></pre>
+<p>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">An
+instance of this object represents a compiled PHP program. this
+structure hold the PH7 bytecode program resulting from </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">successful </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">compilation of the target PHP script
+using one of the </font></font><a href="c_api_func.html#ph7_compile_v2"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">compile</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+interfaces</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+life of a ph7 virtual machine goes something like this:</font></font></p>
+<ol>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Compile your PHP script using one of
+the </font></font><a href="c_api_func.html#ph7_compile"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">, </font></font><a href="c_api_func.html#ph7_compile_v2"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">p</font></font></a><a href="c_api_func.html#ph7_compile_v2"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">h7_compile_v2()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> or
+    </font></font><a href="c_api_func.html#ph7_compile_file"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile_file()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">i</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">nterfaces</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.
+On successful compilation, the PH7 engine will automatically create an
+instance of this structure (</font></font><a href="c_api_object.html#ph7_vm"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_vm</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">)
+and a pointer to this </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">structure is made available to the
+caller.</font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">When
+something goes wrong while compiling the PHP script due to a
+compile-time error, the caller must discard this pointer and fix its
+erroneous PHP code. Compile-time error messages can be extracted via a
+call to </font></font><a href="c_api_func.html#ph7_config"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_config()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Configure the virtual machine using
+the </font></font><a href="c_api_func.html#ph7_vm_config"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_vm_config()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+interface with it's many configuration verbs, but the most important option is set via the </font></font><a href="c_api_func.html#vm_config_output"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">PH7_VM_CONFIG_OUTPUT</span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+verb which is used to register a <a href="output_consumer.html">VM
+output consumer callback</a>. That is, an user defined function
+responsible of consuming the VM output such as redirecting it [i.e: the
+VM output] to the standard output (STDOUT) or sending it back to the connected peer and so on.
+    </font></font> </p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font size="3"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Optionally, register one or more
+foreign functions or constants using the </font></font><a href="c_api_func.html#ph7_create_function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_create_function()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> or
+    </font></font><a href="c_api_func.html#ph7_create_constant"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_create_constant()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+interfaces.</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Execute
+the compiled PHP program by calling </font></font><a href="c_api_func.html#ph7_vm_exec"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_vm_exec()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+one or more times. </font></font></font> </p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Reset
+the virtual machine using </font></font><a href="c_api_func.html#ph7_vm_reset"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_vm_reset()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+then go back to step 5. Do this zero or more times. </font></font></font>
+    </p>
+  </li>
+  <li>
+    <p><font face="Verdana, sans-serif"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Destroy the virtual machine using </font></font><a href="c_api_func.html#ph7_vm_release"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_vm_release()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.</font></font></font></p>
+  </li>
+</ol>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Refer
+to documentation on individual methods above for additional
+information.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+ </font></font>
+</p>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+PH7 engine and the PH7 virtual machine objects are controlled by a
+small set of C/C++ interface routine listed below:</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#0000ff">int</font><font color="#000000">
+ph7_init(</font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"><a href="c_api_object.html#ph7">ph7</a></font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"> **ppEngine);</font></b></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#0000ff">int</font><font color="#000000">
+ph7_config(</font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"><a href="c_api_object.html#ph7">ph7</a></font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"> *pEngine,</font><font color="#0000ff">int</font><font color="#000000">
+nConfigOp,...);</font></b></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#0000ff">int</font><font color="#000000">
+ph7_release(</font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"><a href="c_api_object.html#ph7">ph7</a></font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"> *pEngine);</font></b></font></font></p>
+<p style="margin-bottom: 0cm;"><br>
+</p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#0000ff">int</font><font color="#000000">
+ph7_compile(</font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"><a href="c_api_object.html#ph7">ph7</a></font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"> *pEngine,</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*zSource,</font><font color="#0000ff">int</font><font color="#000000">
+nLen,</font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"><a href="c_api_object.html#ph7_vm">ph7_vm</a></font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"> **ppOutVm);</font></b></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#0000ff">int</font><font color="#000000">
+ph7_compile_v2(</font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"><a href="c_api_object.html#ph7">ph7</a></font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"> *pEngine,</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*zSource,</font><font color="#0000ff">int</font><font color="#000000">
+nLen,</font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"><a href="c_api_object.html#ph7_vm">ph7_vm</a></font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"> **ppOutVm,</font><font color="#0000ff">int</font><font color="#000000">
+iFlags);</font></b></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#0000ff">int</font><font color="#000000">
+ph7_compile_file(<a href="c_api_object.html#ph7">ph7</a> *pEngine,</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*zFilePath,</font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"><a href="c_api_object.html#ph7_vm">ph7_vm</a></font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"> **ppOutVm,</font><font color="#0000ff">int</font><font color="#000000">
+iFlags);</font></b></font></font></p>
+<p style="margin-bottom: 0cm;"><br>
+</p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#0000ff">int</font><font color="#000000">
+ph7_vm_config(<a href="c_api_object.html#ph7_vm">ph7_vm</a> *pVm,</font><font color="#0000ff">int</font><font color="#000000">
+iConfigOp,...);</font></b></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#0000ff">int</font><font color="#000000">
+ph7_vm_exec(</font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"><a href="c_api_object.html#ph7_vm">ph7_vm</a></font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"> *pVm,</font><font color="#0000ff">int</font><font color="#000000">
+*pExitStatus);</font></b></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#0000ff">int</font><font color="#000000">
+ph7_vm_reset(</font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"><a href="c_api_object.html#ph7_vm">ph7_vm</a></font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"> *pVm);</font></b></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#0000ff"><b>int</b></font><font color="#000000"><b>
+ph7_vm_release(</b></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#000000"><a href="c_api_object.html#ph7_vm">ph7_vm</a></font></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"><b> *pVm);</b></font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"><b><br>
+</b></font></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+ten C/C++ interface routines and two objects listed above form the
+core functionality of PH7. The developer who understands them will
+have a good foundation for using PH7. </font></font>
+</p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Here
+is a summary of what the core interfaces do:</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<table style="width: 735px; text-align: left; margin-left: auto; margin-right: auto;" id="table_code" border="1" bordercolor="#000000" cellpadding="2" cellspacing="0">
+  <col width="138"> <col width="494"> <tbody>
+    <tr valign="top">
+      <td width="138"><small> </small>
+      <p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="c_api_func.html#ph7_init">ph7_init()</a></font></font></p>
+      <small> </small></td>
+      <td width="494">
+      <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This routine create, initialize and returns <span style="font-weight: normal;">a new PH7 engine instance</span>. This is
+often the first PH7 API call that an application makes and is a
+prerequisite in order to compile PHP code using one of the compile
+interfaces. </font></font> </p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="138">
+      <p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="c_api_func.html#ph7_compile">ph7_compile()</a></font></font></p>
+      <p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="c_api_func.html#ph7_compile_v2">ph7_compile_v2()</a></font></font></p>
+      <p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="c_api_func.html#ph7_compile_file">ph7_compile_file()</a></font></font></p>
+      </td>
+      <td width="494">
+      <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">To execute PHP code, it must first be compiled into a bytecode program using one of these routines. </font></font> </p>
+      <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">These routine takes </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">as
+their input a PHP program to compile and produce PH7 bytecodes
+represented by an opaque pointer to the <a href="c_api_object.html#ph7_vm">ph7_vm</a> structure.</font></font></p>
+      <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">These APIs does not actually evaluate the PHP code. They
+merely prepares the PHP code for later execution.</font></font></p>
+      <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">When something goes wrong while compiling the PHP script due to a compile-time error, the caller must discard the ph7_vm pointer
+and fix it's erroneous PHP code.</font></font></p>
+      <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font size="3"><font style="font-size: 10pt;" size="2">The compile-time
+error log can be extracted using the <a href="c_api_func.html#ph7_config">ph7_config()</a> interface with a
+configuration verb set to:</font></font></font></p>
+      <p style="font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="c_api_func.html#ph7_config">PH7_CONFIG_ERR_OUTPUT</a>
+or <a href="c_api_func.html#ph7_config">PH7_CONFIG_ERR_LOG</a></font></font></p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="138">
+      <p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="c_api_func.html#ph7_vm_config">ph7_vm_config()</a></font></font></p>
+      </td>
+      <td width="494">
+      <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">After successful compilation of the target PHP script, this is the
+first API function you should call. This interface is used to configure
+a working <a href="c_api_object.html#ph7_vm">virtual machine</a>.
+There are so many configuration verbs but the most important is the <span style="font-weight: normal;"><a href="c_api_func.html#vm_config_output">PH7_VM_CONFIG_OUTPUT</a>
+option</span>. This configuration verb is used to register a<a href="output_consumer.html"> VM output consumer callback</a>. That
+is, an user defined function responsible of consuming the VM output such
+as redirecting it to the standard output (STDOUT) or sending it back to the connected peer and so on. <a href="http://www.symisc.net/downloads/ph7_intro.c">Download
+and Compile this C file</a> for a working example.</font></font></p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="138">
+      <p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="c_api_func.html#ph7_vm_exec">ph7_vm_exec()</a></font></font></p>
+      </td>
+      <td width="494">
+      <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This
+routine is used to execute PH7 bytecode program resulting from
+successful compilation of the target PHP script using one of the <a href="c_api_func.html#ph7_compile_v2">compile interfaces</a>. <a href="http://www.symisc.net/downloads/ph7_intro.c">Download and
+Compile this C file</a> for a working example.</font></font></p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="138">
+      <p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="c_api_func.html#ph7_vm_reset">ph7_vm_reset()</a></font></font></p>
+      </td>
+      <td width="494">
+      <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This routine is used to reset the virtual machine to it's
+initial state so that the <a href="c_api_func.html#ph7_compile_v2">compiled
+program</a> can be re-executed again.</font></font></p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="138">
+      <p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="c_api_func.html#ph7_vm_release">ph7_vm_release()</a></font></font></p>
+      </td>
+      <td width="494">
+      <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This routine destroy a working PH7 virtual machine. Every
+virtual machine must be destroyed using a call to this routine in order
+to avoid memory leaks.</font></font></p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="138">
+      <p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="c_api_func.html#ph7_release"><font face="Verdana, sans-serif">ph7_release()</font></a></font></font></p>
+      </td>
+      <td width="494">
+      <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This routine destroy a working PH7 engine created by a prior
+call to <a href="c_api_func.html#ph7_init">ph7_init()</a>. Every PH7
+engine must be destroyed using a call to this routine in order to avoid
+memory leaks.</font></font></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h1 style="font-weight: bold;"><small><small><font><font><small><small><small><small><font face="Verdana, sans-serif"><font size="4"><small><small>3.0 Typical Usage of Core Routines and interfaces<br>
+</small></small></font></font></small></small></small></small></font></font></small></small></h1>
+<h1>
+
+</h1>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">An
+application that wants to use PH7 will typically use <a href="c_api_func.html#ph7_init">ph7_init()</a>
+to create a new PH7 engine instance. After that, to run PHP scripts,it
+must be first compiled to PH7 bytecode program using one of the compile
+interface such as <a href="c_api_func.html#ph7_compile">ph7_compile()</a>, <a href="c_api_func.html#ph7_compile_v2">ph7_compile_v2()</a> or <a href="c_api_func.html#ph7_compile_file">ph7_compile_file()</a>.
+After successful compilation, the virtual machine should be configured
+using the <a href="c_api_func.html#ph7_vm_config">ph7_vm_config()</a>
+interface. Now call <a href="c_api_func.html#ph7_vm_exec">ph7_vm_exec()</a>
+one or more times to execute your compiled PHP program. When done call
+<a href="c_api_func.html#ph7_vm_release">ph7_vm_release()</a> and
+<a href="c_api_func.html#ph7_release">ph7_release()</a> to destroy
+respectively the virtual machine and the ph7 engine instance.</font></font></p>
+
+<h1 style="font-weight: bold;"><small><small><font face="Verdana, sans-serif"><font size="4"><small><small>3.0
+In-Process Extending</small></small></font></font></small></small></h1>
+
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+includes interfaces that can be used to extend its functionality.
+Such routines includes <a href="c_api_func.html#ph7_create_function">ph7_create_function()</a>
+and <a href="c_api_func.html#ph7_create_constant">ph7_create_constant()</a>.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+<a href="c_api_func.html#ph7_create_function">ph7_create_function()</a>
+interface is used to install a foreign function (typically a C/C++ function) that can be invoked from your PHP code.
+The new function implementation typically makes use of the following
+<a href="c_api_func.html#Foreign_Function_Parameter_Values">additional
+interfaces</a>.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">All
+of the <a href="builtin_func.html">built-in PHP functions</a> (over 470) of PH7 such as
+is_string(), array_diff(), implode(), explode(), etc. are created using
+exactly this <a href="../../../../../c_api_func.html#ph7_create_function">interface</a>.
+</font></font>
+</p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Refer
+to the <a href="func_intro.html">following tutorial</a> for a step by
+step guide on how to create, install and call foreign functions from
+your PHP code.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+<a href="c_api_func.html#ph7_create_constant">ph7_create_constant()</a>
+interface is used to associate a constant name (An identifier in the
+PHP world such as PHP_EOL, PHP_OS, PI, etc.) with a C callback that is
+responsible of expanding the constant name to the desired value such
+as 3,14 the value of PI.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Refer
+to the <a href="const_intro.html">following tutorial</a> for a step
+by step guide on how to create, install and expand constants from your
+PHP code.</font></font></p>
+
+<h1 style="font-weight: bold;"><small><small><font><font><small><small><small><small><font face="Verdana, sans-serif"><font size="4"><small><small>4.0 Others Interfaces<br>
+</small></small></font></font></small></small></small></small></font></font></small></small></h1>
+
+
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This
+article only mentions the foundational PH7 interfaces. The PH7
+library includes many other APIs implementing useful features that
+are not described here. A <a href="c_api_func.html">complete list of
+functions</a> that form the PH7 application programming interface is
+found at the <a href="c_api.html">C/C++ Interface Specification</a>.
+Refer to that document for complete and authoritative information
+about all PH7 interfaces. </font></font>
+</p>
+<p>
+</p>
+</div>
+<hr style="width: 100%; height: 2px;">
+<div style="text-align: right; margin-top: 0px; height: 91px;"><small><small><a href="http://www.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc Systems" src="images/symisc.png"></a></small></small>
+<div style="text-align: left; margin-top: 0px; height: 14px;"><small><small style="font-family: Verdana;">Copyright © <a href="http://www.symisc.net/">Symisc Systems</a></small></small><br>
+</div>
+</div>
+</div>
+
+</body></html>

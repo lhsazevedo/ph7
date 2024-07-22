@@ -1,0 +1,791 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en"><head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type"><title>PH7 In 5 Minutes Or Less</title><!-- Copyright (C) 2011 Symisc Systems,http://www.symisc.net contact@symisc.net -->
+  
+
+  
+
+  
+  <link rel="stylesheet" href="symisc.css" type="text/css">
+
+  
+  <meta content="Symisc Systems &lt;chm@symisc.net&gt;" name="author"></head><body>
+<div style="width: 1092px;" id="main_div"><a href="http://ph7.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc PH7 Engine" title="Symisc PH7 Engine" src="images/symisc_ph7_tr.png"></a><br>
+<div style="text-align: left; width: 190px;" align="right"><small style="color: black; font-family: Verdana;"><small>An Embeddable PHP5 Engine</small></small><br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<ul id="nav">
+  <li id="nav-1"><a href="index.html">About</a></li>
+<li id="nav-8"><a href="features.html">Distinctive Features<br>
+</a></li>
+  <li id="nav-2"><a href="intro.html">Getting Started<br>
+    </a></li>
+  <li id="nav-3"><a href="c_api.html">Documentation<br>
+    </a></li>
+  <li id="nav-4"><a href="downloads.html">Downloads<br>
+    </a></li>
+  <li id="nav-5"><a href="licensing.html">Licensing<br>
+    </a></li>
+  <li id="nav-6"><a href="faq.html">FAQ<br>
+    </a></li>
+  <li id="nav-7"><a href="support.html">Online Community Support<br>
+    </a></li>
+</ul>
+<h1><small><small><font face="Verdana, sans-serif"><b>PH7 in 5 minutes or less<br>
+</b></font></small></small></h1><div>
+<p style="font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Here
+is what you do to start experimenting with the PH7 engine without
+having to do a lot of tedious reading and configuration:</font></font><small><small><font face="Verdana, sans-serif"><b><br>
+</b></font></small></small></p>
+<h1><small><small><font face="Verdana, sans-serif"><b>download The Code</b></font></small></small></h1>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Get
+a copy of the last public release of the PH7 engine. Visit the
+<a href="downloads.html">download page</a> for more information.</font></font></p>
+<h1><small><font face="Verdana, sans-serif"><font style="font-size: 11pt;" size="2"><small><b>Write
+Programs That Use PH7</b></small></font></font></small></h1>
+<p style="margin-bottom: 0cm;">
+</p>
+<p style="margin-bottom: 0.5cm; font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Below
+is a simple C program that demonstrates how to use the <a href="c_api.html">C/C++
+interface</a> to PH7. This program compile and execute the
+following PHP script.</font></font></p>
+<div style="text-align: left; margin-left: 68px; width: 550px;" id="code"><small><span style="font-family: Verdana;">&lt;?php</span><br style="font-family: Verdana;">
+<span style="font-family: Verdana;">&nbsp;&nbsp; <span style="color: blue;">echo</span> <span style="color: red;">'Welcome guest'</span>.PHP_EOL;</span><br style="font-family: Verdana;">
+<span style="font-family: Verdana;">&nbsp;&nbsp; <span style="color: blue;">echo</span> <span style="color: red;">'Current system time is: '</span>.date(<span style="color: red;">'Y-m-d H:i:s'</span>).PHP_EOL;</span><br style="font-family: Verdana;">
+<span style="font-family: Verdana;">&nbsp;&nbsp; <span style="color: blue;">echo</span> <span style="color: red;">'and you are running '</span>.php_uname();</span><br style="font-family: Verdana;">
+<span style="font-family: Verdana;">?&gt;</span></small><br>
+</div>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">That
+is, this simple PHP script when running should display a greeting
+message, the current system time and the host operating system. A
+typical output of this program would look like this:</font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+
+<div style="margin-left: 70px; width: 543px;" id="code"><font style="font-size: 10pt;" size="2"><br>
+Welcome
+guest</font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+Current
+system time is: 2012-09-14 10:08:44 </font></font>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm;">
+</p>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">and
+you are running Microsoft Windows 7 localhost 6.1 build 7600 x86</font></font><br>
+<br>
+</div>
+<br>
+<p style="margin-bottom: 0.5cm; font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Here
+is the C code. <font color="#000000"><span style="font-style: normal;">Note
+that you can get a working version of this program </span></font><a href="http://www.symisc.net/downloads/ph7_intro.c">here</a>:</font></font></p><br>
+<div style="margin-left: 71px; width: 787px;" id="code" dir="ltr">
+<ol><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+		Compile this file together with the ph7 engine source code to
+		generate</font> </font></font>
+		</li><li><font color="#008000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2">*
+		the executable. For example: </font></font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		gcc -W -Wall -O6 -o ph7_test ph7_intro.c ph7.c</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*/</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		This simple program is a quick introduction on how to embed and
+		start</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		experimenting with the PH7 engine without having to do a lot of
+		tedious</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		reading and configuration.</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		For an introduction to the PH7 C/C++ interface, please refer to
+		this page</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		http://ph7.symisc.net/api_intro.html</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		For the full C/C++ API reference guide, please refer to this page</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		http://ph7.symisc.net/c_api.html</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*/</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		The following is the PHP program to execute.</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		&lt;?php</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		echo 'Welcome guest'.PHP_EOL;</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		echo 'Current system time is: '.date('Y-m-d H:i:s').PHP_EOL;</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		echo 'and you are running '.php_uname();</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		?&gt;</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		That is, this simple program when running should display a greeting</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		message, the current system time and the host operating system.</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		A typical output of this program would look like this:</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		Welcome guest</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		Current system time is: 2012-09-14 02:08:44</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		and you are running Microsoft Windows 7 localhost 6.1 build 7600
+		x86</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*/</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">#define</font><font color="#000000">
+		PHP_PROG </font><font color="#a31515">"&lt;?php "</font><font color="#000000">\</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#a31515">"echo
+		'Welcome guest'.PHP_EOL;"</font><font color="#000000">\</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#a31515">"echo
+		'Current system time is: '.date('Y-m-d H:i:s').PHP_EOL;"</font><font color="#000000">\</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#a31515">"echo
+		'and you are running '.php_uname();"</font><font color="#000000">\</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#a31515">"?&gt;"</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+		Make sure you have the latest release of the PH7 engine</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		from:</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		http://ph7.symisc.net/downloads.html</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*/</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">#include</font><font color="#000000">
+		</font><font color="#a31515">&lt;stdio.h&gt;</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">#include</font><font color="#000000">
+		</font><font color="#a31515">&lt;stdlib.h&gt;</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+		Make sure this header file is available.*/</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">#include</font><font color="#000000">
+		</font><font color="#a31515">"ph7.h"</font> </font></font>
+		</li><li><font color="#008000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2">/*
+		</font></font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		Display an error message and exit.</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*/</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">static</font><font color="#000000">
+		</font><font color="#0000ff">void</font><font color="#000000">
+		Fatal(</font><font color="#0000ff">const</font><font color="#000000">
+		</font><font color="#0000ff">char</font><font color="#000000">
+		*zMsg)</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">{</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">puts(zMsg);</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+		Shutdown the library */</font> </font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><b>ph7_lib_shutdown()</b></font><font color="#000000">;</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+		Exit immediately */</font> </font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">exit(0);</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">}</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		VM output consumer callback.</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		Each time the virtual machine generates some outputs, the following</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		function gets called by the underlying virtual machine to consume</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		the generated output.</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		All this function does is redirecting the VM output to STDOUT.</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		This function is registered later via a call to ph7_vm_config()</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		with a configuration verb set to: PH7_VM_CONFIG_OUTPUT.</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*/</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">static</font><font color="#000000">
+		</font><font color="#0000ff">int</font><font color="#000000">
+		Output_Consumer(</font><font color="#0000ff">const</font><font color="#000000">
+		</font><font color="#0000ff">void</font><font color="#000000">
+		*pOutput, </font><font color="#0000ff">unsigned</font><font color="#000000">
+		</font><font color="#0000ff">int</font><font color="#000000">
+		nOutputLen, </font><font color="#0000ff">void</font><font color="#000000">
+		*pUserData </font><font color="#008000">/* Unused */</font><font color="#000000">)</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">{</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+		</font></font></font>
+		</li><li><font color="#008000">&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		Note that it's preferable to use the write() system call to display
+		the output</font> </font></font>
+		</li><li><font color="#008000">&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		rather than using the libc printf() which everybody now is
+		extremely slow.</font> </font></font>
+		</li><li><font color="#008000">&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*/</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">printf(</font><font color="#a31515">"%.*s"</font><font color="#000000">,
+		</font></font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2">nOutputLen,
+		</font></font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">(</font><font color="#0000ff">const</font><font color="#000000">
+		</font><font color="#0000ff">char</font><font color="#000000">
+		*)pOutput </font><font color="#008000">/* Not null terminated */</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">);</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;
+		&nbsp; </font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+		All done, VM output was redirected to STDOUT */</font> </font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">return</font><font color="#000000">
+		PH7_OK;</font> </font></font>
+		</li><li><font color="#000000">&nbsp;</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">}</font>
+		</font></font>
+		</li><li><font color="#008000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2">/*
+		</font></font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		Main program: Compile and execute the PHP program defined above.</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*/</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">int</font><font color="#000000">
+		main(</font><font color="#0000ff">void</font><font color="#000000">)</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">{</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><a href="c_api_object.html#ph7"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US"><b>ph7</b></span></font></font></a><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		*pEngine; </span></font></font></font><font color="#008000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">/*
+		PH7 engine */</span></font></font></font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		</span></font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><a href="c_api_object.html#ph7_vm"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US"><b>ph7_vm</b></span></font></font></a><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		*pVm; </span></font></font></font><font color="#008000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">/*
+		Compiled PHP program */</span></font></font></font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		</span></font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">int</font><font color="#000000">
+		rc;</font> </font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+		Allocate a new PH7 engine instance */</font> </font></font>
+		</li><li><font color="#000000">&nbsp;
+		<font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">rc
+		= </span></font></font></font><a href="c_api_func.html#ph7_init"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US"><b>ph7_init</b></span></font></font></a><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">(&amp;pEngine);</span></font></font></font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		</span></font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font color="#0000ff"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">if</span></font></font></font><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">(
+		rc != </span></font></font></font><a href="c_api_const.html"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">PH7_OK</span></font></font></a><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		){</span></font></font></font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		</span></font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*</font>
+		</font></font>
+		</li><li><font color="#008000">&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		If the supplied memory subsystem is so sick that we are unable</font>
+		</font></font>
+		</li><li><font color="#008000">&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		to allocate a tiny chunk of memory, there is no much we can do
+		here.</font> </font></font>
+		</li><li><font color="#008000">&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*/</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">Fatal(</font><font color="#a31515">"Error
+		while allocating a new PH7 engine instance"</font><font color="#000000">);</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">}</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+		Compile the PHP test program defined above */</font> </font></font>
+		</li><li><font color="#000000">&nbsp;
+		<font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">rc
+		= </span></font></font></font><a href="c_api_func.html#ph7_compile_v2"><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US"><b>ph7_compile_v2</b></span></font></font></font></a><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">(</span></font></font></font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		</span></font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">pEngine,
+		</font><font color="#008000">/* PH7 engine */</font> </font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">PHP_PROG,
+		</font><font color="#008000">/* PHP test program */</font> </font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">-1
+		</font><font color="#008000">/* Compute input length
+		automatically*/</font><font color="#000000">,</font> </font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&amp;pVm,
+		</font><font color="#008000">/* OUT: Compiled PHP program */</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">0
+		</font><font color="#008000">/* IN: Compile flags */</font> </font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">);</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font color="#0000ff"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">if</span></font></font></font><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">(
+		rc != </span></font></font></font><a href="c_api_const.html"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">PH7_OK</span></font></font></a><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		){</span></font></font></font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		</span></font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;
+		</font><font color="#0000ff"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">if</span></font></font></font><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">(
+		rc == </span></font></font></font><a href="c_api_const.html"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">PH7_COMPILE_ERR</span></font></font></a><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		){</span></font></font></font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		</span></font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">const</font><font color="#000000">
+		</font><font color="#0000ff">char</font><font color="#000000">
+		*zErrLog;</font> </font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">int</font><font color="#000000">
+		nLen;</font> </font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+		Extract error log */</font> </font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><a href="http://ph7.symisc.net/c_api_func.html#ph7_config"><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US"><b>ph7_config</b></span></font></font></font></a><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">(pEngine,</span></font></font></font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		</span></font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US"><a href="c_api_func.html#ph7_config">PH7_CONFIG_ERR_LOG</a>,</span></font></font></font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		</span></font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&amp;zErrLog,</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&amp;nLen</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">);</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">if</font><font color="#000000">(
+		nLen &gt; 0 ){ </font></font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+		zErrLog is null terminated */</font> </font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">puts(zErrLog);</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">}</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">}</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+		Exit */</font> </font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">Fatal(</font><font color="#a31515">"Compile
+		error"</font><font color="#000000">);</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">}</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*</font>
+		</font></font>
+		</li><li><font color="#008000">&nbsp;</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		Now we have our script compiled, it's time to configure our VM.</font>
+		</font></font>
+		</li><li><font color="#008000">&nbsp;</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		We will install the output consumer callback defined above</font> </font></font>
+		</li><li><font color="#008000">&nbsp;</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">* so that we can consume and redirect the VM output to STDOUT.</font> </font></font>
+		</li><li><font color="#008000">&nbsp;</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*/</font>
+		</font></font>
+		</li><li><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">rc
+		= </span></font></font></font><a href="c_api_func.html#ph7_vm_config"><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US"><b>ph7_vm_config</b></span></font></font></font></a><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">(pVm,</span></font></font></font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		</span></font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US"><a href="c_api_func.html#vm_config_output">PH7_VM_CONFIG_OUTPUT</a>,</span></font></font></font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		</span></font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">Output_Consumer,
+		</font><font color="#008000">/* Output Consumer callback */</font> </font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">0
+		</font><font color="#008000">/* Callback private data */</font> </font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">);</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font color="#0000ff"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">if</span></font></font></font><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">(
+		rc != </span></font></font></font><a href="c_api_const.html"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">PH7_OK</span></font></font></a><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		){</span></font></font></font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		</span></font></font>
+		</li><li><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">Fatal(</font><font color="#a31515">"Error
+		while installing the VM output consumer callback"</font><font color="#000000">);</font>
+		</font></font>
+		</li><li><font color="#000000">&nbsp;
+		</font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">}</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*</font>
+		</font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		And finally, execute our program. Note that your output (STDOUT in
+		our case)</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*
+		should display the result.</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*/</font>
+		</font></font>
+		</li><li><a href="c_api_func.html#ph7_vm_exec"><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US"><b>ph7_vm_exec</b></span></font></font></font></a><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">(pVm,0);</span></font></font></font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		</span></font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+		All done, cleanup the mess left behind.</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">*/</font>
+		</font></font>
+		</li><li><a href="c_api_func.html#ph7_vm_release"><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US"><b>ph7_vm_release</b></span></font></font></font></a><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">(pVm);</span></font></font></font></li><li><a href="c_api_func.html#ph7_release"><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US"><b>ph7_release</b></span></font></font></font></a><font color="#000000"><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">(pEngine);</span></font></font></font><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="en-US">
+		</span></font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">return</font><font color="#000000">
+		0;</font> </font></font>
+		</li><li><font face="Arial, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">}</font></font></font></li></ol>
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+</div>
+<p align="right"><a href="http://www.symisc.net/downloads/ph7_intro.c"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Download
+the C file</font></font></a><font face="Verdana, sans-serif"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">.</span></font></font></font></font></p>
+<p><font face="Verdana, sans-serif"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">We
+</span></font></font></font><a href="c_api_func.html#ph7_init"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">create
+a new PH7 engine instance</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+using a call to </span></font></font></font><a href="c_api_func.html#ph7_init"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_init()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+on line 86. This is often the first PH7 API call that an application
+makes and is a prerequisite in order to compile PHP code using one of
+the compile interfaces.</span></font></font></font></font></p>
+
+<p><font face="Verdana, sans-serif"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><br>
+</span></font></font></font></font></p>
+
+<p><font face="Verdana, sans-serif"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">We
+compile our PHP test program on line 95 using the </span></span></font></font></font><a href="c_api_func.html#ph7_compile_v2"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile_v2()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><b>
+</b></span></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">interface.</span></span></font></font></font></font></p>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">We
+</font></font><a href="c_api_func.html#ph7_vm_config"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">configure
+our Virtual Machine</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+on line 125 by setting a </font></font><a href="output_consumer.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">VM
+output consumer callback</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+named Output_Consumer()</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">. All this callback does is redirecting the VM
+output to STDOUT using the libc printf() routine or the write() system
+call.</font></font></p>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">And
+finally we execute our PHP program </font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">on
+line 137 </span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">using
+a call to <a href="c_api_func.html#ph7_vm_exec">ph7_vm_exec()</a>.
+You should
+see now the greeting message, the current date and the host operating
+system.</font></font></p>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><span style="font-style: normal;"><span style="font-weight: normal;"><br>
+</span></span></font></font></font></font></p>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><span style="font-style: normal;"><span style="font-weight: normal;">Clean-up
+is done on line 140 and 141 respectively via calls to </span></span></font></font><a href="c_api_func.html#ph7_vm_release">ph7_vm_release()</a><font color="#000000"><font face="Verdana, sans-serif"><span style="font-style: normal;"><span style="font-weight: normal;">
+and </span></span></font></font><a href="c_api_func.html#ph7_release">ph7_release()</a><font color="#000000"><font face="Verdana, sans-serif"><span style="font-style: normal;"><span style="font-weight: normal;">.</span></span></font></font></font></font></p>
+<h1><small><font face="Verdana, sans-serif"><font size="3"><small><b>Compile
+the
+program</b></small></font></font></small></h1>
+<p align="left"><a href="http://www.symisc.net/downloads/ph7_intro.c"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">Compile
+this C file</span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+together with the </span></font></font><a href="downloads.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">PH7
+engine source code</span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+to generate the executable. For example: </span></font></font>
+</p>
+<p style="font-weight: bold; text-align: center;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+gcc
+-W -Wall -O6 -o ph7_test ph7_intro.c ph7.c</font></font></p>
+<p align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">When
+running [./ph7_test ] you should see the</span><span style="font-weight: normal;">
+greeting message, the current system time and the host operating
+system.</span></font></font></p>
+<h1 class="western" align="left"><small><font face="Verdana, sans-serif"><font size="3"><small><b>Stand-alone
+Interpreter For PH7</b></small></font></font></small></h1>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+PH7 </font></font><a href="downloads.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">download</span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+page</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+includes a simple stand-alone PHP interpreter named </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>ph7</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+(or </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>ph7</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>.exe</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+on windows) that allows the user to enter and execute PHP files
+against a PH7 engine. This utility is available in prebuilt binaries
+forms or can be compiled from source. You
+can get a copy of the PH7 interpreter from the </font><a href="downloads.html"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">download</span></font></a><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+page</span></font><font style="font-size: 10pt;" size="2">.</font></font></p>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">To
+start the <b>ph7 </b>program, just type "ph7" followed by
+the name of the PHP file to compile and execute. That is, the
+first argument is to the interpreter, the rest are scripts
+arguments, press "Enter" and the PHP code will be executed.</font></font></p>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">If
+something goes wrong while processing the PHP script due to a
+compile-time error, your error output (STDOUT) should display the compile-time error messages.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Usage
+example of the ph7 interpreter:</font></font></p>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>Running
+the interpreter</i></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> <b>ph7
+scripts/hello_world.php</b></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>Running
+the interpreter with script arguments</i></font></font></p>
+<p> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>ph7
+scripts/mp3_tag.php /usr/local/path/to/my_mp3s</b></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+PH7 interpreter package includes more than 70 PHP scripts to test
+ranging from simple hello world programs to XML processing, zip
+archive extracting, MP3 tag extracting, UUID generation, JSON
+encoding/decoding, INI processing, Base32 encoding/decoding and many
+more. These scripts are available in the scripts directory from the zip archive.</font></font></p>
+<h1 class="western" align="left"><small><font face="Verdana, sans-serif"><font size="3"><small><b>Next</b></small></font></font></small></h1>
+<p style="font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Check
+out the </font><a href="api_intro.html"><font style="font-size: 10pt;" size="2">Introduction
+To The PH7 C/C++ Interface</font></a><font style="font-size: 10pt;" size="2">
+for an introductory overview and roadmap to the dozens of PH7
+interface functions.</font></font></p>
+
+
+<p style="font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">A
+separate document, </font><a href="c_api.html"><font style="font-size: 10pt;" size="2">The
+PH7 C/C++ Interface</font></a><font style="font-size: 10pt;" size="2">,
+provides detailed specifications for all of the various C/C++ APIs
+for PH7. Once the reader understands the basic principles of
+operation for PH7,</font><a href="c_api.html"><font style="font-size: 10pt;" size="2"> that
+document</font></a><font style="font-size: 10pt;" size="2"> should be
+used as a reference guide.</font></font></p>
+
+<p style="font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Any
+questions, check the <a href="faq.html">Frequently Asked Questions</a>
+page or visit the <a href="support.html">Support Page</a> for online
+community support.</font></font></p>
+<br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<div style="text-align: right; margin-top: 0px; height: 91px;"><small><small><a href="http://www.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc Systems" src="images/symisc.png"></a></small></small>
+<div style="text-align: left; margin-top: 0px; height: 14px;"><small><small style="font-family: Verdana;">Copyright © <a href="http://www.symisc.net/">Symisc Systems</a></small></small><br>
+</div>
+</div>
+</div>
+
+</body></html>

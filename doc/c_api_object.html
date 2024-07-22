@@ -1,0 +1,633 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en"><head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type"><title>PH7 C/C++ API Reference - Object</title><!-- Copyright (C) 2011 Symisc Systems,http://www.symisc.net contact@symisc.net -->
+  
+
+  
+
+  
+  <link rel="stylesheet" href="symisc.css" type="text/css">
+
+  
+  <meta content="Symisc Systems &lt;chm@symisc.net&gt;" name="author"></head><body>
+<div style="width: 1092px;" id="main_div"><a href="http://ph7.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc PH7 Engine" title="Symisc PH7 Engine" src="images/symisc_ph7_tr.png"></a><br>
+<div style="text-align: left; width: 190px;" align="right"><small style="color: black; font-family: Verdana;"><small>An Embeddable PHP5 Engine</small></small><br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<ul id="nav">
+  <li id="nav-1"><a href="index.html">About</a></li>
+<li id="nav-8"><a href="features.html">Distinctive Features<br>
+</a></li>
+  <li id="nav-2"><a href="intro.html">Getting Started<br>
+    </a></li>
+  <li id="nav-3"><a href="c_api.html">Documentation<br>
+    </a></li>
+  <li id="nav-4"><a href="downloads.html">Downloads<br>
+    </a></li>
+  <li id="nav-5"><a href="licensing.html">Licensing<br>
+    </a></li>
+  <li id="nav-6"><a href="faq.html">FAQ<br>
+    </a></li>
+  <li id="nav-7"><a href="support.html">Online Community Support<br>
+    </a></li>
+</ul>
+<h1><small><small><font face="Verdana, sans-serif"><b>PH7 C/C++ API
+Reference - List Of Objects.</b></font></small></small></h1>
+
+<div>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This
+is a list of all abstract objects and datatypes used by the PH7
+library. There are seven objects in total, but the two most important
+objects are: An engine handle </font></font><a href="#ph7"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> and a virtual
+machine object </font></font><a href="#ph7_vm"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_vm</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<table style="width: 755px; height: 98px; text-align: left; margin-left: auto; margin-right: auto;" id="table_code" border="1" bordercolor="#000000" cellpadding="2" cellspacing="0">
+  <col width="128*"> <col width="128*"> <tbody>
+    <tr valign="top">
+      <td width="50%">
+      <p><a href="#ph7"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7</font></font></a></p>
+      </td>
+      <td width="50%">
+      <p><a href="#ph7_vm"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_vm</font></font></a></p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="50%">
+      <p><font face="Verdana, sans-serif"><a href="#ph7_value"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value</font></font></a></font></p>
+      </td>
+      <td width="50%">
+      <p><font face="Verdana, sans-serif"><font size="3"><a href="#ph7_context"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_context</font></font></a></font></font></p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="50%">
+      <p style="font-weight: normal;"><font face="Verdana, sans-serif"><font size="3"><a href="#ph7_int64"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_int64</font></font></a></font></font></p>
+      </td>
+      <td width="50%">
+      <p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="#ph7_io_stream">ph7_io_stream</a></font></font></p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="50%">
+      <p style="font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="#ph7_vfs"><font face="Verdana, sans-serif">ph7_vfs</font></a></font></font></p>
+      </td>
+      <td width="50%">
+      <p><br>
+      </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2 class="western"><a name="ph7"></a><font face="Verdana, sans-serif"><font style="font-size: 11pt;" size="2"><b>PH7 Engine Handle</b></font></font></h2>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><b>typedef
+struct</b></font><b> ph7 ph7;</b></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b><br>
+</b></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Each
+active PH7 engine is represented by a pointer to an instance of the
+opaque structure named "ph7". It is useful to think of an
+ph7 pointer as an object. The </font></font><a href="c_api_func.html#ph7_init"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_init()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+interface is its constructor and </font></font><a href="c_api_func.html#ph7_release"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_release()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+is its destructor. There is also the </font></font><a href="c_api_func.html#ph7_config"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_config()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+interface which is used to configure a working ph7 engine and the
+most important interfaces are the compile interfaces: </font></font><a href="c_api_func.html#ph7_compile"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">, </font></font><a href="c_api_func.html#ph7_compile_v2"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile_v2()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+and </font></font><a href="c_api_func.html#ph7_compile_file"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile_file()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.
+That is, these interfaces takes as their input a PHP program to
+compile and produce PH7 bytecode program represented by an opaque pointer
+to the ph7_vm structure (see below for more information on this
+structure).</font></font></p>
+<h2 class="western"><a name="ph7_vm"></a><font face="Verdana, sans-serif"><font style="font-size: 11pt;" size="2"><b>PH7 Virtual Machine Object</b></font></font></h2>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><b>typedef
+struct</b></font><b> ph7_vm ph7_vm;</b></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b><br>
+</b></font></font></p>
+<p>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">An
+instance of this object represents a compiled PHP program. this
+structure hold the PH7 bytecode program resulting from </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">successful </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">compilation of the target PHP script
+using one of the </font></font><a href="c_api_func.html#ph7_compile"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">, </font></font><a href="c_api_func.html#ph7_compile_v2"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile_v2()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+or </font></font><a href="c_api_func.html#ph7_compile_file"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile_file()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+interfaces</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.</font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+life of a ph7 virtual machine goes something like this:</font></font></p>
+<ol>
+<li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Compile your PHP script using one of
+the </font></font><a href="c_api_func.html#ph7_compile"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">,</font></font><a href="../docs/c_api_func.html#ph7_compile_v2"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> p</font></font></a><a href="c_api_func.html#ph7_compile_v2"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">h7_compile_v2()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> or
+    </font></font><a href="c_api_func.html#ph7_compile_file"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile_file()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">i</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">nterfaces</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.
+On successful compilation, the PH7 engine will automatically create an
+instance of this structure (</font></font><a href="c_api_object.html#ph7_vm"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_vm</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">)
+and a pointer to this </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">structure is made available to the
+caller.</font></font></p>
+  </li><li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">When
+something goes wrong while compiling the PHP script due to a
+compile-time error, the caller must discard this pointer and fix its
+erroneous PHP code. Compile-time error messages can be extracted via a
+call to </font></font><a href="c_api_func.html#ph7_config"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_config()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.</font></font></font></p>
+  </li><li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Configure the virtual machine using
+the </font></font><a href="c_api_func.html#ph7_vm_config"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_vm_config()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+interface with it's many configuration verbs, but the most important option is set via the </font></font><a href="c_api_func.html#vm_config_output"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">PH7_VM_CONFIG_OUTPUT</span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+verb which is used to register a <a href="output_consumer.html">VM
+output consumer callback</a>. That is, an user defined function
+responsible of consuming the VM output such as redirecting it [i.e: the
+VM output] to the standard output (STDOUT) or sending it back to the connected peer and so on.
+    </font></font> </p>
+  </li><li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font size="3"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Optionally, register one or more
+foreign functions or constants using the </font></font><a href="c_api_func.html#ph7_create_function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_create_function()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> or
+    </font></font><a href="c_api_func.html#ph7_create_constant"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_create_constant()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+interfaces.</font></font></font></font></p>
+  </li><li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Execute
+the compiled PHP program by calling </font></font><a href="c_api_func.html#ph7_vm_exec"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_vm_exec()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+one or more times. </font></font></font> </p>
+  </li><li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Reset
+the virtual machine using </font></font><a href="c_api_func.html#ph7_vm_reset"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_vm_reset()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+then go back to step 5. Do this zero or more times. </font></font></font>
+    </p>
+  </li><li>
+    <p><font face="Verdana, sans-serif"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Destroy the virtual machine using </font></font><a href="c_api_func.html#ph7_vm_release"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_vm_release()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.</font></font></font></p>
+  </li>
+</ol>
+
+<ol></ol>
+<h2 class="western"><a name="ph7_value"></a><font face="Verdana, sans-serif"><font style="font-size: 11pt;" size="2">Dynamically
+Typed Value Object</font></font></h2>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b><font color="#0000ff">typedef</font><font color="#000000">
+</font><font color="#0000ff">struct</font><font color="#000000">
+ph7_value ph7_value;</font></b></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b><font color="#000000"><br>
+</font></b></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+uses the ph7_value object to represent all values that can be stored
+in a PHP variable. Since PHP uses dynamic typing for the values it
+stores. Values stored in ph7_value objects can be integers, floating
+point values, strings, arrays, class instances (object in the PHP
+jargon) and so on.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Internally,
+the PH7 virtual machine manipulates nearly all PHP values as
+ph7_values structures. Each ph7_value may cache multiple
+representations (string, integer, etc.) of the same value.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+ph7_value object is heavily used in the interaction between the PH7
+virtual machine and the host-application especially in the
+implementation of </font></font><a href="c_api_func.html#ph7_create_function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">application-defined
+foreign functions </font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">and/or
+<a href="c_api_func.html#ph7_create_constant">constant expansion
+callbacks</a>.<br>
+</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">There
+are a dozens of interfaces that allow host-application to extract and
+manipulates ph7_value cleanly, these includes
+</font></font><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_to_int()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">, </font></font><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_to_string()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">,</font></font><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> ph7_value_compare()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">, </font></font><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_int64()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">, </font></font><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_bool()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">, </font></font><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_is_null()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">, </font></font><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_is_float()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">, </font></font><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_is_callable()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">, </font></font><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_string_format()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+and many more. Refer to the </font></font><a href="c_api_func.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">C/C++
+Interfaces</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+documentation for additional information.</font></font></p>
+<h2 class="western"><a name="ph7_context"></a><font face="Verdana, sans-serif"><font style="font-size: 11pt;" size="2">Foreign
+Function Context Object</font></font></h2>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b><font color="#0000ff">typedef
+struct</font> ph7_context ph7_context;</b></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b><br>
+</b></font></font></p>
+<p>
+</p>
+<p><font face="Verdana, sans-serif"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+context in which a foreign function executes is stored in a
+ph7_context object. A pointer to a ph7_context object is always first
+parameter to </font></font><a href="c_api_func.html#ph7_create_function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">application-defined
+foreign functions</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.
+The application-defined foreign function implementation will pass
+this pointer through into calls to dozens of interfaces, these
+includes
+</font></font><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_int()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">,</font></font><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> ph7_result_string()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">, </font></font><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_value()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">, </font></font><a href="c_api_func.html#On_demand_ph7_value_allocation"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_context_new_scalar()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">,</font></font><a href="c_api_func.html#Call_Context_Memory_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> ph7_context_alloc_chunk()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">,</font></font><a href="c_api_func.html#ph7_context_output"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> ph7_context_output()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">,&nbsp;</font></font><a href="c_api_func.html#ph7_context_throw_error"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+ph7_context_throw_error()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+and many more. Refer to the </font></font><a href="c_api_func.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">C/C++
+Interfaces</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+documentation for additional information.</font></font></font></p>
+<p>
+</p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">You
+can refer to the <a href="func_intro.html">following
+guide</a> for an introductory course to </span></span>this interface
+and the foreign function mechanism in general.</font></font></p>
+<h2 class="western"><a name="ph7_int64"></a><font face="Verdana, sans-serif"><font style="font-size: 11pt;" size="2">64-Bit
+Integer Types</font></font></h2>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font color="#0000ff"><font style="font-size: 9pt;" size="2">#if</font></font><font color="#000000"><font style="font-size: 9pt;" size="2">
+</font></font><font color="#0000ff"><font style="font-size: 9pt;" size="2">defined</font></font><font color="#000000"><font style="font-size: 9pt;" size="2">(_MSC_VER)
+|| </font></font><font color="#0000ff"><font style="font-size: 9pt;" size="2">defined</font></font><font color="#000000"><font style="font-size: 9pt;" size="2">(__BORLANDC__)</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: bold;"><font face="Verdana, sans-serif"><font color="#0000ff"><font style="font-size: 9pt;" size="2">typedef</font></font><font color="#000000"><font style="font-size: 9pt;" size="2">
+</font></font><font color="#0000ff"><font style="font-size: 9pt;" size="2">signed</font></font><font color="#000000"><font style="font-size: 9pt;" size="2">
+</font></font><font color="#0000ff"><font style="font-size: 9pt;" size="2">__int64</font></font><font color="#000000"><font style="font-size: 9pt;" size="2"> ph7_int64;</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font color="#0000ff"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">#else</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: bold;"><font face="Verdana, sans-serif"><font color="#0000ff"><font style="font-size: 9pt;" size="2">typedef</font></font><font color="#000000"><font style="font-size: 9pt;" size="2">
+</font></font><font color="#0000ff"><font style="font-size: 9pt;" size="2">signed</font></font><font color="#000000"><font style="font-size: 9pt;" size="2">
+</font></font><font color="#0000ff"><font style="font-size: 9pt;" size="2">long</font></font><font color="#000000"><font style="font-size: 9pt;" size="2">
+</font></font><font color="#0000ff"><font style="font-size: 9pt;" size="2">long</font></font><font color="#000000"><font style="font-size: 9pt;" size="2">
+</font></font><font color="#0000ff"><font style="font-size: 9pt;" size="2">int
+</font></font><font color="#000000"><font style="font-size: 9pt;" size="2">ph7_int64;</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font color="#0000ff"><font style="font-size: 9pt;" size="2">#endif</font></font><font color="#000000"><font style="font-size: 9pt;" size="2">
+</font></font><font color="#008000"><font style="font-size: 9pt;" size="2">/*
+_MSC_VER */</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font color="#008000"><font style="font-size: 9pt;" size="2"><br>
+</font></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">As
+an extension to the PHP programming language, PH7 introduces </font></font><a href="features.html#64bit"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">64-bit
+integer arithmetic</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+for all platforms. Because there is no cross-platform way to specify
+64-bit integer types PH7 includes typedefs for 64-bit signed
+integers. The ph7_int64 type can store integer values between
+-9223372036854775808 and +9223372036854775807 inclusive. Some of the
+interface that manipulates 64-bit integers are </font></font><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_int64()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">, </font></font><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_int64()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">,</font></font><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> ph7_value_to_int64()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.</font></font></p>
+<h2 class="western"><a name="ph7_io_stream"></a><font face="Verdana, sans-serif"><font style="font-size: 11pt;" size="2">PH7
+IO Stream</font></font></h2>
+<div style="width: 682px;" id="code">
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#0000ff">typedef
+struct</font><font color="#000000"> ph7_io_stream ph7_io_stream;</font></b></font></font></p>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#0000ff">struct</font><font color="#000000">
+ph7_io_stream</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">{</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*zName; </font><font color="#008000">/*
+Underlying stream name [i.e: file/http/zip/php,..] */</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">int</font><font color="#000000">
+iVersion; </font><font color="#008000">/*
+IO stream structure version [default 1]*/</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">int</font><font color="#000000"> (*xOpen)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,</font><font color="#0000ff">int</font><font color="#000000">,ph7_value
+*,</font><font color="#0000ff">void</font><font color="#000000"> **); </font><font color="#008000">/* Open handle*/</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">int</font><font color="#000000"> (*xOpenDir)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,ph7_value *,</font><font color="#0000ff">void</font><font color="#000000">
+**); </font><font color="#008000">/* Open directory handle */</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">void</font><font color="#000000">
+(*xClose)(</font><font color="#0000ff">void</font><font color="#000000">
+*); </font><font color="#008000">/*
+Close file handle */</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">void</font><font color="#000000">
+(*xCloseDir)(</font><font color="#0000ff">void</font><font color="#000000">
+*); </font><font color="#008000">/* Close
+directory handle */</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;
+ph7_int64
+(*xRead)(</font><font color="#0000ff">void</font><font color="#000000">
+*,</font><font color="#0000ff">void</font><font color="#000000">
+*,ph7_int64); </font><font color="#008000">/* Read from the
+open stream */</font><font color="#000000"> </font></font></font>
+</p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">int</font><font color="#000000">
+(*xReadDir)(</font><font color="#0000ff">void</font><font color="#000000">
+*,ph7_context *); </font><font color="#008000">/*
+Read entry from directory handle */</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;
+ph7_int64
+(*xWrite)(</font><font color="#0000ff">void</font><font color="#000000">
+*,</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">void</font><font color="#000000">
+*,ph7_int64); </font><font color="#008000">/* Write to the open
+stream */</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">int</font><font color="#000000">
+(*xSeek)(</font><font color="#0000ff">void</font><font color="#000000">
+*,ph7_int64,</font><font color="#0000ff">int</font><font color="#000000">);
+</font><font color="#008000">/* Seek on the open
+stream */</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">int</font><font color="#000000">
+(*xLock)(</font><font color="#0000ff">void</font><font color="#000000">
+*,</font><font color="#0000ff">int</font><font color="#000000">); </font><font color="#008000">/* Lock/Unlock
+the open stream */</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">void</font><font color="#000000">
+(*xRewindDir)(</font><font color="#0000ff">void</font><font color="#000000">
+*); </font><font color="#008000">/* Rewind
+directory handle */</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;
+ph7_int64
+(*xTell)(</font><font color="#0000ff">void</font><font color="#000000">
+*); </font><font color="#008000">/*
+Current position of the stream read/write pointer */</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">int</font><font color="#000000">
+(*xTrunc)(</font><font color="#0000ff">void</font><font color="#000000">
+*,ph7_int64); </font><font color="#008000">/*
+Truncates the open stream to a given length */</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">int</font><font color="#000000">
+(*xSync)(</font><font color="#0000ff">void</font><font color="#000000">
+*); </font><font color="#008000">/*
+Flush open stream data */</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">int</font><font color="#000000">
+(*xStat)(</font><font color="#0000ff">void</font><font color="#000000">
+*,ph7_value *,ph7_value *); </font><font color="#008000">/*
+Stat an open stream handle */</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">};</font></font></font><br>
+</p>
+</div>
+<br>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">An
+instance of the ph7_io_stream object defines the interface between
+the PH7 core and the underlying stream device.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">A
+stream is a smart mechanism for generalizing file, network, data
+compression and other IO operations which share a common set of
+functions using an abstracted unified interface.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">A
+stream device is additional code which tells the stream how
+to handle specific protocols/encodings. For example, the <i>http</i>
+device knows how to translate a URL into an <i>HTTP/1.1</i> request
+for a file on a remote server. PH7 come with two built-in IO streams
+device. The <i>file://</i> stream which perform very efficient disk
+IO and the <i>php://</i> stream which is a special stream that allow
+access various I/O streams (See the PHP official documentation for
+more information on this stream).</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">A
+stream is referenced as: </font></font><tt class="western"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>scheme</i></font></font></tt><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">://</font></font><tt class="western"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>target</i></font></font></tt><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+</font></font></p>
+<ul>
+  <li>
+    <p style="margin-bottom: 0cm;"><tt class="western"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>scheme</i></font></font></tt><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">(string)
+- The name of the wrapper to be used. Examples include: file, http,
+https, ftp, ftps, compress.zlib, compress.bz2 and php. If no wrapper is
+specified, the function default is used (typically </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>file</i></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">://).
+    </font></font> </p>
+  </li>
+  <li>
+    <p><tt class="western"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>target</i></font></font></tt><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> -
+Depends on the wrapper used. For filesystem related streams this is
+typically a path and filename of the desired file. For network related
+streams this is typically a hostname,often with a path appended. </font></font>
+    </p>
+  </li>
+</ul>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">IO
+stream devices are registered using a call to <a href="c_api_func.html#ph7_vm_config">ph7_vm_config()</a>
+with a configuration verb set to <a href="c_api_func.html#ph7_vm_config">PH7_VM_CONFIG_IO_STREAM</a>.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Currently
+the PH7 development team is working on the implementation of the
+<i>http://</i> and <i>ftp://</i> IO stream protocols. These devices
+will be available in the next release of the PH7 engine.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Developers
+wishing to implement their own IO stream devices must understand and
+follow <a href="io_stream_spec.html">The
+PH7 IO Stream C/C++ Specification Manual</a>.</font></font></p>
+<h2 class="western"><a name="ph7_vfs"></a><font face="Verdana, sans-serif"><font style="font-size: 11pt;" size="2">PH7
+Virtual File Systems (VFS)</font></font></h2>
+<div style="width: 641px;" id="code">
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b><font color="#0000ff">typedef
+struct</font><font color="#000000"> ph7_vfs ph7_vfs;</font></b></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#0000ff">struct</font><font color="#000000">
+</font><font color="#000000">ph7_vfs</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">{</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*zName; </font><font color="#008000">/* Underlying VFS name [i.e:
+FreeBSD/Linux/Windows...] */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+iVersion; </font><font color="#008000">/* Current VFS structure
+version [default 2] */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#008000">/*
+Directory functions */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xChdir)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Change directory */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xChroot)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Change the root
+directory */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xGetcwd)(ph7_context *); </font><font color="#008000">/*
+Get the current working directory */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xMkdir)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,</font><font color="#0000ff">int</font><font color="#000000">,</font><font color="#0000ff">int</font><font color="#000000">); </font><font color="#008000">/* Make directory */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xRmdir)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Remove directory */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xIsdir)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Tells whether the
+filename is a directory */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xRename)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Renames a file or directory */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xRealpath)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,ph7_context *); </font><font color="#008000">/* Return
+canonicalized absolute pathname*/</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#008000">/*
+Systems functions */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xSleep)(</font><font color="#0000ff">unsigned</font><font color="#000000">
+</font><font color="#0000ff">int</font><font color="#000000">); </font><font color="#008000">/* Delay execution in
+microseconds */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xUnlink)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Deletes a file */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xFileExists)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Checks whether a file or
+directory exists */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xChmod)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,</font><font color="#0000ff">int</font><font color="#000000">); </font><font color="#008000">/* Changes file mode */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xChown)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Changes file owner */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xChgrp)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Changes file group */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> ph7_int64
+(*xFreeSpace)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Available space on filesystem
+or disk partition */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> ph7_int64
+(*xTotalSpace)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Total space on filesystem or
+disk partition */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> ph7_int64
+(*xFileSize)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Gets file size */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> ph7_int64
+(*xFileAtime)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Gets last access time of file
+*/</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> ph7_int64
+(*xFileMtime)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Gets file modification time */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> ph7_int64
+(*xFileCtime)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Gets inode change time of file
+*/</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xStat)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,ph7_value *,ph7_value *); </font><font color="#008000">/* Gives
+information about a file */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xlStat)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,ph7_value *,ph7_value *); </font><font color="#008000">/* Gives
+information about a file */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xIsfile)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Tells whether the
+filename is a regular file */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xIslink)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Tells whether the
+filename is a symbolic link */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xReadable)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Tells whether a file
+exists and is readable */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xWritable)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Tells whether the
+filename is writable */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xExecutable)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Tells whether the
+filename is executable */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xFiletype)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,ph7_context *); </font><font color="#008000">/* Gets file type
+[i.e: fifo,dir,file..] */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xGetenv)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,ph7_context *); </font><font color="#008000">/* Gets the value
+of an environment variable */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xSetenv)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *); </font><font color="#008000">/* Sets the value of an environment </font></font></font>
+</p>
+<p style="margin-left: 10cm; margin-bottom: 0cm; font-weight: normal;">
+<font color="#008000"> <font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">variable
+*/</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xTouch)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,ph7_int64,ph7_int64); </font><font color="#008000">/* Sets access
+and modification time </font></font></font>
+</p>
+<p style="margin-left: 10cm; margin-bottom: 0cm; font-weight: normal;">
+<font color="#008000"> <font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">*
+of file */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xMmap)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000"> *,</font><font color="#0000ff">void</font><font color="#000000">
+**,ph7_int64 *); </font><font color="#008000">/* Read-only memory
+map of the whole file */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">void</font><font color="#000000">
+(*xUnmap)(</font><font color="#0000ff">void</font><font color="#000000">
+*,ph7_int64); </font><font color="#008000">/* Unmap a
+memory view */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xLink)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,</font><font color="#0000ff">int</font><font color="#000000">); </font><font color="#008000">/* Create hard or symbolic link */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xUmask)(</font><font color="#0000ff">int</font><font color="#000000">);
+</font><font color="#008000">/* Change
+the current umask */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">void</font><font color="#000000">
+(*xTempDir)(ph7_context *); </font><font color="#008000">/*
+Get path of the temporary directory */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">unsigned</font><font color="#000000">
+</font><font color="#0000ff">int</font><font color="#000000">
+(*xProcessId)(</font><font color="#0000ff">void</font><font color="#000000">); </font><font color="#008000">/* Get running
+process ID
+*/</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xUid)(</font><font color="#0000ff">void</font><font color="#000000">);
+</font><font color="#008000">/* user ID
+of the process */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xGid)(</font><font color="#0000ff">void</font><font color="#000000">);
+</font><font color="#008000">/* group
+ID of the process */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">void</font><font color="#000000">
+(*xUsername)(ph7_context *); </font><font color="#008000">/*
+Running username */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000"> </font><font color="#0000ff">int</font><font color="#000000">
+(*xExec)(</font><font color="#0000ff">const</font><font color="#000000">
+</font><font color="#0000ff">char</font><font color="#000000">
+*,ph7_context *); </font><font color="#008000">/* Execute an
+external program */</font></font></font></p>
+<p style="margin-bottom: 0cm; font-weight: normal;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">};</font></font></font></p>
+</div>
+<br>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">An
+instance of the ph7_vfs object defines the interface between the PH7
+core and the underlying operating system. The "vfs" in the
+name of the object stands for "virtual file system". The
+vfs is used to implement PHP system functions such as mkdir(), chdir(), stat(), get_user_name() and many more.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+value of the iVersion field is initially 2 but may be larger in
+future versions of PH7. Additional fields may be appended to this
+object when the iVersion value is increased.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Only
+a single vfs can be registered within the PH7 core. Vfs registration
+is done using the </font><a href="c_api_func.html#Global_Library_Management_Interfaces"><font face="Verdana, sans-serif">ph7_lib_config()</font></a><font face="Verdana, sans-serif">
+interface with a configuration verb set </font><font face="Verdana, sans-serif"><span style="font-weight: normal;">to
+</span></font><a href="c_api_func.html#Global_Library_Management_Interfaces"><font face="Verdana, sans-serif"><span style="font-weight: normal;">PH7_LIB_CONFIG_VFS</span></font></a><font face="Verdana, sans-serif"><span style="font-weight: normal;">.</span></font></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Note
+that Windows and UNIX (Linux, FreeBSD, Solaris, MacOS X, etc.) users does
+not have to worry about registering and installing their own vfs, now PH7 come with a built-in vfs that implements most
+the methods defined above.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Host applications
+running on exotic systems (ie: Other than Windows and UNIX systems)
+must register their own vfs in order to be able to use and call PHP
+system function. Also note that the </font><a href="c_api_func.html#ph7_compile_file"><font face="Verdana, sans-serif">ph7_compile_file()</font></a><font face="Verdana, sans-serif">
+interface depends on the xMmap() method of the underlying vfs which
+mean that this method must be available (Always the case using the
+built-in VFS) in order to use this interface.</font></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Developers
+wishing to implement their own vfs must contact Symisc Systems
+inorder to obtain the </font><a href="mailto:contact@symisc.net?subject=PH7%20VFS%20C/C++%20Specification"><font face="Verdana, sans-serif">PH7
+VFS C/C++ Specification Manual</font></a><font face="Verdana, sans-serif">.</font></font></font></p>
+<p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+</div>
+<hr style="width: 100%; height: 2px;">
+<div style="text-align: right; margin-top: 0px; height: 91px;"><small><small><a href="http://www.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc Systems" src="images/symisc.png"></a></small></small>
+<div style="text-align: left; margin-top: 0px; height: 14px;"><small><small style="font-family: Verdana;">Copyright © <a href="http://www.symisc.net/">Symisc Systems</a></small></small><br>
+</div>
+</div>
+</div>
+
+</body></html>

@@ -1,0 +1,2149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en"><head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type"><title>Distinctive Features of the PH7 Engine</title><!-- Copyright (C) 2011 Symisc Systems,http://www.symisc.net contact@symisc.net -->
+  
+
+  
+
+  
+  <link rel="stylesheet" href="symisc.css" type="text/css">
+
+  
+  <meta content="Symisc Systems &lt;chm@symisc.net&gt;" name="author"></head><body>
+<div style="width: 1092px;" id="main_div"><a href="http://ph7.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc PH7 Engine" title="Symisc PH7 Engine" src="images/symisc_ph7_tr.png"></a><br>
+<div style="text-align: left; width: 190px;" align="right"><small style="color: black; font-family: Verdana;"><small>An Embeddable PHP5 Engine</small></small><br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<ul id="nav">
+  <li id="nav-1"><a href="index.html">About</a></li>
+<li id="nav-8"><a href="features.html">Distinctive Features<br>
+</a></li>
+  <li id="nav-2"><a href="intro.html">Getting Started<br>
+    </a></li>
+  <li id="nav-3"><a href="c_api.html">Documentation<br>
+    </a></li>
+  <li id="nav-4"><a href="downloads.html">Downloads<br>
+    </a></li>
+  <li id="nav-5"><a href="licensing.html">Licensing<br>
+    </a></li>
+  <li id="nav-6"><a href="faq.html">FAQ<br>
+    </a></li>
+  <li id="nav-7"><a href="support.html">Online Community Support<br>
+    </a></li>
+</ul>
+<h1><small><small><font face="Verdana, sans-serif"><b>Distinctive Features of the PH7 Engine.</b></font></small></small></h1>
+
+<div>
+<p style="margin-bottom: 0cm; font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+following page enumerates distinctive features and powerful
+extensions introduced by the PH7 Engine to the PHP programming
+language, these are:</font></font></p>
+
+
+<ul>
+<li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#overloading">Function
+	&amp; Method Overloading</a>.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#full_type_hinting">Full
+	Type hinting</a> (function signatures).</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Introducing
+	<a href="#comma">comma expressions</a>.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Introducing
+	<a href="#eq_op">the eq and ne operators</a> for strict string
+	comparison.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#improved_precedence">Improved
+	operators precedences</a>.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm; font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#OO">Powerful
+	OO subsystem</a>.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#complex">Function
+	arguments</a> can take any <a href="#complex">complex expressions as
+	their default values</a>.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#64bit">64-bit
+	integer</a> arithmetic for all platforms.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#utf8">Native
+	UTF-8 support</a>.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#static">Static
+	variables and constants</a> can take <a href="#static">any complex
+	expression</a> including function call as <a href="#static">their
+	initialization value</a>. </font></font></font>
+	</p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#no_fatal_err">No
+	fatal error</a>, even a call to an undefined function will not abort program execution.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Very
+	high code quality.</font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Arrays
+	like object are <a href="#pass_by_reference">always passed and
+	returned by reference</a>.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">PH7
+	is <a href="#hand_coded">100% hand-coded</a>, written in <a href="#hand_coded">ANSI
+	C</a>, compile and run unmodified in any platform including
+	restricted embedded devices with a C compiler.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="#amalgamation">Amalgamation</a>:
+	All C source code for PH7 are combined into a single source file. </font></font>
+	</p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Powerful
+	reference mechanism borrowed from the C++ world.</font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Standard
+	functions can take a single statement <a href="#single_stmt">without
+	curly braces</a>.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#anon">Anonymous
+	functions</a> can be invoked on the fly without any kind of assignment.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#anon">Anonymous
+	functions</a> arguments can take default values (Any complex
+	expression).</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#anon">Anonymous
+	functions</a> can embed static variable.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#lang_construct">Language
+	constructs</a> such as echo, print, include, etc. can be used in the
+	context of a function call.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Introducing
+	<a href="#floating_point_cmp">floating point comparison</a>.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Consistent
+	Boolean evaluation.</font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="builtin_func.html">Built-in
+	sorting function</a> such as sort(), usort(), ksort() and many more
+	uses the <a href="#hasmap">efficient and stable</a> merge-sort
+	algorithm.</font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Smart
+	exception mechanism.</font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Garbage
+	Collected via Advanced Reference Counting.</font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Thread-safe
+	(via <a href="c_api_const.html#compile_time">compile-time
+	directive</a>) and full re-entrant.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Highly-efficient
+	and platform independent <a href="c_api_object.html#ph7_vm">Byte-code
+	compiler</a>.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="builtin_func.html">Built
+	with more 470 function</a>
+including an XML parser (with namespace support), INI processor, CSV
+reader/writer, UTF-8 encoder/decoder, zip archive extractor, JSON
+encoder/decoder, random number/strings generator, native and efficient
+File IO for Windows and UNIX systems and <a href="builtin_func.html">many
+	more</a> without the need of any external library to link with.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#http">Built-in
+	HTTP Request Parser</a>.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#hashmap">Efficient
+	implementation</a> of arrays using the hashmap data strcuture.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Array
+	cursor is <a href="#auto_reset">automatically reset</a> at the end
+	of a foreach loop.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#const">const
+	statement</a> can be used outside a class definition.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#const">var
+	statement</a> can be used outside a class definition.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Automatic
+	switch to pass by value when a invalid pass by reference is
+	detected.</font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#ternary">Correct
+	and consistent implementation</a> of the ternary operator.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Constants
+	can be redefined using the define() function.</font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Parameters
+	to <a href="#call_user_func">call_user_func()</a> can be <a href="#call_user_func">passed
+	by reference</a>.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Insertion
+	by reference now support function calls.</font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="builtin_func.html">implode()</a>
+	can take a variable number of arguments (even non-array).</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="builtin_func.html">explode()</a>
+	does not return empty (white space stream) entries.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Introducing
+	the <a href="builtin_func.html">implode_recursive()</a>
+	and <a href="builtin_func.html">join_recursive
+	functions()</a>.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Platform
+	independent and efficient implementation of the <a href="builtin_func.html">printf()
+	family of function</a> (Based on the SQLite3 implementation) </font></font></font>
+	</p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Introducing
+	the <a href="builtin_func.html">str_glob()</a>
+	function fro string globing.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Introducing
+	the </font><font face="Verdana, sans-serif"><b>$_HEADER</b></font><font face="Verdana, sans-serif">
+	superglobal array which hold all <a href="c_api_func.html#vm_config_http">HTTP
+	REQUEST</a> MIME HEADERS</font></font></font></p></li>
+  <li><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><a href="#caveats">Caveats</a>.<br>
+    </font></font></font></li>
+
+</ul>
+
+<h1 class="western"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Features
+in details</font></font></h1>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">We
+describe now, some of the important PH7 features in details.</font></font></p>
+
+<br>
+<h1 class="western"><a name="overloading"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Function
+Overloading</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>Function
+overloading</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+or </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>method
+overloading</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+is a feature found in various programming languages such as C++ or
+Java, that allows creating several function and/or methods with the
+same name which differ from each other in the type of the input and
+the output of the function. It is simply defined as the ability of
+one function to perform different tasks. </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>(src:
+<a href="http://en.wikipedia.org/wiki/Function_overloading">Wikipedia</a>)</i></font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Function
+overloading means two or more functions can have the same name but
+either the number of arguments or the data type of arguments has to
+be different.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">The
+PH7 engine introduces this powerful mechanism as</span><i> </i>an
+<span style="font-style: normal;">extension to the PHP
+programming language. That is, you define two ore more standard PHP
+functions with the same name (PH7 is case-sensitive unlike the
+standard PHP engine) but with different arguments number and/or types
+and finally you perform a simple function call and let PH7 peek the
+appropriate function for this call context.</span></font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">Example:
+(</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>Overloading</i></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+w</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>ithout
+the <a href="#full_type_hinting">full type hinting</a> extension</i></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">)</span></font></font></p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><br>
+</span></font></font></p>
+<div style="margin-left: 40px; width: 596px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;">function</span></font><span style="font-style: normal;">
+foo($a) {</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000"><span style="font-style: normal;"><br>
+
+</span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000"><span style="font-style: normal;">&nbsp;&nbsp;&nbsp; //foo()
+accepts only a single argument</span></font></font></font><br>
+&nbsp;&nbsp; <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">return</font> $a.PHP_EOL;</font></font><br>
+}<br>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">function</font>
+foo($a, $b) {</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000"><span style="font-style: normal;"><br>
+&nbsp;&nbsp; //
+foo() accepts two arguments and perform their addition.</span></font></font></font>
+<p style="margin-bottom: 0cm;">&nbsp;&nbsp;&nbsp;&nbsp;    <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	
+  <font color="#0000ff">return</font> $a + $b;</font></font></p>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	}</font></font></p>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	<font color="#0000ff">echo</font>
+foo(5); <font color="#008000">// Prints "5"</font></font></font></p>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	<font color="#0000ff">echo</font>
+foo(10, 2); <font color="#008000">// Prints "12"</font></font></font></p>
+</div>
+
+<br>
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Here, we
+define two functions with the same name but with different purposes.
+That is, the first foo() accepts only a single argument and return its
+value while the second foo() accepts two arguments, perform their
+addition and return the result. So if we call foo with a single
+argument the first foo() will be invoked while if we call foo with
+two or more arguments,the second foo() will be invoked.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">Example
+2: </span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>(Overloading
+With the <a href="#full_type_hinting">full type hinting</a>
+extensions)</i></font></font></p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i><br>
+</i></font></font></p>
+<div style="margin-left: 47px; width: 587px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">function</font>
+foo(<font color="#ff0000">string</font> $a)</font></font>
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	{</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;	
+  <font color="#0000ff">echo</font> <font color="#ff0000">"a is
+a string\n"</font>;</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;	
+  var_dump($a);</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	}</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	<font color="#0000ff">function</font>
+foo(<font color="#ff0000">int</font> $a)</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	{</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;	
+ <font color="#0000ff">echo</font> <font color="#ff0000">"a is
+integer\n"</font>;</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp; var_dump($a);</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	}</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	<font color="#0000ff">function</font>
+foo(<font color="#ff0000">array</font> $a)</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	{</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;">&nbsp;  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	
+  <font color="#0000ff">echo</font> <font color="#ff0000">"a is
+an array\n"</font>;</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;">&nbsp;  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	
+  var_dump($a);</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	}</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	<font color="#008000">/*
+Test the mechanism */</font></font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	foo(<font color="#ff0000">'This
+is a great feature'</font>); <font color="#008000">/* a is a string
+(first foo) */</font></font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	foo(52);
+<font color="#008000">/* a is integer (second foo) */</font></font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	foo(<font color="#0000ff">array</font>(14,__TIME__,__DATE__));
+<font color="#008000">/* a is an array (third foo) */</font></font></font></p>
+
+
+</div>
+
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Here, we
+define three functions with the same name and the same number of
+arguments but with different signatures. That is, each function
+accepts a single argument but with a different type than the others.
+This was possible by the powerful <a href="#full_type_hinting">full
+type hinting</a> extension introduced by the PH7 engine which permit
+functions to have their own signatures. So if we call foo with a
+string argument as follows </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>foo(</i></font></font><font color="#ff0000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>'This
+is a great feature'</i></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>);
+</i></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+first foo() that expect a string argument will be invoked while if we
+call foo with a array argument as follows
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>foo(</i></font></font><font color="#0000ff"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>array</i></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>(14,__TIME__,__DATE__));</i></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+the last foo() that expect a array will be invoked.</font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example
+3: <i>(Wikipedia example ported to PH7 PHP)</i></font></font></p>
+<br>
+<div style="margin-left: 40px; width: 588px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">//
+volume of a cube</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+function</font>
+volume(<font color="#ff0000">int</font> $s)<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">{<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">&nbsp; return</font>
+$s*$s*$s;<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}<br>
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">//
+volume of a cylinder<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">function</font>
+volume(<font color="#ff0000">float</font> $r,<font color="#ff0000">int</font>
+$h)<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">{<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">&nbsp; return</font>
+3.14*$r*$r*$h;<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}<br>
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">//
+volume of a cuboid<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">function</font>
+volume(<font color="#ff0000">float</font> $l,<font color="#ff0000">int</font>
+$b,<font color="#ff0000">int</font> $h)<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">{<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">&nbsp; return</font>
+$l*$b*$h;<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}<br>
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Test the overloading mechanism */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+volume(10).PHP_EOL;    <font color="#008000">/* You should see 1000
+*/<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+volume(2.5,8).PHP_EOL; <font color="#008000">/* You should see 157 */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+volume(100,75,15);     <font color="#008000">/* You should see 112500
+*/</font></font></font></div>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><br>
+</p>
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Again, three
+functions with the same name but each one expects a different number
+and different types of arguments, PH7 is smart enough to peek the
+appropriate function for the call context.</font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example
+4: <i>(With Class methods)</i></font></font></p>
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i><br>
+</i></font></font></p>
+<div style="margin-left: 40px; width: 593px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">class</font>
+a {</font></font>
+<p style="margin-bottom: 0cm; font-style: normal; text-align: left;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;		<font color="#0000ff">public</font>
+<font color="#0000ff">static</font> <font color="#0000ff">function</font>
+foo($a) {</font></font></p>
+<div>
+
+</div>
+<p style="margin-bottom: 0cm; font-style: normal; text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;    <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	
+		<font color="#0000ff">return</font> $a.PHP_EOL;</font></font></p>
+<div style="text-align: left;">
+
+</div>
+<p style="margin-bottom: 0cm; font-style: normal; text-align: left;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;		}</font></font></p>
+<div style="text-align: left;">
+
+</div>
+<p style="margin-bottom: 0cm; font-style: normal; text-align: left;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;		<font color="#0000ff">static</font>
+<font color="#0000ff">function</font> foo($a, $b) {</font></font></p>
+<div style="text-align: left;">
+
+</div>
+<p style="margin-bottom: 0cm; font-style: normal; text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;    <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	
+		<font color="#0000ff">return</font> $a + $b;</font></font></p>
+<div style="text-align: left;">
+
+</div>
+<p style="margin-bottom: 0cm; font-style: normal; text-align: left;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;		}</font></font></p>
+<div style="text-align: left;">
+
+</div>
+<p style="margin-bottom: 0cm; font-style: normal; text-align: left;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	}</font></font></p>
+<div style="text-align: left;">
+
+</div>
+<p style="margin-bottom: 0cm; font-style: normal; text-align: left;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	$c
+= <font color="#0000ff">new</font> a();</font></font></p>
+<div style="text-align: left;">
+
+</div>
+<p style="margin-bottom: 0cm; font-style: normal; text-align: left;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	<font color="#0000ff">echo</font>
+$c-&gt;foo(rand()&amp;1023); <font color="#008000">//print a random
+number </font></font></font>
+</p>
+<div style="text-align: left;">
+
+</div>
+<p style="margin-bottom: 0cm; font-style: normal; text-align: left;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	<font color="#0000ff">echo</font>
+$c-&gt;foo(25,50); <font color="#008000">//print 75</font></font></font></p>
+</div>
+
+<br>
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Function
+overloading is not restricted to standard PHP function, you can also
+make your class methods candidate for overloading exactly like
+standard function would do. As a bonus side, overloading apply also to
+class constructors. That is, define a class with two or more
+constructors but with different signature and
+let PH7 peek the appropriate constructor for you.</font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:</font></font></p>
+<p style="margin-left: 1.25cm; font-style: normal;"><br>
+</p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">class</font>
+a {</font></font>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;		<font color="#0000ff">function</font>
+__construct($a) {</font></font></p>
+
+<p style="margin-bottom: 0cm;">&nbsp;&nbsp;&nbsp;    <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	
+		<font color="#0000ff">echo</font> $a.PHP_EOL;</font></font></p>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;}</font></font></p>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;		<font color="#0000ff">function</font>
+__construct($a, $b) {</font></font></p>
+
+<p style="margin-bottom: 0cm;">&nbsp;&nbsp;&nbsp;    <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	
+		<font color="#0000ff">echo</font> $a + $b;</font></font></p>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;		}</font></font></p>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	}
+</font></font>
+</p>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	$c
+= <font color="#0000ff">new</font> a(150);  <font color="#008000">/*
+You should see: 150 */</font></font></font></p>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	$c
+= <font color="#0000ff">new</font> a(60,200); <font color="#008000">/*
+You should see: 260 */</font></font></font></p>
+</div>
+
+<br>
+<div style="margin-left: 40px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">We
+recommend to the PH7 enthusiastic users to experiment with this
+powerful mechanism and to report any unexpected result or
+inconsistency and/or their feedback to the <a href="http://forums.symisc.net/">PH7
+public forums</a> or using the <a href="http://www.symisc.net/mailman/listinfo/ph7-users_symisc.net">PH7
+mailing list</a>.</font></font></div>
+<h1 class="western" style="font-style: normal;"><a name="full_type_hinting"></a>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Full
+Type Hinting</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">PHP
+5 introduces type hinting. Functions are now able to force parameters
+to be </span><span style="font-style: normal;"><b>only</b></span><span style="font-style: normal;">
+objects (by specifying the name of the class in the function
+prototype), interfaces or arrays (since PHP 5.1).</span></font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+goes further and extends the type hinting mechanism to be used with
+scalar types such as <b>string</b>, <b>int</b>, <b>float</b> or even
+the <b>Boolean</b> type.</font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">With
+type hinting, arguments are automatically and silently converted to
+the desired type. By doing so there is no need to add the ugly test
+statements at the beginning of function prolog to check for the
+expected argument types using the is_string(), is_float(), etc.
+functions. All of this is done automatically by the engine freeing
+the programmer from a boring task.</font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:
+Type hinting with scalar values (string).</font></font></p>
+<br>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;">function</span></font><span style="font-style: normal;">
+test(</span><font color="#ff0000"><span style="font-style: normal;">string</span></font><span style="font-style: normal;">
+$a)</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+{<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">&nbsp;var_dump</font>($a);<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}<br>
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Call with a string argument */</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+test(<font color="#ff0000">"Hello
+world"</font>); <font color="#008000">//Output string(11 'Hello
+world');<br>
+</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Call with an int argument */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">test(0xFFFFFFFF);
+<font color="#008000">//Output string(10 '4294967295');<br>
+</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Call with a float argument */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">test(25.e-1);
+<font color="#008000">//Output string(3 '2.5');</font></font></font></div>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><br>
+</p>
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Here
+if we call the test() function with an int argument, an automatic
+cast is performed and the given integer value (hexadecimal
+0xFFFFFFFF) is converted to a decimal number (4294967295) first, then
+a string cast is performed. The same operation is done if we call
+test() with a float argument. The float number is converted to a
+string and the result is outputted (2,5).</font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example
+2: Type hinting with scalar values (integer)</font></font></p>
+<p style="margin-left: 1.25cm; font-style: normal;"><br>
+</p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">function</font>
+test(<font color="#ff0000">int</font> $a)</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+{<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">&nbsp;var_dump</font>($a);<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}<br>
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Call with a string argument */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">test(<font color="#ff0000">"
+256garbage"</font>); <font color="#008000">//Output int(256);<br>
+</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Call with a float argument */</font></font></font><br>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">test(14.52e+2);
+<font color="#008000">//Output int(1452)</font></font></font></div>
+
+<p style="margin-left: 1.25cm; font-style: normal;">
+</p>
+<p style="margin-left: 1.25cm; font-style: normal;"><br>
+</p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm; font-style: normal;">
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Again, before
+dumping the result, PH7 internally convert the given argument to the
+type integer. So if we call our test function with a string
+argument, this parameter gets converted to the best representation of an
+integer. That is, the conversion stops at the first character that is
+not a digit or a hexadecimal character (white space is completely
+ignored).</font></font></p>
+
+<p style="margin-left: 1.25cm; margin-bottom: 0cm; font-style: normal;">
+<br>
+</p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">We
+recommend to the PH7 enthusiastic users to experiment with this
+powerful mechanism and to report any unexpected result or
+inconsistency and/or their feedback to the <a href="http://forums.symisc.net/">PH7
+public forums</a> or using the <a href="http://www.symisc.net/mailman/listinfo/ph7-users_symisc.net">PH7
+mailing list</a>. <br>
+</font></font></p>
+<h1 class="western" style="font-style: normal;"><a name="comma"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Comma
+expressions</font></font></h1>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Again, another
+powerful mechanism borrowed from the C/C++ world and introduced as an
+extension to the PHP programming language.</font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">A
+comma expression contains two operands of any type separated by a
+comma and has left-to-right associativity. The left operand is fully
+evaluated, possibly producing side effects, and its value, if there
+is one, is discarded. The right operand is then evaluated. The type
+and value of the result of a comma expression are those of its right
+operand, after the usual unary conversions. </font></font>
+</p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Any
+number of expressions separated by commas can form a single
+expression because the comma operator is associative. The use of the
+comma operator guarantees that the sub-expressions will be evaluated
+in left-to-right order, and the value of the last becomes the value
+of the entire expression.</font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+following example assign the value 25 to the variable $a, multiply
+the value of $a with 2 and assign the result to variable $b and
+finally we call a test function to output the value of $a and $b.
+Keep-in mind that all theses operations are done in a single
+expression using the comma operator.</font></font></p>
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">$a
+= 25</span><span style="font-style: normal;"><b>,</b></span><span style="font-style: normal;">$b
+= $a &lt;&lt; 1 </span><font color="#008000"><span style="font-style: normal;">/*
+$a * 2 */</span></font><span style="font-style: normal;"><b>,</b></span><span style="font-style: normal;">test();</span></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+/*
+Output the value of $a and $b */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">function</font>
+test(){<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">&nbsp; global</font> $a,$b;<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;<font color="#0000ff"> echo</font> <font color="#ff0000">"\$a =
+$a \$b= $b\n"</font>; <font color="#008000">/* You should see:
+$a = 25 $b = 50*/</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+}</font></font></div>
+
+
+<p style="margin-left: 1.25cm; font-style: normal;"><br>
+</p><p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+primary use of  comma expressions is to produce side effects in the
+following situations:</font></font></p>
+<ul>
+  <ul>
+    <li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Calling
+	a function </font></font>
+	</p>
+	</li>
+    <li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Entering
+	an iteration loop</font></font></p></li>
+    <li><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Testing
+	a condition</font></font></li>
+  </ul>
+</ul>
+
+<p style="margin-left: 40px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;In
+some contexts where the comma character is used, parentheses are
+required to avoid ambiguity.</font></font></p>
+
+<p style="margin-left: 40px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;The
+following table gives some usage example of comma expressions.</font></font></p>
+<p style="margin-left: 40px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<table id="table_code" style="margin-left: 36px; width: 1023px;" border="1" bordercolor="#000000" cellpadding="4" cellspacing="0" width="643">
+
+
+	<col width="237">
+	<col width="388">
+	<tbody><tr valign="top">
+		<td style="width: 478px;">
+			<pre class="western"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">if</font><font color="#66cc66">(</font>++$x,$y = 100, $x &gt; $y,foo<font color="#66cc66">())</font></font></font><br><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#66cc66">{</font>  </font></font><br><font color="#808080"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>/* Block will execute only if foo() return TRUE regardless of the first three expressions */</i></font></font></font><br><font color="#66cc66"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font></font></pre><p style="margin-bottom: 0cm;">
+			<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">function</font><font color="#000000">
+			foo(){ </font><font color="#0000ff">return</font><font color="#000000">
+			TRUE; } </font><font color="#66cc66">	</font></font></font></p>
+			
+		</td>
+		<td style="width: 529px;">
+			<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">An
+			if statement in which, variable </font><tt class="western"><font face="Verdana, sans-serif">$x</font></tt><font face="Verdana, sans-serif">
+			is incremented, variable $y is assigned the value 100 and variable
+			</font><tt class="western"><font face="Verdana, sans-serif">x</font></tt><font face="Verdana, sans-serif">
+			is tested against variable $y and finally function foo</font><tt class="western"><font face="Verdana, sans-serif">()gets
+			called.</font></tt><font face="Verdana, sans-serif"> The first two
+			expressions within this comma expression are evaluated before </font><tt class="western"><font face="Verdana, sans-serif">the
+			call to foo()</font></tt><font face="Verdana, sans-serif">.
+			Regardless of the results of the first  three expressions, the
+			fourth is evaluated (call to function foo()) and its result
+			determines whether the if statement is processed.</font></font></font>
+		</td>
+	</tr>
+</tbody>
+</table>
+<br>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">We
+recommend to the PH7 enthusiastic users to experiment with this
+powerful mechanism and to report any unexpected result or
+inconsistency and/or their feedback to the <a href="http://forums.symisc.net/">PH7
+public forums</a> or using the <a href="http://www.symisc.net/mailman/listinfo/ph7-users_symisc.net">PH7
+mailing list</a>. </span></font></font>
+</p>
+
+<h1 class="western"><a name="eq_op"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Introducing
+the eq and ne operators.</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>eq</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+and </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>ne</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+operators are borrowed from the <a href="http://perldoc.perl.org/perlop.html#Equality-Operators">Perl
+world</a>. They are used for strict string comparison. The reason why
+they have been implemented by the PH7 engine and introduced as an
+extension to the PHP programming language is due to the confusion
+introduced by the standard PHP comparison operators ('==' or '===')
+especially if you compare strings with numbers.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Take
+the following example:&nbsp;</font></font></p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">var_dump</font>(
+0xFF == <font color="#ff0000">'255'</font> ); <font color="#008000">//
+bool(true) ???</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000"><br>
+//
+use the type equal operator by adding a single space to one of the
+operand</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+var_dump</font>(
+<font color="#ff0000">'255  '</font> === <font color="#ff0000">'255'</font>
+); <font color="#008000">//bool(true) depending on the PHP version</font></font></font></div>
+<p style="margin-left: 1.25cm;">
+</p>
+
+<br>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">That
+is, if one of the operand looks like a number (either integer or
+float) then PHP will internally convert the two operands to numbers
+and then a numeric comparison is performed.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This
+is what the PHP language reference manual says:</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>If
+you compare a number with a string or the comparison involves
+numerical strings, then each string is converted to a number and the
+comparison performed numerically. </i></font></font>
+</p>
+
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Bummer,
+if you ask me, this is broken, badly broken. I mean, the programmer
+cannot dictate it's comparison rule, it's the underlying engine who
+decides in it's place and perform the internal conversion. In most
+cases, PHP developers wants simple string comparison and they are
+stuck to use the ugly and inefficient strcmp() function or it's
+variants instead. This
+is the big reason why we have introduced these two operators.</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+	</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>eq</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+	operator is used to compare two strings byte per byte. If you came
+	from the C/C++ world, think of this operator as a barebone
+	implementation of&nbsp; the <a href="http://www.manpagez.com/man/3/memcmp">memcmp()</a>
+	C standard library function. Keep in mind that if you are comparing
+	two ASCII strings then the capital letters and their lowercase
+	letters are completely different and so this example will output
+	false.</font></font></p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">var_dump</font>(<font color="#ff0000">'allo'</font>
+	<b>eq</b> <font color="#ff0000">'Allo'</font>); /<font color="#008000">/bool(FALSE)</font></font></font></div>
+
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+	<b>ne</b> operator perform the opposite operation of the <b>eq</b>
+	operator and is used to test for string inequality. This example
+	will output true</font></font></p>
+<br>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">var_dump</font>(<font color="#ff0000">'allo'</font>
+	<b>ne</b> <font color="#ff0000">'Allo'</font>); <font color="#008000">//bool(TRUE)
+	unequal strings</font></font></font></div>
+
+<p style="margin-left: 40px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"></font></font></p>
+
+<br>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+<b>eq</b> operator return a Boolean true if and only if the two
+strings are identical while the <b>ne</b> operator return a Boolean
+true if and only if the two strings are different. Otherwise a
+Boolean false is returned (equal strings).</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Note
+that the comparison is performed only if the two strings are of the
+same length. Otherwise the <b>eq</b> and <b>ne</b> operators return a
+Boolean false without performing any comparison and avoid us wasting
+CPU time for nothing.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Keep in mind that we talk about low level byte per byte comparison and
+nothing else. Also remember that zero length strings are always
+equal.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Some
+example and their outputs:</font></font></p>
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">var_dump</font>(
+<font color="#ff0000">'0xff'</font> <b>eq</b> <font color="#ff0000">'255'</font>
+); <font color="#008000">//bool(FALSE)<br>
+</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">//Append
+a single space to the first operand </font></font></font>
+<p style="margin-left: 2.5cm;">
+</p>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">var_dump</font>(<font color="#ff0000">'
+255 '</font> <b>eq</b> <font color="#ff0000">'255'</font>);
+<font color="#008000">//bool(FALSE) Not of the same length</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+//Operand
+one is a prefix of the second.</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+var_dump</font>(<font color="#ff0000">'TES'</font>
+<b>eq</b> <font color="#ff0000">'TEST'</font>); <font color="#008000">//bool(FALSE)
+What do you expect!</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+var_dump</font>(<font color="#ff0000">'A7lan'</font>
+<b>eq</b> '<font color="#ff0000">A7lan'</font>); <font color="#008000">//bool(TRUE)</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+//
+Test the not equal 'ne' operator</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+var_dump</font>(
+<font color="#ff0000">'255'</font> <b>ne</b> 0xFF ); <font color="#008000">//bool(TRUE)</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+//Append
+a single space to the first operand </font></font></font>
+<p style="margin-left: 2.5cm;">
+</p>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">var_dump</font>(<font color="#ff0000">'
+255 '</font> <b>ne</b> <font color="#ff0000">'255'</font>);
+<font color="#008000">//bool(FALSE) (Not of the same length)</font></font></font>
+</div>
+
+<h1 class="western" style="font-style: normal;"><a name="improved_precedence"></a>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Improved
+Operators Precedence Table</font></font></h1>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+implements all the 60 PHP operators and introduced the <b>eq</b>
+and <b>ne</b> operators. The operators precedence table have been
+improved dramatically so that you can do same amazing things now such
+as array dereferencing, on the fly function call, anonymous function as
+array values, class member access on instantiation and so on. We
+discuss some of the  improvements in details:</font></font><br>
+</p>
+<p style="margin-left: 1.25cm; font-style: normal; font-family: Verdana;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: bold;">Array Dereferencing:</span></font></font></p>
+<p style="margin-left: 1.25cm; font-style: normal; font-family: Verdana;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: bold;"><br>
+</span></font></font></p>
+<p style="margin-left: 1.25cm; font-style: normal; font-family: Verdana;"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">With
+	this improvements, there is no need for a temporary variable to
+	extract array entries values. Let's just say you want to output the
+	middle name of </span><i><span style="font-weight: normal;">Alan
+	Mathison Turing </span></i><span style="font-style: normal;"><span style="font-weight: normal;">in
+	one statement without any assignment:</span></span></font></p>
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;"><br>
+</span></span></font></font></p>
+<p style="margin-left: 1.25cm; font-style: normal;">
+</p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font>
+<p style="margin-bottom: 0cm;"><code class="western"><font color="#0000ff"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">echo</span></font></font></font></code><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+	</span></font></font><code class="western"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">explode(</span></font></font></code><code class="western"><font color="#ff0000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">'
+	'</span></font></font></font></code><code class="western"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">,
+	</span></font></font></code><code class="western"><font color="#ff0000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">'Alan
+	Mathison Turing</span></font></font></font></code><code class="western"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">')[1];
+	</span></font></font></code><code class="western"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">//Output:
+	Mathison</span></font></font></font></code></p>
+
+
+</div>
+
+
+
+
+	
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> </font></font>
+	</p>
+
+
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">As
+you can see, there is no need for a temporary variable, the entry value
+was extracted by <span style="font-style: normal;">dereferencing the
+array returned by the explode() <a href="../docs/builtin_func.html">built-in
+function</a>. You can even extract array values directly from functions return value as follows:</span></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><br>
+</span></font></font></p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;">function</span></font><span style="font-style: normal;">
+test(){</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+&nbsp;return</font>
+<font color="#0000ff">array</font>( <font color="#ff0000">'Machine'</font>
+=&gt; <font color="#ff0000">'Turing'</font>);</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+}<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;">/</span><font color="#008000">/Call
+the test function and output the 'Machine' entry value without any
+assignment</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+echo</font>
+test()[<font color="#ff0000">'Machine'</font>]; <font color="#008000">//Output:
+Turing</font></font></font>
+
+</div>
+
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><br>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;">&nbsp;
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">More,
+you can even insert anonymous functions in a array and invoke them directly as follows:</font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;">function</span></font><span style="font-style: normal;">
+test(){</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+&nbsp;return</font>
+<font color="#0000ff">array</font>( <font color="#ff0000">'Anon'</font>
+=&gt; <font color="#0000ff">function</font>(){<font color="#0000ff">echo</font>
+<font color="#ff0000">"Hello World\n"</font>;});</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+}<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">//Invoke
+the anonymous function stored in the 'Anon' entry from the returned
+array</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+echo</font>
+test()[<font color="#ff0000">'Anon'</font>]<b>()</b>; <font color="#008000">//Hello
+World</font></font></font>
+
+</div>
+
+<br>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: bold;">Anonymous Functions as Array Values<br>
+</span></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;">
+</p>
+<ul>
+  <p style="font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;As
+	of this release, you can insert anonymous function in a array and
+	invoke them on the fly or assign them to a variable as follows:</font></font></p>
+</ul>
+
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">$a
+	= </span><font color="#0000ff"><span style="font-style: normal;">array</span></font><span style="font-style: normal;">(</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#ff0000"><br>
+&nbsp;&nbsp;&nbsp;&nbsp; 'add'</font> =&gt; <font color="#0000ff">function</font>
+($x,$y){ <font color="#0000ff">return</font> $x+$y; },</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#ff0000"><br>
+&nbsp;&nbsp;&nbsp;&nbsp; 'mul'</font> =&gt; <font color="#0000ff">function</font>
+($x,$y){ <font color="#0000ff">return</font> $x*$y; },<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#ff0000">&nbsp;&nbsp;&nbsp;&nbsp; 'div'</font> =&gt; <font color="#0000ff">function</font>
+($x,$y){ <font color="#0000ff">return</font> $x/$y; }<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">);<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/* Extract the anonymous function performing an addition */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$add
+= $a[<font color="#ff0000">'add'</font>];<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+Invoke */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+$add(100,200); <font color="#008000">//Output: 300</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+/*
+Invoke our anonymous function directly by dereferencing the array */</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+echo</font>
+$a[<font color="#ff0000">'add'</font>](50,20).PHP_EOL; <font color="#008000">//Addition:
+Output 70</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+echo</font>
+$a[<font color="#ff0000">'mul'</font>](10,20).PHP_EOL;
+<font color="#008000">//Multiplication: Output 200</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+echo</font>
+$a[<font color="#ff0000">'div'</font>](50,2); <font color="#008000">//Division:
+Output 25</font></font></font>
+
+</div>
+
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><br>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;">
+</p>
+<p style="margin-left: 1.25cm; font-style: normal;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Here, the test array hold three anonymous functions. All of them expects two arguments and all
+perform an arithmetic operation. The first </font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">anonymous function</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> perform an addition and it's associated key in the array is <i>add</i>, the second perform a
+multiplication and its key is <i>mul</i>  while the third perform a
+division and it's key is <i>div</i>. If we call one if them either on
+the fly or via variable assignment, you will get the result of the
+desired arithmetic operation (addition, multiplication or
+division).</font></font></font></p>
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: bold;"><br>
+</span></font></font></p>
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: bold;">Class Member Access On Instantiation<br>
+</span></font></font></p>
+<p style="margin-left: 1.25cm; font-style: normal;">
+</p>
+<ul>
+  <p style="font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">With
+	this improvements, you can access to class attributes without
+	assigning the instantiated class to a variable as follows:</font></font></p>
+</ul>
+
+<div style="margin-left: 40px; width: 699px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">class</font>
+Test{</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+&nbsp;public</font>
+$attr = <font color="#ff0000">'Some '</font>.<font color="#ff0000">'Value'</font>;
+<font color="#008000">// Complex expression: Concatenation of two 
+strings: Some + Value</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+};</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+//Access
+the class member without assigning the instantiated class to a variable</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+echo</font>
+(<font color="#0000ff">new</font> Test())-&gt;attr; <font color="#008000">//You
+should see: Some Value</font></font></font>
+
+</div>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><br>
+</p>
+<p style="margin-left: 1.25cm; font-style: normal;">
+</p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font size="2">We
+have outputted the class attribute value without any kind of
+assignment. The garbage collector subsystem will automatically
+release this instance since it will not be used anywhere.</font></font>
+</p>
+
+<h1 class="western" style="font-style: normal;"><a name="OO"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Powerful
+OO Subsystem</font></font></h1>
+
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+implements most of the PHP(5) OO subsystem including standard
+classes, interfaces, inheritance, magic methods, cloning, abstract
+and final methods, constructors and destrcutors, type hinting and so
+on. PH7
+goes further and introduces some powerful extensions to the OO
+subsystem and we list some of the important extensions here:</font></font></p>
+<ul>
+  <li>
+	<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Class
+	attributes including variable, static variables and constants can
+	take any complex expressions as their initialization value unlike
+	the standard PHP engine which would allow only simple scalar value. Example
+:	<span style="font-style: italic;">(Complex initialization value)</span></font></font></p>
+    <div style="margin-left: 40px; width: 666px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"></font></font></font>
+    <p style="margin-bottom: 0cm;"><font color="#0000ff"><font face="Verdana, sans-serif"><font size="2">class</font></font></font><font face="Verdana, sans-serif"><font size="2">
+MyClass { </font></font>
+    </p>
+
+    <p style="margin-bottom: 0cm;"><font color="#0000ff">&nbsp; <font face="Verdana, sans-serif"><font size="2">const</font></font></font><font face="Verdana, sans-serif"><font size="2">
+RAND_NUM = rand() &amp; 1023 ; </font></font><font color="#008000"><font face="Verdana, sans-serif"><font size="2">//Random
+number between 0 and 1023 </font></font></font>
+    </p>
+
+    <p style="margin-bottom: 0cm;"><font color="#008000">&nbsp;  </font><font color="#0000ff"><font face="Verdana, sans-serif"><font size="2">public</font></font></font><font face="Verdana, sans-serif"><font size="2">
+$var = </font></font><font color="#ff0000"><font face="Verdana, sans-serif"><font size="2">'Var:
+'</font></font></font><font face="Verdana, sans-serif"><font size="2">.rand_str(6);
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font size="2">//Concatenate
+'Var: ' and a random string of length 6 </font></font></font>
+    </p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font size="2">}</font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font size="2">$c
+= </font></font><font color="#0000ff"><font face="Verdana, sans-serif"><font size="2">new</font></font></font><font face="Verdana, sans-serif"><font size="2">
+MyClass();</font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font color="#0000ff"><font face="Verdana, sans-serif"><font size="2">var_dump</font></font></font><font face="Verdana, sans-serif"><font size="2">($c::RAND_NUM,$c-&gt;var);
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font size="2">//You
+should see a random number and a random string</font></font></font> 
+    </p>
+
+
+    </div>
+
+  </li>
+</ul>
+<ul>
+<li><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Constructors
+	and Destructors are candidate for <a href="#overloading">overloading</a>
+	exactly like any other class methods.</font></font></p>
+	</li><li><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">If
+	no constructor is available, attributes will keep their
+	initialization values (any complex expressions) and will not be
+	nullified.</font></font></p>
+	</li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Static
+	properties can be accessed and modified through the object using the
+	arrow operator as follows:</font></font></p>
+    <div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">class</font>
+MyClass {</font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font color="#0000ff"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">public</font>
+    <small><font color="#0000ff">static</font></small> <small style="color: black;">$a = 5*5;</small></font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$n
+= <font color="#0000ff">new</font> MyClass;</font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$n-&gt;a
+&lt;&lt;= 1;</font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+ MyClass::$a; <font color="#008000">/* Will output 50 */</font></font></font></p>
+
+
+    </div>
+
+  </li>
+  <li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Introducing
+	magic methods __toInt(), __toBool(), __toFloat() which performs the
+	same job as the __toString() magic method but for their types
+	respectively Integer, Boolean and Float. </font></font>
+	</p>
+	</li>
+  <li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>clone</b>
+	now accepts a function(including anonymous) or an instantiated class
+	(object) as it's left operand as follows:</font></font></p>
+    <div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">$pCopy</font><font color="#008000">
+= </font><font color="#0000ff">clone</font><font color="#008000">
+</font><font color="#000000">obj();</font><font color="#008000"> //
+function obj(){ return new Class(); }</font></font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$pCopy
+= <font color="#0000ff">clone</font> $a[<font color="#ff0000">'object'</font>];
+<font color="#008000">// $a = array('object' =&gt; new Class());</font>
+</font></font>
+    </p>
+
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">//Annonymous
+function</font></font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$pCopy
+= <font color="#0000ff">clone</font> (<font color="#0000ff">function</font>
+(){ <font color="#0000ff">return</font> <font color="#0000ff">new</font>
+SomeClass(); })();</font></font></p>
+
+
+    </div>
+
+  </li>
+  <li><p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">A
+	class may not implement all the methods declared inside an
+	interface.</font></font></p>
+	</li>
+  <li><p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">A
+	class can implement two interfaces that share same methods names  as
+	follows:</font></font></p>
+    <div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">interface</font>
+IA {</font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font color="#0000ff"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">public</font>
+    <small><font color="#0000ff">function</font> a();</small></font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">interface</font>
+IB {</font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font color="#0000ff"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">public</font>
+    <small><font color="#0000ff">function</font> a();</small></font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">class</font>
+Test <font color="#0000ff">implements</font> IA, IB {</font></font></p>
+
+    <p style="margin-bottom: 0cm;">   <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">public</font>
+ <font color="#0000ff">function</font> a() {</font></font></p>
+
+    <p style="margin-bottom: 0cm;">      <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+<font color="#ff0000">"Hello World"</font>;</font></font></p>
+
+    <p style="margin-bottom: 0cm;">   <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$o
+= <font color="#0000ff">new</font> Test();</font></font></p>
+
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">$o-&gt;a();</font><font color="#008000">
+//Hello World</font></font></font></p>
+
+
+    </div>
+
+  </li>
+  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>OO
+Caveats:</b></font></font>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+	does not handle all the magic methods such __wakeup(), __sleep(),
+	__set_state(), __serialize() and __unserialize().</font></font></p>
+
+	</li>
+  <li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Object
+	serialization is avoided. If you want to serialize an object, use the
+	<a href="builtin_func.html">built-in</a>  <b>json_encode() </b><span style="font-weight: normal;">function</span>.</font></font></p></li>
+</ul>
+<h1 class="western" style="font-style: normal;"><a name="64bit"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">64-Bit
+Integer Arithmetic For All Platforms</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">Under
+the standard PHP engine, The size of an integer is platform-dependent
+which mean that when running on 32-bit systems, the size of an integer
+is stored in 4 bytes and 8 bytes on 64-bit systems. This lead to non
+portable code especially if you are working with large integers. PH7
+have standardized this and integers now are stored in 8 bytes (64
+bits) regardless of the host environment. Because there is no cross-platform way to specify
+64-bit integer types PH7 includes typedefs for 64-bit signed
+integers. The <a href="c_api_object.html#int64">ph7_int64</a>
+type can store integer values between -9223372036854775808 and
++9223372036854775807 inclusive. </span></font></font>
+</p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:</font></font></p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;">echo</span></font><span style="font-style: normal;">
+PHP_INT_SIZE,</span><font color="#ff0000"><span style="font-style: normal;">'
+'</span></font><span style="font-style: normal;">,PHP_INT_MAX; </span><font color="#008000"><span style="font-style: normal;"><span style="font-weight: normal;">//8
+ 9223372036854775807</span></span></font></font></font></div>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">If
+you run this example on 32-bit or 64-bit (Windows or UNIX)
+systems, you will get the same output as follows: <span style="font-style: normal;"><b>8</b></span><span style="font-style: normal;">
+ </span><span style="font-style: normal;"><b>9223372036854775807</b></span></font></font></p>
+<h1 class="western"><a name="complex"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Complex
+expressions for arguments default values</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">While
+the standard PHP engine would allow simple scalar values for function
+arguments default values, PH7 goes further and let you use any complex
+expressions including function calls, math or string expressions and
+so on as a default values for your function arguments.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:</font></font></p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">function</font>
+test(<b>$name</b> = <font color="#ff0000">'PH7 '</font>.rand_str(4),<b>$age</b>
+= 10 * 2 + 5)</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+{<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">&nbsp;echo</font> <font color="#ff0000">"Name =
+$name\n"</font>;</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+&nbsp;<font color="#0000ff">echo</font> <font color="#ff0000">"Age =
+$age\n"</font>;</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+}<br>
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Call without arguments */</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font size="2">test();
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font size="2">/*
+You should see: name = PH7 rscd</font></font></font>  <font color="#008000"><font face="Verdana, sans-serif"><font size="2">age
+= 25 */<br>
+/*
+Call with a single argument */</font></font></font></p>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font size="2">test(<font color="#ff0000">'Me'</font>);
+<font color="#008000">/* You should see: name = Me age = 25 */</font></font></font></p>
+
+</div>
+
+<br>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+$name parameter takes as it's default value a complex expression
+which is the concatenation of the string 'PH7' and a random string of
+length 4 bytes generated by the <a href="builtin_func.html">built-in</a>
+<b>rand_str()</b> function. The default value for the $age parameter
+is a constant math expression. If you run this example using the
+standard PHP engine, you will get a fatal error while under PH7 this
+example would run perfectly.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+goes further and let you even use anonymous functions as a default
+value for your function arguments.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:</font></font></p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">function</font>
+test(<b>$callback</b> = <font color="#0000ff">function</font>(){ <font color="#0000ff">echo</font>
+<font color="#ff0000">"Hello World!\n"</font>;})</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+{<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">&nbsp;/*
+Check if we are dealing with a callback */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">if</font>( !is_callable($callback) ){<br>
+&nbsp;</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">die</font>(<font color="#ff0000">"Expecting
+a callback"</font>);<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/* Invoke the callback */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$callback();<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}<br>
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Call without arguments */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">test();
+<font color="#008000">/* You should see: Hello World */<br>
+</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Call with a single argument */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">test(<font color="#0000ff">function</font>(){
+<font color="#0000ff">echo</font> <font color="#ff0000">"Welcome
+guest"</font>;}); <font color="#008000">/* You should see:
+Welcome guest */</font></font></font></div>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">That
+is, the $callback parameter takes as it's default value an anonymous
+function that echo “hello world” . This anonymous
+function will be invoked when the user calls the test() function
+without arguments. </font></font>
+</p>
+
+<h1 class="western"><a name="utf8"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">UTF-8
+Variables and Function names</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+has native support for UTF-8. That is, you are not restricted to use
+plain-English to name your variables or functions. Any UTF-8 encoded
+natural language (i.e: Japanese, Chinese, Arabic, etc.) can do the job.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:</font></font></p>
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b> $</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="zh-CN"><b>概要</b>
+</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">=
+"<font color="#ff0000">PH7 engine"</font>;<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>$</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="zh-CN"><b>文書</b>
+</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">=
+<font color="#ff0000">"http://ph7.symisc.net"</font>;<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">function</font>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="zh-CN"><b>ダウンロード</b></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">(){<br>
+&nbsp; </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+<font color="#ff0000">"http://ph7.symisc.net/downloads.html"</font>;<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}<br>
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Test */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">var_dump</font>(<b>$</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="zh-CN"><b>概要</b></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">,<b>$</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="zh-CN"><b>文書</b></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">);<br>
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Call the download function */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span lang="zh-CN"><b>ダウンロード</b></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">();</font></font><br>
+
+</div>
+
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">As
+you can see, there is no need for ICU or any other
+internationalization packages, all you need to do is write you PHP
+variables and function names in your natural language.</font></font></p>
+<h1 class="western"><a name="static"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Complex
+expressions for static variables and constant</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="#complex">Again</a>, PH7
+goes further and let you use any complex expressions including
+function calls as an initialization values for your static variables
+and constants.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:</font></font></p>
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">function</font>
+test()</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+{<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">&nbsp;/*
+Random number between 0 and 1023 as the initialization value for the
+static    variable&nbsp; */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">&nbsp;static</font>
+$salt = rand() &amp; 0x3FF;<br>
+<font color="#008000">&nbsp;/*
+Echo the random number and increment it's value by 1*/</font></font></font><font color="#0000ff"><br>
+<small>&nbsp;echo</small></font><small>
+$salt++.PHP_EOL;</small><br>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}<br>
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Random string of length 6 for our test constant */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">const</font>
+MY_CONST = rand_str(6);<br>
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Test */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">test();
+<font color="#008000">/* You should see a random number between 0 and
+1023 [ex: 596 ] */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">test();
+<font color="#008000">/* 597 */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">test();
+<font color="#008000">/* 598 */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+<font color="#ff0000">"MY_CONST value = "</font>,MY_CONST,PHP_EOL;</font></font>
+
+</div>
+
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Here, the
+static variable </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>$salt</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+takes as its initialization value a random number between 0 and 1023
+inclusive generated by the built-in <a href="builtin_func.html">rand()</a>
+function while the constant </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>MY_CONST</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+takes at its initialization value a random string generated by the
+built-in <a href="builtin_func.html">rand_str()</a>
+function. Also note that the 'const' construct can be used outside a
+class definition. </font></font>
+</p>
+
+<h1 class="western"><a name="anon"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Anonymous
+functions extensions</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+implements anonymous functions as well closures and introduces some
+amazing extensions to these constructs such as:</font></font></p>
+
+<ul>
+<li><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Anonymous
+	function arguments can take a default value exactly like standard
+	function arguments. The default value associated with the function
+	argument can be any complex expression including function calls.</font></font></p>
+	<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:</font></font></p></li>
+</ul>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$anon
+	= <font color="#0000ff">function</font>(<font color="#ff0000">string</font>
+	$msg = <font color="#ff0000">'Hello'.' '.'World!'</font> <font color="#008000">/*
+	Complex expression */</font>){<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; echo</font>
+$msg.PHP_EOL;<br>
+</font></font><small>};
+<span style="color: green;">//Don't forget the semi-colon here</span></small><br>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+Call the anonymous function without arguments */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$anon();
+<font color="#008000">//You should see 'Hello World!'<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+Now,call the anonymous function with a simple argument */</font></font></font>
+<p style="margin-bottom: 0cm;">                   <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$anon(<font color="#ff0000">'Welcome
+guest'</font>); <font color="#008000">//You should see 'Welcome
+guest'</font></font></font></p>
+
+
+</div>
+
+<ul>
+<li><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Now
+	the operators precedence table have been improved dramatically,
+	anonymous functions can be invoked on the fly without any kind of
+	assignment, simply delimit the anonymous function declaration in
+	parenthesis and use the call operator '<b>()</b>' to perform the
+	invocation.</font></font></p>
+	<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:
+	<i>On the fly call of an anonymous function</i></font></font></p></li>
+</ul>
+<div style="margin-left: 40px; width: 698px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;">/</span><font color="#008000">*
+	Delimit the anonymous function in parenthesis,then&nbsp; perform the
+	invocation*/</font></font></font>
+
+<p style="margin-bottom: 0cm;">              <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">(<font color="#0000ff">function</font>(){<font color="#0000ff">echo</font>
+<font color="#ff0000">'Hello World!</font>'.PHP_EOL;})(); <font color="#008000">//You
+should see 'Hello Wold!'</font></font></font></p>
+
+<p style="margin-bottom: 0cm;">              <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">/*
+On the fly call, with arguments*/</font></font></font></p>
+
+<p style="margin-bottom: 0cm;">              <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">(<font color="#0000ff">function</font>(<font color="#ff0000">string</font>
+$msg){<font color="#0000ff">echo</font> $msg.PHP_EOL;})(<font color="#ff0000">'Welcome
+Guest'</font>); <font color="#008000">//You should see 'Welcome
+Guest!';</font></font></font></p>
+
+
+</div>
+
+<ul>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+	previous code fragment is equivalent to this old style code</font></font></p>
+</ul>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b></b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$anon
+	= <font color="#0000ff">function</font>(){<font color="#0000ff">echo</font>
+	<font color="#ff0000">'Hello World!'</font>.PHP_EOL;};</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+$anon();
+<span style="color: green;">//You should see 'Hello Wold!';</span></font></font>
+
+
+</div>
+
+<ul>
+<li><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Anonymous
+	function can embed static variables exactly the same way a standard
+	PHP function does.</font></font></p></li>
+</ul>
+<h1 class="western"><a name="no_fatal_err"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">No
+Fatal Errors</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Under
+PH7, the concept of run-time error is ignored and PH7 will try
+everything possible to let your program continue it's execution
+normally. A run-time error is an error that occurs while <a href="c_api_func.html#ph7_vm_exec">executing</a>
+your program. Same example of run-time error includes a call to an
+undefined function or a instantiation of an undefined class. In both
+scenario PH7 will <a href="c_api_func.html#vm_config_err_report">throw</a>
+a simple warning and assume a null return value.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Suppose
+you have called an undefined function (PH7 does not <a href="builtin_func.html">implements</a>
+all PHP functions such as crypt() ereg_replace() and so on). Rather
+than aborting program execution and following the standard PHP engine
+behavior, PH7 will set a null return value instead so that your
+program can continue its execution normally giving the illusion that
+the undefined function have been called and returned null.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:
+<i>(Call an undefined function)</i></font></font></p>
+<br>
+<div style="margin-left: 40px; width: 655px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000"><span style="font-style: normal;">/*
+Call the undefined function */</span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+$a
+= <b>undefined_function</b>(1,2,3);</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+var_dump</font>($a);
+<font color="#008000">/* NULL */</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"><br>
+echo</span></font><span style="font-style: normal;">
+</span><font color="#ff0000"><span style="font-style: normal;">"I'm
+not dead at: "</span></font><span style="font-style: normal;">,__DATE__,</span><font color="#ff0000"><span style="font-style: normal;">'
+'</span></font><span style="font-style: normal;">,__TIME__; </span><font color="#008000"><span style="font-style: normal;">//Output:
+I'm not dead at 2012-05-10 23:05:59</span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;"></span></font></font>
+
+
+</div>
+
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Here, $a
+have been assigned the null value since the undefined_function does
+not exists and thus cannot be called. The program continue its
+execution normally, dumping $a and outputting a message.</font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example
+2: <i>(Call to an undefined class)</i></font></font></p>
+<p style="margin-left: 1.25cm; font-style: normal;"><br>
+</p>
+<div style="margin-left: 40px; width: 664px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Try to instantiate an undefined class */</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+$a
+= <font color="#0000ff">new</font> Undefined_Class();<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">var_dump</font>($a);
+<font color="#008000">/* NULL */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+<font color="#ff0000">"I'm not dead at: "</font>,__DATE__,<font color="#ff0000">'
+'</font>,__TIME__; <font color="#008000">//Output: I'm not dead at
+2012-05-10 00:27:17</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;"></span></font></font>
+
+
+</div>
+
+<p style="margin-left: 1.25cm;">
+</p>
+<br>
+
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Here, we
+have tried to instantiate an undefined class. PH7 will throw a
+warning and return NULL instead so that the program can continue its
+execution normally.</font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+same rule apply, if you access an undefined array entry (I.e:
+$arr[</font></font><font color="#ff0000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">'undefined_index'</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">])
+or an undefined class attribute (I.e: $class-&gt;undefined_attr). In
+each cases, PH7 <a href="c_api_func.html#vm_config_err_report">throw
+a warning</a> and return NULL instead.</font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+only fatal run-time error under PH7 that really could stop program
+execution is an out of memory. Fortunately PH7 have a tiny memory
+footprint (depending of course on the executed program an it's proper
+memory usage) and running out of memory on modern hardware even on
+modern embedded devices is an extremely rare scenario and we can say
+that your program is pretty safe.</font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Remember
+not to confuse run-time errors with compile-time error that occurs
+while compiling your PHP script using one of the <a href="c_api_func.html#ph7_compile_v2">compile
+interfaces</a>. These compile-time errors are generally due to malformed PHP programs (that you must fix manually after viewing the
+<a href="c_api_func.html#ph7_config">compile error log</a>) while
+run-time errors occurs during <a href="c_api_func.html#ph7_vm_exec">execution</a>
+of the compiled program.</font></font></p>
+
+<h1 class="western"><a name="single_stmt"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Single
+statement without parenthesis</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Standard
+PHP functions (not anonymous) can omit the curly braces if their body
+ comprise only a single statement (This behavior is identical to the
+<i>if statement</i>).</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:</font></font></p>
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">function</font>
+test()<br>
+</font></font><font color="#0000ff"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;echo</font><small>
+<font color="#ff0000">'Hello World!'</font>.PHP_EOL; </small><font color="#008000"><small>//
+single statement</small><br>
+</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">//Invoke
+the previous function<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">test();
+<font color="#008000">//You should see 'Hello Wold!'</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;"></span></font></font>
+
+
+</div>
+
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example 2:</font></font></p>
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">function</font>
+test(<font color="#ff0000">bool</font> $arg)</font></font>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;	
+    <font color="#0000ff">if</font>( $arg )</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;		<font color="#0000ff">echo</font>
+<font color="#ff0000">"Boolean TRUE\n"</font>;</font></font></p>
+
+
+
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;	
+   <font color="#0000ff">else</font></font></font></p>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;		<font color="#0000ff">echo</font>
+<font color="#ff0000">"Boolean FALSE\n"</font>;</font></font></p>
+
+<font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">//Invoke
+with a boolean true</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+test(TRUE);
+<font color="#008000">// You should see 'Boolean TRUE'</font></font></font><br>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000"></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;"></span></font></font>
+
+
+</div>
+
+<h1 class="western"><a name="pass_by_reference"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Arrays
+are always passed by reference</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+pass and return arrays by </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>reference</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+exactly the same way PHP(5) pass objects (class instances) by
+reference. That is, when assigning an already created instance of an
+array to a new variable, the new variable will access the same
+instance as the array that was assigned. This behavior is the same
+when passing instances to a function. A copy of an already created
+array can be made by calling the built-in <a href="builtin_func.html">array_copy</a>($src);
+function. an array variable doesn't contain the array itself as value
+anymore. It only contains an array identifier which allows array
+accessors to find the actual array. When an array is sent by
+argument, returned or assigned to another variable, the different
+variables are not aliases: they hold a copy of the identifier which
+points to the same array. If you came from C/C++ thinks of this as
+two variables pointing to the same instance of a malloc'ed structure.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:
+Array assignments</font></font></p>
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$a
+= <font color="#0000ff">array</font>(<font color="#ff0000">'sample'</font>,50,<font color="#ff0000">'value'</font>);
+<font color="#008000">/* Create a new array instance */</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+$b
+= $a; <font color="#008000">/* After this assignment, the two
+variables point to the same array instance */<br>
+</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Remove the middle entry using variable $b */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">unset</font>($b[1]
+<font color="#008000">/* 50 */</font>);<br>
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Dump using variable $a */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">var_dump</font>($a);
+<font color="#008000">/* Output: array 2( 0 =&gt; 'sample' , 2 =&gt;
+'value' ); */<br>
+</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Check if the two variable point to the same instance */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">var_dump</font><font color="#000000">(
+$a == $b );</font><font color="#008000"> /* bool(TRUE) */</font></font></font>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;"></span></font></font>
+
+
+</div>
+
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Here,
+variable $a and $b point to the same array instance, so if you remove
+one entry using variable $a, the change is immediately seen in
+variable $b if you dump it. In other words, $a and $b point to the same instance.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example
+2: Passing array to function</font></font></p>
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">function</font>
+pop(<font color="#ff0000">array</font> $arg)<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">{<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000">&nbsp;/*
+Remove the last array entry */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;array_pop($arg);<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$a
+= array(<font color="#ff0000">'sample'</font>,50,<font color="#ff0000">'value'</font>);
+<font color="#008000">/* Create a new array instance */<br>
+</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Call the pop() function */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">pop($a);<br>
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Dump $a */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">var_dump</font>($a);
+<font color="#008000">/* Output: array 2( 0 =&gt; 'sample' , 1 =&gt;
+'50' )*/</font></font></font>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;"></span></font></font>
+
+
+</div>
+
+<br>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Here,
+even without including the reference operator &amp; to the function
+argument, the array is passed by reference and the change is
+immediately seen (the pop operation) in variable $a.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">To
+mimic the standard PHP engine behavior and to get a
+private copy of a array for each variable, you can use the
+<a href="builtin_func.html">array_copy()
+</a>function as follows:</font></font></font></p>
+<br>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$a
+= <font color="#0000ff">array</font>(<font color="#ff0000">'sample'</font>,50,<font color="#ff0000">'value'</font>);
+<font color="#008000">/* Create a new array instance */<br>
+</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Let $b have a private copy of the array instance assigned to $a */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$b
+= <font color="#0000ff">array_copy</font>($a);<br>
+</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Now $a and $b point to a completely different instances */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">array_pop</font>($a);<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">var_dump</font>($a);
+<font color="#008000">//Output array 2(0 =&gt; 'sample' , 1 =&gt; 50
+);<br>
+</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+Dump $b */<br>
+</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">var_dump</font>($b);
+<font color="#008000">//Output array 3(0 =&gt; 'sample' , 1 =&gt; 50
+, 2 =&gt; 'value');</font></font></font>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;"></span></font></font>
+
+
+</div>
+
+<br>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">After
+calling <a href="builtin_func.html">array_copy()</a>, $a
+and $b points to completely different instances. This is the
+solution if you want to pass and/or assign arrays by copy, but
+remember for performance reason it's recommended that you let PH7
+pass array by reference and thus you avoid a heavy copy operation.</font></font></font></p>
+
+<h1 class="western"><a name="hand_coded"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Hand-coded
+Project</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+reason why performance rocks under PH7 relies in the fact that is a
+hand-coded project. That is, PH7 does not use any external tools to
+generate it's lexical analyzer such as lex or flex nor does not use
+LALR(1) parsers such as lemon, Bison or YACC to generate it's
+parser, everything is hand-coded by the <a href="mailto:devel@symisc.net">Symisc
+Development Team</a>. By acting so, the lexer and the parser are now
+thread-safe, full re-entrant, generate better error message, takes
+less space (100 KB together) in the source tree and are easy to
+maintain.</font></font></p>
+<br>
+<p style="margin-left: 1.25cm;">
+</p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+is a compact library. With all features enabled, the library size can
+be less than 600KiB, depending on compiler optimization settings.
+(Some compiler optimizations such as aggressive function inlining and
+loop unrolling can cause the object code to be much larger.) If
+optional features are omitted, the size of the PH7 library can be
+reduced below 220KiB. PH7 can also be made to run in very little heap
+(2MB), making PH7 a popular PHP engine choice on memory constrained
+gadgets such as cellphones ,tablets, numeric devices and so on.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+is written in ANSI C, compile and run unmodified in any platform
+including restricted embedded device with a C compiler. PH7 have been
+extensively tested under Windows and UNIX including Linux (and its'
+flavours), FreeBSD (main development platform with Windows 7), Oracle
+Solaris and Mac OS X.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">If
+you have successfully compiled and tested PH7 in an exotic
+environment or a proprietary UNIX such as HP-UX or AIX, please post a
+report in the <a href="http://forums.symisc.net/">PH7 forums</a> or
+send an email to <a href="mailto:devel@symisc.net">devel@symisc.net</a>.</font></font></p>
+
+<h1 class="western"><a name="amalgamation"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Amalgamation</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">PH7
+source tree includes a little script written in PHP that is
+responsible of building an object called the "amalgamation"
+after successful compilation of the PH7 project. The amalgamation
+(Concept introduced by the <a href="http://www.sqlite.org/">SQLite</a>
+project) is a single C code file, named "ph7.c", that
+contains all C code for the core PH7 library and it's extensions.
+This file contains about 61K lines of code and is over 1.9 megabytes
+in size.</span></font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+amalgamation contains everything you need to integrate PH7 into a
+larger project. Just copy the amalgamation into your source directory
+and compile it along with the other C code files in your project. You
+may also want to make use of the "ph7.h" header file that
+defines the programming API for PH7. The ph7.h header file is
+available separately. The ph7.h file is also contained within the
+amalgamation, in the first couple of thousand lines. So if you have a
+copy of ph7.c but cannot seem to locate ph7.h, you can always
+regenerate the ph7.h by copying and pasting from the amalgamation.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">In
+addition to making PH7 easier to incorporate into other projects, the
+amalgamation also makes it run faster. Many compilers are able to do
+additional optimizations on code when it is contained with in a
+single translation unit such as it is in the amalgamation. </font></font>
+</p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+amalgamation and the ph7.h header file are available on the <a href="downloads.html">download
+page</a> as a file named ph7-amalgamation-X_X_X.zip where the X's are
+replaced by the appropriate version number.</font></font></p>
+
+<h1 class="western"><a name="http"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Built-in
+HTTP Request Parser</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+includes a powerful HTTP request parser with the ability to extract
+MIME headers, decode GET/POST raw queries and populate the
+appropriate arrays such as $_GET, $_POST, $_SERVER and so on. This
+feature is popular for network oriented application such as web
+servers that embed the PH7 engine and need to pass HTTP informations
+to their PHP scripts. Refer to the <a href="c_api_func.html#vm_config_http">PH7_VM_CONFIG_HTTP_REQUEST</a>
+ configuration option for additional information.</font></font></p>
+
+<h1 class="western"><a name="hashmap"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Hash-maps
+to represent arrays</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+uses the hashmap data structure internally to represent the array
+type. A hashmap is is a data structure that uses a hash function to
+map identifying values, known as keys, to their associated values.
+The hashmap implementation is written from scratch by the <a href="mailto:devel@symisc.net">Symisc
+Development Team</a> and uses two distinct (Inter-changeable) hash
+functions for it's operation. The first hash function is used to map
+64-bit integer keys (Automatic indexes) to their bucket address in
+the table while the second hash function (<a href="http://cr.yp.to/cdb/cdb.txt">DJB</a> based
+implementation) is used for string keys. The hasmap implementation is
+found in the </font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>hashmap.c</i></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+source file from the <a href="downloads.html">PH7
+source tree</a>.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="builtin_func.html">Built-in</a>
+sorting functions such as sort(), usort(), ksort(), rsort() and so on
+uses an efficient implementation of the stable merge-sort algorithm.
+The PH7 merge-sort implementation is based on the one found in the
+<a href="http://www.sqlite.org/">SQLite</a> source tree. </font></font>
+</p>
+
+<h1 class="western"><a name="lang_construct"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Language
+construct in the context of a function call</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">You
+can now use language constructs such as echo, include, print and so on
+in the context of a function call as follows:</font></font></p><br>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$my_echo
+= <font color="#ff0000">'echo'</font>;<br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$my_echo(<font color="#ff0000">"Hello
+World\n"</font>); <font color="#008000">//Output Hello World</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+<span style="color: green;">//or</span><br>
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">fopen(<font color="#ff0000">"Sample.txt"</font>)
+<b>or</b> <font color="#0000ff">echo</font> <font color="#ff0000">"IO
+error while opening file"</font>;</font></font>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;"></span></font></font>
+
+
+</div>
+
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">You
+can store constructs names in a array and perform a call by
+dereferencing the array directly as follows:</font></font></p>
+<br>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">$lang_constrcut
+= <font color="#0000ff">array</font>(<font color="#ff0000">'echo'</font>,<font color="#ff0000">'print'</font>,<font color="#ff0000">'include'</font>);</font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+//Call
+the print function on the fly</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+$lang_constrcut[1
+<font color="#008000">/* print index*/</font>](<font color="#ff0000">"Hello
+World\n"</font>); <font color="#008000">//Outputs: Hello World</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+//Include
+a dummy file on the fly</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+$lang_constrcut[2](<font color="#ff0000">'dummy_file'</font>);
+<font color="#008000">//Output: IO error while importing dummy_file</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"></font></font>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;"></span></font></font>
+
+
+</div>
+
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Thanks
+to the <a href="#improved_precedence">improved operators precedence</a>
+table for letting us introduce this smart extension.</font></font></p>
+
+<h1 class="western"><a name="floating_point_cmp"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Floating
+Point Comparison</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+standard PHP engine is reputed for his inconsistency while playing
+with floating point numbers. Under PH7, you can work and compare
+floating point numbers exactly the same way you work with integers
+without any unexpected or inconsistent result.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:</font></font></p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">var_dump</font>(25.e-1
+== 2.5); <font color="#008000">//bool(TRUE)</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+var_dump</font>(0.41
+== 1.4);   <font color="#008000">//bool(FALSE)</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+var_dump</font>(15.00
+== 15 ); <font color="#008000">//bool(TRUE)</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"></font></font>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;"></span></font></font>
+
+
+</div>
+
+<h1 class="western"><a name="ternary"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Correct
+implementation of the ternary operator</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Unlike
+the standard PHP engine, the ternary operator under PH7 now evaluates
+left-to-right, associates right-to-left. That is, there is no need for
+parenthesis for nested ternary operators.</font></font></p>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:</font></font></p>
+<br>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><code class="western"><font color="#007700"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">echo
+</font></font></font></code><code class="western"><font color="#0000bb"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">true</font></font></font></code><code class="western"><font color="#007700"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">?</font></font></font></code><code class="western"><font color="#dd0000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">'true'</font></font></font></code><code class="western"><font color="#007700"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">:</font></font></font></code><code class="western"><font color="#0000bb"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">false</font></font></font></code><code class="western"><font color="#007700"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">?</font></font></font></code><code class="western"><font color="#dd0000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">'t'</font></font></font></code><code class="western"><font color="#007700"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">:</font></font></font></code><code class="western"><font color="#dd0000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">'f'</font></font></font></code><code class="western"><font color="#007700"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">;</font></font></font></code><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000"></font></font></font>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;"></span></font></font>
+
+
+</div>
+
+<br>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+following PHP expression will output <b>'t' </b><span style="font-weight: normal;">when
+running using the standard PHP engine and is an unexpected result,
+but if your run this code using the PH7 engine this will output
+</span><b>'true' </b><span style="font-weight: normal;">as you might
+expect.</span></font></font></p>
+
+<p style="margin-left: 1.25cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Another
+example (using concatenation) to test right to left associativity:</font></font></p>
+<p style="margin-left: 1.25cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<div style="margin-left: 40px; width: 595px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000"><span style="font-weight: normal;">print
+</span></font><font color="#ff0000"><span style="font-weight: normal;">'&lt;div&gt;'</span></font><span style="font-weight: normal;">.(FALSE)
+? </span><font color="#ff0000"><span style="font-weight: normal;">'TRUE
+[good ternary]'</span></font><span style="font-weight: normal;"> :
+</span><font color="#ff0000"><span style="font-weight: normal;">'FALSE
+[bad ternary]'</span></font><span style="font-weight: normal;">;</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#008000"></font></font></font>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;"></span></font></font>
+
+
+</div>
+
+<p style="margin-left: 1.25cm;"><br>
+</p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">This
+will output  </span><font color="#ff0000"><span style="font-weight: normal;">'FALSE
+[bad ternary]' </span></font><font color="#000000"><span style="font-weight: normal;">when
+running using the standard PHP engine but outputs </span></font><font color="#ff0000"><span style="font-weight: normal;">'TRUE
+[good ternary]' </span></font><font color="#000000"><span style="font-weight: normal;">when
+running using the PH7 engine.</span></font></font></font></p>
+
+<h1><a name="auto_reset"></a>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Array
+cursor is automatically reset.</font></font></h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">The
+array cursor is automatically reset to the beginning at the end of a
+running  foreach() loop. That is, there in no need to manually call
+the <a href="builtin_func.html">built-in</a> </span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">reset()</span></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+function to reset the array cursor, this operation is
+done automatically.</span></font></font></p>
+
+<h1 class="western" style="font-style: normal;"><a name="const"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">const/var
+statements outside class definition</font></font></h1>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+<b>const</b> construct can be used now to declare constants outside a
+class definition. Note that as an extension, constants initialization
+values can be any complex expression including function calls as
+follows:</font></font></p>
+<p style="margin-left: 1.25cm; font-style: normal;"><br>
+</p>
+<div style="margin-left: 40px; width: 610px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">//
+Declare a constant named MY_CONST with an initialization value </font></font></font>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm; font-style: normal;">
+</p>
+<font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">// set
+to the the string 'PH7' with a random generated string of length 6</font></font></font><br>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">const</font>
+MY_CONST = <span style="color: red;">'PH7 '</span>.rand_str(6); </font></font>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;">
+</p>
+<font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">//Expand
+the constant</font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+echo</font>
+MY_CONST ; <font color="#008000">//You should see something like 'PH7
+dxthob'</font></font></font>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;"></span></font></font>
+
+
+</div>
+
+<p style="margin-left: 1.25cm; font-style: normal;"><br>
+</p>
+<p style="margin-left: 1.25cm; font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Similarly,
+the <b>var</b> construct which is used to declare public class
+attributes can be used now to declare variables outside a class
+definition.</font></font></p>
+
+<h1 class="western" style="font-style: normal;"><a name="call_user_func"></a>
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">call_user_func()
+support pass by reference</font></font></h1>
+
+<p style="margin-left: 1.25cm; font-style: normal; font-weight: normal;">
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">As
+of this release, you can pass argument by reference as by copy to the
+<a href="builtin_func.html">built-in</a> call_user_func() function,
+this smart extension allow the called function to modify the contents
+of the passed variable like a standard PHP function would do.</font></font></p>
+
+<p style="margin-left: 1.25cm; font-style: normal; font-weight: normal;">
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Example:</font></font></p>
+<p style="margin-left: 1.25cm; font-style: normal; font-weight: normal;"><br>
+</p>
+<div style="margin-left: 40px; width: 657px;" id="code"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"></span></font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"><span style="font-weight: normal;">function</span></span></font><span style="font-style: normal;"><span style="font-weight: normal;">
+add(</span></span><span style="font-style: normal;"><b>&amp;</b></span><span style="font-style: normal;"><span style="font-weight: normal;">$var)</span></span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+{</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+&nbsp;$var += 10;</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+}</font></font>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	$a
+= 25;</font></font></p>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	<font color="#0000ff">call_user_func</font>(<font color="#ff0000">'add'</font>,
+$a);</font></font></p>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+$a.<font color="#ff0000">"\n"</font>; <font color="#008000">//You
+should see 35 now,since $a was passed by reference to the add()
+function</font></font></font></p>
+
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="color: green;"></span></font></font>
+
+
+</div>
+
+<h1 class="western"><a name="caveats"></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Caveats
+</font></font>
+</h1>
+
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">While PH7 implements most of the PHP(5.3) constructs, they are some
+constructs and behavior that was omitted or cannot be implemented due
+to the embedded nature of the engine. Some of them are:</font></font>
+</p>
+<ul>
+<li><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>namespace</b>
+	implementation was dropped from the build. In fact Symisc (the
+	developer of the PH7 engine) have an early prototype of PH7 with
+	namespace support but we found that this construct have no
+	particular sense in restricted environments since PH7 tend to be
+	embedded in host application that generally deal with small to
+	medium size PHP scripts. But if you want this features, <a href="http://forums.symisc.net/">let
+	us know!</a></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.</font></font></p>
+	</li><li><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+	</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>declare</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+	constrcut is simply a no-op operation in the current release of the
+	PH7 engine. In fact the <a href="mailto:devel@symisc.net?subject=declare%20construct">Symisc
+	development team</a> did not understand the purpose of this
+	constrcut. If you really know its purpose please post a message in
+	the <a href="http://forums.symisc.net/">PH7 public forums</a>.</font></font></p>
+	</li><li><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Traits
+	are not implemented as of this version (2.1.4) and will be available
+	in the next release of the PH7 engine.</font></font></p>
+	</li><li><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+	serialize() and unserialize() functions are a simple wrapper around
+	the <a href="builtin_func.html">built-in</a>
+	function json_encode() and json_decode().</font></font></p>
+	</li><li><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+	list() construct support only one nesting level (No nested list()). </font></font>
+	</p>
+	</li><li><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+	lack more or less some important functions such preg_replace(),
+	preg_match(), mysql_connect() and so on. Refer to the <a href="builtin_func.html">following
+	page</a> for the list of built-in PHP functions. The Symisc
+	Development team is working very hard to overcome this limit and you
+	are invited to contribute and join the PH7 development process (<a href="support.html#contribute">Read
+	this</a> for more information).</font></font></p>
+	</li><li><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="builtin_func.html">Built-in</a>
+	array_splice() does not support insertions.</font></font></p>
+	</li><li><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">And
+	finally, we recommended the PH7 users to report any unexpected result
+	or inconsistencies using the <a href="http://bugs.symisc.net/">online bug tracker</a>.</font></font></p>
+	</li><li><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Any
+	feedback (We want to hear from you), please send an email to
+	<a href="mailto:devel@symisc.net?subject=PH7%20user%20feedback">devel@symisc.net</a>.</font></font></p>
+</li>
+</ul>
+
+
+<p style="margin-left: 1.25cm; font-style: normal;">
+</p>
+<p style="margin-left: 1.25cm; font-style: normal;">
+</p>
+
+</div>
+<hr style="width: 100%; height: 2px;">
+<div style="text-align: right; margin-top: 0px; height: 91px;"><small><small><a href="http://www.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc Systems" src="images/symisc.png"></a></small></small>
+<div style="text-align: left; margin-top: 0px; height: 14px;"><small><small style="font-family: Verdana;">Copyright © <a href="http://www.symisc.net/">Symisc Systems</a></small></small><br>
+</div>
+</div>
+</div>
+
+</body></html>

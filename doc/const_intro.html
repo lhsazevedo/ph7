@@ -1,0 +1,659 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en"><head>
+
+
+
+
+
+
+  
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type"><title>Introduction To The Constant Expansion Mechanism</title><!-- Copyright (C) 2011 Symisc Systems,http://www.symisc.net contact@symisc.net -->
+  
+
+  
+
+  
+  <link rel="stylesheet" href="symisc.css" type="text/css">
+
+  
+  <meta content="Symisc Systems &lt;chm@symisc.net&gt;" name="author"></head><body>
+<div style="width: 1092px;" id="main_div"><a href="http://ph7.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc PH7 Engine" title="Symisc PH7 Engine" src="images/symisc_ph7_tr.png"></a><br>
+<div style="text-align: left; width: 190px;" align="right"><small style="color: black; font-family: Verdana;"><small>An Embeddable PHP5 Engine</small></small><br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<ul id="nav">
+  <li id="nav-1"><a href="index.html">About</a></li>
+<li id="nav-8"><a href="features.html">Distinctive Features<br>
+</a></li>
+  <li id="nav-2"><a href="intro.html">Getting Started<br>
+    </a></li>
+  <li id="nav-3"><a href="c_api.html">Documentation<br>
+    </a></li>
+  <li id="nav-4"><a href="downloads.html">Downloads<br>
+    </a></li>
+  <li id="nav-5"><a href="licensing.html">Licensing<br>
+    </a></li>
+  <li id="nav-6"><a href="faq.html">FAQ<br>
+    </a></li>
+  <li id="nav-7"><a href="support.html">Online Community Support<br>
+    </a></li>
+</ul>
+<h1><small><small><font face="Verdana, sans-serif"><b>Introduction To
+The Constant Expansion Mechansim.</b></font></small></small></h1>
+
+<div>
+<p style="font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+following quick guide is what you do to start experimenting with the
+PH7 constant expansion mechanism without having to do a lot of
+tedious reading.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">A
+constant is an identifier (name) for a simple value. As the name
+suggests, that value cannot change during the execution of the
+script.</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p style="font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">A
+valid constant name starts with a letter or underscore, followed by
+any number of letters, numbers, or underscores. Constants name are
+case-sensitive. </font></font>
+</p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+constant expansion mechanism under PH7 is extremely powerful yet
+simple and work as follows:</font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">Each
+registered constant have a C procedure associated with it. This
+procedure is known as the constant expansion callback which is responsible of
+expanding the invoked constant to the desired value. For example the C
+procedure associated with the </span><span style="font-style: normal;"><b>“__PI__”</b></span><span style="font-style: normal;">
+constant expands to </span><span style="font-style: normal;"><b>3.14</b></span><span style="font-style: normal;">
+(the value of PI), the </span><span style="font-style: normal;"><b>“__OS__”
+</b></span><span style="font-style: normal;">constant expands to the
+name of the host Operating Systems (Windows, Linux, etc.) and so on.</span></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><br>
+</span></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><span style="font-style: normal;">Constants
+and their associated callbacks are registered via a single interface:
+<a href="c_api_func.html#ph7_create_constant">ph7_create_constant()</a>.</span></font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><span style="font-style: normal;"><br>
+</span></font></font></font></p>
+
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">We
+will start our tutorial by creating a simple constant named </span><span style="font-style: normal;">the<b> __PI__</b></span><span style="font-style: normal;">
+constant. That is, when</span> the <b>__PI__ </b>identifier is seen in
+the running script, it's associated procedure (see below for the implementation) gets called
+by the underlying PH7 virtual machine. This procedure is responsible of expanding the <b>PI</b>&nbsp; identifier to it's value (3.14 in our case).</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></font></p>
+
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+PH7 engine require that the constant expansion callback signature
+must correspond to this:</font></font></font></p>
+<p style="margin-bottom: 0cm;" align="center"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b><font color="#0000ff">void</font><font color="#000000">
+(*xExpand)(</font><font color="#0000ff">ph7_value</font><font color="#000000">
+*,</font><font color="#0000ff">void</font><font color="#000000"> *)</font></b></font></font></font></p>
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">That
+is, a procedure that takes two arguments.</font><font face="Verdana, sans-serif"><span style="font-style: normal;"><span style="font-weight: normal;">
+The first argument is a pointer to a <a href="c_api_object.html#ph7_value">ph7_value</a>
+that the procedure must fill with the desired value for example 3.14
+(value of PI) is stored in this pointer. Use the following interfaces
+to populate the <a href="c_api_object.html#ph7_value">ph7_value</a>
+with the desired value:</span></span></font></font></font></font></p>
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><span style="font-style: normal;"><span style="font-weight: normal;"><br>
+</span></span></font></font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_int()</font></font></a></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_int64()</font></font></a></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_bool()</font></font></a></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_null()</font></font></a></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_double()</font></font></a></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_string()</font></font></a></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_string_format()</font></font></a></p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><span style="font-style: normal;"><span style="font-weight: normal;">ph7_value_resource()</span></span></font></a></font></font></p>
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;">
+<font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><br>
+</font></font></font></font></p>
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">The
+second and last argument is a copy of the fourth argument to the
+<a href="c_api_func.html#ph7_create_constant">ph7_create_constant()</a>
+function which is forwarded verbatim by engine.</font></font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">Continuing
+with our </span><span style="font-style: normal;"><b>__PI__
+</b></span><span style="font-style: normal;">constant, here is the C
+procedure associated with it:</span></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><br>
+</span></font></font></p>
+<div style="text-align: left; width: 699px;" id="code">
+<p style="margin-left: 2.5cm; margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;">void</span></font><font color="#000000"><span style="font-style: normal;">
+</span></font><font color="#000000"><span style="font-style: normal;"><b>PI_Constant</b></span></font><font color="#000000"><span style="font-style: normal;">(</span></font></font></font></p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm;"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><span style="font-weight: normal;">&nbsp;
+&nbsp;&nbsp; </span></font></font><a style="font-weight: bold;" href="c_api_object.html#ph7_value"><font face="Verdana, sans-serif">ph7_value</font></a><font color="#000000"><font face="Verdana, sans-serif"><span style="font-weight: normal;">
+*pValue, </span></font></font><font color="#008000"><font face="Verdana, sans-serif"><span style="font-weight: normal;">/*
+Store expanded value here */</span></font></font></font></p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm; font-weight: normal;">&nbsp;
+&nbsp;&nbsp;&nbsp;
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">void</font><font color="#000000">
+*pUserData </font><font color="#008000">/* User private data
+(unused in our case) */</font></font></font></p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm; font-weight: normal;">&nbsp;
+<font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> ){</font></font></font></p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm; font-weight: normal;">&nbsp;&nbsp;&nbsp;
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"> </font><font color="#008000">/*
+Expand the value of PI */</font></font></font></p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm;"><font color="#000000"><font face="Consolas, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><span style="font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;
+<a style="font-weight: bold;" href="c_api_func.html#Populating_Dynamically_Typed_Value_Object">ph7_value_double</a>(pValue,3.1415926535898);</span></font></font></font></font></p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm; font-weight: normal;">
+<font color="#000000"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font></font></p>
+</div>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><span style="font-style: normal;"><br>
+</span></font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><span style="font-style: normal;">As
+you can see, the PI_Constant() is a simple C procedure that expand
+the value of PI using the <a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object">ph7_value_double()</a>
+interface.</span></font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">Another, more
+complex constant is the </span><span style="font-style: normal;"><b>__TIME__</b></span><span style="font-style: normal;">
+constant which expands to the current local time, here is </span><span style="font-style: normal;">the
+C procedure associated with it:</span></font></font></p>
+<br>
+<div style="width: 695px;" id="code">
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;">#include</span></font><font color="#000000"><span style="font-style: normal;">
+</span></font><font color="#a31515"><span style="font-style: normal;">&lt;time.h&gt;</span></font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><font face="Verdana, sans-serif">void</font></font><font color="#000000"><font face="Verdana, sans-serif">
+</font></font><font color="#000000"><font face="Verdana, sans-serif"><b>TIME_Constant</b></font></font><font color="#000000"><font face="Verdana, sans-serif">(</font></font><a href="../docs/c_api_object.html#ph7_value"><font color="#000000"><font face="Verdana, sans-serif"><span style="font-weight: normal;"></span></font></font></a></font><font style="font-size: 10pt;" size="2"><a style="font-weight: bold;" href="c_api_object.html#ph7_value"><font face="Verdana, sans-serif">ph7_value</font></a></font><font style="font-size: 10pt;" size="2"><a href="../docs/c_api_object.html#ph7_value"><font color="#000000"><font face="Verdana, sans-serif"><span style="font-weight: normal;"></span></font></font></a><font color="#000000"><font face="Verdana, sans-serif">
+*pValue,</font></font><font color="#0000ff"><font face="Verdana, sans-serif">void</font></font><font color="#000000"><font face="Verdana, sans-serif">
+*pUserData)</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">{</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">struct</font><font color="#000000">
+tm *pLocal;</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp; time_t
+tt;</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#008000">/*
+Get the current local time */</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp; time(&amp;tt);</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp; pLocal
+= localtime(&amp;tt);</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#008000">/*
+Expand the current time now */</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp;&nbsp; </font></font><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif">ph7_value_string_format</font></a><font color="#000000"><font face="Verdana, sans-serif">(pValue,</font></font></font></p>
+<p style="margin-left: 3.75cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#a31515"><b>"%02d:%02d:%02d"</b></font><font color="#000000">,</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+pLocal-&gt;tm_hour,</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+pLocal-&gt;tm_min,</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+pLocal-&gt;tm_sec</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</font> );</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">}</font></font></font></p>
+</div>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><br>
+</span></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">We get the current local time using the libc localtime()
+routine, then we expand a printf() like formatted string holding the
+current time using the </span></font></font><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_string_format()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+interface.</span></font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">A
+final example with the </span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><b>__OS__</b></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+constant which expands to the name of the host Operating System.</span></font></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><br>
+</span></font></font></font></p>
+<div style="width: 697px;" id="code">
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font color="#0000ff"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><span style="font-style: normal;">void</span></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><span style="font-style: normal;">
+<span style="font-weight: bold;">OS_Constant</span>(</span></font></font></font><a href="../docs/c_api_object.html#ph7_value"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;"></span></span></font></font></font></a></font><font><font style="font-size: 10pt;" size="2"><a style="font-weight: bold;" href="c_api_object.html#ph7_value"><font face="Verdana, sans-serif">ph7_value</font></a></font></font><font face="Verdana, sans-serif"><a href="../docs/c_api_object.html#ph7_value"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;"></span></span></font></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><span style="font-style: normal;">
+*pValue,</span></font></font></font><font color="#0000ff"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><span style="font-style: normal;">void</span></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><span style="font-style: normal;">
+*pUserData)</span></font></font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">{</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#0000ff">&nbsp; #ifdef</font><font color="#000000">
+__WINNT__</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp; </font></font></font><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">ph7_value_string</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">(pValue,</font></font></font><font color="#a31515"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">"Windows"</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">,-1
+</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">/*Compute
+input length automatically */</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">);</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#0000ff"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp; #else</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp; </font><font color="#008000">/*
+Assume UNIX */</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;&nbsp; </font></font></font><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">ph7_value_string</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">(pValue,</font></font></font><font color="#a31515"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">"UNIX"</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">,-1
+</font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">/*Compute
+input length automatically */</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">);</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#0000ff">&nbsp; #endif</font><font color="#000000">
+</font><font color="#008000">/* __WINNT__ */</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">}</font></font></font></p>
+</div>
+<h2 class="western">
+</h2>
+<p><font face="Verdana, sans-serif"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">We
+use&nbsp;</span></font></font></font><a href="c_api_func.html#Populating%20Dynamically%20Typed%20Value%20Object%7Coutline"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><span style="font-style: normal;"></span></font></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font></font></font><a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">ph7_value_string()</font></font></a><font face="Verdana, sans-serif"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"> to expand the name of the host OS. Of
+course a more serious implementation would call uname() rather than
+using #ifdef macros.
+This is what the real built-in </span></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><b>PHP_OS</b></span></font></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+constant does.</span></font></font></font></font></p>
+<h1><small style="font-family: Verdana;"><small>Test The Constant Expansion Mechanism</small></small><br>
+</h1>
+<p><font face="Verdana, sans-serif"><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">Now, we
+have implemented our constants expansion procedures, it's time to test
+the expansion mechanism. For that we will create a simple
+PHP program that invokes each of the created constants
+(</span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><b>__PI__</b></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">, </span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><b>__TIME__</b></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+and </span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><b>__OS__</b></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">)
+and displays their expanded values. Here is, the PHP program:</span></font></font></font></p>
+<p><br>
+<font face="Verdana, sans-serif"><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"></span></font></font></font></p>
+<div style="width: 699px;" id="code"><span style="font-style: normal;"></span><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&lt;?php</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+&nbsp;&nbsp;&nbsp;&nbsp; echo</font>
+<font color="#ff0000">'__PI__ value: '</font>.<b>__PI__</b>.PHP_EOL;</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+&nbsp;&nbsp;&nbsp;&nbsp; echo</font>
+<font color="#ff0000">'__TIME__ value: '</font>.<b>__TIME__</b>.PHP_EOL;</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><br>
+&nbsp;&nbsp;&nbsp;&nbsp; echo</font>
+<font color="#ff0000">'__OS__ value: '</font>.<b>__OS__</b>.PHP_EOL;</font></font></font>
+<br>
+<font color="#000000">
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">?&gt;</span></font></font></font></div>
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">When
+running, you should see something like that:</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000">
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">__PI__
+value: 3.1415926535898</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000">
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">__TIME__
+value: 15:02:27</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000">
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">__OS__
+value: UNIX</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></font></p>
+<p><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">Now, the
+main program. Note that you can get a working version of this
+program </span></font></font></font><a href="http://www.symisc.net/downloads/ph7_const_intro.c"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">here</font></font></a></p>
+<p><a href="http://www.symisc.net/downloads/ph7_const_intro.c"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></a></p>
+
+<div style="width: 701px;" id="code">
+<ol>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#0000ff"><span style="font-style: normal;">int</span></font><font color="#000000"><span style="font-style: normal;"> main(</span></font><font color="#0000ff"><span style="font-style: normal;">void</span></font><font color="#000000"><span style="font-style: normal;">)</span></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">{</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp; </font></font></font></font><a href="c_api_object.html#ph7"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b>ph7</b></font></font></a><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">
+*pEngine; </font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">/*
+PH7 engine */</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp; </font></font></font><a href="c_api_object.html#ph7_vm"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b>ph7_vm</b></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"> *pVm; </font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">/* Compiled PHP program */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">int</font><font color="#000000"> rc;</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#008000">/* Allocate a new PH7 engine instance */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Consolas, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+rc = </font></font><a href="c_api_func.html#ph7_init"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b>ph7_init</b></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">(&amp;pEngine);</font></font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp; </font></font></font><font color="#0000ff"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">if</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">( rc != </font></font></font><a href="c_api_const.html"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">PH7_OK</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"> ){</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#008000">/*</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;&nbsp;
+* If the supplied memory subsystem is so sick that</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000">&nbsp;&nbsp; <font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">* we
+are unable to allocate a tiny chunk of memory</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000">&nbsp;&nbsp; <font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">*
+there is no much we can do here.</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;&nbsp;
+*/</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;
+Fatal(</font><font color="#a31515">"Error while allocating a new PH7
+engine instance"</font><font color="#000000">);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;
+}</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp; </font><font color="#008000">/* Compile the PHP test program defined above */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Consolas, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;
+rc = </font></font><a href="c_api_func.html#ph7_compile_v2"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b>ph7_compile_v2</b></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">(</font></font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+pEngine, </font><font color="#008000">/* PH7 engine */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+PHP_PROG, </font><font color="#008000">/* PHP test program */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+-1 </font><font color="#008000">/* Compute input length automatically*/</font><font color="#000000">,</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&amp;pVm, </font><font color="#008000">/* OUT: Compiled PHP program */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0 </font><font color="#008000">/* IN: Compile flags */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp; </font></font></font><font color="#0000ff"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">if</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">( rc != </font></font></font><a href="c_api_const.html"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">PH7_OK</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"> ){</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font></font></font><font color="#0000ff"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">if</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">( rc == </font></font></font><a href="c_api_const.html"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">PH7_COMPILE_ERR</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"> ){</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><font color="#0000ff">const</font><font color="#000000"> </font><font color="#0000ff">char</font><font color="#000000"> *zErrLog;</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><font color="#0000ff">int</font><font color="#000000"> nLen;</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><font color="#008000">/* Extract error log */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Consolas, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font></font><a href="c_api_func.html#ph7_config"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b>ph7_config</b></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">(pEngine,</font></font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Consolas, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="c_api_func.html#ph7_config">PH7_CONFIG_ERR_LOG</a>,</font></font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&amp;zErrLog,</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&amp;nLen</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><font color="#0000ff">if</font><font color="#000000">( nLen
+&gt; 0 ){</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    </font><font color="#008000">/* zErrLog is null terminated */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+puts(zErrLog);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;&nbsp;
+}</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;
+}</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#008000">/* Exit */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;
+Fatal(</font><font color="#a31515">"Compile error"</font><font color="#000000">);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;
+}</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp; </font><font color="#008000">/* Now register our constants and their associated C
+procedure */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp; rc = </font></font></font></font><a href="c_api_func.html#ph7_create_constant"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b>ph7_create_constant</b></font></font></a><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">(pVm,</font></font></font><font color="#a31515"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">"__PI__"</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">,PI_Constant,0);</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp; </font></font></font><font color="#0000ff"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">if</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">( rc != </font></font></font><a href="c_api_const.html"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">PH7_OK</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"> ){</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+Fatal(</font><font color="#a31515">"Error while installing the __PI__
+constant"</font><font color="#000000">);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+}</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+rc = </font></font></font><a href="c_api_func.html#ph7_create_constant"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b>ph7_create_constant</b></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">(pVm,</font></font></font><font color="#a31515"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">"__TIME__"</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">,TIME_Constant,0);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+    </font></font></font><font color="#0000ff"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">if</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">( rc != </font></font></font><a href="c_api_const.html"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">PH7_OK</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"> ){</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+Fatal(</font><font color="#a31515">"Error while installing the __TIME__
+constant"</font><font color="#000000">);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+}</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+rc = </font></font></font><a href="c_api_func.html#ph7_create_constant"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b>ph7_create_constant</b></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">(pVm,</font></font></font><font color="#a31515"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">"__OS__"</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">,OS_Constant,0);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+    </font></font></font><font color="#0000ff"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">if</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">( rc != </font></font></font><a href="c_api_const.html"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">PH7_OK</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"> ){</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+Fatal(</font><font color="#a31515">"Error while installing the __OS__
+constant"</font><font color="#000000">);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+}</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp; </font><font color="#008000">/*</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+* Configure our VM:</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+* Install the VM output consumer callback defined above.</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+*/</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Consolas, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+rc = </font></font><a href="c_api_func.html#ph7_vm_config"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b>ph7_vm_config</b></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">(pVm,</font></font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Consolas, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;&nbsp;
+    <a href="c_api_func.html#vm_config_output">PH7_VM_CONFIG_OUTPUT</a>,</font></font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+Output_Consumer, </font><font color="#008000">/* Output Consumer
+callback */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0 </font><font color="#008000">/* Callback private data */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;
+    </font></font></font><font color="#0000ff"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">if</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">( rc != </font></font></font><a href="c_api_const.html"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">PH7_OK</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"> ){</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+Fatal(</font><font color="#a31515">"Error while installing the VM
+output consumer callback"</font><font color="#000000">);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;
+}</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp; </font><font color="#008000">/*</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+* And finally,execute our program. Note that your output</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000">&nbsp; <font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">*
+(STDOUT in our case) should display the result.</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+*/</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Consolas, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+    </font></font><a href="c_api_func.html#ph7_vm_exec"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b>ph7_vm_exec</b></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">(pVm,0);</font></font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#008000">/* All done,cleanup the mess left behind.</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;&nbsp;
+*/</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Consolas, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;
+    </font></font><a href="c_api_func.html#ph7_vm_release"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b>ph7_vm_release</b></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">(pVm);</font></font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Consolas, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;
+    </font></font><a href="c_api_func.html#ph7_release"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><b>ph7_release</b></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">(pEngine);</font></font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font color="#000000">&nbsp; </font><font color="#0000ff">return</font><font color="#000000"> 0;</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2">&nbsp;}</font></font></font></p>
+  </li>
+</ol>
+</div>
+<p align="right"><font face="Verdana, sans-serif"><a href="http://www.symisc.net/downloads/ph7_const_intro.c"><font style="font-size: 10pt;" size="2">Download
+the C file</font></a><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">.</span></font></font></font></p>
+<p style="font-family: Verdana;"><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">We
+</span></font></font><a href="c_api_func.html#ph7_init"><font style="font-size: 10pt;" size="2">create
+a new PH7 engine instance</font></a><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+using a call to </span></font></font><a href="c_api_func.html#ph7_init"><font style="font-size: 10pt;" size="2">ph7_init()</font></a><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+on line 7. This is often the first PH7 API call that an application
+makes and is a prerequisite in order to compile PHP code using one of
+the compile interfaces.</span></font></font></p>
+
+<p style="font-family: Verdana;"><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">We
+compile our PHP test program on line 17 using the </span></font></font><a href="c_api_func.html#ph7_compile_v2"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">ph7_compile_v2()</span></span></font></a><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><b>
+</b></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">interface.</span></span></font></font></p>
+
+<p style="font-family: Verdana;"><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">We
+register our defined constants (</span></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><b>__PI__</b></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">, </span></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><b>__TIME__</b></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">
+and </span></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><b>__OS__</b></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">)
+and their associated C procedures (</span></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><b>PI_Constant()</b></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">, </span></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><b>TIME_Constant()</b></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">
+and </span></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><b>OS_Constant()</b></span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">)
+respectively on line 43,47 and 51 using the </span></span></font></font><font style="font-size: 10pt;" size="2"><a href="c_api_func.html#ph7_create_constant">ph7_create_constant()</a>
+interface.</font></p>
+
+<p style="font-family: Verdana;"><font style="font-size: 10pt;" size="2">We
+<a href="c_api_func.html#ph7_vm_config">configure
+our Virtual Machine</a> on line 59 by setting a <a href="output_consumer.html">VM
+output consumer callback</a> named Output_Consumer() (<a href="http://www.symisc.net/downloads/ph7_const_intro.c">Download
+the C file </a>to see the implementation) which redirect the VM
+output to STDOUT.</font></p>
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">And
+finally we execute our PHP program on line 71 using a call to
+<a href="c_api_func.html#ph7_vm_exec">ph7_vm_exec()</a></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.
+Your VM output should look like this:</font></font></p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm;"><font color="#000000">
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></font></p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">__PI__
+value: 3.1415926535898</font></font></font></p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm;"><font color="#000000">
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">__TIME__
+value: 15:02:27</font></font></font></p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm;"><font color="#000000">
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">__OS__
+value: UNIX</font></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Clean-up
+is done on line 71 and 75 respectively via calls to <a href="c_api_func.html#ph7_vm_release">ph7_vm_release()</a><font color="#000000"><span style="font-weight: normal;">
+and </span></font><a href="c_api_func.html#ph7_release">ph7_release()</a>.</font></font></p>
+<h1 class="western"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">What
+to do next</font></font></h1>
+<p><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><span style="font-style: normal;">As
+you can see, the constant expansion mechanism under PH7 is extremely
+powerful yet simple and it involves only a single call to
+</span></font><a href="c_api_func.html#ph7_create_constant"><font face="Verdana, sans-serif">ph7_create_constant()</font></a><font color="#000000"><font face="Verdana, sans-serif"><span style="font-style: normal;"><span style="font-weight: normal;">.</span></span></font></font></font></p>
+<p><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><span style="font-style: normal;"><span style="font-weight: normal;">The
+developer who understands this mechanism will have a good foundation on
+using the in-process extending PH7 interfaces. Now it's time to
+learn the more complex </span></span></font></font><a href="c_api_func.html#ph7_create_function"><font face="Verdana, sans-serif">foreign
+functions creation</font></a><font color="#000000"><font face="Verdana, sans-serif"><span style="font-style: normal;"><span style="font-weight: normal;"> mechanism.</span></span></font></font></font></p>
+<h1 class="western"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Other
+useful links</font></font></h1>
+<p style="font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Check
+out the <a href="api_intro.html">Introduction
+To The PH7 C/C++ Interface</a> for an introductory overview and
+roadmap to the dozens of PH7 interface functions.</font></font></p>
+
+<p style="font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">A
+separate document, <a href="c_api.html">The
+PH7 C/C++ Interface</a>, provides detailed specifications for all of
+the various C/C++ APIs for PH7. Once the reader understands the basic
+principles of operation for PH7, <a href="c_api.html">that
+document</a> should be used as a reference guide.</font></font></p>
+
+<p style="font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">Any
+questions, check the </span></font></font><a href="faq.html"><font style="font-size: 10pt;" size="2">Frequently
+Asked Questions</font></a><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+page or visit the <a href="support.html">Support Page</a> for more
+information.</span></font></font></font></p>
+</div>
+<hr style="width: 100%; height: 2px;">
+<div style="text-align: right; margin-top: 0px; height: 91px;"><small><small><a href="http://www.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc Systems" src="images/symisc.png"></a></small></small>
+<div style="text-align: left; margin-top: 0px; height: 14px;"><small><small style="font-family: Verdana;">Copyright © <a href="http://www.symisc.net/">Symisc Systems</a></small></small><br>
+</div>
+</div>
+</div>
+
+</body></html>

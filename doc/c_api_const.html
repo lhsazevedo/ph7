@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en"><head>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type"><title>PH7 C/C++ API Reference - Constants</title><!-- Copyright (C) 2011 Symisc Systems,http://www.symisc.net contact@symisc.net -->
+  
+
+  
+
+  
+  <link rel="stylesheet" href="symisc.css" type="text/css">
+
+  
+  <meta content="Symisc Systems &lt;chm@symisc.net&gt;" name="author"></head><body>
+<div style="width: 1092px;" id="main_div"><a href="http://ph7.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc PH7 Engine" title="Symisc PH7 Engine" src="images/symisc_ph7_tr.png"></a><br>
+<div style="text-align: left; width: 190px;" align="right"><small style="color: black; font-family: Verdana;"><small>An Embeddable PHP5 Engine</small></small><br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<ul id="nav">
+  <li id="nav-1"><a href="index.html">About</a></li>
+<li id="nav-8"><a href="features.html">Distinctive Features<br>
+</a></li>
+  <li id="nav-2"><a href="intro.html">Getting Started<br>
+    </a></li>
+  <li id="nav-3"><a href="c_api.html">Documentation<br>
+    </a></li>
+  <li id="nav-4"><a href="downloads.html">Downloads<br>
+    </a></li>
+  <li id="nav-5"><a href="licensing.html">Licensing<br>
+    </a></li>
+  <li id="nav-6"><a href="faq.html">FAQ<br>
+    </a></li>
+  <li id="nav-7"><a href="support.html">Online Community Support<br>
+    </a></li>
+</ul>
+<h1><small><small><font face="Verdana, sans-serif"><b>PH7 C/C++ API
+Reference - List Of Constants.</b></font></small></small><br>
+
+</h1>
+
+<div><p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This
+is a list of compile-time directives and numeric constants used by
+PH7 and represented by #defines in the ph7.h header file. These
+constants are things such as numeric return parameters from various
+interfaces.</font></font></p>
+<h1><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>Result
+codes</b></font></font></h1>
+<p style="font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Many
+PH7 functions return an integer result code from the set shown here
+in order to indicates success or failure. New error codes may be
+added in future versions of PH7.</font></font></p>
+<table style="text-align: left; height: 108px; width: 900px;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; width: 178px;"><font face="Verdana, sans-serif"><font size="2"><font color="#0000ff">#define
+      </font></font></font><font face="Verdana, sans-serif"><font size="2"><font color="#000000">PH7_OK </font></font></font></td>
+      <td style="vertical-align: top; width: 18px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 679px;"><font face="Verdana, sans-serif"><font size="2"><font color="#008000">/*
+Successful result */</font></font></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 178px;"><font face="Verdana, sans-serif"><font size="2"><font color="#0000ff">#define
+      </font></font></font><font color="#008000"><font face="Verdana, sans-serif"><font size="2"><font color="#000000">PH7_NOMEM</font></font></font></font></td>
+      <td style="vertical-align: top; width: 18px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 679px;"><font color="#008000"><font face="Verdana, sans-serif"><font size="2">/* Out
+of memory */</font></font></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><font face="Verdana, sans-serif"><font size="2"><font color="#0000ff">#define</font><font color="#000000">
+PH7_ABORT</font></font></font></td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><font face="Verdana, sans-serif"><font size="2"><font color="#008000">/*
+Foreign Function request an operation abort/Another thread have
+released this instance */</font></font></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 178px;"><font face="Verdana, sans-serif"><font size="2"><font color="#0000ff">#define
+      </font></font></font><font face="Verdana, sans-serif"><font size="2"><font color="#000000">PH7_IO_ERR</font></font></font></td>
+      <td style="vertical-align: top; width: 18px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 679px;"><font face="Verdana, sans-serif"><font size="2"><font color="#008000">/* IO
+error */</font></font></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 178px;"><font face="Verdana, sans-serif"><font size="2"><font color="#0000ff">#define
+      </font></font></font><font face="Verdana, sans-serif"><font size="2"><font color="#000000">PH7_LOOKED</font></font></font></td>
+      <td style="vertical-align: top; width: 18px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 679px;"><font face="Verdana, sans-serif"><font size="2"><font color="#008000">/*
+Forbidden
+Operation */</font></font></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 178px;"><font face="Verdana, sans-serif"><font size="2"><font color="#0000ff">#define
+      </font></font></font><font face="Verdana, sans-serif"><font size="2"><font color="#000000">PH7_CORRUPT</font></font></font></td>
+      <td style="vertical-align: top; width: 18px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 679px;"><font face="Verdana, sans-serif"><font size="2"><font color="#008000">/*
+Corrupt
+pointer */</font></font></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 178px;"><font face="Verdana, sans-serif"><font size="2"><font color="#0000ff">#define
+      </font></font></font><font face="Verdana, sans-serif"><font size="2"><font color="#000000">PH7_COMPILE_ERR</font></font></font></td>
+      <td style="vertical-align: top; width: 18px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 679px;"><font face="Verdana, sans-serif"><font size="2"><font color="#008000">/*
+Compilation error */</font></font></font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; width: 178px;"><font face="Verdana, sans-serif"><font size="2"><font color="#0000ff">#define
+      </font></font></font><font face="Verdana, sans-serif"><font size="2"><font color="#000000">PH7_VM_ERR</font></font></font></td>
+      <td style="vertical-align: top; width: 18px;"><br>
+      </td>
+      <td style="vertical-align: top; width: 679px;"><font face="Verdana, sans-serif"><font size="2"><font color="#008000">/*
+Virtual machine error */</font></font></font></td>
+    </tr>
+  </tbody>
+</table>
+<p style="font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p><font face="Verdana, sans-serif"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">The
+</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>PH7_COMPILE_ERR</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+and </span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>PH7_VM_ERR</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+error codes are only returned by a call to one of the compile
+interfaces such as <a href="c_api_func.html#ph7_compile">ph7_compile()</a>,</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"><a href="c_api_func.html#ph7_compile_v2"> ph7_compile_v2()</a>
+or <a href="c_api_func.html#ph7_compile_file">ph7_compile_file()</a>.
+The first error code (</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>PH7_COMPILE_ERR</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">)
+is returned if there is a compile-time error while compiling the PHP
+script. In that case the caller must fix it's erroneous PHP code and
+call the compile interface again. Note that the compile time error log can
+be extracted via a call to <a href="c_api_func.html#ph7_config">ph7_config()</a>
+with a configuration verb set to </span></font></font><a href="c_api_func.html#ph7_config"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7_CONFIG_ERR_LOG</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+or <a href="c_api_func.html#ph7_config">PH7_CONFIG_ERR_OUTPUT</a>.</span></font></font></font></p>
+<p><font face="Verdana, sans-serif"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"><br>
+</span></font></font></font></p>
+
+<p><font face="Verdana, sans-serif"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">The
+second error code (</span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>PH7_VM_ERR</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">)
+is returned if there is a problem related to the initialization of
+the PH7 virtual machine (<a href="c_api_object.html#ph7_vm">ph7_vm</a>)
+after successful compilation. This problem is generally due to a
+memory failure but remember, running out of memory is a very unlikely scenario on modern
+hardware even on modern embedded systems.</span></font></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">The
+</span><font color="#000000"><b>PH7_IO_ERR</b></font><font color="#000000"><span style="font-weight: normal;">
+is returned by a call to <a href="c_api_func.html#ph7_compile_file">ph7_compile_file()</a>
+only if there is an IO error (such as a nonexistent file or
+permission error) while opening the target file in read-only mode.</span></font></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><span style="font-weight: normal;"><br>
+</span></font></font></font></p>
+
+
+<p>
+</p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><b>PH7_NOMEM</b></font><font color="#000000"><span style="font-weight: normal;">
+is returned only if PH7 is running out of memory. Again, this is
+an unlikely scenario on modern hardware.</span></font></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><b><br>
+</b></font></font></font></p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><b>PH7_ABORT</b></font><font color="#000000"><span style="font-weight: normal;">
+can be returned from the body of an installed <a href="c_api_func.html#ph7_create_function">foreign
+function</a> to stop program execution and thus to mimic the die()
+PHP construct. This error code can also be returned from one of the
+<a href="c_api_func.html">public interfaces</a> if and only if the
+library is compiled with threading support and the given <a href="c_api_object.html#ph7">ph7</a>
+or <a href="c_api_object.html#ph7_vm">vm</a> pointer have been
+released by another thread. </span></font></font></font>
+</p>
+
+<h1><small><small style="font-family: Verdana;"><a name="compile_time"></a>Compile-Time options for
+The PH7 Library</small><br>
+</small></h1>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">For
+most purposes, PH7 can be built just fine using the default
+compilation options. However, if required, the compile-time options
+documented below can be used to omit PH7 features (resulting in a
+smaller compiled library size) or to change the default values of
+some parameters. </font></font>
+</p>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Every
+effort has been made to ensure that the various combinations of
+compilation options work harmoniously and produce a working library. </font></font>
+</p>
+<h1><small><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 11pt;" size="2"><small><b>PH7_ENABLE_THREADS</b></small></font></font></font></small></h1>
+<p style="margin-left: 1.25cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">This
+option controls whether or not code is included in PH7 to enable it
+to operate safely in a multithreaded environment. The default is </span></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>not</b></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">. All mutexing code is omitted and it is </span></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>unsafe</b></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+to use PH7 in a multithreaded program. When compiled with the
+</span></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>PH7_ENABLE_THREADS
+</b></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">directive
+enabled, PH7 can be used in a </span></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">multithreaded
+program and it's safe to share the same </span></font></font></font><a href="c_api_object.html#ph7_vm"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">virtual
+machine</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+and </span></font></font></font><a href="c_api_object.html#ph7"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">engine
+instance</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+between two or more threads.</span></font></font></font></p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">The
+value of </span></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>PH7_ENABLE_THREADS</b></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+can be determined at run-time using the </span></font></font><a href="c_api_func.html#Global_Library_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_lib_is_threadsafe()</span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+interface.</span></font></font></p>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">When
+PH7 has been compiled with </span></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>PH7_ENABLE_THREAD</b></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+then the threading mode can be altered at run-time using the
+</span></font></font><a href="c_api_func.html#Global_Library_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_lib_config()</span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+interface together with one of these verbs:</span></font></font></p>
+<ul>
+  <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Global_Library_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><span style="font-weight: normal;">PH7_LIB_CONFIG_THREAD_LEVEL_SINGLE</span></font></font></a></p>
+  <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Global_Library_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><span style="font-weight: normal;">PH7_LIB_CONFIG_THREAD_LEVEL_MULTI</span></font></font></a></p>
+</ul>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><span style="font-weight: normal;">Also
+note, platforms </span></font></font><font color="#000000"><font face="Verdana, sans-serif"><b>others</b></font></font><font color="#000000"><font face="Verdana, sans-serif"><span style="font-weight: normal;">
+than Windows and UNIX systems must install their own mutex subsystem
+via </span></font></font><a href="c_api_func.html#Global_Library_Management_Interfaces"><font face="Verdana, sans-serif">ph7_lib_config()</font></a><font color="#000000"><font face="Verdana, sans-serif"><span style="font-weight: normal;">
+with a configuration verb set to </span></font></font><a href="c_api_func.html#Global_Library_Management_Interfaces"><font face="Verdana, sans-serif">PH7_LIB_CONFIG_USER_MUTEX</font></a><font face="Verdana, sans-serif">.
+Otherwise the library is not threadsafe.</font></font></font></p>
+<p style="margin-left: 1.25cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Note
+that you must link PH7 with the POSIX threads library under UNIX-like
+systems (i.e: <b>-lpthread</b>).<br>
+</font></font></p>
+<p style="margin-left: 1.25cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"></span></font></font></font></p>
+<font style="font-weight: bold;" face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Options
+To Omit/Enable Features</font></font>
+<p style="margin-left: 1.25cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+following options can be used to reduce the size of the compiled
+library by omitting optional features. This is probably only useful
+in embedded systems where space is especially tight, as even with all
+features included the PH7 library is relatively small. Don't forget
+to tell your compiler to optimize for binary size! (the -Os option if
+using GCC). Telling your compiler to optimize for size usually has a
+much larger impact on library footprint than employing any of these
+compile-time options.</font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>PH7_DISABLE_BUILTIN_FUNC</b></font></font></font></p>
+<p style="margin-left: 2.5cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7
+come with more than 460 built-in functions suitable for most purposes
+ranging from string/XML/INI processing to ZIP extracting, Base64
+encoding/decoding and so on. If this directive is enabled, all built-in
+functions are omitted from the build. Note that special functions such
+as
+is_int(), is_string(), func_get_arg(), define(), etc... are not omitted
+from
+the build and are not affected by this directive.</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>PH7_ENABLE_MATH_FUNC</b></font></font></font></p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">If
+this directive is enabled, built-in math functions such as
+</span><span style="font-weight: normal;">sqrt(), abs(),
+log(), ceil()</span><span style="font-weight: normal;">, etc. are
+included in the </span><span style="font-weight: normal;">build. </span>Note
+that you may need to link PH7 with the math library in same Linux/BSD
+flavor (i.e: <b>-lm</b>).</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>PH7_DISABLE_DISK_IO</b></font></font></font></p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm; font-weight: normal;">
+<font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">If
+this directive is enabled, built-in <a href="c_api_object.html#ph7_vfs">Virtual
+File System</a> functions such as
+chdir(), mkdir(), chroot(), unlink(), sleep(), etc. are omitted from the
+build.</font></font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>PH7_DISABLE_HASH_IO</b></font></font></font></p>
+<p style="margin-left: 2.5cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">If
+this directive is enabled, built-in hash functions such as
+</span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">md5(), sha1(),
+md5_file(), crc32()</span></font></font><font color="#000000"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">, etc.
+are omitted from the build.</span></font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>PH7_OMIT_FLOATING_POINT</b></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p style="margin-left: 2.3cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This
+option is used to omit floating-point arithmetic from the PH7
+library if compiling for a processor that lacks floating point
+support.</font></font></p>
+<p style="margin-left: 2.3cm; margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">When&nbsp;
+specified, the library will substitute <a href="features.html#64bit">64-bit
+integer</a> for floating-point which mean that 25.e-3 and
+25 are equals and are of type integer.</font></font></p>
+<br>
+<p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+</div>
+<hr style="width: 100%; height: 2px;">
+<div style="text-align: right; margin-top: 0px; height: 91px;"><small><small><a href="http://www.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc Systems" src="images/symisc.png"></a></small></small>
+<div style="text-align: left; margin-top: 0px; height: 14px;"><small><small style="font-family: Verdana;">Copyright © <a href="http://www.symisc.net/">Symisc Systems</a></small></small><br>
+</div>
+</div>
+</div>
+
+</body></html>

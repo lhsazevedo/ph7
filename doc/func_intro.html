@@ -1,0 +1,1262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en"><head>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type"><title>Foreign Function Implementation Guide</title><!-- Copyright (C) 2011 Symisc Systems,http://www.symisc.net contact@symisc.net -->
+  
+
+  
+
+  
+  <link rel="stylesheet" href="symisc.css" type="text/css">
+
+  
+  <meta content="Symisc Systems &lt;chm@symisc.net&gt;" name="author"></head><body>
+<div style="width: 1092px;" id="main_div"><a href="http://ph7.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc PH7 Engine" title="Symisc PH7 Engine" src="images/symisc_ph7_tr.png"></a><br>
+<div style="text-align: left; width: 190px;" align="right"><small style="color: black; font-family: Verdana;"><small>An Embeddable PHP5 Engine</small></small><br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<ul id="nav">
+  <li id="nav-1"><a href="index.html">About</a></li>
+  <li id="nav-8"><a href="features.html">Distinctive Features<br>
+    </a></li>
+  <li id="nav-2"><a href="intro.html">Getting Started<br>
+    </a></li>
+  <li id="nav-3"><a href="c_api.html">Documentation<br>
+    </a></li>
+  <li id="nav-4"><a href="downloads.html">Downloads<br>
+    </a></li>
+  <li id="nav-5"><a href="licensing.html">Licensing<br>
+    </a></li>
+  <li id="nav-6"><a href="faq.html">FAQ<br>
+    </a></li>
+  <li id="nav-7"><a href="support.html">Online Community Support<br>
+    </a></li>
+</ul>
+<h1><small><small><font face="Verdana, sans-serif"><b>Foreign Function
+Implementation Guide.</b></font></small></small></h1><div>
+<p style="font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+following quick guide is what you do to start experimenting with the
+PH7 foreign function mechanism without having to do a lot of tedious
+reading.</font></font></p>
+<p style="font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p style="font-style: normal; font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Foreign
+functions are used to add PHP functions or to redefine the behavior
+of existing PHP functions from the outside environment (see below) to
+the underlying <a href="c_api_object.html#ph7_vm">virtual
+machine</a>.
+This mechanism is know as “In-process extending”. After a
+successful call to the <a href="c_api_func.html#ph7_create_function">ph7_create_function()</a>
+interface, the installed function is available immediately and can be
+called from the target PHP code.</font></font></font></p>
+<p style="font-style: normal; font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></p>
+<p style="font-style: normal; font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">A
+foreign function is simply a host application defined function
+typically implemented in C which is responsible of performing the desired
+computation. There are many reasons to implement foreign functions,
+one of them is to perform system calls and gain access to low level
+resources that is impossible to do using standard PHP functions.</font></font></p>
+<p style="font-style: normal; font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Another
+reason to implement foreign functions is performance. That is, a
+foreign function implemented in C will typically run 10 times faster
+than if it was implemented in PHP, this is why most of the built-in
+PH7 functions (<a href="builtin_func.html">Over 470</a> as of this release) such as implode(),
+explode(), array_merge(), chdir(), file(), fopen() and many more are
+implemented in C rather than PHP.</font></font></p>
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The foreign function signature is as follows:</font></font></font></p>
+<p style="margin-bottom: 0cm;" align="center"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b><font color="#0000ff"><font face="Verdana, sans-serif">int
+</font></font><font color="#000000"><font face="Verdana, sans-serif">(*xFunc)</font></font><font face="Verdana, sans-serif">(</font><a href="c_api_object.html#ph7_context"><font face="Verdana, sans-serif">ph7_context</font></a><font face="Verdana, sans-serif">
+*pCtx,</font><font color="#0000ff"><font face="Verdana, sans-serif">int
+</font></font><font face="Verdana, sans-serif">argc,</font><a href="c_api_object.html#ph7_value"><font face="Verdana, sans-serif">ph7_value</font></a><font face="Verdana, sans-serif">
+**argv)</font></b></font></font></font></p>
+<p style="margin-bottom: 0cm;" align="left"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">As you can see, the foreign function must </span></span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">accept
+three parameters. The first parameter is a pointer to a </span></span></font></font><a href="c_api_object.html#ph7_context"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">ph7_context</span></span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">
+structure. This is the context in which the foreign function
+executes. In other words, this parameter is the intermediate between
+the foreign function and the underlying </span></span></font></font><a href="c_api_object.html#ph7_vm"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">virtual
+machine</span></span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">.</span></span></font></font></p>
+<p style="font-style: normal; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+application-defined foreign function implementation will pass this
+pointer through into calls to dozens of interfaces, these includes:</font></font></p>
+<p><a href="c_api_func.html#ph7_context_output"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">ph7_context_output()</span></span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">,
+</span></span></font></font><a href="c_api_func.html#ph7_context_throw_error"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">ph7_context_throw_error()</span></span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">,
+</span></span></font></font><a href="c_api_func.html#On_demand_ph7_value_allocation"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">ph7_context_new_scalar()</span></span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">,
+</span></span></font></font><a href="c_api_func.html#ph7_context_user_data"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">ph7_context_user_data()</span></span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">,
+</span></span></font></font><a href="c_api_func.html#Call_Context_Memory_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">ph7_context_alloc_chunk()</span></span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">and
+many more.</span></span></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;"><br>
+</span></span></font></font></p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">The
+second parameter is the total number of arguments passed to the
+foreign function. If the total number of arguments is not the
+expected one, the foreign functions can throw an error via
+</span></span></font></font><a href="c_api_func.html#ph7_context_throw_error"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">ph7_context_throw_error()</span></span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">
+as follow:</span></span></font></font><a href="c_api_func.html#ph7_context_throw_error"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+ph7_context_throw_error</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">(</font></font><a href="c_api_object.html#ph7_context"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">pCtx</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">,</font></font><a href="c_api_func.html#ph7_context_throw_error"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7_CTX_WARNING</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">,</font></font><font color="#a31515"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">"Unexpected
+number of arguments"</font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">);</font></font></font></p>
+<p style="margin-bottom: 0cm;"><br>
+</p>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">The
+last parameter is an array of pointers to </span></span></font></font><a href="c_api_object.html#ph7_value"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">ph7_value</span></span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">
+which represents function arguments. The implementation of the
+foreign functions can extract their contents via one of these
+interfaces:</span></span></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value_to_int()</span></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+</span></font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value_to_bool()</span></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+</span></font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value_to_int64()</span></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+</span></font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value_to_double()</span></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+</span></font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value_to_string()</span></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+</span></font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value_to_resource()</span></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+</span></font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value_compare()</span></font></font></a></p>
+<p style="font-style: normal; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+computation result (I.e: the return value) of the foreign function
+can be set via one of these interfaces:</font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_int()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_int64()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_bool()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_double()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_null()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_string()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+</font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_value()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_resource()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+</font></font></font></p>
+<p style="margin-left: 1.25cm; margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_string_format()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+</font></font></font></p>
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;">
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">If
+no call is made to one of these interfaces, then a NULL return value
+is assumed.</font></font></p>
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;">
+<br>
+</p>
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;">
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">The
+implementation of the foreign function must return </font><a href="c_api_const.html"><font face="Verdana, sans-serif">PH7_OK</font></a><font face="Verdana, sans-serif">
+on success, but if the callbacks wishes to abort processing (to stop
+program execution) and thus to emulate the exit() or die() PHP constructs, it must return </font><a href="c_api_const.html"><font face="Verdana, sans-serif">PH7_ABORT</font></a><font face="Verdana, sans-serif">
+instead.</font></font></font></p>
+<h1 class="western" style="font-style: normal;"><font><font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Typical
+Implementation Of A Foreign Function<br>
+</font></font></font></font></h1>
+<p style="font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">A
+typical implementation of a foreign function would perform the
+following operations in order:</font></font></p>
+<ol>
+  <li>
+    <p style="font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Check if the given arguments are of
+the expected numbers and expected types. If the foreign accepts
+arguments, this is the first operation it must perform before doing any
+serious work, for that, a set of interfaces are available for checking
+arguments types:<br>
+</font></font></p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">ph7_value_is_int</span></font></font></a></p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_is_float</font></font></a></p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_is_bool</font></font></a></p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_is_string</font></font></a></p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_is_null</font></font></a></p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_is_numeric</font></font></a></p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_is_callable</font></font></a></p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_is_array</font></font></a></p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_is_scalar</font></font></a></p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_is_object</font></font></a></p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_is_resource</font></font></a></p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_value_is_empty</font></font></a></p>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">To check if the given arguments are
+of the expected number, simply compare the expected number with the <b>argc</b>
+parameter (Second parameter the foreign function takes).</font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">If the foreign function accepts
+arguments, it may need to extract their contents via the following set of
+interfaces:</font></font></p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value_to_int()</span></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"> </span></font></font></font>
+    </p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value_to_bool()</span></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"> </span></font></font></font>
+    </p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value_to_int64()</span></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"> </span></font></font></font>
+    </p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value_to_double()</span></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"> </span></font></font></font>
+    </p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value_to_string()</span></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"> </span></font></font></font>
+    </p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value_to_resource()</span></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"> </span></font></font></font>
+    </p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value_compare()</span></font></font></a></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Perform
+the desired computation.</font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">Allocate
+additional </span></font></font><a href="c_api_object.html#ph7_value"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_value</span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"> via the </span></font></font><a href="c_api_func.html#On_demand_ph7_value_allocation"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_context_new_scalar()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">
+and/or </span></font></font></font><a href="c_api_func.html#On_demand_ph7_value_allocation"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_context_new_array()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"> </span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">interfaces especially if the foreign
+function works with arrays (see below for a working example).</span></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">If
+something goes wrong while processing the input or performing the
+computation, the foreign function can throw an error via the </span></font></font><a href="c_api_func.html#ph7_context_throw_error"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_context_throw_error()</span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"> or </span></font></font><a href="c_api_func.html#ph7_context_throw_error_format"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_context_throw_error_format()</span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"> interfaces.</span></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">If
+the foreign function wishes to output a message and thus to emulate the
+echo() </span></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">or
+the print() PHP constructs, it may call </span></font></font><a href="c_api_func.html#ph7_context_output"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_context_output()</span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"> or </span></font></font><a href="c_api_func.html#ph7_context_output_format"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_context_output_format()</span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">.</span></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm; font-weight: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">When
+done, the computation result (return value) of the foreign function can
+be set via one of the these interfaces:</font></font></p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_int()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> </font></font></font> </p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_int64()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> </font></font></font> </p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_bool()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> </font></font></font> </p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_double()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> </font></font></font> </p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_null()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> </font></font></font> </p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_string()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> </font></font>
+    </p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_value()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> </font></font></font> </p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_resource()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> </font></font></font> </p>
+    <p style="margin-bottom: 0cm;"><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">ph7_result_string_format()</span></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"> </span></font></font></font>
+    </p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">And finally, return </span></font></font></font><a href="c_api_const.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">PH7_OK</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;"> when done. Note that you do </span></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><b>not need </b></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-weight: normal;">to
+release any allocated resource manually via the <a href="c_api_func.html#On_demand_ph7_value_allocation">ph7_context_release_value()</a>
+    </span></font></font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> interface, the virtual machine will
+release any allocated resources for you automatically.</font></font></p>
+    <p style="margin-bottom: 0cm; font-weight: normal;"><font color="#000000"> </font> </p>
+  </li>
+</ol>
+<h1 class="western" style="font-style: normal;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Foreign
+Function Examples</font></font></h1>
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;" align="left">
+<font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">We
+will start our examples with the simplest foreign function implemented
+in C which perform a simple right shift operation on a given number
+and return the new shifted value as it's computation result (I.e:
+return value), here is the C code:</font></font></font></p>
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;" align="left"><br>
+</p>
+
+<div style="text-align: left; margin-left: 158px; width: 639px;" id="code">
+<ol>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">int</font><font color="#000000"> shift_func(</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp; </font></font><a href="c_api_object.html#ph7_context"><font face="Verdana, sans-serif">ph7_context</font></a><font color="#000000"><font face="Verdana, sans-serif"> *pCtx, </font></font><font color="#008000"><font face="Verdana, sans-serif">/* Call Context */</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#0000ff">int</font><font color="#000000"> argc, </font><font color="#008000">/* Total number of arguments passed to the function */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp; </font></font><a href="c_api_object.html#ph7_value"><font face="Verdana, sans-serif">ph7_value</font></a><font color="#000000"><font face="Verdana, sans-serif"> **argv </font></font><font color="#008000"><font face="Verdana, sans-serif">/* Array of function arguments */</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> )</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">{</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#0000ff">int</font><font color="#000000"> num;</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#008000">/* Make sure there is at least one argument and is of
+the</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;
+* expected type [i.e: numeric].</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;
+*/</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp; </font></font><font color="#0000ff"><font face="Verdana, sans-serif">if</font></font><font color="#000000"><font face="Verdana, sans-serif">( argc &lt; 1 || !</font></font><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif">ph7_value_is_numeric</font></a><font color="#000000"><font face="Verdana, sans-serif">(argv[0]) ){</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm; width: 611px;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#008000">/*</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;
+* Missing/Invalid argument,throw a warning and return FALSE.</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;
+* Note that you do not need to log the function name,PH7 will</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;
+* automatically append the function name for you.</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;
+*/</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp;&nbsp; </font></font><a href="c_api_func.html#ph7_context_throw_error"><font face="Verdana, sans-serif">ph7_context_throw_error</font></a><font color="#000000"><font face="Verdana, sans-serif">(pCtx,PH7_CTX_WARNING,</font></font><font color="#a31515"><font face="Verdana, sans-serif">"Missing
+numeric&nbsp; argument"</font></font><font color="#000000"><font face="Verdana, sans-serif">);</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#008000">/* Return false */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">&nbsp;&nbsp; </font><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif">ph7_result_bool</font></a><font face="Verdana, sans-serif">(pCtx,0);</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp; </font><font color="#0000ff">return</font><font color="#000000"> PH7_OK;</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;
+}</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#008000">/* Extract the number */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">&nbsp; num = </font><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif">ph7_value_to_int</font></a><font face="Verdana, sans-serif">(argv[0]);</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#008000">/* Shift by 1 */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;
+num &lt;&lt;= 1;</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#008000">/* Return the new value */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">&nbsp; </font><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif">ph7_result_int</font></a><font face="Verdana, sans-serif">(pCtx,num);</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#008000">/* All done */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp; </font></font><font color="#0000ff"><font face="Verdana, sans-serif">return</font></font><font color="#000000"><font face="Verdana, sans-serif"> </font></font><a href="c_api_const.html"><font face="Verdana, sans-serif">PH7_OK</font></a><font color="#000000"><font face="Verdana, sans-serif">;</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font></font></p>
+  </li>
+</ol>
+</div>
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;" align="left">
+<font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><br>
+</font></font></font></font></p>
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;" align="left"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">On
+line 11, we check if there is at least one argument and is </font><a href="c_api_func.html#Dynamically_Typed_Value_Object_Management_Interfaces"><font face="Verdana, sans-serif">numeric</font></a><font face="Verdana, sans-serif">
+(integer or float or a string that looks like a number). If not, we
+</font><a href="c_api_func.html#ph7_context_throw_error"><font face="Verdana, sans-serif">throw
+an error</font></a><font face="Verdana, sans-serif"> on line 17 and
+we return a Boolean false (zero) on line 19 using the
+</font><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif">ph7_result_bool()</font></a><font color="#000000"><font face="Verdana, sans-serif">
+interfaces.</font></font></font></font></font></p>
+
+
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;" align="left"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">We
+extract the function argument which is the number to shift on line 23
+using the </font></font><a href="c_api_func.html#Foreign_Function_Parameter_Values"><font face="Verdana, sans-serif">ph7_value_to_int()</font></a><font color="#000000"><font face="Verdana, sans-serif">
+interface.</font></font></font></font></font></p>
+
+
+
+
+
+<p style="margin-bottom: 0cm;" align="left"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">We
+perform the desired computation (right shift the given number by one)
+on line 25.<span style="font-style: normal;"><span style="font-weight: normal;"><br>
+And
+finally we return the new value as our computation result one line 27
+using a call to </span></span></font></font></font><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_int()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">.</span></span></font></font></font></p>
+
+
+<p style="margin-bottom: 0cm;" align="left"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">Now
+after </span></span></font></font></font><a href="c_api_func.html#ph7_create_function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">installing</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">
+this function (see below for a working example), it can be called from your PHP script as follows:</span></span></font></font></font></p>
+<p style="margin-bottom: 0cm;" align="left"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;"><br>
+</span></span></font></font></font></p>
+
+<div style="margin-left: 159px; width: 453px;" id="code"><small><i>&lt;?php</i></small>
+<p style="margin-bottom: 0cm; font-weight: normal;" align="left"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>&nbsp;&nbsp; <span style="color: blue;">echo</span>
+shift_func(150); </i></font></font></font>
+<font style="color: green;" color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">//you
+should see 300.</font></font></font></p>
+
+<p style="margin-bottom: 0cm; font-weight: normal;" align="left"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><i>?&gt;</i></font></font></font></p>
+
+
+</div>
+
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;" align="left">
+<font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></font></p>
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;" align="left"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Another
+simple foreign function named date_func(). This function does not
+take arguments and return the current system date in a string. A
+typical call to this function would return something like:
+'2012-23-09 13:53:30'. Here is the implementation</font></font></font></p>
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;" align="left"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></font></p>
+
+<div style="margin-left: 159px; width: 651px;" id="code">
+<ol>
+  <li>
+    <p style="margin-bottom: 0cm;" align="left"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff"><span style="font-style: normal;"><span style="font-weight: normal;">int</span></span></font><font color="#000000"><span style="font-style: normal;"><span style="font-weight: normal;"> date_func(</span></span></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp; </font></font><a href="c_api_object.html#ph7_context"><font face="Verdana, sans-serif">ph7_context</font></a><font color="#000000"><font face="Verdana, sans-serif"> *pCtx, </font></font><font color="#008000"><font face="Verdana, sans-serif">/* Call Context */</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#0000ff">int</font><font color="#000000"> argc, </font><font color="#008000">/* Total number of arguments passed to the function */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp; </font></font><a href="c_api_object.html#ph7_value"><font face="Verdana, sans-serif">ph7_value</font></a><font color="#000000"><font face="Verdana, sans-serif"> **argv </font></font><font color="#008000"><font face="Verdana, sans-serif">/* Array of function arguments*/</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"> ){</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;
+time_t tt;</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#0000ff">struct</font><font color="#000000"> tm *pNow;</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#008000">/* Get the current time */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;
+time(&amp;tt);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;
+pNow = localtime(&amp;tt);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#008000">/* </font></font></font> </p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;
+* Return the current date.</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;
+*/</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">&nbsp; </font><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif">ph7_result_string_format</font></a><font face="Verdana, sans-serif">(pCtx,</font></font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;
+    </font><font color="#a31515">"%04d-%02d-%02d %02d:%02d:%02d"</font><font color="#000000">, </font><font color="#008000">/* printf() style
+format */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+pNow-&gt;tm_year + 1900, </font><font color="#008000">/* Year */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+pNow-&gt;tm_mday, </font><font color="#008000">/* Day of the month */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+pNow-&gt;tm_mon + 1, </font><font color="#008000">/* Month number */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+pNow-&gt;tm_hour, </font><font color="#008000">/* Hour */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+pNow-&gt;tm_min, </font><font color="#008000">/* Minutes */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;
+pNow-&gt;tm_sec </font><font color="#008000">/* Seconds */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;
+);</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#008000">/* All done */</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#0000ff">return</font><font color="#000000"> PH7_OK;</font></font></font></p>
+  </li>
+  <li>
+    <p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font></font></p>
+  </li>
+</ol>
+</div>
+<p style="margin-bottom: 0cm;" align="left">
+</p>
+<p style="margin-bottom: 0cm;" align="left"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;"><br>
+</span></span></font></font></font></p>
+<p style="margin-bottom: 0cm;" align="left"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">We
+get the date on line 10 using the libc localtime() routine and we
+return it using the
+</span></span></font></font></font><a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_result_string_format()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">
+interface on 14. This function is a work-alike of the </span></span></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">"printf()"
+family of functions from the standard C library which is used to
+append a formatted string</span></span></font></font></font><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">.</span></span></font></font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;" align="left">
+<br>
+</p>
+<p style="margin-bottom: 0cm;" align="left"><a href="http://www.symisc.net/downloads/ph7_func_intro.c"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Download
+&amp; Compile this C file</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">
+for a working version of the function defined above plus four others
+foreign functions. </span></span></font></font></font>
+</p>
+<h1 class="western" style="font-style: normal;"><font><font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Working
+With Arrays<br>
+</font></font></font></font></h1>
+<p style="font-style: normal; font-weight: normal;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Working
+with array is relatively easy and involves two or three additional
+call to PH7 interfaces. A typical implementation of a foreign
+function that works with arrays would perform the following
+operation:</font></font></font></p>
+<ol>
+  <li>
+    <p style="font-style: normal; font-weight: normal;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Call <a href="c_api_func.html#On_demand_ph7_value_allocation">ph7_context_new_array()</a>
+to allocate a fresh <a href="c_api_object.html#ph7_value">ph7_value</a> of
+type array. The new array is empty and need to be populated.</font></font></font></p>
+  </li>
+  <li>
+    <p style="font-style: normal; font-weight: normal;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Call <a href="c_api_func.html#On_demand_ph7_value_allocation">ph7_context_new_scalar()</a>
+to allocate a new scalar <a href="c_api_object.html#ph7_value">ph7_value</a>. This
+value is used to populate array entries with the desired value. </font></font></font>
+    </p>
+  </li>
+  <li>
+    <p style="font-style: normal; font-weight: normal;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Populate the array using one or more
+calls to <a href="c_api_func.html#ph7_array_add_elem">ph7_array_add_elem()</a>
+and/or it's <a href="c_api_func.html#ph7_array_add_elem">wrappers</a>.</font></font></font></p>
+  </li>
+  <li>
+    <p style="font-style: normal; font-weight: normal;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Finally when done, return the fresh
+array using the <a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function">ph7_result_value()</a>
+interface.</font></font></font></p>
+  </li>
+</ol>
+<p style="font-style: normal; font-weight: normal;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">We
+will start our examples by a simple foreign function names
+array_time_func(). This function does not expects arguments and
+return the current time in a array. A typical output of this function
+would look like this:</font></font></font></p>
+<div style="margin-left: 130px; width: 473px; text-align: left;" id="code"><font style="font-size: 10pt;" size="2">&lt;?php
+<span style="color: blue;">var_dump</span>(array_time_func()) ?&gt;<br>
+</font>
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;">
+<font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">array(3)
+{</font></font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;">&nbsp; <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[0]
+=&gt;</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;">&nbsp;&nbsp; <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">int(14)</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;">&nbsp; <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[1]
+=&gt;</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;">&nbsp;&nbsp; <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">int(53)</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;">&nbsp; <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[2]
+=&gt;</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;">&nbsp;&nbsp; <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">int(30)</font></font></p>
+
+<p style="margin-bottom: 0cm; font-style: normal;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font><br>
+</p>
+</div>
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Here
+is the C code.</font></font></p>
+<div style="margin-left: 127px; width: 780px;" id="code">
+<ol>
+<li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">int</font><font color="#000000">
+	array_time_func(<a href="c_api_object.html#ph7_context">ph7_context</a>
+	*pCtx,</font><font color="#0000ff">int</font><font color="#000000">
+	argc,<a href="c_api_object.html#ph7_value">ph7_value</a> **argv)</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">{</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	<a href="c_api_object.html#ph7_value">ph7_value</a>
+	*pArray;    </font><font color="#008000">/* Our Array */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	<a href="c_api_object.html#ph7_value">ph7_value</a>
+	*pValue;    </font><font color="#008000">/* Array entries value */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;	time_t
+	tt;</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#0000ff">struct</font><font color="#000000">
+	tm *pNow;</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	Get the current time first */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;	time(&amp;tt);</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp; pNow
+	= localtime(&amp;tt);</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	Create a new array */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;	pArray
+	= <a href="c_api_func.html#On_demand_ph7_value_allocation">ph7_context_new_array</a>(pCtx);</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	Create a worker scalar value */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;	pValue
+	= <a href="c_api_func.html#On_demand_ph7_value_allocation">ph7_context_new_scalar</a>(pCtx);</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#0000ff">if</font><font color="#000000">(
+	pArray == 0 || pValue == 0 ){</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;		</font><font color="#008000">/*</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;		
+	* If the supplied memory subsystem is so sick that we are unable</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;		
+	* to allocate a tiny chunk of memory,there is no much we can do
+	here.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;		
+	* Abort immediately.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;		
+	*/</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;		<a href="c_api_func.html#ph7_context_throw_error">ph7_context_throw_error</a>(pCtx,PH7_CTX_ERR,</font><font color="#a31515">"Fatal,PH7
+	is running out of memory"</font><font color="#000000">);</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;		</font><font color="#008000">/*
+	emulate the die() construct */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;		</font><font color="#0000ff">return</font><font color="#000000">
+	PH7_ABORT; </font><font color="#008000">/* die('Fatal,PH7 is running
+	out of memory'); */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;	}</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	Populate the array.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;	
+	* Note that we will use the same worker scalar value (pValue) here
+	rather than</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;	
+	* allocating a new value for each array entry. This is due to the
+	fact</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;	
+	* that the populated array will make it's own private copy of the
+	inserted</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;	
+	* key(if available) and it's associated value.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;	
+	*/</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	</font></font></font></p>
+	<br>
+</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	<a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object">ph7_value_int</a>(pValue,pNow-&gt;tm_hour);
+	</font><font color="#008000">/* Hour */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	Insert the hour at the first available index */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	<a href="c_api_func.html#ph7_array_add_elem">ph7_array_add_elem</a>(pArray,0</font><font color="#008000">/*
+	NULL: Assign an automatic index*/</font><font color="#000000">,pValue
+	</font><font color="#008000">/* Will make it's own copy */</font><font color="#000000">);</font></font></font></p>
+	</li><li>
+	<br>
+</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	Overwrite the previous value */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	<a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object">ph7_value_int</a>(pValue,pNow-&gt;tm_min);
+	</font><font color="#008000">/* Minutes */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	Insert minutes */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	<a href="c_api_func.html#ph7_array_add_elem">ph7_array_add_elem</a>(pArray,0</font><font color="#008000">/*
+	NULL: Assign an automatic index*/</font><font color="#000000">,pValue
+	</font><font color="#008000">/* Will make it's own copy */</font><font color="#000000">);</font></font></font></p>
+	</li><li>
+	<br>
+</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	Overwrite the previous value */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	<a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object">ph7_value_int</a>(pValue,pNow-&gt;tm_sec);
+	</font><font color="#008000">/* Seconds */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	Insert seconds */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	<a href="c_api_func.html#ph7_array_add_elem">ph7_array_add_elem</a>(pArray,0</font><font color="#008000">/*
+	NULL: Assign an automatic index*/</font><font color="#000000">,pValue
+	</font><font color="#008000">/* Will make it's own copy */</font><font color="#000000">);</font></font></font></p>
+	</li><li>
+	<br>
+</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	Return the array as the function return value */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;	<a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function">ph7_result_value</a>(pCtx,pArray);</font></font></font></p>
+	</li><li>
+	<br>
+</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	All done. Don't worry about freeing memory here,every</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;	
+	* allocated resource will be released automatically by the engine</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;	
+	* as soon we return from this foreign function.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;	
+	*/</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#0000ff">return</font><font color="#000000">
+	PH7_OK;</font></font></font></p>
+	</li><li>
+	<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font></font></p>
+</li>
+</ol>
+</div>
+<div style="text-align: right;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="http://www.symisc.net/downloads/ph7_func_intro.c"><font face="Verdana, sans-serif">Download
+	the C file</font></a></font></font></font><br>
+</div>
+
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><small><span style="font-family: Verdana;">We
+allocate a fresh empty array on line 11 using a call to 
+</span></small><font style="font-size: 10pt;" size="2"><a href="c_api_func.html#On_demand_ph7_value_allocation">ph7_context_new_array()</a>.
+Also we
+allocate a fresh scalar value one line 13 using a call to 
+<a href="c_api_func.html#On_demand_ph7_value_allocation">ph7_context_new_scalar()</a>.</font></font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">We
+populate the scalar <a href="c_api_object.html#ph7_value">ph7_value</a>
+with the desired value, here the current hour on line 31 using a call
+to <a href="c_api_func.html#Populating_Dynamically_Typed_Value_Object">ph7_value_int()</a>
+and we insert it in the new array using the <a href="c_api_func.html#ph7_array_add_elem">ph7_array_add_elem()</a>
+interface on line 33.</font></font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">This
+process is repeated again on line 36,38,41 and 43. Note that we use
+the same scalar value to populate the array with the three entries.
+This is due to the fact that a call to <a href="c_api_func.html#ph7_array_add_elem">ph7_array_add_elem()</a>
+and it's <a href="c_api_func.html#ph7_array_add_elem">wrappers</a>
+will make a private copy of the inserted value and so it's safe to
+use the same scalar value for other insertions. </font></font></font>
+</p>
+
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><br>
+</font></font></font></p>
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Finally
+we return our array as our computation result one line 46 using the
+<a href="c_api_func.html#Setting_The_Result_Of_A_Foreign_Function">ph7_result_value()</a>
+interface.</font></font></font></p>
+
+
+<h1 class="western" style="font-style: normal;"><font><font><font><font><font><font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Test The Implementation<br>
+</font></font></font></font></font></font></font></font></h1>
+<p style="font-style: normal; font-weight: normal;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Now we
+have implemented our foreign functions, it's time to test them. For
+that, we will create a simple PHP program that call each of the
+defined functions and output their return values. Here is the program:</font></font></font><br>
+</p>
+<div style="text-align: left; margin-left: 135px; width: 577px;" id="code">
+<p style="margin-bottom: 0cm; font-style: normal; font-weight: normal;">
+<font color="#000000"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&lt;?php</font></font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font color="#000000">&nbsp;  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+<font color="#ff0000">'shift_func(150) = '</font>.shift_func(150).PHP_EOL;</font></font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font color="#000000">&nbsp;  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+<font color="#ff0000">'sum_func(7,8,9,10) =
+'</font>.sum_func(7,8,9,10).PHP_EOL;</font></font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font color="#000000">&nbsp;  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+<font color="#ff0000">'date_func(5) = '</font>.date_func().PHP_EOL;</font></font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font color="#000000">&nbsp;  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+<font color="#ff0000">'array_time_func() ='</font>.PHP_EOL;</font></font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font color="#000000">&nbsp; 
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">var_dump(array_time_func());</font></font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font color="#000000">&nbsp;  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+<font color="#ff0000">'array_date_func(5) ='</font>.PHP_EOL;</font></font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font color="#000000">&nbsp; 
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">var_dump(array_date_func(5));</font></font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font color="#000000">&nbsp;  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">echo</font>
+<font color="#ff0000">'array_str_split(\'Hello\') ='</font>.PHP_EOL;</font></font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font color="#000000">&nbsp; 
+<font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">var_dump(array_str_split(<font color="#ff0000">'Hello'</font>));</font></font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">?&gt;</font></font></font></p>
+</div>
+<p style="font-style: normal; font-weight: normal;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">When
+running this program, you should see something like that:</font></font></font></p>
+<div style="text-align: left; margin-left: 134px; width: 582px;" id="code"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">shift_func(150)
+= 300</font></font></font>
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">sum_func(7,8,9,10)
+= 34</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">date_func(5)
+= 2012-23-09 03:53:30</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">array_time_func()
+=</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">array(3)
+{</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[0]
+=&gt;</font></font></p>
+
+
+<p style="margin-bottom: 0cm;">  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">int(3)</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[1]
+=&gt;</font></font></p>
+
+
+<p style="margin-bottom: 0cm;">  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">int(53)</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[2]
+=&gt;</font></font></p>
+
+
+<p style="margin-bottom: 0cm;">  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">int(30)</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">array_date_func(5)
+=</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">array(6)
+{</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[tm_year]
+=&gt;</font></font></p>
+
+
+<p style="margin-bottom: 0cm;">  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">int(2012)</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[tm_mon]
+=&gt;</font></font></p>
+
+
+<p style="margin-bottom: 0cm;">  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">int(9)</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[tm_mday]
+=&gt;</font></font></p>
+
+
+<p style="margin-bottom: 0cm;">  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">int(23)</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[tm_hour]
+=&gt;</font></font></p>
+
+
+<p style="margin-bottom: 0cm;">  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">int(3)</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[tm_min]
+=&gt;</font></font></p>
+
+
+<p style="margin-bottom: 0cm;">  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">int(53)</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[tm_sec]
+=&gt;</font></font></p>
+
+
+<p style="margin-bottom: 0cm;">  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">int(30)</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">array_str_split('Hello')
+=</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">array(5)
+{</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[0]
+=&gt;</font></font></p>
+
+
+<p style="margin-bottom: 0cm;">  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">string(1
+'H')</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[1]
+=&gt;</font></font></p>
+
+
+<p style="margin-bottom: 0cm;">  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">string(1
+'e')</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[2]
+=&gt;</font></font></p>
+
+
+<p style="margin-bottom: 0cm;">  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">string(1
+'l')</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[3]
+=&gt;</font></font></p>
+
+
+<p style="margin-bottom: 0cm;">  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">string(1
+'l')</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">[4]
+=&gt;</font></font></p>
+
+
+<p style="margin-bottom: 0cm;">  <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">string(1
+'o')</font></font></p>
+
+
+<p style="margin-bottom: 0cm;"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font></p>
+</div>
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><span style="font-style: normal;">Now, the
+main program.(You can get a working version of this program
+</span></font></font><a href="http://www.symisc.net/downloads/ph7_func_intro.c"><font face="Verdana, sans-serif">here</font></a></font></font><a href="http://www.symisc.net/downloads/ph7_func_intro.c"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif"><span style="font-style: normal;">)</span></font></font></font></font></a></p>
+<div style="margin-left: 135px; width: 727px;" id="code">
+<ol>
+<li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+	</font></font></font>
+	</p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">*
+	Container for the foreign functions defined above.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">*
+	These functions will be registered later using a call</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">*
+	to [ph7_create_function()].</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">*/</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">static</font><font color="#000000">
+	</font><font color="#0000ff">const</font><font color="#000000">
+	</font><font color="#0000ff">struct</font><font color="#000000">
+	foreign_func {</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">	</font><font color="#0000ff">const</font><font color="#000000">
+	</font><font color="#0000ff">char</font><font color="#000000">
+	*zName; </font><font color="#008000">/* Name of the foreign
+	function*/</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">	</font><font color="#0000ff">int</font><font color="#000000">
+	(*xProc)(ph7_context *,</font><font color="#0000ff">int</font><font color="#000000">,ph7_value
+	**); </font><font color="#008000">/* Pointer to the C function
+	performing the computation*/</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}aFunc[]
+	= {</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">	{</font><font color="#a31515">"shift_func"</font><font color="#000000">,shift_func},</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">	{</font><font color="#a31515">"date_func"</font><font color="#000000">,
+	date_func},</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">	{</font><font color="#a31515">"sum_func"</font><font color="#000000">,
+	 sum_func  },</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">	{</font><font color="#a31515">"array_time_func"</font><font color="#000000">,
+	array_time_func},</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">	{</font><font color="#a31515">"array_str_split"</font><font color="#000000">,
+	array_string_split_func},</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">	{</font><font color="#a31515">"array_date_func"</font><font color="#000000">,
+	array_date_func}</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">};</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">/*
+	</font></font></font>
+	</p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">*
+	Main program: Register the foreign functions defined above,compile
+	and execute </font></font></font>
+	</p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">*
+	our PHP test program.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"> <font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">*/</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#0000ff">int</font><font color="#000000">
+	main(</font><font color="#0000ff">void</font><font color="#000000">)</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">{</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp;	</font></font><a href="c_api_object.html#ph7"><font face="Verdana, sans-serif">ph7</font></a><font color="#000000"><font face="Verdana, sans-serif">
+	*pEngine; </font></font><font color="#008000"><font face="Verdana, sans-serif">/*
+	PH7 engine */</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp;	</font></font><a href="c_api_object.html#ph7_vm"><font face="Verdana, sans-serif">ph7_vm</font></a><font color="#000000"><font face="Verdana, sans-serif">
+	*pVm;  </font></font><font color="#008000"><font face="Verdana, sans-serif">/*
+	Compiled PHP program */</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#0000ff">int</font><font color="#000000">
+	rc;</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#0000ff">int</font><font color="#000000">
+	i;</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	Allocate a new PH7 engine instance */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">&nbsp;	rc
+	= </font><a href="c_api_func.html#ph7_init"><font face="Verdana, sans-serif">ph7_init</font></a><font face="Verdana, sans-serif">(&amp;pEngine);</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp;	</font></font><font color="#0000ff"><font face="Verdana, sans-serif">if</font></font><font color="#000000"><font face="Verdana, sans-serif">(
+	rc != </font></font><a href="c_api_const.html"><font face="Verdana, sans-serif">PH7_OK</font></a><font color="#000000"><font face="Verdana, sans-serif">
+	){</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;		</font><font color="#008000">/*</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;		
+	* If the supplied memory subsystem is so sick that we are unable</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;		
+	* to allocate a tiny chunk of memory,there is no much we can do
+	here.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;		
+	*/</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;		Fatal(</font><font color="#a31515">"Error
+	while allocating a new PH7 engine instance"</font><font color="#000000">);</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;	}</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	Compile the PHP test program defined above */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">&nbsp;	rc
+	= </font><a href="c_api_func.html#ph7_compile_v2"><font face="Verdana, sans-serif">ph7_compile_v2</font></a><font face="Verdana, sans-serif">(</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		pEngine,
+	 </font><font color="#008000">/* PH7 engine */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		PHP_PROG,
+	</font><font color="#008000">/* PHP test program */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		-1
+	       </font><font color="#008000">/* Compute input length
+	automatically*/</font><font color="#000000">,</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;pVm,
+	    </font><font color="#008000">/* OUT: Compiled PHP program */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		0
+	        </font><font color="#008000">/* IN: Compile flags */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		);</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;<font color="#0000ff"><font face="Verdana, sans-serif">if</font></font><font color="#000000"><font face="Verdana, sans-serif">(
+	rc != </font></font><a href="c_api_const.html"><font face="Verdana, sans-serif">PH7_OK</font></a><font color="#000000"><font face="Verdana, sans-serif">
+	){</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp;&nbsp;		</font></font><font color="#0000ff"><font face="Verdana, sans-serif">if</font></font><font color="#000000"><font face="Verdana, sans-serif">(
+	rc == </font></font><a href="c_api_const.html"><font face="Verdana, sans-serif">PH7_COMPILE_ERR</font></a><font color="#000000"><font face="Verdana, sans-serif">
+	){</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;			</font><font color="#0000ff">const</font><font color="#000000">
+	</font><font color="#0000ff">char</font><font color="#000000">
+	*zErrLog;</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;			</font><font color="#0000ff">int</font><font color="#000000">
+	nLen;</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;			</font><font color="#008000">/*
+	Extract error log */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">&nbsp;&nbsp;&nbsp;&nbsp;			</font><a href="c_api_func.html#ph7_config"><font face="Verdana, sans-serif">ph7_config</font></a><font face="Verdana, sans-serif">(pEngine,</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				</font><a href="c_api_func.html#ph7_config"><font face="Verdana, sans-serif">PH7_CONFIG_ERR_LOG</font></a><font face="Verdana, sans-serif">,</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				&amp;zErrLog,</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;nLen</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				);</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp; </font><font color="#0000ff">if</font><font color="#000000">(
+	nLen &gt; 0 ){</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;				</font><font color="#008000">/*
+	zErrLog is null terminated */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; puts(zErrLog);</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;			}</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;		}</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;		</font><font color="#008000">/*
+	Exit */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;		Fatal(</font><font color="#a31515">"Compile
+	error"</font><font color="#000000">);</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">	}</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	Now we have our program compiled,it's time to register </font></font></font>
+	</p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;	
+	* our foreign functions.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;	
+	*/</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp; </font><font color="#0000ff">for</font><font color="#000000">(
+	i = 0 ; i &lt; (</font><font color="#0000ff">int</font><font color="#000000">)</font><font color="#0000ff">sizeof</font><font color="#000000">(aFunc)/</font><font color="#0000ff">sizeof</font><font color="#000000">(aFunc[0])
+	;  ++i ){</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;		</font><font color="#008000">/*
+	Install the foreign function */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp;&nbsp;&nbsp;&nbsp;		rc
+	= </font></font><a href="c_api_func.html#ph7_create_function"><font face="Verdana, sans-serif">ph7_create_function</font></a><font color="#000000"><font face="Verdana, sans-serif">(pVm,aFunc[i].zName,aFunc[i].xProc,0
+	</font></font><font color="#008000"><font face="Verdana, sans-serif">/*
+	NULL: No private data */</font></font><font color="#000000"><font face="Verdana, sans-serif">);</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp;&nbsp;&nbsp;&nbsp;		</font></font><font color="#0000ff"><font face="Verdana, sans-serif">if</font></font><font color="#000000"><font face="Verdana, sans-serif">(
+	rc != </font></font><a href="c_api_const.html"><font face="Verdana, sans-serif">PH7_OK
+	</font></a><font color="#000000"><font face="Verdana, sans-serif">){</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;			Fatal(</font><font color="#a31515">"Error
+	while registering foreign functions"</font><font color="#000000">);</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;		}</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;	}</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp; * Configure our VM:</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp; *  Install the VM output consumer callback defined above.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp; */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">&nbsp;&nbsp;	rc
+	= </font><a href="c_api_func.html#ph7_vm_config"><font face="Verdana, sans-serif">ph7_vm_config</font></a><font face="Verdana, sans-serif">(pVm,</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		</font><a href="c_api_func.html#vm_config_output"><font face="Verdana, sans-serif">PH7_VM_CONFIG_OUTPUT</font></a><font face="Verdana, sans-serif">,</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Output_Consumer,
+	   </font><font color="#008000">/* Output Consumer callback */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		0
+	                  </font><font color="#008000">/* Callback private
+	data */</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;		);</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000"><font face="Verdana, sans-serif">&nbsp;	</font></font><font color="#0000ff"><font face="Verdana, sans-serif">if</font></font><font color="#000000"><font face="Verdana, sans-serif">(
+	rc != </font></font><a href="c_api_const.html"><font face="Verdana, sans-serif">PH7_OK</font></a><font color="#000000"><font face="Verdana, sans-serif">
+	){</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;		Fatal(</font><font color="#a31515">"Error
+	while installing the VM output consumer callback"</font><font color="#000000">);</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;	}</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;	</font><font color="#008000">/*
+	</font></font></font>
+	</p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;	
+	* Report run-time errors such as unexpected numbers of arguments and
+	so on.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;	
+	*/</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">&nbsp;&nbsp;	</font><a href="c_api_func.html#ph7_vm_config"><font face="Verdana, sans-serif">ph7_vm_config</font></a><font face="Verdana, sans-serif">(pVm,</font><a href="c_api_func.html#ph7_vm_config"><font face="Verdana, sans-serif">PH7_VM_CONFIG_ERR_REPORT</font></a><font face="Verdana, sans-serif">);</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;	</font><font color="#008000">/*</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;	
+	* And finally,execute our program. Note that your output (STDOUT in
+	our case)</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;	
+	* should display the result.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;	
+	*/</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">&nbsp;&nbsp;	</font><a href="c_api_func.html#ph7_vm_exec"><font face="Verdana, sans-serif">ph7_vm_exec</font></a><font face="Verdana, sans-serif">(pVm,0);</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;	</font><font color="#008000">/*
+	All done,cleanup the mess left behind.</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#008000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">&nbsp;&nbsp;&nbsp;	*/</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">&nbsp;&nbsp;	</font><a href="c_api_func.html#ph7_vm_release"><font face="Verdana, sans-serif">ph7_vm_release</font></a><font face="Verdana, sans-serif">(pVm);</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">&nbsp;&nbsp;	</font><a href="c_api_func.html#ph7_release"><font face="Verdana, sans-serif">ph7_release</font></a><font face="Verdana, sans-serif">(pEngine);</font></font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font color="#000000">&nbsp;&nbsp;	</font><font color="#0000ff">return</font><font color="#000000">
+	0;</font></font></font></p>
+	</li><li><p style="margin-bottom: 0cm;"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">}</font></font></font></p>
+</li>
+</ol>
+</div>
+<p style="text-align: right;"><a href="http://www.symisc.net/downloads/ph7_func_intro.c"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"></font></font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><a href="http://www.symisc.net/downloads/ph7_func_intro.c"><font face="Verdana, sans-serif">Download
+	the C file</font></a></font></font></font></p>
+<p><font face="Verdana, sans-serif"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">We
+</span></font></font></font><a href="c_api_func.html#ph7_init"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">create
+a new PH7 engine instance</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+using a call to </span></font></font></font><a href="c_api_func.html#ph7_init"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_init()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+on line 28. This is often the first PH7 API call that an application
+makes and is a prerequisite in order to compile PHP code using one of
+the compile interfaces.</span></font></font></font></font></p>
+
+
+
+<p><font face="Verdana, sans-serif"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">We
+compile our PHP test program on line 37 using the </span></font></font></font><a href="c_api_func.html#ph7_compile_v2"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_compile_v2()</font></font></a><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">
+interface.</span></span></font></font></font></font></p>
+
+
+
+
+<p><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;"><span style="font-weight: normal;">We
+register our implemented foreign functions on line 67 using the
+</span></span></font></font></font><a href="c_api_func.html#ph7_create_function"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_create_function()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+interface.</font></font></p>
+
+
+
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">We
+</font></font><a href="c_api_func.html#ph7_vm_config"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">configure
+our Virtual Machine</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+on line 76 by setting a </font></font><a href="output_consumer.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">VM
+output consumer callback</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+</font></font><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">named
+Output_Consumer() (</font></font><a href="http://www.symisc.net/downloads/ph7_func_intro.c"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Download
+the C file </font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">to
+see the implementation) which redirect the VM output to STDOUT.</font></font></p>
+
+
+
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">And
+finally we execute our PHP program on line 92 using a call to
+</font></font><a href="c_api_func.html#ph7_vm_exec"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">ph7_vm_exec()</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">.</font></font></p>
+
+
+
+<p><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif">Clean-up
+is done on line 95 and 96 respectively via calls to </font><a href="c_api_func.html#ph7_vm_release"><font face="Verdana, sans-serif">ph7_vm_release()</font></a><font color="#000000"><font face="Verdana, sans-serif"><span style="font-weight: normal;">
+and </span></font></font><a href="c_api_func.html#ph7_release"><font face="Verdana, sans-serif">ph7_release()</font></a><font face="Verdana, sans-serif">.</font></font></font></p>
+
+
+<h1 class="western"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Other
+useful links</font></font></h1>
+
+<p><font style="font-size: 10pt;" size="2"><font face="Verdana, sans-serif"><span style="font-style: normal;">As
+you can see, in-process extending under PH7 is extremely powerful yet
+simple and involves only a single call to </span></font><a href="c_api_func.html#ph7_create_function"><font face="Verdana, sans-serif"><span style="font-style: normal;">ph7_create_function()</span></font></a><font color="#000000"><font face="Verdana, sans-serif"><span style="font-style: normal;"><span style="font-weight: normal;">.</span></span></font></font></font></p>
+
+
+
+<p style="font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Check
+out the </font></font><a href="pi_intro.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Introduction
+To The PH7 C/C++ Interface</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+for an introductory overview and roadmap to the dozens of PH7
+interface functions.</font></font></font></p>
+
+
+
+
+<p style="font-weight: normal;" align="left"><font face="Verdana, sans-serif"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">A
+separate document, </font></font><a href="c_api.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">The
+PH7 C/C++ Interface</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">,
+provides detailed specifications for all of the various C/C++ APIs
+for PH7. Once the reader understands the basic principles of
+operation for PH7, </font></font><a href="c_api.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">that
+document</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">
+should be used as a reference guide. </font></font></font>
+</p>
+
+
+
+
+<p style="font-weight: normal;" align="left"><font color="#000000"><font face="Verdana, sans-serif"><font style="font-size: 9pt;" size="2"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">Any
+questions, check the </span></font></font><a href="faq.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2">Frequently
+Asked Questions</font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+page or visit the </span></font></font><a href="support.html"><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">Support
+Page</span></font></font></a><font face="Verdana, sans-serif"><font style="font-size: 10pt;" size="2"><span style="font-style: normal;">
+for additional information.</span></font></font></font></font></font></p>
+
+
+</div>
+<hr style="width: 100%; height: 2px;">
+<div style="text-align: right; margin-top: 0px; height: 91px;"><small><small><a href="http://www.symisc.net/"><img style="border: 0px solid ; width: 170px; height: 70px;" alt="Symisc Systems" src="images/symisc.png"></a></small></small>
+<div style="text-align: left; margin-top: 0px; height: 14px;"><small><small style="font-family: Verdana;">Copyright © <a href="http://www.symisc.net/">Symisc Systems</a></small></small><br>
+</div>
+</div>
+</div>
+
+</body></html>
