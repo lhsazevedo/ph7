@@ -17,11 +17,10 @@ ph7 scripts/hello_world.php
 Running the interpreter with script arguments
 ph7 scripts/mp3_tag.php /usr/local/path/to/my_mp3s
 
-The PH7 interpreter package includes more than 70 PHP scripts to test ranging from
+This project includes more than 70 PHP scripts to test ranging from
 simple hello world programs to XML processing,ZIP archive extracting, MP3 tag 
 extracting, UUID generation, JSON encoding/decoding, INI processing,Base32 
-encoding/decoding and many more. These scripts are available in the scripts directory
-from the zip archive.
+encoding/decoding and many more..
 
 ------------------------
  Compile from source

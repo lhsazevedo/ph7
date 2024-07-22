@@ -17,7 +17,52 @@ For more details, visit the original [PH7 repository](https://github.com/symisc/
 
 ## Quick Start
 
-Example usage:
+### Building the Executable
+
+The provided Makefile builds the PH7 executable by default, including math functions.
+
+To build the executable:
+
+```sh
+make
+```
+
+To build the executable without math functions:
+
+```sh
+make PH7_ENABLE_MATH_FUNC=0
+```
+
+### Running the Executable
+
+After building, you can run the PH7 executable with any PHP script. Here is an example using a test script:
+
+```sh
+./build/ph7 script/hello_world.php
+# Hello World from PH7
+```
+
+### PHP Test Scripts
+
+The `script` directory contains over 70 PHP test scripts. You can run these scripts using the PH7 executable to see various features and functionality in action.
+
+## Using the Library
+
+If you need to integrate PH7 into your C/C++ applications, you can use the PH7 library.
+
+### Building the Static Library
+
+To build the PH7 static library:
+
+```sh
+make lib
+```
+
+The static library `libph7.a` will be created in the `build` directory.
+
+### Example Usage
+
+Here is an example of using the PH7 library in a C program:
 
 ```c
 // ph7_test.c
@@ -51,7 +96,6 @@ int main(void) {
 
 Compile with:
 ```sh
-make
 gcc -o ph7_test ph7_test.c -Lbuild -lph7
 ```
 
@@ -65,4 +109,3 @@ See the `examples` directory for more usage examples.
 
 ## Contributing
 Fork, improve, and submit pull requests. Contributions are welcome!
-
