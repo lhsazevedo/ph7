@@ -1,6 +1,9 @@
 # PH7, Un-amalgamated
 
-Fork of [PH7](https://github.com/symisc/PH7), split into separate files for easier study and modification.
+Fork of [PH7](https://github.com/symisc/PH7), split into original source files for better readability and maintainability.
+
+> [!NOTE]
+> This project is for educational purposes and to provide an accessible version of the PH7 source code, and may not be suitable for production use.
 
 ## About
 
