@@ -928,6 +928,14 @@ int ph7_vm_exec(ph7_vm *pVm,int *pExitStatus)
 	/* Execution result */
 	return rc;
 }
+
+int ph7_vm_eval(ph7_vm *pVm, ph7_context *pCtx, const char *pChunk, int nLen, int *pExitStatus) {
+	SyString sStr;
+	SyStringInitFromBuf(&sStr, pChunk, nLen);
+	//int rc = ProcessScript(pVm->pEngine, &pVm->pEngine, &sStr,0,0);
+	PH7_VmEvalChunk(pVm, pCtx, &sStr, PH7_PHP_ONLY, FALSE);
+}
+
 /*
  * [CAPIREF: ph7_vm_reset()]
  * Please refer to the official documentation for function purpose and expected parameters.

@@ -1,0 +1,5 @@
+export QUERY_STRING='ab+cd+ef+123+test'
+export REQUEST_METHOD='GET'
+export CONTENT_TYPE=''
+export CONTENT_LENGTH=''
+export HTTP_COOKIE=''

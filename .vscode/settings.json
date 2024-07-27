@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "ph7int.h": "c",
+        "ph7.h": "c"
+    }
+}

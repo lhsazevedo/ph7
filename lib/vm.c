@@ -909,7 +909,7 @@ PH7_PRIVATE ph7_value * VmReserveMemObj(ph7_vm *pVm,sxu32 *pIndex)
 	return pObj;
 }
 /* Forward declaration */
-static sxi32 VmEvalChunk(ph7_vm *pVm,ph7_context *pCtx,SyString *pChunk,int iFlags,int bTrueReturn);
+PH7_PRIVATE sxi32 PH7_VmEvalChunk(ph7_vm *pVm,ph7_context *pCtx,SyString *pChunk,int iFlags,int bTrueReturn);
 /*
  * Built-in classes/interfaces and some functions that cannot be implemented
  * directly as foreign functions.
@@ -1337,7 +1337,7 @@ PH7_PRIVATE sxi32 PH7_VmInit(
 	pVm->nMagic = PH7_VM_INIT;
 	SyStringInitFromBuf(&sBuiltin,PH7_BUILTIN_LIB,sizeof(PH7_BUILTIN_LIB)-1);
 	/* Compile the built-in library */
-	VmEvalChunk(&(*pVm),0,&sBuiltin,PH7_PHP_ONLY,FALSE);
+	PH7_VmEvalChunk(&(*pVm),0,&sBuiltin,PH7_PHP_ONLY,FALSE);
 	/* Reset the code generator */
 	PH7_ResetCodeGenerator(&(*pVm),pEngine->xConf.xErr,pEngine->xConf.pErrData);
 	return SXRET_OK;
@@ -1816,6 +1816,11 @@ static sxi32 VmHashmapInsert(
 }
 /* Forward declaration */
 static sxi32 VmHttpProcessRequest(ph7_vm *pVm,const char *zRequest,int nByte);
+static sxi32 VmHttpSplitEncodedQuery(ph7_vm *pVm, SyString *pQuery, SyBlob *pWorker, int is_post);
+static sxi32 VmHttpSplitIndexedQuery(ph7_vm *pVm, SyString *pQuery, SyBlob *pWorker);
+static sxi32 VmHttpParseMethod(const char *zMethod, sxu32 nLen);
+static sxi32 VmConfigure(ph7_vm *pVm, sxi32 nOp, ...);
+
 /*
  * Configure a working virtual machine instance.
  *
@@ -2109,6 +2114,108 @@ PH7_PRIVATE sxi32 PH7_VmConfigure(
 		/* Process the request */
 		rc = VmHttpProcessRequest(&(*pVm),zRequest,nByte);
 		break;
+									   }
+	case PH7_VM_CONFIG_CGI_ENV:{
+		const char **zEnv = va_arg(ap,const char **);
+		const char *zBody = va_arg(ap,const char *);
+		int nBodyLen = va_arg(ap,int);
+		sxu32 nContentLength = 0;
+		sxi32 method = 0;
+
+		while (*zEnv) {
+			sxu32 nKeyLen;
+			sxu32 nEnvLen = SyStrlen(*zEnv);
+			if (SyByteFind(*zEnv, nEnvLen, '=', &nKeyLen) != SXRET_OK ) {
+				continue;
+			}
+			char *zValue = *zEnv + nKeyLen + 1;
+			sxu32 nValueLen = nEnvLen - nKeyLen - 1;
+			if (SyStrncmp(*zEnv, "REQUEST_METHOD", nKeyLen) == 0) {
+				method = VmHttpParseMethod(zValue, nValueLen);
+				const char *azMethods[] = {"GET", "HEAD", "POST", "PUT", "OTHER"};
+				char *zMethod = azMethods[method - 1];
+				VmConfigure(pVm, PH7_VM_CONFIG_SERVER_ATTR, "REQUEST_METHOD", zMethod, -1);
+			}
+			else if (SyStrncmp(*zEnv, "QUERY_STRING", nKeyLen) == 0) {
+				SyString sQuery;
+				SyBlob pWorker;
+				SyStringInitFromBuf(&sQuery,zValue,nValueLen);
+				SyBlobInit(&pWorker,&pVm->sAllocator);
+				VmConfigure(pVm, PH7_VM_CONFIG_SERVER_ATTR, "QUERY_STRING", zValue, nValueLen);
+
+				SyBlobReset(&pWorker);
+
+				int isIndexedQuery = TRUE;
+				for (const char *zIn = zValue; zIn < (zValue + nValueLen); zIn++) {
+					if (*zIn == '=') {
+						isIndexedQuery = FALSE;
+						break;
+					}
+				}
+
+				if (isIndexedQuery) {
+					VmHttpSplitIndexedQuery(pVm, &sQuery, &pWorker);
+				} else {
+					VmHttpSplitEncodedQuery(pVm, &sQuery, &pWorker, FALSE);
+				}
+
+				SyBlobRelease(&pWorker);
+			}
+			else if (SyStrncmp(*zEnv, "CONTENT_LENGTH", nKeyLen) == 0) {
+				SyStrToInt32(zValue, nValueLen, &nContentLength, 0);
+				// VmConfigure(pVm, PH7_VM_CONFIG_SERVER_ATTR, "CONTENT_LENGTH", , -1);
+			}
+			// else if (SyStrncmp(*zEnv, "CONTENT_TYPE", nKeyLen) == 0) {
+			// 	ph7_value *pValue = VmExtractSuper(pVm,"_SERVER",sizeof("_SERVER")-1);
+			// 	ph7_hashmap *pMap = pValue->x.pOther;
+			// 	rc = VmHashmapInsert(pMap, zEnv, nKeyLen, zValue, nValueLen);
+			// }
+			// else if (SyStrncmp(*zEnv, "REQUEST_URI", nKeyLen) == 0) {
+			// 	ph7_value *pValue = VmExtractSuper(pVm,"_SERVER",sizeof("_SERVER")-1);
+			// 	ph7_hashmap *pMap = pValue->x.pOther;
+			// 	rc =
+			zEnv++;
+		}
+
+		if (method == HTTP_METHOD_GET) {
+			ph7_value *pValue = VmExtractSuper(pVm,"_SERVER",sizeof("_SERVER")-1);
+			ph7_hashmap *pMap = pValue->x.pOther;
+
+			ph7_value *pGet = VmExtractSuper(pVm,"_GET",sizeof("_GET")-1);
+
+			// $_SERVER['argv'] = $_GET
+			ph7_value pServerArgvKey;
+			PH7_MemObjInitFromString(pVm, &pServerArgvKey, 0);
+			PH7_MemObjStringAppend(&pServerArgvKey, "argv", sizeof("argv")-1);
+			PH7_HashmapInsert(pMap, &pServerArgvKey, pGet);
+
+			// $_SERVER['argc'] = count($_GET)
+			ph7_value pServerArgcKey;
+			PH7_MemObjInitFromString(pVm, &pServerArgcKey, 0);
+			PH7_MemObjStringAppend(&pServerArgcKey, "argc", sizeof("argc")-1);
+
+			ph7_value pServerArgcValue;
+			PH7_MemObjInitFromInt(pVm, &pServerArgcValue, ((ph7_hashmap *) pGet->x.pOther)->nEntry);
+			PH7_HashmapInsert(pMap, &pServerArgcKey, &pServerArgcValue);
+		}
+		else if (method == HTTP_METHOD_POST && nContentLength) {
+			// TODO: Implement Input Producer
+
+			// TODO: Emit error
+			// TODO: vm.c should be able to read a stream
+			if (nContentLength > 4096) {
+				return SXERR_ABORT;
+			}
+
+			SyString sBody;
+			SyStringInitFromBuf(&sBody,zBody,nBodyLen);
+			SyBlob sWorker;
+			SyBlobInit(&sWorker,&pVm->sAllocator);
+			// TODO: rc
+			VmHttpSplitEncodedQuery(&(*pVm),&sBody,&sWorker,TRUE);
+			SyBlobRelease(&sWorker);
+		}
+		break;
 									}
 	default:
 		/* Unknown configuration option */
@@ -2117,6 +2224,20 @@ PH7_PRIVATE sxi32 PH7_VmConfigure(
 	}
 	return rc;
 }
+
+/*
+ * Variadic wrapper to [PH7_VmConfigure()].
+ */
+static sxi32 VmConfigure(ph7_vm *pVm, sxi32 nOp, ...)
+{
+	va_list ap;
+	sxi32 rc;
+	va_start(ap, pVm);
+	rc = PH7_VmConfigure(pVm, nOp, ap);
+	va_end(ap);
+	return rc;
+}
+
 /* Forward declaration */
 static const char * VmInstrToString(sxi32 nOp);
 /*
@@ -8934,7 +9055,7 @@ static int vm_builtin_assert(ph7_context *pCtx,int nArg,ph7_value **apArg)
 		SyString sChunk;
 		SyStringInitFromBuf(&sChunk,SyBlobData(&pAssert->sBlob),SyBlobLength(&pAssert->sBlob));
 		if( sChunk.nByte > 0 ){
-			VmEvalChunk(pVm,pCtx,&sChunk,PH7_PHP_ONLY|PH7_PHP_EXPR,FALSE);
+			PH7_VmEvalChunk(pVm,pCtx,&sChunk,PH7_PHP_ONLY|PH7_PHP_EXPR,FALSE);
 			/* Extract evaluation result */
 			iResult = ph7_value_to_bool(pCtx->pRet);
 		}else{
@@ -10439,7 +10560,7 @@ static int vm_builtin_import_request_variables(ph7_context *pCtx,int nArg,ph7_va
  * Refer to the eval() language construct implementation for more
  * information.
  */
-static sxi32 VmEvalChunk(
+PH7_PRIVATE sxi32 PH7_VmEvalChunk(
 	ph7_vm *pVm,        /* Underlying Virtual Machine */
 	ph7_context *pCtx,  /* Call Context */
 	SyString *pChunk,   /* PHP chunk to evaluate */ 
@@ -10526,7 +10647,7 @@ static int vm_builtin_eval(ph7_context *pCtx,int nArg,ph7_value **apArg)
 		return SXRET_OK;
 	}
 	/* Eval the chunk */
-	VmEvalChunk(pCtx->pVm,&(*pCtx),&sChunk,PH7_PHP_ONLY,FALSE);
+	PH7_VmEvalChunk(pCtx->pVm,&(*pCtx),&sChunk,PH7_PHP_ONLY,FALSE);
 	return SXRET_OK;
 }
 /*
@@ -10652,7 +10773,7 @@ static sxi32 VmExecIncludedFile(
 			SyString sScript;
 			/* Compile and execute the script */
 			SyStringInitFromBuf(&sScript,SyBlobData(&sContents),SyBlobLength(&sContents));
-			VmEvalChunk(pCtx->pVm,&(*pCtx),&sScript,0,TRUE);
+			PH7_VmEvalChunk(pCtx->pVm,&(*pCtx),&sScript,0,TRUE);
 		}
 	}
 	/* Pop from the set of included file */
@@ -14373,6 +14494,20 @@ static sxi32 VmGetNextLine(SyString *pCursor,SyString *pCurrent)
 	 } /* for(;;) */
 	 return SXRET_OK;
  }
+
+static sxi32 VmHttpParseMethod(const char *zMethod, sxu32 nLen)
+{
+	const char *azMethods[] = { "get","post","head","put"};
+	const sxi32 aMethods[]  = { HTTP_METHOD_GET,HTTP_METHOD_POST,HTTP_METHOD_HEAD,HTTP_METHOD_PUT};
+	sxu32 i;
+	for( i = 0 ; i < SX_ARRAYSIZE(azMethods) ; ++i ){
+		if( SyStrnicmp(azMethods[i],zMethod,nLen) == 0 ){
+			return aMethods[i];
+		}
+	}
+	return HTTP_METHOD_OTHR;
+}
+
  /*
   * Process the first line of a HTTP request.
   * This routine perform the following operations
@@ -14415,14 +14550,7 @@ static sxi32 VmGetNextLine(SyString *pCursor,SyString *pCurrent)
 	 }
 	 *pMethod = HTTP_METHOD_OTHR;
 	 if( zIn > zPtr ){
-		 sxu32 i;
-		 nLen = (sxu32)(zIn-zPtr);
-		 for( i = 0 ; i < SX_ARRAYSIZE(azMethods) ; ++i ){
-			 if( SyStrnicmp(azMethods[i],zPtr,nLen) == 0 ){
-				 *pMethod = aMethods[i];
-				 break;
-			 }
-		 }
+		 *pMethod = VmHttpParseMethod(zPtr,(sxu32)(zIn-zPtr));
 	 }
 	 /* Jump trailing white spaces */
 	 while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && SyisSpace(zIn[0]) ){
@@ -14457,6 +14585,7 @@ static sxi32 VmGetNextLine(SyString *pCursor,SyString *pCurrent)
 	 }
 	 return SXRET_OK;
  }
+ 
  /*
   * Tokenize,decode and split a raw query encoded as: "x-www-form-urlencoded" 
   * into a name value pair.
@@ -14545,6 +14674,55 @@ static sxi32 VmGetNextLine(SyString *pCursor,SyString *pCurrent)
 	/* All done*/
 	return SXRET_OK;
  }
+
+ static sxi32 VmHttpSplitIndexedQuery(
+	 ph7_vm *pVm,       /* Target VM */
+	 SyString *pQuery,  /* Raw query to decode */
+	 SyBlob *pWorker   /* Working buffer */
+	 )
+ {
+	 const char *zEnd = &pQuery->zString[pQuery->nByte];
+	 const char *zIn = pQuery->zString;
+	 ph7_value *pGet,*pRequest;
+	 SyString sValue;
+	 const char *zPtr;
+	 sxu32 nBlobOfft;
+	 /* Extract superglobal */
+	 pGet = VmExtractSuper(&(*pVm),"_GET",sizeof("_GET")-1);
+	 /* Split up the raw query */
+	 for(;;){
+		 /* Jump leading white spaces */
+		 while(zIn < zEnd  && SyisSpace(zIn[0]) ){
+			 zIn++;
+		 }
+		 if( zIn >= zEnd ){
+			 break;
+		 }
+		 zPtr = zIn;
+		 while( zPtr < zEnd && zPtr[0] != '+'){
+			 zPtr++;
+		 }
+		 /* Reset the working buffer */
+		 SyBlobReset(pWorker);
+		 /* Decode the entry */
+		 SyUriDecode(zIn,(sxu32)(zPtr-zIn),PH7_VmBlobConsumer,pWorker,TRUE);
+		 /* Save the entry */
+		 sValue.nByte = SyBlobLength(pWorker);
+		 sValue.zString = (const char *)SyBlobData(pWorker);
+		 /* Install the decoded query in the $_GET/$_REQUEST array */
+		 if( pGet && (pGet->iFlags & MEMOBJ_HASHMAP) ){
+			 VmHashmapInsert((ph7_hashmap *)pGet->x.pOther,
+				 0, 0,
+				 sValue.zString,(int)sValue.nByte
+				 );
+		 }
+		 /* Advance the pointer */
+		 zIn = &zPtr[1];
+	 }
+	/* All done*/
+	return SXRET_OK;
+ }
+
  /*
   * Extract MIME header value from the given set.
   * Return header value on success. NULL otherwise.

@@ -29,8 +29,12 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 /* Make sure this header file is available.*/
 #include "ph7.h"
+
+extern char **environ;
+
 /* 
  * Display an error message and exit.
  */
@@ -58,7 +62,10 @@ static void Help(void)
 {
 	puts(zBanner);
 	puts("ph7 [-h|-r|-d] path/to/php_file [script args]");
+#ifndef PH7_ENABLE_CGI
 	puts("\t-d: Dump PH7 byte-code instructions");
+#endif
+	//puts("\t-d: Define INI entry foo with value 'bar'");
 	puts("\t-r: Report run-time errors");
 	puts("\t-h: Display this message an exit");
 	/* Exit immediately */
@@ -117,6 +124,7 @@ int main(int argc,char **argv)
 	int err_report = 0; /* Report run-time errors if TRUE */
 	int n;              /* Script arguments */
 	int rc;
+	char *file = NULL;
 	/* Process interpreter arguments first*/
 	for(n = 1 ; n < argc ; ++n ){
 		int c;
@@ -125,20 +133,37 @@ int main(int argc,char **argv)
 			break;
 		}
 		c = argv[n][1];
+#if 1
+		if( c == 'd' && n < argc - 1 ){
+			// TODO: Implement -d option
+			++n;
+#else
 		if( c == 'd' || c == 'D' ){
 			/* Dump byte-code instructions */
 			dump_vm = 1;
+#endif
 		}else if( c == 'r' || c == 'R' ){
 			/* Report run-time errors */
 			err_report = 1;
+		}else if( c == 'f' && n < argc - 1 ){
+			// TODO: Add support for the -f option
+			file = argv[++n];
+#ifdef PH7_ENABLE_CGI
+		}else if( c == 'C'){
+			// TODO: --no-chdir  Do not chdir to the script's directory (CGI only). 
+#endif
 		}else{
 			/* Display a help message and exit */
 			Help();
 		}
 	}
-	if( n >= argc ){
-		puts("Missing PHP file to compile");
-		Help();
+	if(file == NULL) {
+		if (n >= argc ){
+			puts("Missing PHP file to compile");
+			Help();
+		}
+
+		file = argv[n];
 	}
 	/* Allocate a new PH7 engine instance */
 	rc = ph7_init(&pEngine);
@@ -159,7 +184,7 @@ int main(int argc,char **argv)
 	/* Now,it's time to compile our PHP file */
 	rc = ph7_compile_file(
 		pEngine, /* PH7 Engine */
-		argv[n], /* Path to the PHP file to compile */
+		file, /* Path to the PHP file to compile */
 		&pVm,    /* OUT: Compiled PHP program */
 		0        /* IN: Compile flags */
 		);
@@ -186,6 +211,33 @@ int main(int argc,char **argv)
 	if( rc != PH7_OK ){
 		Fatal("Error while installing the VM output consumer callback");
 	}
+
+	for( n = n + 1; n < argc ; ++n ){
+		ph7_vm_config(pVm,PH7_VM_CONFIG_ARGV_ENTRY,argv[n]);
+	}
+
+#ifdef PH7_ENABLE_CGI
+	char postBuffer[4096] = {0};
+	int nRead;
+	int nTotalRead = 0;
+	// TODO: We should check for Content-Length here.
+	char *contentLengthValue = getenv("CONTENT_LENGTH");
+	if (contentLengthValue) {
+		long contentLength = strtol(contentLengthValue, NULL, 10);
+		if (contentLength > sizeof(postBuffer)) {
+			Fatal("POST body too large");
+		}
+
+		while (nRead = read(STDIN_FILENO, postBuffer + nTotalRead, contentLength - nTotalRead)) {
+			if (nRead <= 0) {
+				break;
+			}
+			nTotalRead += nRead;
+		}
+	}
+	ph7_vm_config(pVm, PH7_VM_CONFIG_CGI_ENV, environ, &postBuffer, nTotalRead);
+#endif
+
 	/* Register script agruments so we can access them later using the $argv[]
 	 * array from the compiled PHP program.
 	 */

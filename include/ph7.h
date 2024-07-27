@@ -412,6 +412,8 @@ typedef sxi64 ph7_int64;
 #define PH7_VM_CONFIG_ARGV_ENTRY      19  /* ONE ARGUMENT: const char *zValue */
 #define PH7_VM_CONFIG_EXTRACT_OUTPUT  20  /* TWO ARGUMENTS: const void **ppOut,unsigned int *pOutputLen */
 #define PH7_VM_CONFIG_ERR_LOG_HANDLER 21  /* ONE ARGUMENT: void (*xErrLog)(const char *,int,const char *,const char *) */
+#define PH7_VM_CONFIG_CGI_ENV	      22  /* TWO ARGUMENTS: const char *zBody, int nBodyLength */
+
 /*
  * Global Library Configuration Commands.
  *
@@ -623,6 +625,7 @@ PH7_APIEXPORT int ph7_compile_file(ph7 *pEngine,const char *zFilePath,ph7_vm **p
 /* Virtual Machine Handling Interfaces */
 PH7_APIEXPORT int ph7_vm_config(ph7_vm *pVm,int iConfigOp,...);
 PH7_APIEXPORT int ph7_vm_exec(ph7_vm *pVm,int *pExitStatus);
+PH7_APIEXPORT int ph7_vm_eval(ph7_vm *pVm, ph7_context *pCtx, const char *zSource, int nLen, int *pExitStatus);
 PH7_APIEXPORT int ph7_vm_reset(ph7_vm *pVm);
 PH7_APIEXPORT int ph7_vm_release(ph7_vm *pVm);
 PH7_APIEXPORT int ph7_vm_dump_v2(ph7_vm *pVm,int (*xConsumer)(const void *,unsigned int,void *),void *pUserData);
