@@ -46,7 +46,7 @@ static void PH7_OS_Const(ph7_value *pVal,void *pUnused)
   ph7_value_string(pVal,"WINNT",(int)sizeof("WINNT") - 1);
 #elif defined(__UNIXES__)
   struct utsname sInfo;
-  if ( uname(&sInfo) != 0 ){
+  if (uname(&sInfo) != 0){
     ph7_value_string(pVal,"Unix",(int)sizeof("Unix") - 1);
   }else{
     ph7_value_string(pVal,sInfo.sysname,-1);
@@ -171,7 +171,7 @@ static void PH7_FILE_Const(ph7_value *pVal,void *pUserData)
   SyString *pFile;
   /* Peek the top entry */
   pFile = (SyString *)SySetPeek(&pVm->aFiles);
-  if ( pFile == 0 ){
+  if (pFile == 0){
     /* Expand the magic word: ":MEMORY:" */
     ph7_value_string(pVal,":MEMORY:",(int)sizeof(":MEMORY:") - 1);
   }else{
@@ -188,11 +188,11 @@ static void PH7_DIR_Const(ph7_value *pVal,void *pUserData)
   SyString *pFile;
   /* Peek the top entry */
   pFile = (SyString *)SySetPeek(&pVm->aFiles);
-  if ( pFile == 0 ){
+  if (pFile == 0){
     /* Expand the magic word: ":MEMORY:" */
     ph7_value_string(pVal,":MEMORY:",(int)sizeof(":MEMORY:") - 1);
   }else{
-    if ( pFile->nByte > 0 ){
+    if (pFile->nByte > 0){
       const char *zDir;
       int nLen;
       zDir = PH7_ExtractDirName(pFile->zString,(int)pFile->nByte,&nLen);
@@ -1808,7 +1808,7 @@ static void PH7_static_Const(ph7_value *pVal,void *pUserData)
   ph7_class *pClass;
   /* Extract the target class if available */
   pClass = PH7_VmPeekTopClass(pVm);
-  if ( pClass ){
+  if (pClass){
     SyString *pName = &pClass->sName;
     /* Expand class name */
     ph7_value_string(pVal,pName->zString,(int)pName->nByte);
@@ -1828,7 +1828,7 @@ static void PH7_self_Const(ph7_value *pVal,void *pUserData)
   ph7_class *pClass;
   /* Extract the target class if available */
   pClass = PH7_VmPeekTopClass(pVm);
-  if ( pClass ){
+  if (pClass){
     SyString *pName = &pClass->sName;
     /* Expand class name */
     ph7_value_string(pVal,pName->zString,(int)pName->nByte);
@@ -1846,7 +1846,7 @@ static void PH7_parent_Const(ph7_value *pVal,void *pUserData)
   ph7_class *pClass;
   /* Extract the target class if available */
   pClass = PH7_VmPeekTopClass(pVm);
-  if ( pClass && pClass->pBase ){
+  if (pClass && pClass->pBase){
     SyString *pName = &pClass->pBase->sName;
     /* Expand class name */
     ph7_value_string(pVal,pName->zString,(int)pName->nByte);
