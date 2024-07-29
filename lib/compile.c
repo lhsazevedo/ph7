@@ -4484,7 +4484,7 @@ static sxi32 PH7_CompileClassInterface(ph7_gen_state *pGen)
   pClass->iFlags = PH7_CLASS_INTERFACE;
   /* Assume no base class is given */
   pBase = 0;
-  if( pGen->pIn < pGen->pEnd  && (pGen->pIn->nType & PH7_TK_KEYWORD) ){
+  if( pGen->pIn < pGen->pEnd && (pGen->pIn->nType & PH7_TK_KEYWORD) ){
     nKwrd = SX_PTR_TO_INT(pGen->pIn->pUserData);
     if( nKwrd == PH7_TKWRD_EXTENDS /* interface b extends a */ ){
       SyString *pBaseName;
@@ -4520,7 +4520,7 @@ static sxi32 PH7_CompileClassInterface(ph7_gen_state *pGen)
       pGen->pIn++;
     }
   }
-  if( pGen->pIn >= pGen->pEnd  || (pGen->pIn->nType & PH7_TK_OCB /*'{'*/ ) == 0 ){
+  if( pGen->pIn >= pGen->pEnd || (pGen->pIn->nType & PH7_TK_OCB /*'{'*/ ) == 0 ){
     /* Syntax error */
     rc = PH7_GenCompileError(pGen,E_ERROR,nLine,"Expected '{' after interface '%z' definition",pName);
     SyMemBackendPoolFree(&pGen->pVm->sAllocator,pClass);
@@ -4717,7 +4717,7 @@ static sxi32 GenStateCompileClass(ph7_gen_state *pGen,sxi32 iFlags)
   SySetInit(&aInterfaces,&pGen->pVm->sAllocator,sizeof(ph7_class *));
   /* Assume a standalone class */
   pBase = 0;
-  if( pGen->pIn < pGen->pEnd  && (pGen->pIn->nType & PH7_TK_KEYWORD) ){
+  if( pGen->pIn < pGen->pEnd && (pGen->pIn->nType & PH7_TK_KEYWORD) ){
     SyString *pBaseName;
     nKwrd = SX_PTR_TO_INT(pGen->pIn->pUserData);
     if( nKwrd == PH7_TKWRD_EXTENDS /* class b extends a */ ){
@@ -4807,7 +4807,7 @@ static sxi32 GenStateCompileClass(ph7_gen_state *pGen,sxi32 iFlags)
       }
     }
   }
-  if( pGen->pIn >= pGen->pEnd  || (pGen->pIn->nType & PH7_TK_OCB /*'{'*/ ) == 0 ){
+  if( pGen->pIn >= pGen->pEnd || (pGen->pIn->nType & PH7_TK_OCB /*'{'*/ ) == 0 ){
     /* Syntax error */
     rc = PH7_GenCompileError(pGen,E_ERROR,nLine,"Expected '{' after class '%z' declaration",pName);
     SyMemBackendPoolFree(&pGen->pVm->sAllocator,pClass);

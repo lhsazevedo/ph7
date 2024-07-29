@@ -111,7 +111,7 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
     sxi32 c;
     /* Non-alpha stream */
     if( pStream->zText[0] == '#' ||
-        ( pStream->zText[0] == '/' &&  &pStream->zText[1] < pStream->zEnd && pStream->zText[1] == '/') ){
+        ( pStream->zText[0] == '/' && &pStream->zText[1] < pStream->zEnd && pStream->zText[1] == '/') ){
       pStream->zText++;
       /* Inline comments */
       while( pStream->zText < pStream->zEnd && pStream->zText[0] != '\n' ){
@@ -158,7 +158,7 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
               pStream->zText++;
               if( pStream->zText < pStream->zEnd ){
                 c = pStream->zText[0];
-                if( (c =='+' || c=='-') && &pStream->zText[1] < pStream->zEnd  &&
+                if( (c =='+' || c=='-') && &pStream->zText[1] < pStream->zEnd &&
                     pStream->zText[1] < 0xc0 && SyisDigit(pStream->zText[1]) ){
                   pStream->zText++;
                 }
@@ -175,7 +175,7 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
           pStream->zText++;
           if( pStream->zText < pStream->zEnd ){
             c = pStream->zText[0];
-            if( (c =='+' || c=='-') && &pStream->zText[1] < pStream->zEnd  &&
+            if( (c =='+' || c=='-') && &pStream->zText[1] < pStream->zEnd &&
                 pStream->zText[1] < 0xc0 && SyisDigit(pStream->zText[1]) ){
               pStream->zText++;
             }
@@ -1017,7 +1017,7 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput,sxu32 nLen,SySet *pOut)
         if( zIn < zEnd ){
           if( zIn[0] == '?' ){
             zIn++;
-            if( (sxu32)(zEnd - zIn) >= sizeof("php") - 1 &&  SyStrnicmp(zIn,"php",sizeof("php") - 1) == 0 ){
+            if( (sxu32)(zEnd - zIn) >= sizeof("php") - 1 && SyStrnicmp(zIn,"php",sizeof("php") - 1) == 0 ){
               /* opening tag: <?php */
               zIn += sizeof("php") - 1;
             }

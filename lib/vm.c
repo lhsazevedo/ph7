@@ -11311,7 +11311,7 @@ static sxi32 VmJsonEncode(
     zNum = ph7_value_to_string(pIn,&nByte);
     ph7_result_string(pCtx,zNum,nByte);
   }else if( ph7_value_is_string(pIn) ){
-    if( (iFlags & JSON_NUMERIC_CHECK) &&  ph7_value_is_numeric(pIn) ){
+    if( (iFlags & JSON_NUMERIC_CHECK) && ph7_value_is_numeric(pIn) ){
       const char *zNum;
       /* Encodes numeric strings as numbers. */
       PH7_MemObjToReal(pIn);           /* Force a numeric cast */
@@ -12040,7 +12040,7 @@ static int vm_builtin_json_decode(ph7_context *pCtx,int nArg,ph7_value **apArg)
   sDecoder.pUserData = 0;
   /* Decode the raw JSON input */
   rc = VmJsonDecode(&sDecoder,0);
-  if( rc == SXERR_ABORT ||  pVm->json_rc != JSON_ERROR_NONE ){
+  if( rc == SXERR_ABORT || pVm->json_rc != JSON_ERROR_NONE ){
     /*
      * Something goes wrong while decoding JSON input.Return NULL.
      */
@@ -12952,7 +12952,7 @@ static sxi32 VmXMLStartElementHandler(SyXMLRawStr *pStart,SyXMLRawStr *pNS,sxu32
   pTag = VmXMLValue(pEngine,pStart,pNS);
   /* Create a ph7_value holding the tag attributes */
   pAttr = VmXMLAttrValue(pEngine,aAttr,nAttr);
-  if( pTag == 0  || pAttr == 0 ){
+  if( pTag == 0 || pAttr == 0 ){
     SXUNUSED(pNS);     /* cc warning */
     /* Out of mem,return immediately */
     return SXRET_OK;
@@ -14489,7 +14489,7 @@ static sxi32 VmHttpSplitEncodedQuery(
   /* Split up the raw query */
   for(;;){
     /* Jump leading white spaces */
-    while(zIn < zEnd  && SyisSpace(zIn[0]) ){
+    while(zIn < zEnd && SyisSpace(zIn[0]) ){
       zIn++;
     }
     if( zIn >= zEnd ){

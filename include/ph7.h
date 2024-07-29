@@ -294,7 +294,7 @@ struct SyMutexMethods
   int (*xTryEnter)(SyMutex *);      /* [Optional:] Try to enter a mutex */
   void (*xLeave)(SyMutex *);        /* [Required:] Leave a locked mutex */
 };
-#if defined (_MSC_VER) || defined (__MINGW32__) ||  defined (__GNUC__) && defined (__declspec)
+#if defined (_MSC_VER) || defined (__MINGW32__) || defined (__GNUC__) && defined (__declspec)
 #define SX_APIIMPORT    __declspec(dllimport)
 #define SX_APIEXPORT    __declspec(dllexport)
 #else

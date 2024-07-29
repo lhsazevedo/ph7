@@ -714,7 +714,7 @@ static sxi32 ExprExtractNode(ph7_gen_state *pGen,ph7_expr_node **ppNode)
     pNode->xCode = PH7_CompileVariable;
   }else if( pCur->nType & PH7_TK_KEYWORD ){
     sxu32 nKeyword = (sxu32)SX_PTR_TO_INT(pCur->pUserData);
-    if( nKeyword == PH7_TKWRD_ARRAY ||  nKeyword == PH7_TKWRD_LIST ){
+    if( nKeyword == PH7_TKWRD_ARRAY || nKeyword == PH7_TKWRD_LIST ){
       /* List/Array node */
       if( &pCur[1] >= pGen->pEnd || (pCur[1].nType & PH7_TK_LPAREN) == 0 ){
         /* Assume a literal */
@@ -739,7 +739,7 @@ static sxi32 ExprExtractNode(ph7_gen_state *pGen,ph7_expr_node **ppNode)
         pNode->xCode = (nKeyword == PH7_TKWRD_LIST) ? PH7_CompileList : PH7_CompileArray;
         if( pNode->xCode == PH7_CompileList ){
           ph7_expr_op *pOp = (pCur < pGen->pEnd) ? (ph7_expr_op *)pCur->pUserData : 0;
-          if( pCur >= pGen->pEnd || (pCur->nType & PH7_TK_OP) == 0  || pOp == 0 || pOp->iVmOp != PH7_OP_STORE /*'='*/ ){
+          if( pCur >= pGen->pEnd || (pCur->nType & PH7_TK_OP) == 0 || pOp == 0 || pOp->iVmOp != PH7_OP_STORE /*'='*/ ){
             /* Syntax error */
             rc = PH7_GenCompileError(pGen,E_ERROR,pNode->pStart->nLine,"list(): expecting '=' after construct");
             if( rc != SXERR_ABORT ){
@@ -1149,7 +1149,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen,ph7_expr_node **apNode,sxi32 nToke
         /* Collect index tokens */
         while( iArrTok < nToken ){
           if( apNode[iArrTok] ){
-            if( apNode[iArrTok]->pOp && apNode[iArrTok]->pOp->iOp == EXPR_OP_SUBSCRIPT &&  apNode[iArrTok]->pLeft == 0){
+            if( apNode[iArrTok]->pOp && apNode[iArrTok]->pOp->iOp == EXPR_OP_SUBSCRIPT && apNode[iArrTok]->pLeft == 0){
               /* Increment nesting level */
               iNest++;
             }else if( apNode[iArrTok]->pStart->nType & PH7_TK_CSB /*']'*/ ){
@@ -1387,8 +1387,8 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen,ph7_expr_node **apNode,sxi32 nToke
           }
           if( apNode[iLeft]->pOp == 0 || apNode[iLeft]->pOp->iOp != EXPR_OP_SUBSCRIPT /*$a[] =& 14*/ ) {
             if(  ExprIsModifiableValue(apNode[iRight],TRUE) == FALSE ){
-              if( apNode[iRight]->pOp == 0 ||  (apNode[iRight]->pOp->iOp != EXPR_OP_NEW                /* new */
-                                                && apNode[iRight]->pOp->iOp != EXPR_OP_CLONE /* clone */ ) ){
+              if( apNode[iRight]->pOp == 0 || (apNode[iRight]->pOp->iOp != EXPR_OP_NEW                 /* new */
+                                               && apNode[iRight]->pOp->iOp != EXPR_OP_CLONE /* clone */ ) ){
                 rc = PH7_GenCompileError(pGen,E_ERROR,pNode->pStart->nLine,
                                          "Reference operator '&' require a variable not a constant expression as it's right operand");
                 if( rc != SXERR_ABORT ){

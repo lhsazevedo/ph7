@@ -1678,7 +1678,7 @@ PH7_PRIVATE sxi32 SyStrIsNumeric(const char *zSrc,sxu32 nLen,sxu8 *pReal,const c
 #endif
   zEnd = &zSrc[nLen];
   /* Jump leading white spaces */
-  while( zSrc < zEnd && (unsigned char)zSrc[0] < 0xc0  && SyisSpace(zSrc[0]) ){
+  while( zSrc < zEnd && (unsigned char)zSrc[0] < 0xc0 && SyisSpace(zSrc[0]) ){
     zSrc++;
   }
   if( zSrc < zEnd && (zSrc[0] == '+' || zSrc[0] == '-') ){
@@ -2055,19 +2055,19 @@ PH7_PRIVATE sxi32 SyStrToReal(const char *zSrc,sxu32 nLen,void * pOutVal,const c
   }
   Lim = SXDBL_DIG;
   for(;;){
-    if(zSrc >= zEnd||!Lim||!SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
-    if(zSrc >= zEnd||!Lim||!SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
-    if(zSrc >= zEnd||!Lim||!SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
-    if(zSrc >= zEnd||!Lim||!SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
+    if(zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
+    if(zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
+    if(zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
+    if(zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
   }
   if( zSrc < zEnd && ( zSrc[0] == '.' || zSrc[0] == ',' ) ){
     sxreal dec = 1.0;
     zSrc++;
     for(;;){
-      if(zSrc >= zEnd||!Lim||!SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
-      if(zSrc >= zEnd||!Lim||!SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
-      if(zSrc >= zEnd||!Lim||!SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
-      if(zSrc >= zEnd||!Lim||!SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
+      if(zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
+      if(zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
+      if(zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
+      if(zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
     }
     Val /= dec;
   }
@@ -2248,7 +2248,7 @@ PH7_PRIVATE sxi32 SyBase64Decode(const char *zB64,sxu32 nLen,ProcConsumer xConsu
   return SXRET_OK;
 }
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
-#define INVALID_LEXER(LEX)  (  LEX == 0  || LEX->xTokenizer == 0 )
+#define INVALID_LEXER(LEX)  (  LEX == 0 || LEX->xTokenizer == 0 )
 PH7_PRIVATE sxi32 SyLexInit(SyLex *pLex,SySet *pSet,ProcTokenizer xTokenizer,void *pUserData)
 {
   SyStream *pStream;
@@ -2321,7 +2321,7 @@ PH7_PRIVATE sxi32 SyLexTokenizeInput(SyLex *pLex,const char *zInput,sxu32 nLen,v
       pStream->zText = &zCur[1];
     }
   }
-  if( xSort &&  pLex->pTokenSet ){
+  if( xSort && pLex->pTokenSet ){
     SyToken *aToken = (SyToken *)SySetBasePtr(pLex->pTokenSet);
     /* Sort the extrated tokens */
     if( xCmp == 0 ){
@@ -3233,9 +3233,9 @@ struct SyXMLRawStrNS
 #define SXML_TOK_START_END  0x80   /* Tag */
 #define SXML_TOK_SPACE      0x100  /* Spaces (including new lines) */
 #define IS_XML_DIRTY(c) \
-        ( c == '<' || c == '$'|| c == '"' || c == '\''|| c == '&'|| c == '(' || c == ')' || c == '*' || \
-          c == '%'  || c == '#' || c == '|' || c == '/'|| c == '~' || c == '{' || c == '}' || \
-          c == '['  || c == ']' || c == '\\'|| c == ';'||c == '^'  || c == '`' )
+        ( c == '<' || c == '$' || c == '"' || c == '\'' || c == '&' || c == '(' || c == ')' || c == '*' || \
+          c == '%' || c == '#' || c == '|' || c == '/' || c == '~' || c == '{' || c == '}' || \
+          c == '[' || c == ']' || c == '\\' || c == ';' || c == '^' || c == '`' )
 /* Tokenize an entire XML input */
 static sxi32 XML_Tokenize(SyStream *pStream,SyToken *pToken,void *pUserData,void *pUnused2)
 {
@@ -3424,7 +3424,7 @@ static sxi32 XML_Tokenize(SyStream *pStream,SyToken *pToken,void *pUserData,void
         /* Ignore the token */
         return SXERR_CONTINUE;
       }
-      if( c < 0xc0 && (SyisSpace(c) || SyisDigit(c) || c == '.' || c == '-' ||IS_XML_DIRTY(c) ) ){
+      if( c < 0xc0 && (SyisSpace(c) || SyisDigit(c) || c == '.' || c == '-' || IS_XML_DIRTY(c) ) ){
         if( pParse->xError ){
           rc = pParse->xError("Illegal syntax,expecting valid start name character",SXML_ERROR_SYNTAX,pToken,pParse->pUserData);
           if( rc == SXERR_ABORT ){

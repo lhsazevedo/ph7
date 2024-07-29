@@ -2470,7 +2470,7 @@ static int PH7_builtin_ftruncate(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Point to the target IO stream device */
   pStream = pDev->pStream;
-  if( pStream == 0  || pStream->xTrunc == 0){
+  if( pStream == 0 || pStream->xTrunc == 0){
     ph7_context_throw_error_format(pCtx,PH7_CTX_WARNING,
                                    "IO routine(%s) not implemented in the underlying stream(%s) device,PH7 is returning FALSE",
                                    ph7_function_name(pCtx),pStream ? pStream->zName : "null_stream"
@@ -2530,7 +2530,7 @@ static int PH7_builtin_fseek(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Point to the target IO stream device */
   pStream = pDev->pStream;
-  if( pStream == 0  || pStream->xSeek == 0){
+  if( pStream == 0 || pStream->xSeek == 0){
     ph7_context_throw_error_format(pCtx,PH7_CTX_WARNING,
                                    "IO routine(%s) not implemented in the underlying stream(%s) device",
                                    ph7_function_name(pCtx),pStream ? pStream->zName : "null_stream"
@@ -2587,7 +2587,7 @@ static int PH7_builtin_ftell(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Point to the target IO stream device */
   pStream = pDev->pStream;
-  if( pStream == 0  || pStream->xTell == 0){
+  if( pStream == 0 || pStream->xTell == 0){
     ph7_context_throw_error_format(pCtx,PH7_CTX_WARNING,
                                    "IO routine(%s) not implemented in the underlying stream(%s) device,PH7 is returning FALSE",
                                    ph7_function_name(pCtx),pStream ? pStream->zName : "null_stream"
@@ -2632,7 +2632,7 @@ static int PH7_builtin_rewind(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Point to the target IO stream device */
   pStream = pDev->pStream;
-  if( pStream == 0  || pStream->xSeek == 0){
+  if( pStream == 0 || pStream->xSeek == 0){
     ph7_context_throw_error_format(pCtx,PH7_CTX_WARNING,
                                    "IO routine(%s) not implemented in the underlying stream(%s) device,PH7 is returning FALSE",
                                    ph7_function_name(pCtx),pStream ? pStream->zName : "null_stream"
@@ -3408,7 +3408,7 @@ static int PH7_builtin_readdir(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Point to the target IO stream device */
   pStream = pDev->pStream;
-  if( pStream == 0  || pStream->xReadDir == 0 ){
+  if( pStream == 0 || pStream->xReadDir == 0 ){
     ph7_context_throw_error_format(pCtx,PH7_CTX_WARNING,
                                    "IO routine(%s) not implemented in the underlying stream(%s) device,PH7 is returning FALSE",
                                    ph7_function_name(pCtx),pStream ? pStream->zName : "null_stream"
@@ -3455,7 +3455,7 @@ static int PH7_builtin_rewinddir(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Point to the target IO stream device */
   pStream = pDev->pStream;
-  if( pStream == 0  || pStream->xRewindDir == 0 ){
+  if( pStream == 0 || pStream->xRewindDir == 0 ){
     ph7_context_throw_error_format(pCtx,PH7_CTX_WARNING,
                                    "IO routine(%s) not implemented in the underlying stream(%s) device,PH7 is returning FALSE",
                                    ph7_function_name(pCtx),pStream ? pStream->zName : "null_stream"
@@ -3500,7 +3500,7 @@ static int PH7_builtin_closedir(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Point to the target IO stream device */
   pStream = pDev->pStream;
-  if( pStream == 0  || pStream->xCloseDir == 0 ){
+  if( pStream == 0 || pStream->xCloseDir == 0 ){
     ph7_context_throw_error_format(pCtx,PH7_CTX_WARNING,
                                    "IO routine(%s) not implemented in the underlying stream(%s) device,PH7 is returning FALSE",
                                    ph7_function_name(pCtx),pStream ? pStream->zName : "null_stream"
@@ -4099,7 +4099,7 @@ static int PH7_builtin_fstat(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Point to the target IO stream device */
   pStream = pDev->pStream;
-  if( pStream == 0  || pStream->xStat == 0){
+  if( pStream == 0 || pStream->xStat == 0){
     ph7_context_throw_error_format(pCtx,PH7_CTX_WARNING,
                                    "IO routine(%s) not implemented in the underlying stream(%s) device,PH7 is returning FALSE",
                                    ph7_function_name(pCtx),pStream ? pStream->zName : "null_stream"
@@ -4161,7 +4161,7 @@ static int PH7_builtin_fwrite(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Point to the target IO stream device */
   pStream = pDev->pStream;
-  if( pStream == 0  || pStream->xWrite == 0){
+  if( pStream == 0 || pStream->xWrite == 0){
     ph7_context_throw_error_format(pCtx,PH7_CTX_WARNING,
                                    "IO routine(%s) not implemented in the underlying stream(%s) device,PH7 is returning FALSE",
                                    ph7_function_name(pCtx),pStream ? pStream->zName : "null_stream"
@@ -4231,7 +4231,7 @@ static int PH7_builtin_flock(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Point to the target IO stream device */
   pStream = pDev->pStream;
-  if( pStream == 0  || pStream->xLock == 0){
+  if( pStream == 0 || pStream->xLock == 0){
     ph7_context_throw_error_format(pCtx,PH7_CTX_WARNING,
                                    "IO routine(%s) not implemented in the underlying stream(%s) device,PH7 is returning FALSE",
                                    ph7_function_name(pCtx),pStream ? pStream->zName : "null_stream"
@@ -4405,7 +4405,7 @@ static int PH7_builtin_fputcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Point to the target IO stream device */
   pStream = pDev->pStream;
-  if( pStream == 0  || pStream->xWrite == 0){
+  if( pStream == 0 || pStream->xWrite == 0){
     ph7_context_throw_error_format(pCtx,PH7_CTX_WARNING,
                                    "IO routine(%s) not implemented in the underlying stream(%s) device,PH7 is returning FALSE",
                                    ph7_function_name(pCtx),pStream ? pStream->zName : "null_stream"
@@ -4509,7 +4509,7 @@ static int PH7_builtin_fprintf(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the target IO stream device */
-  if( pDev->pStream == 0  || pDev->pStream->xWrite == 0 ){
+  if( pDev->pStream == 0 || pDev->pStream->xWrite == 0 ){
     ph7_context_throw_error_format(pCtx,PH7_CTX_WARNING,
                                    "IO routine(%s) not implemented in the underlying stream(%s) device",
                                    ph7_function_name(pCtx),pDev->pStream ? pDev->pStream->zName : "null_stream"
@@ -4554,7 +4554,7 @@ static int PH7_builtin_vfprintf(ph7_context *pCtx,int nArg,ph7_value **apArg)
   io_private *pDev;
   SySet sArg;
   int n,nLen;
-  if( nArg < 3 || !ph7_value_is_resource(apArg[0]) || !ph7_value_is_string(apArg[1])  || !ph7_value_is_array(apArg[2]) ){
+  if( nArg < 3 || !ph7_value_is_resource(apArg[0]) || !ph7_value_is_string(apArg[1]) || !ph7_value_is_array(apArg[2]) ){
     /* Missing/Invalid arguments,return zero */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Invalid arguments");
     ph7_result_int(pCtx,0);
@@ -4570,7 +4570,7 @@ static int PH7_builtin_vfprintf(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the target IO stream device */
-  if( pDev->pStream == 0  || pDev->pStream->xWrite == 0 ){
+  if( pDev->pStream == 0 || pDev->pStream->xWrite == 0 ){
     ph7_context_throw_error_format(pCtx,PH7_CTX_WARNING,
                                    "IO routine(%s) not implemented in the underlying stream(%s) device",
                                    ph7_function_name(pCtx),pDev->pStream ? pDev->pStream->zName : "null_stream"

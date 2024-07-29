@@ -518,30 +518,30 @@ struct SyLex
           (RAW)->zString++; \
         }
 #define SyStringRightTrim(RAW) \
-        while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[(RAW)->nByte - 1] < 0xc0  && SyisSpace((RAW)->zString[(RAW)->nByte - 1])){ \
+        while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[(RAW)->nByte - 1] < 0xc0 && SyisSpace((RAW)->zString[(RAW)->nByte - 1])){ \
           (RAW)->nByte--; \
         }
 #define SyStringRightTrimSafe(RAW) \
-        while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[(RAW)->nByte - 1] < 0xc0  && \
+        while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[(RAW)->nByte - 1] < 0xc0 && \
               (( RAW)->zString[(RAW)->nByte - 1] == 0 || SyisSpace((RAW)->zString[(RAW)->nByte - 1]))){ \
           (RAW)->nByte--; \
         }
 
 #define SyStringFullTrim(RAW) \
-        while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[0] < 0xc0  && SyisSpace((RAW)->zString[0])){ \
+        while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[0] < 0xc0 && SyisSpace((RAW)->zString[0])){ \
           (RAW)->nByte--; \
           (RAW)->zString++; \
         } \
-        while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[(RAW)->nByte - 1] < 0xc0  && SyisSpace((RAW)->zString[(RAW)->nByte - 1])){ \
+        while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[(RAW)->nByte - 1] < 0xc0 && SyisSpace((RAW)->zString[(RAW)->nByte - 1])){ \
           (RAW)->nByte--; \
         }
 #define SyStringFullTrimSafe(RAW) \
-        while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[0] < 0xc0  && \
+        while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[0] < 0xc0 && \
               ( (RAW)->zString[0] == 0 || SyisSpace((RAW)->zString[0]))){ \
           (RAW)->nByte--; \
           (RAW)->zString++; \
         } \
-        while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[(RAW)->nByte - 1] < 0xc0  && \
+        while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[(RAW)->nByte - 1] < 0xc0 && \
               ( (RAW)->zString[(RAW)->nByte - 1] == 0 || SyisSpace((RAW)->zString[(RAW)->nByte - 1]))){ \
           (RAW)->nByte--; \
         }
@@ -658,7 +658,7 @@ struct SyArchive
 
 };
 #define SXARCH_MAGIC    0xDEAD635A
-#define SXARCH_INVALID(ARCH)            (ARCH == 0  || ARCH->nMagic != SXARCH_MAGIC)
+#define SXARCH_INVALID(ARCH)            (ARCH == 0 || ARCH->nMagic != SXARCH_MAGIC)
 #define SXARCH_ENTRY_INVALID(ENTRY)     (ENTRY == 0 || ENTRY->nMagic != SXARCH_MAGIC)
 #define SyArchiveHashFunc(ARCH)         (ARCH)->xHash
 #define SyArchiveCmpFunc(ARCH)          (ARCH)->xCmp
