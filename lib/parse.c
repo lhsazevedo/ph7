@@ -267,7 +267,7 @@ static const ph7_expr_op sFCallOp = {{"(",sizeof(char)}, EXPR_OP_FUNC_CALL, 2, E
  * Note that the function take care of handling ambiguity [i.e: whether we are dealing with
  * a binary minus or unary minus.]
  */
-PH7_PRIVATE const ph7_expr_op *  PH7_ExprExtractOperator(SyString *pStr,SyToken *pLast)
+PH7_PRIVATE const ph7_expr_op * PH7_ExprExtractOperator(SyString *pStr,SyToken *pLast)
 {
   sxu32 n = 0;
   sxi32 rc;
