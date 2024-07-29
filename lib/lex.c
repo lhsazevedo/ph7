@@ -212,23 +212,29 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
     pToken->nType = PH7_TK_OP;
     switch (c) {
       case '$':
-        pToken->nType = PH7_TK_DOLLAR; break;
+        pToken->nType = PH7_TK_DOLLAR;
+        break;
 
       case '{':
-        pToken->nType = PH7_TK_OCB;    break;
+        pToken->nType = PH7_TK_OCB;
+        break;
 
       case '}':
-        pToken->nType = PH7_TK_CCB;    break;
+        pToken->nType = PH7_TK_CCB;
+        break;
 
       case '(':
-        pToken->nType = PH7_TK_LPAREN; break;
+        pToken->nType = PH7_TK_LPAREN;
+        break;
 
       case '[':
-        pToken->nType |= PH7_TK_OSB;   break;           /* Bitwise operation here,since the square bracket token '['
+        pToken->nType |= PH7_TK_OSB;
+        break;                                          /* Bitwise operation here,since the square bracket token '['
                                                          * is a potential operator [i.e: subscripting] */
 
       case ']':
-        pToken->nType = PH7_TK_CSB;    break;
+        pToken->nType = PH7_TK_CSB;
+        break;
 
       case ')': {
         SySet *pTokSet = pStream->pSet;
@@ -381,7 +387,8 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
       }
 
       case '\\':
-        pToken->nType = PH7_TK_NSSEP;  break;
+        pToken->nType = PH7_TK_NSSEP;
+        break;
 
       case ':':
         if (pStream->zText < pStream->zEnd && pStream->zText[0] == ':') {
@@ -393,10 +400,12 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         break;
 
       case ',':
-        pToken->nType |= PH7_TK_COMMA;  break;           /* Comma is also an operator */
+        pToken->nType |= PH7_TK_COMMA;
+        break;                                           /* Comma is also an operator */
 
       case ';':
-        pToken->nType = PH7_TK_SEMI;    break;
+        pToken->nType = PH7_TK_SEMI;
+        break;
 
       /* Handle combined operators [i.e: +=,===,!=== ...] */
       case '=':

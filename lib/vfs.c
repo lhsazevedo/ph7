@@ -2335,27 +2335,34 @@ static int PH7_vfs_ph7_uname(ph7_context *pCtx, int nArg, ph7_value **apArg)
     } else if (sVer.dwMajorVersion == 5) {
       switch (sVer.dwMinorVersion) {
         case 0:
-          zName = "Microsoft Windows 2000"; break;
+          zName = "Microsoft Windows 2000";
+          break;
 
         case 1:
-          zName = "Microsoft Windows XP";   break;
+          zName = "Microsoft Windows XP";
+          break;
 
         case 2:
-          zName = "Microsoft Windows Server 2003"; break;
+          zName = "Microsoft Windows Server 2003";
+          break;
       }
     } else if (sVer.dwMajorVersion == 6) {
       switch (sVer.dwMinorVersion) {
         case 0:
-          zName = "Microsoft Windows Vista"; break;
+          zName = "Microsoft Windows Vista";
+          break;
 
         case 1:
-          zName = "Microsoft Windows 7"; break;
+          zName = "Microsoft Windows 7";
+          break;
 
         case 2:
-          zName = "Microsoft Windows Server 2008"; break;
+          zName = "Microsoft Windows Server 2008";
+          break;
 
         case 3:
-          zName = "Microsoft Windows 8"; break;
+          zName = "Microsoft Windows 8";
+          break;
 
         default:
           break;
@@ -7867,10 +7874,12 @@ static ph7_stream_data* PHPStreamDataInit(ph7_vm *pVm, int iType)
     DWORD nChannel;
     switch (iType) {
       case PH7_IO_STREAM_STDOUT:
-        nChannel = STD_OUTPUT_HANDLE; break;
+        nChannel = STD_OUTPUT_HANDLE;
+        break;
 
       case PH7_IO_STREAM_STDERR:
-        nChannel = STD_ERROR_HANDLE; break;
+        nChannel = STD_ERROR_HANDLE;
+        break;
 
       default:
         nChannel = STD_INPUT_HANDLE;
@@ -7882,10 +7891,12 @@ static ph7_stream_data* PHPStreamDataInit(ph7_vm *pVm, int iType)
     int ifd = STDIN_FILENO;
     switch (iType) {
       case PH7_IO_STREAM_STDOUT:
-        ifd = STDOUT_FILENO; break;
+        ifd = STDOUT_FILENO;
+        break;
 
       case PH7_IO_STREAM_STDERR:
-        ifd = STDERR_FILENO; break;
+        ifd = STDERR_FILENO;
+        break;
 
       default:
         break;

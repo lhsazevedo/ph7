@@ -3116,7 +3116,8 @@ static sxi32 iPatternMatch(const void *pText, sxu32 nLen, const void *pPattern, 
         if (c != d) {
           break;
         }
-        zPtr++; zPtr2++;
+        zPtr++;
+        zPtr2++;
       }
     }
     zIn++;
@@ -3995,19 +3996,29 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       c = zIn[0];
       switch (c) {
         case '-':
-          flag_leftjustify = 1;     c = 0;   break;
+          flag_leftjustify = 1;
+          c = 0;
+          break;
 
         case '+':
-          flag_plussign = 1;        c = 0;   break;
+          flag_plussign = 1;
+          c = 0;
+          break;
 
         case ' ':
-          flag_blanksign = 1;       c = 0;   break;
+          flag_blanksign = 1;
+          c = 0;
+          break;
 
         case '#':
-          flag_alternateform = 1;   c = 0;   break;
+          flag_alternateform = 1;
+          c = 0;
+          break;
 
         case '0':
-          flag_zeropad = 1;         c = 0;   break;
+          flag_zeropad = 1;
+          c = 0;
+          break;
 
         case '\'':
           zIn++;
@@ -4259,16 +4270,20 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         exp = 0;
         if (realvalue > 0.0) {
           while (realvalue >= 1e8 && exp <= 350) {
-            realvalue *= 1e-8; exp += 8;
+            realvalue *= 1e-8;
+            exp += 8;
           }
           while (realvalue >= 10.0 && exp <= 350) {
-            realvalue *= 0.1; exp++;
+            realvalue *= 0.1;
+            exp++;
           }
           while (realvalue < 1e-8 && exp >= -350) {
-            realvalue *= 1e8; exp -= 8;
+            realvalue *= 1e8;
+            exp -= 8;
           }
           while (realvalue < 1.0 && exp >= -350) {
-            realvalue *= 10.0; exp--;
+            realvalue *= 10.0;
+            exp--;
           }
           if (exp > 350 || exp < -350) {
             zBuf = "NaN";
@@ -4285,7 +4300,8 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         if (xtype != PH7_FMT_FLOAT) {
           realvalue += rounder;
           if (realvalue >= 10.0) {
-            realvalue *= 0.1; exp++;
+            realvalue *= 0.1;
+            exp++;
           }
         }
         if (xtype == PH7_FMT_GENERIC) {
@@ -4335,7 +4351,8 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           if (exp || flag_exp) {
             *(zBuf++) = pInfo->charset[0];
             if (exp < 0) {
-              *(zBuf++) = '-'; exp = -exp;
+              *(zBuf++) = '-';
+              exp = -exp;
             }                                                         /* sign of exp */
             else {
               *(zBuf++) = '+';

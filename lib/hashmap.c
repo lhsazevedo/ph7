@@ -48,19 +48,23 @@ static sxu32 BinHash(const void *pSrc, sxu32 nLen)
     if (zIn >= zEnd) {
       break;
     }
-    nH = nH * 33 + zIn[0]; zIn++;
+    nH = nH * 33 + zIn[0];
+    zIn++;
     if (zIn >= zEnd) {
       break;
     }
-    nH = nH * 33 + zIn[0]; zIn++;
+    nH = nH * 33 + zIn[0];
+    zIn++;
     if (zIn >= zEnd) {
       break;
     }
-    nH = nH * 33 + zIn[0]; zIn++;
+    nH = nH * 33 + zIn[0];
+    zIn++;
     if (zIn >= zEnd) {
       break;
     }
-    nH = nH * 33 + zIn[0]; zIn++;
+    nH = nH * 33 + zIn[0];
+    zIn++;
   }
   return nH;
 }

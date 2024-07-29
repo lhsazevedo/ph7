@@ -6566,22 +6566,28 @@ PH7_PRIVATE sxi32 PH7_GenCompileError(ph7_gen_state *pGen, sxi32 nErrType, sxu32
   }
   switch (nErrType) {
     case E_WARNING:
-      zErr = "Warning";     break;
+      zErr = "Warning";
+      break;
 
     case E_PARSE:
-      zErr = "Parse error"; break;
+      zErr = "Parse error";
+      break;
 
     case E_NOTICE:
-      zErr = "Notice";      break;
+      zErr = "Notice";
+      break;
 
     case E_USER_ERROR:
-      zErr = "User error";   break;
+      zErr = "User error";
+      break;
 
     case E_USER_WARNING:
-      zErr = "User warning"; break;
+      zErr = "User warning";
+      break;
 
     case E_USER_NOTICE:
-      zErr = "User notice";  break;
+      zErr = "User notice";
+      break;
 
     default:
       break;
