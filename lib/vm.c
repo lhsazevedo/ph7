@@ -430,7 +430,7 @@ PH7_PRIVATE sxi32 PH7_VmSetByteCodeContainer(ph7_vm *pVm, SySet *pContainer)
   if (pContainer == 0) {
     /* Point to the default container */
     pVm->pByteContainer = &pVm->aByteCode;
-  }else{
+  } else {
     /* Change container */
     pVm->pByteContainer = &(*pContainer);
   }
@@ -683,19 +683,19 @@ static ph7_vm_func* VmOverload(
     if (aArg[j].iFlags & MEMOBJ_HASHMAP) {
       /* Hashmap */
       c = 'h';
-    }else if (aArg[j].iFlags & MEMOBJ_BOOL) {
+    } else if (aArg[j].iFlags & MEMOBJ_BOOL) {
       /* bool */
       c = 'b';
-    }else if (aArg[j].iFlags & MEMOBJ_INT) {
+    } else if (aArg[j].iFlags & MEMOBJ_INT) {
       /* int */
       c = 'i';
-    }else if (aArg[j].iFlags & MEMOBJ_STRING) {
+    } else if (aArg[j].iFlags & MEMOBJ_STRING) {
       /* String */
       c = 's';
-    }else if (aArg[j].iFlags & MEMOBJ_REAL) {
+    } else if (aArg[j].iFlags & MEMOBJ_REAL) {
       /* Float */
       c = 'f';
-    }else if (aArg[j].iFlags & MEMOBJ_OBJ) {
+    } else if (aArg[j].iFlags & MEMOBJ_OBJ) {
       /* Class instance */
       ph7_class *pClass = ((ph7_class_instance *) aArg[j].x.pOther)->pClass;
       SyString *pName = &pClass->sName;
@@ -843,7 +843,7 @@ PH7_PRIVATE sxi32 PH7_VmCreateClassInstanceFrame(
       }
       /* Install attribute in the reference table */
       PH7_VmRefObjInstall(&(*pVm), pMemObj->nIdx, 0, 0, VM_REF_IDX_KEEP);
-    }else{
+    } else {
       /* Install static/constant attribute */
       pVmAttr->nIdx = pAttr->nIdx;
       rc = SyHashInsert(&pObj->hAttr, SyStringData(&pAttr->sName), SyStringLength(&pAttr->sName), pVmAttr);
@@ -1731,7 +1731,7 @@ static ph7_value* VmExtractMemObj(
         /* Local variable */
         sLocal.nIdx = nIdx;
         SySetPut(&pFrame->sLocal, (const void *) &sLocal);
-      }else{
+      } else {
         /* Register in the $GLOBALS array */
         VmHashmapRefInsert(pVm->pGlobal, pName->zString, pName->nByte, nIdx);
       }
@@ -1739,7 +1739,7 @@ static ph7_value* VmExtractMemObj(
       PH7_VmRefObjInstall(&(*pVm), nIdx, SyHashLastEntry(&pFrame->hVar), 0, 0);
       /* Save object index */
       pObj->nIdx = nIdx;
-    }else{
+    } else {
       /* Extract variable contents */
       nIdx = (sxu32) SX_PTR_TO_INT(pEntry->pUserData);
       pObj = (ph7_value *) SySetAt(&pVm->aMemObj, nIdx);
@@ -1747,7 +1747,7 @@ static ph7_value* VmExtractMemObj(
         PH7_MemObjRelease(pObj);
       }
     }
-  }else{
+  } else {
     /* Superglobal */
     nIdx = (sxu32) SX_PTR_TO_INT(pEntry->pUserData);
     pObj = (ph7_value *) SySetAt(&pVm->aMemObj, nIdx);
@@ -1921,7 +1921,7 @@ PH7_PRIVATE sxi32 PH7_VmConfigure(
     if (nOp == PH7_VM_CONFIG_CREATE_SUPER) {
       /* Check if the superglobal is already installed */
       pEntry = SyHashGet(&pVm->hSuper, (const void *) zName, nByte);
-    }else{
+    } else {
       /* Query the top active VM frame */
       pEntry = SyHashGet(&pVm->pFrame->hVar, (const void *) zName, nByte);
     }
@@ -1934,7 +1934,7 @@ PH7_PRIVATE sxi32 PH7_VmConfigure(
         /* Overwrite old contents */
         PH7_MemObjStore(pValue, pObj);
       }
-    }else{
+    } else {
       /* Install a new variable */
       pObj = PH7_ReserveMemObj(&(*pVm));
       if (pObj == 0) {
@@ -1947,7 +1947,7 @@ PH7_PRIVATE sxi32 PH7_VmConfigure(
       if (nOp == PH7_VM_CONFIG_CREATE_SUPER) {
         /* Install the superglobal */
         rc = SyHashInsert(&pVm->hSuper, (const void *) zName, nByte, SX_INT_TO_PTR(nIdx));
-      }else{
+      } else {
         /* Install in the current frame */
         rc = SyHashInsert(&pVm->pFrame->hVar, (const void *) zName, nByte, SX_INT_TO_PTR(nIdx));
       }
@@ -1955,7 +1955,7 @@ PH7_PRIVATE sxi32 PH7_VmConfigure(
         SyHashEntry *pRef;
         if (nOp == PH7_VM_CONFIG_CREATE_SUPER) {
           pRef = SyHashLastEntry(&pVm->hSuper);
-        }else{
+        } else {
           pRef = SyHashLastEntry(&pVm->pFrame->hVar);
         }
         /* Install in the reference table */
@@ -1983,22 +1983,22 @@ PH7_PRIVATE sxi32 PH7_VmConfigure(
     if (nOp == PH7_VM_CONFIG_ENV_ATTR) {
       /* Extract the $_ENV superglobal */
       pValue = VmExtractSuper(&(*pVm), "_ENV", sizeof("_ENV") - 1);
-    }else if (nOp == PH7_VM_CONFIG_POST_ATTR) {
+    } else if (nOp == PH7_VM_CONFIG_POST_ATTR) {
       /* Extract the $_POST superglobal */
       pValue = VmExtractSuper(&(*pVm), "_POST", sizeof("_POST") - 1);
-    }else if (nOp == PH7_VM_CONFIG_GET_ATTR) {
+    } else if (nOp == PH7_VM_CONFIG_GET_ATTR) {
       /* Extract the $_GET superglobal */
       pValue = VmExtractSuper(&(*pVm), "_GET", sizeof("_GET") - 1);
-    }else if (nOp == PH7_VM_CONFIG_COOKIE_ATTR) {
+    } else if (nOp == PH7_VM_CONFIG_COOKIE_ATTR) {
       /* Extract the $_COOKIE superglobal */
       pValue = VmExtractSuper(&(*pVm), "_COOKIE", sizeof("_COOKIE") - 1);
-    }else if (nOp == PH7_VM_CONFIG_SESSION_ATTR) {
+    } else if (nOp == PH7_VM_CONFIG_SESSION_ATTR) {
       /* Extract the $_SESSION superglobal */
       pValue = VmExtractSuper(&(*pVm), "_SESSION", sizeof("_SESSION") - 1);
-    }else if (nOp == PH7_VM_CONFIG_HEADER_ATTR) {
+    } else if (nOp == PH7_VM_CONFIG_HEADER_ATTR) {
       /* Extract the $_HEADER superglobale */
       pValue = VmExtractSuper(&(*pVm), "_HEADER", sizeof("_HEADER") - 1);
-    }else{
+    } else {
       /* Extract the $_SERVER superglobal */
       pValue = VmExtractSuper(&(*pVm), "_SERVER", sizeof("_SERVER") - 1);
     }
@@ -2351,7 +2351,7 @@ static sxi32 VmByteCodeExec(
   SySetInit(&aArg, &pVm->sAllocator, sizeof(ph7_value *));
   if (nTos < 0) {
     pTos = &pStack[-1];
-  }else{
+  } else {
     pTos = &pStack[nTos];
   }
   pc = 0;
@@ -2389,7 +2389,7 @@ static sxi32 VmByteCodeExec(
           PH7_MemObjStore(pTos, pResult);
         }
         VmPopOperand(&pTos, 1);
-      }else if (pLastRef) {
+      } else if (pLastRef) {
         /* Nothing referenced */
         *pLastRef = SXU32_HIGH;
       }
@@ -2420,12 +2420,12 @@ static sxi32 VmByteCodeExec(
               pVm->nOutputLen += SyBlobLength(&pTos->sBlob);
             }
           }
-        }else if (pTos->iFlags & MEMOBJ_INT) {
+        } else if (pTos->iFlags & MEMOBJ_INT) {
           /* Record exit status */
           pVm->iExitStatus = (sxi32) pTos->x.iVal;
         }
         VmPopOperand(&pTos, 1);
-      }else if (pLastRef) {
+      } else if (pLastRef) {
         /* Nothing referenced */
         *pLastRef = SXU32_HIGH;
       }
@@ -2670,7 +2670,7 @@ static sxi32 VmByteCodeExec(
         if (pTos->iFlags & MEMOBJ_OBJ) {
           /* Instance already loaded */
           pClass = ((ph7_class_instance *) pTos->x.pOther)->pClass;
-        }else if (pTos->iFlags & MEMOBJ_STRING && SyBlobLength(&pTos->sBlob) > 0) {
+        } else if (pTos->iFlags & MEMOBJ_STRING && SyBlobLength(&pTos->sBlob) > 0) {
           /* Perform the query */
           pClass = PH7_VmExtractClass(&(*pVm), (const char *) SyBlobData(&pTos->sBlob),
                                       SyBlobLength(&pTos->sBlob), FALSE, 0);
@@ -2716,7 +2716,7 @@ static sxi32 VmByteCodeExec(
           }
         }
         PH7_MemObjLoad(pObj, pTos);
-      }else{
+      } else {
         /* Set a NULL value */
         MemObjSetType(pTos, MEMOBJ_NULL);
       }
@@ -2747,7 +2747,7 @@ static sxi32 VmByteCodeExec(
           PH7_MemObjToString(pTos);
         }
         SyStringInitFromBuf(&sName, SyBlobData(&pTos->sBlob), SyBlobLength(&pTos->sBlob));
-      }else{
+      } else {
         SyStringInitFromBuf(&sName, pInstr->p3, SyStrlen((const char *) pInstr->p3));
         /* Reserve a room for the target object */
         pTos++;
@@ -2759,12 +2759,12 @@ static sxi32 VmByteCodeExec(
           /* Variable not found,load NULL */
           if (!pInstr->p3) {
             PH7_MemObjRelease(pTos);
-          }else{
+          } else {
             MemObjSetType(pTos, MEMOBJ_NULL);
           }
           pTos->nIdx = SXU32_HIGH;           /* Mark as constant */
           break;
-        }else{
+        } else {
           /* Fatal error */
           VmErrorFormat(&(*pVm), PH7_CTX_ERR, "Fatal, PH7 engine is running out of memory while loading variable '%z'", &sName);
           goto Abort;
@@ -2801,7 +2801,7 @@ static sxi32 VmByteCodeExec(
                                    (pEntry->iFlags & MEMOBJ_NULL) ? 0 /* Automatic index assign */ : pEntry,
             (sxu32) pEntry[1].x.iVal
             );
-          }else{
+          } else {
             /* Standard insertion */
             PH7_HashmapInsert(pMap,
                               (pEntry->iFlags & MEMOBJ_NULL) ? 0 /* Automatic index assign */ : pEntry,
@@ -2854,7 +2854,7 @@ static sxi32 VmByteCodeExec(
               if (rc == SXRET_OK) {
                 /* Store node value */
                 PH7_HashmapExtractNodeValue(pNode, pObj, TRUE);
-              }else{
+              } else {
                 /* Nullify the variable */
                 PH7_MemObjRelease(pObj);
               }
@@ -2885,7 +2885,7 @@ static sxi32 VmByteCodeExec(
           /* No available index,load NULL */
           if (pTos >= pStack) {
             PH7_MemObjRelease(pTos);
-          }else{
+          } else {
             /* TICKET 1433-020: Empty stack */
             pTos++;
             MemObjSetType(pTos, MEMOBJ_NULL);
@@ -2896,7 +2896,7 @@ static sxi32 VmByteCodeExec(
                            "Array: Attempt to access an undefined index,PH7 is loading NULL");
           break;
         }
-      }else{
+      } else {
         pIdx = pTos;
         pTos--;
       }
@@ -2912,14 +2912,14 @@ static sxi32 VmByteCodeExec(
           if (nOfft >= SyBlobLength(&pTos->sBlob)) {
             /* Invalid offset,load null */
             PH7_MemObjRelease(pTos);
-          }else{
+          } else {
             const char *zData = (const char *) SyBlobData(&pTos->sBlob);
             int c = zData[nOfft];
             PH7_MemObjRelease(pTos);
             MemObjSetType(pTos, MEMOBJ_STRING);
             SyBlobAppend(&pTos->sBlob, (const void *) &c, sizeof(char));
           }
-        }else{
+        } else {
           /* No available index,load NULL */
           MemObjSetType(pTos, MEMOBJ_NULL);
         }
@@ -2962,12 +2962,12 @@ static sxi32 VmByteCodeExec(
            */
           pTos->nIdx = SXU32_HIGH;
           PH7_HashmapExtractNodeValue(pNode, pTos, TRUE);
-        }else{
+        } else {
           pTos->nIdx = pNode->nValIdx;
           PH7_HashmapExtractNodeValue(pNode, pTos, FALSE);
           PH7_HashmapUnref(pMap);
         }
-      }else{
+      } else {
         /* No such entry,load NULL */
         PH7_MemObjRelease(pTos);
         pTos->nIdx = SXU32_HIGH;
@@ -3065,7 +3065,7 @@ static sxi32 VmByteCodeExec(
           PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR,
                            "Cannot perform assignment on a constant class attribute,PH7 is loading NULL");
           pTos->nIdx = SXU32_HIGH;
-        }else{
+        } else {
           /* Point to the desired memory object */
           pObj = (ph7_value *) SySetAt(&pVm->aMemObj, nIdx);
           if (pObj) {
@@ -3074,7 +3074,7 @@ static sxi32 VmByteCodeExec(
           }
         }
         break;
-      }else if (pInstr->p3 == 0) {
+      } else if (pInstr->p3 == 0) {
         /* Take the variable name from the next on the stack */
         if ((pTos->iFlags & MEMOBJ_STRING) == 0) {
           /* Force a string cast */
@@ -3087,7 +3087,7 @@ static sxi32 VmByteCodeExec(
           goto Abort;
         }
 #endif
-      }else{
+      } else {
         SyStringInitFromBuf(&sName, pInstr->p3, SyStrlen((const char *) pInstr->p3));
       }
       /* Extract the desired variable and if not available dynamically create it */
@@ -3119,7 +3119,7 @@ static sxi32 VmByteCodeExec(
         /* Key is next on stack */
         pKey = pTos;
         pTos--;
-      }else{
+      } else {
         pKey = 0;
       }
       nIdx = pTos->nIdx;
@@ -3130,7 +3130,7 @@ static sxi32 VmByteCodeExec(
           /* TICKET 1433-48: Prevent garbage collection */
           pMap->iRef = 2;
         }
-      }else{
+      } else {
         ph7_value *pObj;
         pObj = (ph7_value *) SySetAt(&pVm->aMemObj, nIdx);
         if (pObj == 0) {
@@ -3152,7 +3152,7 @@ static sxi32 VmByteCodeExec(
             if (SyBlobLength(&pTos->sBlob) > 0) {
               SyBlobAppend(&pObj->sBlob, SyBlobData(&pTos->sBlob), SyBlobLength(&pTos->sBlob));
             }
-          }else{
+          } else {
             sxu32 nOfft;
             if ((pKey->iFlags & MEMOBJ_INT)) {
               /* Force an int cast */
@@ -3163,7 +3163,7 @@ static sxi32 VmByteCodeExec(
               const char *zBlob = (const char *) SyBlobData(&pTos->sBlob);
               char *zData = (char *) SyBlobData(&pObj->sBlob);
               zData[nOfft] = zBlob[0];
-            }else{
+            } else {
               if (SyBlobLength(&pTos->sBlob) >= sizeof(char)) {
                 /* Perform an append operation */
                 SyBlobAppend(&pObj->sBlob, SyBlobData(&pTos->sBlob), sizeof(char));
@@ -3174,7 +3174,7 @@ static sxi32 VmByteCodeExec(
             PH7_MemObjRelease(pKey);
           }
           break;
-        }else if ((pObj->iFlags & MEMOBJ_HASHMAP) == 0) {
+        } else if ((pObj->iFlags & MEMOBJ_HASHMAP) == 0) {
           /* Force a hashmap cast  */
           rc = PH7_MemObjToHashmap(pObj);
           if (rc != SXRET_OK) {
@@ -3189,7 +3189,7 @@ static sxi32 VmByteCodeExec(
       if (pInstr->iOp == PH7_OP_STORE_IDX_REF && pTos->nIdx != SXU32_HIGH) {
         /* Insertion by reference */
         PH7_HashmapInsertByRef(pMap, pKey, pTos->nIdx);
-      }else{
+      } else {
         PH7_HashmapInsert(pMap, pKey, pTos);
       }
       if (pKey) {
@@ -3220,7 +3220,7 @@ static sxi32 VmByteCodeExec(
               pObj->rVal++;
               /* Try to get an integer representation */
               PH7_MemObjTryInteger(pTos);
-            }else{
+            } else {
               pObj->x.iVal++;
               MemObjSetType(pTos, MEMOBJ_INT);
             }
@@ -3229,7 +3229,7 @@ static sxi32 VmByteCodeExec(
               PH7_MemObjStore(pObj, pTos);
             }
           }
-        }else{
+        } else {
           if (pInstr->iP1) {
             /* Force a numeric cast */
             PH7_MemObjToNumeric(pTos);
@@ -3238,7 +3238,7 @@ static sxi32 VmByteCodeExec(
               pTos->rVal++;
               /* Try to get an integer representation */
               PH7_MemObjTryInteger(pTos);
-            }else{
+            } else {
               pTos->x.iVal++;
               MemObjSetType(pTos, MEMOBJ_INT);
             }
@@ -3271,7 +3271,7 @@ static sxi32 VmByteCodeExec(
               pObj->rVal--;
               /* Try to get an integer representation */
               PH7_MemObjTryInteger(pTos);
-            }else{
+            } else {
               pObj->x.iVal--;
               MemObjSetType(pTos, MEMOBJ_INT);
             }
@@ -3280,14 +3280,14 @@ static sxi32 VmByteCodeExec(
               PH7_MemObjStore(pObj, pTos);
             }
           }
-        }else{
+        } else {
           if (pInstr->iP1) {
             /* Pre-increment */
             if (pTos->iFlags & MEMOBJ_REAL) {
               pTos->rVal--;
               /* Try to get an integer representation */
               PH7_MemObjTryInteger(pTos);
-            }else{
+            } else {
               pTos->x.iVal--;
               MemObjSetType(pTos, MEMOBJ_INT);
             }
@@ -3406,7 +3406,7 @@ static sxi32 VmByteCodeExec(
         MemObjSetType(pNos, MEMOBJ_REAL);
         /* Try to get an integer representation */
         PH7_MemObjTryInteger(pNos);
-      }else{
+      } else {
         /* Integer arithmetic */
         sxi64 a, b, r;
         a = pNos->x.iVal;
@@ -3420,7 +3420,7 @@ static sxi32 VmByteCodeExec(
         ph7_value *pObj;
         if (pTos->nIdx == SXU32_HIGH) {
           PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR, "Cannot perform assignment on a constant class attribute");
-        }else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pTos->nIdx)) != 0) {
+        } else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pTos->nIdx)) != 0) {
           PH7_MemObjStore(pNos, pObj);
         }
       }
@@ -3465,7 +3465,7 @@ static sxi32 VmByteCodeExec(
       /* Peform the store operation */
       if (nIdx == SXU32_HIGH) {
         PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR, "Cannot perform assignment on a constant class attribute");
-      }else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, nIdx)) != 0) {
+      } else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, nIdx)) != 0) {
         PH7_MemObjStore(pTos, pObj);
       }
       /* Ticket 1433-35: Perform a stack dup */
@@ -3503,7 +3503,7 @@ static sxi32 VmByteCodeExec(
         MemObjSetType(pNos, MEMOBJ_REAL);
         /* Try to get an integer representation */
         PH7_MemObjTryInteger(pNos);
-      }else{
+      } else {
         /* Integer arithmetic */
         sxi64 a, b, r;
         a = pNos->x.iVal;
@@ -3547,7 +3547,7 @@ static sxi32 VmByteCodeExec(
         MemObjSetType(pNos, MEMOBJ_REAL);
         /* Try to get an integer representation */
         PH7_MemObjTryInteger(pNos);
-      }else{
+      } else {
         /* Integer arithmetic */
         sxi64 a, b, r;
         a = pTos->x.iVal;
@@ -3559,7 +3559,7 @@ static sxi32 VmByteCodeExec(
       }
       if (pTos->nIdx == SXU32_HIGH) {
         PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR, "Cannot perform assignment on a constant class attribute");
-      }else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pTos->nIdx)) != 0) {
+      } else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pTos->nIdx)) != 0) {
         PH7_MemObjStore(pNos, pObj);
       }
       VmPopOperand(&pTos, 1);
@@ -3597,7 +3597,7 @@ static sxi32 VmByteCodeExec(
         r = 0;
         VmErrorFormat(&(*pVm), PH7_CTX_ERR, "Division by zero %qd%%0", a);
         /* goto Abort; */
-      }else{
+      } else {
         r = a % b;
       }
       /* Push the result */
@@ -3638,7 +3638,7 @@ static sxi32 VmByteCodeExec(
         r = 0;
         VmErrorFormat(&(*pVm), PH7_CTX_ERR, "Division by zero %qd%%0", a);
         /* goto Abort; */
-      }else{
+      } else {
         r = a % b;
       }
       /* Push the result */
@@ -3646,7 +3646,7 @@ static sxi32 VmByteCodeExec(
       MemObjSetType(pNos, MEMOBJ_INT);
       if (pTos->nIdx == SXU32_HIGH) {
         PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR, "Cannot perform assignment on a constant class attribute");
-      }else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pTos->nIdx)) != 0) {
+      } else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pTos->nIdx)) != 0) {
         PH7_MemObjStore(pNos, pObj);
       }
       VmPopOperand(&pTos, 1);
@@ -3683,7 +3683,7 @@ static sxi32 VmByteCodeExec(
         r = 0;
         PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR, "Division by zero");
         /* goto Abort; */
-      }else{
+      } else {
         r = a / b;
         /* Push the result */
         pNos->rVal = r;
@@ -3726,7 +3726,7 @@ static sxi32 VmByteCodeExec(
         r = 0;
         VmErrorFormat(&(*pVm), PH7_CTX_ERR, "Division by zero %qd/0", a);
         /* goto Abort; */
-      }else{
+      } else {
         r = a / b;
         /* Push the result */
         pNos->rVal = r;
@@ -3736,7 +3736,7 @@ static sxi32 VmByteCodeExec(
       }
       if (pTos->nIdx == SXU32_HIGH) {
         PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR, "Cannot perform assignment on a constant class attribute");
-      }else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pTos->nIdx)) != 0) {
+      } else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pTos->nIdx)) != 0) {
         PH7_MemObjStore(pNos, pObj);
       }
       VmPopOperand(&pTos, 1);
@@ -3848,7 +3848,7 @@ static sxi32 VmByteCodeExec(
       MemObjSetType(pNos, MEMOBJ_INT);
       if (pTos->nIdx == SXU32_HIGH) {
         PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR, "Cannot perform assignment on a constant class attribute");
-      }else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pTos->nIdx)) != 0) {
+      } else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pTos->nIdx)) != 0) {
         PH7_MemObjStore(pNos, pObj);
       }
       VmPopOperand(&pTos, 1);
@@ -3890,7 +3890,7 @@ static sxi32 VmByteCodeExec(
       b = (sxi32) pTos->x.iVal;
       if (pInstr->iOp == PH7_OP_SHL) {
         r = a << b;
-      }else{
+      } else {
         r = a >> b;
       }
       /* Push the result */
@@ -3936,7 +3936,7 @@ static sxi32 VmByteCodeExec(
       b = (sxi32) pNos->x.iVal;
       if (pInstr->iOp == PH7_OP_SHL_STORE) {
         r = a << b;
-      }else{
+      } else {
         r = a >> b;
       }
       /* Push the result */
@@ -3944,7 +3944,7 @@ static sxi32 VmByteCodeExec(
       MemObjSetType(pNos, MEMOBJ_INT);
       if (pTos->nIdx == SXU32_HIGH) {
         PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR, "Cannot perform assignment on a constant class attribute");
-      }else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pTos->nIdx)) != 0) {
+      } else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pTos->nIdx)) != 0) {
         PH7_MemObjStore(pNos, pObj);
       }
       VmPopOperand(&pTos, 1);
@@ -3959,7 +3959,7 @@ static sxi32 VmByteCodeExec(
       ph7_value *pNos, *pCur;
       if (pInstr->iP1 < 1) {
         pNos = &pTos[-1];
-      }else{
+      } else {
         pNos = &pTos[-pInstr->iP1 + 1];
       }
 #ifdef UNTRUST
@@ -4014,7 +4014,7 @@ static sxi32 VmByteCodeExec(
       /* Perform the store operation */
       if (pTos->nIdx == SXU32_HIGH) {
         PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR, "Cannot perform assignment on a constant class attribute");
-      }else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pTos->nIdx)) != 0) {
+      } else if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pTos->nIdx)) != 0) {
         PH7_MemObjStore(pTos, pObj);
       }
       PH7_MemObjStore(pTos, pNos);
@@ -4054,7 +4054,7 @@ static sxi32 VmByteCodeExec(
       if (pInstr->iOp == PH7_OP_LAND) {
         static const unsigned char and_logic[] = { 0, 1, 2, 1, 1, 1, 2, 1, 2 };
         v1 = and_logic[v1 * 3 + v2];
-      }else{
+      } else {
         static const unsigned char or_logic[] = { 0, 0, 0, 0, 1, 2, 0, 2, 2 };
         v1 = or_logic[v1 * 3 + v2];
       }
@@ -4124,7 +4124,7 @@ static sxi32 VmByteCodeExec(
       rc = PH7_MemObjCmp(pNos, pTos, FALSE, 0);
       if (pInstr->iOp == PH7_OP_EQ) {
         rc = rc == 0;
-      }else{
+      } else {
         rc = rc != 0;
       }
       VmPopOperand(&pTos, 1);
@@ -4134,7 +4134,7 @@ static sxi32 VmByteCodeExec(
         pTos->x.iVal = rc;
         /* Invalidate any prior representation */
         MemObjSetType(pTos, MEMOBJ_BOOL);
-      }else{
+      } else {
         if (rc) {
           /* Jump to the desired location */
           pc = pInstr->iP2 - 1;
@@ -4166,7 +4166,7 @@ static sxi32 VmByteCodeExec(
         pTos->x.iVal = rc;
         /* Invalidate any prior representation */
         MemObjSetType(pTos, MEMOBJ_BOOL);
-      }else{
+      } else {
         if (rc) {
           /* Jump to the desired location */
           pc = pInstr->iP2 - 1;
@@ -4200,7 +4200,7 @@ static sxi32 VmByteCodeExec(
         pTos->x.iVal = rc;
         /* Invalidate any prior representation */
         MemObjSetType(pTos, MEMOBJ_BOOL);
-      }else{
+      } else {
         if (rc) {
           /* Jump to the desired location */
           pc = pInstr->iP2 - 1;
@@ -4239,7 +4239,7 @@ static sxi32 VmByteCodeExec(
       rc = PH7_MemObjCmp(pNos, pTos, FALSE, 0);
       if (pInstr->iOp == PH7_OP_LE) {
         rc = rc < 1;
-      }else{
+      } else {
         rc = rc < 0;
       }
       VmPopOperand(&pTos, 1);
@@ -4249,7 +4249,7 @@ static sxi32 VmByteCodeExec(
         pTos->x.iVal = rc;
         /* Invalidate any prior representation */
         MemObjSetType(pTos, MEMOBJ_BOOL);
-      }else{
+      } else {
         if (rc) {
           /* Jump to the desired location */
           pc = pInstr->iP2 - 1;
@@ -4288,7 +4288,7 @@ static sxi32 VmByteCodeExec(
       rc = PH7_MemObjCmp(pNos, pTos, FALSE, 0);
       if (pInstr->iOp == PH7_OP_GE) {
         rc = rc >= 0;
-      }else{
+      } else {
         rc = rc > 0;
       }
       VmPopOperand(&pTos, 1);
@@ -4298,7 +4298,7 @@ static sxi32 VmByteCodeExec(
         pTos->x.iVal = rc;
         /* Invalidate any prior representation */
         MemObjSetType(pTos, MEMOBJ_BOOL);
-      }else{
+      } else {
         if (rc) {
           /* Jump to the desired location */
           pc = pInstr->iP2 - 1;
@@ -4349,7 +4349,7 @@ static sxi32 VmByteCodeExec(
       rc = SyStringCmp(&s1, &s2, SyMemcmp);
       if (pInstr->iOp == PH7_OP_NEQ) {
         rc = rc != 0;
-      }else{
+      } else {
         rc = rc == 0;
       }
       VmPopOperand(&pTos, 1);
@@ -4359,7 +4359,7 @@ static sxi32 VmByteCodeExec(
         pTos->x.iVal = rc;
         /* Invalidate any prior representation */
         MemObjSetType(pTos, MEMOBJ_BOOL);
-      }else{
+      } else {
         if (rc) {
           /* Jump to the desired location */
           pc = pInstr->iP2 - 1;
@@ -4420,7 +4420,7 @@ static sxi32 VmByteCodeExec(
         }
         PH7_MemObjRelease(pTos);
         pTos--;
-      }else{
+      } else {
         SyStringInitFromBuf(&sName, pInstr->p3, SyStrlen((const char *) pInstr->p3));
       }
       nIdx = pTos->nIdx;
@@ -4428,7 +4428,7 @@ static sxi32 VmByteCodeExec(
         if ((pTos->iFlags & (MEMOBJ_OBJ | MEMOBJ_HASHMAP | MEMOBJ_RES)) == 0) {
           PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR,
                            "Reference operator require a variable not a constant as it's right operand");
-        }else{
+        } else {
           ph7_value *pObj;
           /* Extract the desired variable and if not available dynamically create it */
           pObj = VmExtractMemObj(&(*pVm), &sName, FALSE, TRUE);
@@ -4441,10 +4441,10 @@ static sxi32 VmByteCodeExec(
           PH7_MemObjStore(pTos, pObj);
           pTos->nIdx = pObj->nIdx;
         }
-      }else if (sName.nByte > 0) {
+      } else if (sName.nByte > 0) {
         if ((pTos->iFlags & MEMOBJ_HASHMAP) && (pVm->pGlobal == (ph7_hashmap *) pTos->x.pOther)) {
           PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR, "$GLOBALS is a read-only array and therefore cannot be referenced");
-        }else{
+        } else {
           VmFrame *pFrame = pVm->pFrame;
           while (pFrame->pParent && (pFrame->iFlags & VM_FRAME_EXCEPTION)) {
             /* Safely ignore the exception frame */
@@ -4454,7 +4454,7 @@ static sxi32 VmByteCodeExec(
           pEntry = SyHashGet(&pFrame->hVar, (const void *) sName.zString, sName.nByte);
           if (pEntry) {
             VmErrorFormat(&(*pVm), PH7_CTX_ERR, "Referenced variable name '%z' already exists", &sName);
-          }else{
+          } else {
             rc = SyHashInsert(&pFrame->hVar, (const void *) sName.zString, sName.nByte, SX_INT_TO_PTR(nIdx));
             if (pFrame->pParent == 0) {
               /* Insert in the $GLOBALS array */
@@ -4570,7 +4570,7 @@ static sxi32 VmByteCodeExec(
             /* Abort processing immediately */
             goto Abort;
           }
-        }else{
+        } else {
           /* Throw the exception */
           rc = VmThrowException(&(*pVm), pThis);
           if (rc == SXERR_ABORT) {
@@ -4578,7 +4578,7 @@ static sxi32 VmByteCodeExec(
             goto Abort;
           }
         }
-      }else{
+      } else {
         /* Expecting a class instance */
         VmUncaughtException(&(*pVm), 0);
         if (rc == SXERR_ABORT) {
@@ -4636,14 +4636,14 @@ static sxi32 VmByteCodeExec(
           PH7_VmThrowError(&(*pVm), 0, PH7_CTX_WARNING, "Invalid argument supplied for the foreach statement,expecting array or class instance");
         }
         pc = pInstr->iP2 - 1;
-      }else{
+      } else {
         ph7_foreach_step *pStep;
         pStep = (ph7_foreach_step *) SyMemBackendPoolAlloc(&pVm->sAllocator, sizeof(ph7_foreach_step));
         if (pStep == 0) {
           PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR, "PH7 is running out of memory while preparing the 'foreach' step");
           /* Jump out of the loop */
           pc = pInstr->iP2 - 1;
-        }else{
+        } else {
           /* Zero the structure */
           SyZero(pStep, sizeof(ph7_foreach_step));
           /* Prepare the step */
@@ -4656,7 +4656,7 @@ static sxi32 VmByteCodeExec(
             pStep->iFlags |= PH7_4EACH_STEP_HASHMAP;
             pStep->xIter.pMap = pMap;
             pMap->iRef++;
-          }else{
+          } else {
             ph7_class_instance *pThis = (ph7_class_instance *) pTos->x.pOther;
             /* Reset the loop cursor */
             SyHashResetLoopCursor(&pThis->hAttr);
@@ -4711,7 +4711,7 @@ static sxi32 VmByteCodeExec(
           SyMemBackendPoolFree(&pVm->sAllocator, pStep);
           SySetPop(&pInfo->aStep);
           PH7_HashmapUnref(pMap);
-        }else{
+        } else {
           if ((pStep->iFlags & PH7_4EACH_STEP_KEY) && SyStringLength(&pInfo->sKey) > 0) {
             ph7_value *pKey = VmExtractMemObj(&(*pVm), &pInfo->sKey, FALSE, TRUE);
             if (pKey) {
@@ -4724,11 +4724,11 @@ static sxi32 VmByteCodeExec(
             pEntry = SyHashGet(&pFrame->hVar, SyStringData(&pInfo->sValue), SyStringLength(&pInfo->sValue));
             if (pEntry) {
               pEntry->pUserData = SX_INT_TO_PTR(pNode->nValIdx);
-            }else{
+            } else {
               SyHashInsert(&pFrame->hVar, SyStringData(&pInfo->sValue), SyStringLength(&pInfo->sValue),
                            SX_INT_TO_PTR(pNode->nValIdx));
             }
-          }else{
+          } else {
             /* Make a copy of the entry value */
             pValue = VmExtractMemObj(&(*pVm), &pInfo->sValue, FALSE, TRUE);
             if (pValue) {
@@ -4736,7 +4736,7 @@ static sxi32 VmByteCodeExec(
             }
           }
         }
-      }else{
+      } else {
         ph7_class_instance *pThis = pStep->xIter.pThis;
         VmClassAttr *pVmAttr = 0;         /* Stupid cc -06 warning */
         SyHashEntry *pEntry;
@@ -4759,7 +4759,7 @@ static sxi32 VmByteCodeExec(
           SyMemBackendPoolFree(&pVm->sAllocator, pStep);
           SySetPop(&pInfo->aStep);
           PH7_ClassInstanceUnref(pThis);
-        }else{
+        } else {
           SyString *pAttrName = &pVmAttr->pAttr->sName;
           ph7_value *pAttrValue;
           if ((pStep->iFlags & PH7_4EACH_STEP_KEY) && SyStringLength(&pInfo->sKey) > 0) {
@@ -4779,11 +4779,11 @@ static sxi32 VmByteCodeExec(
               pEntry = SyHashGet(&pFrame->hVar, SyStringData(&pInfo->sValue), SyStringLength(&pInfo->sValue));
               if (pEntry) {
                 pEntry->pUserData = SX_INT_TO_PTR(pVmAttr->nIdx);
-              }else{
+              } else {
                 SyHashInsert(&pFrame->hVar, SyStringData(&pInfo->sValue), SyStringLength(&pInfo->sValue),
                              SX_INT_TO_PTR(pVmAttr->nIdx));
               }
-            }else{
+            } else {
               /* Make a copy of the attribute value */
               pValue = VmExtractMemObj(&(*pVm), &pInfo->sValue, FALSE, TRUE);
               if (pValue) {
@@ -4834,14 +4834,14 @@ static sxi32 VmByteCodeExec(
               /* Pop the method name from the stack */
               VmPopOperand(&pTos, 1);
               PH7_MemObjRelease(pTos);
-            }else{
+            } else {
               /* Push method name on the stack */
               PH7_MemObjRelease(pTos);
               SyBlobAppend(&pTos->sBlob, SyStringData(&pMeth->sVmName), SyStringLength(&pMeth->sVmName));
               MemObjSetType(pTos, MEMOBJ_STRING);
             }
             pTos->nIdx = SXU32_HIGH;
-          }else{
+          } else {
             /* Attribute access */
             VmClassAttr *pObjAttr = 0;
             SyHashEntry *pEntry;
@@ -4880,7 +4880,7 @@ static sxi32 VmByteCodeExec(
                      * the class instance '$this' will be deleted shortly.
                      */
                     PH7_MemObjStore(pValue, pTos);
-                  }else{
+                  } else {
                     /* Simple load */
                     PH7_MemObjLoad(pValue, pTos);
                   }
@@ -4896,13 +4896,13 @@ static sxi32 VmByteCodeExec(
             /* Safely unreference the object */
             PH7_ClassInstanceUnref(pThis);
           }
-        }else{
+        } else {
           VmErrorFormat(&(*pVm), PH7_CTX_ERR, "'->': Expecting class instance as left operand,PH7 is loading NULL");
           VmPopOperand(&pTos, 1);
           PH7_MemObjRelease(pTos);
           pTos->nIdx = SXU32_HIGH;           /* Assume we are loading a constant */
         }
-      }else{
+      } else {
         /* Static member access using class name */
         pNos = pTos;
         pThis = 0;
@@ -4914,7 +4914,7 @@ static sxi32 VmByteCodeExec(
             goto Abort;
           }
 #endif
-        }else{
+        } else {
           /* Attribute name already computed */
           SyStringInitFromBuf(&sName, pInstr->p3, SyStrlen((const char *) pInstr->p3));
         }
@@ -4925,7 +4925,7 @@ static sxi32 VmByteCodeExec(
             pThis = (ph7_class_instance *) pNos->x.pOther;
             pClass = pThis->pClass;
             pThis->iRef++;             /* Deffer garbage collection */
-          }else{
+          } else {
             /* Try to extract the target class */
             if (SyBlobLength(&pNos->sBlob) > 0) {
               pClass = PH7_VmExtractClass(&(*pVm), (const char *) SyBlobData(&pNos->sBlob),
@@ -4942,7 +4942,7 @@ static sxi32 VmByteCodeExec(
             }
             PH7_MemObjRelease(pTos);
             pTos->nIdx = SXU32_HIGH;
-          }else{
+          } else {
             if (pInstr->iP2) {
               /* Method call */
               ph7_class_method *pMeth = 0;
@@ -4955,7 +4955,7 @@ static sxi32 VmByteCodeExec(
                   VmErrorFormat(&(*pVm), PH7_CTX_ERR, "Cannot call abstract method '%z:%z',PH7 is loading NULL",
                                 &pClass->sName, &sName
                                 );
-                }else{
+                } else {
                   VmErrorFormat(&(*pVm), PH7_CTX_ERR, "Undefined class static method '%z::%z',PH7 is loading NULL",
                                 &pClass->sName, &sName
                                 );
@@ -4967,14 +4967,14 @@ static sxi32 VmByteCodeExec(
                   VmPopOperand(&pTos, 1);
                 }
                 PH7_MemObjRelease(pTos);
-              }else{
+              } else {
                 /* Push method name on the stack */
                 PH7_MemObjRelease(pTos);
                 SyBlobAppend(&pTos->sBlob, SyStringData(&pMeth->sVmName), SyStringLength(&pMeth->sVmName));
                 MemObjSetType(pTos, MEMOBJ_STRING);
               }
               pTos->nIdx = SXU32_HIGH;
-            }else{
+            } else {
               /* Attribute access */
               ph7_class_attr *pAttr = 0;
               /* Extract the target attribute */
@@ -5000,7 +5000,7 @@ static sxi32 VmByteCodeExec(
                   VmErrorFormat(&(*pVm), PH7_CTX_ERR, "Access to a non-static class attribute '%z::%z',PH7 is loading NULL",
                                 &pClass->sName, &pAttr->sName
                                 );
-                }else{
+                } else {
                   ph7_value *pValue;
                   /* Check if the access to the attribute is allowed */
                   if (VmClassMemberAccess(&(*pVm), pClass, &pAttr->sName, pAttr->iProtection, TRUE)) {
@@ -5022,7 +5022,7 @@ static sxi32 VmByteCodeExec(
               PH7_ClassInstanceUnref(pThis);
             }
           }
-        }else{
+        } else {
           /* Pop operands */
           PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR, "Invalid class name,PH7 is loading NULL");
           if (!pInstr->p3) {
@@ -5046,7 +5046,7 @@ static sxi32 VmByteCodeExec(
         /* Try to extract the desired class */
         pClass = PH7_VmExtractClass(&(*pVm), (const char *) SyBlobData(&pTos->sBlob),
                                     SyBlobLength(&pTos->sBlob), TRUE /* Only loadable class but not 'interface' or 'abstract' class*/, 0);
-      }else if (pTos->iFlags & MEMOBJ_OBJ) {
+      } else if (pTos->iFlags & MEMOBJ_OBJ) {
         /* Take the base class from the loaded instance */
         pClass = ((ph7_class_instance *) pTos->x.pOther)->pClass;
       }
@@ -5060,7 +5060,7 @@ static sxi32 VmByteCodeExec(
           /* Pop given arguments */
           VmPopOperand(&pTos, pInstr->iP1);
         }
-      }else{
+      } else {
         ph7_class_method *pCons;
         /* Create a new class instance */
         pNew = PH7_NewClassInstance(&(*pVm), pClass);
@@ -5148,7 +5148,7 @@ static sxi32 VmByteCodeExec(
       if (pClone == 0) {
         PH7_VmThrowError(&(*pVm), 0, PH7_CTX_ERR,
                          "Clone: cannot make an object clone due to a memory failure,PH7 is loading NULL");
-      }else{
+      } else {
         /* Load the cloned object */
         pTos->x.pOther = pClone;
         MemObjSetType(pTos, MEMOBJ_OBJ);
@@ -5195,7 +5195,7 @@ static sxi32 VmByteCodeExec(
         /* No approprite case to execute,jump to the default case */
         if (pSwitch->nDefault > 0) {
           pc = pSwitch->nDefault - 1;
-        }else{
+        } else {
           /* No default case,jump out of this switch */
           pc = pSwitch->nOut - 1;
         }
@@ -5231,12 +5231,12 @@ static sxi32 VmByteCodeExec(
           /* Copy result */
           PH7_MemObjStore(&sResult, pTos);
           PH7_MemObjRelease(&sResult);
-        }else{
+        } else {
           if (pTos->iFlags & MEMOBJ_OBJ) {
             ph7_class_instance *pThis = (ph7_class_instance *) pTos->x.pOther;
             /* Call the magic method '__invoke' if available */
             PH7_ClassInstanceCallMagicMethod(&(*pVm), pThis->pClass, pThis, "__invoke", sizeof("__invoke") - 1, 0);
-          }else{
+          } else {
             /* Raise exception: Invalid function name */
             VmErrorFormat(&(*pVm), PH7_CTX_WARNING, "Invalid function name,NULL will be returned");
           }
@@ -5392,7 +5392,7 @@ static sxi32 VmByteCodeExec(
                   VmLocalExec(&(*pVm), &pStatic->aByteCode, pObj);
                 }
                 pObj->nIdx = pStatic->nIdx;
-              }else{
+              } else {
                 continue;
               }
             }
@@ -5428,7 +5428,7 @@ static sxi32 VmByteCodeExec(
                                     &pVmFunc->sName, n + 1, pName);
                       PH7_MemObjRelease(pArg);
                     }
-                  }else{
+                  } else {
                     ph7_class_instance *pThis = (ph7_class_instance *) pArg->x.pOther;
                     /* Make sure the object is an instance of the given class */
                     if (!VmInstanceOf(pThis->pClass, pClass)) {
@@ -5439,7 +5439,7 @@ static sxi32 VmByteCodeExec(
                     }
                   }
                 }
-              }else if (((pArg->iFlags & aFormalArg[n].nType) == 0)) {
+              } else if (((pArg->iFlags & aFormalArg[n].nType) == 0)) {
                 ProcMemObjCast xCast = PH7_MemObjCastMethod(aFormalArg[n].nType);
                 /* Cast to the desired type */
                 xCast(pArg);
@@ -5456,7 +5456,7 @@ static sxi32 VmByteCodeExec(
                 }
                 /* Switch to pass by value */
                 pObj = VmExtractMemObj(&(*pVm), &aFormalArg[n].sName, FALSE, TRUE);
-              }else{
+              } else {
                 SyHashEntry *pRefEntry;
                 /* Install the referenced variable in the private function frame */
                 pRefEntry = SyHashGet(&pFrame->hVar, SyStringData(&aFormalArg[n].sName), SyStringLength(&aFormalArg[n].sName));
@@ -5469,11 +5469,11 @@ static sxi32 VmByteCodeExec(
                 }
                 pObj = 0;
               }
-            }else{
+            } else {
               /* Pass by value,make a copy of the given argument */
               pObj = VmExtractMemObj(&(*pVm), &aFormalArg[n].sName, FALSE, TRUE);
             }
-          }else{
+          } else {
             char zName[32];
             SyString sName;
             /* Set a dummy name */
@@ -5588,7 +5588,7 @@ static sxi32 VmByteCodeExec(
                 break;
               }
             }
-          }else{
+          } else {
             if ((pTos->iFlags & (MEMOBJ_HASHMAP | MEMOBJ_OBJ | MEMOBJ_NULL | MEMOBJ_RES)) == 0) {
               VmErrorFormat(&(*pVm), PH7_CTX_NOTICE,
                             "Function '%z',return by reference: Cannot reference constant expression,PH7 is switching to return by value",
@@ -5607,10 +5607,10 @@ static sxi32 VmByteCodeExec(
             /* Jump to this destination */
             pc = pFrame->iExceptionJump - 1;
             rc = PH7_OK;
-          }else{
+          } else {
             if (pFrame->pParent) {
               rc = PH7_EXCEPTION;
-            }else{
+            } else {
               /* Continue normal execution */
               rc = PH7_OK;
             }
@@ -5623,10 +5623,10 @@ static sxi32 VmByteCodeExec(
         if (rc == PH7_ABORT) {
           /* Abort processing immeditaley */
           goto Abort;
-        }else if (rc == PH7_EXCEPTION) {
+        } else if (rc == PH7_EXCEPTION) {
           goto Exception;
         }
-      }else{
+      } else {
         ph7_user_func *pFunc;
         ph7_context sCtx;
         ph7_value sRet;
@@ -6086,11 +6086,11 @@ static int vm_builtin_func_get_arg(ph7_context *pCtx, int nArg, ph7_value **apAr
     if ((pObj = (ph7_value *) SySetAt(&pVm->aMemObj, pSlot->nIdx)) != 0) {
       /* Return the desired argument */
       ph7_result_value(pCtx, (ph7_value *) pObj);
-    }else{
+    } else {
       /* No such argument,return false */
       ph7_result_bool(pCtx, 0);
     }
-  }else{
+  } else {
     /* CAN'T HAPPEN */
     ph7_result_bool(pCtx, 0);
   }
@@ -6252,7 +6252,7 @@ PH7_PRIVATE int PH7_VmIsCallable(ph7_vm *pVm, ph7_value *pValue, int CallInvoke)
       }
       PH7_MemObjRelease(&sResult);
     }
-  }else if (pValue->iFlags & MEMOBJ_HASHMAP) {
+  } else if (pValue->iFlags & MEMOBJ_HASHMAP) {
     ph7_hashmap *pMap = (ph7_hashmap *) pValue->x.pOther;
     if (pMap->nEntry > 1) {
       ph7_class *pClass;
@@ -6276,7 +6276,7 @@ PH7_PRIVATE int PH7_VmIsCallable(ph7_vm *pVm, ph7_value *pValue, int CallInvoke)
         }
       }
     }
-  }else if (pValue->iFlags & MEMOBJ_STRING) {
+  } else if (pValue->iFlags & MEMOBJ_STRING) {
     const char *zName;
     int nLen;
     /* Extract the name */
@@ -6482,18 +6482,18 @@ static int vm_builtin_get_class(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* Point to the class name */
       pName = &pClass->sName;
       ph7_result_string(pCtx, pName->zString, (int) pName->nByte);
-    }else{
+    } else {
       /* Not inside class,return FALSE */
       ph7_result_bool(pCtx, 0);
     }
-  }else{
+  } else {
     /* Extract the target class */
     pClass = VmExtractClassFromValue(pCtx->pVm, apArg[0]);
     if (pClass) {
       pName = &pClass->sName;
       /* Return the class name */
       ph7_result_string(pCtx, pName->zString, (int) pName->nByte);
-    }else{
+    } else {
       /* Not a class instance,return FALSE */
       ph7_result_bool(pCtx, 0);
     }
@@ -6523,11 +6523,11 @@ static int vm_builtin_get_parent_class(ph7_context *pCtx, int nArg, ph7_value **
       /* Point to the class name */
       pName = &pClass->pBase->sName;
       ph7_result_string(pCtx, pName->zString, (int) pName->nByte);
-    }else{
+    } else {
       /* Not inside class,return FALSE */
       ph7_result_bool(pCtx, 0);
     }
-  }else{
+  } else {
     /* Extract the target class */
     pClass = VmExtractClassFromValue(pCtx->pVm, apArg[0]);
     if (pClass) {
@@ -6535,11 +6535,11 @@ static int vm_builtin_get_parent_class(ph7_context *pCtx, int nArg, ph7_value **
         pName = &pClass->pBase->sName;
         /* Return the parent class name */
         ph7_result_string(pCtx, pName->zString, (int) pName->nByte);
-      }else{
+      } else {
         /* Object does not have a parent class */
         ph7_result_bool(pCtx, 0);
       }
-    }else{
+    } else {
       /* Not a class instance,return FALSE */
       ph7_result_bool(pCtx, 0);
     }
@@ -6564,7 +6564,7 @@ static int vm_builtin_get_called_class(ph7_context *pCtx, int nArg, ph7_value **
     /* Point to the class name */
     pName = &pClass->sName;
     ph7_result_string(pCtx, pName->zString, (int) pName->nByte);
-  }else{
+  } else {
     SXUNUSED(nArg);     /* cc warning */
     SXUNUSED(apArg);
     /* Not inside class,return FALSE */
@@ -6583,7 +6583,7 @@ static ph7_class* VmExtractClassFromValue(ph7_vm *pVm, ph7_value *pArg)
   if (ph7_value_is_object(pArg)) {
     /* Class instance already loaded,no need to perform a lookup */
     pClass = ((ph7_class_instance *) pArg->x.pOther)->pClass;
-  }else if (ph7_value_is_string(pArg)) {
+  } else if (ph7_value_is_string(pArg)) {
     const char *zClass;
     int nLen;
     /* Extract class name */
@@ -6962,7 +6962,7 @@ static int VmClassMemberAccess(
       if ((ph7_class *) pVmFunc->pUserData != pClass) {
         goto dis;         /* Access is forbidden */
       }
-    }else{
+    } else {
       /* Protected */
       ph7_class *pBase = (ph7_class *) pVmFunc->pUserData;
       /* Must be a derived class */
@@ -7028,7 +7028,7 @@ static int vm_builtin_get_class_vars(ph7_context *pCtx, int nArg, ph7_value **ap
       if (pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC)) {
         /* Extract static attribute value which is always computed */
         pValue = (ph7_value *) SySetAt(&pCtx->pVm->aMemObj, pAttr->nIdx);
-      }else{
+      } else {
         if (SySetUsed(&pAttr->aByteCode) > 0) {
           PH7_MemObjRelease(&sValue);
           /* Compute default value (any complex expression) associated with this attribute */
@@ -7506,7 +7506,7 @@ static int vm_builtin_call_user_func(ph7_context *pCtx, int nArg, ph7_value **ap
   if (rc != SXRET_OK) {
     /* An error occured while invoking the given callback [i.e: not defined] */
     ph7_result_bool(pCtx, 0);     /* return false */
-  }else{
+  } else {
     /* Callback result */
     ph7_result_value(pCtx, &sResult);     /* Will make it's own copy */
   }
@@ -7557,7 +7557,7 @@ static int vm_builtin_call_user_func_array(ph7_context *pCtx, int nArg, ph7_valu
   if (rc != SXRET_OK) {
     /* An error occured while invoking the given callback [i.e: not defined] */
     ph7_result_bool(pCtx, 0);     /* return false */
-  }else{
+  } else {
     /* Callback result */
     ph7_result_value(pCtx, &sResult);     /* Will make it's own copy */
   }
@@ -7828,7 +7828,7 @@ static int vm_builtin_ob_end_clean(ph7_context *pCtx, int nArg, ph7_value **apAr
     ph7_result_bool(pCtx, 0);
     SXUNUSED(nArg);     /* cc warning */
     SXUNUSED(apArg);
-  }else{
+  } else {
     /* Release */
     VmObRestore(pVm, pOb);
     /* Return true */
@@ -7855,7 +7855,7 @@ static int vm_builtin_ob_get_contents(ph7_context *pCtx, int nArg, ph7_value **a
     ph7_result_bool(pCtx, 0);
     SXUNUSED(nArg);     /* cc warning */
     SXUNUSED(apArg);
-  }else{
+  } else {
     /* Return contents */
     ph7_result_string(pCtx, (const char *) SyBlobData(&pOb->sOB), (int) SyBlobLength(&pOb->sOB));
   }
@@ -7881,7 +7881,7 @@ static int vm_builtin_ob_get_clean(ph7_context *pCtx, int nArg, ph7_value **apAr
     ph7_result_bool(pCtx, 0);
     SXUNUSED(nArg);     /* cc warning */
     SXUNUSED(apArg);
-  }else{
+  } else {
     /* Return contents */
     ph7_result_string(pCtx, (const char *) SyBlobData(&pOb->sOB), (int) SyBlobLength(&pOb->sOB));     /* Will make it's own copy */
     /* Release */
@@ -7908,7 +7908,7 @@ static int vm_builtin_ob_get_length(ph7_context *pCtx, int nArg, ph7_value **apA
     ph7_result_bool(pCtx, 0);
     SXUNUSED(nArg);     /* cc warning */
     SXUNUSED(apArg);
-  }else{
+  } else {
     /* Return OB length */
     ph7_result_int64(pCtx, (ph7_int64) SyBlobLength(&pOb->sOB));
   }
@@ -8032,7 +8032,7 @@ static int vm_builtin_ob_start(ph7_context *pCtx, int nArg, ph7_value **apArg)
   rc = SySetPut(&pVm->aOB, (const void *) &sOb);
   if (rc != SXRET_OK) {
     PH7_MemObjRelease(&sOb.sCallback);
-  }else{
+  } else {
     ph7_output_consumer *pCons = &pVm->sVmConsumer;
     /* Substitute the default VM consumer */
     if (pCons->xConsumer != VmObConsumer) {
@@ -8068,7 +8068,7 @@ static sxi32 VmObFlush(ph7_vm *pVm, VmObEntry *pEntry, int bRelease)
   }
   if (bRelease) {
     VmObRestore(&(*pVm), pEntry);
-  }else{
+  } else {
     /* Reset the blob */
     SyBlobReset(pBlob);
   }
@@ -8191,9 +8191,9 @@ static int vm_builtin_ob_list_handlers(ph7_context *pCtx, int nArg, ph7_value **
     if (pEntry->sCallback.iFlags & MEMOBJ_STRING) {
       /* Callback,dup it's name */
       SyBlobDup(&pEntry->sCallback.sBlob, &sVal.sBlob);
-    }else if (pEntry->sCallback.iFlags & MEMOBJ_HASHMAP) {
+    } else if (pEntry->sCallback.iFlags & MEMOBJ_HASHMAP) {
       SyBlobAppend(&sVal.sBlob, "Class Method", sizeof("Class Method") - 1);
-    }else{
+    } else {
       SyBlobAppend(&sVal.sBlob, "default output handler", sizeof("default output handler") - 1);
     }
     sVal.iFlags = MEMOBJ_STRING;
@@ -8273,7 +8273,7 @@ static int vm_builtin_rand(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (iDiv > 0) {
         iNum = (iNum % iDiv) + iMin;
       }
-    }else if (iMax > 0) {
+    } else if (iMax > 0) {
       iNum %= iMax;
     }
   }
@@ -8524,7 +8524,7 @@ static int vm_builtin_exit(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* Print exit message */
       zData = ph7_value_to_string(apArg[0], &iLen);
       ph7_context_output(pCtx, zData, iLen);
-    }else if (ph7_value_is_int(apArg[0])) {
+    } else if (ph7_value_is_int(apArg[0])) {
       sxi32 iExitStatus;
       /* Record exit status code */
       iExitStatus = ph7_value_to_int(apArg[0]);
@@ -8625,7 +8625,7 @@ static int vm_builtin_unset(ph7_context *pCtx, int nArg, ph7_value **apArg)
         /* Throw an error */
         ph7_context_throw_error(pCtx, PH7_CTX_ERR, "Expecting a variable not a constant");
       }
-    }else{
+    } else {
       sxu32 nIdx = pObj->nIdx;
       /* TICKET 1433-35: Protect the $GLOBALS array from deletion */
       if (nIdx != pVm->nGlobalIdx) {
@@ -8795,7 +8795,7 @@ static int vm_builtin_print_r(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_context_output(pCtx, (const char *) SyBlobData(&sDump), (int) SyBlobLength(&sDump));
     /* Return true */
     ph7_result_bool(pCtx, 1);
-  }else{
+  } else {
     /* Generated dump as return value */
     ph7_result_string(pCtx, (const char *) SyBlobData(&sDump), (int) SyBlobLength(&sDump));
   }
@@ -8828,7 +8828,7 @@ static int vm_builtin_var_export(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_context_output(pCtx, (const char *) SyBlobData(&sDump), (int) SyBlobLength(&sDump));
     /* Return NULL */
     ph7_result_null(pCtx);
-  }else{
+  } else {
     /* Generated dump as return value */
     ph7_result_string(pCtx, (const char *) SyBlobData(&sDump), (int) SyBlobLength(&sDump));
   }
@@ -8873,7 +8873,7 @@ static int vm_builtin_assert_options(ph7_context *pCtx, int nArg, ph7_value **ap
         pVm->iAssertFlags |= PH7_ASSERT_DISABLE;
       }
     }
-  }else if (iNew == PH7_ASSERT_WARNING) {
+  } else if (iNew == PH7_ASSERT_WARNING) {
     pVm->iAssertFlags &= ~PH7_ASSERT_WARNING;
     if (nArg > 1) {
       iValue = ph7_value_to_bool(apArg[1]);
@@ -8882,7 +8882,7 @@ static int vm_builtin_assert_options(ph7_context *pCtx, int nArg, ph7_value **ap
         pVm->iAssertFlags |= PH7_ASSERT_WARNING;
       }
     }
-  }else if (iNew == PH7_ASSERT_BAIL) {
+  } else if (iNew == PH7_ASSERT_BAIL) {
     pVm->iAssertFlags &= ~PH7_ASSERT_BAIL;
     if (nArg > 1) {
       iValue = ph7_value_to_bool(apArg[1]);
@@ -8891,7 +8891,7 @@ static int vm_builtin_assert_options(ph7_context *pCtx, int nArg, ph7_value **ap
         pVm->iAssertFlags |= PH7_ASSERT_BAIL;
       }
     }
-  }else if (iNew == PH7_ASSERT_CALLBACK) {
+  } else if (iNew == PH7_ASSERT_CALLBACK) {
     pVm->iAssertFlags &= ~PH7_ASSERT_CALLBACK;
     if (nArg > 1 && ph7_value_is_callable(apArg[1])) {
       /* Callback to call on failed assertions */
@@ -8937,10 +8937,10 @@ static int vm_builtin_assert(ph7_context *pCtx, int nArg, ph7_value **apArg)
       VmEvalChunk(pVm, pCtx, &sChunk, PH7_PHP_ONLY | PH7_PHP_EXPR, FALSE);
       /* Extract evaluation result */
       iResult = ph7_value_to_bool(pCtx->pRet);
-    }else{
+    } else {
       iResult = 0;
     }
-  }else{
+  } else {
     /* Perform a boolean cast */
     iResult = ph7_value_to_bool(apArg[0]);
   }
@@ -9037,7 +9037,7 @@ static int vm_builtin_trigger_error(ph7_context *pCtx, int nArg, ph7_value **apA
     ph7_context_throw_error_format(pCtx, nErr, "%.*s", nLen, zErr);
     /* Return true */
     ph7_result_bool(pCtx, 1);
-  }else{
+  } else {
     /* Missing arguments,return FALSE */
     ph7_result_bool(pCtx, 0);
   }
@@ -9071,7 +9071,7 @@ static int vm_builtin_error_reporting(ph7_context *pCtx, int nArg, ph7_value **a
     if (!nNew) {
       /* Do not report errors at all */
       pVm->bErrReport = 0;
-    }else{
+    } else {
       /* Report all errors */
       pVm->bErrReport = 1;
     }
@@ -9200,7 +9200,7 @@ static int vm_builtin_set_exception_handler(ph7_context *pCtx, int nArg, ph7_val
       /* Not callable,return TRUE (As requested by the PHP specification) */
       PH7_MemObjRelease(pNew);
       ph7_result_bool(pCtx, 1);
-    }else{
+    } else {
       PH7_MemObjStore(pNew, pOld);
       /* Install the new handler */
       PH7_MemObjStore(apArg[0], pNew);
@@ -9284,7 +9284,7 @@ static int vm_builtin_set_error_handler(ph7_context *pCtx, int nArg, ph7_value *
       /* Not callable,return TRUE (As requested by the PHP specification) */
       PH7_MemObjRelease(pNew);
       ph7_result_bool(pCtx, 1);
-    }else{
+    } else {
       PH7_MemObjStore(pNew, pOld);
       /* Install the new handler */
       PH7_MemObjStore(apArg[0], pNew);
@@ -9420,7 +9420,7 @@ static int VmMiniBacktrace(
   if (pFrame->pParent && pFunc) {
     SyBlobAppend(pOut, "Called function: ", sizeof("Called function: ") - 1);
     SyBlobAppend(pOut, pFunc->sName.zString, pFunc->sName.nByte);
-  }else{
+  } else {
     SyBlobAppend(pOut, "Global scope", sizeof("Global scope") - 1);
   }
   SyBlobAppend(pOut, "]", sizeof(char));
@@ -9514,7 +9514,7 @@ static sxi32 VmUncaughtException(
     sArg.x.pOther = pThis;
     pThis->iRef++;
     MemObjSetType(&sArg, MEMOBJ_OBJ);
-  }else{
+  } else {
     nArg = 0;
   }
   apArg[0] = &sArg;
@@ -9537,7 +9537,7 @@ static sxi32 VmUncaughtException(
     if (pFrame->pParent) {
       if (pFrame->iFlags & VM_FRAME_CATCH) {
         SyStringInitFromBuf(&sFuncName, "Catch_block", sizeof("Catch_block") - 1);
-      }else{
+      } else {
         ph7_vm_func *pFunc = (ph7_vm_func *) pFrame->pUserData;
         if (pFunc) {
           SyStringDupPtr(&sFuncName, &pFunc->sName);
@@ -9608,7 +9608,7 @@ static sxi32 VmThrowException(
       }
     }
     return rc;
-  }else{
+  } else {
     VmFrame *pFrame = pVm->pFrame;
     sxi32 rc;
     while (pFrame->pParent && (pFrame->iFlags & VM_FRAME_EXCEPTION)) {
@@ -9906,7 +9906,7 @@ static int vm_builtin_parse_url(ph7_context *pCtx, int nArg, ph7_value **apArg)
         if (pComp->nByte < 1) {
           /* No available value,return NULL */
           ph7_result_null(pCtx);
-        }else{
+        } else {
           ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
         }
         break;
@@ -9915,7 +9915,7 @@ static int vm_builtin_parse_url(ph7_context *pCtx, int nArg, ph7_value **apArg)
         if (pComp->nByte < 1) {
           /* No available value,return NULL */
           ph7_result_null(pCtx);
-        }else{
+        } else {
           ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
         }
         break;
@@ -9924,7 +9924,7 @@ static int vm_builtin_parse_url(ph7_context *pCtx, int nArg, ph7_value **apArg)
         if (pComp->nByte < 1) {
           /* No available value,return NULL */
           ph7_result_null(pCtx);
-        }else{
+        } else {
           int iPort = 0;
           /* Cast the value to integer */
           SyStrToInt32(pComp->zString, pComp->nByte, (void *) &iPort, 0);
@@ -9936,7 +9936,7 @@ static int vm_builtin_parse_url(ph7_context *pCtx, int nArg, ph7_value **apArg)
         if (pComp->nByte < 1) {
           /* No available value,return NULL */
           ph7_result_null(pCtx);
-        }else{
+        } else {
           ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
         }
         break;
@@ -9945,7 +9945,7 @@ static int vm_builtin_parse_url(ph7_context *pCtx, int nArg, ph7_value **apArg)
         if (pComp->nByte < 1) {
           /* No available value,return NULL */
           ph7_result_null(pCtx);
-        }else{
+        } else {
           ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
         }
         break;
@@ -9954,7 +9954,7 @@ static int vm_builtin_parse_url(ph7_context *pCtx, int nArg, ph7_value **apArg)
         if (pComp->nByte < 1) {
           /* No available value,return NULL */
           ph7_result_null(pCtx);
-        }else{
+        } else {
           ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
         }
         break;
@@ -9963,7 +9963,7 @@ static int vm_builtin_parse_url(ph7_context *pCtx, int nArg, ph7_value **apArg)
         if (pComp->nByte < 1) {
           /* No available value,return NULL */
           ph7_result_null(pCtx);
-        }else{
+        } else {
           ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
         }
         break;
@@ -9972,7 +9972,7 @@ static int vm_builtin_parse_url(ph7_context *pCtx, int nArg, ph7_value **apArg)
         if (pComp->nByte < 1) {
           /* No available value,return NULL */
           ph7_result_null(pCtx);
-        }else{
+        } else {
           ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
         }
         break;
@@ -9981,7 +9981,7 @@ static int vm_builtin_parse_url(ph7_context *pCtx, int nArg, ph7_value **apArg)
         ph7_result_null(pCtx);
         break;
     }
-  }else{
+  } else {
     ph7_value *pArray, *pValue;
     /* Return an associative array */
     pArray = ph7_context_new_array(pCtx);      /* Empty array */
@@ -10105,7 +10105,7 @@ static int VmCompactCallback(ph7_value *pKey, ph7_value *pValue, void *pUserData
         ph7_array_add_elem(pArray, pValue /* Variable name*/, pKey /* Variable value */ );
       }
     }
-  }else if (ph7_value_is_array(pValue) && pData->nRecCount < 32) {
+  } else if (ph7_value_is_array(pValue) && pData->nRecCount < 32) {
     int rc;
     /* Recursively traverse this array */
     pData->nRecCount++;
@@ -10164,7 +10164,7 @@ static int vm_builtin_compact(ph7_context *pCtx, int nArg, ph7_value **apArg)
         sData.pArray = pArray;
         PH7_HashmapWalk(pMap, VmCompactCallback, &sData);
       }
-    }else{
+    } else {
       /* Extract variable name */
       zName = ph7_value_to_string(apArg[i], &nLen);
       if (nLen > 0) {
@@ -10293,7 +10293,7 @@ static int VmExtractCallback(ph7_value *pKey, ph7_value *pValue, void *pUserData
                                         pAux->Prefixlen, pAux->zPrefix,
                                         SyBlobLength(&pKey->sBlob), SyBlobData(&pKey->sBlob)
                                         );
-  }else{
+  } else {
     sVar.nByte = (sxu32) SyMemcpy(SyBlobData(&pKey->sBlob), pAux->zWorker,
                                   SXMIN(SyBlobLength(&pKey->sBlob), sizeof(pAux->zWorker)));
   }
@@ -10316,7 +10316,7 @@ static int VmExtractCallback(ph7_value *pKey, ph7_value *pValue, void *pUserData
                                           );
       pObj = VmExtractMemObj(pVm, &sVar, TRUE, TRUE);
     }
-  }else{
+  } else {
     /* Create the variable */
     pObj = VmExtractMemObj(pVm, &sVar, TRUE, TRUE);
   }
@@ -10350,7 +10350,7 @@ static int VmImportRequestCallback(ph7_value *pKey, ph7_value *pValue, void *pUs
                                         pAux->Prefixlen, pAux->zPrefix,
                                         SyBlobLength(&pKey->sBlob), SyBlobData(&pKey->sBlob)
                                         );
-  }else{
+  } else {
     sVar.nByte = (sxu32) SyMemcpy(SyBlobData(&pKey->sBlob), pAux->zWorker,
                                   SXMIN(SyBlobLength(&pKey->sBlob), sizeof(pAux->zWorker)));
   }
@@ -10416,10 +10416,10 @@ static int vm_builtin_import_request_variables(ph7_context *pCtx, int nArg, ph7_
     if (c == 'G' || c == 'g') {
       /* Import $_GET variables */
       pSuper = VmExtractSuper(pVm, "_GET", sizeof("_GET") - 1);
-    }else if (c == 'P' || c == 'p') {
+    } else if (c == 'P' || c == 'p') {
       /* Import $_POST variables */
       pSuper = VmExtractSuper(pVm, "_POST", sizeof("_POST") - 1);
-    }else if (c == 'c' || c == 'C') {
+    } else if (c == 'c' || c == 'C') {
       /* Import $_COOKIE variables */
       pSuper = VmExtractSuper(pVm, "_COOKIE", sizeof("_COOKIE") - 1);
     }
@@ -10470,7 +10470,7 @@ static sxi32 VmEvalChunk(
     if (pCtx) {
       ph7_result_bool(pCtx, 0);
     }
-  }else{
+  } else {
     ph7_value sResult;     /* Return value */
     if (SXRET_OK != PH7_VmEmitInstr(pVm, PH7_OP_DONE, 0, 0, 0, 0)) {
       /* Out of memory */
@@ -10482,7 +10482,7 @@ static sxi32 VmEvalChunk(
     if (bTrueReturn) {
       /* Assume a boolean true return value */
       PH7_MemObjInitFromBool(pVm, &sResult, 1);
-    }else{
+    } else {
       /* Assume a null return value */
       PH7_MemObjInit(pVm, &sResult);
     }
@@ -10576,7 +10576,7 @@ PH7_PRIVATE sxi32 PH7_VmPushFilePath(ph7_vm *pVm, const char *zPath, int nLen, s
   while (zCur[0] != 0) {
     if (zCur[0] == '/') {
       zCur[0] = '\\';
-    }else if ((unsigned char) zCur[0] < 0xc0 && SyisUpper(zCur[0])) {
+    } else if ((unsigned char) zCur[0] < 0xc0 && SyisUpper(zCur[0])) {
       int c = SyToLower(zCur[0]);
       zCur[0] = (char) c;       /* MSVC stupidity */
     }
@@ -10589,7 +10589,7 @@ PH7_PRIVATE sxi32 PH7_VmPushFilePath(ph7_vm *pVm, const char *zPath, int nLen, s
     if (VmIsIncludedFile(&(*pVm), &sPath)) {
       /* Already included */
       *pNew = 0;
-    }else{
+    } else {
       /* Insert in the corresponding container */
       rc = SySetPut(&pVm->aIncluded, (const void *) &sPath);
       if (rc != SXRET_OK) {
@@ -10645,7 +10645,7 @@ static sxi32 VmExecIncludedFile(
   if (IncludeOnce && !isNew) {
     /* Already included */
     rc = SXERR_EXISTS;
-  }else{
+  } else {
     /* Read the whole file contents */
     rc = PH7_StreamReadWholeFile(pHandle, pStream, &sContents);
     if (rc == SXRET_OK) {
@@ -10972,7 +10972,7 @@ static const char* VmFindLongOpt(const char *zLong, int nByte, const char *zIn, 
         return zIn;
       }
 
-    }else{
+    } else {
       zIn++;
     }
   }
@@ -11010,7 +11010,7 @@ static void VmExtractOptArgValue(
      * Insert the option name and a boolean FALSE.
      */
     ph7_array_add_strkey_elem(pArray, (const char *) zName, pWorker);     /* Will make it's own copy */
-  }else{
+  } else {
     const char *zCur;
     /* Extract option argument */
     zArg++;
@@ -11045,7 +11045,7 @@ static void VmExtractOptArgValue(
       /* Save the value */
       ph7_value_string(pWorker, zCur, (int) (zArg - zCur));
       if (zArg < zArgEnd) { zArg++; }
-    }else{
+    } else {
       while (zArg < zArgEnd && !SyisSpace(zArg[0])) {
         zArg++;
       }
@@ -11064,7 +11064,7 @@ static void VmExtractOptArgValue(
       pOptArg = ph7_context_new_array(pCtx);
       if (pOptArg == 0) {
         ph7_context_throw_error(pCtx, PH7_CTX_ERR, "PH7 is running out of memory");
-      }else{
+      } else {
         /* Insert the first value */
         ph7_array_add_elem(pOptArg, 0, pWorker);         /* Will make it's own copy */
         for (;;) {
@@ -11097,7 +11097,7 @@ static void VmExtractOptArgValue(
         /* Safely release */
         ph7_context_release_value(pCtx, pOptArg);
       }
-    }else{
+    } else {
       /* Single value */
       ph7_array_add_strkey_elem(pArray, (const char *) zName, pWorker);       /* Will make it's own copy */
     }
@@ -11236,7 +11236,7 @@ static int VmProcessLongOpt(ph7_value *pKey, ph7_value *pValue, void *pUserData)
     zEnd++;
     zTerm = (char *) zEnd;
     zTerm[0] = 0;
-  }else{
+  } else {
     zEnd = &zOpt[nByte];
   }
   /* Find the option */
@@ -11299,18 +11299,18 @@ static sxi32 VmJsonEncode(
   if (ph7_value_is_null(pIn) || ph7_value_is_resource(pIn)) {
     /* null */
     ph7_result_string(pCtx, "null", (int) sizeof("null") - 1);
-  }else if (ph7_value_is_bool(pIn)) {
+  } else if (ph7_value_is_bool(pIn)) {
     int iBool = ph7_value_to_bool(pIn);
     int iLen;
     /* true/false */
     iLen = iBool ? (int) sizeof("true") : (int) sizeof("false");
     ph7_result_string(pCtx, iBool ? "true" : "false", iLen - 1);
-  }else if (ph7_value_is_numeric(pIn) && !ph7_value_is_string(pIn)) {
+  } else if (ph7_value_is_numeric(pIn) && !ph7_value_is_string(pIn)) {
     const char *zNum;
     /* Get a string representation of the number */
     zNum = ph7_value_to_string(pIn, &nByte);
     ph7_result_string(pCtx, zNum, nByte);
-  }else if (ph7_value_is_string(pIn)) {
+  } else if (ph7_value_is_string(pIn)) {
     if ((iFlags & JSON_NUMERIC_CHECK) && ph7_value_is_numeric(pIn)) {
       const char *zNum;
       /* Encodes numeric strings as numbers. */
@@ -11318,7 +11318,7 @@ static sxi32 VmJsonEncode(
       /* Get a string representation of the number */
       zNum = ph7_value_to_string(pIn, &nByte);
       ph7_result_string(pCtx, zNum, nByte);
-    }else{
+    } else {
       const char *zIn, *zEnd;
       int c;
       /* Encode the string */
@@ -11338,19 +11338,19 @@ static sxi32 VmJsonEncode(
           /* All < and > are converted to \u003C and \u003E */
           if (c == '<') {
             ph7_result_string(pCtx, "\\u003C", (int) sizeof("\\u003C") - 1);
-          }else{
+          } else {
             ph7_result_string(pCtx, "\\u003E", (int) sizeof("\\u003E") - 1);
           }
           continue;
-        }else if (c == '&' && (iFlags & JSON_HEX_AMP)) {
+        } else if (c == '&' && (iFlags & JSON_HEX_AMP)) {
           /* All &s are converted to \u0026.  */
           ph7_result_string(pCtx, "\\u0026", (int) sizeof("\\u0026") - 1);
           continue;
-        }else if (c == '\'' && (iFlags & JSON_HEX_APOS)) {
+        } else if (c == '\'' && (iFlags & JSON_HEX_APOS)) {
           /* All ' are converted to \u0027.   */
           ph7_result_string(pCtx, "\\u0027", (int) sizeof("\\u0027") - 1);
           continue;
-        }else if (c == '"' && (iFlags & JSON_HEX_QUOT)) {
+        } else if (c == '"' && (iFlags & JSON_HEX_QUOT)) {
           /* All " are converted to \u0022. */
           ph7_result_string(pCtx, "\\u0022", (int) sizeof("\\u0022") - 1);
           continue;
@@ -11365,7 +11365,7 @@ static sxi32 VmJsonEncode(
       /* Append the double quote */
       ph7_result_string(pCtx, "\"", (int) sizeof(char));
     }
-  }else if (ph7_value_is_array(pIn)) {
+  } else if (ph7_value_is_array(pIn)) {
     int c = '[', d = ']';
     /* Encode the array */
     pData->isFirst = 1;
@@ -11380,7 +11380,7 @@ static sxi32 VmJsonEncode(
     ph7_array_walk(pIn, VmJsonArrayEncode, pData);
     /* Append the closing square bracket or curly braces */
     ph7_result_string(pCtx, (const char *) &d, (int) sizeof(char));
-  }else if (ph7_value_is_object(pIn)) {
+  } else if (ph7_value_is_object(pIn)) {
     /* Encode the class instance */
     pData->isFirst = 1;
     /* Append the curly braces */
@@ -11389,7 +11389,7 @@ static sxi32 VmJsonEncode(
     ph7_object_walk(pIn, VmJsonObjectEncode, pData);
     /* Append the closing curly braces  */
     ph7_result_string(pCtx, "}", (int) sizeof(char));
-  }else{
+  } else {
     /* Can't happen */
     ph7_result_string(pCtx, "null", (int) sizeof("null") - 1);
   }
@@ -11577,7 +11577,7 @@ static sxi32 VmJsonTokenize(SyStream *pStream, SyToken *pToken, void *pUserData,
     }
     /* Advance the stream cursor */
     pStream->zText++;
-  }else if (pStream->zText[0] == '"') {
+  } else if (pStream->zText[0] == '"') {
     /* JSON string */
     pStream->zText++;
     pStr->zString++;
@@ -11596,11 +11596,11 @@ static sxi32 VmJsonTokenize(SyStream *pStream, SyToken *pToken, void *pUserData,
       /* Missing closing '"' */
       pToken->nType = JSON_TK_INVALID;
       *pJsonErr = JSON_ERROR_SYNTAX;
-    }else{
+    } else {
       pToken->nType = JSON_TK_STR;
       pStream->zText++;       /* Jump the closing double quotes */
     }
-  }else if (pStream->zText[0] < 0xc0 && SyisDigit(pStream->zText[0])) {
+  } else if (pStream->zText[0] < 0xc0 && SyisDigit(pStream->zText[0])) {
     /* Number */
     pStream->zText++;
     pToken->nType = JSON_TK_NUM;
@@ -11630,7 +11630,7 @@ static sxi32 VmJsonTokenize(SyStream *pStream, SyToken *pToken, void *pUserData,
             }
           }
         }
-      }else if (c == 'e' || c == 'E') {
+      } else if (c == 'e' || c == 'E') {
         /* Real number */
         pStream->zText++;
         if (pStream->zText < pStream->zEnd) {
@@ -11644,25 +11644,25 @@ static sxi32 VmJsonTokenize(SyStream *pStream, SyToken *pToken, void *pUserData,
         }
       }
     }
-  }else if (XLEX_IN_LEN(pStream) >= sizeof("true") - 1 &&
-            SyStrnicmp((const char *) pStream->zText, "true", sizeof("true") - 1) == 0) {
+  } else if (XLEX_IN_LEN(pStream) >= sizeof("true") - 1 &&
+             SyStrnicmp((const char *) pStream->zText, "true", sizeof("true") - 1) == 0) {
     /* boolean true */
     pToken->nType = JSON_TK_TRUE;
     /* Advance the stream cursor */
     pStream->zText += sizeof("true") - 1;
-  }else if (XLEX_IN_LEN(pStream) >= sizeof("false") - 1 &&
-            SyStrnicmp((const char *) pStream->zText, "false", sizeof("false") - 1) == 0) {
+  } else if (XLEX_IN_LEN(pStream) >= sizeof("false") - 1 &&
+             SyStrnicmp((const char *) pStream->zText, "false", sizeof("false") - 1) == 0) {
     /* boolean false */
     pToken->nType = JSON_TK_FALSE;
     /* Advance the stream cursor */
     pStream->zText += sizeof("false") - 1;
-  }else if (XLEX_IN_LEN(pStream) >= sizeof("null") - 1 &&
-            SyStrnicmp((const char *) pStream->zText, "null", sizeof("null") - 1) == 0) {
+  } else if (XLEX_IN_LEN(pStream) >= sizeof("null") - 1 &&
+             SyStrnicmp((const char *) pStream->zText, "null", sizeof("null") - 1) == 0) {
     /* NULL */
     pToken->nType = JSON_TK_NULL;
     /* Advance the stream cursor */
     pStream->zText += sizeof("null") - 1;
-  }else{
+  } else {
     /* Unexpected token */
     pToken->nType = JSON_TK_INVALID;
     /* Advance the stream cursor */
@@ -11784,10 +11784,10 @@ static sxi32 VmJsonDecode(
     if (pDecoder->pIn->nType & JSON_TK_NULL) {
       /* Nullify the value.*/
       ph7_value_null(pWorker);
-    }else if (pDecoder->pIn->nType & (JSON_TK_TRUE | JSON_TK_FALSE)) {
+    } else if (pDecoder->pIn->nType & (JSON_TK_TRUE | JSON_TK_FALSE)) {
       /* Boolean value */
       ph7_value_bool(pWorker, (pDecoder->pIn->nType & JSON_TK_TRUE) ? 1 : 0);
-    }else if (pDecoder->pIn->nType & JSON_TK_NUM) {
+    } else if (pDecoder->pIn->nType & JSON_TK_NUM) {
       SyString *pStr = &pDecoder->pIn->sData;
       /*
        * Numeric value.
@@ -11797,7 +11797,7 @@ static sxi32 VmJsonDecode(
       ph7_value_string(pWorker, pStr->zString, (int) pStr->nByte);
       /* Obtain a numeric representation */
       PH7_MemObjToNumeric(pWorker);
-    }else{
+    } else {
       /* Dequote the string */
       VmJsonDequoteString(&pDecoder->pIn->sData, pWorker);
     }
@@ -11808,7 +11808,7 @@ static sxi32 VmJsonDecode(
     }
     /* All done,advance the stream cursor */
     pDecoder->pIn++;
-  }else if (pDecoder->pIn->nType & JSON_TK_OSB /*'[' */ ) {
+  } else if (pDecoder->pIn->nType & JSON_TK_OSB /*'[' */ ) {
     ProcJsonConsumer xOld;
     void *pOld;
     /* Array representation*/
@@ -11861,7 +11861,7 @@ static sxi32 VmJsonDecode(
     pDecoder->pUserData = pOld;
     /* Invoke the old consumer on the decoded array */
     xOld(pDecoder->pCtx, pArrayKey, pWorker, pOld);
-  }else if (pDecoder->pIn->nType & JSON_TK_OCB /*'{' */ ) {
+  } else if (pDecoder->pIn->nType & JSON_TK_OCB /*'{' */ ) {
     ProcJsonConsumer xOld;
     ph7_value *pKey;
     void *pOld;
@@ -11930,7 +11930,7 @@ static sxi32 VmJsonDecode(
     xOld(pDecoder->pCtx, pArrayKey, pWorker, pOld);
     /* Release the key */
     ph7_context_release_value(pDecoder->pCtx, pKey);
-  }else{
+  } else {
     /* Unexpected token */
     return SXERR_ABORT;     /* Abort immediately */
   }
@@ -13421,19 +13421,19 @@ static int vm_builtin_utf8_encode(ph7_context *pCtx, int nArg, ph7_value **apArg
     if (c < 0x00080) {
       e = (c & 0xFF);
       ph7_result_string(pCtx, (const char *) &e, (int) sizeof(char));
-    }else if (c < 0x00800) {
+    } else if (c < 0x00800) {
       e = 0xC0 + ((c >> 6) & 0x1F);
       ph7_result_string(pCtx, (const char *) &e, (int) sizeof(char));
       e = 0x80 + (c & 0x3F);
       ph7_result_string(pCtx, (const char *) &e, (int) sizeof(char));
-    }else if (c < 0x10000) {
+    } else if (c < 0x10000) {
       e = 0xE0 + ((c >> 12) & 0x0F);
       ph7_result_string(pCtx, (const char *) &e, (int) sizeof(char));
       e = 0x80 + ((c >> 6) & 0x3F);
       ph7_result_string(pCtx, (const char *) &e, (int) sizeof(char));
       e = 0x80 + (c & 0x3F);
       ph7_result_string(pCtx, (const char *) &e, (int) sizeof(char));
-    }else{
+    } else {
       e = 0xF0 + ((c >> 18) & 0x07);
       ph7_result_string(pCtx, (const char *) &e, (int) sizeof(char));
       e = 0x80 + ((c >> 12) & 0x3F);
@@ -13747,7 +13747,7 @@ PH7_PRIVATE ph7_class* PH7_VmExtractClass(
   if (!iLoadable) {
     /* Return the first class seen */
     return pClass;
-  }else{
+  } else {
     /* Check the collision list */
     while (pClass) {
       if ((pClass->iFlags & (PH7_CLASS_INTERFACE | PH7_CLASS_ABSTRACT)) == 0) {
@@ -13925,7 +13925,7 @@ static sxi32 VmRefObjUnlink(ph7_vm *pVm, VmRefObj *pRef)
   }
   if (pRef->pPrevCollide) {
     pRef->pPrevCollide->pNextCollide = pRef->pNextCollide;
-  }else{
+  } else {
     pVm->apRefObj[VmRefHash(pRef->nIdx) & (pVm->nRefSize - 1)] = pRef->pNextCollide;
   }
   if (pRef->pNextCollide) {
@@ -14196,7 +14196,7 @@ ProcessHost:
       }
       /* Update the cursor */
       zUri = &zUri[nPos + 1];
-    }else{
+    } else {
       zUri++;
     }
   }
@@ -14246,7 +14246,7 @@ PathSplit:
     /* Update path or query length */
     if (pComp == &pOut->sPath) {
       pComp->nByte = nPos;
-    }else{
+    } else {
       if (&zUri[nPos] < (char *) SyStringData(pComp)) {
         /* Malformed syntax : Query must be present before fragment */
         return SXERR_SYNTAX;
@@ -14307,7 +14307,7 @@ static sxi32 VmHttpProcessOneHeader(SyhttpHeader *pHdr, SyhttpHeader *pLast, con
     SyStringFullTrim(pTmp);
     if (pTmp->nByte == 0) {
       SyStringInitFromBuf(pTmp, zLine, nLen);
-    }else{
+    } else {
       /* Update header value length */
       pTmp->nByte = (sxu32) (&zLine[nLen] - pTmp->zString);
     }
@@ -14481,7 +14481,7 @@ static sxi32 VmHttpSplitEncodedQuery(
   if (is_post) {
     /* $_POST superglobal */
     pGet = VmExtractSuper(&(*pVm), "_POST", sizeof("_POST") - 1);
-  }else{
+  } else {
     /* $_GET superglobal */
     pGet = VmExtractSuper(&(*pVm), "_GET", sizeof("_GET") - 1);
   }

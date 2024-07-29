@@ -279,7 +279,7 @@ PH7_PRIVATE const ph7_expr_op* PH7_ExprExtractOperator(SyString *pStr, SyToken *
     if (SyisAlpha(aOpTable[n].sOp.zString[0])) {
       /* TICKET 1433-012: Alpha stream operators [i.e: and,or,xor,new...] */
       rc = SyStringCmp(pStr, &aOpTable[n].sOp, SyStrnicmp);
-    }else{
+    } else {
       rc = SyStringCmp(pStr, &aOpTable[n].sOp, SyMemcmp);
     }
     if (rc == 0) {
@@ -323,7 +323,7 @@ PH7_PRIVATE void PH7_DelimitNestedTokens(SyToken *pIn, SyToken *pEnd, sxu32 nTok
     if (pCur->nType & nTokStart) {
       /* Increment nesting level */
       iNest++;
-    }else if (pCur->nType & nTokEnd) {
+    } else if (pCur->nType & nTokEnd) {
       /* Decrement nesting level */
       iNest--;
       if (iNest <= 0) {
@@ -394,7 +394,7 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
         }
       }
       iParen++;
-    }else if (apNode[i]->pStart->nType & PH7_TK_RPAREN /*')*/ ) {
+    } else if (apNode[i]->pStart->nType & PH7_TK_RPAREN /*')*/ ) {
       if (iParen <= 0) {
         rc = PH7_GenCompileError(&(*pGen), E_ERROR, apNode[i]->pStart->nLine, "Syntax error: Unexpected token ')'");
         if (rc != SXERR_ABORT) {
@@ -403,9 +403,9 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
         return rc;
       }
       iParen--;
-    }else if (apNode[i]->pStart->nType & PH7_TK_OSB /*'['*/ ) {
+    } else if (apNode[i]->pStart->nType & PH7_TK_OSB /*'['*/ ) {
       iSquare++;
-    }else if (apNode[i]->pStart->nType & PH7_TK_CSB /*']'*/ ) {
+    } else if (apNode[i]->pStart->nType & PH7_TK_CSB /*']'*/ ) {
       if (iSquare <= 0) {
         rc = PH7_GenCompileError(&(*pGen), E_ERROR, apNode[i]->pStart->nLine, "Syntax error: Unexpected token ']'");
         if (rc != SXERR_ABORT) {
@@ -414,7 +414,7 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
         return rc;
       }
       iSquare--;
-    }else if (apNode[i]->pStart->nType & PH7_TK_OCB /*'{'*/ ) {
+    } else if (apNode[i]->pStart->nType & PH7_TK_OCB /*'{'*/ ) {
       iBraces++;
       if (i > 0 && (apNode[i - 1]->xCode == PH7_CompileVariable || (apNode[i - 1]->pStart->nType & PH7_TK_CSB /*]*/ ))) {
         const ph7_expr_op *pOp, *pEnd;
@@ -446,7 +446,7 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
           if (apNode[j]->pStart->nType & PH7_TK_OCB /*{*/ ) {
             /* Increment nesting level */
             iNest++;
-          }else if (apNode[j]->pStart->nType & PH7_TK_CCB /*}*/ ) {
+          } else if (apNode[j]->pStart->nType & PH7_TK_CCB /*}*/ ) {
             /* Decrement nesting level */
             iNest--;
             if (iNest < 1) {
@@ -461,7 +461,7 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
         }
 
       }
-    }else if (apNode[i]->pStart->nType & PH7_TK_CCB /*'}'*/ ) {
+    } else if (apNode[i]->pStart->nType & PH7_TK_CCB /*'}'*/ ) {
       if (iBraces <= 0) {
         rc = PH7_GenCompileError(&(*pGen), E_ERROR, apNode[i]->pStart->nLine, "Syntax error: Unexpected token '}'");
         if (rc != SXERR_ABORT) {
@@ -470,7 +470,7 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
         return rc;
       }
       iBraces--;
-    }else if (apNode[i]->pStart->nType & PH7_TK_COLON) {
+    } else if (apNode[i]->pStart->nType & PH7_TK_COLON) {
       if (iQuesty <= 0) {
         rc = PH7_GenCompileError(&(*pGen), E_ERROR, apNode[i]->pStart->nLine, "Syntax error: Unexpected token ':'");
         if (rc != SXERR_ABORT) {
@@ -479,11 +479,11 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
         return rc;
       }
       iQuesty--;
-    }else if (apNode[i]->pStart->nType & PH7_TK_OP) {
+    } else if (apNode[i]->pStart->nType & PH7_TK_OP) {
       const ph7_expr_op *pOp = (const ph7_expr_op *) apNode[i]->pOp;
       if (pOp->iOp == EXPR_OP_QUESTY) {
         iQuesty++;
-      }else if (i > 0 && (pOp->iOp == EXPR_OP_UMINUS || pOp->iOp == EXPR_OP_UPLUS)) {
+      } else if (i > 0 && (pOp->iOp == EXPR_OP_UMINUS || pOp->iOp == EXPR_OP_UPLUS)) {
         if (apNode[i - 1]->xCode == PH7_CompileVariable || apNode[i - 1]->xCode == PH7_CompileLiteral) {
           sxi32 iExprOp = EXPR_OP_SUB;           /* Binary minus */
           sxu32 n = 0;
@@ -531,7 +531,7 @@ static void ExprAssembleLiteral(SyToken **ppCur, SyToken *pEnd)
       if (pIn < pEnd && (pIn->nType & (PH7_TK_ID | PH7_TK_KEYWORD))) {
         pIn++;
       }
-    }else{
+    } else {
       break;
     }
   }
@@ -625,7 +625,7 @@ static sxi32 ExprAssembleAnnon(ph7_gen_state *pGen, SyToken **ppCur, SyToken *pE
         goto Synchronize;
       }
       pIn++;
-    }else{
+    } else {
       /* Syntax error */
       rc = PH7_GenCompileError(&(*pGen), E_ERROR, nLine, "Syntax error while declaring annonymous function");
       if (rc != SXERR_ABORT) {
@@ -640,7 +640,7 @@ static sxi32 ExprAssembleAnnon(ph7_gen_state *pGen, SyToken **ppCur, SyToken *pE
     if (pIn < pEnd) {
       pIn++;
     }
-  }else{
+  } else {
     /* Syntax error */
     rc = PH7_GenCompileError(&(*pGen), E_ERROR, nLine, "Syntax error while declaring annonymous function,missing '{'");
     if (rc == SXERR_ABORT) {
@@ -686,7 +686,7 @@ static sxi32 ExprExtractNode(ph7_gen_state *pGen, ph7_expr_node **ppNode)
     pNode->pOp = (const ph7_expr_op *) pCur->pUserData;
     /* Advance the stream cursor */
     pCur++;
-  }else if (pCur->nType & PH7_TK_DOLLAR) {
+  } else if (pCur->nType & PH7_TK_DOLLAR) {
     /* Isolate variable */
     while (pCur < pGen->pEnd && (pCur->nType & PH7_TK_DOLLAR)) {
       pCur++;       /* Variable variable */
@@ -695,13 +695,13 @@ static sxi32 ExprExtractNode(ph7_gen_state *pGen, ph7_expr_node **ppNode)
       if (pCur->nType & (PH7_TK_ID | PH7_TK_KEYWORD)) {
         /* Variable name */
         pCur++;
-      }else if (pCur->nType & PH7_TK_OCB /* '{' */ ) {
+      } else if (pCur->nType & PH7_TK_OCB /* '{' */ ) {
         pCur++;
         /* Dynamic variable name,Collect until the next non nested '}' */
         PH7_DelimitNestedTokens(pCur, pGen->pEnd, PH7_TK_OCB, PH7_TK_CCB, &pCur);
         if (pCur < pGen->pEnd) {
           pCur++;
-        }else{
+        } else {
           rc = PH7_GenCompileError(pGen, E_ERROR, pNode->pStart->nLine, "Syntax error: Missing closing brace '}'");
           if (rc != SXERR_ABORT) {
             rc = SXERR_SYNTAX;
@@ -712,7 +712,7 @@ static sxi32 ExprExtractNode(ph7_gen_state *pGen, ph7_expr_node **ppNode)
       }
     }
     pNode->xCode = PH7_CompileVariable;
-  }else if (pCur->nType & PH7_TK_KEYWORD) {
+  } else if (pCur->nType & PH7_TK_KEYWORD) {
     sxu32 nKeyword = (sxu32) SX_PTR_TO_INT(pCur->pUserData);
     if (nKeyword == PH7_TKWRD_ARRAY || nKeyword == PH7_TKWRD_LIST) {
       /* List/Array node */
@@ -720,13 +720,13 @@ static sxi32 ExprExtractNode(ph7_gen_state *pGen, ph7_expr_node **ppNode)
         /* Assume a literal */
         ExprAssembleLiteral(&pCur, pGen->pEnd);
         pNode->xCode = PH7_CompileLiteral;
-      }else{
+      } else {
         pCur += 2;
         /* Collect array/list tokens */
         PH7_DelimitNestedTokens(pCur, pGen->pEnd, PH7_TK_LPAREN /* '(' */, PH7_TK_RPAREN /* ')' */, &pCur);
         if (pCur < pGen->pEnd) {
           pCur++;
-        }else{
+        } else {
           /* Syntax error */
           rc = PH7_GenCompileError(pGen, E_ERROR, pNode->pStart->nLine,
                                    "%s: Missing closing parenthesis ')'", nKeyword == PH7_TKWRD_LIST ? "list" : "array");
@@ -750,13 +750,13 @@ static sxi32 ExprExtractNode(ph7_gen_state *pGen, ph7_expr_node **ppNode)
           }
         }
       }
-    }else if (nKeyword == PH7_TKWRD_FUNCTION) {
+    } else if (nKeyword == PH7_TKWRD_FUNCTION) {
       /* Annonymous function */
       if (&pCur[1] >= pGen->pEnd) {
         /* Assume a literal */
         ExprAssembleLiteral(&pCur, pGen->pEnd);
         pNode->xCode = PH7_CompileLiteral;
-      }else{
+      } else {
         /* Assemble annonymous functions body */
         rc = ExprAssembleAnnon(&(*pGen), &pCur, pGen->pEnd);
         if (rc != SXRET_OK) {
@@ -765,20 +765,20 @@ static sxi32 ExprExtractNode(ph7_gen_state *pGen, ph7_expr_node **ppNode)
         }
         pNode->xCode = PH7_CompileAnnonFunc;
       }
-    }else if (PH7_IsLangConstruct(nKeyword, FALSE) == TRUE && &pCur[1] < pGen->pEnd) {
+    } else if (PH7_IsLangConstruct(nKeyword, FALSE) == TRUE && &pCur[1] < pGen->pEnd) {
       /* Language constructs [i.e: print,echo,die...] require special handling */
       PH7_DelimitNestedTokens(pCur, pGen->pEnd, PH7_TK_LPAREN | PH7_TK_OCB | PH7_TK_OSB, PH7_TK_RPAREN | PH7_TK_CCB | PH7_TK_CSB, &pCur);
       pNode->xCode = PH7_CompileLangConstruct;
-    }else{
+    } else {
       /* Assume a literal */
       ExprAssembleLiteral(&pCur, pGen->pEnd);
       pNode->xCode = PH7_CompileLiteral;
     }
-  }else if (pCur->nType & (PH7_TK_NSSEP | PH7_TK_ID)) {
+  } else if (pCur->nType & (PH7_TK_NSSEP | PH7_TK_ID)) {
     /* Constants,function name,namespace path,class name... */
     ExprAssembleLiteral(&pCur, pGen->pEnd);
     pNode->xCode = PH7_CompileLiteral;
-  }else{
+  } else {
     if ((pCur->nType & (PH7_TK_LPAREN | PH7_TK_RPAREN | PH7_TK_COMMA | PH7_TK_COLON | PH7_TK_CSB | PH7_TK_OCB | PH7_TK_CCB)) == 0) {
       /* Point to the code generator routine */
       pNode->xCode = PH7_GetNodeHandler(pCur->nType);
@@ -821,7 +821,7 @@ PH7_PRIVATE sxi32 PH7_GetNextExpr(SyToken *pStart, SyToken *pEnd, SyToken **ppNe
     }
     if (pCur->nType & (PH7_TK_LPAREN /*'('*/ | PH7_TK_OSB /*'['*/ | PH7_TK_OCB /*'{'*/ )) {
       iNest++;
-    }else if (pCur->nType & (PH7_TK_RPAREN /*')'*/ | PH7_TK_CSB /*']'*/ | PH7_TK_CCB /*'}*/ )) {
+    } else if (pCur->nType & (PH7_TK_RPAREN /*')'*/ | PH7_TK_CSB /*']'*/ | PH7_TK_CCB /*'}*/ )) {
       iNest--;
     }
     pCur++;
@@ -895,7 +895,7 @@ static int ExprIsModifiableValue(ph7_expr_node *pNode, sxu8 bFunc)
           && pNode->pLeft->pOp->iOp != EXPR_OP_DC /*'::'*/ ) {
         return FALSE;
       }
-    }else if (pNode->pLeft->xCode != PH7_CompileVariable) {
+    } else if (pNode->pLeft->xCode != PH7_CompileVariable) {
       return FALSE;
     }
     return TRUE;
@@ -931,9 +931,9 @@ static sxi32 ExprProcessFuncArguments(ph7_gen_state *pGen, ph7_expr_node *pOp, p
       if (apNode[iCur]) {
         if ((apNode[iCur]->pStart->nType & PH7_TK_COMMA) && apNode[iCur]->pLeft == 0 && iNest <= 0) {
           break;
-        }else if (apNode[iCur]->pStart->nType & (PH7_TK_LPAREN | PH7_TK_OSB | PH7_TK_OCB)) {
+        } else if (apNode[iCur]->pStart->nType & (PH7_TK_LPAREN | PH7_TK_OSB | PH7_TK_OCB)) {
           iNest++;
-        }else if (apNode[iCur]->pStart->nType & (PH7_TK_RPAREN | PH7_TK_CCB | PH7_TK_CSB)) {
+        } else if (apNode[iCur]->pStart->nType & (PH7_TK_RPAREN | PH7_TK_CCB | PH7_TK_CSB)) {
           iNest--;
         }
       }
@@ -951,7 +951,7 @@ static sxi32 ExprProcessFuncArguments(ph7_gen_state *pGen, ph7_expr_node *pOp, p
       if (apNode[iNode]) {
         /* Put a pointer to the root of the tree in the arguments set */
         SySetPut(&pOp->aNodeArgs, (const void *) &apNode[iNode]);
-      }else{
+      } else {
         /* Empty function argument */
         rc = PH7_GenCompileError(&(*pGen), E_ERROR, pOp->pStart->nLine, "Empty function argument");
         if (rc != SXERR_ABORT) {
@@ -959,7 +959,7 @@ static sxi32 ExprProcessFuncArguments(ph7_gen_state *pGen, ph7_expr_node *pOp, p
         }
         return rc;
       }
-    }else{
+    } else {
       rc = PH7_GenCompileError(&(*pGen), E_ERROR, pOp->pStart->nLine, "Missing function argument");
       if (rc != SXERR_ABORT) {
         rc = SXERR_SYNTAX;
@@ -1017,7 +1017,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
           if (iNest <= 0) {
             break;
           }
-        }else if (apNode[iCur]->pStart->nType & PH7_TK_LPAREN /* '(' */ ) {
+        } else if (apNode[iCur]->pStart->nType & PH7_TK_LPAREN /* '(' */ ) {
           /* Increment nesting level */
           iNest++;
         }
@@ -1058,7 +1058,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
           if (iNest <= 0) {
             break;
           }
-        }else if (apNode[iCur]->pStart->nType & PH7_TK_OCB /*'{'*/ ) {
+        } else if (apNode[iCur]->pStart->nType & PH7_TK_OCB /*'{'*/ ) {
           /* Increment nesting level */
           iNest++;
         }
@@ -1094,7 +1094,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
           if (apNode[nFuncTok + iCur]) {
             if (apNode[nFuncTok + iCur]->pStart->nType & PH7_TK_LPAREN /*'('*/ ) {
               iPtr++;
-            }else if (apNode[nFuncTok + iCur]->pStart->nType & PH7_TK_RPAREN /*')'*/ ) {
+            } else if (apNode[nFuncTok + iCur]->pStart->nType & PH7_TK_RPAREN /*')'*/ ) {
               iPtr--;
               if (iPtr <= 0) {
                 break;
@@ -1132,7 +1132,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
         for ( iPtr = 1 ; iPtr <= nFuncTok ; iPtr++ ) {
           apNode[iCur + iPtr] = 0;
         }
-      }else if (pNode->pOp->iOp == EXPR_OP_SUBSCRIPT) {
+      } else if (pNode->pOp->iOp == EXPR_OP_SUBSCRIPT) {
         /* Subscripting */
         sxi32 iArrTok = iCur + 1;
         sxi32 iNest = 1;
@@ -1152,7 +1152,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
             if (apNode[iArrTok]->pOp && apNode[iArrTok]->pOp->iOp == EXPR_OP_SUBSCRIPT && apNode[iArrTok]->pLeft == 0) {
               /* Increment nesting level */
               iNest++;
-            }else if (apNode[iArrTok]->pStart->nType & PH7_TK_CSB /*']'*/ ) {
+            } else if (apNode[iArrTok]->pStart->nType & PH7_TK_CSB /*']'*/ ) {
               /* Decrement nesting level */
               iNest--;
               if (iNest <= 0) {
@@ -1178,7 +1178,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
         for ( iNest = iCur + 1 ; iNest <= iArrTok ; ++iNest ) {
           apNode[iNest] = 0;
         }
-      }else{
+      } else {
         /* Member access operators [i.e: '->','::'] */
         iRight = iCur + 1;
         while (iRight < nToken && apNode[iRight] == 0) {
@@ -1255,7 +1255,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
             return rc;
           }
         }
-      }else{
+      } else {
         /* New */
         if (apNode[iLeft]->pOp == 0) {
           ProcNodeConstruct xCons = apNode[iLeft]->xCode;
@@ -1339,7 +1339,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
               return rc;
             }
           }
-        }else{
+        } else {
           /* Syntax error */
           rc = PH7_GenCompileError(pGen, E_ERROR, pNode->pStart->nLine, "'%z': Missing operand", &pNode->pOp->sOp);
           if (rc != SXERR_ABORT) {
@@ -1438,7 +1438,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
           if (apNode[iRight]->pOp && apNode[iRight]->pOp->iOp == EXPR_OP_QUESTY && apNode[iRight]->pCond == 0) {
             /* Increment nesting level */
             ++iNest;
-          }else if (apNode[iRight]->pStart->nType & PH7_TK_COLON /*:*/ ) {
+          } else if (apNode[iRight]->pStart->nType & PH7_TK_COLON /*:*/ ) {
             /* Decrement nesting level */
             --iNest;
             if (iNest <= 0) {
@@ -1456,7 +1456,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
         }
         /* Link the node to the tree */
         pNode->pLeft = apNode[iCur + 1];
-      }else{
+      } else {
         rc = PH7_GenCompileError(pGen, E_ERROR, pNode->pStart->nLine, "'%z': Missing 'then' expression", &pNode->pOp->sOp);
         if (rc != SXERR_ABORT) {
           rc = SXERR_SYNTAX;
@@ -1473,7 +1473,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
         /* Link the node to the tree */
         pNode->pRight = apNode[iRight + 1];
         apNode[iRight + 1] = apNode[iRight] = 0;
-      }else{
+      } else {
         rc = PH7_GenCompileError(pGen, E_ERROR, pNode->pStart->nLine, "'%z': Missing 'else' expression", &pNode->pOp->sOp);
         if (rc != SXERR_ABORT) {
           rc = SXERR_SYNTAX;

@@ -128,10 +128,10 @@ int main(int argc, char **argv)
     if (c == 'd' || c == 'D') {
       /* Dump byte-code instructions */
       dump_vm = 1;
-    }else if (c == 'r' || c == 'R') {
+    } else if (c == 'r' || c == 'R') {
       /* Report run-time errors */
       err_report = 1;
-    }else{
+    } else {
       /* Display a help message and exit */
       Help();
     }
@@ -166,9 +166,9 @@ int main(int argc, char **argv)
   if (rc != PH7_OK) {     /* Compile error */
     if (rc == PH7_IO_ERR) {
       Fatal("IO error while opening the target file");
-    }else if (rc == PH7_VM_ERR) {
+    } else if (rc == PH7_VM_ERR) {
       Fatal("VM initialization error");
-    }else{
+    } else {
       /* Compile-time error, your output (STDOUT) should display the error messages */
       Fatal("Compile error");
     }

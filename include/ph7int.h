@@ -121,7 +121,7 @@ typedef sxi32 (*ProcRawStrCmp)(const SyString *, const SyString *);
 #define SyStringUpdatePtr(RAW, NBYTES){ \
           if (NBYTES > (RAW)->nByte) { \
             (RAW)->nByte = 0; \
-          }else{ \
+          } else { \
             (RAW)->zString += NBYTES; \
             (RAW)->nByte -= NBYTES; \
           } \
@@ -169,7 +169,7 @@ typedef sxi32 (*ProcSort)(void *, sxu32, sxu32, ProcCmp);
 #define MACRO_LD_PUSH(Head, Item) \
         if (Head == 0) { \
           Head = Item; \
-        }else{ \
+        } else { \
           Item->pNext = Head; \
           Head->pPrev = Item; \
           Head = Item; \
@@ -470,14 +470,14 @@ struct SyLex
 #define SX_WRITE_UTF8(zOut, c) {                       \
           if (c < 0x00080) {                                     \
             *zOut++ = (sxu8) (c & 0xFF);                          \
-          }else if (c < 0x00800) {                               \
+          } else if (c < 0x00800) {                               \
             *zOut++ = 0xC0 + (sxu8) ((c >> 6) & 0x1F);              \
             *zOut++ = 0x80 + (sxu8) (c & 0x3F);                 \
-          }else if (c < 0x10000) {                               \
+          } else if (c < 0x10000) {                               \
             *zOut++ = 0xE0 + (sxu8) ((c >> 12) & 0x0F);             \
             *zOut++ = 0x80 + (sxu8) ((c >> 6) & 0x3F);            \
             *zOut++ = 0x80 + (sxu8) (c & 0x3F);                 \
-          }else{                                               \
+          } else {                                               \
             *zOut++ = 0xF0 + (sxu8) ((c >> 18) & 0x07);           \
             *zOut++ = 0x80 + (sxu8) ((c >> 12) & 0x3F);           \
             *zOut++ = 0x80 + (sxu8) ((c >> 6) & 0x3F);            \

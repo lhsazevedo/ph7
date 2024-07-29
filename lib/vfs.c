@@ -432,7 +432,7 @@ static int PH7_vfs_sleep(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (rc != PH7_OK) {
     /* Return FALSE */
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     /* Return zero */
     ph7_result_int(pCtx, 0);
   }
@@ -1195,7 +1195,7 @@ static int PH7_vfs_stat(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (rc != PH7_OK) {
     /* IO error,return FALSE */
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     /* Return the associative array */
     ph7_result_value(pCtx, pArray);
   }
@@ -1264,7 +1264,7 @@ static int PH7_vfs_lstat(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (rc != PH7_OK) {
     /* IO error,return FALSE */
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     /* Return the associative array */
     ph7_result_value(pCtx, pArray);
   }
@@ -1429,7 +1429,7 @@ static int PH7_vfs_touch(ph7_context *pCtx, int nArg, ph7_value **apArg)
     nTime = ph7_value_to_int64(apArg[1]);
     if (nArg > 2) {
       nAccess = ph7_value_to_int64(apArg[1]);
-    }else{
+    } else {
       nAccess = nTime;
     }
   }
@@ -1597,7 +1597,7 @@ static sxi32 ExtractPathInfo(const char *zPath, int nByte, path_info *pOut)
 #ifdef __WINNT__
     SyStringTrimTrailingChar(pCur, '\\');
 #endif
-  }else if ((int) zPath[0] == c || (int) zPath[0] == d) {
+  } else if ((int) zPath[0] == c || (int) zPath[0] == d) {
 #ifdef __WINNT__
     SyStringInitFromBuf(&pOut->sDir, "\\", sizeof(char));
 #else
@@ -1662,7 +1662,7 @@ static int PH7_builtin_pathinfo(ph7_context *pCtx, int nArg, ph7_value **apArg)
       pComp = &sInfo.sDir;
       if (pComp->nByte > 0) {
         ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-      }else{
+      } else {
         /* Expand the empty string */
         ph7_result_string(pCtx, "", 0);
       }
@@ -1671,7 +1671,7 @@ static int PH7_builtin_pathinfo(ph7_context *pCtx, int nArg, ph7_value **apArg)
       pComp = &sInfo.sBasename;
       if (pComp->nByte > 0) {
         ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-      }else{
+      } else {
         /* Expand the empty string */
         ph7_result_string(pCtx, "", 0);
       }
@@ -1680,7 +1680,7 @@ static int PH7_builtin_pathinfo(ph7_context *pCtx, int nArg, ph7_value **apArg)
       pComp = &sInfo.sExtension;
       if (pComp->nByte > 0) {
         ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-      }else{
+      } else {
         /* Expand the empty string */
         ph7_result_string(pCtx, "", 0);
       }
@@ -1689,7 +1689,7 @@ static int PH7_builtin_pathinfo(ph7_context *pCtx, int nArg, ph7_value **apArg)
       pComp = &sInfo.sFilename;
       if (pComp->nByte > 0) {
         ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-      }else{
+      } else {
         /* Expand the empty string */
         ph7_result_string(pCtx, "", 0);
       }
@@ -1699,7 +1699,7 @@ static int PH7_builtin_pathinfo(ph7_context *pCtx, int nArg, ph7_value **apArg)
       ph7_result_string(pCtx, "", 0);
       break;
     }
-  }else{
+  } else {
     /* Return an associative array */
     ph7_value *pArray, *pValue;
     pArray = ph7_context_new_array(pCtx);
@@ -1844,12 +1844,12 @@ static int patternCompare(
       }
       if (c == 0) {
         return 1;
-      }else if (c == esc) {
+      } else if (c == esc) {
         c = PH7_Utf8Read(zPattern, 0, &zPattern);
         if (c == 0) {
           return 0;
         }
-      }else if (c == matchSet) {
+      } else if (c == matchSet) {
         if ((esc == 0) || (matchSet < 0x80)) return 0;
         while (*zString && patternCompare(&zPattern[-1], zString, esc, noCase) == 0) {
           SQLITE_SKIP_UTF8(zString);
@@ -1864,7 +1864,7 @@ static int patternCompare(
             c2 = PH7_Utf8Read(zString, 0, &zString);
             GlogUpperToLower(c2);
           }
-        }else{
+        } else {
           while (c2 != 0 && c2 != c) {
             c2 = PH7_Utf8Read(zString, 0, &zString);
           }
@@ -1873,11 +1873,11 @@ static int patternCompare(
         if (patternCompare(zPattern, zString, esc, noCase)) return 1;
       }
       return 0;
-    }else if (!prevEscape && c == matchOne) {
+    } else if (!prevEscape && c == matchOne) {
       if (PH7_Utf8Read(zString, 0, &zString) == 0) {
         return 0;
       }
-    }else if (c == matchSet) {
+    } else if (c == matchSet) {
       int prior_c = 0;
       if (esc == 0) return 0;
       seen = 0;
@@ -1898,7 +1898,7 @@ static int patternCompare(
           c2 = PH7_Utf8Read(zPattern, 0, &zPattern);
           if (c >= prior_c && c <= c2) seen = 1;
           prior_c = 0;
-        }else{
+        } else {
           if (c == c2) {
             seen = 1;
           }
@@ -1909,9 +1909,9 @@ static int patternCompare(
       if (c2 == 0 || (seen ^ invert) == 0) {
         return 0;
       }
-    }else if (esc == c && !prevEscape) {
+    } else if (esc == c && !prevEscape) {
       prevEscape = 1;
-    }else{
+    } else {
       c2 = PH7_Utf8Read(zString, 0, &zString);
       if (noCase) {
         GlogUpperToLower(c);
@@ -2326,13 +2326,13 @@ static int PH7_vfs_ph7_uname(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (sVer.dwPlatformId == VER_PLATFORM_WIN32_NT) {
     if (sVer.dwMajorVersion <= 4) {
       zName = "Microsoft Windows NT";
-    }else if (sVer.dwMajorVersion == 5) {
+    } else if (sVer.dwMajorVersion == 5) {
       switch (sVer.dwMinorVersion) {
       case 0: zName = "Microsoft Windows 2000"; break;
       case 1: zName = "Microsoft Windows XP";   break;
       case 2: zName = "Microsoft Windows Server 2003"; break;
       }
-    }else if (sVer.dwMajorVersion == 6) {
+    } else if (sVer.dwMajorVersion == 6) {
       switch (sVer.dwMinorVersion) {
       case 0: zName = "Microsoft Windows Vista"; break;
       case 1: zName = "Microsoft Windows 7"; break;
@@ -2739,7 +2739,7 @@ static int PH7_builtin_feof(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (SyBlobLength(&pDev->sBuffer) - pDev->nOfft > 0) {
     /* Data is available */
     rc = PH7_OK;
-  }else{
+  } else {
     char zBuf[4096];
     ph7_int64 n;
     /* Perform a buffered read */
@@ -2790,7 +2790,7 @@ static ph7_int64 StreamRead(io_private *pDev, void *pBuf, ph7_int64 nLen)
   nRead = pStream->xRead(pDev->pHandle, zBuf, nLen);
   if (nRead > 0) {
     n += nRead;
-  }else if (n < 1) {
+  } else if (n < 1) {
     /* EOF or IO error */
     return nRead;
   }
@@ -2921,7 +2921,7 @@ PH7_PRIVATE void* PH7_StreamOpenHandle(ph7_vm *pVm, const ph7_io_stream *pStream
         (sFile.nByte > 2 && sFile.zString[0] == '.' && sFile.zString[1] == '.' && sFile.zString[2] == '/')) {
       /*  Open the file directly */
       rc = pStream->xOpen(zFile, iFlags, pResource, &pHandle);
-    }else{
+    } else {
       SyString *pPath;
       SyBlob sWorker;
 #ifdef __WINNT__
@@ -2962,7 +2962,7 @@ PH7_PRIVATE void* PH7_StreamOpenHandle(ph7_vm *pVm, const ph7_io_stream *pStream
         PH7_VmPushFilePath(pVm, sFile.zString, sFile.nByte, FALSE, pNew);
       }
     }
-  }else{
+  } else {
     /* Open the URI direcly */
     rc = pStream->xOpen(zFile, iFlags, pResource, &pHandle);
   }
@@ -3055,7 +3055,7 @@ static int PH7_builtin_fgetc(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (n < 1) {
     /* EOF or error,return FALSE */
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     /* Return the string holding the character */
     ph7_result_string(pCtx, (const char *) &c, sizeof(char));
   }
@@ -3118,7 +3118,7 @@ static int PH7_builtin_fgets(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (n < 1) {
     /* EOF or IO error,return FALSE */
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     /* Return the freshly extracted line */
     ph7_result_string(pCtx, zLine, (int) n);
   }
@@ -3187,7 +3187,7 @@ static int PH7_builtin_fread(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (nRead < 1) {
     /* Nothing read,return FALSE */
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     /* Make a copy of the data just read */
     ph7_result_string(pCtx, (const char *) pBuf, (int) nRead);
   }
@@ -3259,7 +3259,7 @@ static int PH7_builtin_fgetcsv(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (n < 1) {
     /* EOF or IO error,return FALSE */
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     ph7_value *pArray;
     int delim = ',';        /* Delimiter */
     int encl = '"';         /* Enclosure */
@@ -3365,7 +3365,7 @@ static int PH7_builtin_fgetss(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (n < 1) {
     /* EOF or IO error,return FALSE */
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     const char *zTaglist = 0;
     int nTaglen = 0;
     if (nArg > 2 && ph7_value_is_string(apArg[2])) {
@@ -3571,7 +3571,7 @@ static int PH7_builtin_opendir(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* IO error,return FALSE */
     ReleaseIOPrivate(pCtx, pDev);
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     /* Return the handle as a resource */
     ph7_result_resource(pCtx, pDev);
   }
@@ -3833,11 +3833,11 @@ static int PH7_builtin_file_put_contents(ph7_context *pCtx, int nArg, ph7_value 
     if (n < 1) {
       /* IO error,return FALSE */
       ph7_result_bool(pCtx, 0);
-    }else{
+    } else {
       /* Total number of bytes written */
       ph7_result_int64(pCtx, n);
     }
-  }else{
+  } else {
     /* Read-only stream */
     ph7_context_throw_error_format(pCtx, PH7_CTX_ERR,
                                    "Read-only stream(%s): Cannot perform write operation",
@@ -4188,7 +4188,7 @@ static int PH7_builtin_fwrite(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (n < 0) {
     /* IO error,return FALSE */
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     /* #Bytes written */
     ph7_result_int(pCtx, n);
   }
@@ -4648,7 +4648,7 @@ static int StrModeToFlags(ph7_context *pCtx, const char *zMode, int nLen)
         iFlag = PH7_IO_OPEN_RDWR;
       }
     }
-  }else if (c == 'w' || c == 'W') {
+  } else if (c == 'w' || c == 'W') {
     /* Overwrite mode.
      * If the file does not exists,try to create it
      */
@@ -4662,7 +4662,7 @@ static int StrModeToFlags(ph7_context *pCtx, const char *zMode, int nLen)
         iFlag |= PH7_IO_OPEN_RDWR;
       }
     }
-  }else if (c == 'a' || c == 'A') {
+  } else if (c == 'a' || c == 'A') {
     /* Append mode (place the file pointer at the end of the file).
      * Create the file if it does not exists.
      */
@@ -4676,7 +4676,7 @@ static int StrModeToFlags(ph7_context *pCtx, const char *zMode, int nLen)
         iFlag |= PH7_IO_OPEN_RDWR;
       }
     }
-  }else if (c == 'x' || c == 'X') {
+  } else if (c == 'x' || c == 'X') {
     /* Exclusive access.
      * If the file already exists,return immediately with a failure code.
      * Otherwise create a new file.
@@ -4691,7 +4691,7 @@ static int StrModeToFlags(ph7_context *pCtx, const char *zMode, int nLen)
         iFlag |= PH7_IO_OPEN_RDWR;
       }
     }
-  }else if (c == 'c' || c == 'C') {
+  } else if (c == 'c' || c == 'C') {
     /* Overwrite mode.Create the file if it does not exists.*/
     iFlag = PH7_IO_OPEN_WRONLY | PH7_IO_OPEN_CREATE;
     zMode++;     /* Advance */
@@ -4703,7 +4703,7 @@ static int StrModeToFlags(ph7_context *pCtx, const char *zMode, int nLen)
         iFlag |= PH7_IO_OPEN_RDWR;
       }
     }
-  }else{
+  } else {
     /* Invalid mode. Assume a read only open */
     ph7_context_throw_error(pCtx, PH7_CTX_NOTICE, "Invalid open mode,PH7 is assuming a Read-Only open");
     iFlag = PH7_IO_OPEN_RDONLY;
@@ -4713,7 +4713,7 @@ static int StrModeToFlags(ph7_context *pCtx, const char *zMode, int nLen)
     if (c == 'b' || c == 'B') {
       iFlag &= ~PH7_IO_OPEN_TEXT;
       iFlag |= PH7_IO_OPEN_BINARY;
-    }else if (c == 't' || c == 'T') {
+    } else if (c == 't' || c == 'T') {
       iFlag &= ~PH7_IO_OPEN_BINARY;
       iFlag |= PH7_IO_OPEN_TEXT;
     }
@@ -4790,7 +4790,7 @@ static int PH7_builtin_fopen(ph7_context *pCtx, int nArg, ph7_value **apArg)
   zUri = ph7_value_to_string(apArg[0], &iLen);
   if (nArg > 1) {
     zMode = ph7_value_to_string(apArg[1], &imLen);
-  }else{
+  } else {
     /* Set a default read-only mode */
     zMode = "r";
     imLen = (int) sizeof(char);
@@ -4813,7 +4813,7 @@ static int PH7_builtin_fopen(ph7_context *pCtx, int nArg, ph7_value **apArg)
   pResource = 0;
   if (nArg > 3) {
     pResource = apArg[3];
-  }else if (is_php_stream(pStream)) {
+  } else if (is_php_stream(pStream)) {
     /* TICKET 1433-80: The php:// stream need a ph7_value to access the underlying
      * virtual machine.
      */
@@ -4965,7 +4965,7 @@ static int PH7_builtin_md5_file(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (raw_output) {
     /* Output raw digest */
     ph7_result_string(pCtx, (const char *) zDigest, sizeof(zDigest));
-  }else{
+  } else {
     /* Perform a binary to hex conversion */
     SyBinToHexConsumer((const void *) zDigest, sizeof(zDigest), vfsHashConsumer, pCtx);
   }
@@ -5036,7 +5036,7 @@ static int PH7_builtin_sha1_file(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (raw_output) {
     /* Output raw digest */
     ph7_result_string(pCtx, (const char *) zDigest, sizeof(zDigest));
-  }else{
+  } else {
     /* Perform a binary to hex conversion */
     SyBinToHexConsumer((const void *) zDigest, sizeof(zDigest), vfsHashConsumer, pCtx);
   }
@@ -5095,7 +5095,7 @@ static int PH7_builtin_parse_ini_file(ph7_context *pCtx, int nArg, ph7_value **a
   if (SyBlobLength(&sContents) < 1) {
     /* Empty buffer,return FALSE */
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     /* Process the raw INI buffer */
     PH7_ParseIniString(pCtx, (const char *) SyBlobData(&sContents), SyBlobLength(&sContents),
                        nArg > 1 ? ph7_value_to_bool(apArg[1]) : 0);
@@ -5272,7 +5272,7 @@ static int PH7_builtin_zip_close(ph7_context *pCtx, int nArg, ph7_value **apArg)
   pRaw = (zip_raw_data *) &pArchive[1];
   if (pRaw->iType == ZIP_RAW_DATA_MEMBUF) {
     SyBlobRelease(&pRaw->raw.sBlob);
-  }else{
+  } else {
     const ph7_vfs *pVfs = pRaw->raw.mmap.pVfs;
     if (pVfs->xUnmap) {
       /* Unmap the memory view */
@@ -5319,7 +5319,7 @@ static int PH7_builtin_zip_read(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (rc != SXRET_OK) {
     /* No more entries in the central directory,return FALSE */
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     /* Return as a resource handle */
     ph7_result_resource(pCtx, pNext);
     /* Point to the ZIP raw data */
@@ -5555,7 +5555,7 @@ static int PH7_builtin_zip_entry_read(ph7_context *pCtx, int nArg, ph7_value **a
   pRaw = (zip_raw_data *) pEntry->pUserData;
   if (pRaw->iType == ZIP_RAW_DATA_MEMBUF) {
     zData = (const char *) SyBlobDataAt(&pRaw->raw.sBlob, (pEntry->nOfft + pEntry->nReadCount));
-  }else{
+  } else {
     const char *zMap = (const char *) pRaw->raw.mmap.pMap;
     /* Memory mmaped chunk */
     zData = &zMap[pEntry->nOfft + pEntry->nReadCount];
@@ -6030,7 +6030,7 @@ static ph7_int64 WinVfs_FileSize(const char *zPath)
     nSize <<= 32;
     nSize += dwLow;
     CloseHandle(pHandle);
-  }else{
+  } else {
     nSize = -1;
   }
   return nSize;
@@ -6072,13 +6072,13 @@ static int WinVfs_Touch(const char *zPath, ph7_int64 touch_time, ph7_int64 acces
   if (pHandle) {
     if (touch_time < 0) {
       GetSystemTimeAsFileTime(&sTouch);
-    }else{
+    } else {
       convertUnixTimeToWindowsTime(touch_time, &sTouch);
     }
     if (access_time < 0) {
       /* Use the touch time */
       sAccess = sTouch;       /* Structure assignment */
-    }else{
+    } else {
       convertUnixTimeToWindowsTime(access_time, &sAccess);
     }
     rc = SetFileTime(pHandle, &sTouch, &sAccess, 0);
@@ -6106,11 +6106,11 @@ static ph7_int64 WinVfs_FileAtime(const char *zPath)
     rc = GetFileInformationByHandle(pHandle, &sInfo);
     if (rc) {
       atime = convertWindowsTimeToUnixTime(&sInfo.ftLastAccessTime);
-    }else{
+    } else {
       atime = -1;
     }
     CloseHandle(pHandle);
-  }else{
+  } else {
     atime = -1;
   }
   HeapFree(GetProcessHeap(), 0, pConverted);
@@ -6134,11 +6134,11 @@ static ph7_int64 WinVfs_FileMtime(const char *zPath)
     rc = GetFileInformationByHandle(pHandle, &sInfo);
     if (rc) {
       mtime = convertWindowsTimeToUnixTime(&sInfo.ftLastWriteTime);
-    }else{
+    } else {
       mtime = -1;
     }
     CloseHandle(pHandle);
-  }else{
+  } else {
     mtime = -1;
   }
   HeapFree(GetProcessHeap(), 0, pConverted);
@@ -6162,11 +6162,11 @@ static ph7_int64 WinVfs_FileCtime(const char *zPath)
     rc = GetFileInformationByHandle(pHandle, &sInfo);
     if (rc) {
       ctime = convertWindowsTimeToUnixTime(&sInfo.ftCreationTime);
-    }else{
+    } else {
       ctime = -1;
     }
     CloseHandle(pHandle);
-  }else{
+  } else {
     ctime = -1;
   }
   HeapFree(GetProcessHeap(), 0, pConverted);
@@ -6328,13 +6328,13 @@ static int WinVfs_Filetype(const char *zPath, ph7_context *pCtx)
   }
   if (dwAttr & (FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_NORMAL | FILE_ATTRIBUTE_ARCHIVE)) {
     ph7_result_string(pCtx, "file", sizeof("file") - 1);
-  }else if (dwAttr & FILE_ATTRIBUTE_DIRECTORY) {
+  } else if (dwAttr & FILE_ATTRIBUTE_DIRECTORY) {
     ph7_result_string(pCtx, "dir", sizeof("dir") - 1);
-  }else if (dwAttr & FILE_ATTRIBUTE_REPARSE_POINT) {
+  } else if (dwAttr & FILE_ATTRIBUTE_REPARSE_POINT) {
     ph7_result_string(pCtx, "link", sizeof("link") - 1);
-  }else if (dwAttr & (FILE_ATTRIBUTE_DEVICE)) {
+  } else if (dwAttr & (FILE_ATTRIBUTE_DEVICE)) {
     ph7_result_string(pCtx, "block", sizeof("block") - 1);
-  }else{
+  } else {
     ph7_result_string(pCtx, "unknown", sizeof("unknown") - 1);
   }
   return PH7_OK;
@@ -6422,7 +6422,7 @@ static void WinVfs_TempDir(ph7_context *pCtx)
   if (n < 1) {
     /* Assume the default windows temp directory */
     ph7_result_string(pCtx, "C:\\Windows\\Temp", -1 /*Compute length automatically*/ );
-  }else{
+  } else {
     ph7_result_string(pCtx, zTemp, (int) n);
   }
 }
@@ -6446,12 +6446,12 @@ static void WinVfs_Username(ph7_context *pCtx)
   if (!rc) {
     /* Set a dummy name */
     ph7_result_string(pCtx, "Unknown", sizeof("Unknown") - 1);
-  }else{
+  } else {
     char *zName;
     zName = unicodeToUtf8(zUser);
     if (zName == 0) {
       ph7_result_string(pCtx, "Unknown", sizeof("Unknown") - 1);
-    }else{
+    } else {
       ph7_result_string(pCtx, zName, -1 /*Compute length automatically*/ );       /* Will make it's own copy */
       HeapFree(GetProcessHeap(), 0, zName);
     }
@@ -6529,24 +6529,24 @@ static int WinFile_Open(const char *zPath, int iOpenMode, ph7_value *pResource, 
       /* If the specified file exists and is writable, the function overwrites the file */
       dwCreate = CREATE_ALWAYS;
     }
-  }else if (iOpenMode & PH7_IO_OPEN_EXCL) {
+  } else if (iOpenMode & PH7_IO_OPEN_EXCL) {
     /* Creates a new file, only if it does not already exist.
      * If the file exists, it fails.
      */
     dwCreate = CREATE_NEW;
-  }else if (iOpenMode & PH7_IO_OPEN_TRUNC) {
+  } else if (iOpenMode & PH7_IO_OPEN_TRUNC) {
     /* Opens a file and truncates it so that its size is zero bytes
      * The file must exist.
      */
     dwCreate = TRUNCATE_EXISTING;
-  }else{
+  } else {
     /* Opens a file, only if it exists. */
     dwCreate = OPEN_EXISTING;
   }
   if (iOpenMode & PH7_IO_OPEN_RDWR) {
     /* Read+Write access */
     dwAccess |= GENERIC_WRITE;
-  }else if (iOpenMode & PH7_IO_OPEN_WRONLY) {
+  } else if (iOpenMode & PH7_IO_OPEN_WRONLY) {
     /* Write only access */
     dwAccess = GENERIC_WRITE;
   }
@@ -6686,7 +6686,7 @@ static void WinDir_RewindDir(void *pUserData)
   pDirInfo->pDirHandle = FindFirstFileW((LPCWSTR) pDirInfo->pPath, &pDirInfo->sInfo);
   if (pDirInfo->pDirHandle == INVALID_HANDLE_VALUE) {
     pDirInfo->rc = SXERR_EOF;
-  }else{
+  } else {
     pDirInfo->rc = SXRET_OK;
   }
 }
@@ -6768,7 +6768,7 @@ static int WinFile_Lock(void *pUserData, int lock_type)
   if (lock_type < 1) {
     /* Unlock the file */
     rc = UnlockFileEx(pHandle, 0, dwLo, dwHi, &sDummy);
-  }else{
+  } else {
     DWORD dwFlags = LOCKFILE_FAIL_IMMEDIATELY;     /* Shared non-blocking lock by default*/
     /* Lock the file */
     if (lock_type == 1 /* LOCK_EXCL */ ) {
@@ -7249,17 +7249,17 @@ static int UnixVfs_Filetype(const char *zPath, ph7_context *pCtx)
   }
   if (S_ISREG(st.st_mode)) {
     ph7_result_string(pCtx, "file", sizeof("file") - 1);
-  }else if (S_ISDIR(st.st_mode)) {
+  } else if (S_ISDIR(st.st_mode)) {
     ph7_result_string(pCtx, "dir", sizeof("dir") - 1);
-  }else if (S_ISLNK(st.st_mode)) {
+  } else if (S_ISLNK(st.st_mode)) {
     ph7_result_string(pCtx, "link", sizeof("link") - 1);
-  }else if (S_ISBLK(st.st_mode)) {
+  } else if (S_ISBLK(st.st_mode)) {
     ph7_result_string(pCtx, "block", sizeof("block") - 1);
-  }else if (S_ISSOCK(st.st_mode)) {
+  } else if (S_ISSOCK(st.st_mode)) {
     ph7_result_string(pCtx, "socket", sizeof("socket") - 1);
-  }else if (S_ISFIFO(st.st_mode)) {
+  } else if (S_ISFIFO(st.st_mode)) {
     ph7_result_string(pCtx, "fifo", sizeof("fifo") - 1);
-  }else{
+  } else {
     ph7_result_string(pCtx, "unknown", sizeof("unknown") - 1);
   }
   return PH7_OK;
@@ -7301,7 +7301,7 @@ static int UnixVfs_Mmap(const char *zPath, void **ppMap, ph7_int64 *pSize)
   rc = PH7_OK;
   if (pMap == MAP_FAILED) {
     rc = -1;
-  }else{
+  } else {
     /* Point to the memory view */
     *ppMap = pMap;
     *pSize = (ph7_int64) st.st_size;
@@ -7390,7 +7390,7 @@ static int UnixVfs_link(const char *zSrc, const char *zTarget, int is_sym)
   if (is_sym) {
     /* Symbolic link */
     rc = symlink(zSrc, zTarget);
-  }else{
+  } else {
     /* Hard link */
     rc = link(zSrc, zTarget);
   }
@@ -7465,12 +7465,12 @@ static int UnixFile_Open(const char *zPath, int iOpenMode, ph7_value *pResource,
       iOpen |= O_TRUNC;
       SXUNUSED(pResource);       /* cc warning */
     }
-  }else if (iOpenMode & PH7_IO_OPEN_EXCL) {
+  } else if (iOpenMode & PH7_IO_OPEN_EXCL) {
     /* Creates a new file, only if it does not already exist.
      * If the file exists, it fails.
      */
     iOpen = O_CREAT | O_EXCL;
-  }else if (iOpenMode & PH7_IO_OPEN_TRUNC) {
+  } else if (iOpenMode & PH7_IO_OPEN_TRUNC) {
     /* Opens a file and truncates it so that its size is zero bytes
      * The file must exist.
      */
@@ -7480,7 +7480,7 @@ static int UnixFile_Open(const char *zPath, int iOpenMode, ph7_value *pResource,
     /* Read+Write access */
     iOpen &= ~O_RDONLY;
     iOpen |= O_RDWR;
-  }else if (iOpenMode & PH7_IO_OPEN_WRONLY) {
+  } else if (iOpenMode & PH7_IO_OPEN_WRONLY) {
     /* Write only access */
     iOpen &= ~O_RDONLY;
     iOpen |= O_WRONLY;
@@ -7626,11 +7626,11 @@ static int UnixFile_Lock(void *pUserData, int lock_type)
   if (lock_type < 0) {
     /* Unlock the file */
     rc = flock(fd, LOCK_UN);
-  }else{
+  } else {
     if (lock_type == 1) {
       /* Exculsive lock */
       rc = flock(fd, LOCK_EX);
-    }else{
+    } else {
       /* Shared lock */
       rc = flock(fd, LOCK_SH);
     }
@@ -7824,7 +7824,7 @@ static ph7_stream_data* PHPStreamDataInit(ph7_vm *pVm, int iType)
   if (iType == PH7_IO_STREAM_OUTPUT) {
     /* Point to the default VM consumer routine. */
     pData->x.sConsumer = pVm->sVmConsumer;
-  }else{
+  } else {
 #ifdef __WINNT__
     DWORD nChannel;
     switch (iType) {
@@ -7869,13 +7869,13 @@ static int PHPStreamData_Open(const char *zName, int iMode, ph7_value *pResource
   /* Stream to open */
   if (SyStrnicmp(sStream.zString, "stdin", sizeof("stdin") - 1) == 0) {
     iMode = PH7_IO_STREAM_STDIN;
-  }else if (SyStrnicmp(sStream.zString, "output", sizeof("output") - 1) == 0) {
+  } else if (SyStrnicmp(sStream.zString, "output", sizeof("output") - 1) == 0) {
     iMode = PH7_IO_STREAM_OUTPUT;
-  }else if (SyStrnicmp(sStream.zString, "stdout", sizeof("stdout") - 1) == 0) {
+  } else if (SyStrnicmp(sStream.zString, "stdout", sizeof("stdout") - 1) == 0) {
     iMode = PH7_IO_STREAM_STDOUT;
-  }else if (SyStrnicmp(sStream.zString, "stderr", sizeof("stderr") - 1) == 0) {
+  } else if (SyStrnicmp(sStream.zString, "stderr", sizeof("stderr") - 1) == 0) {
     iMode = PH7_IO_STREAM_STDERR;
-  }else{
+  } else {
     /* unknown stream name */
     return -1;
   }
@@ -7935,7 +7935,7 @@ static ph7_int64 PHPStreamData_Write(void *pHandle, const void *pBuf, ph7_int64 
   if (pData->iType == PH7_IO_STREAM_STDIN) {
     /* Forbidden */
     return -1;
-  }else if (pData->iType == PH7_IO_STREAM_OUTPUT) {
+  } else if (pData->iType == PH7_IO_STREAM_OUTPUT) {
     ph7_output_consumer *pCons = &pData->x.sConsumer;
     int rc;
     /* Call the vm output consumer */
@@ -8183,7 +8183,7 @@ PH7_PRIVATE void* PH7_ExportStdin(ph7_vm *pVm)
     /* Install the STDIN stream */
     pVm->pStdin = pIn;
     return pIn;
-  }else{
+  } else {
     /* NULL or STDIN */
     return pVm->pStdin;
   }
@@ -8215,7 +8215,7 @@ PH7_PRIVATE void* PH7_ExportStdout(ph7_vm *pVm)
     /* Install the STDOUT stream */
     pVm->pStdout = pOut;
     return pOut;
-  }else{
+  } else {
     /* NULL or STDOUT */
     return pVm->pStdout;
   }
@@ -8247,7 +8247,7 @@ PH7_PRIVATE void* PH7_ExportStderr(ph7_vm *pVm)
     /* Install the STDERR stream */
     pVm->pStderr = pErr;
     return pErr;
-  }else{
+  } else {
     /* NULL or STDERR */
     return pVm->pStderr;
   }

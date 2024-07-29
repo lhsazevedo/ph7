@@ -125,7 +125,7 @@ static sxi32 EngineConfig(ph7 *pEngine, sxi32 nOp, va_list ap)
     if (pLen) {
       if (SyBlobLength(&pConf->sErrConsumer) > 1 /* NULL '\0' terminator */ ) {
         *pLen = (int) SyBlobLength(&pConf->sErrConsumer);
-      }else{
+      } else {
         *pLen = 0;
       }
     }
@@ -166,7 +166,7 @@ static sxi32 PH7CoreConfigure(sxi32 nOp, va_list ap)
     if (pMethods == 0) {
       /* Use the built-in memory allocation subsystem */
       rc = SyMemBackendInit(&sMPGlobal.sAllocator, xMemErr, pMemErr);
-    }else{
+    } else {
       rc = SyMemBackendInitFromOthers(&sMPGlobal.sAllocator, pMethods, xMemErr, pMemErr);
     }
     break;
@@ -454,7 +454,7 @@ int ph7_lib_is_threadsafe(void)
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE) {
     /* Muli-threading support is enabled */
     return 1;
-  }else{
+  } else {
     /* Single-threading */
     return 0;
   }
@@ -820,7 +820,7 @@ int ph7_compile_file(ph7 *pEngine, const char *zFilePath, ph7_vm **ppOutVm, int 
   if (pVfs == 0 || pVfs->xMmap == 0) {
     /* Memory map routine not implemented */
     rc = PH7_IO_ERR;
-  }else{
+  } else {
     void *pMapView = 0;      /* cc warning */
     ph7_int64 nSize = 0;      /* cc warning */
     SyString sScript;
@@ -829,7 +829,7 @@ int ph7_compile_file(ph7 *pEngine, const char *zFilePath, ph7_vm **ppOutVm, int 
     if (rc != PH7_OK) {
       /* Assume an IO error */
       rc = PH7_IO_ERR;
-    }else{
+    } else {
       /* Compile the file */
       SyStringInitFromBuf(&sScript, pMapView, nSize);
       rc = ProcessScript(&(*pEngine), ppOutVm, &sScript, iFlags, zFilePath);
@@ -1270,7 +1270,7 @@ const char* ph7_value_to_string(ph7_value *pValue, int *pLen)
       *pLen = (int) SyBlobLength(&pValue->sBlob);
     }
     return (const char *) SyBlobData(&pValue->sBlob);
-  }else{
+  } else {
     /* Return the empty string */
     if (pLen) {
       *pLen = 0;
@@ -1386,7 +1386,7 @@ int ph7_result_value(ph7_context *pCtx, ph7_value *pValue)
   int rc = PH7_OK;
   if (pValue == 0) {
     PH7_MemObjRelease(pCtx->pRet);
-  }else{
+  } else {
     rc = PH7_MemObjStore(pValue, pCtx->pRet);
   }
   return rc;
@@ -1603,7 +1603,7 @@ int ph7_array_add_strkey_elem(ph7_value *pArray, const char *zKey, ph7_value *pV
   if (SX_EMPTY_STR(zKey)) {
     /* Empty key,assign an automatic index */
     rc = PH7_HashmapInsert((ph7_hashmap *) pArray->x.pOther, 0, &(*pValue));
-  }else{
+  } else {
     ph7_value sKey;
     PH7_MemObjInitFromString(pArray->pVm, &sKey, 0);
     PH7_MemObjStringAppend(&sKey, zKey, (sxu32) SyStrlen(zKey));

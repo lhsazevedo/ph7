@@ -226,7 +226,7 @@ static int PH7_builtin_floatval(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (nArg < 1) {
     /* return 0.0 */
     ph7_result_double(pCtx, 0);
-  }else{
+  } else {
     double dval;
     /* Perform the cast */
     dval = ph7_value_to_double(apArg[0]);
@@ -247,7 +247,7 @@ static int PH7_builtin_intval(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (nArg < 1) {
     /* return 0 */
     ph7_result_int(pCtx, 0);
-  }else{
+  } else {
     sxi64 iVal;
     /* Perform the cast */
     iVal = ph7_value_to_int64(apArg[0]);
@@ -268,7 +268,7 @@ static int PH7_builtin_strval(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (nArg < 1) {
     /* return NULL */
     ph7_result_null(pCtx);
-  }else{
+  } else {
     const char *zVal;
     int iLen = 0;     /* cc -O6 warning */
     /* Perform the cast */
@@ -655,7 +655,7 @@ static int PH7_builtin_abs(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Perform the requested operation */
     r = fabs(x);
     ph7_result_double(pCtx, r);
-  }else{
+  } else {
     int r, x;
     x = ph7_value_to_int(apArg[0]);
     /* Perform the requested operation */
@@ -688,7 +688,7 @@ static int PH7_builtin_log(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (nArg == 2 && ph7_value_is_numeric(apArg[1]) && ph7_value_to_int(apArg[1]) == 10) {
     /* Base-10 log */
     r = log10(x);
-  }else{
+  } else {
     r = log(x);
   }
   /* store the result back */
@@ -858,9 +858,9 @@ static int PH7_builtin_round(ph7_context *pCtx, int nArg, ph7_value **apArg)
    */
   if (n == 0 && r >= 0 && r < LARGEST_INT64 - 1) {
     r = (double) ((ph7_int64) (r + 0.5));
-  }else if (n == 0 && r < 0 && (-r) < LARGEST_INT64 - 1) {
+  } else if (n == 0 && r < 0 && (-r) < LARGEST_INT64 - 1) {
     r = -(double) ((ph7_int64) ((-r) + 0.5));
-  }else{
+  } else {
     char zBuf[256];
     sxu32 nLen;
     nLen = SyBufferFormat(zBuf, sizeof(zBuf), "%.*f", n, r);
@@ -973,7 +973,7 @@ static int PH7_builtin_hexdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
         while (zString < zEnd && (((unsigned char) zString[0] & 0xc0) == 0x80)) {
           zString++;
         }
-      }else{
+      } else {
         if (SyisHex(zString[0])) {
           break;
         }
@@ -985,7 +985,7 @@ static int PH7_builtin_hexdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* Cast */
       SyHexStrToInt64(zString, (sxu32) (zEnd - zString), (void *) &iVal, 0);
     }
-  }else{
+  } else {
     /* Extract as a 64-bit integer */
     iVal = ph7_value_to_int64(apArg[0]);
   }
@@ -1020,7 +1020,7 @@ static int PH7_builtin_bindec(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* Perform a binary cast */
       SyBinaryStrToInt64(zString, (sxu32) nLen, (void *) &iVal, 0);
     }
-  }else{
+  } else {
     /* Extract as a 64-bit integer */
     iVal = ph7_value_to_int64(apArg[0]);
   }
@@ -1055,7 +1055,7 @@ static int PH7_builtin_octdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* Perform the cast */
       SyOctalStrToInt64(zString, (sxu32) nLen, (void *) &iVal, 0);
     }
-  }else{
+  } else {
     /* Extract as a 64-bit integer */
     iVal = ph7_value_to_int64(apArg[0]);
   }
@@ -1136,7 +1136,7 @@ static int PH7_builtin_base_convert(ph7_context *pCtx, int nArg, ph7_value **apA
       SyStrToInt64(zNum, (sxu32) nLen, (void *) &iNum, 0);
       break;
     }
-  }else{
+  } else {
     iNum = ph7_value_to_int64(apArg[0]);
   }
   switch (iTobase) {
@@ -1221,11 +1221,11 @@ static int PH7_builtin_substr(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     nLen = (int) (&zSource[nSrcLen] - zOfft);
     nOfft = (int) (zOfft - zSource);
-  }else if (nOfft >= nSrcLen) {
+  } else if (nOfft >= nSrcLen) {
     /* Invalid offset */
     ph7_result_bool(pCtx, 0);
     return PH7_OK;
-  }else{
+  } else {
     zOfft = &zSource[nOfft];
     nLen = nSrcLen - nOfft;
   }
@@ -1236,7 +1236,7 @@ static int PH7_builtin_substr(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* Invalid length,return an empty string */
       ph7_result_string(pCtx, "", 0);
       return PH7_OK;
-    }else if (nLen < 0) {
+    } else if (nLen < 0) {
       nLen = nSrcLen + nLen - nOfft;
       if (nLen < 1) {
         /* Invalid  length */
@@ -1310,11 +1310,11 @@ static int PH7_builtin_substr_compare(ph7_context *pCtx, int nArg, ph7_value **a
     }
     nLen = (int) (&zSource[nSrcLen] - zOfft);
     nOfft = (int) (zOfft - zSource);
-  }else if (nOfft >= nSrcLen) {
+  } else if (nOfft >= nSrcLen) {
     /* Invalid offset */
     ph7_result_bool(pCtx, 0);
     return PH7_OK;
-  }else{
+  } else {
     zOfft = &zSource[nOfft];
     nLen = nSrcLen - nOfft;
   }
@@ -1325,7 +1325,7 @@ static int PH7_builtin_substr_compare(ph7_context *pCtx, int nArg, ph7_value **a
       /* Invalid  length */
       ph7_result_int(pCtx, 1);
       return PH7_OK;
-    }else if (nLen + nOfft > nSrcLen) {
+    } else if (nLen + nOfft > nSrcLen) {
       /* Invalid length */
       nLen = nSrcLen - nOfft;
     }
@@ -1337,7 +1337,7 @@ static int PH7_builtin_substr_compare(ph7_context *pCtx, int nArg, ph7_value **a
   /* Perform the comparison */
   if (iCase) {
     rc = SyStrnicmp(zOfft, zSub, (sxu32) nLen);
-  }else{
+  } else {
     rc = SyStrncmp(zOfft, zSub, (sxu32) nLen);
   }
   /* Comparison result */
@@ -1610,7 +1610,7 @@ static int PH7_builtin_addcslashes(ph7_context *pCtx, int nArg, ph7_value **apAr
       if (c > 126 || (c < 32 && (!SyisAlphaNum(c) /*EBCDIC*/ && !SyisSpace(c)))) {
         /* Convert to octal */
         ph7_result_string_format(pCtx, "\\%o", c);
-      }else{
+      } else {
         ph7_result_string_format(pCtx, "\\%c", c);
       }
     }
@@ -1715,7 +1715,7 @@ static int PH7_builtin_stripslashes(ph7_context *pCtx, int nArg, ph7_value **apA
         /* Ignore the backslash */
         zIn++;
       }
-    }else{
+    } else {
       break;
     }
   }
@@ -1785,25 +1785,25 @@ static int PH7_builtin_htmlspecialchars(ph7_context *pCtx, int nArg, ph7_value *
     if (c == '&') {
       /* Expand '&amp;' */
       ph7_result_string(pCtx, "&amp;", (int) sizeof("&amp;") - 1);
-    }else if (c == '<') {
+    } else if (c == '<') {
       /* Expand '&lt;' */
       ph7_result_string(pCtx, "&lt;", (int) sizeof("&lt;") - 1);
-    }else if (c == '>') {
+    } else if (c == '>') {
       /* Expand '&gt;' */
       ph7_result_string(pCtx, "&gt;", (int) sizeof("&gt;") - 1);
-    }else if (c == '\'') {
+    } else if (c == '\'') {
       if (iFlags & 0x02 /*ENT_QUOTES*/ ) {
         /* Expand '&#039;' */
         ph7_result_string(pCtx, "&#039;", (int) sizeof("&#039;") - 1);
-      }else{
+      } else {
         /* Leave the single quote untouched */
         ph7_result_string(pCtx, "'", (int) sizeof(char));
       }
-    }else if (c == '"') {
+    } else if (c == '"') {
       if ((iFlags & 0x04) == 0 /*ENT_NOQUOTES*/ ) {
         /* Expand '&quot;' */
         ph7_result_string(pCtx, "&quot;", (int) sizeof("&quot;") - 1);
-      }else{
+      } else {
         /* Leave the double quote untouched */
         ph7_result_string(pCtx, "\"", (int) sizeof(char));
       }
@@ -1866,37 +1866,37 @@ static int PH7_builtin_htmlspecialchars_decode(ph7_context *pCtx, int nArg, ph7_
       /* &amp; ==> '&' */
       ph7_result_string(pCtx, "&", (int) sizeof(char));
       nJump = (int) sizeof("&amp;") - 1;
-    }else if (nLen >= (int) sizeof("&lt;") - 1 && SyStrnicmp(zIn, "&lt;", sizeof("&lt;") - 1) == 0) {
+    } else if (nLen >= (int) sizeof("&lt;") - 1 && SyStrnicmp(zIn, "&lt;", sizeof("&lt;") - 1) == 0) {
       /* &lt; ==> < */
       ph7_result_string(pCtx, "<", (int) sizeof(char));
       nJump = (int) sizeof("&lt;") - 1;
-    }else if (nLen >= (int) sizeof("&gt;") - 1 && SyStrnicmp(zIn, "&gt;", sizeof("&gt;") - 1) == 0) {
+    } else if (nLen >= (int) sizeof("&gt;") - 1 && SyStrnicmp(zIn, "&gt;", sizeof("&gt;") - 1) == 0) {
       /* &gt; ==> '>' */
       ph7_result_string(pCtx, ">", (int) sizeof(char));
       nJump = (int) sizeof("&gt;") - 1;
-    }else if (nLen >= (int) sizeof("&quot;") - 1 && SyStrnicmp(zIn, "&quot;", sizeof("&quot;") - 1) == 0) {
+    } else if (nLen >= (int) sizeof("&quot;") - 1 && SyStrnicmp(zIn, "&quot;", sizeof("&quot;") - 1) == 0) {
       /* &quot; ==> '"' */
       if ((iFlags & 0x04) == 0 /*ENT_NOQUOTES*/ ) {
         ph7_result_string(pCtx, "\"", (int) sizeof(char));
-      }else{
+      } else {
         /* Leave untouched */
         ph7_result_string(pCtx, "&quot;", (int) sizeof("&quot;") - 1);
       }
       nJump = (int) sizeof("&quot;") - 1;
-    }else if (nLen >= (int) sizeof("&#039;") - 1 && SyStrnicmp(zIn, "&#039;", sizeof("&#039;") - 1) == 0) {
+    } else if (nLen >= (int) sizeof("&#039;") - 1 && SyStrnicmp(zIn, "&#039;", sizeof("&#039;") - 1) == 0) {
       /* &#039; ==> ''' */
       if (iFlags & 0x02 /*ENT_QUOTES*/ ) {
         /* Expand ''' */
         ph7_result_string(pCtx, "'", (int) sizeof(char));
-      }else{
+      } else {
         /* Leave untouched */
         ph7_result_string(pCtx, "&#039;", (int) sizeof("&#039;") - 1);
       }
       nJump = (int) sizeof("&#039;") - 1;
-    }else if (nLen >= (int) sizeof(char)) {
+    } else if (nLen >= (int) sizeof(char)) {
       /* expand '&' */
       ph7_result_string(pCtx, "&", (int) sizeof(char));
-    }else{
+    } else {
       /* No more input to process */
       break;
     }
@@ -2009,13 +2009,13 @@ static int PH7_builtin_htmlentities(ph7_context *pCtx, int nArg, ph7_value **apA
       if (c == '"' && (iFlags & 0x04) /*ENT_NOQUOTES*/ ) {
         /* Expand the double quote verbatim */
         ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
-      }else if (c == '\'' && ((iFlags & 0x02 /*ENT_QUOTES*/ ) == 0 || (iFlags & 0x04) /*ENT_NOQUOTES*/ )) {
+      } else if (c == '\'' && ((iFlags & 0x02 /*ENT_QUOTES*/ ) == 0 || (iFlags & 0x04) /*ENT_NOQUOTES*/ )) {
         /* expand single quote verbatim */
         ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
-      }else{
+      } else {
         ph7_result_string(pCtx, azHtmlEscape[n], -1 /*Compute length automatically */ );
       }
-    }else{
+    } else {
       /* Output character verbatim */
       ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
     }
@@ -2088,13 +2088,13 @@ static int PH7_builtin_html_entity_decode(ph7_context *pCtx, int nArg, ph7_value
       if (c == '\'' && ((iFlags & 0x02) == 0 /*ENT_QUOTES*/ || (iFlags & 0x04) /*ENT_NOQUOTES*/ )) {
         /* Do not process single quotes */
         ph7_result_string(pCtx, azHtmlEscape[n], -1);
-      }else if (c == '"' && (iFlags & 0x04) /*ENT_NOQUOTES*/ ) {
+      } else if (c == '"' && (iFlags & 0x04) /*ENT_NOQUOTES*/ ) {
         /* Do not process double quotes */
         ph7_result_string(pCtx, azHtmlEscape[n], -1);
-      }else{
+      } else {
         ph7_result_string(pCtx, azHtmlEscape[n + 1], -1);         /* Compute length automatically */
       }
-    }else{
+    } else {
       /* Append '&' */
       ph7_result_string(pCtx, "&", (int) sizeof(char));
       zIn++;
@@ -2273,7 +2273,7 @@ static int implode_callback(ph7_value *pKey, ph7_value *pValue, void *pUserData)
       if (!pData->bFirst) {
         /* append the separator first */
         ph7_result_string(pData->pCtx, pData->zSep, pData->nSeplen);
-      }else{
+      } else {
         pData->bFirst = 0;
       }
     }
@@ -2291,12 +2291,12 @@ static int implode_callback(ph7_value *pKey, ph7_value *pValue, void *pUserData)
       if (!pData->bFirst) {
         /* append the separator first */
         ph7_result_string(pData->pCtx, pData->zSep, pData->nSeplen);
-      }else{
+      } else {
         pData->bFirst = 0;
       }
     }
     ph7_result_string(pData->pCtx, zData, nLen);
-  }else{
+  } else {
     SXUNUSED(pKey);     /* cc warning */
   }
   return PH7_OK;
@@ -2330,7 +2330,7 @@ static int PH7_builtin_implode(ph7_context *pCtx, int nArg, ph7_value **apArg)
   imp_data.nRecCount = 0;
   if (!ph7_value_is_array(apArg[0])) {
     imp_data.zSep = ph7_value_to_string(apArg[0], &imp_data.nSeplen);
-  }else{
+  } else {
     imp_data.zSep = 0;
     imp_data.nSeplen = 0;
     i = 0;
@@ -2341,7 +2341,7 @@ static int PH7_builtin_implode(ph7_context *pCtx, int nArg, ph7_value **apArg)
     if (ph7_value_is_array(apArg[i])) {
       /* Iterate throw array entries */
       ph7_array_walk(apArg[i], implode_callback, &imp_data);
-    }else{
+    } else {
       const char *zData;
       int nLen;
       /* Extract the string representation of the ph7 value */
@@ -2351,7 +2351,7 @@ static int PH7_builtin_implode(ph7_context *pCtx, int nArg, ph7_value **apArg)
           if (!imp_data.bFirst) {
             /* append the separator first */
             ph7_result_string(pCtx, imp_data.zSep, imp_data.nSeplen);
-          }else{
+          } else {
             imp_data.bFirst = 0;
           }
         }
@@ -2395,7 +2395,7 @@ static int PH7_builtin_implode_recursive(ph7_context *pCtx, int nArg, ph7_value 
   imp_data.nRecCount = 0;
   if (!ph7_value_is_array(apArg[0])) {
     imp_data.zSep = ph7_value_to_string(apArg[0], &imp_data.nSeplen);
-  }else{
+  } else {
     imp_data.zSep = 0;
     imp_data.nSeplen = 0;
     i = 0;
@@ -2406,7 +2406,7 @@ static int PH7_builtin_implode_recursive(ph7_context *pCtx, int nArg, ph7_value 
     if (ph7_value_is_array(apArg[i])) {
       /* Iterate throw array entries */
       ph7_array_walk(apArg[i], implode_callback, &imp_data);
-    }else{
+    } else {
       const char *zData;
       int nLen;
       /* Extract the string representation of the ph7 value */
@@ -2416,7 +2416,7 @@ static int PH7_builtin_implode_recursive(ph7_context *pCtx, int nArg, ph7_value 
           if (!imp_data.bFirst) {
             /* append the separator first */
             ph7_result_string(pCtx, imp_data.zSep, imp_data.nSeplen);
-          }else{
+          } else {
             imp_data.bFirst = 0;
           }
         }
@@ -2572,7 +2572,7 @@ static int PH7_builtin_trim(ph7_context *pCtx, int nArg, ph7_value **apArg)
     SyStringInitFromBuf(&sStr, zString, nLen);
     SyStringFullTrimSafe(&sStr);
     ph7_result_string(pCtx, sStr.zString, (int) sStr.nByte);
-  }else{
+  } else {
     /* Char list */
     const char *zList;
     int nListlen;
@@ -2580,7 +2580,7 @@ static int PH7_builtin_trim(ph7_context *pCtx, int nArg, ph7_value **apArg)
     if (nListlen < 1) {
       /* Return the string unchanged */
       ph7_result_string(pCtx, zString, nLen);
-    }else{
+    } else {
       const char *zEnd = &zString[nLen];
       const char *zCur = zString;
       const char *zPtr;
@@ -2620,7 +2620,7 @@ static int PH7_builtin_trim(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (zCur >= zEnd) {
         /* Return the empty string */
         ph7_result_string(pCtx, "", 0);
-      }else{
+      } else {
         zEnd++;
         ph7_result_string(pCtx, zCur, (int) (zEnd - zCur));
       }
@@ -2666,7 +2666,7 @@ static int PH7_builtin_rtrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
     SyStringInitFromBuf(&sStr, zString, nLen);
     SyStringRightTrimSafe(&sStr);
     ph7_result_string(pCtx, sStr.zString, (int) sStr.nByte);
-  }else{
+  } else {
     /* Char list */
     const char *zList;
     int nListlen;
@@ -2674,7 +2674,7 @@ static int PH7_builtin_rtrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
     if (nListlen < 1) {
       /* Return the string unchanged */
       ph7_result_string(pCtx, zString, nLen);
-    }else{
+    } else {
       const char *zEnd = &zString[nLen - 1];
       const char *zCur = zString;
       const char *zPtr;
@@ -2697,7 +2697,7 @@ static int PH7_builtin_rtrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (zEnd <= zCur) {
         /* Return the empty string */
         ph7_result_string(pCtx, "", 0);
-      }else{
+      } else {
         zEnd++;
         ph7_result_string(pCtx, zCur, (int) (zEnd - zCur));
       }
@@ -2743,7 +2743,7 @@ static int PH7_builtin_ltrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
     SyStringInitFromBuf(&sStr, zString, nLen);
     SyStringLeftTrimSafe(&sStr);
     ph7_result_string(pCtx, sStr.zString, (int) sStr.nByte);
-  }else{
+  } else {
     /* Char list */
     const char *zList;
     int nListlen;
@@ -2751,7 +2751,7 @@ static int PH7_builtin_ltrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
     if (nListlen < 1) {
       /* Return the string unchanged */
       ph7_result_string(pCtx, zString, nLen);
-    }else{
+    } else {
       const char *zEnd = &zString[nLen];
       const char *zCur = zString;
       const char *zPtr;
@@ -2775,7 +2775,7 @@ static int PH7_builtin_ltrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (zCur >= zEnd) {
         /* Return the empty string */
         ph7_result_string(pCtx, "", 0);
-      }else{
+      } else {
         ph7_result_string(pCtx, zCur, (int) (zEnd - zCur));
       }
     }
@@ -2823,7 +2823,7 @@ static int PH7_builtin_strtolower(ph7_context *pCtx, int nArg, ph7_value **apArg
       }
       /* Append UTF-8 stream */
       ph7_result_string(pCtx, zCur, (int) (zString - zCur));
-    }else{
+    } else {
       int c = zString[0];
       if (SyisUpper(c)) {
         c = SyToLower(zString[0]);
@@ -2877,7 +2877,7 @@ static int PH7_builtin_strtoupper(ph7_context *pCtx, int nArg, ph7_value **apArg
       }
       /* Append UTF-8 stream */
       ph7_result_string(pCtx, zCur, (int) (zString - zCur));
-    }else{
+    } else {
       int c = zString[0];
       if (SyisLower(c)) {
         c = SyToUpper(zString[0]);
@@ -3161,10 +3161,10 @@ static int PH7_builtin_strstr(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     if (before) {
       ph7_result_string(pCtx, zBlob, (int) (&zBlob[nOfft] - zBlob));
-    }else{
+    } else {
       ph7_result_string(pCtx, &zBlob[nOfft], (int) (&zBlob[nLen] - &zBlob[nOfft]));
     }
-  }else{
+  } else {
     ph7_result_bool(pCtx, 0);
   }
   return PH7_OK;
@@ -3214,10 +3214,10 @@ static int PH7_builtin_stristr(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     if (before) {
       ph7_result_string(pCtx, zBlob, (int) (&zBlob[nOfft] - zBlob));
-    }else{
+    } else {
       ph7_result_string(pCtx, &zBlob[nOfft], (int) (&zBlob[nLen] - &zBlob[nOfft]));
     }
-  }else{
+  } else {
     ph7_result_bool(pCtx, 0);
   }
   return PH7_OK;
@@ -3263,7 +3263,7 @@ static int PH7_builtin_strpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
     if (nStart >= nLen) {
       /* Invalid offset */
       nStart = 0;
-    }else{
+    } else {
       zBlob += nStart;
       nLen -= nStart;
     }
@@ -3278,7 +3278,7 @@ static int PH7_builtin_strpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     /* Return the pattern position */
     ph7_result_int64(pCtx, (ph7_int64) (nOfft + nStart));
-  }else{
+  } else {
     ph7_result_bool(pCtx, 0);
   }
   return PH7_OK;
@@ -3324,7 +3324,7 @@ static int PH7_builtin_stripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
     if (nStart >= nLen) {
       /* Invalid offset */
       nStart = 0;
-    }else{
+    } else {
       zBlob += nStart;
       nLen -= nStart;
     }
@@ -3339,7 +3339,7 @@ static int PH7_builtin_stripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     /* Return the pattern position */
     ph7_result_int64(pCtx, (ph7_int64) (nOfft + nStart));
-  }else{
+  } else {
     ph7_result_bool(pCtx, 0);
   }
   return PH7_OK;
@@ -3390,17 +3390,17 @@ static int PH7_builtin_strrpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
         /* Invalid offset */
         ph7_result_bool(pCtx, 0);
         return PH7_OK;
-      }else{
+      } else {
         nLen -= nStart;
         zPtr = &zBlob[nLen - 1];
         zEnd = &zBlob[nLen];
       }
-    }else{
+    } else {
       if (nStart >= nLen) {
         /* Invalid offset */
         ph7_result_bool(pCtx, 0);
         return PH7_OK;
-      }else{
+      } else {
         zBlob += nStart;
         nLen -= nStart;
       }
@@ -3422,7 +3422,7 @@ static int PH7_builtin_strrpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     /* Pattern not found,return FALSE */
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     ph7_result_bool(pCtx, 0);
   }
   return PH7_OK;
@@ -3473,17 +3473,17 @@ static int PH7_builtin_strripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
         /* Invalid offset */
         ph7_result_bool(pCtx, 0);
         return PH7_OK;
-      }else{
+      } else {
         nLen -= nStart;
         zPtr = &zBlob[nLen - 1];
         zEnd = &zBlob[nLen];
       }
-    }else{
+    } else {
       if (nStart >= nLen) {
         /* Invalid offset */
         ph7_result_bool(pCtx, 0);
         return PH7_OK;
-      }else{
+      } else {
         zBlob += nStart;
         nLen -= nStart;
       }
@@ -3505,7 +3505,7 @@ static int PH7_builtin_strripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     /* Pattern not found,return FALSE */
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     ph7_result_bool(pCtx, 0);
   }
   return PH7_OK;
@@ -3545,7 +3545,7 @@ static int PH7_builtin_strrchr(ph7_context *pCtx, int nArg, ph7_value **apArg)
                                                           * for NULL pointer.
                                                           */
       c = zPattern[0];
-    }else{
+    } else {
       /* Int cast */
       c = ph7_value_to_int(apArg[1]);
     }
@@ -3558,7 +3558,7 @@ static int PH7_builtin_strrchr(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     /* Return the string portion */
     ph7_result_string(pCtx, &zBlob[nOfft], (int) (&zBlob[nLen] - &zBlob[nOfft]));
-  }else{
+  } else {
     ph7_result_bool(pCtx, 0);
   }
   return PH7_OK;
@@ -3659,9 +3659,9 @@ static int PH7_builtin_ucwords(ph7_context *pCtx, int nArg, ph7_value **apArg)
         /* UTF-8 stream */
         zIn++;
         SX_JMP_UTF8(zIn, zEnd);
-      }else if (!SyisSpace(zIn[0])) {
+      } else if (!SyisSpace(zIn[0])) {
         zIn++;
-      }else{
+      } else {
         break;
       }
     }
@@ -3773,7 +3773,7 @@ static int PH7_builtin_nl2br(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Output the HTML line break */
     if (is_xhtml) {
       ph7_result_string(pCtx, "<br>", (int) sizeof("<br>") - 1);
-    }else{
+    } else {
       ph7_result_string(pCtx, "<br/>", (int) sizeof("<br/>") - 1);
     }
     zCur = zIn;
@@ -4091,7 +4091,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       pArg = NEXT_ARG;
       if (pArg == 0) {
         c = 0;
-      }else{
+      } else {
         c = ph7_value_to_int(pArg);
       }
       /* NUL byte is an acceptable value */
@@ -4103,7 +4103,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       pArg = NEXT_ARG;
       if (pArg == 0) {
         length = 0;
-      }else{
+      } else {
         zBuf = (char *) ph7_value_to_string(pArg, &length);
       }
       if (length < 1) {
@@ -4124,7 +4124,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       pArg = NEXT_ARG;
       if (pArg == 0) {
         iVal = 0;
-      }else{
+      } else {
         iVal = ph7_value_to_int64(pArg);
       }
       /* Limit the precision to prevent overflowing buf[] during conversion */
@@ -4149,10 +4149,10 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
             iVal = 0x7FFFFFFFFFFFFFFF;
           }
           prefix = '-';
-        }else if (flag_plussign) prefix = '+';
+        } else if (flag_plussign) prefix = '+';
         else if (flag_blanksign) prefix = ' ';
         else prefix = 0;
-      }else{
+      } else {
         if (iVal < 0) {
           iVal = -iVal;
           /* Ticket 1433-003 */
@@ -4205,7 +4205,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       pArg = NEXT_ARG;
       if (pArg == 0) {
         realvalue = 0;
-      }else{
+      } else {
         realvalue = ph7_value_to_double(pArg);
       }
       if (precision < 0) precision = 6;          /* Set default precision */
@@ -4213,7 +4213,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       if (realvalue < 0.0) {
         realvalue = -realvalue;
         prefix = '-';
-      }else{
+      } else {
         if (flag_plussign) prefix = '+';
         else if (flag_blanksign) prefix = ' ';
         else prefix = 0;
@@ -4255,11 +4255,11 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         flag_rtz = !flag_alternateform;
         if (exp < -4 || exp > precision) {
           xtype = PH7_FMT_EXP;
-        }else{
+        } else {
           precision = precision - exp;
           xtype = PH7_FMT_FLOAT;
         }
-      }else{
+      } else {
         flag_rtz = 0;
       }
       /*
@@ -4283,7 +4283,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           if (zBuf >= zWorker && *zBuf == '.') *(zBuf--) = 0;
         }
         zBuf++;                              /* point to next free slot */
-      }else{       /* etEXP or etGENERIC */
+      } else {       /* etEXP or etGENERIC */
         flag_dp = (precision > 0 || flag_alternateform);
         if (prefix) *(zBuf++) = (char) prefix;         /* Sign */
         *(zBuf++) = (char) vxGetdigit(&realvalue, &nsd);         /* First digit */
@@ -4298,7 +4298,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         if (exp || flag_exp) {
           *(zBuf++) = pInfo->charset[0];
           if (exp < 0) { *(zBuf++) = '-'; exp = -exp; }               /* sign of exp */
-          else       { *(zBuf++) = '+'; }
+          else { *(zBuf++) = '+'; }
           if (exp >= 100) {
             *(zBuf++) = (char) ((exp / 100) + '0');                  /* 100's digit */
             exp %= 100;
@@ -4643,7 +4643,7 @@ static int PH7_builtin_md5(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (raw_output) {
     /* Output raw digest */
     ph7_result_string(pCtx, (const char *) zDigest, (int) sizeof(zDigest));
-  }else{
+  } else {
     /* Perform a binary to hex conversion */
     SyBinToHexConsumer((const void *) zDigest, sizeof(zDigest), HashConsumer, pCtx);
   }
@@ -4687,7 +4687,7 @@ static int PH7_builtin_sha1(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (raw_output) {
     /* Output raw digest */
     ph7_result_string(pCtx, (const char *) zDigest, (int) sizeof(zDigest));
-  }else{
+  } else {
     /* Perform a binary to hex conversion */
     SyBinToHexConsumer((const void *) zDigest, sizeof(zDigest), HashConsumer, pCtx);
   }
@@ -4756,10 +4756,10 @@ PH7_PRIVATE sxi32 PH7_ProcessCsv(
       if (zIn[0] == delim && !isEnc) {
         /* Delimiter found,break imediately */
         break;
-      }else if (zIn[0] == encl) {
+      } else if (zIn[0] == encl) {
         /* Inside enclosure? */
         isEnc = !isEnc;
-      }else if (zIn[0] == escape) {
+      } else if (zIn[0] == escape) {
         /* Escape sequence */
         zIn++;
       }
@@ -4908,9 +4908,9 @@ static sxi32 AddTag(SySet *pSet, const char *zTag, int nByte)
         /* UTF-8 stream */
         zTag++;
         SX_JMP_UTF8(zTag, zEnd);
-      }else if (!SyisAlphaNum(zTag[0])) {
+      } else if (!SyisAlphaNum(zTag[0])) {
         break;
-      }else{
+      } else {
         zTag++;
       }
     }
@@ -4946,9 +4946,9 @@ static sxi32 FindTag(SySet *pSet, const char *zTag, int nByte)
         /* UTF-8 stream */
         zTag++;
         SX_JMP_UTF8(zTag, zEnd);
-      }else if (!SyisAlphaNum(zTag[0])) {
+      } else if (!SyisAlphaNum(zTag[0])) {
         break;
-      }else{
+      } else {
         zTag++;
       }
     }
@@ -5338,17 +5338,17 @@ static int PH7_builtin_strspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (zBase > zString) {
         iLen = (int) (&zString[iLen] - zBase);
         zString = zBase;
-      }else{
+      } else {
         /* Invalid offset */
         ph7_result_int(pCtx, 0);
         return PH7_OK;
       }
-    }else{
+    } else {
       if (nOfft >= iLen) {
         /* Invalid offset */
         ph7_result_int(pCtx, 0);
         return PH7_OK;
-      }else{
+      } else {
         /* Update offset */
         zString += nOfft;
         iLen -= nOfft;
@@ -5434,17 +5434,17 @@ static int PH7_builtin_strcspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (zBase > zString) {
         iLen = (int) (&zString[iLen] - zBase);
         zString = zBase;
-      }else{
+      } else {
         /* Invalid offset */
         ph7_result_int(pCtx, 0);
         return PH7_OK;
       }
-    }else{
+    } else {
       if (nOfft >= iLen) {
         /* Invalid offset */
         ph7_result_int(pCtx, 0);
         return PH7_OK;
-      }else{
+      } else {
         /* Update offset */
         zString += nOfft;
         iLen -= nOfft;
@@ -5517,7 +5517,7 @@ static int PH7_builtin_strpbrk(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (nOfft == SXU32_HIGH) {
     /* No such substring,return FALSE */
     ph7_result_bool(pCtx, 0);
-  }else{
+  } else {
     /* Return the substring */
     ph7_result_string(pCtx, &zString[nOfft], (int) (zEnd - &zString[nOfft]));
   }
@@ -5567,7 +5567,7 @@ static int PH7_builtin_soundex(ph7_context *pCtx, int nArg, ph7_value **apArg)
           prevcode = (unsigned char) code;
           zResult[j++] = (char) code + '0';
         }
-      }else{
+      } else {
         prevcode = 0;
       }
     }
@@ -5575,7 +5575,7 @@ static int PH7_builtin_soundex(ph7_context *pCtx, int nArg, ph7_value **apArg)
       zResult[j++] = '0';
     }
     ph7_result_string(pCtx, zResult, 4);
-  }else{
+  } else {
     ph7_result_string(pCtx, "?000", 4);
   }
   return PH7_OK;
@@ -5696,7 +5696,7 @@ static sxi32 ExtractToken(const char **pzIn, const char *zEnd, const char *zMask
       /* UTF-8 stream */
       zIn++;
       SX_JMP_UTF8(zIn, zEnd);
-    }else{
+    } else {
       if (CheckMask(zIn[0], zMask, nMasklen, 0)) {
         break;
       }
@@ -5775,11 +5775,11 @@ static int PH7_builtin_strtok(ph7_context *pCtx, int nArg, ph7_value **apArg)
       ph7_context_free_chunk(pCtx, pAux);
       (void) ph7_context_pop_aux_data(pCtx);
       ph7_result_bool(pCtx, 0);
-    }else{
+    } else {
       /* Return the extracted token */
       ph7_result_string(pCtx, sToken.zString, (int) sToken.nByte);
     }
-  }else{
+  } else {
     const char *zInput, *zCur;
     char *zDup;
     int nLen;
@@ -5805,7 +5805,7 @@ static int PH7_builtin_strtok(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* Empty input */
       ph7_result_bool(pCtx, 0);
       return PH7_OK;
-    }else{
+    } else {
       /* Return the extracted token */
       ph7_result_string(pCtx, sToken.zString, (int) sToken.nByte);
     }
@@ -6145,7 +6145,7 @@ static int PH7_builtin_str_replace(ph7_context *pCtx, int nArg, ph7_value **apAr
   if (ph7_value_is_array(apArg[0])) {
     /* Collect search string */
     ph7_array_walk(apArg[0], StrReplaceWalker, &sRep);
-  }else{
+  } else {
     /* Single pattern */
     zIn = ph7_value_to_string(apArg[0], &nByte);
     if (nByte < 1) {
@@ -6162,7 +6162,7 @@ static int PH7_builtin_str_replace(ph7_context *pCtx, int nArg, ph7_value **apAr
     /* Collect replace string */
     sRep.pCollector = &sReplace;
     ph7_array_walk(apArg[1], StrReplaceWalker, &sRep);
-  }else{
+  } else {
     /* Single needle */
     zIn = ph7_value_to_string(apArg[1], &nByte);
     rep_str = 1;
@@ -6193,7 +6193,7 @@ static int PH7_builtin_str_replace(ph7_context *pCtx, int nArg, ph7_value **apAr
     /* Extract the replace string */
     if (rep_str) {
       pReplace = (SyString *) SySetPeek(&sReplace);
-    }else{
+    } else {
       if (SXRET_OK != SySetGetNextEntry(&sReplace, (void **) &pReplace)) {
         /* Sepecial case when 'replace set' has fewer values than the search set.
          * An empty string is used for the rest of replacement values
@@ -6280,7 +6280,7 @@ static int PH7_builtin_strtr(ph7_context *pCtx, int nArg, ph7_value **apArg)
                       (int) SyBlobLength(&sWorker));     /* Will make it's own copy */
     /* Clean-up */
     SyBlobRelease(&sWorker);
-  }else{
+  } else {
     int i, flen, tlen, c, iOfft;
     const char *zFrom, *zTo;
     if (nArg < 3) {
@@ -6395,7 +6395,7 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
         }
       }
       zIn++;       /* Trailing square brackets ']' */
-    }else{
+    } else {
       ph7_value *pOldCur;
       int is_array;
       int iLen;
@@ -6417,7 +6417,7 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
             pEntry = SyHashGet(&sHash, (const void *) sEntry.zString, sEntry.nByte);
             if (pEntry) {
               pvArr = (ph7_value *) SyHashEntryGetUserData(pEntry);
-            }else{
+            } else {
               /* Create an empty array */
               pvArr = ph7_context_new_array(pCtx);
               if (pvArr) {
@@ -6472,13 +6472,13 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
             if (zIn < zEnd) {
               zIn++;
             }
-          }else{
+          } else {
             while (zIn < zEnd) {
               if (zIn[0] == '\n') {
                 if (zIn[-1] != '\\') {
                   break;
                 }
-              }else if (zIn[0] == ';' || zIn[0] == '#') {
+              } else if (zIn[0] == ';' || zIn[0] == '#') {
                 /* Inline comments */
                 break;
               }
@@ -6498,7 +6498,7 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
           /* Insert the key and it's value */
           ph7_array_add_elem(pCur, is_array ? 0 /*Automatic index assign */: pWorker, pValue);
         }
-      }else{
+      } else {
         while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && (SyisSpace(zIn[0]) || zIn[0] == '=')) {
           zIn++;
         }
@@ -7157,7 +7157,7 @@ static int PH7_builtin_microtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (bFloat) {
     /* Return as float */
     ph7_result_double(pCtx, (double) sTime.tm_sec);
-  }else{
+  } else {
     /* Return as string */
     ph7_result_string_format(pCtx, "%ld %ld", sTime.tm_usec, sTime.tm_sec);
   }
@@ -7205,7 +7205,7 @@ static int PH7_builtin_getdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
     pTm = localtime(&t);
     STRUCT_TM_TO_SYTM(pTm, &sTm);
 #endif
-  }else{
+  } else {
     /* Use the given timestamp */
     time_t t;
     struct tm *pTm;
@@ -7222,7 +7222,7 @@ static int PH7_builtin_getdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (pTm == 0) {
         time(&t);
       }
-    }else{
+    } else {
       time(&t);
     }
     pTm = localtime(&t);
@@ -7312,7 +7312,7 @@ static int PH7_builtin_gettimeofday(ph7_context *pCtx, int nArg, ph7_value **apA
   if (bFloat) {
     /* Return as float */
     ph7_result_double(pCtx, (double) sTime.tm_sec);
-  }else{
+  } else {
     /* Return an associative array */
     ph7_value *pValue, *pArray;
     /* Create a new array */
@@ -7870,7 +7870,7 @@ static int PH7_builtin_date(ph7_context *pCtx, int nArg, ph7_value **apArg)
     pTm = localtime(&t);
     STRUCT_TM_TO_SYTM(pTm, &sTm);
 #endif
-  }else{
+  } else {
     /* Use the given timestamp */
     time_t t;
     struct tm *pTm;
@@ -7880,7 +7880,7 @@ static int PH7_builtin_date(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (pTm == 0) {
         time(&t);
       }
-    }else{
+    } else {
       time(&t);
     }
     pTm = localtime(&t);
@@ -7931,7 +7931,7 @@ static int PH7_builtin_strftime(ph7_context *pCtx, int nArg, ph7_value **apArg)
     pTm = localtime(&t);
     STRUCT_TM_TO_SYTM(pTm, &sTm);
 #endif
-  }else{
+  } else {
     /* Use the given timestamp */
     time_t t;
     struct tm *pTm;
@@ -7941,7 +7941,7 @@ static int PH7_builtin_strftime(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (pTm == 0) {
         time(&t);
       }
-    }else{
+    } else {
       time(&t);
     }
     pTm = localtime(&t);
@@ -7996,7 +7996,7 @@ static int PH7_builtin_gmdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
     pTm = gmtime(&t);
     STRUCT_TM_TO_SYTM(pTm, &sTm);
 #endif
-  }else{
+  } else {
     /* Use the given timestamp */
     time_t t;
     struct tm *pTm;
@@ -8006,7 +8006,7 @@ static int PH7_builtin_gmdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (pTm == 0) {
         time(&t);
       }
-    }else{
+    } else {
       time(&t);
     }
     pTm = gmtime(&t);
@@ -8057,7 +8057,7 @@ static int PH7_builtin_localtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
     pTm = localtime(&t);
     STRUCT_TM_TO_SYTM(pTm, &sTm);
 #endif
-  }else{
+  } else {
     /* Use the given timestamp */
     time_t t;
     struct tm *pTm;
@@ -8067,7 +8067,7 @@ static int PH7_builtin_localtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (pTm == 0) {
         time(&t);
       }
-    }else{
+    } else {
       time(&t);
     }
     pTm = localtime(&t);
@@ -8095,56 +8095,56 @@ static int PH7_builtin_localtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_value_int(pValue, sTm.tm_sec);
   if (isAssoc) {
     ph7_array_add_strkey_elem(pArray, "tm_sec", pValue);
-  }else{
+  } else {
     ph7_array_add_elem(pArray, 0 /* Automatic index */, pValue);
   }
   /* Minutes */
   ph7_value_int(pValue, sTm.tm_min);
   if (isAssoc) {
     ph7_array_add_strkey_elem(pArray, "tm_min", pValue);
-  }else{
+  } else {
     ph7_array_add_elem(pArray, 0 /* Automatic index */, pValue);
   }
   /* Hours */
   ph7_value_int(pValue, sTm.tm_hour);
   if (isAssoc) {
     ph7_array_add_strkey_elem(pArray, "tm_hour", pValue);
-  }else{
+  } else {
     ph7_array_add_elem(pArray, 0 /* Automatic index */, pValue);
   }
   /* mday */
   ph7_value_int(pValue, sTm.tm_mday);
   if (isAssoc) {
     ph7_array_add_strkey_elem(pArray, "tm_mday", pValue);
-  }else{
+  } else {
     ph7_array_add_elem(pArray, 0 /* Automatic index */, pValue);
   }
   /* mon */
   ph7_value_int(pValue, sTm.tm_mon);
   if (isAssoc) {
     ph7_array_add_strkey_elem(pArray, "tm_mon", pValue);
-  }else{
+  } else {
     ph7_array_add_elem(pArray, 0 /* Automatic index */, pValue);
   }
   /* year since 1900 */
   ph7_value_int(pValue, sTm.tm_year - 1900);
   if (isAssoc) {
     ph7_array_add_strkey_elem(pArray, "tm_year", pValue);
-  }else{
+  } else {
     ph7_array_add_elem(pArray, 0 /* Automatic index */, pValue);
   }
   /* wday */
   ph7_value_int(pValue, sTm.tm_wday);
   if (isAssoc) {
     ph7_array_add_strkey_elem(pArray, "tm_wday", pValue);
-  }else{
+  } else {
     ph7_array_add_elem(pArray, 0 /* Automatic index */, pValue);
   }
   /* yday */
   ph7_value_int(pValue, sTm.tm_yday);
   if (isAssoc) {
     ph7_array_add_strkey_elem(pArray, "tm_yday", pValue);
-  }else{
+  } else {
     ph7_array_add_elem(pArray, 0 /* Automatic index */, pValue);
   }
   /* isdst */
@@ -8158,7 +8158,7 @@ static int PH7_builtin_localtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_value_int(pValue, sTm.tm_isdst);
   if (isAssoc) {
     ph7_array_add_strkey_elem(pArray, "tm_isdst", pValue);
-  }else{
+  } else {
     ph7_array_add_elem(pArray, 0 /* Automatic index */, pValue);
   }
   /* Return the array */
@@ -8226,7 +8226,7 @@ static int PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
     pTm = localtime(&t);
     STRUCT_TM_TO_SYTM(pTm, &sTm);
 #endif
-  }else{
+  } else {
     /* Use the given timestamp */
     time_t t;
     struct tm *pTm;
@@ -8236,7 +8236,7 @@ static int PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (pTm == 0) {
         time(&t);
       }
-    }else{
+    } else {
       time(&t);
     }
     pTm = localtime(&t);
@@ -8386,7 +8386,7 @@ static int PH7_builtin_mktime(ph7_context *pCtx, int nArg, ph7_value **apArg)
   time(&t);
   if (zFunction[0] == 'g' /* gmmktime */ ) {
     pTm = gmtime(&t);
-  }else{
+  } else {
     /* localtime */
     pTm = localtime(&t);
   }

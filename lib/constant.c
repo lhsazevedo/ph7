@@ -48,7 +48,7 @@ static void PH7_OS_Const(ph7_value *pVal, void *pUnused)
   struct utsname sInfo;
   if (uname(&sInfo) != 0) {
     ph7_value_string(pVal, "Unix", (int) sizeof("Unix") - 1);
-  }else{
+  } else {
     ph7_value_string(pVal, sInfo.sysname, -1);
   }
 #else
@@ -174,7 +174,7 @@ static void PH7_FILE_Const(ph7_value *pVal, void *pUserData)
   if (pFile == 0) {
     /* Expand the magic word: ":MEMORY:" */
     ph7_value_string(pVal, ":MEMORY:", (int) sizeof(":MEMORY:") - 1);
-  }else{
+  } else {
     ph7_value_string(pVal, pFile->zString, pFile->nByte);
   }
 }
@@ -191,13 +191,13 @@ static void PH7_DIR_Const(ph7_value *pVal, void *pUserData)
   if (pFile == 0) {
     /* Expand the magic word: ":MEMORY:" */
     ph7_value_string(pVal, ":MEMORY:", (int) sizeof(":MEMORY:") - 1);
-  }else{
+  } else {
     if (pFile->nByte > 0) {
       const char *zDir;
       int nLen;
       zDir = PH7_ExtractDirName(pFile->zString, (int) pFile->nByte, &nLen);
       ph7_value_string(pVal, zDir, nLen);
-    }else{
+    } else {
       /* Expand '.' as the current directory*/
       ph7_value_string(pVal, ".", (int) sizeof(char));
     }
@@ -1812,7 +1812,7 @@ static void PH7_static_Const(ph7_value *pVal, void *pUserData)
     SyString *pName = &pClass->sName;
     /* Expand class name */
     ph7_value_string(pVal, pName->zString, (int) pName->nByte);
-  }else{
+  } else {
     /* Expand 'static' */
     ph7_value_string(pVal, "static", sizeof("static") - 1);
   }
@@ -1832,7 +1832,7 @@ static void PH7_self_Const(ph7_value *pVal, void *pUserData)
     SyString *pName = &pClass->sName;
     /* Expand class name */
     ph7_value_string(pVal, pName->zString, (int) pName->nByte);
-  }else{
+  } else {
     /* Expand null */
     ph7_value_null(pVal);
   }
@@ -1850,7 +1850,7 @@ static void PH7_parent_Const(ph7_value *pVal, void *pUserData)
     SyString *pName = &pClass->pBase->sName;
     /* Expand class name */
     ph7_value_string(pVal, pName->zString, (int) pName->nByte);
-  }else{
+  } else {
     /* Expand null */
     ph7_value_null(pVal);
   }

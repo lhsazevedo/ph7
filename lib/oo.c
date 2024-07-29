@@ -120,7 +120,7 @@ PH7_PRIVATE ph7_class_method* PH7_NewClassMethod(ph7_vm *pVm, ph7_class *pClass,
     PH7_VmRandomString(&(*pVm), zSalt, sizeof(zSalt));
     pNamePtr->nByte = SyBufferFormat(zName, nByte, "[__%z@%z_%.*s]", &pClass->sName, pName, sizeof(zSalt), zSalt);
     pNamePtr->zString = zName;
-  }else{
+  } else {
     /* Method is condidate for 'overloading' */
     ph7_class_method *pCurrent = (ph7_class_method *) pEntry->pUserData;
     pNamePtr = &pMeth->sVmName;
@@ -292,7 +292,7 @@ PH7_PRIVATE sxi32 PH7_ClassInherit(ph7_gen_state *pGen, ph7_class *pSub, ph7_cla
         }
       }
       continue;
-    }else{
+    } else {
       if (pMeth->iFlags & PH7_CLASS_ATTR_ABSTRACT) {
         /* Abstract method must be defined in the child class */
         PH7_GenCompileError(&(*pGen), E_WARNING, pMeth->nLine,
@@ -664,7 +664,7 @@ PH7_PRIVATE ph7_class_instance* PH7_CloneClassInstance(ph7_class_instance *pSrc)
     if (pMethod->iCloneDepth < 16) {
       pMethod->iCloneDepth++;
       PH7_VmCallClassMethod(pVm, pClone, pMethod, 0, 0, 0);
-    }else{
+    } else {
       /* Nesting limit reached */
       PH7_VmThrowError(pVm, 0, PH7_CTX_ERR, "Object clone limit reached,no more call to __clone()");
     }

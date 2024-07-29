@@ -98,16 +98,16 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         pToken->pUserData = (void *) PH7_ExprExtractOperator(pStr, 0);
         /* Mark as an operator */
         pToken->nType = PH7_TK_ID | PH7_TK_OP;
-      }else{
+      } else {
         /* We are dealing with a keyword [i.e: while,foreach,class...],save the keyword ID */
         pToken->nType = PH7_TK_KEYWORD;
         pToken->pUserData = SX_INT_TO_PTR(nKeyword);
       }
-    }else{
+    } else {
       /* A simple identifier */
       pToken->nType = PH7_TK_ID;
     }
-  }else{
+  } else {
     sxi32 c;
     /* Non-alpha stream */
     if (pStream->zText[0] == '#' ||
@@ -119,7 +119,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
       }
       /* Tell the upper-layer to ignore this token */
       return SXERR_CONTINUE;
-    }else if (pStream->zText[0] == '/' && &pStream->zText[1] < pStream->zEnd && pStream->zText[1] == '*') {
+    } else if (pStream->zText[0] == '/' && &pStream->zText[1] < pStream->zEnd && pStream->zText[1] == '*') {
       pStream->zText += 2;
       /* Block comment */
       while (pStream->zText < pStream->zEnd) {
@@ -136,7 +136,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
       pStream->zText += 2;
       /* Tell the upper-layer to ignore this token */
       return SXERR_CONTINUE;
-    }else if (SyisDigit(pStream->zText[0])) {
+    } else if (SyisDigit(pStream->zText[0])) {
       pStream->zText++;
       /* Decimal digit stream */
       while (pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0 && SyisDigit(pStream->zText[0])) {
@@ -169,7 +169,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
             }
           }
           pToken->nType = PH7_TK_REAL;
-        }else if (c == 'e' || c == 'E') {
+        } else if (c == 'e' || c == 'E') {
           SXUNUSED(pUserData);           /* Prevent compiler warning */
           SXUNUSED(pCtxData);
           pStream->zText++;
@@ -184,13 +184,13 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
             }
           }
           pToken->nType = PH7_TK_REAL;
-        }else if (c == 'x' || c == 'X') {
+        } else if (c == 'x' || c == 'X') {
           /* Hex digit stream */
           pStream->zText++;
           while (pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0 && SyisHex(pStream->zText[0])) {
             pStream->zText++;
           }
-        }else if (c == 'b' || c == 'B') {
+        } else if (c == 'b' || c == 'B') {
           /* Binary digit stream */
           pStream->zText++;
           while (pStream->zText < pStream->zEnd && (pStream->zText[0] == '0' || pStream->zText[0] == '1')) {
@@ -230,15 +230,15 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
               const char *zTypeCast = "(int)";
               if (nID & PH7_TKWRD_FLOAT) {
                 zTypeCast = "(float)";
-              }else if (nID & PH7_TKWRD_BOOL) {
+              } else if (nID & PH7_TKWRD_BOOL) {
                 zTypeCast = "(bool)";
-              }else if (nID & PH7_TKWRD_STRING) {
+              } else if (nID & PH7_TKWRD_STRING) {
                 zTypeCast = "(string)";
-              }else if (nID & PH7_TKWRD_ARRAY) {
+              } else if (nID & PH7_TKWRD_ARRAY) {
                 zTypeCast = "(array)";
-              }else if (nID & PH7_TKWRD_OBJECT) {
+              } else if (nID & PH7_TKWRD_OBJECT) {
                 zTypeCast = "(object)";
-              }else if (nID & PH7_TKWRD_UNSET) {
+              } else if (nID & PH7_TKWRD_UNSET) {
                 zTypeCast = "(unset)";
               }
               /* Reflect the change */
@@ -263,7 +263,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         if (pStream->zText[0] == '\'') {
           if (pStream->zText[-1] != '\\') {
             break;
-          }else{
+          } else {
             const unsigned char *zPtr = &pStream->zText[-2];
             sxi32 i = 1;
             while (zPtr > pStream->zInput && zPtr[0] == '\\') {
@@ -299,13 +299,13 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
           while (pStream->zText < pStream->zEnd) {
             if (pStream->zText[0] == '{') {
               iNest++;
-            }else if (pStream->zText[0] == '}') {
+            } else if (pStream->zText[0] == '}') {
               iNest--;
               if (iNest <= 0) {
                 pStream->zText++;
                 break;
               }
-            }else if (pStream->zText[0] == '\n') {
+            } else if (pStream->zText[0] == '\n') {
               pStream->nLine++;
             }
             pStream->zText++;
@@ -317,7 +317,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         if (pStream->zText[0] == '"') {
           if (pStream->zText[-1] != '\\') {
             break;
-          }else{
+          } else {
             const unsigned char *zPtr = &pStream->zText[-2];
             sxi32 i = 1;
             while (zPtr > pStream->zInput && zPtr[0] == '\\') {
@@ -365,7 +365,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
       if (pStream->zText < pStream->zEnd && pStream->zText[0] == ':') {
         /* Current operator: '::' */
         pStream->zText++;
-      }else{
+      } else {
         pToken->nType = PH7_TK_COLON;         /* Single colon */
       }
       break;
@@ -383,11 +383,11 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
             /* Current operator: === */
             pStream->zText++;
           }
-        }else if (pStream->zText[0] == '>') {
+        } else if (pStream->zText[0] == '>') {
           /* Array operator: => */
           pToken->nType = PH7_TK_ARRAY_OP;
           pStream->zText++;
-        }else{
+        } else {
           /* TICKET 1433-0010: Reference operator '=&' */
           const unsigned char *zCur = pStream->zText;
           sxu32 nLine = 0;
@@ -425,7 +425,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
           pToken->nType &= ~PH7_TK_AMPER;
           /* Current operator: && */
           pStream->zText++;
-        }else if (pStream->zText[0] == '=') {
+        } else if (pStream->zText[0] == '=') {
           pToken->nType &= ~PH7_TK_AMPER;
           /* Current operator: &= */
           pStream->zText++;
@@ -437,7 +437,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         if (pStream->zText[0] == '|') {
           /* Current operator: || */
           pStream->zText++;
-        }else if (pStream->zText[0] == '=') {
+        } else if (pStream->zText[0] == '=') {
           /* Current operator: |= */
           pStream->zText++;
         }
@@ -448,7 +448,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         if (pStream->zText[0] == '+') {
           /* Current operator: ++ */
           pStream->zText++;
-        }else if (pStream->zText[0] == '=') {
+        } else if (pStream->zText[0] == '=') {
           /* Current operator: += */
           pStream->zText++;
         }
@@ -459,10 +459,10 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         if (pStream->zText[0] == '-') {
           /* Current operator: -- */
           pStream->zText++;
-        }else if (pStream->zText[0] == '=') {
+        } else if (pStream->zText[0] == '=') {
           /* Current operator: -= */
           pStream->zText++;
-        }else if (pStream->zText[0] == '>') {
+        } else if (pStream->zText[0] == '>') {
           /* Current operator: -> */
           pStream->zText++;
         }
@@ -507,7 +507,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
             if (pStream->zText[0] == '=') {
               /* Current operator: <<= */
               pStream->zText++;
-            }else if (pStream->zText[0] == '<') {
+            } else if (pStream->zText[0] == '<') {
               /* Current Token: <<<  */
               pStream->zText++;
               /* This may be the beginning of a Heredoc/Nowdoc string,try to delimit it */
@@ -518,10 +518,10 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
               }
             }
           }
-        }else if (pStream->zText[0] == '>') {
+        } else if (pStream->zText[0] == '>') {
           /* Current operator: <> */
           pStream->zText++;
-        }else if (pStream->zText[0] == '=') {
+        } else if (pStream->zText[0] == '=') {
           /* Current operator: <= */
           pStream->zText++;
         }
@@ -536,7 +536,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
             /* Current operator: >>= */
             pStream->zText++;
           }
-        }else if (pStream->zText[0] == '=') {
+        } else if (pStream->zText[0] == '=') {
           /* Current operator: >= */
           pStream->zText++;
         }
@@ -559,7 +559,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         if (pToken->nType <= 0) {
           pToken->nType = PH7_TK_OTHER;
         }
-      }else{
+      } else {
         /* Save the instance associated with this operator for later processing */
         pToken->pUserData = (void *) pOp;
       }
@@ -899,7 +899,7 @@ static sxi32 LexExtractHeredoc(SyStream *pStream, SyToken *pToken)
           pStream->zText = zCur;           /* Keep the semi-colon */
           break;
         }
-      }else if (zPtr[0] == '\n') {
+      } else if (zPtr[0] == '\n') {
         /* Closing delimiter found,break immediately */
         pStream->zText = zPtr;         /* Synchronize with the stream cursor */
         break;
@@ -1027,7 +1027,7 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput, sxu32 nLen, SySet *pOu
             break;
           }
         }
-      }else{
+      } else {
         if (zIn[0] == '\n') {
           nLine++;
         }
@@ -1075,7 +1075,7 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput, sxu32 nLen, SySet *pOu
           if (zIn >= zEnd) {
             zIn--;
           }
-        }else{
+        } else {
           /* Block comment */
           while ((sxu32) (zEnd - zIn) >= sizeof("*/") - 1) {
             if (zIn[0] == '*' && zIn[1] == '/') {
@@ -1102,9 +1102,9 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput, sxu32 nLen, SySet *pOu
               /* UTF-8 stream */
               zIn++;
               SX_JMP_UTF8(zIn, zEnd);
-            }else if (!SyisAlphaNum(zIn[0]) && zIn[0] != '_') {
+            } else if (!SyisAlphaNum(zIn[0]) && zIn[0] != '_') {
               break;
-            }else{
+            } else {
               zIn++;
             }
           }
@@ -1113,7 +1113,7 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput, sxu32 nLen, SySet *pOu
           }
           continue;
         }
-      }else if ((sxu32) (zEnd - zIn) >= sizeof("<<<") && zIn[0] == '<' && zIn[1] == '<' && zIn[2] == '<' && iNest < 1) {
+      } else if ((sxu32) (zEnd - zIn) >= sizeof("<<<") && zIn[0] == '<' && zIn[1] == '<' && zIn[2] == '<' && iNest < 1) {
         zIn += sizeof("<<<") - 1;
         while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && SyisSpace(zIn[0]) && zIn[0] != '\n') {
           zIn++;
@@ -1127,9 +1127,9 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput, sxu32 nLen, SySet *pOu
             /* UTF-8 stream */
             zIn++;
             SX_JMP_UTF8(zIn, zEnd);
-          }else if (!SyisAlphaNum(zIn[0]) && zIn[0] != '_') {
+          } else if (!SyisAlphaNum(zIn[0]) && zIn[0] != '_') {
             break;
-          }else{
+          } else {
             zIn++;
           }
         }
