@@ -4181,7 +4181,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       for (idx = precision - length ; idx > 0 ; idx--) {
         *(--zBuf) = '0';                               /* Zero pad */
       }
-      if (prefix) *(--zBuf) = (char) prefix;                 /* Add sign */
+      if (prefix) *(--zBuf) = (char) prefix; /* Add sign */
       if (flag_alternateform && pInfo->prefix) {          /* Add "0" or "0x" */
         char *pre, x;
         pre = pInfo->prefix;
@@ -4208,7 +4208,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       } else {
         realvalue = ph7_value_to_double(pArg);
       }
-      if (precision < 0) precision = 6;          /* Set default precision */
+      if (precision < 0) precision = 6; /* Set default precision */
       if (precision > PH7_FMT_BUFSIZ - 40) precision = PH7_FMT_BUFSIZ - 40;
       if (realvalue < 0.0) {
         realvalue = -realvalue;
@@ -4269,10 +4269,10 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       nsd = 0;
       if (xtype == PH7_FMT_FLOAT && exp + precision < PH7_FMT_BUFSIZ - 30) {
         flag_dp = (precision > 0 || flag_alternateform);
-        if (prefix) *(zBuf++) = (char) prefix;           /* Sign */
-        if (exp < 0) *(zBuf++) = '0';              /* Digits before "." */
+        if (prefix) *(zBuf++) = (char) prefix; /* Sign */
+        if (exp < 0) *(zBuf++) = '0'; /* Digits before "." */
         else for (; exp >= 0 ; exp--) *(zBuf++) = (char) vxGetdigit(&realvalue, &nsd);
-        if (flag_dp) *(zBuf++) = '.';              /* The decimal point */
+        if (flag_dp) *(zBuf++) = '.'; /* The decimal point */
         for (exp++ ; exp < 0 && precision > 0 ; precision--, exp++) {
           *(zBuf++) = '0';
         }
@@ -4285,9 +4285,9 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         zBuf++;                              /* point to next free slot */
       } else {       /* etEXP or etGENERIC */
         flag_dp = (precision > 0 || flag_alternateform);
-        if (prefix) *(zBuf++) = (char) prefix;         /* Sign */
+        if (prefix) *(zBuf++) = (char) prefix; /* Sign */
         *(zBuf++) = (char) vxGetdigit(&realvalue, &nsd);         /* First digit */
-        if (flag_dp) *(zBuf++) = '.';          /* Decimal point */
+        if (flag_dp) *(zBuf++) = '.'; /* Decimal point */
         while ((precision--) > 0) *(zBuf++) = (char) vxGetdigit(&realvalue, &nsd);
         zBuf--;                              /* point to last digit */
         if (flag_rtz && flag_dp) {              /* Remove tail zeros */

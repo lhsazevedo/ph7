@@ -2836,7 +2836,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
       for (idx = precision - length ; idx > 0 ; idx--) {
         *(--bufpt) = '0';                               /* Zero pad */
       }
-      if (prefix) *(--bufpt) = prefix;                  /* Add sign */
+      if (prefix) *(--bufpt) = prefix; /* Add sign */
       if (flag_alternateform && infop->prefix) {          /* Add "0" or "0x" */
         char *pre, x;
         pre = infop->prefix;
@@ -2851,7 +2851,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
     case SXFMT_GENERIC:
 #ifndef SX_OMIT_FLOATINGPOINT
       realvalue = va_arg(ap, double);
-      if (precision < 0) precision = 6;          /* Set default precision */
+      if (precision < 0) precision = 6; /* Set default precision */
       if (precision > SXFMT_BUFSIZ - 40) precision = SXFMT_BUFSIZ - 40;
       if (realvalue < 0.0) {
         realvalue = -realvalue;
@@ -2912,10 +2912,10 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
       nsd = 0;
       if (xtype == SXFMT_FLOAT && exp + precision < SXFMT_BUFSIZ - 30) {
         flag_dp = (precision > 0 || flag_alternateform);
-        if (prefix) *(bufpt++) = prefix;            /* Sign */
-        if (exp < 0) *(bufpt++) = '0';              /* Digits before "." */
+        if (prefix) *(bufpt++) = prefix; /* Sign */
+        if (exp < 0) *(bufpt++) = '0'; /* Digits before "." */
         else for (; exp >= 0 ; exp--) *(bufpt++) = (char) getdigit(&realvalue, &nsd);
-        if (flag_dp) *(bufpt++) = '.';              /* The decimal point */
+        if (flag_dp) *(bufpt++) = '.'; /* The decimal point */
         for (exp++ ; exp < 0 && precision > 0 ; precision--, exp++) {
           *(bufpt++) = '0';
         }
@@ -2928,9 +2928,9 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
         bufpt++;                              /* point to next free slot */
       } else {       /* etEXP or etGENERIC */
         flag_dp = (precision > 0 || flag_alternateform);
-        if (prefix) *(bufpt++) = prefix;          /* Sign */
+        if (prefix) *(bufpt++) = prefix; /* Sign */
         *(bufpt++) = (char) getdigit(&realvalue, &nsd);         /* First digit */
-        if (flag_dp) *(bufpt++) = '.';          /* Decimal point */
+        if (flag_dp) *(bufpt++) = '.'; /* Decimal point */
         while ((precision--) > 0) *(bufpt++) = (char) getdigit(&realvalue, &nsd);
         bufpt--;                              /* point to last digit */
         if (flag_rtz && flag_dp) {              /* Remove tail zeros */
@@ -5100,7 +5100,7 @@ PH7_PRIVATE void MD5Update(MD5Context *ctx, const unsigned char *buf, unsigned i
   /* Update bitcount */
   t = ctx->bits[0];
   if ((ctx->bits[0] = t + ((sxu32) len << 3)) < t)
-    ctx->bits[1]++;             /* Carry from low to high */
+    ctx->bits[1]++; /* Carry from low to high */
   ctx->bits[1] += len >> 29;
   t = (t >> 3) & 0x3f;          /* Bytes already in shsInfo->data */
   /* Handle any leading odd-sized chunks */
