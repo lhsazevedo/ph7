@@ -989,7 +989,7 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput, sxu32 nLen, SySet *pOu
   const char *zEnd = &zInput[nLen];
   const char *zIn = zInput;
   const char *zCur, *zCurEnd;
-  SyString sCtag = { 0, 0 };       /* Closing tag */
+  SyString sCtag = { 0, 0 };         /* Closing tag */
   SyToken sToken;
   SyString sDoc;
   sxu32 nLine;

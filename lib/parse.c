@@ -166,98 +166,98 @@
  */
 static const ph7_expr_op aOpTable[] = {
   /* Precedence 1: non-associative */
-  { {"new", sizeof("new") - 1},     EXPR_OP_NEW,   1, EXPR_OP_NON_ASSOC, PH7_OP_NEW  },
-  { {"clone", sizeof("clone") - 1}, EXPR_OP_CLONE, 1, EXPR_OP_NON_ASSOC, PH7_OP_CLONE},
+  { { "new", sizeof("new") - 1 },     EXPR_OP_NEW,   1, EXPR_OP_NON_ASSOC, PH7_OP_NEW },
+  { { "clone", sizeof("clone") - 1 }, EXPR_OP_CLONE, 1, EXPR_OP_NON_ASSOC, PH7_OP_CLONE },
   /* Postfix operators */
   /* Precedence 2(Highest),left-associative */
-  { {"->", sizeof(char) * 2}, EXPR_OP_ARROW,     2, EXPR_OP_ASSOC_LEFT, PH7_OP_MEMBER},
-  { {"::", sizeof(char) * 2}, EXPR_OP_DC,        2, EXPR_OP_ASSOC_LEFT, PH7_OP_MEMBER},
-  { {"[", sizeof(char)},    EXPR_OP_SUBSCRIPT, 2, EXPR_OP_ASSOC_LEFT, PH7_OP_LOAD_IDX},
+  { { "->", sizeof(char) * 2 }, EXPR_OP_ARROW,     2, EXPR_OP_ASSOC_LEFT, PH7_OP_MEMBER },
+  { { "::", sizeof(char) * 2 }, EXPR_OP_DC,        2, EXPR_OP_ASSOC_LEFT, PH7_OP_MEMBER },
+  { { "[", sizeof(char) },    EXPR_OP_SUBSCRIPT, 2, EXPR_OP_ASSOC_LEFT, PH7_OP_LOAD_IDX },
   /* Precedence 3,non-associative  */
-  { {"++", sizeof(char) * 2}, EXPR_OP_INCR, 3, EXPR_OP_NON_ASSOC, PH7_OP_INCR},
-  { {"--", sizeof(char) * 2}, EXPR_OP_DECR, 3, EXPR_OP_NON_ASSOC, PH7_OP_DECR},
+  { { "++", sizeof(char) * 2 }, EXPR_OP_INCR, 3, EXPR_OP_NON_ASSOC, PH7_OP_INCR },
+  { { "--", sizeof(char) * 2 }, EXPR_OP_DECR, 3, EXPR_OP_NON_ASSOC, PH7_OP_DECR },
   /* Unary operators */
   /* Precedence 4,right-associative  */
-  { {"-", sizeof(char)},                 EXPR_OP_UMINUS,    4, EXPR_OP_ASSOC_RIGHT, PH7_OP_UMINUS },
-  { {"+", sizeof(char)},                 EXPR_OP_UPLUS,     4, EXPR_OP_ASSOC_RIGHT, PH7_OP_UPLUS },
-  { {"~", sizeof(char)},                 EXPR_OP_BITNOT,    4, EXPR_OP_ASSOC_RIGHT, PH7_OP_BITNOT },
-  { {"!", sizeof(char)},                 EXPR_OP_LOGNOT,    4, EXPR_OP_ASSOC_RIGHT, PH7_OP_LNOT },
-  { {"@", sizeof(char)},                 EXPR_OP_ALT,       4, EXPR_OP_ASSOC_RIGHT, PH7_OP_ERR_CTRL},
+  { { "-", sizeof(char) },                 EXPR_OP_UMINUS,    4, EXPR_OP_ASSOC_RIGHT, PH7_OP_UMINUS },
+  { { "+", sizeof(char) },                 EXPR_OP_UPLUS,     4, EXPR_OP_ASSOC_RIGHT, PH7_OP_UPLUS },
+  { { "~", sizeof(char) },                 EXPR_OP_BITNOT,    4, EXPR_OP_ASSOC_RIGHT, PH7_OP_BITNOT },
+  { { "!", sizeof(char) },                 EXPR_OP_LOGNOT,    4, EXPR_OP_ASSOC_RIGHT, PH7_OP_LNOT },
+  { { "@", sizeof(char) },                 EXPR_OP_ALT,       4, EXPR_OP_ASSOC_RIGHT, PH7_OP_ERR_CTRL },
   /* Cast operators */
-  { {"(int)",    sizeof("(int)") - 1   }, EXPR_OP_TYPECAST, 4, EXPR_OP_ASSOC_RIGHT, PH7_OP_CVT_INT  },
-  { {"(bool)",   sizeof("(bool)") - 1  }, EXPR_OP_TYPECAST, 4, EXPR_OP_ASSOC_RIGHT, PH7_OP_CVT_BOOL },
-  { {"(string)", sizeof("(string)") - 1}, EXPR_OP_TYPECAST, 4, EXPR_OP_ASSOC_RIGHT, PH7_OP_CVT_STR  },
-  { {"(float)",  sizeof("(float)") - 1 }, EXPR_OP_TYPECAST, 4, EXPR_OP_ASSOC_RIGHT, PH7_OP_CVT_REAL },
-  { {"(array)",  sizeof("(array)") - 1 }, EXPR_OP_TYPECAST, 4, EXPR_OP_ASSOC_RIGHT, PH7_OP_CVT_ARRAY},
-  { {"(object)", sizeof("(object)") - 1}, EXPR_OP_TYPECAST, 4, EXPR_OP_ASSOC_RIGHT, PH7_OP_CVT_OBJ  },
-  { {"(unset)",  sizeof("(unset)") - 1 }, EXPR_OP_TYPECAST, 4, EXPR_OP_ASSOC_RIGHT, PH7_OP_CVT_NULL },
+  { { "(int)",    sizeof("(int)") - 1 }, EXPR_OP_TYPECAST, 4, EXPR_OP_ASSOC_RIGHT, PH7_OP_CVT_INT },
+  { { "(bool)",   sizeof("(bool)") - 1 }, EXPR_OP_TYPECAST, 4, EXPR_OP_ASSOC_RIGHT, PH7_OP_CVT_BOOL },
+  { { "(string)", sizeof("(string)") - 1 }, EXPR_OP_TYPECAST, 4, EXPR_OP_ASSOC_RIGHT, PH7_OP_CVT_STR },
+  { { "(float)",  sizeof("(float)") - 1 }, EXPR_OP_TYPECAST, 4, EXPR_OP_ASSOC_RIGHT, PH7_OP_CVT_REAL },
+  { { "(array)",  sizeof("(array)") - 1 }, EXPR_OP_TYPECAST, 4, EXPR_OP_ASSOC_RIGHT, PH7_OP_CVT_ARRAY },
+  { { "(object)", sizeof("(object)") - 1 }, EXPR_OP_TYPECAST, 4, EXPR_OP_ASSOC_RIGHT, PH7_OP_CVT_OBJ },
+  { { "(unset)",  sizeof("(unset)") - 1 }, EXPR_OP_TYPECAST, 4, EXPR_OP_ASSOC_RIGHT, PH7_OP_CVT_NULL },
   /* Binary operators */
   /* Precedence 7,left-associative */
-  { {"instanceof", sizeof("instanceof") - 1}, EXPR_OP_INSTOF, 7, EXPR_OP_NON_ASSOC, PH7_OP_IS_A},
-  { {"*", sizeof(char)}, EXPR_OP_MUL, 7, EXPR_OP_ASSOC_LEFT, PH7_OP_MUL},
-  { {"/", sizeof(char)}, EXPR_OP_DIV, 7, EXPR_OP_ASSOC_LEFT, PH7_OP_DIV},
-  { {"%", sizeof(char)}, EXPR_OP_MOD, 7, EXPR_OP_ASSOC_LEFT, PH7_OP_MOD},
+  { { "instanceof", sizeof("instanceof") - 1 }, EXPR_OP_INSTOF, 7, EXPR_OP_NON_ASSOC, PH7_OP_IS_A },
+  { { "*", sizeof(char) }, EXPR_OP_MUL, 7, EXPR_OP_ASSOC_LEFT, PH7_OP_MUL },
+  { { "/", sizeof(char) }, EXPR_OP_DIV, 7, EXPR_OP_ASSOC_LEFT, PH7_OP_DIV },
+  { { "%", sizeof(char) }, EXPR_OP_MOD, 7, EXPR_OP_ASSOC_LEFT, PH7_OP_MOD },
   /* Precedence 8,left-associative */
-  { {"+", sizeof(char)}, EXPR_OP_ADD, 8,  EXPR_OP_ASSOC_LEFT, PH7_OP_ADD},
-  { {"-", sizeof(char)}, EXPR_OP_SUB, 8,  EXPR_OP_ASSOC_LEFT, PH7_OP_SUB},
-  { {".", sizeof(char)}, EXPR_OP_DOT, 8,  EXPR_OP_ASSOC_LEFT, PH7_OP_CAT},
+  { { "+", sizeof(char) }, EXPR_OP_ADD, 8,  EXPR_OP_ASSOC_LEFT, PH7_OP_ADD },
+  { { "-", sizeof(char) }, EXPR_OP_SUB, 8,  EXPR_OP_ASSOC_LEFT, PH7_OP_SUB },
+  { { ".", sizeof(char) }, EXPR_OP_DOT, 8,  EXPR_OP_ASSOC_LEFT, PH7_OP_CAT },
   /* Precedence 9,left-associative */
-  { {"<<", sizeof(char) * 2}, EXPR_OP_SHL, 9, EXPR_OP_ASSOC_LEFT, PH7_OP_SHL},
-  { {">>", sizeof(char) * 2}, EXPR_OP_SHR, 9, EXPR_OP_ASSOC_LEFT, PH7_OP_SHR},
+  { { "<<", sizeof(char) * 2 }, EXPR_OP_SHL, 9, EXPR_OP_ASSOC_LEFT, PH7_OP_SHL },
+  { { ">>", sizeof(char) * 2 }, EXPR_OP_SHR, 9, EXPR_OP_ASSOC_LEFT, PH7_OP_SHR },
   /* Precedence 10,non-associative */
-  { {"<", sizeof(char)},    EXPR_OP_LT,  10, EXPR_OP_NON_ASSOC, PH7_OP_LT},
-  { {">", sizeof(char)},    EXPR_OP_GT,  10, EXPR_OP_NON_ASSOC, PH7_OP_GT},
-  { {"<=", sizeof(char) * 2}, EXPR_OP_LE,  10, EXPR_OP_NON_ASSOC, PH7_OP_LE},
-  { {">=", sizeof(char) * 2}, EXPR_OP_GE,  10, EXPR_OP_NON_ASSOC, PH7_OP_GE},
-  { {"<>", sizeof(char) * 2}, EXPR_OP_NE,  10, EXPR_OP_NON_ASSOC, PH7_OP_NEQ},
+  { { "<", sizeof(char) },    EXPR_OP_LT,  10, EXPR_OP_NON_ASSOC, PH7_OP_LT },
+  { { ">", sizeof(char) },    EXPR_OP_GT,  10, EXPR_OP_NON_ASSOC, PH7_OP_GT },
+  { { "<=", sizeof(char) * 2 }, EXPR_OP_LE,  10, EXPR_OP_NON_ASSOC, PH7_OP_LE },
+  { { ">=", sizeof(char) * 2 }, EXPR_OP_GE,  10, EXPR_OP_NON_ASSOC, PH7_OP_GE },
+  { { "<>", sizeof(char) * 2 }, EXPR_OP_NE,  10, EXPR_OP_NON_ASSOC, PH7_OP_NEQ },
   /* Precedence 11,non-associative */
-  { {"==", sizeof(char) * 2},  EXPR_OP_EQ,  11, EXPR_OP_NON_ASSOC, PH7_OP_EQ},
-  { {"!=", sizeof(char) * 2},  EXPR_OP_NE,  11, EXPR_OP_NON_ASSOC, PH7_OP_NEQ},
-  { {"eq", sizeof(char) * 2},  EXPR_OP_SEQ, 11, EXPR_OP_NON_ASSOC, PH7_OP_SEQ},   /* IMP-0137-EQ: Symisc eXtension */
-  { {"ne", sizeof(char) * 2},  EXPR_OP_SNE, 11, EXPR_OP_NON_ASSOC, PH7_OP_SNE},   /* IMP-0138-NE: Symisc eXtension */
-  { {"===", sizeof(char) * 3}, EXPR_OP_TEQ, 11, EXPR_OP_NON_ASSOC, PH7_OP_TEQ},
-  { {"!==", sizeof(char) * 3}, EXPR_OP_TNE, 11, EXPR_OP_NON_ASSOC, PH7_OP_TNE},
+  { { "==", sizeof(char) * 2 },  EXPR_OP_EQ,  11, EXPR_OP_NON_ASSOC, PH7_OP_EQ },
+  { { "!=", sizeof(char) * 2 },  EXPR_OP_NE,  11, EXPR_OP_NON_ASSOC, PH7_OP_NEQ },
+  { { "eq", sizeof(char) * 2 },  EXPR_OP_SEQ, 11, EXPR_OP_NON_ASSOC, PH7_OP_SEQ },       /* IMP-0137-EQ: Symisc eXtension */
+  { { "ne", sizeof(char) * 2 },  EXPR_OP_SNE, 11, EXPR_OP_NON_ASSOC, PH7_OP_SNE },       /* IMP-0138-NE: Symisc eXtension */
+  { { "===", sizeof(char) * 3 }, EXPR_OP_TEQ, 11, EXPR_OP_NON_ASSOC, PH7_OP_TEQ },
+  { { "!==", sizeof(char) * 3 }, EXPR_OP_TNE, 11, EXPR_OP_NON_ASSOC, PH7_OP_TNE },
   /* Precedence 12,left-associative */
-  { {"&", sizeof(char)}, EXPR_OP_BAND, 12, EXPR_OP_ASSOC_LEFT, PH7_OP_BAND},
+  { { "&", sizeof(char) }, EXPR_OP_BAND, 12, EXPR_OP_ASSOC_LEFT, PH7_OP_BAND },
   /* Precedence 12,left-associative */
-  { {"=&", sizeof(char) * 2}, EXPR_OP_REF, 12, EXPR_OP_ASSOC_LEFT, PH7_OP_STORE_REF},
+  { { "=&", sizeof(char) * 2 }, EXPR_OP_REF, 12, EXPR_OP_ASSOC_LEFT, PH7_OP_STORE_REF },
   /* Binary operators */
   /* Precedence 13,left-associative */
-  { {"^", sizeof(char)}, EXPR_OP_XOR, 13, EXPR_OP_ASSOC_LEFT, PH7_OP_BXOR},
+  { { "^", sizeof(char) }, EXPR_OP_XOR, 13, EXPR_OP_ASSOC_LEFT, PH7_OP_BXOR },
   /* Precedence 14,left-associative */
-  { {"|", sizeof(char)}, EXPR_OP_BOR, 14, EXPR_OP_ASSOC_LEFT, PH7_OP_BOR},
+  { { "|", sizeof(char) }, EXPR_OP_BOR, 14, EXPR_OP_ASSOC_LEFT, PH7_OP_BOR },
   /* Precedence 15,left-associative */
-  { {"&&", sizeof(char) * 2}, EXPR_OP_LAND, 15, EXPR_OP_ASSOC_LEFT, PH7_OP_LAND},
+  { { "&&", sizeof(char) * 2 }, EXPR_OP_LAND, 15, EXPR_OP_ASSOC_LEFT, PH7_OP_LAND },
   /* Precedence 16,left-associative */
-  { {"||", sizeof(char) * 2}, EXPR_OP_LOR, 16, EXPR_OP_ASSOC_LEFT, PH7_OP_LOR},
+  { { "||", sizeof(char) * 2 }, EXPR_OP_LOR, 16, EXPR_OP_ASSOC_LEFT, PH7_OP_LOR },
   /* Ternary operator */
   /* Precedence 17,left-associative */
-  { {"?", sizeof(char)}, EXPR_OP_QUESTY, 17, EXPR_OP_ASSOC_LEFT, 0},
+  { { "?", sizeof(char) }, EXPR_OP_QUESTY, 17, EXPR_OP_ASSOC_LEFT, 0 },
   /* Combined binary operators */
   /* Precedence 18,right-associative */
-  { {"=", sizeof(char)},     EXPR_OP_ASSIGN,     18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_STORE},
-  { {"+=", sizeof(char) * 2},  EXPR_OP_ADD_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_ADD_STORE },
-  { {"-=", sizeof(char) * 2},  EXPR_OP_SUB_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_SUB_STORE },
-  { {".=", sizeof(char) * 2},  EXPR_OP_DOT_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_CAT_STORE },
-  { {"*=", sizeof(char) * 2},  EXPR_OP_MUL_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_MUL_STORE },
-  { {"/=", sizeof(char) * 2},  EXPR_OP_DIV_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_DIV_STORE },
-  { {"%=", sizeof(char) * 2},  EXPR_OP_MOD_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_MOD_STORE },
-  { {"&=", sizeof(char) * 2},  EXPR_OP_AND_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_BAND_STORE },
-  { {"|=", sizeof(char) * 2},  EXPR_OP_OR_ASSIGN,  18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_BOR_STORE  },
-  { {"^=", sizeof(char) * 2},  EXPR_OP_XOR_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_BXOR_STORE },
-  { {"<<=", sizeof(char) * 3}, EXPR_OP_SHL_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_SHL_STORE },
-  { {">>=", sizeof(char) * 3}, EXPR_OP_SHR_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_SHR_STORE },
+  { { "=", sizeof(char) },     EXPR_OP_ASSIGN,     18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_STORE },
+  { { "+=", sizeof(char) * 2 },  EXPR_OP_ADD_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_ADD_STORE },
+  { { "-=", sizeof(char) * 2 },  EXPR_OP_SUB_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_SUB_STORE },
+  { { ".=", sizeof(char) * 2 },  EXPR_OP_DOT_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_CAT_STORE },
+  { { "*=", sizeof(char) * 2 },  EXPR_OP_MUL_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_MUL_STORE },
+  { { "/=", sizeof(char) * 2 },  EXPR_OP_DIV_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_DIV_STORE },
+  { { "%=", sizeof(char) * 2 },  EXPR_OP_MOD_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_MOD_STORE },
+  { { "&=", sizeof(char) * 2 },  EXPR_OP_AND_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_BAND_STORE },
+  { { "|=", sizeof(char) * 2 },  EXPR_OP_OR_ASSIGN,  18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_BOR_STORE },
+  { { "^=", sizeof(char) * 2 },  EXPR_OP_XOR_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_BXOR_STORE },
+  { { "<<=", sizeof(char) * 3 }, EXPR_OP_SHL_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_SHL_STORE },
+  { { ">>=", sizeof(char) * 3 }, EXPR_OP_SHR_ASSIGN, 18,  EXPR_OP_ASSOC_RIGHT, PH7_OP_SHR_STORE },
   /* Precedence 19,left-associative */
-  { {"and", sizeof("and") - 1},   EXPR_OP_LAND, 19, EXPR_OP_ASSOC_LEFT, PH7_OP_LAND},
+  { { "and", sizeof("and") - 1 },   EXPR_OP_LAND, 19, EXPR_OP_ASSOC_LEFT, PH7_OP_LAND },
   /* Precedence 20,left-associative */
-  { {"xor", sizeof("xor") - 1}, EXPR_OP_LXOR, 20, EXPR_OP_ASSOC_LEFT, PH7_OP_LXOR},
+  { { "xor", sizeof("xor") - 1 }, EXPR_OP_LXOR, 20, EXPR_OP_ASSOC_LEFT, PH7_OP_LXOR },
   /* Precedence 21,left-associative */
-  { {"or", sizeof("or") - 1},     EXPR_OP_LOR,  21, EXPR_OP_ASSOC_LEFT, PH7_OP_LOR},
+  { { "or", sizeof("or") - 1 },     EXPR_OP_LOR,  21, EXPR_OP_ASSOC_LEFT, PH7_OP_LOR },
   /* Precedence 22,left-associative [Lowest operator] */
-  { {",", sizeof(char)},        EXPR_OP_COMMA, 22, EXPR_OP_ASSOC_LEFT, 0},   /* IMP-0139-COMMA: Symisc eXtension */
+  { { ",", sizeof(char) },        EXPR_OP_COMMA, 22, EXPR_OP_ASSOC_LEFT, 0 },       /* IMP-0139-COMMA: Symisc eXtension */
 };
 /* Function call operator need special handling */
-static const ph7_expr_op sFCallOp = {{"(", sizeof(char)}, EXPR_OP_FUNC_CALL, 2, EXPR_OP_ASSOC_LEFT, PH7_OP_CALL};
+static const ph7_expr_op sFCallOp = { { "(", sizeof(char) }, EXPR_OP_FUNC_CALL, 2, EXPR_OP_ASSOC_LEFT, PH7_OP_CALL };
 /*
  * Check if the given token is a potential operator or not.
  * This function is called by the lexer each time it extract a token that may

@@ -861,7 +861,7 @@ static sxi32 VmRefObjUnlink(ph7_vm *pVm, VmRefObj *pRef);
 /*
  * Dummy read-only buffer used for slot reservation.
  */
-static const char zDummy[sizeof(ph7_value)] = { 0 }; /* Must be >= sizeof(ph7_value) */
+static const char zDummy[sizeof(ph7_value)] = { 0 };   /* Must be >= sizeof(ph7_value) */
 /*
  * Reserve a constant memory object.
  * Return a pointer to the raw ph7_value on success. NULL on failure.
@@ -8233,7 +8233,7 @@ PH7_PRIVATE sxu32 PH7_VmRandomNum(ph7_vm *pVm)
  */
 PH7_PRIVATE void PH7_VmRandomString(ph7_vm *pVm, char *zBuf, int nLen)
 {
-  static const char zBase[] = {"abcdefghijklmnopqrstuvwxyz"};   /* English Alphabet */
+  static const char zBase[] = { "abcdefghijklmnopqrstuvwxyz" };     /* English Alphabet */
   int i;
   /* Generate a binary string first */
   SyRandomness(&pVm->sPrng, zBuf, (sxu32) nLen);
@@ -8947,7 +8947,7 @@ static int vm_builtin_assert(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (!iResult) {
     /* Assertion failed */
     if (iFlags & PH7_ASSERT_CALLBACK) {
-      static const SyString sFileName = { ":Memory", sizeof(":Memory") - 1};
+      static const SyString sFileName = { ":Memory", sizeof(":Memory") - 1 };
       ph7_value sFile, sLine;
       ph7_value *apCbArg[3];
       SyString *pFile;
@@ -13502,7 +13502,7 @@ static const unsigned char UtfTrans1[] = {
           }                                                      \
           if (c < 0x80                                             \
               || (c & 0xFFFFF800) == 0xD800                          \
-              || (c & 0xFFFFFFFE) == 0xFFFE) {  c = 0xFFFD; }        \
+              || (c & 0xFFFFFFFE) == 0xFFFE) { c = 0xFFFD; }        \
         }
 PH7_PRIVATE int PH7_Utf8Read(
   const unsigned char *z,         /* First byte of UTF-8 character */
@@ -13553,152 +13553,152 @@ static int vm_builtin_utf8_decode(ph7_context *pCtx, int nArg, ph7_value **apArg
 /* Table of built-in VM functions. */
 static const ph7_builtin_func aVmFunc[] = {
   { "func_num_args", vm_builtin_func_num_args },
-  { "func_get_arg", vm_builtin_func_get_arg  },
+  { "func_get_arg", vm_builtin_func_get_arg },
   { "func_get_args", vm_builtin_func_get_args },
   { "func_get_args_byref", vm_builtin_func_get_args_byref },
-  { "function_exists", vm_builtin_func_exists   },
-  { "is_callable", vm_builtin_is_callable   },
+  { "function_exists", vm_builtin_func_exists },
+  { "is_callable", vm_builtin_is_callable },
   { "get_defined_functions", vm_builtin_get_defined_func },
   { "register_shutdown_function", vm_builtin_register_shutdown_function },
-  { "call_user_func",        vm_builtin_call_user_func   },
-  { "call_user_func_array",  vm_builtin_call_user_func_array    },
-  { "forward_static_call",   vm_builtin_call_user_func   },
+  { "call_user_func",        vm_builtin_call_user_func },
+  { "call_user_func_array",  vm_builtin_call_user_func_array },
+  { "forward_static_call",   vm_builtin_call_user_func },
   { "forward_static_call_array", vm_builtin_call_user_func_array },
   /* Constants management */
-  { "defined",  vm_builtin_defined              },
-  { "define",   vm_builtin_define               },
-  { "constant", vm_builtin_constant             },
+  { "defined",  vm_builtin_defined },
+  { "define",   vm_builtin_define },
+  { "constant", vm_builtin_constant },
   { "get_defined_constants", vm_builtin_get_defined_constants },
   /* Class/Object functions */
-  { "class_alias",     vm_builtin_class_alias       },
-  { "class_exists",    vm_builtin_class_exists      },
-  { "property_exists", vm_builtin_property_exists   },
-  { "method_exists",   vm_builtin_method_exists     },
-  { "interface_exists", vm_builtin_interface_exists  },
-  { "get_class",       vm_builtin_get_class         },
-  { "get_parent_class", vm_builtin_get_parent_class  },
-  { "get_called_class", vm_builtin_get_called_class  },
-  { "get_declared_classes",    vm_builtin_get_declared_classes   },
-  { "get_defined_classes",     vm_builtin_get_declared_classes    },
-  { "get_declared_interfaces", vm_builtin_get_declared_interfaces},
+  { "class_alias",     vm_builtin_class_alias },
+  { "class_exists",    vm_builtin_class_exists },
+  { "property_exists", vm_builtin_property_exists },
+  { "method_exists",   vm_builtin_method_exists },
+  { "interface_exists", vm_builtin_interface_exists },
+  { "get_class",       vm_builtin_get_class },
+  { "get_parent_class", vm_builtin_get_parent_class },
+  { "get_called_class", vm_builtin_get_called_class },
+  { "get_declared_classes",    vm_builtin_get_declared_classes },
+  { "get_defined_classes",     vm_builtin_get_declared_classes },
+  { "get_declared_interfaces", vm_builtin_get_declared_interfaces },
   { "get_class_methods",       vm_builtin_get_class_methods },
-  { "get_class_vars",          vm_builtin_get_class_vars    },
-  { "get_object_vars",         vm_builtin_get_object_vars   },
-  { "is_subclass_of",          vm_builtin_is_subclass_of    },
+  { "get_class_vars",          vm_builtin_get_class_vars },
+  { "get_object_vars",         vm_builtin_get_object_vars },
+  { "is_subclass_of",          vm_builtin_is_subclass_of },
   { "is_a", vm_builtin_is_a },
   /* Random numbers/strings generators */
-  { "rand",          vm_builtin_rand            },
-  { "mt_rand",       vm_builtin_rand            },
-  { "rand_str",      vm_builtin_rand_str        },
-  { "getrandmax",    vm_builtin_getrandmax      },
-  { "mt_getrandmax", vm_builtin_getrandmax      },
+  { "rand",          vm_builtin_rand },
+  { "mt_rand",       vm_builtin_rand },
+  { "rand_str",      vm_builtin_rand_str },
+  { "getrandmax",    vm_builtin_getrandmax },
+  { "mt_getrandmax", vm_builtin_getrandmax },
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 #if !defined(PH7_DISABLE_HASH_FUNC)
-  { "uniqid",        vm_builtin_uniqid          },
+  { "uniqid",        vm_builtin_uniqid },
 #endif /* PH7_DISABLE_HASH_FUNC */
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
   /* Language constructs functions */
-  { "echo",  vm_builtin_echo                    },
-  { "print", vm_builtin_print                   },
-  { "exit",  vm_builtin_exit                    },
-  { "die",   vm_builtin_exit                    },
-  { "eval",  vm_builtin_eval                    },
+  { "echo",  vm_builtin_echo },
+  { "print", vm_builtin_print },
+  { "exit",  vm_builtin_exit },
+  { "die",   vm_builtin_exit },
+  { "eval",  vm_builtin_eval },
   /* Variable handling functions */
-  { "get_defined_vars", vm_builtin_get_defined_vars},
-  { "gettype",   vm_builtin_gettype              },
-  { "get_resource_type", vm_builtin_get_resource_type},
-  { "isset",     vm_builtin_isset                },
-  { "unset",     vm_builtin_unset                },
-  { "var_dump",  vm_builtin_var_dump             },
-  { "print_r",   vm_builtin_print_r              },
-  { "var_export", vm_builtin_var_export           },
+  { "get_defined_vars", vm_builtin_get_defined_vars },
+  { "gettype",   vm_builtin_gettype },
+  { "get_resource_type", vm_builtin_get_resource_type },
+  { "isset",     vm_builtin_isset },
+  { "unset",     vm_builtin_unset },
+  { "var_dump",  vm_builtin_var_dump },
+  { "print_r",   vm_builtin_print_r },
+  { "var_export", vm_builtin_var_export },
   /* Ouput control functions */
-  { "flush",        vm_builtin_ob_flush          },
-  { "ob_clean",     vm_builtin_ob_clean          },
-  { "ob_end_clean", vm_builtin_ob_end_clean      },
-  { "ob_end_flush", vm_builtin_ob_end_flush      },
-  { "ob_flush",     vm_builtin_ob_flush          },
-  { "ob_get_clean", vm_builtin_ob_get_clean      },
-  { "ob_get_contents", vm_builtin_ob_get_contents},
-  { "ob_get_flush",    vm_builtin_ob_get_clean   },
-  { "ob_get_length",   vm_builtin_ob_get_length  },
-  { "ob_get_level",    vm_builtin_ob_get_level   },
-  { "ob_implicit_flush", vm_builtin_ob_implicit_flush},
+  { "flush",        vm_builtin_ob_flush },
+  { "ob_clean",     vm_builtin_ob_clean },
+  { "ob_end_clean", vm_builtin_ob_end_clean },
+  { "ob_end_flush", vm_builtin_ob_end_flush },
+  { "ob_flush",     vm_builtin_ob_flush },
+  { "ob_get_clean", vm_builtin_ob_get_clean },
+  { "ob_get_contents", vm_builtin_ob_get_contents },
+  { "ob_get_flush",    vm_builtin_ob_get_clean },
+  { "ob_get_length",   vm_builtin_ob_get_length },
+  { "ob_get_level",    vm_builtin_ob_get_level },
+  { "ob_implicit_flush", vm_builtin_ob_implicit_flush },
   { "ob_get_level",      vm_builtin_ob_get_level },
   { "ob_list_handlers",  vm_builtin_ob_list_handlers },
-  { "ob_start",          vm_builtin_ob_start     },
+  { "ob_start",          vm_builtin_ob_start },
   /* Assertion functions */
   { "assert_options",  vm_builtin_assert_options },
-  { "assert",          vm_builtin_assert         },
+  { "assert",          vm_builtin_assert },
   /* Error reporting functions */
-  { "trigger_error", vm_builtin_trigger_error     },
-  { "user_error",   vm_builtin_trigger_error     },
+  { "trigger_error", vm_builtin_trigger_error },
+  { "user_error",   vm_builtin_trigger_error },
   { "error_reporting", vm_builtin_error_reporting },
-  { "error_log",       vm_builtin_error_log      },
+  { "error_log",       vm_builtin_error_log },
   { "restore_exception_handler", vm_builtin_restore_exception_handler },
-  { "set_exception_handler",     vm_builtin_set_exception_handler     },
+  { "set_exception_handler",     vm_builtin_set_exception_handler },
   { "restore_error_handler", vm_builtin_restore_error_handler },
   { "set_error_handler", vm_builtin_set_error_handler },
-  { "debug_backtrace",  vm_builtin_debug_backtrace},
+  { "debug_backtrace",  vm_builtin_debug_backtrace },
   { "error_get_last",  vm_builtin_debug_backtrace },
-  { "debug_print_backtrace", vm_builtin_debug_print_backtrace  },
+  { "debug_print_backtrace", vm_builtin_debug_print_backtrace },
   { "debug_string_backtrace", vm_builtin_debug_string_backtrace },
   /* Release info */
-  {"ph7version",       vm_builtin_ph7_version  },
-  {"ph7credits",       vm_builtin_ph7_credits  },
-  {"ph7info",          vm_builtin_ph7_credits  },
-  {"ph7_info",         vm_builtin_ph7_credits  },
-  {"phpinfo",          vm_builtin_ph7_credits  },
-  {"ph7copyright",     vm_builtin_ph7_credits  },
+  { "ph7version",       vm_builtin_ph7_version },
+  { "ph7credits",       vm_builtin_ph7_credits },
+  { "ph7info",          vm_builtin_ph7_credits },
+  { "ph7_info",         vm_builtin_ph7_credits },
+  { "phpinfo",          vm_builtin_ph7_credits },
+  { "ph7copyright",     vm_builtin_ph7_credits },
   /* hashmap */
-  {"compact",          vm_builtin_compact       },
-  {"extract",          vm_builtin_extract       },
-  {"import_request_variables", vm_builtin_import_request_variables},
+  { "compact",          vm_builtin_compact },
+  { "extract",          vm_builtin_extract },
+  { "import_request_variables", vm_builtin_import_request_variables },
   /* URL related function */
-  {"parse_url",        vm_builtin_parse_url     },
+  { "parse_url",        vm_builtin_parse_url },
   /* Refer to 'builtin.c' for others string processing functions. */
 #ifndef PH7_DISABLE_BUILTIN_FUNC
   /* XML processing functions */
-  {"xml_parser_create",        vm_builtin_xml_parser_create   },
-  {"xml_parser_create_ns",     vm_builtin_xml_parser_create_ns},
-  {"xml_parser_free",          vm_builtin_xml_parser_free     },
-  {"xml_set_element_handler",  vm_builtin_xml_set_element_handler},
-  {"xml_set_character_data_handler", vm_builtin_xml_set_character_data_handler},
-  {"xml_set_default_handler",  vm_builtin_xml_set_default_handler },
-  {"xml_set_end_namespace_decl_handler", vm_builtin_xml_set_end_namespace_decl_handler},
-  {"xml_set_start_namespace_decl_handler", vm_builtin_xml_set_start_namespace_decl_handler},
-  {"xml_set_processing_instruction_handler", vm_builtin_xml_set_processing_instruction_handler},
-  {"xml_set_unparsed_entity_decl_handler", vm_builtin_xml_set_unparsed_entity_decl_handler},
-  {"xml_set_notation_decl_handler", vm_builtin_xml_set_notation_decl_handler},
-  {"xml_set_external_entity_ref_handler", vm_builtin_xml_set_external_entity_ref_handler},
-  {"xml_get_current_line_number",  vm_builtin_xml_get_current_line_number},
-  {"xml_get_current_byte_index",   vm_builtin_xml_get_current_byte_index },
-  {"xml_set_object",               vm_builtin_xml_set_object},
-  {"xml_get_current_column_number", vm_builtin_xml_get_current_column_number},
-  {"xml_get_error_code",           vm_builtin_xml_get_error_code },
-  {"xml_parse",                    vm_builtin_xml_parse },
-  {"xml_parser_set_option",        vm_builtin_xml_parser_set_option},
-  {"xml_parser_get_option",        vm_builtin_xml_parser_get_option},
-  {"xml_error_string",             vm_builtin_xml_error_string     },
+  { "xml_parser_create",        vm_builtin_xml_parser_create },
+  { "xml_parser_create_ns",     vm_builtin_xml_parser_create_ns },
+  { "xml_parser_free",          vm_builtin_xml_parser_free },
+  { "xml_set_element_handler",  vm_builtin_xml_set_element_handler },
+  { "xml_set_character_data_handler", vm_builtin_xml_set_character_data_handler },
+  { "xml_set_default_handler",  vm_builtin_xml_set_default_handler },
+  { "xml_set_end_namespace_decl_handler", vm_builtin_xml_set_end_namespace_decl_handler },
+  { "xml_set_start_namespace_decl_handler", vm_builtin_xml_set_start_namespace_decl_handler },
+  { "xml_set_processing_instruction_handler", vm_builtin_xml_set_processing_instruction_handler },
+  { "xml_set_unparsed_entity_decl_handler", vm_builtin_xml_set_unparsed_entity_decl_handler },
+  { "xml_set_notation_decl_handler", vm_builtin_xml_set_notation_decl_handler },
+  { "xml_set_external_entity_ref_handler", vm_builtin_xml_set_external_entity_ref_handler },
+  { "xml_get_current_line_number",  vm_builtin_xml_get_current_line_number },
+  { "xml_get_current_byte_index",   vm_builtin_xml_get_current_byte_index },
+  { "xml_set_object",               vm_builtin_xml_set_object },
+  { "xml_get_current_column_number", vm_builtin_xml_get_current_column_number },
+  { "xml_get_error_code",           vm_builtin_xml_get_error_code },
+  { "xml_parse",                    vm_builtin_xml_parse },
+  { "xml_parser_set_option",        vm_builtin_xml_parser_set_option },
+  { "xml_parser_get_option",        vm_builtin_xml_parser_get_option },
+  { "xml_error_string",             vm_builtin_xml_error_string },
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
   /* UTF-8 encoding/decoding */
-  {"utf8_encode",    vm_builtin_utf8_encode},
-  {"utf8_decode",    vm_builtin_utf8_decode},
+  { "utf8_encode",    vm_builtin_utf8_encode },
+  { "utf8_decode",    vm_builtin_utf8_decode },
   /* Command line processing */
-  {"getopt",         vm_builtin_getopt     },
+  { "getopt",         vm_builtin_getopt },
   /* JSON encoding/decoding */
-  {"json_encode",    vm_builtin_json_encode },
-  {"json_last_error", vm_builtin_json_last_error},
-  {"json_decode",    vm_builtin_json_decode },
-  {"serialize",      vm_builtin_json_encode },
-  {"unserialize",    vm_builtin_json_decode },
+  { "json_encode",    vm_builtin_json_encode },
+  { "json_last_error", vm_builtin_json_last_error },
+  { "json_decode",    vm_builtin_json_decode },
+  { "serialize",      vm_builtin_json_encode },
+  { "unserialize",    vm_builtin_json_decode },
   /* Files/URI inclusion facility */
   { "get_include_path",  vm_builtin_get_include_path },
-  { "get_included_files", vm_builtin_get_included_files},
-  { "include",      vm_builtin_include          },
-  { "include_once", vm_builtin_include_once     },
-  { "require",      vm_builtin_require          },
-  { "require_once", vm_builtin_require_once     },
+  { "get_included_files", vm_builtin_get_included_files },
+  { "include",      vm_builtin_include },
+  { "include_once", vm_builtin_include_once },
+  { "require",      vm_builtin_require },
+  { "require_once", vm_builtin_require_once },
 };
 /*
  * Register the built-in VM functions defined above.
@@ -14387,8 +14387,8 @@ static sxi32 VmHttpProcessFirstLine(
   sxi32 *pProto          /* OUT: HTTP protocol */
   )
 {
-  static const char *azMethods[] = { "get", "post", "head", "put"};
-  static const sxi32 aMethods[] = { HTTP_METHOD_GET, HTTP_METHOD_POST, HTTP_METHOD_HEAD, HTTP_METHOD_PUT};
+  static const char *azMethods[] = { "get", "post", "head", "put" };
+  static const sxi32 aMethods[] = { HTTP_METHOD_GET, HTTP_METHOD_POST, HTTP_METHOD_HEAD, HTTP_METHOD_PUT };
   const char *zIn, *zEnd, *zPtr;
   SyString sLine;
   sxu32 nLen;

@@ -6082,29 +6082,29 @@ PH7_PRIVATE ProcNodeConstruct PH7_GetNodeHandler(sxu32 nNodeType)
  * PHP Language construct table.
  */
 static const LangConstruct aLangConstruct[] = {
-  { PH7_TKWRD_ECHO,     PH7_CompileEcho     },   /* echo language construct */
-  { PH7_TKWRD_IF,       PH7_CompileIf       },   /* if statement */
-  { PH7_TKWRD_FOR,      PH7_CompileFor      },   /* for statement */
-  { PH7_TKWRD_WHILE,    PH7_CompileWhile    },   /* while statement */
-  { PH7_TKWRD_FOREACH,  PH7_CompileForeach  },   /* foreach statement */
-  { PH7_TKWRD_FUNCTION, PH7_CompileFunction },   /* function statement */
-  { PH7_TKWRD_CONTINUE, PH7_CompileContinue },   /* continue statement */
-  { PH7_TKWRD_BREAK,    PH7_CompileBreak    },   /* break statement */
-  { PH7_TKWRD_RETURN,   PH7_CompileReturn   },   /* return statement */
-  { PH7_TKWRD_SWITCH,   PH7_CompileSwitch   },   /* Switch statement */
-  { PH7_TKWRD_DO,       PH7_CompileDoWhile  },   /* do{ }while(); statement */
-  { PH7_TKWRD_GLOBAL,   PH7_CompileGlobal   },   /* global statement */
-  { PH7_TKWRD_STATIC,   PH7_CompileStatic   },   /* static statement */
-  { PH7_TKWRD_DIE,      PH7_CompileHalt     },   /* die language construct */
-  { PH7_TKWRD_EXIT,     PH7_CompileHalt     },   /* exit language construct */
-  { PH7_TKWRD_TRY,      PH7_CompileTry      },   /* try statement */
-  { PH7_TKWRD_THROW,    PH7_CompileThrow    },   /* throw statement */
-  { PH7_TKWRD_GOTO,     PH7_CompileGoto     },   /* goto statement */
-  { PH7_TKWRD_CONST,    PH7_CompileConstant },   /* const statement */
-  { PH7_TKWRD_VAR,      PH7_CompileVar      },   /* var statement */
-  { PH7_TKWRD_NAMESPACE, PH7_CompileNamespace },   /* namespace statement */
-  { PH7_TKWRD_USE,      PH7_CompileUse      },    /* use statement */
-  { PH7_TKWRD_DECLARE,  PH7_CompileDeclare  }     /* declare statement */
+  { PH7_TKWRD_ECHO,     PH7_CompileEcho },         /* echo language construct */
+  { PH7_TKWRD_IF,       PH7_CompileIf },           /* if statement */
+  { PH7_TKWRD_FOR,      PH7_CompileFor },          /* for statement */
+  { PH7_TKWRD_WHILE,    PH7_CompileWhile },        /* while statement */
+  { PH7_TKWRD_FOREACH,  PH7_CompileForeach },      /* foreach statement */
+  { PH7_TKWRD_FUNCTION, PH7_CompileFunction },     /* function statement */
+  { PH7_TKWRD_CONTINUE, PH7_CompileContinue },     /* continue statement */
+  { PH7_TKWRD_BREAK,    PH7_CompileBreak },        /* break statement */
+  { PH7_TKWRD_RETURN,   PH7_CompileReturn },       /* return statement */
+  { PH7_TKWRD_SWITCH,   PH7_CompileSwitch },       /* Switch statement */
+  { PH7_TKWRD_DO,       PH7_CompileDoWhile },      /* do{ }while(); statement */
+  { PH7_TKWRD_GLOBAL,   PH7_CompileGlobal },       /* global statement */
+  { PH7_TKWRD_STATIC,   PH7_CompileStatic },       /* static statement */
+  { PH7_TKWRD_DIE,      PH7_CompileHalt },         /* die language construct */
+  { PH7_TKWRD_EXIT,     PH7_CompileHalt },         /* exit language construct */
+  { PH7_TKWRD_TRY,      PH7_CompileTry },          /* try statement */
+  { PH7_TKWRD_THROW,    PH7_CompileThrow },        /* throw statement */
+  { PH7_TKWRD_GOTO,     PH7_CompileGoto },         /* goto statement */
+  { PH7_TKWRD_CONST,    PH7_CompileConstant },     /* const statement */
+  { PH7_TKWRD_VAR,      PH7_CompileVar },          /* var statement */
+  { PH7_TKWRD_NAMESPACE, PH7_CompileNamespace },     /* namespace statement */
+  { PH7_TKWRD_USE,      PH7_CompileUse },           /* use statement */
+  { PH7_TKWRD_DECLARE,  PH7_CompileDeclare }        /* declare statement */
 };
 /*
  * Return a pointer to the statement handler routine associated

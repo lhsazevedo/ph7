@@ -178,8 +178,8 @@ typedef sxi32 (*ProcSort)(void *, sxu32, sxu32, ProcCmp);
         if (Head == Item) { \
           Head = Head->pNext; \
         } \
-        if (Item->pPrev) { Item->pPrev->pNext = Item->pNext;} \
-        if (Item->pNext) { Item->pNext->pPrev = Item->pPrev;}
+        if (Item->pPrev) { Item->pPrev->pNext = Item->pNext; } \
+        if (Item->pNext) { Item->pNext->pPrev = Item->pPrev; }
 /*
  * A generic dynamic set.
  */

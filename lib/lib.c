@@ -43,12 +43,12 @@ struct SyMutex
 };
 /* Preallocated static mutex */
 static SyMutex aStaticMutexes[] = {
-  {{0}, SXMUTEX_TYPE_STATIC_1},
-  {{0}, SXMUTEX_TYPE_STATIC_2},
-  {{0}, SXMUTEX_TYPE_STATIC_3},
-  {{0}, SXMUTEX_TYPE_STATIC_4},
-  {{0}, SXMUTEX_TYPE_STATIC_5},
-  {{0}, SXMUTEX_TYPE_STATIC_6}
+  { { 0 }, SXMUTEX_TYPE_STATIC_1 },
+  { { 0 }, SXMUTEX_TYPE_STATIC_2 },
+  { { 0 }, SXMUTEX_TYPE_STATIC_3 },
+  { { 0 }, SXMUTEX_TYPE_STATIC_4 },
+  { { 0 }, SXMUTEX_TYPE_STATIC_5 },
+  { { 0 }, SXMUTEX_TYPE_STATIC_6 }
 };
 static BOOL winMutexInit = FALSE;
 static LONG winMutexLock = 0;
@@ -160,12 +160,12 @@ struct SyMutex
 static SyMutex* UnixMutexNew(int nType)
 {
   static SyMutex aStaticMutexes[] = {
-    {PTHREAD_MUTEX_INITIALIZER, SXMUTEX_TYPE_STATIC_1},
-    {PTHREAD_MUTEX_INITIALIZER, SXMUTEX_TYPE_STATIC_2},
-    {PTHREAD_MUTEX_INITIALIZER, SXMUTEX_TYPE_STATIC_3},
-    {PTHREAD_MUTEX_INITIALIZER, SXMUTEX_TYPE_STATIC_4},
-    {PTHREAD_MUTEX_INITIALIZER, SXMUTEX_TYPE_STATIC_5},
-    {PTHREAD_MUTEX_INITIALIZER, SXMUTEX_TYPE_STATIC_6}
+    { PTHREAD_MUTEX_INITIALIZER, SXMUTEX_TYPE_STATIC_1 },
+    { PTHREAD_MUTEX_INITIALIZER, SXMUTEX_TYPE_STATIC_2 },
+    { PTHREAD_MUTEX_INITIALIZER, SXMUTEX_TYPE_STATIC_3 },
+    { PTHREAD_MUTEX_INITIALIZER, SXMUTEX_TYPE_STATIC_4 },
+    { PTHREAD_MUTEX_INITIALIZER, SXMUTEX_TYPE_STATIC_5 },
+    { PTHREAD_MUTEX_INITIALIZER, SXMUTEX_TYPE_STATIC_6 }
   };
   SyMutex *pMutex;
 
@@ -333,10 +333,10 @@ PH7_PRIVATE sxi32 SyByteFind2(const char *zStr, sxu32 nLen, sxi32 c, sxu32 *pPos
 
   zEnd = &zIn[nLen - 1];
   for (;;) {
-    if (zEnd < zIn) { break; } if (zEnd[0] == c) { if (pPos) { *pPos = (sxu32) (zEnd - zIn);} return SXRET_OK; } zEnd--;
-    if (zEnd < zIn) { break; } if (zEnd[0] == c) { if (pPos) { *pPos = (sxu32) (zEnd - zIn);} return SXRET_OK; } zEnd--;
-    if (zEnd < zIn) { break; } if (zEnd[0] == c) { if (pPos) { *pPos = (sxu32) (zEnd - zIn);} return SXRET_OK; } zEnd--;
-    if (zEnd < zIn) { break; } if (zEnd[0] == c) { if (pPos) { *pPos = (sxu32) (zEnd - zIn);} return SXRET_OK; } zEnd--;
+    if (zEnd < zIn) { break; } if (zEnd[0] == c) { if (pPos) { *pPos = (sxu32) (zEnd - zIn); } return SXRET_OK; } zEnd--;
+    if (zEnd < zIn) { break; } if (zEnd[0] == c) { if (pPos) { *pPos = (sxu32) (zEnd - zIn); } return SXRET_OK; } zEnd--;
+    if (zEnd < zIn) { break; } if (zEnd[0] == c) { if (pPos) { *pPos = (sxu32) (zEnd - zIn); } return SXRET_OK; } zEnd--;
+    if (zEnd < zIn) { break; } if (zEnd[0] == c) { if (pPos) { *pPos = (sxu32) (zEnd - zIn); } return SXRET_OK; } zEnd--;
   }
   return SXERR_NOTFOUND;
 }
@@ -413,10 +413,10 @@ static sxu32 Systrcpy(char *zDest, sxu32 nDestLen, const char *zSrc, sxu32 nLen)
   }
   zEnd = &zBuf[nDestLen - 1];   /* reserve a room for the null terminator */
   for (;;) {
-    if (zBuf >= zEnd || nLen == 0) { break;} zBuf[0] = zIn[0]; zIn++; zBuf++; nLen--;
-    if (zBuf >= zEnd || nLen == 0) { break;} zBuf[0] = zIn[0]; zIn++; zBuf++; nLen--;
-    if (zBuf >= zEnd || nLen == 0) { break;} zBuf[0] = zIn[0]; zIn++; zBuf++; nLen--;
-    if (zBuf >= zEnd || nLen == 0) { break;} zBuf[0] = zIn[0]; zIn++; zBuf++; nLen--;
+    if (zBuf >= zEnd || nLen == 0) { break; } zBuf[0] = zIn[0]; zIn++; zBuf++; nLen--;
+    if (zBuf >= zEnd || nLen == 0) { break; } zBuf[0] = zIn[0]; zIn++; zBuf++; nLen--;
+    if (zBuf >= zEnd || nLen == 0) { break; } zBuf[0] = zIn[0]; zIn++; zBuf++; nLen--;
+    if (zBuf >= zEnd || nLen == 0) { break; } zBuf[0] = zIn[0]; zIn++; zBuf++; nLen--;
   }
   zBuf[0] = 0;
   return (sxu32) (zBuf - (unsigned char *) zDest);
@@ -433,10 +433,10 @@ PH7_PRIVATE void SyZero(void *pSrc, sxu32 nSize)
 #endif
   zEnd = &zSrc[nSize];
   for (;;) {
-    if (zSrc >= zEnd) {break;} zSrc[0] = 0; zSrc++;
-    if (zSrc >= zEnd) {break;} zSrc[0] = 0; zSrc++;
-    if (zSrc >= zEnd) {break;} zSrc[0] = 0; zSrc++;
-    if (zSrc >= zEnd) {break;} zSrc[0] = 0; zSrc++;
+    if (zSrc >= zEnd) { break; } zSrc[0] = 0; zSrc++;
+    if (zSrc >= zEnd) { break; } zSrc[0] = 0; zSrc++;
+    if (zSrc >= zEnd) { break; } zSrc[0] = 0; zSrc++;
+    if (zSrc >= zEnd) { break; } zSrc[0] = 0; zSrc++;
   }
 }
 PH7_PRIVATE sxi32 SyMemcmp(const void *pB1, const void *pB2, sxu32 nSize)
@@ -1230,10 +1230,10 @@ PH7_PRIVATE sxi32 SyBlobSearch(const void *pBlob, sxu32 nLen, const void *pPatte
   }
   zEnd = &zIn[nLen - pLen];
   for (;;) {
-    if (zIn > zEnd) {break;} SX_MACRO_FAST_CMP(zIn, pPattern, pLen, rc); if (rc == 0) { if (pOfft) { *pOfft = (sxu32) (zIn - (const char *) pBlob);} return SXRET_OK; } zIn++;
-    if (zIn > zEnd) {break;} SX_MACRO_FAST_CMP(zIn, pPattern, pLen, rc); if (rc == 0) { if (pOfft) { *pOfft = (sxu32) (zIn - (const char *) pBlob);} return SXRET_OK; } zIn++;
-    if (zIn > zEnd) {break;} SX_MACRO_FAST_CMP(zIn, pPattern, pLen, rc); if (rc == 0) { if (pOfft) { *pOfft = (sxu32) (zIn - (const char *) pBlob);} return SXRET_OK; } zIn++;
-    if (zIn > zEnd) {break;} SX_MACRO_FAST_CMP(zIn, pPattern, pLen, rc); if (rc == 0) { if (pOfft) { *pOfft = (sxu32) (zIn - (const char *) pBlob);} return SXRET_OK; } zIn++;
+    if (zIn > zEnd) { break; } SX_MACRO_FAST_CMP(zIn, pPattern, pLen, rc); if (rc == 0) { if (pOfft) { *pOfft = (sxu32) (zIn - (const char *) pBlob); } return SXRET_OK; } zIn++;
+    if (zIn > zEnd) { break; } SX_MACRO_FAST_CMP(zIn, pPattern, pLen, rc); if (rc == 0) { if (pOfft) { *pOfft = (sxu32) (zIn - (const char *) pBlob); } return SXRET_OK; } zIn++;
+    if (zIn > zEnd) { break; } SX_MACRO_FAST_CMP(zIn, pPattern, pLen, rc); if (rc == 0) { if (pOfft) { *pOfft = (sxu32) (zIn - (const char *) pBlob); } return SXRET_OK; } zIn++;
+    if (zIn > zEnd) { break; } SX_MACRO_FAST_CMP(zIn, pPattern, pLen, rc); if (rc == 0) { if (pOfft) { *pOfft = (sxu32) (zIn - (const char *) pBlob); } return SXRET_OK; } zIn++;
   }
   return SXERR_NOTFOUND;
 }
@@ -1944,10 +1944,10 @@ PH7_PRIVATE sxi32 SyOctalStrToInt64(const char *zSrc, sxu32 nLen, void *pOutVal,
   }
   zIn = zSrc;
   for (;;) {
-    if (zSrc >= zEnd || !SyisDigit(zSrc[0])) { break; } if ((c = zSrc[0] - '0') > 7 || (int) (zSrc - zIn) > 20) { break;} nVal = nVal * 8 + c; zSrc++;
-    if (zSrc >= zEnd || !SyisDigit(zSrc[0])) { break; } if ((c = zSrc[0] - '0') > 7 || (int) (zSrc - zIn) > 20) { break;} nVal = nVal * 8 + c; zSrc++;
-    if (zSrc >= zEnd || !SyisDigit(zSrc[0])) { break; } if ((c = zSrc[0] - '0') > 7 || (int) (zSrc - zIn) > 20) { break;} nVal = nVal * 8 + c; zSrc++;
-    if (zSrc >= zEnd || !SyisDigit(zSrc[0])) { break; } if ((c = zSrc[0] - '0') > 7 || (int) (zSrc - zIn) > 20) { break;} nVal = nVal * 8 + c; zSrc++;
+    if (zSrc >= zEnd || !SyisDigit(zSrc[0])) { break; } if ((c = zSrc[0] - '0') > 7 || (int) (zSrc - zIn) > 20) { break; } nVal = nVal * 8 + c; zSrc++;
+    if (zSrc >= zEnd || !SyisDigit(zSrc[0])) { break; } if ((c = zSrc[0] - '0') > 7 || (int) (zSrc - zIn) > 20) { break; } nVal = nVal * 8 + c; zSrc++;
+    if (zSrc >= zEnd || !SyisDigit(zSrc[0])) { break; } if ((c = zSrc[0] - '0') > 7 || (int) (zSrc - zIn) > 20) { break; } nVal = nVal * 8 + c; zSrc++;
+    if (zSrc >= zEnd || !SyisDigit(zSrc[0])) { break; } if ((c = zSrc[0] - '0') > 7 || (int) (zSrc - zIn) > 20) { break; } nVal = nVal * 8 + c; zSrc++;
   }
   /* Skip trailing spaces */
   while (zSrc < zEnd && SyisSpace(zSrc[0])) {
@@ -2170,7 +2170,7 @@ PH7_PRIVATE sxi32 SyBase64Encode(const char *zSrc, sxu32 nLen, ProcConsumer xCon
     z64[3] = zBase64[ zIn[i + 2] & 0x3F];
 
     rc = xConsumer((const void *) z64, sizeof(z64), pUserData);
-    if (rc != SXRET_OK) {return SXERR_ABORT;}
+    if (rc != SXRET_OK) { return SXERR_ABORT; }
 
   }
   if (i + 1 < nLen) {
@@ -2180,7 +2180,7 @@ PH7_PRIVATE sxi32 SyBase64Encode(const char *zSrc, sxu32 nLen, ProcConsumer xCon
     z64[3] = '=';
 
     rc = xConsumer((const void *) z64, sizeof(z64), pUserData);
-    if (rc != SXRET_OK) {return SXERR_ABORT;}
+    if (rc != SXRET_OK) { return SXERR_ABORT; }
 
   }else if (i < nLen) {
     z64[0] = zBase64[(zIn[i] >> 2) & 0x3F];
@@ -2189,7 +2189,7 @@ PH7_PRIVATE sxi32 SyBase64Encode(const char *zSrc, sxu32 nLen, ProcConsumer xCon
     z64[3] = '=';
 
     rc = xConsumer((const void *) z64, sizeof(z64), pUserData);
-    if (rc != SXRET_OK) {return SXERR_ABORT;}
+    if (rc != SXRET_OK) { return SXERR_ABORT; }
   }
 
   return SXRET_OK;
@@ -2224,7 +2224,7 @@ PH7_PRIVATE sxi32 SyBase64Decode(const char *zB64, sxu32 nLen, ProcConsumer xCon
     zOut[2] = ((y << 6) & 0xC0) | (z & 0x3F);
 
     rc = xConsumer((const void *) zOut, sizeof(unsigned char) * 3, pUserData);
-    if (rc != SXRET_OK) { return SXERR_ABORT;}
+    if (rc != SXRET_OK) { return SXERR_ABORT; }
   }
   if (n + 2 < nLen) {
     w = aBase64Trans[zB64[n] & 0x7F];
@@ -2235,7 +2235,7 @@ PH7_PRIVATE sxi32 SyBase64Decode(const char *zB64, sxu32 nLen, ProcConsumer xCon
     zOut[1] = ((x << 4) & 0xF0) | ((y >> 2) & 0x0F);
 
     rc = xConsumer((const void *) zOut, sizeof(unsigned char) * 2, pUserData);
-    if (rc != SXRET_OK) { return SXERR_ABORT;}
+    if (rc != SXRET_OK) { return SXERR_ABORT; }
   }else if (n + 1 < nLen) {
     w = aBase64Trans[zB64[n] & 0x7F];
     x = aBase64Trans[zB64[n + 1] & 0x7F];
@@ -2243,7 +2243,7 @@ PH7_PRIVATE sxi32 SyBase64Decode(const char *zB64, sxu32 nLen, ProcConsumer xCon
     zOut[0] = ((w << 2) & 0xFC) | ((x >> 4) & 0x03);
 
     rc = xConsumer((const void *) zOut, sizeof(unsigned char) * 1, pUserData);
-    if (rc != SXRET_OK) { return SXERR_ABORT;}
+    if (rc != SXRET_OK) { return SXERR_ABORT; }
   }
   return SXRET_OK;
 }
@@ -2602,28 +2602,28 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
    * used conversion types first.
    */
   static const SyFmtInfo aFmt[] = {
-    {  'd', 10, SXFLAG_SIGNED, SXFMT_RADIX, "0123456789", 0    },
-    {  's',  0, 0, SXFMT_STRING,     0,                  0    },
-    {  'c',  0, 0, SXFMT_CHARX,      0,                  0    },
-    {  'x', 16, 0, SXFMT_RADIX,      "0123456789abcdef", "x0" },
-    {  'X', 16, 0, SXFMT_RADIX,      "0123456789ABCDEF", "X0" },
+    { 'd', 10, SXFLAG_SIGNED, SXFMT_RADIX, "0123456789", 0 },
+    { 's',  0, 0, SXFMT_STRING,     0,                  0 },
+    { 'c',  0, 0, SXFMT_CHARX,      0,                  0 },
+    { 'x', 16, 0, SXFMT_RADIX,      "0123456789abcdef", "x0" },
+    { 'X', 16, 0, SXFMT_RADIX,      "0123456789ABCDEF", "X0" },
     /* -- Extensions by Symisc Systems -- */
-    {  'z',  0, 0, SXFMT_RAWSTR,     0,                   0   },    /* Pointer to a raw string (SyString *) */
-    {  'B',  2, 0, SXFMT_RADIX,      "01",                "b0"},
+    { 'z',  0, 0, SXFMT_RAWSTR,     0,                   0 },         /* Pointer to a raw string (SyString *) */
+    { 'B',  2, 0, SXFMT_RADIX,      "01",                "b0" },
     /* -- End of Extensions -- */
-    {  'o',  8, 0, SXFMT_RADIX,      "01234567",         "0"  },
-    {  'u', 10, 0, SXFMT_RADIX,      "0123456789",       0    },
+    { 'o',  8, 0, SXFMT_RADIX,      "01234567",         "0" },
+    { 'u', 10, 0, SXFMT_RADIX,      "0123456789",       0 },
 #ifndef SX_OMIT_FLOATINGPOINT
-    {  'f',  0, SXFLAG_SIGNED, SXFMT_FLOAT,       0,     0    },
-    {  'e',  0, SXFLAG_SIGNED, SXFMT_EXP,        "e",    0    },
-    {  'E',  0, SXFLAG_SIGNED, SXFMT_EXP,        "E",    0    },
-    {  'g',  0, SXFLAG_SIGNED, SXFMT_GENERIC,    "e",    0    },
-    {  'G',  0, SXFLAG_SIGNED, SXFMT_GENERIC,    "E",    0    },
+    { 'f',  0, SXFLAG_SIGNED, SXFMT_FLOAT,       0,     0 },
+    { 'e',  0, SXFLAG_SIGNED, SXFMT_EXP,        "e",    0 },
+    { 'E',  0, SXFLAG_SIGNED, SXFMT_EXP,        "E",    0 },
+    { 'g',  0, SXFLAG_SIGNED, SXFMT_GENERIC,    "e",    0 },
+    { 'G',  0, SXFLAG_SIGNED, SXFMT_GENERIC,    "E",    0 },
 #endif
-    {  'i', 10, SXFLAG_SIGNED, SXFMT_RADIX, "0123456789", 0    },
-    {  'n',  0, 0, SXFMT_SIZE,       0,                  0    },
-    {  '%',  0, 0, SXFMT_PERCENT,    0,                  0    },
-    {  'p', 10, 0, SXFMT_RADIX,      "0123456789",       0    }
+    { 'i', 10, SXFLAG_SIGNED, SXFMT_RADIX, "0123456789", 0 },
+    { 'n',  0, 0, SXFMT_SIZE,       0,                  0 },
+    { '%',  0, 0, SXFMT_PERCENT,    0,                  0 },
+    { 'p', 10, 0, SXFMT_RADIX,      "0123456789",       0 }
   };
   int c;                     /* Next character in the format string */
   char *bufpt;               /* Pointer to the conversion buffer */
@@ -2940,7 +2940,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
         bufpt++;                              /* point to next free slot */
         if (exp || flag_exp) {
           *(bufpt++) = infop->charset[0];
-          if (exp < 0) { *(bufpt++) = '-'; exp = -exp; }             /* sign of exp */
+          if (exp < 0) { *(bufpt++) = '-'; exp = -exp; }               /* sign of exp */
           else       { *(bufpt++) = '+'; }
           if (exp >= 100) {
             *(bufpt++) = (char) ((exp / 100) + '0');                  /* 100's digit */
@@ -3348,7 +3348,7 @@ static sxi32 XML_Tokenize(SyStream *pStream, SyToken *pToken, void *pUserData, v
         return SXRET_OK;
       }
       if (XLEX_IN_LEN(pStream) >= sizeof("DOCTYPE") - 1 && SyMemcmp((const void *) pStream->zText, "DOCTYPE", sizeof("DOCTYPE") - 1) == 0) {
-        SyString sDelim = { ">", sizeof(char) };          /* Default delimiter */
+        SyString sDelim = { ">", sizeof(char) };            /* Default delimiter */
         int c = 0;
         /* DOCTYPE */
         pStream->zText += sizeof("DOCTYPE") - 1;
@@ -4936,10 +4936,10 @@ PH7_PRIVATE sxi32 SyRandomness(SyPRNGCtx *pCtx, void *pBuf, sxu32 nLen)
     return SXERR_CORRUPT;
   }
   for (;;) {
-    if (zBuf >= zEnd) {break;}  zBuf[0] = randomByte(pCtx); zBuf++;
-    if (zBuf >= zEnd) {break;}  zBuf[0] = randomByte(pCtx); zBuf++;
-    if (zBuf >= zEnd) {break;}  zBuf[0] = randomByte(pCtx); zBuf++;
-    if (zBuf >= zEnd) {break;}  zBuf[0] = randomByte(pCtx); zBuf++;
+    if (zBuf >= zEnd) { break; }  zBuf[0] = randomByte(pCtx); zBuf++;
+    if (zBuf >= zEnd) { break; }  zBuf[0] = randomByte(pCtx); zBuf++;
+    if (zBuf >= zEnd) { break; }  zBuf[0] = randomByte(pCtx); zBuf++;
+    if (zBuf >= zEnd) { break; }  zBuf[0] = randomByte(pCtx); zBuf++;
   }
   return SXRET_OK;
 }
