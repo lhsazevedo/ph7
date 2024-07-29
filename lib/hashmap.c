@@ -245,7 +245,7 @@ static sxi32 HashmapGrowBucket(ph7_hashmap *pMap)
     /* Rehash old entries */
     pEntry = pMap->pFirst;
     n = 0;
-    for ( ;; ) {
+    for (;;) {
       if (n >= pMap->nEntry) {
         break;
       }
@@ -1993,7 +1993,7 @@ static void HashmapSortRehash(ph7_hashmap *pMap)
   pLast = p = pMap->pFirst;
   pMap->iNextIdx = 0;   /* Reset the automatic index */
   i = 0;
-  for ( ;; ) {
+  for (;;) {
     if (i >= pMap->nEntry) {
       pMap->pLast = pLast;       /* Fix the last link broken by the merge-sort */
       break;
@@ -5121,7 +5121,7 @@ static int ph7_hashmap_chunk(ph7_context *pCtx,int nArg,ph7_value **apArg)
   nChunk = 0;
   pChunk = 0;
   n = pMap->nEntry;
-  for ( ;; ) {
+  for (;;) {
     if (n < 1) {
       if (nChunk > 0) {
         /* Insert the last chunk */

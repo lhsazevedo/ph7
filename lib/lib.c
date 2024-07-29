@@ -332,7 +332,7 @@ PH7_PRIVATE sxi32 SyByteFind2(const char *zStr,sxu32 nLen,sxi32 c,sxu32 *pPos)
   const char *zEnd;
 
   zEnd = &zIn[nLen - 1];
-  for ( ;; ) {
+  for (;;) {
     if (zEnd < zIn) { break; } if (zEnd[0] == c) { if (pPos) { *pPos = (sxu32)(zEnd - zIn);} return SXRET_OK; } zEnd--;
     if (zEnd < zIn) { break; } if (zEnd[0] == c) { if (pPos) { *pPos = (sxu32)(zEnd - zIn);} return SXRET_OK; } zEnd--;
     if (zEnd < zIn) { break; } if (zEnd[0] == c) { if (pPos) { *pPos = (sxu32)(zEnd - zIn);} return SXRET_OK; } zEnd--;
@@ -5341,7 +5341,7 @@ PH7_PRIVATE void SHA1Update(SHA1Context *context,const unsigned char *data,unsig
   if ((j + len) > 63) {
     (void)SyMemcpy(data,&context->buffer[j],  (i = 64 - j));
     SHA1Transform(context->state, context->buffer);
-    for ( ; i + 63 < len ; i += 64)
+    for (; i + 63 < len ; i += 64)
       SHA1Transform(context->state, &data[i]);
     j = 0;
   } else {
