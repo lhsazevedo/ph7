@@ -557,7 +557,7 @@ PH7_PRIVATE void * SyMemBackendAlloc(SyMemBackend *pBackend,sxu32 nByte)
   }
   return pChunk;
 }
-static void * MemBackendRealloc(SyMemBackend *pBackend,void * pOld,sxu32 nByte)
+static void * MemBackendRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte)
 {
   SyMemBlock *pBlock,*pNew,*pPrev,*pNext;
   sxu32 nRetry = 0;
@@ -600,7 +600,7 @@ static void * MemBackendRealloc(SyMemBackend *pBackend,void * pOld,sxu32 nByte)
   }
   return (void *)&pNew[1];
 }
-PH7_PRIVATE void * SyMemBackendRealloc(SyMemBackend *pBackend,void * pOld,sxu32 nByte)
+PH7_PRIVATE void * SyMemBackendRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte)
 {
   void *pChunk;
 #if defined(UNTRUST)
@@ -617,7 +617,7 @@ PH7_PRIVATE void * SyMemBackendRealloc(SyMemBackend *pBackend,void * pOld,sxu32 
   }
   return pChunk;
 }
-static sxi32 MemBackendFree(SyMemBackend *pBackend,void * pChunk)
+static sxi32 MemBackendFree(SyMemBackend *pBackend,void *pChunk)
 {
   SyMemBlock *pBlock;
   pBlock = (SyMemBlock *)(((char *)pChunk) - sizeof(SyMemBlock));
@@ -639,7 +639,7 @@ static sxi32 MemBackendFree(SyMemBackend *pBackend,void * pChunk)
   }
   return SXRET_OK;
 }
-PH7_PRIVATE sxi32 SyMemBackendFree(SyMemBackend *pBackend,void * pChunk)
+PH7_PRIVATE sxi32 SyMemBackendFree(SyMemBackend *pBackend,void *pChunk)
 {
   sxi32 rc;
 #if defined(UNTRUST)
@@ -784,7 +784,7 @@ PH7_PRIVATE void * SyMemBackendPoolAlloc(SyMemBackend *pBackend,sxu32 nByte)
   }
   return pChunk;
 }
-static sxi32 MemBackendPoolFree(SyMemBackend *pBackend,void * pChunk)
+static sxi32 MemBackendPoolFree(SyMemBackend *pBackend,void *pChunk)
 {
   SyMemHeader *pHeader;
   sxu32 nBucket;
@@ -805,7 +805,7 @@ static sxi32 MemBackendPoolFree(SyMemBackend *pBackend,void * pChunk)
   }
   return SXRET_OK;
 }
-PH7_PRIVATE sxi32 SyMemBackendPoolFree(SyMemBackend *pBackend,void * pChunk)
+PH7_PRIVATE sxi32 SyMemBackendPoolFree(SyMemBackend *pBackend,void *pChunk)
 {
   sxi32 rc;
 #if defined(UNTRUST)
@@ -823,11 +823,11 @@ PH7_PRIVATE sxi32 SyMemBackendPoolFree(SyMemBackend *pBackend,void * pChunk)
   return rc;
 }
 #if 0
-static void * MemBackendPoolRealloc(SyMemBackend *pBackend,void * pOld,sxu32 nByte)
+static void * MemBackendPoolRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte)
 {
   sxu32 nBucket,nBucketSize;
   SyMemHeader *pHeader;
-  void * pNew;
+  void *pNew;
 
   if( pOld == 0 ){
     /* Allocate a new pool */
@@ -861,7 +861,7 @@ static void * MemBackendPoolRealloc(SyMemBackend *pBackend,void * pOld,sxu32 nBy
   MemBackendPoolFree(&(*pBackend),pOld);
   return pNew;
 }
-PH7_PRIVATE void * SyMemBackendPoolRealloc(SyMemBackend *pBackend,void * pOld,sxu32 nByte)
+PH7_PRIVATE void * SyMemBackendPoolRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte)
 {
   void *pChunk;
 #if defined(UNTRUST)
@@ -879,7 +879,7 @@ PH7_PRIVATE void * SyMemBackendPoolRealloc(SyMemBackend *pBackend,void * pOld,sx
   return pChunk;
 }
 #endif
-PH7_PRIVATE sxi32 SyMemBackendInit(SyMemBackend *pBackend,ProcMemError xMemErr,void * pUserData)
+PH7_PRIVATE sxi32 SyMemBackendInit(SyMemBackend *pBackend,ProcMemError xMemErr,void *pUserData)
 {
 #if defined(UNTRUST)
   if( pBackend == 0 ){
@@ -903,7 +903,7 @@ PH7_PRIVATE sxi32 SyMemBackendInit(SyMemBackend *pBackend,ProcMemError xMemErr,v
 #endif
   return SXRET_OK;
 }
-PH7_PRIVATE sxi32 SyMemBackendInitFromOthers(SyMemBackend *pBackend,const SyMemMethods *pMethods,ProcMemError xMemErr,void * pUserData)
+PH7_PRIVATE sxi32 SyMemBackendInitFromOthers(SyMemBackend *pBackend,const SyMemMethods *pMethods,ProcMemError xMemErr,void *pUserData)
 {
 #if defined(UNTRUST)
   if( pBackend == 0 || pMethods == 0){
@@ -1740,7 +1740,7 @@ PH7_PRIVATE sxi32 SyStrIsNumeric(const char *zSrc,sxu32 nLen,sxu8 *pReal,const c
 #define SXINT32_MAX_STR     "2147483647"
 #define SXINT64_MIN_STR     "9223372036854775808"
 #define SXINT64_MAX_STR     "9223372036854775807"
-PH7_PRIVATE sxi32 SyStrToInt32(const char *zSrc,sxu32 nLen,void * pOutVal,const char **zRest)
+PH7_PRIVATE sxi32 SyStrToInt32(const char *zSrc,sxu32 nLen,void *pOutVal,const char **zRest)
 {
   int isNeg = FALSE;
   const char *zEnd;
@@ -1792,7 +1792,7 @@ PH7_PRIVATE sxi32 SyStrToInt32(const char *zSrc,sxu32 nLen,void * pOutVal,const 
   }
   return (zSrc >= zEnd) ? SXRET_OK : SXERR_SYNTAX;
 }
-PH7_PRIVATE sxi32 SyStrToInt64(const char *zSrc,sxu32 nLen,void * pOutVal,const char **zRest)
+PH7_PRIVATE sxi32 SyStrToInt64(const char *zSrc,sxu32 nLen,void *pOutVal,const char **zRest)
 {
   int isNeg = FALSE;
   const char *zEnd;
@@ -1866,7 +1866,7 @@ PH7_PRIVATE sxi32 SyHexToint(sxi32 c)
   }
   return -1;
 }
-PH7_PRIVATE sxi32 SyHexStrToInt64(const char *zSrc,sxu32 nLen,void * pOutVal,const char **zRest)
+PH7_PRIVATE sxi32 SyHexStrToInt64(const char *zSrc,sxu32 nLen,void *pOutVal,const char **zRest)
 {
   const char *zIn,*zEnd;
   int isNeg = FALSE;
@@ -1916,7 +1916,7 @@ PH7_PRIVATE sxi32 SyHexStrToInt64(const char *zSrc,sxu32 nLen,void * pOutVal,con
   }
   return zSrc >= zEnd ? SXRET_OK : SXERR_SYNTAX;
 }
-PH7_PRIVATE sxi32 SyOctalStrToInt64(const char *zSrc,sxu32 nLen,void * pOutVal,const char **zRest)
+PH7_PRIVATE sxi32 SyOctalStrToInt64(const char *zSrc,sxu32 nLen,void *pOutVal,const char **zRest)
 {
   const char *zIn,*zEnd;
   int isNeg = FALSE;
@@ -1964,7 +1964,7 @@ PH7_PRIVATE sxi32 SyOctalStrToInt64(const char *zSrc,sxu32 nLen,void * pOutVal,c
   }
   return (zSrc >= zEnd) ? SXRET_OK : SXERR_SYNTAX;
 }
-PH7_PRIVATE sxi32 SyBinaryStrToInt64(const char *zSrc,sxu32 nLen,void * pOutVal,const char **zRest)
+PH7_PRIVATE sxi32 SyBinaryStrToInt64(const char *zSrc,sxu32 nLen,void *pOutVal,const char **zRest)
 {
   const char *zIn,*zEnd;
   int isNeg = FALSE;
@@ -2016,7 +2016,7 @@ PH7_PRIVATE sxi32 SyBinaryStrToInt64(const char *zSrc,sxu32 nLen,void * pOutVal,
   }
   return (zSrc >= zEnd) ? SXRET_OK : SXERR_SYNTAX;
 }
-PH7_PRIVATE sxi32 SyStrToReal(const char *zSrc,sxu32 nLen,void * pOutVal,const char **zRest)
+PH7_PRIVATE sxi32 SyStrToReal(const char *zSrc,sxu32 nLen,void *pOutVal,const char **zRest)
 {
 #define SXDBL_DIG        15
 #define SXDBL_MAX_EXP    308
@@ -4872,7 +4872,7 @@ static sxi32 SyOSUtilRandomSeed(void *pBuf,sxu32 nLen,void *pUnused)
 #endif
   return SXRET_OK;
 }
-PH7_PRIVATE sxi32 SyRandomnessInit(SyPRNGCtx *pCtx,ProcRandomSeed xSeed,void * pUserData)
+PH7_PRIVATE sxi32 SyRandomnessInit(SyPRNGCtx *pCtx,ProcRandomSeed xSeed,void *pUserData)
 {
   char zSeed[256];
   sxu8 t;

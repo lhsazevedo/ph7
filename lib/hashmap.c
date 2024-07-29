@@ -1320,7 +1320,7 @@ PH7_PRIVATE ph7_hashmap * PH7_NewHashmap(
  */
 PH7_PRIVATE sxi32 PH7_HashmapCreateSuper(ph7_vm *pVm)
 {
-  static const char * azSuper[] = {
+  static const char *azSuper[] = {
     "_SERVER",       /* $_SERVER */
     "_GET",          /* $_GET */
     "_POST",         /* $_POST */

@@ -443,7 +443,7 @@ struct SyLex
 {
   SyStream sStream;           /* Input stream */
   ProcTokenizer xTokenizer;   /* Tokenizer callback */
-  void * pUserData;           /* Third argument to xTokenizer() */
+  void *pUserData;            /* Third argument to xTokenizer() */
   SySet *pTokenSet;           /* Token set */
 };
 #define SyLexTotalToken(LEX)    SySetTotalEntry(&(LEX)->aTokenSet)

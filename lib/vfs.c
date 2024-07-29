@@ -5778,7 +5778,7 @@ static char *unicodeToUtf8(const WCHAR *zWideFilename){
 /* int (*xchdir)(const char *) */
 static int WinVfs_chdir(const char *zPath)
 {
-  void * pConverted;
+  void *pConverted;
   BOOL rc;
   pConverted = convertUtf8Filename(zPath);
   if( pConverted == 0 ){
@@ -5810,7 +5810,7 @@ static int WinVfs_getcwd(ph7_context *pCtx)
 /* int (*xMkdir)(const char *,int,int) */
 static int WinVfs_mkdir(const char *zPath,int mode,int recursive)
 {
-  void * pConverted;
+  void *pConverted;
   BOOL rc;
   pConverted = convertUtf8Filename(zPath);
   if( pConverted == 0 ){
@@ -5825,7 +5825,7 @@ static int WinVfs_mkdir(const char *zPath,int mode,int recursive)
 /* int (*xRmdir)(const char *) */
 static int WinVfs_rmdir(const char *zPath)
 {
-  void * pConverted;
+  void *pConverted;
   BOOL rc;
   pConverted = convertUtf8Filename(zPath);
   if( pConverted == 0 ){
@@ -5838,7 +5838,7 @@ static int WinVfs_rmdir(const char *zPath)
 /* int (*xIsdir)(const char *) */
 static int WinVfs_isdir(const char *zPath)
 {
-  void * pConverted;
+  void *pConverted;
   DWORD dwAttr;
   pConverted = convertUtf8Filename(zPath);
   if( pConverted == 0 ){
@@ -5909,7 +5909,7 @@ static int WinVfs_Sleep(unsigned int uSec)
 /* int (*xUnlink)(const char *) */
 static int WinVfs_unlink(const char *zPath)
 {
-  void * pConverted;
+  void *pConverted;
   BOOL rc;
   pConverted = convertUtf8Filename(zPath);
   if( pConverted == 0 ){
@@ -5928,7 +5928,7 @@ static ph7_int64 WinVfs_DiskFreeSpace(const char *zPath)
   return 0;
 #else
   DWORD dwSectPerClust,dwBytesPerSect,dwFreeClusters,dwTotalClusters;
-  void * pConverted;
+  void *pConverted;
   WCHAR *p;
   BOOL rc;
   pConverted = convertUtf8Filename(zPath);
@@ -5958,7 +5958,7 @@ static ph7_int64 WinVfs_DiskTotalSpace(const char *zPath)
   return 0;
 #else
   DWORD dwSectPerClust,dwBytesPerSect,dwFreeClusters,dwTotalClusters;
-  void * pConverted;
+  void *pConverted;
   WCHAR *p;
   BOOL rc;
   pConverted = convertUtf8Filename(zPath);
@@ -5982,7 +5982,7 @@ static ph7_int64 WinVfs_DiskTotalSpace(const char *zPath)
 /* int (*xFileExists)(const char *) */
 static int WinVfs_FileExists(const char *zPath)
 {
-  void * pConverted;
+  void *pConverted;
   DWORD dwAttr;
   pConverted = convertUtf8Filename(zPath);
   if( pConverted == 0 ){
@@ -6013,7 +6013,7 @@ static HANDLE OpenReadOnly(LPCWSTR pPath)
 static ph7_int64 WinVfs_FileSize(const char *zPath)
 {
   DWORD dwLow,dwHigh;
-  void * pConverted;
+  void *pConverted;
   ph7_int64 nSize;
   HANDLE pHandle;
 
@@ -6092,7 +6092,7 @@ static int WinVfs_Touch(const char *zPath,ph7_int64 touch_time,ph7_int64 access_
 static ph7_int64 WinVfs_FileAtime(const char *zPath)
 {
   BY_HANDLE_FILE_INFORMATION sInfo;
-  void * pConverted;
+  void *pConverted;
   ph7_int64 atime;
   HANDLE pHandle;
   pConverted = convertUtf8Filename(zPath);
@@ -6120,7 +6120,7 @@ static ph7_int64 WinVfs_FileAtime(const char *zPath)
 static ph7_int64 WinVfs_FileMtime(const char *zPath)
 {
   BY_HANDLE_FILE_INFORMATION sInfo;
-  void * pConverted;
+  void *pConverted;
   ph7_int64 mtime;
   HANDLE pHandle;
   pConverted = convertUtf8Filename(zPath);
@@ -6148,7 +6148,7 @@ static ph7_int64 WinVfs_FileMtime(const char *zPath)
 static ph7_int64 WinVfs_FileCtime(const char *zPath)
 {
   BY_HANDLE_FILE_INFORMATION sInfo;
-  void * pConverted;
+  void *pConverted;
   ph7_int64 ctime;
   HANDLE pHandle;
   pConverted = convertUtf8Filename(zPath);
@@ -6233,7 +6233,7 @@ static int WinVfs_Stat(const char *zPath,ph7_value *pArray,ph7_value *pWorker)
 /* int (*xIsfile)(const char *) */
 static int WinVfs_isfile(const char *zPath)
 {
-  void * pConverted;
+  void *pConverted;
   DWORD dwAttr;
   pConverted = convertUtf8Filename(zPath);
   if( pConverted == 0 ){
@@ -6249,7 +6249,7 @@ static int WinVfs_isfile(const char *zPath)
 /* int (*xIslink)(const char *) */
 static int WinVfs_islink(const char *zPath)
 {
-  void * pConverted;
+  void *pConverted;
   DWORD dwAttr;
   pConverted = convertUtf8Filename(zPath);
   if( pConverted == 0 ){
@@ -6265,7 +6265,7 @@ static int WinVfs_islink(const char *zPath)
 /* int (*xWritable)(const char *) */
 static int WinVfs_iswritable(const char *zPath)
 {
-  void * pConverted;
+  void *pConverted;
   DWORD dwAttr;
   pConverted = convertUtf8Filename(zPath);
   if( pConverted == 0 ){
@@ -6290,7 +6290,7 @@ static int WinVfs_iswritable(const char *zPath)
 /* int (*xExecutable)(const char *) */
 static int WinVfs_isexecutable(const char *zPath)
 {
-  void * pConverted;
+  void *pConverted;
   DWORD dwAttr;
   pConverted = convertUtf8Filename(zPath);
   if( pConverted == 0 ){
@@ -6311,7 +6311,7 @@ static int WinVfs_isexecutable(const char *zPath)
 /* int (*xFiletype)(const char *,ph7_context *) */
 static int WinVfs_Filetype(const char *zPath,ph7_context *pCtx)
 {
-  void * pConverted;
+  void *pConverted;
   DWORD dwAttr;
   pConverted = convertUtf8Filename(zPath);
   if( pConverted == 0 ){
@@ -7859,7 +7859,7 @@ static ph7_stream_data * PHPStreamDataInit(ph7_vm *pVm,int iType)
  *   Stable.
  */
 /* int (*xOpen)(const char *,int,ph7_value *,void **) */
-static int PHPStreamData_Open(const char *zName,int iMode,ph7_value *pResource,void ** ppHandle)
+static int PHPStreamData_Open(const char *zName,int iMode,ph7_value *pResource,void **ppHandle)
 {
   ph7_stream_data *pData;
   SyString sStream;

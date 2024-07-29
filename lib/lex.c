@@ -227,7 +227,7 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
             pTmp = (SyToken *)SySetAt(pTokSet,pTokSet->nUsed - 2);
             if( pTmp->nType & PH7_TK_LPAREN ){
               /* Merge the three tokens '(' 'TYPE' ')' into a single one */
-              const char * zTypeCast = "(int)";
+              const char *zTypeCast = "(int)";
               if( nID & PH7_TKWRD_FLOAT ){
                 zTypeCast = "(float)";
               }else if( nID & PH7_TKWRD_BOOL ){
