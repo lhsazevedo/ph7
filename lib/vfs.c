@@ -35,22 +35,22 @@ PH7_PRIVATE const char * PH7_ExtractDirName(const char *zPath,int nByte,int *pLe
 #ifdef __WINNT__
   d = '\\';
 #endif
-  while( zEnd > zPath && ( (int)zEnd[0] != c && (int)zEnd[0] != d) ){
+  while( zEnd > zPath && ((int)zEnd[0] != c && (int)zEnd[0] != d)){
     zEnd--;
   }
   *pLen = (int)(zEnd - zPath);
 #ifdef __WINNT__
-  if( (*pLen) == (int)sizeof(char) && zPath[0] == '/' ){
+  if((*pLen) == (int)sizeof(char) && zPath[0] == '/' ){
     /* Normalize path on windows */
     return "\\";
   }
 #endif
-  if( zEnd == zPath && ( (int)zEnd[0] != c && (int)zEnd[0] != d) ){
+  if( zEnd == zPath && ((int)zEnd[0] != c && (int)zEnd[0] != d)){
     /* No separator,return "." as the current directory */
     *pLen = sizeof(char);
     return ".";
   }
-  if( (*pLen) == 0 ){
+  if((*pLen) == 0 ){
     *pLen = sizeof(char);
 #ifdef __WINNT__
     return "\\";
@@ -78,7 +78,7 @@ static int PH7_vfs_chdir(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -116,7 +116,7 @@ static int PH7_vfs_chroot(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -188,7 +188,7 @@ static int PH7_vfs_rmdir(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -226,7 +226,7 @@ static int PH7_vfs_is_dir(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -275,7 +275,7 @@ static int PH7_vfs_mkdir(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int iMode,rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -327,7 +327,7 @@ static int PH7_vfs_rename(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zOld,*zNew;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_string(apArg[1]) ){
+  if( nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_string(apArg[1])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -365,7 +365,7 @@ static int PH7_vfs_realpath(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -404,7 +404,7 @@ static int PH7_vfs_sleep(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   ph7_vfs *pVfs;
   int rc,nSleep;
-  if( nArg < 1 || !ph7_value_is_int(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_int(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -451,7 +451,7 @@ static int PH7_vfs_usleep(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   ph7_vfs *pVfs;
   int nSleep;
-  if( nArg < 1 || !ph7_value_is_int(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_int(apArg[0])){
     /* Missing/Invalid argument,return immediately */
     return PH7_OK;
   }
@@ -489,7 +489,7 @@ static int PH7_vfs_unlink(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -530,7 +530,7 @@ static int PH7_vfs_chmod(ph7_context *pCtx,int nArg,ph7_value **apArg)
   ph7_vfs *pVfs;
   int iMode;
   int rc;
-  if( nArg < 2 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 2 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -572,7 +572,7 @@ static int PH7_vfs_chown(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath,*zUser;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 2 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 2 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -614,7 +614,7 @@ static int PH7_vfs_chgrp(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath,*zGroup;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 2 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 2 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -654,7 +654,7 @@ static int PH7_vfs_disk_free_space(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_int64 iSize;
   ph7_vfs *pVfs;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -692,7 +692,7 @@ static int PH7_vfs_disk_total_space(ph7_context *pCtx,int nArg,ph7_value **apArg
   const char *zPath;
   ph7_int64 iSize;
   ph7_vfs *pVfs;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -730,7 +730,7 @@ static int PH7_vfs_file_exists(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -768,7 +768,7 @@ static int PH7_vfs_file_size(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_int64 iSize;
   ph7_vfs *pVfs;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -806,7 +806,7 @@ static int PH7_vfs_file_atime(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_int64 iTime;
   ph7_vfs *pVfs;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -844,7 +844,7 @@ static int PH7_vfs_file_mtime(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_int64 iTime;
   ph7_vfs *pVfs;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -882,7 +882,7 @@ static int PH7_vfs_file_ctime(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_int64 iTime;
   ph7_vfs *pVfs;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -920,7 +920,7 @@ static int PH7_vfs_is_file(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -958,7 +958,7 @@ static int PH7_vfs_is_link(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -996,7 +996,7 @@ static int PH7_vfs_is_readable(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -1034,7 +1034,7 @@ static int PH7_vfs_is_writable(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -1072,7 +1072,7 @@ static int PH7_vfs_is_executable(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -1110,7 +1110,7 @@ static int PH7_vfs_filetype(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   const char *zPath;
   ph7_vfs *pVfs;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return 'unknown' */
     ph7_result_string(pCtx,"unknown",sizeof("unknown") - 1);
     return PH7_OK;
@@ -1164,7 +1164,7 @@ static int PH7_vfs_stat(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -1233,7 +1233,7 @@ static int PH7_vfs_lstat(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -1287,7 +1287,7 @@ static int PH7_vfs_getenv(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zEnv;
   ph7_vfs *pVfs;
   int iLen;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -1330,7 +1330,7 @@ static int PH7_vfs_putenv(ph7_context *pCtx,int nArg,ph7_value **apArg)
   char *zSettings,*zEnd;
   ph7_vfs *pVfs;
   int iLen,rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -1406,7 +1406,7 @@ static int PH7_vfs_touch(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zFile;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -1462,7 +1462,7 @@ static int PH7_builtin_dirname(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   const char *zPath,*zDir;
   int iLen,iDirlen;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return the empty string */
     ph7_result_string(pCtx,"",0);
     return PH7_OK;
@@ -1497,7 +1497,7 @@ static int PH7_builtin_basename(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   const char *zPath,*zBase,*zEnd;
   int c,d,iLen;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return the empty string */
     ph7_result_string(pCtx,"",0);
     return PH7_OK;
@@ -1516,16 +1516,16 @@ static int PH7_builtin_basename(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Perform the requested operation */
   zEnd = &zPath[iLen - 1];
   /* Ignore trailing '/' */
-  while( zEnd > zPath && ( (int)zEnd[0] == c || (int)zEnd[0] == d) ){
+  while( zEnd > zPath && ((int)zEnd[0] == c || (int)zEnd[0] == d)){
     zEnd--;
   }
   iLen = (int)(&zEnd[1] - zPath);
-  while( zEnd > zPath && ( (int)zEnd[0] != c && (int)zEnd[0] != d) ){
+  while( zEnd > zPath && ((int)zEnd[0] != c && (int)zEnd[0] != d)){
     zEnd--;
   }
   zBase = (zEnd > zPath) ? &zEnd[1] : zPath;
   zEnd = &zPath[iLen];
-  if( nArg > 1 && ph7_value_is_string(apArg[1]) ){
+  if( nArg > 1 && ph7_value_is_string(apArg[1])){
     const char *zSuffix;
     int nSuffix;
     /* Strip suffix */
@@ -1575,7 +1575,7 @@ static sxi32 ExtractPathInfo(const char *zPath,int nByte,path_info *pOut)
   /* Zero the structure */
   SyZero(pOut,sizeof(path_info));
   /* Handle special case */
-  if( nByte == sizeof(char) && ( (int)zPath[0] == c || (int)zPath[0] == d) ){
+  if( nByte == sizeof(char) && ((int)zPath[0] == c || (int)zPath[0] == d)){
 #ifdef __WINNT__
     SyStringInitFromBuf(&pOut->sDir,"\\",sizeof(char));
 #else
@@ -1584,7 +1584,7 @@ static sxi32 ExtractPathInfo(const char *zPath,int nByte,path_info *pOut)
     return SXRET_OK;
   }
   /* Extract the basename */
-  while( zEnd > zPath && ( (int)zEnd[0] != c && (int)zEnd[0] != d) ){
+  while( zEnd > zPath && ((int)zEnd[0] != c && (int)zEnd[0] != d)){
     zEnd--;
   }
   zPtr = (zEnd > zPath) ? &zEnd[1] : zPath;
@@ -1597,7 +1597,7 @@ static sxi32 ExtractPathInfo(const char *zPath,int nByte,path_info *pOut)
 #ifdef __WINNT__
     SyStringTrimTrailingChar(pCur,'\\');
 #endif
-  }else if( (int)zPath[0] == c || (int)zPath[0] == d ){
+  }else if((int)zPath[0] == c || (int)zPath[0] == d ){
 #ifdef __WINNT__
     SyStringInitFromBuf(&pOut->sDir,"\\",sizeof(char));
 #else
@@ -1623,7 +1623,7 @@ static sxi32 ExtractPathInfo(const char *zPath,int nByte,path_info *pOut)
       SyStringInitFromBuf(&pOut->sExtension,zEnd,&zPath[nByte] - zEnd);
       /* Fix filename */
       pCur = &pOut->sFilename;
-      if( pCur->nByte > SyStringLength(&pOut->sExtension) ){
+      if( pCur->nByte > SyStringLength(&pOut->sExtension)){
         pCur->nByte -= 1 + SyStringLength(&pOut->sExtension);
       }
     }
@@ -1640,7 +1640,7 @@ static int PH7_builtin_pathinfo(ph7_context *pCtx,int nArg,ph7_value **apArg)
   path_info sInfo;
   SyString *pComp;
   int iLen;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return the empty string */
     ph7_result_string(pCtx,"",0);
     return PH7_OK;
@@ -1654,7 +1654,7 @@ static int PH7_builtin_pathinfo(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Extract path info */
   ExtractPathInfo(zPath,iLen,&sInfo);
-  if( nArg > 1 && ph7_value_is_int(apArg[1]) ){
+  if( nArg > 1 && ph7_value_is_int(apArg[1])){
     /* Return path component */
     int nComp = ph7_value_to_int(apArg[1]);
     switch(nComp){
@@ -1787,8 +1787,8 @@ static const unsigned char sqlite3UpperToLower[] = {
 ** advance zIn to point to the first byte of the next UTF-8 character.
 */
 #define SQLITE_SKIP_UTF8(zIn) {                        \
-          if( (*(zIn++)) >= 0xc0 ){                              \
-            while( (*zIn & 0xc0) == 0x80 ){ zIn++; }             \
+          if((*(zIn++)) >= 0xc0 ){                              \
+            while((*zIn & 0xc0) == 0x80 ){ zIn++; }             \
           }                                                    \
 }
 /*
@@ -1834,10 +1834,10 @@ static int patternCompare(
   int prevEscape = 0;     /* True if the previous character was 'escape' */
 
   if( !zPattern || !zString ) return 0;
-  while( (c = PH7_Utf8Read(zPattern,0,&zPattern)) != 0 ){
+  while((c = PH7_Utf8Read(zPattern,0,&zPattern)) != 0 ){
     if( !prevEscape && c == matchAll ){
-      while( (c = PH7_Utf8Read(zPattern,0,&zPattern)) == matchAll
-             || c == matchOne ){
+      while((c = PH7_Utf8Read(zPattern,0,&zPattern)) == matchAll
+            || c == matchOne ){
         if( c == matchOne && PH7_Utf8Read(zString, 0, &zString) == 0 ){
           return 0;
         }
@@ -1850,13 +1850,13 @@ static int patternCompare(
           return 0;
         }
       }else if( c == matchSet ){
-        if( (esc == 0) || (matchSet < 0x80) )return 0;
+        if((esc == 0) || (matchSet < 0x80))  return 0;
         while( *zString && patternCompare(&zPattern[-1],zString,esc,noCase) == 0 ){
           SQLITE_SKIP_UTF8(zString);
         }
         return *zString != 0;
       }
-      while( (c2 = PH7_Utf8Read(zString,0,&zString)) != 0 ){
+      while((c2 = PH7_Utf8Read(zString,0,&zString)) != 0 ){
         if( noCase ){
           GlogUpperToLower(c2);
           GlogUpperToLower(c);
@@ -1870,7 +1870,7 @@ static int patternCompare(
           }
         }
         if( c2 == 0 )return 0;
-        if( patternCompare(zPattern,zString,esc,noCase) ) return 1;
+        if( patternCompare(zPattern,zString,esc,noCase))  return 1;
       }
       return 0;
     }else if( !prevEscape && c == matchOne ){
@@ -1961,7 +1961,7 @@ static int PH7_builtin_fnmatch(ph7_context *pCtx,int nArg,ph7_value **apArg)
   int iEsc = '\\';
   int noCase = 0;
   int rc;
-  if( nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_string(apArg[1]) ){
+  if( nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_string(apArg[1])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -1970,7 +1970,7 @@ static int PH7_builtin_fnmatch(ph7_context *pCtx,int nArg,ph7_value **apArg)
   zPattern = ph7_value_to_string(apArg[0],0);
   zString = ph7_value_to_string(apArg[1],0);
   /* Extract the flags if avaialble */
-  if( nArg > 2 && ph7_value_is_int(apArg[2]) ){
+  if( nArg > 2 && ph7_value_is_int(apArg[2])){
     rc = ph7_value_to_int(apArg[2]);
     if( rc & 0x01 /*FNM_NOESCAPE*/ ){
       iEsc = 0;
@@ -2002,7 +2002,7 @@ static int PH7_builtin_strglob(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zString,*zPattern;
   int iEsc = '\\';
   int rc;
-  if( nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_string(apArg[1]) ){
+  if( nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_string(apArg[1])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -2032,7 +2032,7 @@ static int PH7_vfs_link(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zTarget,*zLink;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_string(apArg[1]) ){
+  if( nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_string(apArg[1])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -2073,7 +2073,7 @@ static int PH7_vfs_symlink(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zTarget,*zLink;
   ph7_vfs *pVfs;
   int rc;
-  if( nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_string(apArg[1]) ){
+  if( nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_string(apArg[1])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -2313,7 +2313,7 @@ static int PH7_vfs_ph7_uname(ph7_context *pCtx,int nArg,ph7_value **apArg)
   struct utsname sName;
 #endif
   const char *zMode = "a";
-  if( nArg > 0 && ph7_value_is_string(apArg[0]) ){
+  if( nArg > 0 && ph7_value_is_string(apArg[0])){
     /* Extract the desired mode */
     zMode = ph7_value_to_string(apArg[0],0);
   }
@@ -2453,7 +2453,7 @@ static int PH7_builtin_ftruncate(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const ph7_io_stream *pStream;
   io_private *pDev;
   int rc;
-  if( nArg < 2 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 2 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -2462,7 +2462,7 @@ static int PH7_builtin_ftruncate(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -2513,7 +2513,7 @@ static int PH7_builtin_fseek(ph7_context *pCtx,int nArg,ph7_value **apArg)
   ph7_int64 iOfft;
   int whence;
   int rc;
-  if( nArg < 2 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 2 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_int(pCtx,-1);
@@ -2522,7 +2522,7 @@ static int PH7_builtin_fseek(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_int(pCtx,-1);
@@ -2541,7 +2541,7 @@ static int PH7_builtin_fseek(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract the offset */
   iOfft = ph7_value_to_int64(apArg[1]);
   whence = 0;  /* SEEK_SET */
-  if( nArg > 2 && ph7_value_is_int(apArg[2]) ){
+  if( nArg > 2 && ph7_value_is_int(apArg[2])){
     whence = ph7_value_to_int(apArg[2]);
   }
   /* Perform the requested operation */
@@ -2570,7 +2570,7 @@ static int PH7_builtin_ftell(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const ph7_io_stream *pStream;
   io_private *pDev;
   ph7_int64 iOfft;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -2579,7 +2579,7 @@ static int PH7_builtin_ftell(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -2615,7 +2615,7 @@ static int PH7_builtin_rewind(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const ph7_io_stream *pStream;
   io_private *pDev;
   int rc;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -2624,7 +2624,7 @@ static int PH7_builtin_rewind(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -2664,7 +2664,7 @@ static int PH7_builtin_fflush(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const ph7_io_stream *pStream;
   io_private *pDev;
   int rc;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -2673,7 +2673,7 @@ static int PH7_builtin_fflush(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -2709,7 +2709,7 @@ static int PH7_builtin_feof(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const ph7_io_stream *pStream;
   io_private *pDev;
   int rc;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,1);
@@ -2718,7 +2718,7 @@ static int PH7_builtin_feof(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,1);
@@ -2773,7 +2773,7 @@ static ph7_int64 StreamRead(io_private *pDev,void *pBuf,ph7_int64 nLen)
     SyMemcpy(SyBlobDataAt(&pDev->sBuffer,pDev->nOfft),pBuf,(sxu32)n);
     /* Update the read offset */
     pDev->nOfft += (sxu32)n;
-    if( pDev->nOfft >= SyBlobLength(&pDev->sBuffer) ){
+    if( pDev->nOfft >= SyBlobLength(&pDev->sBuffer)){
       /* Reset the working buffer so that we avoid excessive memory allocation */
       SyBlobReset(&pDev->sBuffer);
       pDev->nOfft = 0;
@@ -2828,7 +2828,7 @@ static ph7_int64 StreamReadLine(io_private *pDev,const char **pzData,ph7_int64 n
   ph7_int64 n;
   sxi32 rc;
   n = 0;
-  if( pDev->nOfft >= SyBlobLength(&pDev->sBuffer) ){
+  if( pDev->nOfft >= SyBlobLength(&pDev->sBuffer)){
     /* Reset the working buffer so that we avoid excessive memory allocation */
     SyBlobReset(&pDev->sBuffer);
     pDev->nOfft = 0;
@@ -2860,7 +2860,7 @@ static ph7_int64 StreamReadLine(io_private *pDev,const char **pzData,ph7_int64 n
       pDev->nOfft += (sxu32)n;
       return n;
     }
-    if( nMaxLen > 0 && (SyBlobLength(&pDev->sBuffer) - pDev->nOfft >= nMaxLen) ){
+    if( nMaxLen > 0 && (SyBlobLength(&pDev->sBuffer) - pDev->nOfft >= nMaxLen)){
       /* Read limit reached,return the available data */
       *pzData = (const char *)SyBlobDataAt(&pDev->sBuffer,pDev->nOfft);
       n = SyBlobLength(&pDev->sBuffer) - pDev->nOfft;
@@ -2915,10 +2915,10 @@ PH7_PRIVATE void * PH7_StreamOpenHandle(ph7_vm *pVm,const ph7_io_stream *pStream
   if( use_include ){
     if( sFile.zString[0] == '/' ||
 #ifdef __WINNT__
-        (sFile.nByte > 2 && sFile.zString[1] == ':' && (sFile.zString[2] == '\\' || sFile.zString[2] == '/') ) ||
+        (sFile.nByte > 2 && sFile.zString[1] == ':' && (sFile.zString[2] == '\\' || sFile.zString[2] == '/')) ||
 #endif
         (sFile.nByte > 1 && sFile.zString[0] == '.' && sFile.zString[1] == '/') ||
-        (sFile.nByte > 2 && sFile.zString[0] == '.' && sFile.zString[1] == '.' && sFile.zString[2] == '/') ){
+        (sFile.nByte > 2 && sFile.zString[0] == '.' && sFile.zString[1] == '.' && sFile.zString[2] == '/')){
       /*  Open the file directly */
       rc = pStream->xOpen(zFile,iFlags,pResource,&pHandle);
     }else{
@@ -2934,11 +2934,11 @@ PH7_PRIVATE void * PH7_StreamOpenHandle(ph7_vm *pVm,const ph7_io_stream *pStream
       /* Build a path from the set of include path */
       SySetResetCursor(&pVm->aPaths);
       rc = SXERR_IO;
-      while( SXRET_OK == SySetGetNextEntry(&pVm->aPaths,(void **)&pPath) ){
+      while( SXRET_OK == SySetGetNextEntry(&pVm->aPaths,(void **)&pPath)){
         /* Build full path */
         SyBlobFormat(&sWorker,"%z%c%z",pPath,c,&sFile);
         /* Append null terminator */
-        if( SXRET_OK != SyBlobNullAppend(&sWorker) ){
+        if( SXRET_OK != SyBlobNullAppend(&sWorker)){
           continue;
         }
         /* Try to open the file */
@@ -3024,7 +3024,7 @@ static int PH7_builtin_fgetc(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const ph7_io_stream *pStream;
   io_private *pDev;
   int c,n;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3033,7 +3033,7 @@ static int PH7_builtin_fgetc(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3083,7 +3083,7 @@ static int PH7_builtin_fgets(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zLine;
   io_private *pDev;
   ph7_int64 n,nLen;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3092,7 +3092,7 @@ static int PH7_builtin_fgets(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3142,7 +3142,7 @@ static int PH7_builtin_fread(ph7_context *pCtx,int nArg,ph7_value **apArg)
   ph7_int64 nRead;
   void *pBuf;
   int nLen;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3151,7 +3151,7 @@ static int PH7_builtin_fread(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3224,7 +3224,7 @@ static int PH7_builtin_fgetcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zLine;
   io_private *pDev;
   ph7_int64 n,nLen;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3233,7 +3233,7 @@ static int PH7_builtin_fgetcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3267,7 +3267,7 @@ static int PH7_builtin_fgetcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
     if( nArg > 2 ){
       const char *zPtr;
       int i;
-      if( ph7_value_is_string(apArg[2]) ){
+      if( ph7_value_is_string(apArg[2])){
         /* Extract the delimiter */
         zPtr = ph7_value_to_string(apArg[2],&i);
         if( i > 0 ){
@@ -3275,7 +3275,7 @@ static int PH7_builtin_fgetcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
         }
       }
       if( nArg > 3 ){
-        if( ph7_value_is_string(apArg[3]) ){
+        if( ph7_value_is_string(apArg[3])){
           /* Extract the enclosure */
           zPtr = ph7_value_to_string(apArg[3],&i);
           if( i > 0 ){
@@ -3283,7 +3283,7 @@ static int PH7_builtin_fgetcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
           }
         }
         if( nArg > 4 ){
-          if( ph7_value_is_string(apArg[4]) ){
+          if( ph7_value_is_string(apArg[4])){
             /* Extract the escape character */
             zPtr = ph7_value_to_string(apArg[4],&i);
             if( i > 0 ){
@@ -3330,7 +3330,7 @@ static int PH7_builtin_fgetss(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zLine;
   io_private *pDev;
   ph7_int64 n,nLen;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3339,7 +3339,7 @@ static int PH7_builtin_fgetss(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3368,7 +3368,7 @@ static int PH7_builtin_fgetss(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }else{
     const char *zTaglist = 0;
     int nTaglen = 0;
-    if( nArg > 2 && ph7_value_is_string(apArg[2]) ){
+    if( nArg > 2 && ph7_value_is_string(apArg[2])){
       /* Allowed tag */
       zTaglist = ph7_value_to_string(apArg[2],&nTaglen);
     }
@@ -3391,7 +3391,7 @@ static int PH7_builtin_readdir(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const ph7_io_stream *pStream;
   io_private *pDev;
   int rc;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3400,7 +3400,7 @@ static int PH7_builtin_readdir(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3438,7 +3438,7 @@ static int PH7_builtin_rewinddir(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   const ph7_io_stream *pStream;
   io_private *pDev;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3447,7 +3447,7 @@ static int PH7_builtin_rewinddir(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3483,7 +3483,7 @@ static int PH7_builtin_closedir(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   const ph7_io_stream *pStream;
   io_private *pDev;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3492,7 +3492,7 @@ static int PH7_builtin_closedir(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -3532,7 +3532,7 @@ static int PH7_builtin_opendir(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zPath;
   io_private *pDev;
   int iLen,rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting a directory path");
     ph7_result_bool(pCtx,0);
@@ -3600,7 +3600,7 @@ static int PH7_builtin_readfile(ph7_context *pCtx,int nArg,ph7_value **apArg)
   char zBuf[8192];
   void *pHandle;
   int rc,nLen;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting a file path");
     ph7_result_bool(pCtx,0);
@@ -3678,7 +3678,7 @@ static int PH7_builtin_file_get_contents(ph7_context *pCtx,int nArg,ph7_value **
   void *pHandle;
   int nLen;
 
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting a file path");
     ph7_result_bool(pCtx,0);
@@ -3775,7 +3775,7 @@ static int PH7_builtin_file_put_contents(ph7_context *pCtx,int nArg,ph7_value **
   int iFlags;
   int nLen;
 
-  if( nArg < 2 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 2 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting a file path");
     ph7_result_bool(pCtx,0);
@@ -3824,7 +3824,7 @@ static int PH7_builtin_file_put_contents(ph7_context *pCtx,int nArg,ph7_value **
   }
   if( pStream->xWrite ){
     ph7_int64 n;
-    if( (iFlags & 0x01 /* LOCK_EX */ ) && pStream->xLock ){
+    if((iFlags & 0x01 /* LOCK_EX */ ) && pStream->xLock ){
       /* Try to acquire an exclusive lock */
       pStream->xLock(pHandle,1 /* LOCK_EX */ );
     }
@@ -3879,7 +3879,7 @@ static int PH7_builtin_file(ph7_context *pCtx,int nArg,ph7_value **apArg)
   int iFlags;
   int nLen;
 
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting a file path");
     ph7_result_bool(pCtx,0);
@@ -3954,7 +3954,7 @@ static int PH7_builtin_file(ph7_context *pCtx,int nArg,ph7_value **apArg)
     }
     if( iFlags & 0x04 /* FILE_SKIP_EMPTY_LINES */ ){
       /* Ignore empty lines */
-      while( zPtr < zEnd && (unsigned char)zPtr[0] < 0xc0 && SyisSpace(zPtr[0]) ){
+      while( zPtr < zEnd && (unsigned char)zPtr[0] < 0xc0 && SyisSpace(zPtr[0])){
         zPtr++;
       }
       if( zPtr >= zEnd ){
@@ -4082,7 +4082,7 @@ static int PH7_builtin_fstat(ph7_context *pCtx,int nArg,ph7_value **apArg)
   ph7_value *pArray,*pValue;
   const ph7_io_stream *pStream;
   io_private *pDev;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -4091,7 +4091,7 @@ static int PH7_builtin_fstat(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /* Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -4144,7 +4144,7 @@ static int PH7_builtin_fwrite(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zString;
   io_private *pDev;
   int nLen,n;
-  if( nArg < 2 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 2 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -4153,7 +4153,7 @@ static int PH7_builtin_fwrite(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /* Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -4214,7 +4214,7 @@ static int PH7_builtin_flock(ph7_context *pCtx,int nArg,ph7_value **apArg)
   io_private *pDev;
   int nLock;
   int rc;
-  if( nArg < 2 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 2 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -4223,7 +4223,7 @@ static int PH7_builtin_flock(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -4264,7 +4264,7 @@ static int PH7_builtin_fpassthru(ph7_context *pCtx,int nArg,ph7_value **apArg)
   ph7_int64 n,nRead;
   char zBuf[8192];
   int rc;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -4273,7 +4273,7 @@ static int PH7_builtin_fpassthru(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -4388,7 +4388,7 @@ static int PH7_builtin_fputcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
   io_private *pDev;
   char *zEol;
   int eolen;
-  if( nArg < 2 || !ph7_value_is_resource(apArg[0]) || !ph7_value_is_array(apArg[1]) ){
+  if( nArg < 2 || !ph7_value_is_resource(apArg[0]) || !ph7_value_is_array(apArg[1])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Missing/Invalid arguments");
     ph7_result_bool(pCtx,0);
@@ -4397,7 +4397,7 @@ static int PH7_builtin_fputcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -4493,7 +4493,7 @@ static int PH7_builtin_fprintf(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zFormat;
   io_private *pDev;
   int nLen;
-  if( nArg < 2 || !ph7_value_is_resource(apArg[0]) || !ph7_value_is_string(apArg[1]) ){
+  if( nArg < 2 || !ph7_value_is_resource(apArg[0]) || !ph7_value_is_string(apArg[1])){
     /* Missing/Invalid arguments,return zero */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Invalid arguments");
     ph7_result_int(pCtx,0);
@@ -4502,7 +4502,7 @@ static int PH7_builtin_fprintf(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_int(pCtx,0);
@@ -4554,7 +4554,7 @@ static int PH7_builtin_vfprintf(ph7_context *pCtx,int nArg,ph7_value **apArg)
   io_private *pDev;
   SySet sArg;
   int n,nLen;
-  if( nArg < 3 || !ph7_value_is_resource(apArg[0]) || !ph7_value_is_string(apArg[1]) || !ph7_value_is_array(apArg[2]) ){
+  if( nArg < 3 || !ph7_value_is_resource(apArg[0]) || !ph7_value_is_string(apArg[1]) || !ph7_value_is_array(apArg[2])){
     /* Missing/Invalid arguments,return zero */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Invalid arguments");
     ph7_result_int(pCtx,0);
@@ -4563,7 +4563,7 @@ static int PH7_builtin_vfprintf(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_int(pCtx,0);
@@ -4780,7 +4780,7 @@ static int PH7_builtin_fopen(ph7_context *pCtx,int nArg,ph7_value **apArg)
   io_private *pDev;
   int iLen,imLen;
   int iOpenFlags;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting a file path or URL");
     ph7_result_bool(pCtx,0);
@@ -4813,7 +4813,7 @@ static int PH7_builtin_fopen(ph7_context *pCtx,int nArg,ph7_value **apArg)
   pResource = 0;
   if( nArg > 3 ){
     pResource = apArg[3];
-  }else if( is_php_stream(pStream) ){
+  }else if( is_php_stream(pStream)){
     /* TICKET 1433-80: The php:// stream need a ph7_value to access the underlying
      * virtual machine.
      */
@@ -4850,7 +4850,7 @@ static int PH7_builtin_fclose(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const ph7_io_stream *pStream;
   io_private *pDev;
   ph7_vm *pVm;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -4859,7 +4859,7 @@ static int PH7_builtin_fclose(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract our private data */
   pDev = (io_private *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid io_private instance */
-  if( IO_PRIVATE_INVALID(pDev) ){
+  if( IO_PRIVATE_INVALID(pDev)){
     /*Expecting an IO handle */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting an IO handle");
     ph7_result_bool(pCtx,0);
@@ -4922,7 +4922,7 @@ static int PH7_builtin_md5_file(ph7_context *pCtx,int nArg,ph7_value **apArg)
   void *pHandle;
   ph7_int64 n;
   int nLen;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting a file path");
     ph7_result_bool(pCtx,0);
@@ -4993,7 +4993,7 @@ static int PH7_builtin_sha1_file(ph7_context *pCtx,int nArg,ph7_value **apArg)
   void *pHandle;
   ph7_int64 n;
   int nLen;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting a file path");
     ph7_result_bool(pCtx,0);
@@ -5067,7 +5067,7 @@ static int PH7_builtin_parse_ini_file(ph7_context *pCtx,int nArg,ph7_value **apA
   SyBlob sContents;
   void *pHandle;
   int nLen;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting a file path");
     ph7_result_bool(pCtx,0);
@@ -5151,7 +5151,7 @@ static int PH7_builtin_zip_open(ph7_context *pCtx,int nArg,ph7_value **apArg)
   void *pHandle;
   int nLen;
   sxi32 rc;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return FALSE */
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"Expecting a file path");
     ph7_result_bool(pCtx,0);
@@ -5255,7 +5255,7 @@ static int PH7_builtin_zip_close(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   SyArchive *pArchive;
   zip_raw_data *pRaw;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments */
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive");
     return PH7_OK;
@@ -5263,7 +5263,7 @@ static int PH7_builtin_zip_close(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Point to the in-memory archive */
   pArchive = (SyArchive *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid ZIP archive */
-  if( SXARCH_INVALID(pArchive) ){
+  if( SXARCH_INVALID(pArchive)){
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive");
     return PH7_OK;
   }
@@ -5298,7 +5298,7 @@ static int PH7_builtin_zip_read(ph7_context *pCtx,int nArg,ph7_value **apArg)
   SyArchiveEntry *pNext = 0;   /* cc warning */
   SyArchive *pArchive;
   sxi32 rc;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments */
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive");
     /* return FALSE */
@@ -5308,7 +5308,7 @@ static int PH7_builtin_zip_read(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Point to the in-memory archive */
   pArchive = (SyArchive *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid ZIP archive */
-  if( SXARCH_INVALID(pArchive) ){
+  if( SXARCH_INVALID(pArchive)){
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive");
     /* return FALSE */
     ph7_result_bool(pCtx,0);
@@ -5345,7 +5345,7 @@ static int PH7_builtin_zip_entry_open(ph7_context *pCtx,int nArg,ph7_value **apA
 {
   SyArchiveEntry *pEntry;
   SyArchive *pArchive;
-  if( nArg < 2 || !ph7_value_is_resource(apArg[0]) || !ph7_value_is_resource(apArg[1]) ){
+  if( nArg < 2 || !ph7_value_is_resource(apArg[0]) || !ph7_value_is_resource(apArg[1])){
     /* Missing/Invalid arguments */
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive");
     /* return FALSE */
@@ -5355,7 +5355,7 @@ static int PH7_builtin_zip_entry_open(ph7_context *pCtx,int nArg,ph7_value **apA
   /* Point to the in-memory archive */
   pArchive = (SyArchive *)ph7_value_to_resource(apArg[0]);
   /* Make sure we are dealing with a valid ZIP archive */
-  if( SXARCH_INVALID(pArchive) ){
+  if( SXARCH_INVALID(pArchive)){
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive");
     /* return FALSE */
     ph7_result_bool(pCtx,0);
@@ -5363,7 +5363,7 @@ static int PH7_builtin_zip_entry_open(ph7_context *pCtx,int nArg,ph7_value **apA
   }
   /* Make sure we are dealing with a valid ZIP archive entry */
   pEntry = (SyArchiveEntry *)ph7_value_to_resource(apArg[1]);
-  if( SXARCH_ENTRY_INVALID(pEntry) ){
+  if( SXARCH_ENTRY_INVALID(pEntry)){
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
     ph7_result_bool(pCtx,0);
@@ -5385,7 +5385,7 @@ static int PH7_builtin_zip_entry_open(ph7_context *pCtx,int nArg,ph7_value **apA
 static int PH7_builtin_zip_entry_close(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   SyArchiveEntry *pEntry;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments */
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
@@ -5394,7 +5394,7 @@ static int PH7_builtin_zip_entry_close(ph7_context *pCtx,int nArg,ph7_value **ap
   }
   /* Make sure we are dealing with a valid ZIP archive entry */
   pEntry = (SyArchiveEntry *)ph7_value_to_resource(apArg[0]);
-  if( SXARCH_ENTRY_INVALID(pEntry) ){
+  if( SXARCH_ENTRY_INVALID(pEntry)){
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
     ph7_result_bool(pCtx,0);
@@ -5419,7 +5419,7 @@ static int PH7_builtin_zip_entry_name(ph7_context *pCtx,int nArg,ph7_value **apA
 {
   SyArchiveEntry *pEntry;
   SyString *pName;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments */
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
@@ -5428,7 +5428,7 @@ static int PH7_builtin_zip_entry_name(ph7_context *pCtx,int nArg,ph7_value **apA
   }
   /* Make sure we are dealing with a valid ZIP archive entry */
   pEntry = (SyArchiveEntry *)ph7_value_to_resource(apArg[0]);
-  if( SXARCH_ENTRY_INVALID(pEntry) ){
+  if( SXARCH_ENTRY_INVALID(pEntry)){
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
     ph7_result_bool(pCtx,0);
@@ -5451,7 +5451,7 @@ static int PH7_builtin_zip_entry_name(ph7_context *pCtx,int nArg,ph7_value **apA
 static int PH7_builtin_zip_entry_filesize(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   SyArchiveEntry *pEntry;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments */
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
@@ -5460,7 +5460,7 @@ static int PH7_builtin_zip_entry_filesize(ph7_context *pCtx,int nArg,ph7_value *
   }
   /* Make sure we are dealing with a valid ZIP archive entry */
   pEntry = (SyArchiveEntry *)ph7_value_to_resource(apArg[0]);
-  if( SXARCH_ENTRY_INVALID(pEntry) ){
+  if( SXARCH_ENTRY_INVALID(pEntry)){
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
     ph7_result_bool(pCtx,0);
@@ -5482,7 +5482,7 @@ static int PH7_builtin_zip_entry_filesize(ph7_context *pCtx,int nArg,ph7_value *
 static int PH7_builtin_zip_entry_compressedsize(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   SyArchiveEntry *pEntry;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments */
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
@@ -5491,7 +5491,7 @@ static int PH7_builtin_zip_entry_compressedsize(ph7_context *pCtx,int nArg,ph7_v
   }
   /* Make sure we are dealing with a valid ZIP archive entry */
   pEntry = (SyArchiveEntry *)ph7_value_to_resource(apArg[0]);
-  if( SXARCH_ENTRY_INVALID(pEntry) ){
+  if( SXARCH_ENTRY_INVALID(pEntry)){
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
     ph7_result_bool(pCtx,0);
@@ -5519,7 +5519,7 @@ static int PH7_builtin_zip_entry_read(ph7_context *pCtx,int nArg,ph7_value **apA
   zip_raw_data *pRaw;
   const char *zData;
   int iLength;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments */
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
@@ -5528,7 +5528,7 @@ static int PH7_builtin_zip_entry_read(ph7_context *pCtx,int nArg,ph7_value **apA
   }
   /* Make sure we are dealing with a valid ZIP archive entry */
   pEntry = (SyArchiveEntry *)ph7_value_to_resource(apArg[0]);
-  if( SXARCH_ENTRY_INVALID(pEntry) ){
+  if( SXARCH_ENTRY_INVALID(pEntry)){
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
     ph7_result_bool(pCtx,0);
@@ -5548,7 +5548,7 @@ static int PH7_builtin_zip_entry_read(ph7_context *pCtx,int nArg,ph7_value **apA
       iLength = 1024;
     }
   }
-  if( (sxu32)iLength > pEntry->nByteCompr - pEntry->nReadCount ){
+  if((sxu32)iLength > pEntry->nByteCompr - pEntry->nReadCount ){
     iLength = (int)(pEntry->nByteCompr - pEntry->nReadCount);
   }
   /* Return the entry contents */
@@ -5579,7 +5579,7 @@ static int PH7_builtin_zip_entry_read(ph7_context *pCtx,int nArg,ph7_value **apA
 static int PH7_builtin_zip_entry_reset_read_cursor(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   SyArchiveEntry *pEntry;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments */
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
@@ -5588,7 +5588,7 @@ static int PH7_builtin_zip_entry_reset_read_cursor(ph7_context *pCtx,int nArg,ph
   }
   /* Make sure we are dealing with a valid ZIP archive entry */
   pEntry = (SyArchiveEntry *)ph7_value_to_resource(apArg[0]);
-  if( SXARCH_ENTRY_INVALID(pEntry) ){
+  if( SXARCH_ENTRY_INVALID(pEntry)){
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
     ph7_result_bool(pCtx,0);
@@ -5612,7 +5612,7 @@ static int PH7_builtin_zip_entry_reset_read_cursor(ph7_context *pCtx,int nArg,ph
 static int PH7_builtin_zip_entry_compressionmethod(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   SyArchiveEntry *pEntry;
-  if( nArg < 1 || !ph7_value_is_resource(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_resource(apArg[0])){
     /* Missing/Invalid arguments */
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
@@ -5621,7 +5621,7 @@ static int PH7_builtin_zip_entry_compressionmethod(ph7_context *pCtx,int nArg,ph
   }
   /* Make sure we are dealing with a valid ZIP archive entry */
   pEntry = (SyArchiveEntry *)ph7_value_to_resource(apArg[0]);
-  if( SXARCH_ENTRY_INVALID(pEntry) ){
+  if( SXARCH_ENTRY_INVALID(pEntry)){
     ph7_context_throw_error(pCtx,PH7_CTX_ERR,"Expecting a ZIP archive entry");
     /* return FALSE */
     ph7_result_bool(pCtx,0);
@@ -5883,7 +5883,7 @@ static int WinVfs_Realpath(const char *zPath,ph7_context *pCtx)
   }
   n = GetFullPathNameW((LPCWSTR)pPath,0,0,0);
   if( n > 0 ){
-    if( n >= sizeof(zTemp) ){
+    if( n >= sizeof(zTemp)){
       n = sizeof(zTemp) - 1;
     }
     GetFullPathNameW((LPCWSTR)pPath,n,zTemp,0);
@@ -6276,7 +6276,7 @@ static int WinVfs_iswritable(const char *zPath)
   if( dwAttr == INVALID_FILE_ATTRIBUTES ){
     return -1;
   }
-  if( (dwAttr & (FILE_ATTRIBUTE_ARCHIVE | FILE_ATTRIBUTE_NORMAL)) == 0 ){
+  if((dwAttr & (FILE_ATTRIBUTE_ARCHIVE | FILE_ATTRIBUTE_NORMAL)) == 0 ){
     /* Not a regular file */
     return -1;
   }
@@ -6301,7 +6301,7 @@ static int WinVfs_isexecutable(const char *zPath)
   if( dwAttr == INVALID_FILE_ATTRIBUTES ){
     return -1;
   }
-  if( (dwAttr & FILE_ATTRIBUTE_NORMAL) == 0 ){
+  if((dwAttr & FILE_ATTRIBUTE_NORMAL) == 0 ){
     /* Not a regular file */
     return -1;
   }
@@ -6326,7 +6326,7 @@ static int WinVfs_Filetype(const char *zPath,ph7_context *pCtx)
     ph7_result_string(pCtx,"unknown",sizeof("unknown") - 1);
     return -1;
   }
-  if(dwAttr & (FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_NORMAL | FILE_ATTRIBUTE_ARCHIVE) ){
+  if(dwAttr & (FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_NORMAL | FILE_ATTRIBUTE_ARCHIVE)){
     ph7_result_string(pCtx,"file",sizeof("file") - 1);
   }else if(dwAttr & FILE_ATTRIBUTE_DIRECTORY){
     ph7_result_string(pCtx,"dir",sizeof("dir") - 1);
@@ -6659,7 +6659,7 @@ static int WinDir_Read(void *pUserData,ph7_context *pCtx)
     }
     n = SyStrlen(zName);
     /* Ignore '.' && '..' */
-    if( n > sizeof("..") - 1 || zName[0] != '.' || (n == sizeof("..") - 1 && zName[1] != '.') ){
+    if( n > sizeof("..") - 1 || zName[0] != '.' || (n == sizeof("..") - 1 && zName[1] != '.')){
       break;
     }
     HeapFree(GetProcessHeap(),0,zName);
@@ -7247,7 +7247,7 @@ static int UnixVfs_Filetype(const char *zPath,ph7_context *pCtx)
     ph7_result_string(pCtx,"unknown",sizeof("unknown") - 1);
     return -1;
   }
-  if(S_ISREG(st.st_mode) ){
+  if(S_ISREG(st.st_mode)){
     ph7_result_string(pCtx,"file",sizeof("file") - 1);
   }else if(S_ISDIR(st.st_mode)){
     ph7_result_string(pCtx,"dir",sizeof("dir") - 1);
@@ -7326,16 +7326,16 @@ static void UnixVfs_TempDir(ph7_context *pCtx)
   struct stat buf;
   const char *zDir;
   zDir = getenv("TMPDIR");
-  if( zDir && zDir[0] != 0 && !access(zDir,07) ){
+  if( zDir && zDir[0] != 0 && !access(zDir,07)){
     ph7_result_string(pCtx,zDir,-1);
     return;
   }
   for(i = 0; i < sizeof(azDirs) / sizeof(azDirs[0]); i++){
     zDir = azDirs[i];
     if( zDir == 0 )continue;
-    if( stat(zDir, &buf) ) continue;
-    if( !S_ISDIR(buf.st_mode) ) continue;
-    if( access(zDir, 07) ) continue;
+    if( stat(zDir, &buf))  continue;
+    if( !S_ISDIR(buf.st_mode))  continue;
+    if( access(zDir, 07))  continue;
     /* Got one */
     ph7_result_string(pCtx,zDir,-1);
     return;
@@ -7545,7 +7545,7 @@ static int UnixDir_Read(void *pUserData,ph7_context *pCtx)
     zName = pEntry->d_name;
     n = SyStrlen(zName);
     /* Ignore '.' && '..' */
-    if( n > sizeof("..") - 1 || zName[0] != '.' || (n == sizeof("..") - 1 && zName[1] != '.') ){
+    if( n > sizeof("..") - 1 || zName[0] != '.' || (n == sizeof("..") - 1 && zName[1] != '.')){
       break;
     }
     /* Next entry */

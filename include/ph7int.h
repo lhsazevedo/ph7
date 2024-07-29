@@ -273,12 +273,12 @@ struct SyMemBackend
 #define SXMUTEX_TYPE_STATIC_6   8
 
 #define SyMutexGlobalInit(METHOD){ \
-          if( (METHOD)->xGlobalInit ){ \
+          if((METHOD)->xGlobalInit ){ \
             (METHOD)->xGlobalInit(); \
           } \
 }
 #define SyMutexGlobalRelease(METHOD){ \
-          if( (METHOD)->xGlobalRelease ){ \
+          if((METHOD)->xGlobalRelease ){ \
             (METHOD)->xGlobalRelease(); \
           } \
 }
@@ -466,7 +466,7 @@ struct SyLex
 ** advance zIn to point to the first byte of the next UTF-8 character.
 */
 #define SX_JMP_UTF8(zIn,zEnd) \
-        while(zIn < zEnd && (((unsigned char)zIn[0] & 0xc0) == 0x80) ){ zIn++; }
+        while(zIn < zEnd && (((unsigned char)zIn[0] & 0xc0) == 0x80)){ zIn++; }
 #define SX_WRITE_UTF8(zOut, c) {                       \
           if( c < 0x00080 ){                                     \
             *zOut++ = (sxu8)(c & 0xFF);                          \
@@ -537,12 +537,12 @@ struct SyLex
         }
 #define SyStringFullTrimSafe(RAW) \
         while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[0] < 0xc0 && \
-              ( (RAW)->zString[0] == 0 || SyisSpace((RAW)->zString[0]))){ \
+              ((RAW)->zString[0] == 0 || SyisSpace((RAW)->zString[0]))){ \
           (RAW)->nByte--; \
           (RAW)->zString++; \
         } \
         while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[(RAW)->nByte - 1] < 0xc0 && \
-              ( (RAW)->zString[(RAW)->nByte - 1] == 0 || SyisSpace((RAW)->zString[(RAW)->nByte - 1]))){ \
+              ((RAW)->zString[(RAW)->nByte - 1] == 0 || SyisSpace((RAW)->zString[(RAW)->nByte - 1]))){ \
           (RAW)->nByte--; \
         }
 #ifndef PH7_DISABLE_BUILTIN_FUNC

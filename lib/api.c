@@ -502,14 +502,14 @@ int ph7_config(ph7 *pEngine,int nConfigOp,...)
 {
   va_list ap;
   int rc;
-  if( PH7_ENGINE_MISUSE(pEngine) ){
+  if( PH7_ENGINE_MISUSE(pEngine)){
     return PH7_CORRUPT;
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire engine mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if( sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_ENGINE_RELEASE(pEngine) ){
+      PH7_THRD_ENGINE_RELEASE(pEngine)){
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -599,14 +599,14 @@ Release:
 int ph7_release(ph7 *pEngine)
 {
   int rc;
-  if( PH7_ENGINE_MISUSE(pEngine) ){
+  if( PH7_ENGINE_MISUSE(pEngine)){
     return PH7_CORRUPT;
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire engine mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if( sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_ENGINE_RELEASE(pEngine) ){
+      PH7_THRD_ENGINE_RELEASE(pEngine)){
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -743,7 +743,7 @@ int ph7_compile(ph7 *pEngine,const char *zSource,int nLen,ph7_vm **ppOutVm)
   /* Acquire engine mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if( sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_ENGINE_RELEASE(pEngine) ){
+      PH7_THRD_ENGINE_RELEASE(pEngine)){
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -776,7 +776,7 @@ int ph7_compile_v2(ph7 *pEngine,const char *zSource,int nLen,ph7_vm **ppOutVm,in
   /* Acquire engine mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if( sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_ENGINE_RELEASE(pEngine) ){
+      PH7_THRD_ENGINE_RELEASE(pEngine)){
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -801,14 +801,14 @@ int ph7_compile_file(ph7 *pEngine,const char *zFilePath,ph7_vm **ppOutVm,int iFl
     *ppOutVm = 0;
   }
   rc = PH7_OK;   /* cc warning */
-  if( PH7_ENGINE_MISUSE(pEngine) || SX_EMPTY_STR(zFilePath) ){
+  if( PH7_ENGINE_MISUSE(pEngine) || SX_EMPTY_STR(zFilePath)){
     return PH7_CORRUPT;
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire engine mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if( sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_ENGINE_RELEASE(pEngine) ){
+      PH7_THRD_ENGINE_RELEASE(pEngine)){
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -854,7 +854,7 @@ int ph7_vm_dump_v2(ph7_vm *pVm,int (*xConsumer)(const void *,unsigned int,void *
 {
   int rc;
   /* Ticket 1433-002: NULL VM is harmless operation */
-  if ( PH7_VM_MISUSE(pVm) ){
+  if ( PH7_VM_MISUSE(pVm)){
     return PH7_CORRUPT;
   }
 #ifdef UNTRUST
@@ -875,14 +875,14 @@ int ph7_vm_config(ph7_vm *pVm,int iConfigOp,...)
   va_list ap;
   int rc;
   /* Ticket 1433-002: NULL VM is harmless operation */
-  if ( PH7_VM_MISUSE(pVm) ){
+  if ( PH7_VM_MISUSE(pVm)){
     return PH7_CORRUPT;
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if( sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm) ){
+      PH7_THRD_VM_RELEASE(pVm)){
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -904,14 +904,14 @@ int ph7_vm_exec(ph7_vm *pVm,int *pExitStatus)
 {
   int rc;
   /* Ticket 1433-002: NULL VM is harmless operation */
-  if ( PH7_VM_MISUSE(pVm) ){
+  if ( PH7_VM_MISUSE(pVm)){
     return PH7_CORRUPT;
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if( sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm) ){
+      PH7_THRD_VM_RELEASE(pVm)){
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -936,14 +936,14 @@ int ph7_vm_reset(ph7_vm *pVm)
 {
   int rc;
   /* Ticket 1433-002: NULL VM is harmless operation */
-  if ( PH7_VM_MISUSE(pVm) ){
+  if ( PH7_VM_MISUSE(pVm)){
     return PH7_CORRUPT;
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if( sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm) ){
+      PH7_THRD_VM_RELEASE(pVm)){
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -963,14 +963,14 @@ int ph7_vm_release(ph7_vm *pVm)
   ph7 *pEngine;
   int rc;
   /* Ticket 1433-002: NULL VM is harmless operation */
-  if ( PH7_VM_MISUSE(pVm) ){
+  if ( PH7_VM_MISUSE(pVm)){
     return PH7_CORRUPT;
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if( sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm) ){
+      PH7_THRD_VM_RELEASE(pVm)){
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -986,7 +986,7 @@ int ph7_vm_release(ph7_vm *pVm)
     /* Acquire engine mutex */
     SyMutexEnter(sMPGlobal.pMutexMethods,pEngine->pMutex);         /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
     if( sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-        PH7_THRD_ENGINE_RELEASE(pEngine) ){
+        PH7_THRD_ENGINE_RELEASE(pEngine)){
       return PH7_ABORT;               /* Another thread have released this instance */
     }
 #endif
@@ -1010,7 +1010,7 @@ int ph7_create_function(ph7_vm *pVm,const char *zName,int (*xFunc)(ph7_context *
   SyString sName;
   int rc;
   /* Ticket 1433-002: NULL VM is harmless operation */
-  if ( PH7_VM_MISUSE(pVm) ){
+  if ( PH7_VM_MISUSE(pVm)){
     return PH7_CORRUPT;
   }
   SyStringInitFromBuf(&sName,zName,SyStrlen(zName));
@@ -1024,7 +1024,7 @@ int ph7_create_function(ph7_vm *pVm,const char *zName,int (*xFunc)(ph7_context *
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if( sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm) ){
+      PH7_THRD_VM_RELEASE(pVm)){
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -1045,14 +1045,14 @@ int ph7_delete_function(ph7_vm *pVm,const char *zName)
   ph7_user_func *pFunc = 0;
   int rc;
   /* Ticket 1433-002: NULL VM is harmless operation */
-  if ( PH7_VM_MISUSE(pVm) ){
+  if ( PH7_VM_MISUSE(pVm)){
     return PH7_CORRUPT;
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if( sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm) ){
+      PH7_THRD_VM_RELEASE(pVm)){
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -1079,7 +1079,7 @@ int ph7_create_constant(ph7_vm *pVm,const char *zName,void (*xExpand)(ph7_value 
   SyString sName;
   int rc;
   /* Ticket 1433-002: NULL VM is harmless operation */
-  if ( PH7_VM_MISUSE(pVm) ){
+  if ( PH7_VM_MISUSE(pVm)){
     return PH7_CORRUPT;
   }
   SyStringInitFromBuf(&sName,zName,SyStrlen(zName));
@@ -1097,7 +1097,7 @@ int ph7_create_constant(ph7_vm *pVm,const char *zName,void (*xExpand)(ph7_value 
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if( sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm) ){
+      PH7_THRD_VM_RELEASE(pVm)){
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -1118,14 +1118,14 @@ int ph7_delete_constant(ph7_vm *pVm,const char *zName)
   ph7_constant *pCons;
   int rc;
   /* Ticket 1433-002: NULL VM is harmless operation */
-  if ( PH7_VM_MISUSE(pVm) ){
+  if ( PH7_VM_MISUSE(pVm)){
     return PH7_CORRUPT;
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if( sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm) ){
+      PH7_THRD_VM_RELEASE(pVm)){
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -1150,7 +1150,7 @@ ph7_value * ph7_new_scalar(ph7_vm *pVm)
 {
   ph7_value *pObj;
   /* Ticket 1433-002: NULL VM is harmless operation */
-  if ( PH7_VM_MISUSE(pVm) ){
+  if ( PH7_VM_MISUSE(pVm)){
     return 0;
   }
   /* Allocate a new scalar variable */
@@ -1171,7 +1171,7 @@ ph7_value * ph7_new_array(ph7_vm *pVm)
   ph7_hashmap *pMap;
   ph7_value *pObj;
   /* Ticket 1433-002: NULL VM is harmless operation */
-  if ( PH7_VM_MISUSE(pVm) ){
+  if ( PH7_VM_MISUSE(pVm)){
     return 0;
   }
   /* Create a new hashmap first */
@@ -1195,7 +1195,7 @@ ph7_value * ph7_new_array(ph7_vm *pVm)
 int ph7_release_value(ph7_vm *pVm,ph7_value *pValue)
 {
   /* Ticket 1433-002: NULL VM is harmless operation */
-  if ( PH7_VM_MISUSE(pVm) ){
+  if ( PH7_VM_MISUSE(pVm)){
     return PH7_CORRUPT;
   }
   if( pValue ){
@@ -1284,7 +1284,7 @@ const char * ph7_value_to_string(ph7_value *pValue,int *pLen)
  */
 void * ph7_value_to_resource(ph7_value *pValue)
 {
-  if( (pValue->iFlags & MEMOBJ_RES) == 0 ){
+  if((pValue->iFlags & MEMOBJ_RES) == 0 ){
     /* Not a resource,return NULL */
     return 0;
   }
@@ -1366,7 +1366,7 @@ int ph7_result_string_format(ph7_context *pCtx,const char *zFormat,...)
   va_list ap;
   int rc;
   p = pCtx->pRet;
-  if( (p->iFlags & MEMOBJ_STRING) == 0 ){
+  if((p->iFlags & MEMOBJ_STRING) == 0 ){
     /* Invalidate any prior representation */
     PH7_MemObjRelease(p);
     MemObjSetType(p,MEMOBJ_STRING);
@@ -1535,7 +1535,7 @@ ph7_value * ph7_array_fetch(ph7_value *pArray,const char *zKey,int nByte)
   ph7_value skey;
   int rc;
   /* Make sure we are dealing with a valid hashmap */
-  if( (pArray->iFlags & MEMOBJ_HASHMAP) == 0 ){
+  if((pArray->iFlags & MEMOBJ_HASHMAP) == 0 ){
     return 0;
   }
   if( nByte < 0 ){
@@ -1566,7 +1566,7 @@ int ph7_array_walk(ph7_value *pArray,int (*xWalk)(ph7_value *pValue,ph7_value *,
     return PH7_CORRUPT;
   }
   /* Make sure we are dealing with a valid hashmap */
-  if( (pArray->iFlags & MEMOBJ_HASHMAP) == 0 ){
+  if((pArray->iFlags & MEMOBJ_HASHMAP) == 0 ){
     return PH7_CORRUPT;
   }
   /* Start the walk process */
@@ -1581,7 +1581,7 @@ int ph7_array_add_elem(ph7_value *pArray,ph7_value *pKey,ph7_value *pValue)
 {
   int rc;
   /* Make sure we are dealing with a valid hashmap */
-  if( (pArray->iFlags & MEMOBJ_HASHMAP) == 0 ){
+  if((pArray->iFlags & MEMOBJ_HASHMAP) == 0 ){
     return PH7_CORRUPT;
   }
   /* Perform the insertion */
@@ -1596,11 +1596,11 @@ int ph7_array_add_strkey_elem(ph7_value *pArray,const char *zKey,ph7_value *pVal
 {
   int rc;
   /* Make sure we are dealing with a valid hashmap */
-  if( (pArray->iFlags & MEMOBJ_HASHMAP) == 0 ){
+  if((pArray->iFlags & MEMOBJ_HASHMAP) == 0 ){
     return PH7_CORRUPT;
   }
   /* Perform the insertion */
-  if( SX_EMPTY_STR(zKey) ){
+  if( SX_EMPTY_STR(zKey)){
     /* Empty key,assign an automatic index */
     rc = PH7_HashmapInsert((ph7_hashmap *)pArray->x.pOther,0,&(*pValue));
   }else{
@@ -1621,7 +1621,7 @@ int ph7_array_add_intkey_elem(ph7_value *pArray,int iKey,ph7_value *pValue)
   ph7_value sKey;
   int rc;
   /* Make sure we are dealing with a valid hashmap */
-  if( (pArray->iFlags & MEMOBJ_HASHMAP) == 0 ){
+  if((pArray->iFlags & MEMOBJ_HASHMAP) == 0 ){
     return PH7_CORRUPT;
   }
   PH7_MemObjInitFromInt(pArray->pVm,&sKey,iKey);
@@ -1638,7 +1638,7 @@ unsigned int ph7_array_count(ph7_value *pArray)
 {
   ph7_hashmap *pMap;
   /* Make sure we are dealing with a valid hashmap */
-  if( (pArray->iFlags & MEMOBJ_HASHMAP) == 0 ){
+  if((pArray->iFlags & MEMOBJ_HASHMAP) == 0 ){
     return 0;
   }
   /* Point to the internal representation of the hashmap */
@@ -1656,7 +1656,7 @@ int ph7_object_walk(ph7_value *pObject,int (*xWalk)(const char *,ph7_value *,voi
     return PH7_CORRUPT;
   }
   /* Make sure we are dealing with a valid class instance */
-  if( (pObject->iFlags & MEMOBJ_OBJ) == 0 ){
+  if((pObject->iFlags & MEMOBJ_OBJ) == 0 ){
     return PH7_CORRUPT;
   }
   /* Start the walk process */
@@ -1672,7 +1672,7 @@ ph7_value * ph7_object_fetch_attr(ph7_value *pObject,const char *zAttr)
   ph7_value *pValue;
   SyString sAttr;
   /* Make sure we are dealing with a valid class instance */
-  if( (pObject->iFlags & MEMOBJ_OBJ) == 0 || zAttr == 0 ){
+  if((pObject->iFlags & MEMOBJ_OBJ) == 0 || zAttr == 0 ){
     return 0;
   }
   SyStringInitFromBuf(&sAttr,zAttr,SyStrlen(zAttr));
@@ -1692,7 +1692,7 @@ const char * ph7_object_get_class_name(ph7_value *pObject,int *pLength)
     *pLength = 0;
   }
   /* Make sure we are dealing with a valid class instance */
-  if( (pObject->iFlags & MEMOBJ_OBJ) == 0  ){
+  if((pObject->iFlags & MEMOBJ_OBJ) == 0  ){
     return 0;
   }
   /* Point to the class */

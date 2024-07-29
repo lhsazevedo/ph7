@@ -129,9 +129,9 @@ PH7_PRIVATE ph7_class_method * PH7_NewClassMethod(ph7_vm *pVm,ph7_class *pClass,
     zName = (char *)pNamePtr->zString;
   }
   if( iProtection != PH7_CLASS_PROT_PUBLIC ){
-    if( (pName->nByte == sizeof("__construct") - 1 && SyMemcmp(pName->zString,"__construct",sizeof("__construct") - 1 ) == 0)
-        || (pName->nByte == sizeof("__destruct") - 1 && SyMemcmp(pName->zString,"__destruct",sizeof("__destruct") - 1 ) == 0)
-        || SyStringCmp(pName,&pClass->sName,SyMemcmp) == 0 ){
+    if((pName->nByte == sizeof("__construct") - 1 && SyMemcmp(pName->zString,"__construct",sizeof("__construct") - 1 ) == 0)
+       || (pName->nByte == sizeof("__destruct") - 1 && SyMemcmp(pName->zString,"__destruct",sizeof("__destruct") - 1 ) == 0)
+       || SyStringCmp(pName,&pClass->sName,SyMemcmp) == 0 ){
       /* Switch to public visibility when dealing with constructor/destructor */
       iProtection = PH7_CLASS_PROT_PUBLIC;
     }
@@ -257,7 +257,7 @@ PH7_PRIVATE sxi32 PH7_ClassInherit(ph7_gen_state *pGen,ph7_class *pSub,ph7_class
     /* Make sure the private attributes are not redeclared in the subclass */
     pAttr = (ph7_class_attr *)pEntry->pUserData;
     pName = &pAttr->sName;
-    if( (pEntry = SyHashGet(&pSub->hAttr,(const void *)pName->zString,pName->nByte)) != 0 ){
+    if((pEntry = SyHashGet(&pSub->hAttr,(const void *)pName->zString,pName->nByte)) != 0 ){
       if( pAttr->iProtection == PH7_CLASS_PROT_PRIVATE &&
           ((ph7_class_attr *)pEntry->pUserData)->iProtection != PH7_CLASS_PROT_PUBLIC ){
         /* Cannot redeclare private attribute */
@@ -281,7 +281,7 @@ PH7_PRIVATE sxi32 PH7_ClassInherit(ph7_gen_state *pGen,ph7_class *pSub,ph7_class
     /* Make sure the private/final methods are not redeclared in the subclass */
     pMeth = (ph7_class_method *)pEntry->pUserData;
     pName = &pMeth->sFunc.sName;
-    if( (pEntry = SyHashGet(&pSub->hMethod,(const void *)pName->zString,pName->nByte)) != 0 ){
+    if((pEntry = SyHashGet(&pSub->hMethod,(const void *)pName->zString,pName->nByte)) != 0 ){
       if( pMeth->iFlags & PH7_CLASS_ATTR_FINAL ){
         /* Cannot Overwrite final method */
         rc = PH7_GenCompileError(&(*pGen),E_ERROR,((ph7_class_method *)pEntry->pUserData)->nLine,
@@ -649,7 +649,7 @@ PH7_PRIVATE ph7_class_instance * PH7_CloneClassInstance(ph7_class_instance *pSrc
     VmClassAttr *pSrcAttr = (VmClassAttr *)pEntry->pUserData;
     VmClassAttr *pDestAttr = (VmClassAttr *)pEntry2->pUserData;
     /* Duplicate non-static attribute */
-    if( (pSrcAttr->pAttr->iFlags & (PH7_CLASS_ATTR_STATIC | PH7_CLASS_ATTR_CONSTANT)) == 0 ){
+    if((pSrcAttr->pAttr->iFlags & (PH7_CLASS_ATTR_STATIC | PH7_CLASS_ATTR_CONSTANT)) == 0 ){
       ph7_value *pvSrc,*pvDest;
       pvSrc = ExtractClassAttrValue(pVm,pSrcAttr);
       pvDest = ExtractClassAttrValue(pVm,pDestAttr);
@@ -708,7 +708,7 @@ static void PH7_ClassInstanceRelease(ph7_class_instance *pThis)
   SyHashResetLoopCursor(&pThis->hAttr);
   while((pEntry = SyHashGetNextEntry(&pThis->hAttr)) != 0 ){
     VmClassAttr *pVmAttr = (VmClassAttr *)pEntry->pUserData;
-    if( (pVmAttr->pAttr->iFlags & (PH7_CLASS_ATTR_STATIC | PH7_CLASS_ATTR_CONSTANT)) == 0 ){
+    if((pVmAttr->pAttr->iFlags & (PH7_CLASS_ATTR_STATIC | PH7_CLASS_ATTR_CONSTANT)) == 0 ){
       PH7_VmUnsetMemObj(pVm,pVmAttr->nIdx,TRUE);
     }
     SyMemBackendPoolFree(&pVm->sAllocator,pVmAttr);
@@ -849,7 +849,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceCmp(ph7_class_instance *pLeft,ph7_class_insta
     VmClassAttr *p1 = (VmClassAttr *)pEntry->pUserData;
     VmClassAttr *p2 = (VmClassAttr *)pEntry2->pUserData;
     /* Compare only non-static attribute */
-    if( (p1->pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC)) == 0 ){
+    if((p1->pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC)) == 0 ){
       ph7_value *pL,*pR;
       pL = ExtractClassAttrValue(pLeft->pVm,p1);
       pR = ExtractClassAttrValue(pRight->pVm,p2);
@@ -1144,7 +1144,7 @@ PH7_PRIVATE ph7_value * PH7_ClassInstanceFetchAttr(ph7_class_instance *pThis,con
   /* Point to the class atrribute */
   pAttr = (VmClassAttr *)pEntry->pUserData;
   /* Check if we are dealing with a static/constant attribute */
-  if( pAttr->pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC) ){
+  if( pAttr->pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC)){
     /* Access is forbidden */
     return 0;
   }

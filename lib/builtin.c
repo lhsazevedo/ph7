@@ -960,21 +960,21 @@ static int PH7_builtin_hexdec(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   iVal = 0;
-  if( ph7_value_is_string(apArg[0]) ){
+  if( ph7_value_is_string(apArg[0])){
     /* Extract the given string */
     zString = ph7_value_to_string(apArg[0],&nLen);
     /* Delimit the string */
     zEnd = &zString[nLen];
     /* Ignore non hex-stream */
     while( zString < zEnd ){
-      if( (unsigned char)zString[0] >= 0xc0 ){
+      if((unsigned char)zString[0] >= 0xc0 ){
         /* UTF-8 stream */
         zString++;
-        while( zString < zEnd && (((unsigned char)zString[0] & 0xc0) == 0x80) ){
+        while( zString < zEnd && (((unsigned char)zString[0] & 0xc0) == 0x80)){
           zString++;
         }
       }else{
-        if( SyisHex(zString[0]) ){
+        if( SyisHex(zString[0])){
           break;
         }
         /* Ignore */
@@ -1013,7 +1013,7 @@ static int PH7_builtin_bindec(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   iVal = 0;
-  if( ph7_value_is_string(apArg[0]) ){
+  if( ph7_value_is_string(apArg[0])){
     /* Extract the given string */
     zString = ph7_value_to_string(apArg[0],&nLen);
     if( nLen > 0 ){
@@ -1048,7 +1048,7 @@ static int PH7_builtin_octdec(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   iVal = 0;
-  if( ph7_value_is_string(apArg[0]) ){
+  if( ph7_value_is_string(apArg[0])){
     /* Extract the given string */
     zString = ph7_value_to_string(apArg[0],&nLen);
     if( nLen > 0 ){
@@ -1109,7 +1109,7 @@ static int PH7_builtin_base_convert(ph7_context *pCtx,int nArg,ph7_value **apArg
   /* Base numbers */
   iFbase = ph7_value_to_int(apArg[1]);
   iTobase = ph7_value_to_int(apArg[2]);
-  if( ph7_value_is_string(apArg[0]) ){
+  if( ph7_value_is_string(apArg[0])){
     /* Extract the target number */
     zNum = ph7_value_to_string(apArg[0],&nLen);
     if( nLen < 1 ){
@@ -1445,7 +1445,7 @@ static int PH7_builtin_chunk_split(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   const char *zIn,*zEnd,*zSep = "\r\n";
   int nSepLen,nChunkLen,nLen;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Nothing to split,return null */
     ph7_result_null(pCtx);
     return PH7_OK;
@@ -1479,7 +1479,7 @@ static int PH7_builtin_chunk_split(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   while( zIn < zEnd ){
-    if( nChunkLen > (int)(zEnd - zIn) ){
+    if( nChunkLen > (int)(zEnd - zIn)){
       nChunkLen = (int)(zEnd - zIn);
     }
     /* Append the chunk and the separator */
@@ -1598,7 +1598,7 @@ static int PH7_builtin_addcslashes(ph7_context *pCtx,int nArg,ph7_value **apArg)
       break;
     }
     zCur = zIn;
-    while( zIn < zEnd && !cSlashCheckMask(zIn[0],zMask,nMask) ){
+    while( zIn < zEnd && !cSlashCheckMask(zIn[0],zMask,nMask)){
       zIn++;
     }
     if( zIn > zCur ){
@@ -1607,7 +1607,7 @@ static int PH7_builtin_addcslashes(ph7_context *pCtx,int nArg,ph7_value **apArg)
     }
     if( zIn < zEnd ){
       int c = zIn[0];
-      if( c > 126 || (c < 32 && (!SyisAlphaNum(c) /*EBCDIC*/ && !SyisSpace(c))) ){
+      if( c > 126 || (c < 32 && (!SyisAlphaNum(c) /*EBCDIC*/ && !SyisSpace(c)))){
         /* Convert to octal */
         ph7_result_string_format(pCtx,"\\%o",c);
       }else{
@@ -1651,7 +1651,7 @@ static int PH7_builtin_quotemeta(ph7_context *pCtx,int nArg,ph7_value **apArg)
       break;
     }
     zCur = zIn;
-    while( zIn < zEnd && !cSlashCheckMask(zIn[0],".\\+*?[^]($)",(int)sizeof(".\\+*?[^]($)") - 1) ){
+    while( zIn < zEnd && !cSlashCheckMask(zIn[0],".\\+*?[^]($)",(int)sizeof(".\\+*?[^]($)") - 1)){
       zIn++;
     }
     if( zIn > zCur ){
@@ -1750,7 +1750,7 @@ static int PH7_builtin_htmlspecialchars(ph7_context *pCtx,int nArg,ph7_value **a
   const char *zCur,*zIn,*zEnd;
   int iFlags = 0x01 | 0x40;   /* ENT_COMPAT | ENT_HTML401 */
   int nLen,c;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return NULL */
     ph7_result_null(pCtx);
     return PH7_OK;
@@ -1800,7 +1800,7 @@ static int PH7_builtin_htmlspecialchars(ph7_context *pCtx,int nArg,ph7_value **a
         ph7_result_string(pCtx,"'",(int)sizeof(char));
       }
     }else if( c == '"' ){
-      if( (iFlags & 0x04) == 0 /*ENT_NOQUOTES*/ ){
+      if((iFlags & 0x04) == 0 /*ENT_NOQUOTES*/ ){
         /* Expand '&quot;' */
         ph7_result_string(pCtx,"&quot;",(int)sizeof("&quot;") - 1);
       }else{
@@ -1832,7 +1832,7 @@ static int PH7_builtin_htmlspecialchars_decode(ph7_context *pCtx,int nArg,ph7_va
   const char *zCur,*zIn,*zEnd;
   int iFlags = 0x01;   /* ENT_COMPAT */
   int nLen,nJump;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return NULL */
     ph7_result_null(pCtx);
     return PH7_OK;
@@ -1876,7 +1876,7 @@ static int PH7_builtin_htmlspecialchars_decode(ph7_context *pCtx,int nArg,ph7_va
       nJump = (int)sizeof("&gt;") - 1;
     }else if( nLen >= (int)sizeof("&quot;") - 1 && SyStrnicmp(zIn,"&quot;",sizeof("&quot;") - 1) == 0 ){
       /* &quot; ==> '"' */
-      if( (iFlags & 0x04) == 0 /*ENT_NOQUOTES*/ ){
+      if((iFlags & 0x04) == 0 /*ENT_NOQUOTES*/ ){
         ph7_result_string(pCtx,"\"",(int)sizeof(char));
       }else{
         /* Leave untouched */
@@ -1893,7 +1893,7 @@ static int PH7_builtin_htmlspecialchars_decode(ph7_context *pCtx,int nArg,ph7_va
         ph7_result_string(pCtx,"&#039;",(int)sizeof("&#039;") - 1);
       }
       nJump = (int)sizeof("&#039;") - 1;
-    }else if( nLen >= (int)sizeof(char) ){
+    }else if( nLen >= (int)sizeof(char)){
       /* expand '&' */
       ph7_result_string(pCtx,"&",(int)sizeof(char));
     }else{
@@ -1975,7 +1975,7 @@ static int PH7_builtin_htmlentities(ph7_context *pCtx,int nArg,ph7_value **apArg
   const char *zIn,*zEnd;
   int nLen,c;
   sxu32 n;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return NULL */
     ph7_result_null(pCtx);
     return PH7_OK;
@@ -2004,12 +2004,12 @@ static int PH7_builtin_htmlentities(ph7_context *pCtx,int nArg,ph7_value **apArg
         break;
       }
     }
-    if( n < SX_ARRAYSIZE(azHtmlEscape) ){
+    if( n < SX_ARRAYSIZE(azHtmlEscape)){
       /* Output the safe sequence [i.e: '<' ==> '&lt;"] */
       if( c == '"' && (iFlags & 0x04) /*ENT_NOQUOTES*/ ){
         /* Expand the double quote verbatim */
         ph7_result_string(pCtx,(const char *)&c,(int)sizeof(char));
-      }else if(c == '\'' && ((iFlags & 0x02 /*ENT_QUOTES*/ ) == 0 || (iFlags & 0x04) /*ENT_NOQUOTES*/ ) ){
+      }else if(c == '\'' && ((iFlags & 0x02 /*ENT_QUOTES*/ ) == 0 || (iFlags & 0x04) /*ENT_NOQUOTES*/ )){
         /* expand single quote verbatim */
         ph7_result_string(pCtx,(const char *)&c,(int)sizeof(char));
       }else{
@@ -2040,7 +2040,7 @@ static int PH7_builtin_html_entity_decode(ph7_context *pCtx,int nArg,ph7_value *
   int iFlags = 0x01;   /* ENT_COMPAT  */
   int nLen;
   sxu32 n;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return NULL */
     ph7_result_null(pCtx);
     return PH7_OK;
@@ -2082,10 +2082,10 @@ static int PH7_builtin_html_entity_decode(ph7_context *pCtx,int nArg,ph7_value *
         break;
       }
     }
-    if( n < SX_ARRAYSIZE(azHtmlEscape) ){
+    if( n < SX_ARRAYSIZE(azHtmlEscape)){
       int c = azHtmlEscape[n + 1][0];
       /* Output the decoded character */
-      if( c == '\'' && ((iFlags & 0x02) == 0 /*ENT_QUOTES*/ || (iFlags & 0x04) /*ENT_NOQUOTES*/ )  ){
+      if( c == '\'' && ((iFlags & 0x02) == 0 /*ENT_QUOTES*/ || (iFlags & 0x04) /*ENT_NOQUOTES*/ )){
         /* Do not process single quotes */
         ph7_result_string(pCtx,azHtmlEscape[n],-1);
       }else if( c == '"' && (iFlags & 0x04) /*ENT_NOQUOTES*/ ){
@@ -2328,7 +2328,7 @@ static int PH7_builtin_implode(ph7_context *pCtx,int nArg,ph7_value **apArg)
   imp_data.bRecursive = 0;
   imp_data.bFirst = 1;
   imp_data.nRecCount = 0;
-  if( !ph7_value_is_array(apArg[0]) ){
+  if( !ph7_value_is_array(apArg[0])){
     imp_data.zSep = ph7_value_to_string(apArg[0],&imp_data.nSeplen);
   }else{
     imp_data.zSep = 0;
@@ -2338,7 +2338,7 @@ static int PH7_builtin_implode(ph7_context *pCtx,int nArg,ph7_value **apArg)
   ph7_result_string(pCtx,"",0);   /* Set an empty stirng */
   /* Start the 'join' process */
   while( i < nArg ){
-    if( ph7_value_is_array(apArg[i]) ){
+    if( ph7_value_is_array(apArg[i])){
       /* Iterate throw array entries */
       ph7_array_walk(apArg[i],implode_callback,&imp_data);
     }else{
@@ -2393,7 +2393,7 @@ static int PH7_builtin_implode_recursive(ph7_context *pCtx,int nArg,ph7_value **
   imp_data.bRecursive = 1;
   imp_data.bFirst = 1;
   imp_data.nRecCount = 0;
-  if( !ph7_value_is_array(apArg[0]) ){
+  if( !ph7_value_is_array(apArg[0])){
     imp_data.zSep = ph7_value_to_string(apArg[0],&imp_data.nSeplen);
   }else{
     imp_data.zSep = 0;
@@ -2403,7 +2403,7 @@ static int PH7_builtin_implode_recursive(ph7_context *pCtx,int nArg,ph7_value **
   ph7_result_string(pCtx,"",0);   /* Set an empty stirng */
   /* Start the 'join' process */
   while( i < nArg ){
-    if( ph7_value_is_array(apArg[i]) ){
+    if( ph7_value_is_array(apArg[i])){
       /* Iterate throw array entries */
       ph7_array_walk(apArg[i],implode_callback,&imp_data);
     }else{
@@ -2507,7 +2507,7 @@ static int PH7_builtin_explode(ph7_context *pCtx,int nArg,ph7_value **apArg)
       break;
     }
     rc = SyBlobSearch(zString,(sxu32)(zEnd - zString),zDelim,nDelim,&nOfft);
-    if( rc != SXRET_OK || iLimit <= (int)ph7_array_count(pArray) ){
+    if( rc != SXRET_OK || iLimit <= (int)ph7_array_count(pArray)){
       /* Limit reached,insert the rest of the string and break */
       if( zEnd > zString ){
         ph7_value_string(pValue,zString,(int)(zEnd - zString));
@@ -2814,7 +2814,7 @@ static int PH7_builtin_strtolower(ph7_context *pCtx,int nArg,ph7_value **apArg)
       /* No more input,break immediately */
       break;
     }
-    if( (unsigned char)zString[0] >= 0xc0 ){
+    if((unsigned char)zString[0] >= 0xc0 ){
       /* UTF-8 stream,output verbatim */
       zCur = zString;
       zString++;
@@ -2825,7 +2825,7 @@ static int PH7_builtin_strtolower(ph7_context *pCtx,int nArg,ph7_value **apArg)
       ph7_result_string(pCtx,zCur,(int)(zString - zCur));
     }else{
       int c = zString[0];
-      if( SyisUpper(c) ){
+      if( SyisUpper(c)){
         c = SyToLower(zString[0]);
       }
       /* Append character */
@@ -2868,7 +2868,7 @@ static int PH7_builtin_strtoupper(ph7_context *pCtx,int nArg,ph7_value **apArg)
       /* No more input,break immediately */
       break;
     }
-    if( (unsigned char)zString[0] >= 0xc0 ){
+    if((unsigned char)zString[0] >= 0xc0 ){
       /* UTF-8 stream,output verbatim */
       zCur = zString;
       zString++;
@@ -2879,7 +2879,7 @@ static int PH7_builtin_strtoupper(ph7_context *pCtx,int nArg,ph7_value **apArg)
       ph7_result_string(pCtx,zCur,(int)(zString - zCur));
     }else{
       int c = zString[0];
-      if( SyisLower(c) ){
+      if( SyisLower(c)){
         c = SyToUpper(zString[0]);
       }
       /* Append character */
@@ -2919,7 +2919,7 @@ static int PH7_builtin_ucfirst(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Perform the requested operation */
   zEnd = &zString[nLen];
   c = zString[0];
-  if( SyisLower(c) ){
+  if( SyisLower(c)){
     c = SyToUpper(c);
   }
   /* Append the first character */
@@ -2959,7 +2959,7 @@ static int PH7_builtin_lcfirst(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Perform the requested operation */
   zEnd = &zString[nLen];
   c = zString[0];
-  if( SyisUpper(c) ){
+  if( SyisUpper(c)){
     c = SyToLower(c);
   }
   /* Append the first character */
@@ -3539,7 +3539,7 @@ static int PH7_builtin_strrchr(ph7_context *pCtx,int nArg,ph7_value **apArg)
   if( nLen > 0 ){
     sxu32 nOfft;
     sxi32 rc;
-    if( ph7_value_is_string(apArg[1]) ){
+    if( ph7_value_is_string(apArg[1])){
       const char *zPattern;
       zPattern = ph7_value_to_string(apArg[1],0);       /* Never fail,so there is no need to check
                                                          * for NULL pointer.
@@ -3634,7 +3634,7 @@ static int PH7_builtin_ucwords(ph7_context *pCtx,int nArg,ph7_value **apArg)
   for(;;){
     /* Jump leading white spaces */
     zCur = zIn;
-    while( zIn < zEnd && (unsigned char)zIn[0] < 0x80 && SyisSpace(zIn[0]) ){
+    while( zIn < zEnd && (unsigned char)zIn[0] < 0x80 && SyisSpace(zIn[0])){
       zIn++;
     }
     if( zCur < zIn ){
@@ -3646,7 +3646,7 @@ static int PH7_builtin_ucwords(ph7_context *pCtx,int nArg,ph7_value **apArg)
       break;
     }
     c = zIn[0];
-    if( c < 0x80 && SyisLower(c) ){
+    if( c < 0x80 && SyisLower(c)){
       c = SyToUpper(c);
     }
     /* Append the upper-cased character */
@@ -3655,11 +3655,11 @@ static int PH7_builtin_ucwords(ph7_context *pCtx,int nArg,ph7_value **apArg)
     zCur = zIn;
     /* Append the word varbatim */
     while( zIn < zEnd ){
-      if( (unsigned char)zIn[0] >= 0xc0 ){
+      if((unsigned char)zIn[0] >= 0xc0 ){
         /* UTF-8 stream */
         zIn++;
         SX_JMP_UTF8(zIn,zEnd);
-      }else if( !SyisSpace(zIn[0]) ){
+      }else if( !SyisSpace(zIn[0])){
         zIn++;
       }else{
         break;
@@ -3759,7 +3759,7 @@ static int PH7_builtin_nl2br(ph7_context *pCtx,int nArg,ph7_value **apArg)
   for(;;){
     zCur = zIn;
     /* Delimit the string */
-    while( zIn < zEnd && (zIn[0] != '\n' && zIn[0] != '\r') ){
+    while( zIn < zEnd && (zIn[0] != '\n' && zIn[0] != '\r')){
       zIn++;
     }
     if( zCur < zIn ){
@@ -3778,7 +3778,7 @@ static int PH7_builtin_nl2br(ph7_context *pCtx,int nArg,ph7_value **apArg)
     }
     zCur = zIn;
     /* Append trailing line */
-    while( zIn < zEnd && (zIn[0] == '\n' || zIn[0] == '\r') ){
+    while( zIn < zEnd && (zIn[0] == '\n' || zIn[0] == '\r')){
       zIn++;
     }
     if( zCur < zIn ){
@@ -3885,7 +3885,7 @@ static int vxGetdigit(sxlongreal *val,int *cnt)
   sxlongreal d;
   int digit;
 
-  if( (*cnt)++ >= 16 ){
+  if((*cnt)++ >= 16 ){
     return '0';
   }
   digit = (int)*val;
@@ -4005,10 +4005,10 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         break;
       default:                                       break;
       }
-    }while( c == 0 && (zIn++ < zEnd) );
+    }while( c == 0 && (zIn++ < zEnd));
     /* Get the field width */
     width = 0;
-    while( zIn < zEnd && (zIn[0] >= '0' && zIn[0] <= '9') ){
+    while( zIn < zEnd && (zIn[0] >= '0' && zIn[0] <= '9')){
       width = width * 10 + (zIn[0] - '0');
       zIn++;
     }
@@ -4026,7 +4026,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         flag_zeropad = 1;
         zIn++;
       }
-      while( zIn < zEnd && (zIn[0] >= '0' && zIn[0] <= '9') ){
+      while( zIn < zEnd && (zIn[0] >= '0' && zIn[0] <= '9')){
         width = width * 10 + (zIn[0] - '0');
         zIn++;
       }
@@ -4039,7 +4039,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     if( zIn < zEnd && zIn[0] == '.' ){
       precision = 0;
       zIn++;
-      while( zIn < zEnd && (zIn[0] >= '0' && zIn[0] <= '9') ){
+      while( zIn < zEnd && (zIn[0] >= '0' && zIn[0] <= '9')){
         precision = precision * 10 + (zIn[0] - '0');
         zIn++;
       }
@@ -4163,7 +4163,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         }
         prefix = 0;
       }
-      if( flag_zeropad && precision < width - (prefix != 0) ){
+      if( flag_zeropad && precision < width - (prefix != 0)){
         precision = width - (prefix != 0);
       }
       zBuf = &zWorker[PH7_FMT_BUFSIZ - 1];
@@ -4276,7 +4276,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         for(exp++; exp < 0 && precision > 0; precision--, exp++){
           *(zBuf++) = '0';
         }
-        while( (precision--) > 0 )*(zBuf++) = (char)vxGetdigit(&realvalue,&nsd);
+        while((precision--) > 0 ) *(zBuf++) = (char)vxGetdigit(&realvalue,&nsd);
         *(zBuf--) = 0;                             /* Null terminate */
         if( flag_rtz && flag_dp ){         /* Remove trailing zeros and "." */
           while( zBuf >= zWorker && *zBuf == '0' )*(zBuf--) = 0;
@@ -4288,7 +4288,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         if( prefix ) *(zBuf++) = (char)prefix;         /* Sign */
         *(zBuf++) = (char)vxGetdigit(&realvalue,&nsd);         /* First digit */
         if( flag_dp ) *(zBuf++) = '.';         /* Decimal point */
-        while( (precision--) > 0 )*(zBuf++) = (char)vxGetdigit(&realvalue,&nsd);
+        while((precision--) > 0 ) *(zBuf++) = (char)vxGetdigit(&realvalue,&nsd);
         zBuf--;                              /* point to last digit */
         if( flag_rtz && flag_dp ){            /* Remove tail zeros */
           while( zBuf >= zWorker && *zBuf == '0' )*(zBuf--) = 0;
@@ -4411,7 +4411,7 @@ static int PH7_builtin_sprintf(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   const char *zFormat;
   int nLen;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return the empty string */
     ph7_result_string(pCtx,"",0);
     return PH7_OK;
@@ -4453,7 +4453,7 @@ static int PH7_builtin_printf(ph7_context *pCtx,int nArg,ph7_value **apArg)
   ph7_int64 nCounter = 0;
   const char *zFormat;
   int nLen;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return 0 */
     ph7_result_int(pCtx,0);
     return PH7_OK;
@@ -4487,7 +4487,7 @@ static int PH7_builtin_vprintf(ph7_context *pCtx,int nArg,ph7_value **apArg)
   ph7_hashmap *pMap;
   SySet sArg;
   int nLen,n;
-  if( nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_array(apArg[1]) ){
+  if( nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_array(apArg[1])){
     /* Missing/Invalid arguments,return 0 */
     ph7_result_int(pCtx,0);
     return PH7_OK;
@@ -4526,7 +4526,7 @@ static int PH7_builtin_vsprintf(ph7_context *pCtx,int nArg,ph7_value **apArg)
   ph7_hashmap *pMap;
   SySet sArg;
   int nLen,n;
-  if( nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_array(apArg[1]) ){
+  if( nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_array(apArg[1])){
     /* Missing/Invalid arguments,return the empty string */
     ph7_result_string(pCtx,"",0);
     return PH7_OK;
@@ -4586,7 +4586,7 @@ static int PH7_builtin_size_format(ph7_context *pCtx,int nArg,ph7_value **apArg)
     nRest = (sxi32)(iSize & 0x3FF);
     iSize >>= 10;
     c++;
-    if( (iSize & (~0 ^ 1023)) == 0 ){
+    if((iSize & (~0 ^ 1023)) == 0 ){
       break;
     }
   }
@@ -4834,7 +4834,7 @@ static int PH7_builtin_str_getcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
   int encl = '"';       /* Enclosure */
   int escape = '\\';    /* Escape character */
   int nLen;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return NULL */
     ph7_result_null(pCtx);
     return PH7_OK;
@@ -4843,7 +4843,7 @@ static int PH7_builtin_str_getcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
   zInput = ph7_value_to_string(apArg[0],&nLen);
   if( nArg > 1 ){
     int i;
-    if( ph7_value_is_string(apArg[1]) ){
+    if( ph7_value_is_string(apArg[1])){
       /* Extract the delimiter */
       zPtr = ph7_value_to_string(apArg[1],&i);
       if( i > 0 ){
@@ -4851,7 +4851,7 @@ static int PH7_builtin_str_getcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
       }
     }
     if( nArg > 2 ){
-      if( ph7_value_is_string(apArg[2]) ){
+      if( ph7_value_is_string(apArg[2])){
         /* Extract the enclosure */
         zPtr = ph7_value_to_string(apArg[2],&i);
         if( i > 0 ){
@@ -4859,7 +4859,7 @@ static int PH7_builtin_str_getcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
         }
       }
       if( nArg > 3 ){
-        if( ph7_value_is_string(apArg[3]) ){
+        if( ph7_value_is_string(apArg[3])){
           /* Extract the escape character */
           zPtr = ph7_value_to_string(apArg[3],&i);
           if( i > 0 ){
@@ -4895,7 +4895,7 @@ static sxi32 AddTag(SySet *pSet,const char *zTag,int nByte)
   /* Strip tags */
   for(;;){
     while( zTag < zEnd && (zTag[0] == '<' || zTag[0] == '/' || zTag[0] == '?'
-                           || zTag[0] == '!' || zTag[0] == '-' || ((unsigned char)zTag[0] < 0xc0 && SyisSpace(zTag[0]))) ){
+                           || zTag[0] == '!' || zTag[0] == '-' || ((unsigned char)zTag[0] < 0xc0 && SyisSpace(zTag[0])))){
       zTag++;
     }
     if( zTag >= zEnd ){
@@ -4904,11 +4904,11 @@ static sxi32 AddTag(SySet *pSet,const char *zTag,int nByte)
     zPtr = zTag;
     /* Delimit the tag */
     while(zTag < zEnd ){
-      if( (unsigned char)zTag[0] >= 0xc0 ){
+      if((unsigned char)zTag[0] >= 0xc0 ){
         /* UTF-8 stream */
         zTag++;
         SX_JMP_UTF8(zTag,zEnd);
-      }else if( !SyisAlphaNum(zTag[0]) ){
+      }else if( !SyisAlphaNum(zTag[0])){
         break;
       }else{
         zTag++;
@@ -4936,17 +4936,17 @@ static sxi32 FindTag(SySet *pSet,const char *zTag,int nByte)
     const char *zCur,*zEnd = &zTag[nByte];
     SyString sTag;
     while( zTag < zEnd && (zTag[0] == '<' || zTag[0] == '/' || zTag[0] == '?' ||
-                           ((unsigned char)zTag[0] < 0xc0 && SyisSpace(zTag[0]))) ){
+                           ((unsigned char)zTag[0] < 0xc0 && SyisSpace(zTag[0])))){
       zTag++;
     }
     /* Delimit the tag */
     zCur = zTag;
     while(zTag < zEnd ){
-      if( (unsigned char)zTag[0] >= 0xc0 ){
+      if((unsigned char)zTag[0] >= 0xc0 ){
         /* UTF-8 stream */
         zTag++;
         SX_JMP_UTF8(zTag,zEnd);
-      }else if( !SyisAlphaNum(zTag[0]) ){
+      }else if( !SyisAlphaNum(zTag[0])){
         break;
       }else{
         zTag++;
@@ -5054,14 +5054,14 @@ static int PH7_builtin_strip_tags(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zString;
   int nTaglen = 0;
   int nLen;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return the empty string */
     ph7_result_string(pCtx,"",0);
     return PH7_OK;
   }
   /* Point to the raw string */
   zString = ph7_value_to_string(apArg[0],&nLen);
-  if( nArg > 1 && ph7_value_is_string(apArg[1]) ){
+  if( nArg > 1 && ph7_value_is_string(apArg[1])){
     /* Allowed tag */
     zTaglist = ph7_value_to_string(apArg[1],&nTaglen);
   }
@@ -5200,7 +5200,7 @@ static sxi32 ExtractNonSpaceToken(const char **pzIn,const char *zEnd,SyString *p
   const char *zIn = *pzIn;
   const char *zPtr;
   /* Ignore leading white spaces */
-  while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && SyisSpace(zIn[0]) ){
+  while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && SyisSpace(zIn[0])){
     zIn++;
   }
   if( zIn >= zEnd ){
@@ -5209,7 +5209,7 @@ static sxi32 ExtractNonSpaceToken(const char **pzIn,const char *zEnd,SyString *p
   }
   zPtr = zIn;
   /* Extract the token */
-  while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && !SyisSpace(zIn[0]) ){
+  while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && !SyisSpace(zIn[0])){
     zIn++;
   }
   SyStringInitFromBuf(pOut,zPtr,zIn - zPtr);
@@ -5682,7 +5682,7 @@ static sxi32 ExtractToken(const char **pzIn,const char *zEnd,const char *zMask,i
   const char *zIn = *pzIn;
   const char *zPtr;
   /* Ignore leading delimiter */
-  while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && CheckMask(zIn[0],zMask,nMasklen,0) ){
+  while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && CheckMask(zIn[0],zMask,nMasklen,0)){
     zIn++;
   }
   if( zIn >= zEnd ){
@@ -5692,12 +5692,12 @@ static sxi32 ExtractToken(const char **pzIn,const char *zEnd,const char *zMask,i
   zPtr = zIn;
   /* Extract the token */
   while( zIn < zEnd ){
-    if( (unsigned char)zIn[0] >= 0xc0 ){
+    if((unsigned char)zIn[0] >= 0xc0 ){
       /* UTF-8 stream */
       zIn++;
       SX_JMP_UTF8(zIn,zEnd);
     }else{
-      if( CheckMask(zIn[0],zMask,nMasklen,0) ){
+      if( CheckMask(zIn[0],zMask,nMasklen,0)){
         break;
       }
       zIn++;
@@ -5898,14 +5898,14 @@ static int PH7_builtin_str_pad(ph7_context *pCtx,int nArg,ph7_value **apArg)
     jPad = iStrpad;
     for( i = 0 ; i < iPadlen / iDiv ; i += jPad ){
       /* Padding */
-      if( (int)ph7_context_result_buf_length(pCtx) + iLen + jPad >= iRealPad ){
+      if((int)ph7_context_result_buf_length(pCtx) + iLen + jPad >= iRealPad ){
         break;
       }
       ph7_result_string(pCtx,zPad,jPad);
     }
     if( iType == 0 /* STR_PAD_LEFT */ ){
-      while( (int)ph7_context_result_buf_length(pCtx) + iLen < iRealPad ){
-        jPad = iRealPad - (iLen + (int)ph7_context_result_buf_length(pCtx) );
+      while((int)ph7_context_result_buf_length(pCtx) + iLen < iRealPad ){
+        jPad = iRealPad - (iLen + (int)ph7_context_result_buf_length(pCtx));
         if( jPad > iStrpad ){
           jPad = iStrpad;
         }
@@ -5923,12 +5923,12 @@ static int PH7_builtin_str_pad(ph7_context *pCtx,int nArg,ph7_value **apArg)
   if( iType == 1 /* STR_PAD_RIGHT */ || iType == 2 /* STR_PAD_BOTH */ ){
     for( i = 0 ; i < iPadlen / iDiv ; i += iStrpad ){
       /* Padding */
-      if( (int)ph7_context_result_buf_length(pCtx) + iStrpad >= iRealPad ){
+      if((int)ph7_context_result_buf_length(pCtx) + iStrpad >= iRealPad ){
         break;
       }
       ph7_result_string(pCtx,zPad,iStrpad);
     }
-    while( (int)ph7_context_result_buf_length(pCtx) < iRealPad ){
+    while((int)ph7_context_result_buf_length(pCtx) < iRealPad ){
       jPad = iRealPad - (int)ph7_context_result_buf_length(pCtx);
       if( jPad > iStrpad ){
         jPad = iStrpad;
@@ -6023,7 +6023,7 @@ static int StringReplaceWalker(ph7_value *pKey,ph7_value *pData,void *pUserData)
   sxi32 rc;
   /* Point to the working buffer */
   pWorker = pRepData->pWorker;
-  if( !ph7_value_is_string(pKey) ){
+  if( !ph7_value_is_string(pKey)){
     /* Target and replace must be a string */
     return PH7_OK;
   }
@@ -6142,7 +6142,7 @@ static int PH7_builtin_str_replace(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Copy the subject */
   SyBlobAppend(&sWorker,(const void *)zIn,(sxu32)nByte);
   /* Search string */
-  if( ph7_value_is_array(apArg[0]) ){
+  if( ph7_value_is_array(apArg[0])){
     /* Collect search string */
     ph7_array_walk(apArg[0],StrReplaceWalker,&sRep);
   }else{
@@ -6158,7 +6158,7 @@ static int PH7_builtin_str_replace(ph7_context *pCtx,int nArg,ph7_value **apArg)
     SySetPut(&sSearch,(const void *)&sTemp);
   }
   /* Replace string */
-  if( ph7_value_is_array(apArg[1]) ){
+  if( ph7_value_is_array(apArg[1])){
     /* Collect replace string */
     sRep.pCollector = &sReplace;
     ph7_array_walk(apArg[1],StrReplaceWalker,&sRep);
@@ -6184,7 +6184,7 @@ static int PH7_builtin_str_replace(ph7_context *pCtx,int nArg,ph7_value **apArg)
     xMatch = iPatternMatch;
   }
   /* Start the replace process */
-  while( SXRET_OK == SySetGetNextEntry(&sSearch,(void **)&pSearch) ){
+  while( SXRET_OK == SySetGetNextEntry(&sSearch,(void **)&pSearch)){
     sxu32 nCount,nOfft;
     if( pSearch->nByte < 1 ){
       /* Empty string,ignore */
@@ -6194,7 +6194,7 @@ static int PH7_builtin_str_replace(ph7_context *pCtx,int nArg,ph7_value **apArg)
     if( rep_str ){
       pReplace = (SyString *)SySetPeek(&sReplace);
     }else{
-      if( SXRET_OK != SySetGetNextEntry(&sReplace,(void **)&pReplace) ){
+      if( SXRET_OK != SySetGetNextEntry(&sReplace,(void **)&pReplace)){
         /* Sepecial case when 'replace set' has fewer values than the search set.
          * An empty string is used for the rest of replacement values
          */
@@ -6207,7 +6207,7 @@ static int PH7_builtin_str_replace(ph7_context *pCtx,int nArg,ph7_value **apArg)
     }
     nOfft = nCount = 0;
     for(;;){
-      if( nCount >= SyBlobLength(&sWorker) ){
+      if( nCount >= SyBlobLength(&sWorker)){
         break;
       }
       /* Perform a pattern lookup */
@@ -6263,7 +6263,7 @@ static int PH7_builtin_strtr(ph7_context *pCtx,int nArg,ph7_value **apArg)
     ph7_result_string(pCtx,zIn,nLen);
     return PH7_OK;
   }
-  if( nArg == 2 && ph7_value_is_array(apArg[1]) ){
+  if( nArg == 2 && ph7_value_is_array(apArg[1])){
     str_replace_data sRepData;
     SyBlob sWorker;
     /* Initilaize the working buffer */
@@ -6299,7 +6299,7 @@ static int PH7_builtin_strtr(ph7_context *pCtx,int nArg,ph7_value **apArg)
     /* Start the replace process */
     for( i = 0 ; i < nLen ; ++i ){
       c = zIn[i];
-      if( CheckMask(c,zFrom,flen,&iOfft) ){
+      if( CheckMask(c,zFrom,flen,&iOfft)){
         if ( iOfft < tlen ){
           c = zTo[iOfft];
         }
@@ -6454,7 +6454,7 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx,const char *zIn,sxu32 nBy
         /* extract key value */
         ph7_value_reset_string_cursor(pValue);
         zIn++;         /* '=' */
-        while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && SyisSpace(zIn[0]) ){
+        while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && SyisSpace(zIn[0])){
           zIn++;
         }
         if( zIn < zEnd ){
@@ -6499,7 +6499,7 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx,const char *zIn,sxu32 nBy
           ph7_array_add_elem(pCur,is_array ? 0 /*Automatic index assign */: pWorker,pValue);
         }
       }else{
-        while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && (SyisSpace(zIn[0]) || zIn[0] == '=') ){
+        while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && (SyisSpace(zIn[0]) || zIn[0] == '=')){
           zIn++;
         }
       }
@@ -6530,7 +6530,7 @@ static int PH7_builtin_parse_ini_string(ph7_context *pCtx,int nArg,ph7_value **a
 {
   const char *zIni;
   int nByte;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid arguments,return FALSE*/
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -6582,7 +6582,7 @@ static int PH7_builtin_ctype_alnum(ph7_context *pCtx,int nArg,ph7_value **apArg)
       ph7_result_bool(pCtx,1);
       return PH7_OK;
     }
-    if( !SyisAlphaNum(zIn[0]) ){
+    if( !SyisAlphaNum(zIn[0])){
       break;
     }
     /* Point to the next character */
@@ -6625,7 +6625,7 @@ static int PH7_builtin_ctype_alpha(ph7_context *pCtx,int nArg,ph7_value **apArg)
       ph7_result_bool(pCtx,1);
       return PH7_OK;
     }
-    if( !SyisAlpha(zIn[0]) ){
+    if( !SyisAlpha(zIn[0])){
       break;
     }
     /* Point to the next character */
@@ -6672,7 +6672,7 @@ static int PH7_builtin_ctype_cntrl(ph7_context *pCtx,int nArg,ph7_value **apArg)
       /* UTF-8 stream  */
       break;
     }
-    if( !SyisCtrl(zIn[0]) ){
+    if( !SyisCtrl(zIn[0])){
       break;
     }
     /* Point to the next character */
@@ -6719,7 +6719,7 @@ static int PH7_builtin_ctype_digit(ph7_context *pCtx,int nArg,ph7_value **apArg)
       /* UTF-8 stream  */
       break;
     }
-    if( !SyisDigit(zIn[0]) ){
+    if( !SyisDigit(zIn[0])){
       break;
     }
     /* Point to the next character */
@@ -6767,7 +6767,7 @@ static int PH7_builtin_ctype_xdigit(ph7_context *pCtx,int nArg,ph7_value **apArg
       /* UTF-8 stream  */
       break;
     }
-    if( !SyisHex(zIn[0]) ){
+    if( !SyisHex(zIn[0])){
       break;
     }
     /* Point to the next character */
@@ -6815,7 +6815,7 @@ static int PH7_builtin_ctype_graph(ph7_context *pCtx,int nArg,ph7_value **apArg)
       /* UTF-8 stream  */
       break;
     }
-    if( !SyisGraph(zIn[0]) ){
+    if( !SyisGraph(zIn[0])){
       break;
     }
     /* Point to the next character */
@@ -6864,7 +6864,7 @@ static int PH7_builtin_ctype_print(ph7_context *pCtx,int nArg,ph7_value **apArg)
       /* UTF-8 stream  */
       break;
     }
-    if( !SyisPrint(zIn[0]) ){
+    if( !SyisPrint(zIn[0])){
       break;
     }
     /* Point to the next character */
@@ -6912,7 +6912,7 @@ static int PH7_builtin_ctype_punct(ph7_context *pCtx,int nArg,ph7_value **apArg)
       /* UTF-8 stream  */
       break;
     }
-    if( !SyisPunct(zIn[0]) ){
+    if( !SyisPunct(zIn[0])){
       break;
     }
     /* Point to the next character */
@@ -6961,7 +6961,7 @@ static int PH7_builtin_ctype_space(ph7_context *pCtx,int nArg,ph7_value **apArg)
       /* UTF-8 stream  */
       break;
     }
-    if( !SyisSpace(zIn[0]) ){
+    if( !SyisSpace(zIn[0])){
       break;
     }
     /* Point to the next character */
@@ -7004,7 +7004,7 @@ static int PH7_builtin_ctype_lower(ph7_context *pCtx,int nArg,ph7_value **apArg)
       ph7_result_bool(pCtx,1);
       return PH7_OK;
     }
-    if( !SyisLower(zIn[0]) ){
+    if( !SyisLower(zIn[0])){
       break;
     }
     /* Point to the next character */
@@ -7047,7 +7047,7 @@ static int PH7_builtin_ctype_upper(ph7_context *pCtx,int nArg,ph7_value **apArg)
       ph7_result_bool(pCtx,1);
       return PH7_OK;
     }
-    if( !SyisUpper(zIn[0]) ){
+    if( !SyisUpper(zIn[0])){
       break;
     }
     /* Point to the next character */
@@ -7216,7 +7216,7 @@ static int PH7_builtin_getdate(ph7_context *pCtx,int nArg,ph7_value **apArg)
 #endif
 #endif
 #endif
-    if( ph7_value_is_int(apArg[0]) ){
+    if( ph7_value_is_int(apArg[0])){
       t = (time_t)ph7_value_to_int64(apArg[0]);
       pTm = localtime(&t);
       if( pTm == 0 ){
@@ -7443,7 +7443,7 @@ static sxi32 DateFormat(ph7_context *pCtx,const char *zIn,int nLen,Sytm *pTm)
       case 't': {
         static const int aMonDays[] = {31,29,31,30,31,30,31,31,30,31,30,31 };
         int nDays = aMonDays[pTm->tm_mon % 12 ];
-        if( pTm->tm_mon == 1 /* 'February' */ && !IS_LEAP_YEAR(pTm->tm_year) ){
+        if( pTm->tm_mon == 1 /* 'February' */ && !IS_LEAP_YEAR(pTm->tm_year)){
           nDays = 28;
         }
         /*Number of days in the given month*/
@@ -7848,7 +7848,7 @@ static int PH7_builtin_date(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zFormat;
   int nLen;
   Sytm sTm;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -7874,7 +7874,7 @@ static int PH7_builtin_date(ph7_context *pCtx,int nArg,ph7_value **apArg)
     /* Use the given timestamp */
     time_t t;
     struct tm *pTm;
-    if( ph7_value_is_int(apArg[1]) ){
+    if( ph7_value_is_int(apArg[1])){
       t = (time_t)ph7_value_to_int64(apArg[1]);
       pTm = localtime(&t);
       if( pTm == 0 ){
@@ -7909,7 +7909,7 @@ static int PH7_builtin_strftime(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zFormat;
   int nLen;
   Sytm sTm;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -7935,7 +7935,7 @@ static int PH7_builtin_strftime(ph7_context *pCtx,int nArg,ph7_value **apArg)
     /* Use the given timestamp */
     time_t t;
     struct tm *pTm;
-    if( ph7_value_is_int(apArg[1]) ){
+    if( ph7_value_is_int(apArg[1])){
       t = (time_t)ph7_value_to_int64(apArg[1]);
       pTm = localtime(&t);
       if( pTm == 0 ){
@@ -7974,7 +7974,7 @@ static int PH7_builtin_gmdate(ph7_context *pCtx,int nArg,ph7_value **apArg)
   const char *zFormat;
   int nLen;
   Sytm sTm;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -8000,7 +8000,7 @@ static int PH7_builtin_gmdate(ph7_context *pCtx,int nArg,ph7_value **apArg)
     /* Use the given timestamp */
     time_t t;
     struct tm *pTm;
-    if( ph7_value_is_int(apArg[1]) ){
+    if( ph7_value_is_int(apArg[1])){
       t = (time_t)ph7_value_to_int64(apArg[1]);
       pTm = gmtime(&t);
       if( pTm == 0 ){
@@ -8061,7 +8061,7 @@ static int PH7_builtin_localtime(ph7_context *pCtx,int nArg,ph7_value **apArg)
     /* Use the given timestamp */
     time_t t;
     struct tm *pTm;
-    if( ph7_value_is_int(apArg[0]) ){
+    if( ph7_value_is_int(apArg[0])){
       t = (time_t)ph7_value_to_int64(apArg[0]);
       pTm = localtime(&t);
       if( pTm == 0 ){
@@ -8204,7 +8204,7 @@ static int PH7_builtin_idate(ph7_context *pCtx,int nArg,ph7_value **apArg)
   ph7_int64 iVal = 0;
   int nLen;
   Sytm sTm;
-  if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
+  if( nArg < 1 || !ph7_value_is_string(apArg[0])){
     /* Missing/Invalid argument,return -1 */
     ph7_result_int(pCtx,-1);
     return PH7_OK;
@@ -8230,7 +8230,7 @@ static int PH7_builtin_idate(ph7_context *pCtx,int nArg,ph7_value **apArg)
     /* Use the given timestamp */
     time_t t;
     struct tm *pTm;
-    if( ph7_value_is_int(apArg[1]) ){
+    if( ph7_value_is_int(apArg[1])){
       t = (time_t)ph7_value_to_int64(apArg[1]);
       pTm = localtime(&t);
       if( pTm == 0 ){
@@ -8287,7 +8287,7 @@ static int PH7_builtin_idate(ph7_context *pCtx,int nArg,ph7_value **apArg)
       /*Days in current month*/
       static const int aMonDays[] = {31,29,31,30,31,30,31,31,30,31,30,31 };
       int nDays = aMonDays[sTm.tm_mon % 12 ];
-      if( sTm.tm_mon == 1 /* 'February' */ && !IS_LEAP_YEAR(sTm.tm_year) ){
+      if( sTm.tm_mon == 1 /* 'February' */ && !IS_LEAP_YEAR(sTm.tm_year)){
         nDays = 28;
       }
       iVal = nDays;
