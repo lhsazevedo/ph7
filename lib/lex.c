@@ -211,13 +211,25 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
     /* Assume we are dealing with an operator*/
     pToken->nType = PH7_TK_OP;
     switch (c) {
-      case '$': pToken->nType = PH7_TK_DOLLAR; break;
-      case '{': pToken->nType = PH7_TK_OCB;    break;
-      case '}': pToken->nType = PH7_TK_CCB;    break;
-      case '(': pToken->nType = PH7_TK_LPAREN; break;
-      case '[': pToken->nType |= PH7_TK_OSB;   break;   /* Bitwise operation here,since the square bracket token '['
+      case '$':
+        pToken->nType = PH7_TK_DOLLAR; break;
+
+      case '{':
+        pToken->nType = PH7_TK_OCB;    break;
+
+      case '}':
+        pToken->nType = PH7_TK_CCB;    break;
+
+      case '(':
+        pToken->nType = PH7_TK_LPAREN; break;
+
+      case '[':
+        pToken->nType |= PH7_TK_OSB;   break;           /* Bitwise operation here,since the square bracket token '['
                                                          * is a potential operator [i.e: subscripting] */
-      case ']': pToken->nType = PH7_TK_CSB;    break;
+
+      case ']':
+        pToken->nType = PH7_TK_CSB;    break;
+
       case ')': {
         SySet *pTokSet = pStream->pSet;
         /* Assemble type cast operators [i.e: (int),(float),(bool)...] */
@@ -260,6 +272,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         pToken->nType = PH7_TK_RPAREN;
         break;
       }
+
       case '\'': {
         /* Single quoted string */
         pStr->zString++;
@@ -291,6 +304,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         pStream->zText++;
         return SXRET_OK;
       }
+
       case '"': {
         sxi32 iNest;
         /* Double quoted string */
@@ -345,6 +359,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         pStream->zText++;
         return SXRET_OK;
       }
+
       case '`': {
         /* Backtick quoted string */
         pStr->zString++;
@@ -364,7 +379,10 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         pStream->zText++;
         return SXRET_OK;
       }
-      case '\\': pToken->nType = PH7_TK_NSSEP;  break;
+
+      case '\\':
+        pToken->nType = PH7_TK_NSSEP;  break;
+
       case ':':
         if (pStream->zText < pStream->zEnd && pStream->zText[0] == ':') {
           /* Current operator: '::' */
@@ -373,8 +391,13 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
           pToken->nType = PH7_TK_COLON;       /* Single colon */
         }
         break;
-      case ',': pToken->nType |= PH7_TK_COMMA;  break;   /* Comma is also an operator */
-      case ';': pToken->nType = PH7_TK_SEMI;    break;
+
+      case ',':
+        pToken->nType |= PH7_TK_COMMA;  break;           /* Comma is also an operator */
+
+      case ';':
+        pToken->nType = PH7_TK_SEMI;    break;
+
       /* Handle combined operators [i.e: +=,===,!=== ...] */
       case '=':
         pToken->nType |= PH7_TK_EQUAL;
@@ -412,6 +435,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
           }
         }
         break;
+
       case '!':
         if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
           /* Current operator: != */
@@ -422,6 +446,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
           }
         }
         break;
+
       case '&':
         pToken->nType |= PH7_TK_AMPER;
         if (pStream->zText < pStream->zEnd) {
@@ -436,6 +461,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
           }
         }
         break;
+
       case '|':
         if (pStream->zText < pStream->zEnd) {
           if (pStream->zText[0] == '|') {
@@ -447,6 +473,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
           }
         }
         break;
+
       case '+':
         if (pStream->zText < pStream->zEnd) {
           if (pStream->zText[0] == '+') {
@@ -458,6 +485,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
           }
         }
         break;
+
       case '-':
         if (pStream->zText < pStream->zEnd) {
           if (pStream->zText[0] == '-') {
@@ -472,36 +500,42 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
           }
         }
         break;
+
       case '*':
         if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
           /* Current operator: *= */
           pStream->zText++;
         }
         break;
+
       case '/':
         if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
           /* Current operator: /= */
           pStream->zText++;
         }
         break;
+
       case '%':
         if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
           /* Current operator: %= */
           pStream->zText++;
         }
         break;
+
       case '^':
         if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
           /* Current operator: ^= */
           pStream->zText++;
         }
         break;
+
       case '.':
         if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
           /* Current operator: .= */
           pStream->zText++;
         }
         break;
+
       case '<':
         if (pStream->zText < pStream->zEnd) {
           if (pStream->zText[0] == '<') {
@@ -531,6 +565,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
           }
         }
         break;
+
       case '>':
         if (pStream->zText < pStream->zEnd) {
           if (pStream->zText[0] == '>') {
@@ -546,6 +581,7 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
           }
         }
         break;
+
       default:
         break;
     }

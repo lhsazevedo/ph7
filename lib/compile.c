@@ -758,50 +758,62 @@ static sxi32 GenStateCompileString(ph7_gen_state *pGen)
           /* Dollar sign */
           PH7_MemObjStringAppend(pObj, "$", sizeof(char));
           break;
+
         case '\\':
           /* A literal backslash */
           PH7_MemObjStringAppend(pObj, "\\", sizeof(char));
           break;
+
         case 'a':
           /* The "alert" character (BEL)[ctrl+g] ASCII code 7 */
           PH7_MemObjStringAppend(pObj, "\a", sizeof(char));
           break;
+
         case 'b':
           /* Backspace (BS)[ctrl+h] ASCII code 8 */
           PH7_MemObjStringAppend(pObj, "\b", sizeof(char));
           break;
+
         case 'f':
           /* Form-feed (FF)[ctrl+l] ASCII code 12 */
           PH7_MemObjStringAppend(pObj, "\f", sizeof(char));
           break;
+
         case 'n':
           /* Line feed(new line) (LF)[ctrl+j] ASCII code 10 */
           PH7_MemObjStringAppend(pObj, "\n", sizeof(char));
           break;
+
         case 'r':
           /* Carriage return (CR)[ctrl+m] ASCII code 13 */
           PH7_MemObjStringAppend(pObj, "\r", sizeof(char));
           break;
+
         case 't':
           /* Horizontal tab (HT)[ctrl+i] ASCII code 9 */
           PH7_MemObjStringAppend(pObj, "\t", sizeof(char));
           break;
+
         case 'v':
           /* Vertical tab(VT)[ctrl+k] ASCII code 11 */
           PH7_MemObjStringAppend(pObj, "\v", sizeof(char));
           break;
+
         case '\'':
           /* Single quote */
           PH7_MemObjStringAppend(pObj, "'", sizeof(char));
           break;
+
         case '"':
           /* Double quote */
           PH7_MemObjStringAppend(pObj, "\"", sizeof(char));
           break;
+
         case '0':
           /* NUL byte */
           PH7_MemObjStringAppend(pObj, "\0", sizeof(char));
           break;
+
         case 'x':
           if ((unsigned char) zIn[1] < 0xc0 && SyisHex(zIn[1])) {
             int c;
@@ -818,6 +830,7 @@ static sxi32 GenStateCompileString(ph7_gen_state *pGen)
             PH7_MemObjStringAppend(pObj, "x", sizeof(char));
           }
           break;
+
         case 'o':
           if (&zIn[1] < zEnd && (unsigned char) zIn[1] < 0xc0 && SyisDigit(zIn[1]) && (zIn[1] - '0') < 8) {
             /* Octal digit stream */
@@ -839,6 +852,7 @@ static sxi32 GenStateCompileString(ph7_gen_state *pGen)
             PH7_MemObjStringAppend(pObj, "o", sizeof(char));
           }
           break;
+
         default:
           /* Output without a slash */
           PH7_MemObjStringAppend(pObj, zIn, sizeof(char));
@@ -3741,22 +3755,27 @@ static sxi32 GenStateCollectFuncArgs(ph7_vm_func *pFunc, ph7_gen_state *pGen, Sy
             /* Hashmap aka 'array' */
             c = 'h';
             break;
+
           case MEMOBJ_INT:
             /* Integer */
             c = 'i';
             break;
+
           case MEMOBJ_BOOL:
             /* Bool */
             c = 'b';
             break;
+
           case MEMOBJ_REAL:
             /* Float */
             c = 'f';
             break;
+
           case MEMOBJ_STRING:
             /* String */
             c = 's';
             break;
+
           default:
             break;
         }
@@ -6546,12 +6565,24 @@ PH7_PRIVATE sxi32 PH7_GenCompileError(ph7_gen_state *pGen, sxi32 nErrType, sxu32
     return SXRET_OK;
   }
   switch (nErrType) {
-    case E_WARNING: zErr = "Warning";     break;
-    case E_PARSE:   zErr = "Parse error"; break;
-    case E_NOTICE:  zErr = "Notice";      break;
-    case E_USER_ERROR:   zErr = "User error";   break;
-    case E_USER_WARNING: zErr = "User warning"; break;
-    case E_USER_NOTICE:  zErr = "User notice";  break;
+    case E_WARNING:
+      zErr = "Warning";     break;
+
+    case E_PARSE:
+      zErr = "Parse error"; break;
+
+    case E_NOTICE:
+      zErr = "Notice";      break;
+
+    case E_USER_ERROR:
+      zErr = "User error";   break;
+
+    case E_USER_WARNING:
+      zErr = "User warning"; break;
+
+    case E_USER_NOTICE:
+      zErr = "User notice";  break;
+
     default:
       break;
   }

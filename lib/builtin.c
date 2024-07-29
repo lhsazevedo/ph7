@@ -1123,14 +1123,17 @@ static int PH7_builtin_base_convert(ph7_context *pCtx, int nArg, ph7_value **apA
         /* Hex */
         SyHexStrToInt64(zNum, (sxu32) nLen, (void *) &iNum, 0);
         break;
+
       case 8:
         /* Octal */
         SyOctalStrToInt64(zNum, (sxu32) nLen, (void *) &iNum, 0);
         break;
+
       case 2:
         /* Binary */
         SyBinaryStrToInt64(zNum, (sxu32) nLen, (void *) &iNum, 0);
         break;
+
       default:
         /* Decimal */
         SyStrToInt64(zNum, (sxu32) nLen, (void *) &iNum, 0);
@@ -1144,14 +1147,17 @@ static int PH7_builtin_base_convert(ph7_context *pCtx, int nArg, ph7_value **apA
       /* Hex */
       ph7_result_string_format(pCtx, "%qx", iNum);   /* Quad hex */
       break;
+
     case 8:
       /* Octal */
       ph7_result_string_format(pCtx, "%qo", iNum);   /* Quad octal */
       break;
+
     case 2:
       /* Binary */
       ph7_result_string_format(pCtx, "%qB", iNum);   /* Quad binary */
       break;
+
     default:
       /* Decimal */
       ph7_result_string_format(pCtx, "%qd", iNum);   /* Quad decimal */
@@ -3988,11 +3994,21 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     do {
       c = zIn[0];
       switch (c) {
-        case '-':   flag_leftjustify = 1;     c = 0;   break;
-        case '+':   flag_plussign = 1;        c = 0;   break;
-        case ' ':   flag_blanksign = 1;       c = 0;   break;
-        case '#':   flag_alternateform = 1;   c = 0;   break;
-        case '0':   flag_zeropad = 1;         c = 0;   break;
+        case '-':
+          flag_leftjustify = 1;     c = 0;   break;
+
+        case '+':
+          flag_plussign = 1;        c = 0;   break;
+
+        case ' ':
+          flag_blanksign = 1;       c = 0;   break;
+
+        case '#':
+          flag_alternateform = 1;   c = 0;   break;
+
+        case '0':
+          flag_zeropad = 1;         c = 0;   break;
+
         case '\'':
           zIn++;
           if (zIn < zEnd) {
@@ -4004,7 +4020,9 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
             c = 0;
           }
           break;
-        default:                                       break;
+
+        default:
+          break;
       }
     } while (c == 0 && (zIn++ < zEnd));
     /* Get the field width */
@@ -4085,6 +4103,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         zWorker[0] = '%';
         length = (int) sizeof(char);
         break;
+
       case PH7_FMT_CHARX:
         /* The argument is treated as an integer, and presented as the character
          * with that ASCII value
@@ -4099,6 +4118,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         zWorker[0] = (char) c;
         length = (int) sizeof(char);
         break;
+
       case PH7_FMT_STRING:
         /* the argument is treated as and presented as a string */
         pArg = NEXT_ARG;
@@ -4121,6 +4141,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           }
         }
         break;
+
       case PH7_FMT_RADIX:
         pArg = NEXT_ARG;
         if (pArg == 0) {
@@ -4196,6 +4217,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         }
         length = &zWorker[PH7_FMT_BUFSIZ - 1] - zBuf;
         break;
+
       case PH7_FMT_FLOAT:
       case PH7_FMT_EXP:
       case PH7_FMT_GENERIC: {
@@ -4349,6 +4371,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
 #endif /* PH7_OMIT_FLOATING_POINT */
         break;
       }
+
       default:
         /* Invalid format specifer */
         zWorker[0] = '?';
@@ -7415,51 +7438,62 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
         /* Day of the month, 2 digits with leading zeros */
         ph7_result_string_format(pCtx, "%02d", pTm->tm_mday);
         break;
+
       case 'D':
         /*A textual representation of a day, three letters*/
         zCur = SyTimeGetDay(pTm->tm_wday);
         ph7_result_string(pCtx, zCur, 3);
         break;
+
       case 'j':
         /*	Day of the month without leading zeros */
         ph7_result_string_format(pCtx, "%d", pTm->tm_mday);
         break;
+
       case 'l':
         /* A full textual representation of the day of the week */
         zCur = SyTimeGetDay(pTm->tm_wday);
         ph7_result_string(pCtx, zCur, -1 /*Compute length automatically*/ );
         break;
+
       case 'N': {
         /* ISO-8601 numeric representation of the day of the week */
         ph7_result_string_format(pCtx, "%d", aISO8601[pTm->tm_wday % 7 ]);
         break;
       }
+
       case 'w':
         /*Numeric representation of the day of the week*/
         ph7_result_string_format(pCtx, "%d", pTm->tm_wday);
         break;
+
       case 'z':
         /*The day of the year*/
         ph7_result_string_format(pCtx, "%d", pTm->tm_yday);
         break;
+
       case 'F':
         /*A full textual representation of a month, such as January or March*/
         zCur = SyTimeGetMonth(pTm->tm_mon);
         ph7_result_string(pCtx, zCur, -1 /*Compute length automatically*/ );
         break;
+
       case 'm':
         /*Numeric representation of a month, with leading zeros*/
         ph7_result_string_format(pCtx, "%02d", pTm->tm_mon + 1);
         break;
+
       case 'M':
         /*A short textual representation of a month, three letters*/
         zCur = SyTimeGetMonth(pTm->tm_mon);
         ph7_result_string(pCtx, zCur, 3);
         break;
+
       case 'n':
         /*Numeric representation of a month, without leading zeros*/
         ph7_result_string_format(pCtx, "%d", pTm->tm_mon + 1);
         break;
+
       case 't': {
         static const int aMonDays[] = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         int nDays = aMonDays[pTm->tm_mon % 12 ];
@@ -7470,60 +7504,74 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
         ph7_result_string_format(pCtx, "%d", nDays);
         break;
       }
+
       case 'L': {
         int isLeap = IS_LEAP_YEAR(pTm->tm_year);
         /* Whether it's a leap year */
         ph7_result_string_format(pCtx, "%d", isLeap);
         break;
       }
+
       case 'o':
         /* ISO-8601 year number.*/
         ph7_result_string_format(pCtx, "%4d", pTm->tm_year);
         break;
+
       case 'Y':
         /*	A full numeric representation of a year, 4 digits */
         ph7_result_string_format(pCtx, "%4d", pTm->tm_year);
         break;
+
       case 'y':
         /*A two digit representation of a year*/
         ph7_result_string_format(pCtx, "%02d", pTm->tm_year % 100);
         break;
+
       case 'a':
         /*	Lowercase Ante meridiem and Post meridiem */
         ph7_result_string(pCtx, pTm->tm_hour > 12 ? "pm" : "am", 2);
         break;
+
       case 'A':
         /*	Uppercase Ante meridiem and Post meridiem */
         ph7_result_string(pCtx, pTm->tm_hour > 12 ? "PM" : "AM", 2);
         break;
+
       case 'g':
         /*	12-hour format of an hour without leading zeros*/
         ph7_result_string_format(pCtx, "%d", 1 + (pTm->tm_hour % 12));
         break;
+
       case 'G':
         /* 24-hour format of an hour without leading zeros */
         ph7_result_string_format(pCtx, "%d", pTm->tm_hour);
         break;
+
       case 'h':
         /* 12-hour format of an hour with leading zeros */
         ph7_result_string_format(pCtx, "%02d", 1 + (pTm->tm_hour % 12));
         break;
+
       case 'H':
         /*	24-hour format of an hour with leading zeros */
         ph7_result_string_format(pCtx, "%02d", pTm->tm_hour);
         break;
+
       case 'i':
         /*      Minutes with leading zeros */
         ph7_result_string_format(pCtx, "%02d", pTm->tm_min);
         break;
+
       case 's':
         /*      second with leading zeros */
         ph7_result_string_format(pCtx, "%02d", pTm->tm_sec);
         break;
+
       case 'u':
         /*      Microseconds */
         ph7_result_string_format(pCtx, "%u", pTm->tm_sec * SX_USEC_PER_SEC);
         break;
+
       case 'S': {
         /* English ordinal suffix for the day of the month, 2 characters */
         static const char zSuffix[] = "thstndrdthththththth";
@@ -7531,6 +7579,7 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
         ph7_result_string(pCtx, &zSuffix[2 * (int) (v / 10 % 10 != 1 ? v % 10 : 0)], (int) sizeof(char) * 2);
         break;
       }
+
       case 'e':
         /*      Timezone identifier */
         zCur = pTm->tm_zone;
@@ -7540,6 +7589,7 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
         }
         ph7_result_string(pCtx, zCur, -1);
         break;
+
       case 'I':
         /* Whether or not the date is in daylight saving time */
 #ifdef __WINNT__
@@ -7551,6 +7601,7 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
 #endif
         ph7_result_string_format(pCtx, "%d", pTm->tm_isdst == 1);
         break;
+
       case 'r':
         /* RFC 2822 formatted date      Example: Thu, 21 Dec 2000 16:01:07 */
         ph7_result_string_format(pCtx, "%.3s, %02d %.3s %4d %02d:%02d:%02d",
@@ -7563,6 +7614,7 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
                                  pTm->tm_sec
                                  );
         break;
+
       case 'U': {
         time_t tt;
         /* Seconds since the Unix Epoch */
@@ -7570,17 +7622,20 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
         ph7_result_string_format(pCtx, "%u", (unsigned int) tt);
         break;
       }
+
       case 'O':
       case 'P':
         /* Difference to Greenwich time (GMT) in hours */
         ph7_result_string_format(pCtx, "%+05d", pTm->tm_gmtoff);
         break;
+
       case 'Z':
         /* Timezone offset in seconds. The offset for timezones west of UTC
          * is always negative, and for those east of UTC is always positive.
          */
         ph7_result_string_format(pCtx, "%+05d", pTm->tm_gmtoff);
         break;
+
       case 'c':
         /*      ISO 8601 date */
         ph7_result_string_format(pCtx, "%4d-%02d-%02dT%02d:%02d:%02d%+05d",
@@ -7593,6 +7648,7 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
                                  pTm->tm_gmtoff
                                  );
         break;
+
       case '\\':
         zIn++;
         /* Expand verbatim */
@@ -7600,6 +7656,7 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
           ph7_result_string(pCtx, zIn, (int) sizeof(char));
         }
         break;
+
       default:
         /* Unknown format specifer,expand verbatim */
         ph7_result_string(pCtx, zIn, (int) sizeof(char));
@@ -7686,89 +7743,110 @@ static int PH7_Strftime(
         /* A literal percentage character ("%") */
         ph7_result_string(pCtx, "%", (int) sizeof(char));
         break;
+
       case 't':
         /* A Tab character */
         ph7_result_string(pCtx, "\t", (int) sizeof(char));
         break;
+
       case 'n':
         /* A newline character */
         ph7_result_string(pCtx, "\n", (int) sizeof(char));
         break;
+
       case 'a':
         /* An abbreviated textual representation of the day */
         ph7_result_string(pCtx, SyTimeGetDay(pTm->tm_wday), (int) sizeof(char) * 3);
         break;
+
       case 'A':
         /* A full textual representation of the day */
         ph7_result_string(pCtx, SyTimeGetDay(pTm->tm_wday), -1 /*Compute length automatically*/ );
         break;
+
       case 'e':
         /* Day of the month, 2 digits with leading space for single digit*/
         ph7_result_string_format(pCtx, "%2d", pTm->tm_mday);
         break;
+
       case 'd':
         /* Two-digit day of the month (with leading zeros) */
         ph7_result_string_format(pCtx, "%02d", pTm->tm_mon + 1);
         break;
+
       case 'j':
         /*The day of the year,3 digits with leading zeros*/
         ph7_result_string_format(pCtx, "%03d", pTm->tm_yday);
         break;
+
       case 'u':
         /* ISO-8601 numeric representation of the day of the week */
         ph7_result_string_format(pCtx, "%d", aISO8601[pTm->tm_wday % 7 ]);
         break;
+
       case 'w':
         /* Numeric representation of the day of the week */
         ph7_result_string_format(pCtx, "%d", pTm->tm_wday);
         break;
+
       case 'b':
       case 'h':
         /*A short textual representation of a month, three letters (Not based on locale)*/
         ph7_result_string(pCtx, SyTimeGetMonth(pTm->tm_mon), (int) sizeof(char) * 3);
         break;
+
       case 'B':
         /* Full month name (Not based on locale) */
         ph7_result_string(pCtx, SyTimeGetMonth(pTm->tm_mon), -1 /*Compute length automatically*/ );
         break;
+
       case 'm':
         /*Numeric representation of a month, with leading zeros*/
         ph7_result_string_format(pCtx, "%02d", pTm->tm_mon + 1);
         break;
+
       case 'C':
         /* Two digit representation of the century */
         ph7_result_string_format(pCtx, "%2d", pTm->tm_year / 100);
         break;
+
       case 'y':
       case 'g':
         /* Two digit representation of the year */
         ph7_result_string_format(pCtx, "%2d", pTm->tm_year % 100);
         break;
+
       case 'Y':
       case 'G':
         /* Four digit representation of the year */
         ph7_result_string_format(pCtx, "%4d", pTm->tm_year);
         break;
+
       case 'I':
         /* 12-hour format of an hour with leading zeros */
         ph7_result_string_format(pCtx, "%02d", 1 + (pTm->tm_hour % 12));
         break;
+
       case 'l':
         /* 12-hour format of an hour with leading space */
         ph7_result_string_format(pCtx, "%2d", 1 + (pTm->tm_hour % 12));
         break;
+
       case 'H':
         /* 24-hour format of an hour with leading zeros */
         ph7_result_string_format(pCtx, "%02d", pTm->tm_hour);
         break;
+
       case 'M':
         /* Minutes with leading zeros */
         ph7_result_string_format(pCtx, "%02d", pTm->tm_min);
         break;
+
       case 'S':
         /* Seconds with leading zeros */
         ph7_result_string_format(pCtx, "%02d", pTm->tm_sec);
         break;
+
       case 'z':
       case 'Z':
         /*      Timezone identifier */
@@ -7779,23 +7857,28 @@ static int PH7_Strftime(
         }
         ph7_result_string(pCtx, zCur, -1);
         break;
+
       case 'T':
       case 'X':
         /* Same as "%H:%M:%S" */
         ph7_result_string_format(pCtx, "%02d:%02d:%02d", pTm->tm_hour, pTm->tm_min, pTm->tm_sec);
         break;
+
       case 'R':
         /* Same as "%H:%M" */
         ph7_result_string_format(pCtx, "%02d:%02d", pTm->tm_hour, pTm->tm_min);
         break;
+
       case 'P':
         /*	Lowercase Ante meridiem and Post meridiem */
         ph7_result_string(pCtx, pTm->tm_hour > 12 ? "pm" : "am", (int) sizeof(char) * 2);
         break;
+
       case 'p':
         /*	Uppercase Ante meridiem and Post meridiem */
         ph7_result_string(pCtx, pTm->tm_hour > 12 ? "PM" : "AM", (int) sizeof(char) * 2);
         break;
+
       case 'r':
         /* Same as "%I:%M:%S %p" */
         ph7_result_string_format(pCtx, "%02d:%02d:%02d %s",
@@ -7805,6 +7888,7 @@ static int PH7_Strftime(
                                  pTm->tm_hour > 12 ? "PM" : "AM"
                                  );
         break;
+
       case 'D':
       case 'x':
         /* Same as "%m/%d/%y" */
@@ -7814,6 +7898,7 @@ static int PH7_Strftime(
                                  pTm->tm_year % 100
                                  );
         break;
+
       case 'F':
         /* Same as "%Y-%m-%d" */
         ph7_result_string_format(pCtx, "%d-%02d-%02d",
@@ -7822,6 +7907,7 @@ static int PH7_Strftime(
                                  pTm->tm_mday
                                  );
         break;
+
       case 'c':
         ph7_result_string_format(pCtx, "%d-%02d-%02d %02d:%02d:%02d",
                                  pTm->tm_year,
@@ -7832,6 +7918,7 @@ static int PH7_Strftime(
                                  pTm->tm_sec
                                  );
         break;
+
       case 's': {
         time_t tt;
         /* Seconds since the Unix Epoch */
@@ -7839,6 +7926,7 @@ static int PH7_Strftime(
         ph7_result_string_format(pCtx, "%u", (unsigned int) tt);
         break;
       }
+
       default:
         /* unknown specifer,simply ignore*/
         break;
@@ -8268,18 +8356,22 @@ static int PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* Day of the month */
       iVal = sTm.tm_mday;
       break;
+
     case 'h':
       /*	Hour (12 hour format)*/
       iVal = 1 + (sTm.tm_hour % 12);
       break;
+
     case 'H':
       /* Hour (24 hour format)*/
       iVal = sTm.tm_hour;
       break;
+
     case 'i':
       /*Minutes*/
       iVal = sTm.tm_min;
       break;
+
     case 'I':
       /*	returns 1 if DST is activated, 0 otherwise */
 #ifdef __WINNT__
@@ -8291,18 +8383,22 @@ static int PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
 #endif
       iVal = sTm.tm_isdst;
       break;
+
     case 'L':
       /*  returns 1 for leap year, 0 otherwise */
       iVal = IS_LEAP_YEAR(sTm.tm_year);
       break;
+
     case 'm':
       /* Month number*/
       iVal = sTm.tm_mon;
       break;
+
     case 's':
       /*Seconds*/
       iVal = sTm.tm_sec;
       break;
+
     case 't': {
       /*Days in current month*/
       static const int aMonDays[] = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
@@ -8313,36 +8409,44 @@ static int PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
       iVal = nDays;
       break;
     }
+
     case 'U':
       /*Seconds since the Unix Epoch*/
       iVal = (ph7_int64) time(0);
       break;
+
     case 'w':
       /*	Day of the week (0 on Sunday) */
       iVal = sTm.tm_wday;
       break;
+
     case 'W': {
       /* ISO-8601 week number of year, weeks starting on Monday */
       static const int aISO8601[] = { 7 /* Sunday */, 1 /* Monday */, 2, 3, 4, 5, 6 };
       iVal = aISO8601[sTm.tm_wday % 7 ];
       break;
     }
+
     case 'y':
       /* Year (2 digits) */
       iVal = sTm.tm_year % 100;
       break;
+
     case 'Y':
       /* Year (4 digits) */
       iVal = sTm.tm_year;
       break;
+
     case 'z':
       /* Day of the year */
       iVal = sTm.tm_yday;
       break;
+
     case 'Z':
       /*Timezone offset in seconds*/
       iVal = sTm.tm_gmtoff;
       break;
+
     default:
       /* unknown format,throw a warning */
       ph7_context_throw_error(pCtx, PH7_CTX_WARNING, "Unknown date format token");

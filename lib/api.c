@@ -109,6 +109,7 @@ static sxi32 EngineConfig(ph7 *pEngine, sxi32 nOp, va_list ap)
       pConf->pErrData = pUserData;
       break;
     }
+
     case PH7_CONFIG_ERR_LOG: {
       /* Extract compile-time error log if any */
       const char **pzPtr = va_arg(ap, const char **);
@@ -130,9 +131,11 @@ static sxi32 EngineConfig(ph7 *pEngine, sxi32 nOp, va_list ap)
       }
       break;
     }
+
     case PH7_CONFIG_ERR_ABORT:
       /* Reserved for future use */
       break;
+
     default:
       /* Unknown configuration verb */
       rc = PH7_CORRUPT;
@@ -156,6 +159,7 @@ static sxi32 PH7CoreConfigure(sxi32 nOp, va_list ap)
       sMPGlobal.pVfs = pVfs;
       break;
     }
+
     case PH7_LIB_CONFIG_USER_MALLOC: {
       /* Use an alternative low-level memory allocation routines */
       const SyMemMethods *pMethods = va_arg(ap, const SyMemMethods *);
@@ -170,6 +174,7 @@ static sxi32 PH7CoreConfigure(sxi32 nOp, va_list ap)
       }
       break;
     }
+
     case PH7_LIB_CONFIG_MEM_ERR_CALLBACK: {
       /* Memory failure callback */
       ProcMemError xMemErr = va_arg(ap, ProcMemError);
@@ -178,6 +183,7 @@ static sxi32 PH7CoreConfigure(sxi32 nOp, va_list ap)
       sMPGlobal.sAllocator.pUserData = pUserData;
       break;
     }
+
     case PH7_LIB_CONFIG_USER_MUTEX: {
 #if defined(PH7_ENABLE_THREADS)
       /* Use an alternative low-level mutex subsystem */
@@ -229,12 +235,14 @@ static sxi32 PH7CoreConfigure(sxi32 nOp, va_list ap)
 #endif
       break;
     }
+
     case PH7_LIB_CONFIG_THREAD_LEVEL_SINGLE:
 #if defined(PH7_ENABLE_THREADS)
       /* Single thread mode(Only one thread is allowed to play with the library) */
       sMPGlobal.nThreadingLevel = PH7_THREAD_LEVEL_SINGLE;
 #endif
       break;
+
     case PH7_LIB_CONFIG_THREAD_LEVEL_MULTI:
 #if defined(PH7_ENABLE_THREADS)
       /* Multi-threading mode (library is thread safe and PH7 engines and virtual machines
@@ -243,6 +251,7 @@ static sxi32 PH7CoreConfigure(sxi32 nOp, va_list ap)
       sMPGlobal.nThreadingLevel = PH7_THREAD_LEVEL_MULTI;
 #endif
       break;
+
     default:
       /* Unknown configuration option */
       rc = PH7_CORRUPT;

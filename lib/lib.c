@@ -2054,22 +2054,59 @@ PH7_PRIVATE sxi32 SyStrToInt64(const char *zSrc, sxu32 nLen, void *pOutVal, cons
 PH7_PRIVATE sxi32 SyHexToint(sxi32 c)
 {
   switch (c) {
-    case '0': return 0;
-    case '1': return 1;
-    case '2': return 2;
-    case '3': return 3;
-    case '4': return 4;
-    case '5': return 5;
-    case '6': return 6;
-    case '7': return 7;
-    case '8': return 8;
-    case '9': return 9;
-    case 'A': case 'a': return 10;
-    case 'B': case 'b': return 11;
-    case 'C': case 'c': return 12;
-    case 'D': case 'd': return 13;
-    case 'E': case 'e': return 14;
-    case 'F': case 'f': return 15;
+    case '0':
+      return 0;
+
+    case '1':
+      return 1;
+
+    case '2':
+      return 2;
+
+    case '3':
+      return 3;
+
+    case '4':
+      return 4;
+
+    case '5':
+      return 5;
+
+    case '6':
+      return 6;
+
+    case '7':
+      return 7;
+
+    case '8':
+      return 8;
+
+    case '9':
+      return 9;
+
+    case 'A':
+    case 'a':
+      return 10;
+
+    case 'B':
+    case 'b':
+      return 11;
+
+    case 'C':
+    case 'c':
+      return 12;
+
+    case 'D':
+    case 'd':
+      return 13;
+
+    case 'E':
+    case 'e':
+      return 14;
+
+    case 'F':
+    case 'f':
+      return 15;
   }
   return -1;
 }
@@ -2934,12 +2971,23 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
       flag_alternateform = flag_zeropad = 0;
     do {
       switch (c) {
-        case '-':   flag_leftjustify = 1;     c = 0;   break;
-        case '+':   flag_plussign = 1;        c = 0;   break;
-        case ' ':   flag_blanksign = 1;       c = 0;   break;
-        case '#':   flag_alternateform = 1;   c = 0;   break;
-        case '0':   flag_zeropad = 1;         c = 0;   break;
-        default:                                       break;
+        case '-':
+          flag_leftjustify = 1;     c = 0;   break;
+
+        case '+':
+          flag_plussign = 1;        c = 0;   break;
+
+        case ' ':
+          flag_blanksign = 1;       c = 0;   break;
+
+        case '#':
+          flag_alternateform = 1;   c = 0;   break;
+
+        case '0':
+          flag_zeropad = 1;         c = 0;   break;
+
+        default:
+          break;
       }
     } while (c == 0 && (c = (*++zFormat)) != 0);
     /* Get the field width */
@@ -3098,6 +3146,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
         }
         length = &buf[SXFMT_BUFSIZ - 1] - bufpt;
         break;
+
       case SXFMT_FLOAT:
       case SXFMT_EXP:
       case SXFMT_GENERIC:
@@ -3239,17 +3288,20 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
         length = (int) sizeof(" ") - 1;
 #endif /* SX_OMIT_FLOATINGPOINT */
         break;
+
       case SXFMT_SIZE: {
         int *pSize = va_arg(ap, int *);
         *pSize = ((SyFmtConsumer *) pUserData)->nLen;
         length = width = 0;
       }
       break;
+
       case SXFMT_PERCENT:
         buf[0] = '%';
         bufpt = buf;
         length = 1;
         break;
+
       case SXFMT_CHARX:
         c = va_arg(ap, int);
         buf[0] = (char) c;
@@ -3263,6 +3315,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
         }
         bufpt = buf;
         break;
+
       case SXFMT_STRING:
         bufpt = va_arg(ap, char *);
         if (bufpt == 0) {
@@ -3277,6 +3330,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
         }
         if (precision >= 0 && precision < length) length = precision;
         break;
+
       case SXFMT_RAWSTR: {
         /* Symisc extension */
         SyString *pStr = va_arg(ap, SyString *);
@@ -3289,6 +3343,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
         length = (int) pStr->nByte;
         break;
       }
+
       case SXFMT_ERROR:
         buf[0] = '?';
         bufpt = buf;
@@ -3357,10 +3412,12 @@ static sxi32 FormatConsumer(const void *pSrc, unsigned int nLen, void *pData)
       /* User callback */
       rc = pConsumer->uConsumer.sFunc.xUserConsumer(pSrc, nLen, pConsumer->uConsumer.sFunc.pUserData);
       break;
+
     case SXFMT_CONS_BLOB:
       /* Blob consumer */
       rc = SyBlobAppend(pConsumer->uConsumer.pBlob, pSrc, (sxu32) nLen);
       break;
+
     default:
       /* Unknown consumer */
       break;
@@ -3389,9 +3446,11 @@ static sxi32 FormatMount(sxi32 nType, void *pConsumer, ProcConsumer xUserCons, v
       sCons.uConsumer.sFunc.xUserConsumer = xUserCons;
       sCons.uConsumer.sFunc.pUserData = pUserData;
       break;
+
     case SXFMT_CONS_BLOB:
       sCons.uConsumer.pBlob = (SyBlob *) pConsumer;
       break;
+
     default:
       return SXERR_UNKNOWN;
   }
@@ -4255,6 +4314,7 @@ static sxi32 ProcessXML(SyXMLParser *pParse, SySet *pTagStack, SySet *pWorker)
           }
         }
         break;
+
       case SXML_TOK_CDATA:
         if (SySetUsed(pTagStack) < 1) {
           if (pParse->xError) {
@@ -4273,6 +4333,7 @@ static sxi32 ProcessXML(SyXMLParser *pParse, SySet *pTagStack, SySet *pWorker)
           }
         }
         break;
+
       case SXML_TOK_PI: {
         SyXMLRawStr sTarget, sData;
         int isXML = 0;
@@ -4295,6 +4356,7 @@ static sxi32 ProcessXML(SyXMLParser *pParse, SySet *pTagStack, SySet *pWorker)
         }
         break;
       }
+
       case SXML_TOK_RAW:
         if (SySetUsed(pTagStack) < 1) {
           if (pParse->xError) {
@@ -4314,6 +4376,7 @@ static sxi32 ProcessXML(SyXMLParser *pParse, SySet *pTagStack, SySet *pWorker)
           }
         }
         break;
+
       case SXML_TOK_END_TAG: {
         SyXMLRawStrNS *pLast = 0;     /* cc warning */
         if (SySetUsed(pTagStack) < 1) {
@@ -4369,6 +4432,7 @@ static sxi32 ProcessXML(SyXMLParser *pParse, SySet *pTagStack, SySet *pWorker)
         }
         break;
       }
+
       case SXML_TOK_START_TAG:
       case SXML_TOK_START_END:
         if (SySetUsed(pTagStack) < 1 && bGotTag) {
@@ -4416,6 +4480,7 @@ static sxi32 ProcessXML(SyXMLParser *pParse, SySet *pTagStack, SySet *pWorker)
           return SXERR_ABORT;
         }
         break;
+
       default:
         /* Can't happen */
         break;
