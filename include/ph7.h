@@ -102,9 +102,11 @@
  */
 #define PH7_COPYRIGHT "Copyright (C) Symisc Systems 2011-2012, http://ph7.symisc.net/"
 /* Make sure we can call this stuff from C++ */
+/* @uncrustify off */
 #ifdef __cplusplus
 extern "C" {
 #endif
+/* @uncrustify on */
 /* Forward declaration to public objects */
 typedef struct ph7_io_stream ph7_io_stream;
 typedef struct ph7_context ph7_context;
@@ -714,8 +716,10 @@ PH7_APIEXPORT const char * ph7_lib_version(void);
 PH7_APIEXPORT const char * ph7_lib_signature(void);
 PH7_APIEXPORT const char * ph7_lib_ident(void);
 PH7_APIEXPORT const char * ph7_lib_copyright(void);
+/* @uncrustify off */
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
+/* @uncrustify on */
 #endif /* _PH7_H_ */
 
