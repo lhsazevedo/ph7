@@ -5976,15 +5976,17 @@ struct str_replace_data {
 /*
  * Remove a substring.
  */
-#define STRDEL(SRC, SLEN, OFFT, ILEN){ \
+#define STRDEL(SRC, SLEN, OFFT, ILEN) \
+        { \
           for (;;) { \
             if (OFFT + ILEN >= SLEN) break; SRC[OFFT] = SRC[OFFT + ILEN]; ++OFFT; \
           } \
-}
+        }
 /*
  * Shift right and insert algorithm.
  */
-#define SHIFTRANDINSERT(SRC, LEN, OFFT, ENTRY, ELEN){ \
+#define SHIFTRANDINSERT(SRC, LEN, OFFT, ENTRY, ELEN) \
+        { \
           sxu32 INLEN = LEN - OFFT; \
           for (;;) { \
             if (LEN > 0) { LEN--; } if (INLEN < 1) break; SRC[LEN + ELEN] = SRC[LEN]; --INLEN; \
@@ -5992,7 +5994,7 @@ struct str_replace_data {
           for (;;) { \
             if (ELEN < 1) break; SRC[OFFT] = ENTRY[0]; OFFT++; ENTRY++; --ELEN; \
           } \
-}
+        }
 /*
  * Replace all occurrences of the search string at offset (nOfft) with the given
  * replacement string [i.e: zReplace].

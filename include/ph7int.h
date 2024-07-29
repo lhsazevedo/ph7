@@ -114,18 +114,20 @@ typedef double sxreal;
 typedef sxi32 (*ProcRawStrCmp)(const SyString *, const SyString *);
 #define SyStringData(RAW)   ((RAW)->zString)
 #define SyStringLength(RAW) ((RAW)->nByte)
-#define SyStringInitFromBuf(RAW, ZBUF, NLEN){ \
+#define SyStringInitFromBuf(RAW, ZBUF, NLEN) \
+        { \
           (RAW)->zString = (const char *) ZBUF; \
           (RAW)->nByte = (sxu32) (NLEN); \
-}
-#define SyStringUpdatePtr(RAW, NBYTES){ \
+        }
+#define SyStringUpdatePtr(RAW, NBYTES) \
+        { \
           if (NBYTES > (RAW)->nByte) { \
             (RAW)->nByte = 0; \
           } else { \
             (RAW)->zString += NBYTES; \
             (RAW)->nByte -= NBYTES; \
           } \
-}
+        }
 #define SyStringDupPtr(RAW1, RAW2) \
         (RAW1)->zString = (RAW2)->zString; \
         (RAW1)->nByte = (RAW2)->nByte;
@@ -267,39 +269,46 @@ struct SyMemBackend {
 #define SXMUTEX_TYPE_STATIC_5   7
 #define SXMUTEX_TYPE_STATIC_6   8
 
-#define SyMutexGlobalInit(METHOD){ \
+#define SyMutexGlobalInit(METHOD) \
+        { \
           if ((METHOD)->xGlobalInit) { \
             (METHOD)->xGlobalInit(); \
           } \
-}
-#define SyMutexGlobalRelease(METHOD){ \
+        }
+#define SyMutexGlobalRelease(METHOD) \
+        { \
           if ((METHOD)->xGlobalRelease) { \
             (METHOD)->xGlobalRelease(); \
           } \
-}
+        }
 #define SyMutexNew(METHOD, TYPE)         (METHOD)->xNew(TYPE)
-#define SyMutexRelease(METHOD, MUTEX){ \
+#define SyMutexRelease(METHOD, MUTEX) \
+        { \
           if (MUTEX && (METHOD)->xRelease) { \
             (METHOD)->xRelease(MUTEX); \
           } \
-}
-#define SyMutexEnter(METHOD, MUTEX){ \
+        }
+#define SyMutexEnter(METHOD, MUTEX) \
+        { \
           if (MUTEX) { \
             (METHOD)->xEnter(MUTEX); \
           } \
-}
-#define SyMutexTryEnter(METHOD, MUTEX){ \
+        }
+#define SyMutexTryEnter(METHOD, MUTEX) \
+        { \
           if (MUTEX && (METHOD)->xTryEnter) { \
             (METHOD)->xTryEnter(MUTEX); \
           } \
-}
-#define SyMutexLeave(METHOD, MUTEX){ \
+        }
+#define SyMutexLeave(METHOD, MUTEX) \
+        { \
           if (MUTEX) { \
             (METHOD)->xLeave(MUTEX); \
           } \
-}
+        }
 /* Comparison,byte swap,byte copy macros */
-#define SX_MACRO_FAST_CMP(X1, X2, SIZE, RC){ \
+#define SX_MACRO_FAST_CMP(X1, X2, SIZE, RC) \
+        { \
           register unsigned char *r1 = (unsigned char *) X1; \
           register unsigned char *r2 = (unsigned char *) X2; \
           register sxu32 LEN = SIZE; \
@@ -310,8 +319,9 @@ struct SyMemBackend {
             if (!LEN) { break; } if (r1[0] != r2[0]) { break; } r1++; r2++; LEN--; \
           } \
           RC = !LEN ? 0 : r1[0] - r2[0]; \
-}
-#define SX_MACRO_FAST_MEMCPY(SRC, DST, SIZ){ \
+        }
+#define SX_MACRO_FAST_MEMCPY(SRC, DST, SIZ) \
+        { \
           register unsigned char *xSrc = (unsigned char *) SRC; \
           register unsigned char *xDst = (unsigned char *) DST; \
           register sxu32 xLen = SIZ; \
@@ -321,8 +331,9 @@ struct SyMemBackend {
             if (!xLen) { break; } xDst[0] = xSrc[0]; xDst++; xSrc++; --xLen; \
             if (!xLen) { break; } xDst[0] = xSrc[0]; xDst++; xSrc++; --xLen; \
           } \
-}
-#define SX_MACRO_BYTE_SWAP(X, Y, Z){ \
+        }
+#define SX_MACRO_BYTE_SWAP(X, Y, Z) \
+        { \
           register unsigned char *s = (unsigned char *) X; \
           register unsigned char *d = (unsigned char *) Y; \
           sxu32 ZLong = Z;  \
@@ -333,7 +344,7 @@ struct SyMemBackend {
             if (!ZLong) { break; } c = s[0]; s[0] = d[0]; d[0] = (unsigned char) c; s++; d++; --ZLong; \
             if (!ZLong) { break; } c = s[0]; s[0] = d[0]; d[0] = (unsigned char) c; s++; d++; --ZLong; \
           } \
-}
+        }
 #define SX_MSEC_PER_SEC (1000)          /* Millisec per seconds */
 #define SX_USEC_PER_SEC (1000000)       /* Microsec per seconds */
 #define SX_NSEC_PER_SEC (1000000000)    /* Nanosec per seconds */
@@ -455,7 +466,8 @@ struct SyLex {
 */
 #define SX_JMP_UTF8(zIn, zEnd) \
         while (zIn < zEnd && (((unsigned char) zIn[0] & 0xc0) == 0x80)) { zIn++; }
-#define SX_WRITE_UTF8(zOut, c) {                       \
+#define SX_WRITE_UTF8(zOut, c) \
+        {                       \
           if (c < 0x00080) {                                     \
             *zOut++ = (sxu8) (c & 0xFF);                          \
           } else if (c < 0x00800) {                               \
@@ -471,7 +483,7 @@ struct SyLex {
             *zOut++ = 0x80 + (sxu8) ((c >> 6) & 0x3F);            \
             *zOut++ = 0x80 + (sxu8) (c & 0x3F);                 \
           }                                                    \
-}
+        }
 /* Rely on the standard ctype */
 #include <ctype.h>
 #define SyToUpper(c) toupper(c)

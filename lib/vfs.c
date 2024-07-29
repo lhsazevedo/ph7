@@ -1785,11 +1785,12 @@ static const unsigned char sqlite3UpperToLower[] = {
 ** Assuming zIn points to the first byte of a UTF-8 character,
 ** advance zIn to point to the first byte of the next UTF-8 character.
 */
-#define SQLITE_SKIP_UTF8(zIn) {                        \
+#define SQLITE_SKIP_UTF8(zIn) \
+        {                        \
           if ((*(zIn++)) >= 0xc0) {                              \
             while ((*zIn & 0xc0) == 0x80) { zIn++; }             \
           }                                                    \
-}
+        }
 /*
 ** Compare two UTF-8 strings for equality where the first string can
 ** potentially be a "glob" expression.  Return true (1) if they

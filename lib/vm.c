@@ -9667,7 +9667,8 @@ static int vm_builtin_ph7_version(ph7_context *pCtx, int nArg, ph7_value **apArg
 /*
  * PH7 release information HTML page used by the ph7info() and ph7credits() functions.
  */
- #define PH7_HTML_PAGE_HEADER "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">" \
+ #define PH7_HTML_PAGE_HEADER \
+         "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">" \
          "<html><head>" \
          "<!-- Copyright (C) 2011-2012 Symisc Systems,http://www.symisc.net contact@symisc.net -->" \
          "<meta content=\"text/html; charset=UTF-8\" http-equiv=\"content-type\"><title>PH7 engine credits</title>" \
@@ -9738,7 +9739,8 @@ static int vm_builtin_ph7_version(ph7_context *pCtx, int nArg, ph7_value **apArg
          "<p style=\"text-align: left; font-weight: bold;\"><small><small>Engine Version:</small></small></p>" \
          "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\">"
 
-#define PH7_HTML_PAGE_FORMAT "<small><small><span style=\"font-weight: normal;\">%s</span></small></small></p>" \
+#define PH7_HTML_PAGE_FORMAT \
+        "<small><small><span style=\"font-weight: normal;\">%s</span></small></small></p>" \
         "<p style=\"text-align: left; font-weight: bold;\"><small><small>Engine ID:</small></small></p>" \
         "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\"><small><small><span style=\"font-weight: normal;\">%s %s</span></small></small></p>" \
         "<p style=\"text-align: left; font-weight: bold;\"><small><small>Underlying VFS:</small></small></p>" \
@@ -9753,7 +9755,8 @@ static int vm_builtin_ph7_version(ph7_context *pCtx, int nArg, ph7_value **apArg
         "<p style=\"text-align: left; font-weight: bold;\"><small><small>Licensed To: &lt;Public Release Under The <a href=\"http://www.symisc.net/spl.txt\">" \
         "Symisc Public License (SPL)</a>&gt;</small></small></p>"
 
-#define PH7_HTML_PAGE_FOOTER "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\"><small><small><span style=\"font-weight: normal;\">/*<br>" \
+#define PH7_HTML_PAGE_FOOTER \
+        "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\"><small><small><span style=\"font-weight: normal;\">/*<br>" \
         "&nbsp;* Copyright (C) 2011, 2012 Symisc Systems. All rights reserved.<br>" \
         "&nbsp;*<br>" \
         "&nbsp;* Redistribution and use in source and binary forms, with or without<br>" \

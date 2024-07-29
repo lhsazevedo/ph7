@@ -5499,11 +5499,13 @@ PH7_PRIVATE sxi32 SyMD5Compute(const void *pIn, sxu32 nLen, unsigned char zDiges
 #define ror(x, k) SHA_ROT(x, 32 - (k), k)
 #endif
 
-#define blk0le(i) (block[i] = (ror(block[i], 8) & 0xFF00FF00) \
-                              | (rol(block[i], 8) & 0x00FF00FF))
+#define blk0le(i) \
+        (block[i] = (ror(block[i], 8) & 0xFF00FF00) \
+                    | (rol(block[i], 8) & 0x00FF00FF))
 #define blk0be(i) block[i]
-#define blk(i) (block[i & 15] = rol(block[(i + 13) & 15] ^ block[(i + 8) & 15] \
-                                    ^ block[(i + 2) & 15] ^ block[i & 15], 1))
+#define blk(i) \
+        (block[i & 15] = rol(block[(i + 13) & 15] ^ block[(i + 8) & 15] \
+                             ^ block[(i + 2) & 15] ^ block[i & 15], 1))
 
 /*
  * (R0+R1), R2, R3, R4 are the different operations (rounds) used in SHA1
