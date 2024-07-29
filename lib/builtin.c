@@ -1942,7 +1942,7 @@ static int PH7_builtin_get_html_translation_table(ph7_context *pCtx, int nArg, p
     return PH7_OK;
   }
   /* Make the table */
-  for ( n = 0 ; n < SX_ARRAYSIZE(azHtmlEscape) ; n += 2 ) {
+  for (n = 0 ; n < SX_ARRAYSIZE(azHtmlEscape) ; n += 2) {
     /* Prepare the value */
     ph7_value_string(pValue, azHtmlEscape[n], -1 /* Compute length automatically */ );
     /* Insert the value */
@@ -1998,7 +1998,7 @@ static int PH7_builtin_htmlentities(ph7_context *pCtx, int nArg, ph7_value **apA
     }
     c = zIn[0];
     /* Perform a linear lookup on the decoding table */
-    for ( n = 0 ; n < SX_ARRAYSIZE(azHtmlEscape) ; n += 2 ) {
+    for (n = 0 ; n < SX_ARRAYSIZE(azHtmlEscape) ; n += 2) {
       if (azHtmlEscape[n + 1][0] == c) {
         /* Got one */
         break;
@@ -2074,7 +2074,7 @@ static int PH7_builtin_html_entity_decode(ph7_context *pCtx, int nArg, ph7_value
     }
     nLen = (int) (zEnd - zIn);
     /* Find an encoded sequence */
-    for (n = 0 ; n < SX_ARRAYSIZE(azHtmlEscape) ; n += 2 ) {
+    for (n = 0 ; n < SX_ARRAYSIZE(azHtmlEscape) ; n += 2) {
       int iLen = (int) SyStrlen(azHtmlEscape[n]);
       if (nLen >= iLen && SyStrnicmp(zIn, azHtmlEscape[n], (sxu32) iLen) == 0) {
         /* Got one */
@@ -2591,7 +2591,7 @@ static int PH7_builtin_trim(ph7_context *pCtx, int nArg, ph7_value **apArg)
           break;
         }
         zPtr = zCur;
-        for ( i = 0 ; i < nListlen ; i++ ) {
+        for (i = 0 ; i < nListlen ; i++) {
           if (zCur < zEnd && zCur[0] == zList[i]) {
             zCur++;
           }
@@ -2608,7 +2608,7 @@ static int PH7_builtin_trim(ph7_context *pCtx, int nArg, ph7_value **apArg)
           break;
         }
         zPtr = zEnd;
-        for ( i = 0 ; i < nListlen ; i++ ) {
+        for (i = 0 ; i < nListlen ; i++) {
           if (zEnd > zCur && zEnd[0] == zList[i]) {
             zEnd--;
           }
@@ -2685,7 +2685,7 @@ static int PH7_builtin_rtrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
           break;
         }
         zPtr = zEnd;
-        for ( i = 0 ; i < nListlen ; i++ ) {
+        for (i = 0 ; i < nListlen ; i++) {
           if (zEnd > zCur && zEnd[0] == zList[i]) {
             zEnd--;
           }
@@ -2762,7 +2762,7 @@ static int PH7_builtin_ltrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
           break;
         }
         zPtr = zCur;
-        for ( i = 0 ; i < nListlen ; i++ ) {
+        for (i = 0 ; i < nListlen ; i++) {
           if (zCur < zEnd && zCur[0] == zList[i]) {
             zCur++;
           }
@@ -3997,7 +3997,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           if (zIn < zEnd) {
             /* An alternate padding character can be specified by prefixing it with a single quote (') */
             c = zIn[0];
-            for (idx = 0 ; idx < etSPACESIZE ; ++idx ) {
+            for (idx = 0 ; idx < etSPACESIZE ; ++idx) {
               spaces[idx] = (char) c;
             }
             c = 0;
@@ -4115,7 +4115,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         }
         if (flag_zeropad) {
           /* zero-padding works on strings too */
-          for (idx = 0 ; idx < etSPACESIZE ; ++idx ) {
+          for (idx = 0 ; idx < etSPACESIZE ; ++idx) {
             spaces[idx] = '0';
           }
         }
@@ -4961,7 +4961,7 @@ static sxi32 FindTag(SySet *pSet, const char *zTag, int nByte)
       sxu32 n;
       /* Perform the lookup */
       aEntry = (SyString *) SySetBasePtr(pSet);
-      for ( n = 0 ; n < SySetUsed(pSet) ; ++n ) {
+      for (n = 0 ; n < SySetUsed(pSet) ; ++n) {
         pEntry = &aEntry[n];
         /* Do the comparison */
         rc = SyStringCmp(pEntry, &sTag, SyStrnicmp);
@@ -5096,7 +5096,7 @@ static int PH7_builtin_str_shuffle(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   /* Shuffle the string */
-  for ( i = 0 ; i < nLen ; ++i ) {
+  for (i = 0 ; i < nLen ; ++i) {
     /* Generate a random number first */
     iR = ph7_context_random_num(pCtx);
     /* Extract a random offset */
@@ -5235,7 +5235,7 @@ static int LongestStringMask(const char *zString, int nLen, const char *zMask, i
     /* Extract current character */
     c = zString[0];
     /* Perform the lookup */
-    for ( i = 0 ; i < nMaskLen ; i++ ) {
+    for (i = 0 ; i < nMaskLen ; i++) {
       if (c == zMask[i]) {
         /* Character found */
         break;
@@ -5267,7 +5267,7 @@ static int LongestStringMask2(const char *zString, int nLen, const char *zMask, 
     /* Extract current character */
     c = zString[0];
     /* Perform the lookup */
-    for ( i = 0 ; i < nMaskLen ; i++ ) {
+    for (i = 0 ; i < nMaskLen ; i++) {
       if (c == zMask[i]) {
         break;
       }
@@ -5505,7 +5505,7 @@ static int PH7_builtin_strpbrk(ph7_context *pCtx, int nArg, ph7_value **apArg)
   zEnd = &zString[iLen];
   nOfft = nMax = SXU32_HIGH;
   /* perform the requested operation */
-  for ( i = 0 ; i < iListLen ; i++ ) {
+  for (i = 0 ; i < iListLen ; i++) {
     c = zList[i];
     rc = SyByteFind(zString, (sxu32) iLen, c, &nMax);
     if (rc == SXRET_OK) {
@@ -5663,7 +5663,7 @@ static int PH7_builtin_wordwrap(ph7_context *pCtx, int nArg, ph7_value **apArg)
 static int CheckMask(int c, const char *zMask, int nMasklen, int *pOfft)
 {
   int i;
-  for ( i = 0 ; i < nMasklen ; ++i ) {
+  for (i = 0 ; i < nMasklen ; ++i) {
     if (c == zMask[i]) {
       if (pOfft) {
         *pOfft = i;
@@ -5896,7 +5896,7 @@ static int PH7_builtin_str_pad(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Perform the requested operation */
   if (iType == 0 /* STR_PAD_LEFT */ || iType == 2 /* STR_PAD_BOTH */ ) {
     jPad = iStrpad;
-    for ( i = 0 ; i < iPadlen / iDiv ; i += jPad ) {
+    for (i = 0 ; i < iPadlen / iDiv ; i += jPad) {
       /* Padding */
       if ((int) ph7_context_result_buf_length(pCtx) + iLen + jPad >= iRealPad) {
         break;
@@ -5921,7 +5921,7 @@ static int PH7_builtin_str_pad(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_string(pCtx, zIn, iLen);
   }
   if (iType == 1 /* STR_PAD_RIGHT */ || iType == 2 /* STR_PAD_BOTH */ ) {
-    for ( i = 0 ; i < iPadlen / iDiv ; i += iStrpad ) {
+    for (i = 0 ; i < iPadlen / iDiv ; i += iStrpad) {
       /* Padding */
       if ((int) ph7_context_result_buf_length(pCtx) + iStrpad >= iRealPad) {
         break;
@@ -6297,7 +6297,7 @@ static int PH7_builtin_strtr(ph7_context *pCtx, int nArg, ph7_value **apArg)
       return PH7_OK;
     }
     /* Start the replace process */
-    for ( i = 0 ; i < nLen ; ++i ) {
+    for (i = 0 ; i < nLen ; ++i) {
       c = zIn[i];
       if (CheckMask(c, zFrom, flen, &iOfft)) {
         if (iOfft < tlen) {
@@ -8750,7 +8750,7 @@ static const ph7_builtin_func aBuiltInFunc[] = {
 PH7_PRIVATE void PH7_RegisterBuiltInFunction(ph7_vm *pVm)
 {
   sxu32 n;
-  for ( n = 0 ; n < SX_ARRAYSIZE(aBuiltInFunc) ; ++n ) {
+  for (n = 0 ; n < SX_ARRAYSIZE(aBuiltInFunc) ; ++n) {
     ph7_create_function(&(*pVm), aBuiltInFunc[n].zName, aBuiltInFunc[n].xFunc, 0);
   }
   /* Register hashmap functions [i.e: array_merge(),sort(),count(),array_diff(),...] */

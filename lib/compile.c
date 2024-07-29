@@ -123,7 +123,7 @@ static sxi32 GenStateGetLabel(ph7_gen_state *pGen, SyString *pName, Label **ppOu
   sxu32 n;
   /* Perform a linear scan on the label table */
   aLabel = (Label *) SySetBasePtr(&pGen->aLabel);
-  for ( n = 0 ; n < SySetUsed(&pGen->aLabel) ; ++n ) {
+  for (n = 0 ; n < SySetUsed(&pGen->aLabel) ; ++n) {
     if (SyStringCmp(&aLabel[n].sName, pName, SyMemcmp) == 0) {
       /* Jump destination found */
       aLabel[n].bRef = TRUE;
@@ -300,7 +300,7 @@ static sxu32 GenStateFixJumps(GenBlock *pBlock, sxi32 nJumpType, sxu32 nJumpDest
   /* Point to the jump fixup table */
   aFix = (JumpFixup *) SySetBasePtr(&pBlock->aJumpFix);
   /* Fix the desired jumps */
-  for ( nFixed = n = 0 ; n < SySetUsed(&pBlock->aJumpFix) ; ++n ) {
+  for (nFixed = n = 0 ; n < SySetUsed(&pBlock->aJumpFix) ; ++n) {
     if (aFix[n].nJumpType < 0) {
       /* Already fixed */
       continue;
@@ -338,7 +338,7 @@ static sxi32 GenStateFixGoto(ph7_gen_state *pGen, sxu32 nOfft)
   /* Point to the goto table */
   aJumps = (JumpFixup *) SySetBasePtr(&pGen->aGoto);
   /* Fix */
-  for ( n = nOfft ; n < SySetUsed(&pGen->aGoto) ; ++n ) {
+  for (n = nOfft ; n < SySetUsed(&pGen->aGoto) ; ++n) {
     pJump = &aJumps[n];
     /* Extract the target label */
     rc = GenStateGetLabel(&(*pGen), &pJump->sLabel, &pLabel);
@@ -364,7 +364,7 @@ static sxi32 GenStateFixGoto(ph7_gen_state *pGen, sxu32 nOfft)
     }
   }
   aLabel = (Label *) SySetBasePtr(&pGen->aLabel);
-  for ( n = 0 ; n < SySetUsed(&pGen->aLabel) ; ++n ) {
+  for (n = 0 ; n < SySetUsed(&pGen->aLabel) ; ++n) {
     if (aLabel[n].bRef == FALSE) {
       /* Emit a warning */
       PH7_GenCompileError(&(*pGen), E_WARNING, aLabel[n].nLine,
@@ -826,7 +826,7 @@ static sxi32 GenStateCompileString(ph7_gen_state *pGen)
             int c;
             c = 0;
             zIn++;
-            for ( zPtr = zIn ; zPtr < &zIn[3 * sizeof(char)] ; zPtr++ ) {
+            for (zPtr = zIn ; zPtr < &zIn[3 * sizeof(char)] ; zPtr++) {
               if (zPtr >= zEnd || (unsigned char) zPtr[0] >= 0xc0 || !SyisDigit(zPtr[0]) || (zPtr[0] - '0') > 7) {
                 break;
               }
@@ -2385,7 +2385,7 @@ static sxi32 PH7_CompileDoWhile(ph7_gen_state *pGen)
     sxu32 n;
     aPost = (JumpFixup *) SySetBasePtr(&pDoBlock->aPostContFix);
     nJumpDest = PH7_VmInstrLength(pGen->pVm);
-    for ( n = 0 ; n < SySetUsed(&pDoBlock->aPostContFix) ; ++n ) {
+    for (n = 0 ; n < SySetUsed(&pDoBlock->aPostContFix) ; ++n) {
       pInstr = PH7_VmGetInstr(pGen->pVm, aPost[n].nInstrIdx);
       if (pInstr) {
         /* Fix */
@@ -2557,7 +2557,7 @@ static sxi32 PH7_CompileFor(ph7_gen_state *pGen)
     sxu32 n;
     aPost = (JumpFixup *) SySetBasePtr(&pForBlock->aPostContFix);
     nJumpDest = PH7_VmInstrLength(pGen->pVm);
-    for ( n = 0 ; n < SySetUsed(&pForBlock->aPostContFix) ; ++n ) {
+    for (n = 0 ; n < SySetUsed(&pForBlock->aPostContFix) ; ++n) {
       pInstr = PH7_VmGetInstr(pGen->pVm, aPost[n].nInstrIdx);
       if (pInstr) {
         /* Fix jump */
@@ -5052,7 +5052,7 @@ static sxi32 GenStateCompileClass(ph7_gen_state *pGen, sxi32 iFlags)
       rc = PH7_ClassInherit(&(*pGen), pClass, pBase);
     }
     apInterface = (ph7_class **) SySetBasePtr(&aInterfaces);
-    for ( n = 0 ; n < SySetUsed(&aInterfaces) ; n++ ) {
+    for (n = 0 ; n < SySetUsed(&aInterfaces) ; n++) {
       /* Implements one or more interface */
       rc = PH7_ClassImplement(pClass, apInterface[n]);
       if (rc != SXRET_OK) {
@@ -5814,7 +5814,7 @@ static sxi32 GenStateEmitExprCode(
       apNode = (ph7_expr_node **) SySetBasePtr(&pNode->aNodeArgs);
       /* Read-only load */
       iFlags |= EXPR_FLAG_RDONLY_LOAD;
-      for ( n = 0 ; n < (sxi32) SySetUsed(&pNode->aNodeArgs) ; ++n ) {
+      for (n = 0 ; n < (sxi32) SySetUsed(&pNode->aNodeArgs) ; ++n) {
         rc = GenStateEmitExprCode(&(*pGen), apNode[n], iFlags & ~EXPR_FLAG_LOAD_IDX_STORE);
         if (rc != SXRET_OK) {
           return rc;
@@ -5845,7 +5845,7 @@ static sxi32 GenStateEmitExprCode(
       sxi32 n;
       /* Recurse and generate bytecodes for array index */
       apNode = (ph7_expr_node **) SySetBasePtr(&pNode->aNodeArgs);
-      for ( n = 0 ; n < (sxi32) SySetUsed(&pNode->aNodeArgs) ; ++n ) {
+      for (n = 0 ; n < (sxi32) SySetUsed(&pNode->aNodeArgs) ; ++n) {
         rc = GenStateEmitExprCode(&(*pGen), apNode[n], iFlags & ~EXPR_FLAG_LOAD_IDX_STORE);
         if (rc != SXRET_OK) {
           return rc;

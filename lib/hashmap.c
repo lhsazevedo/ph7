@@ -1077,7 +1077,7 @@ static sxi32 HashmapMerge(ph7_hashmap *pSrc, ph7_hashmap *pDest)
   /* Point to the first inserted entry in the source */
   pEntry = pSrc->pFirst;
   /* Perform the merge */
-  for ( n = 0 ; n < pSrc->nEntry ; ++n ) {
+  for (n = 0 ; n < pSrc->nEntry ; ++n) {
     /* Extract the node value */
     pVal = HashmapExtractNodeValue(pEntry);
     if (pEntry->iType == HASHMAP_BLOB_NODE) {
@@ -1126,7 +1126,7 @@ static sxi32 HashmapOverwrite(ph7_hashmap *pSrc, ph7_hashmap *pDest)
   /* Point to the first inserted entry in the source */
   pEntry = pSrc->pFirst;
   /* Perform the merge */
-  for ( n = 0 ; n < pSrc->nEntry ; ++n ) {
+  for (n = 0 ; n < pSrc->nEntry ; ++n) {
     /* Extract the node value */
     pVal = HashmapExtractNodeValue(pEntry);
     if (pEntry->iType == HASHMAP_BLOB_NODE) {
@@ -1166,7 +1166,7 @@ PH7_PRIVATE sxi32 PH7_HashmapDup(ph7_hashmap *pSrc, ph7_hashmap *pDest)
   /* Point to the first inserted entry in the source */
   pEntry = pSrc->pFirst;
   /* Perform the duplication */
-  for ( n = 0 ; n < pSrc->nEntry ; ++n ) {
+  for (n = 0 ; n < pSrc->nEntry ; ++n) {
     /* Extract the node value */
     pVal = HashmapExtractNodeValue(pEntry);
     if (pEntry->iType == HASHMAP_BLOB_NODE) {
@@ -1238,7 +1238,7 @@ PH7_PRIVATE sxi32 PH7_HashmapUnion(ph7_hashmap *pLeft, ph7_hashmap *pRight)
   }
   /* Perform the union */
   pEntry = pRight->pFirst;
-  for (n = 0 ; n < pRight->nEntry ; ++n ) {
+  for (n = 0 ; n < pRight->nEntry ; ++n) {
     /* Make sure the given key does not exists in the left array */
     if (pEntry->iType == HASHMAP_BLOB_NODE) {
       /* BLOB key */
@@ -1357,7 +1357,7 @@ PH7_PRIVATE sxi32 PH7_HashmapCreateSuper(ph7_vm *pVm)
     return rc;
   }
   /* Install superglobals now */
-  for ( n = 0 ; n < SX_ARRAYSIZE(azSuper) ; n++ ) {
+  for (n = 0 ; n < SX_ARRAYSIZE(azSuper) ; n++) {
     ph7_value *pSuper;
     /* Request an empty array */
     pSuper = ph7_new_array(&(*pVm));
@@ -1611,7 +1611,7 @@ PH7_PRIVATE int PH7_HashmapValuesToSet(ph7_hashmap *pMap, SySet *pOut)
   sxu32 n;
   /* Initialize the container */
   SySetInit(pOut, &pMap->pVm->sAllocator, sizeof(ph7_value *));
-  for (n = 0 ; n < pMap->nEntry ; n++ ) {
+  for (n = 0 ; n < pMap->nEntry ; n++) {
     /* Extract node value */
     pValue = HashmapExtractNodeValue(pEntry);
     if (pValue) {
@@ -2608,7 +2608,7 @@ static int ph7_hashmap_push(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Point to the internal representation of the input hashmap */
   pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Start pushing given values */
-  for ( i = 1 ; i < nArg ; ++i ) {
+  for (i = 1 ; i < nArg ; ++i) {
     rc = PH7_HashmapInsert(pMap, 0, apArg[i]);
     if (rc != SXRET_OK) {
       break;
@@ -3062,7 +3062,7 @@ static int ph7_hashmap_values(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   /* Perform the requested operation */
   pNode = pMap->pFirst;
-  for ( n = 0 ; n < pMap->nEntry ; ++n ) {
+  for (n = 0 ; n < pMap->nEntry ; ++n) {
     pObj = HashmapExtractNodeValue(pNode);
     if (pObj) {
       /* perform the insertion */
@@ -3125,7 +3125,7 @@ static int ph7_hashmap_keys(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Perform the requested operation */
   pNode = pMap->pFirst;
   PH7_MemObjInit(pMap->pVm, &sVal);
-  for ( n = 0 ; n < pMap->nEntry ; ++n ) {
+  for (n = 0 ; n < pMap->nEntry ; ++n) {
     if (pNode->iType == HASHMAP_INT_NODE) {
       PH7_MemObjInitFromInt(pMap->pVm, &sObj, pNode->xKey.iKey);
     } else {
@@ -3216,7 +3216,7 @@ static int ph7_hashmap_merge(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Point to the internal representation of the hashmap */
   pMap = (ph7_hashmap *) pArray->x.pOther;
   /* Start merging */
-  for ( i = 0 ; i < nArg ; i++ ) {
+  for (i = 0 ; i < nArg ; i++) {
     /* Make sure we are dealing with a valid hashmap */
     if (!ph7_value_is_array(apArg[i])) {
       /* Insert scalar value */
@@ -3702,7 +3702,7 @@ static int ph7_hashmap_diff(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Extract the node value */
     pVal = HashmapExtractNodeValue(pEntry);
     if (pVal) {
-      for ( i = 1 ; i < nArg ; i++ ) {
+      for (i = 1 ; i < nArg ; i++) {
         if (!ph7_value_is_array(apArg[i])) {
           /* ignore */
           continue;
@@ -3789,7 +3789,7 @@ static int ph7_hashmap_udiff(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Extract the node value */
     pVal = HashmapExtractNodeValue(pEntry);
     if (pVal) {
-      for ( i = 1 ; i < nArg - 1 ; i++ ) {
+      for (i = 1 ; i < nArg - 1 ; i++) {
         if (!ph7_value_is_array(apArg[i])) {
           /* ignore */
           continue;
@@ -3865,7 +3865,7 @@ static int ph7_hashmap_diff_assoc(ph7_context *pCtx, int nArg, ph7_value **apArg
     if (n < 1) {
       break;
     }
-    for ( i = 1 ; i < nArg ; i++ ) {
+    for (i = 1 ; i < nArg ; i++) {
       if (!ph7_value_is_array(apArg[i])) {
         /* ignore */
         continue;
@@ -3963,7 +3963,7 @@ static int ph7_hashmap_diff_uassoc(ph7_context *pCtx, int nArg, ph7_value **apAr
     if (n < 1) {
       break;
     }
-    for ( i = 1 ; i < nArg - 1 ; i++ ) {
+    for (i = 1 ; i < nArg - 1 ; i++) {
       if (!ph7_value_is_array(apArg[i])) {
         /* ignore */
         continue;
@@ -4051,7 +4051,7 @@ static int ph7_hashmap_diff_key(ph7_context *pCtx, int nArg, ph7_value **apArg)
     if (n < 1) {
       break;
     }
-    for ( i = 1 ; i < nArg ; i++ ) {
+    for (i = 1 ; i < nArg ; i++) {
       if (!ph7_value_is_array(apArg[i])) {
         /* ignore */
         continue;
@@ -4134,7 +4134,7 @@ static int ph7_hashmap_intersect(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Extract the node value */
     pVal = HashmapExtractNodeValue(pEntry);
     if (pVal) {
-      for ( i = 1 ; i < nArg ; i++ ) {
+      for (i = 1 ; i < nArg ; i++) {
         if (!ph7_value_is_array(apArg[i])) {
           /* ignore */
           continue;
@@ -4214,7 +4214,7 @@ static int ph7_hashmap_intersect_assoc(ph7_context *pCtx, int nArg, ph7_value **
     /* Extract the node value */
     pVal = HashmapExtractNodeValue(pEntry);
     if (pVal) {
-      for ( i = 1 ; i < nArg ; i++ ) {
+      for (i = 1 ; i < nArg ; i++) {
         if (!ph7_value_is_array(apArg[i])) {
           /* ignore */
           continue;
@@ -4299,7 +4299,7 @@ static int ph7_hashmap_intersect_key(ph7_context *pCtx, int nArg, ph7_value **ap
     if (n < 1) {
       break;
     }
-    for ( i = 1 ; i < nArg ; i++ ) {
+    for (i = 1 ; i < nArg ; i++) {
       if (!ph7_value_is_array(apArg[i])) {
         /* ignore */
         continue;
@@ -4392,7 +4392,7 @@ static int ph7_hashmap_uintersect(ph7_context *pCtx, int nArg, ph7_value **apArg
     /* Extract the node value */
     pVal = HashmapExtractNodeValue(pEntry);
     if (pVal) {
-      for ( i = 1 ; i < nArg - 1 ; i++ ) {
+      for (i = 1 ; i < nArg - 1 ; i++) {
         if (!ph7_value_is_array(apArg[i])) {
           /* ignore */
           continue;
@@ -4452,7 +4452,7 @@ static int ph7_hashmap_fill(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Insert the first entry alone because it have it's own key */
   ph7_array_add_intkey_elem(pArray, ph7_value_to_int(apArg[0]), apArg[2]);
   /* Repeat insertion of the desired value */
-  for ( i = 1 ; i < nEntry ; i++ ) {
+  for (i = 1 ; i < nEntry ; i++) {
     ph7_array_add_elem(pArray, 0 /*Automatic index assign */, apArg[2]);
   }
   /* Return the filled array */
@@ -4497,7 +4497,7 @@ static int ph7_hashmap_fill_keys(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   /* Perform the requested operation */
   pEntry = pSrc->pFirst;
-  for ( n = 0 ; n < pSrc->nEntry ; n++ ) {
+  for (n = 0 ; n < pSrc->nEntry ; n++) {
     ph7_array_add_elem(pArray, HashmapExtractNodeValue(pEntry), apArg[1]);
     /* Point to the next entry */
     pEntry = pEntry->pPrev;     /* Reverse link */
@@ -4553,7 +4553,7 @@ static int ph7_hashmap_combine(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Perform the requested operation */
   pKe = pKey->pFirst;
   pVe = pValue->pFirst;
-  for ( n = 0 ; n < pKey->nEntry ; n++ ) {
+  for (n = 0 ; n < pKey->nEntry ; n++) {
     ph7_array_add_elem(pArray, HashmapExtractNodeValue(pKe), HashmapExtractNodeValue(pVe));
     /* Point to the next entry */
     pKe = pKe->pPrev;     /* Reverse link */
@@ -4606,7 +4606,7 @@ static int ph7_hashmap_reverse(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   /* Perform the requested operation */
   pEntry = pSrc->pLast;
-  for ( n = 0 ; n < pSrc->nEntry ; n++ ) {
+  for (n = 0 ; n < pSrc->nEntry ; n++) {
     HashmapInsertNode((ph7_hashmap *) pArray->x.pOther, pEntry, bPreserve);
     /* Point to the previous entry */
     pEntry = pEntry->pNext;     /* Reverse link */
@@ -4664,7 +4664,7 @@ static int ph7_hashmap_unique(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   /* Perform the requested operation */
   pEntry = pSrc->pFirst;
-  for ( n = 0 ; n < pSrc->nEntry ; n++ ) {
+  for (n = 0 ; n < pSrc->nEntry ; n++) {
     pNeedle = HashmapExtractNodeValue(pEntry);
     rc = SXERR_NOTFOUND;
     if (pNeedle) {
@@ -4719,7 +4719,7 @@ static int ph7_hashmap_flip(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   /* Start processing */
   pEntry = pSrc->pFirst;
-  for ( n = 0 ; n < pSrc->nEntry ; n++ ) {
+  for (n = 0 ; n < pSrc->nEntry ; n++) {
     /* Extract the node value */
     pKey = HashmapExtractNodeValue(pEntry);
     if (pKey && (pKey->iFlags & MEMOBJ_NULL) == 0) {
@@ -4760,7 +4760,7 @@ static void DoubleSum(ph7_context *pCtx, ph7_hashmap *pMap)
   double dSum = 0;
   sxu32 n;
   pEntry = pMap->pFirst;
-  for ( n = 0 ; n < pMap->nEntry ; n++ ) {
+  for (n = 0 ; n < pMap->nEntry ; n++) {
     pObj = HashmapExtractNodeValue(pEntry);
     if (pObj && (pObj->iFlags & (MEMOBJ_NULL | MEMOBJ_HASHMAP | MEMOBJ_OBJ | MEMOBJ_RES)) == 0) {
       if (pObj->iFlags & MEMOBJ_REAL) {
@@ -4788,7 +4788,7 @@ static void Int64Sum(ph7_context *pCtx, ph7_hashmap *pMap)
   sxi64 nSum = 0;
   sxu32 n;
   pEntry = pMap->pFirst;
-  for ( n = 0 ; n < pMap->nEntry ; n++ ) {
+  for (n = 0 ; n < pMap->nEntry ; n++) {
     pObj = HashmapExtractNodeValue(pEntry);
     if (pObj && (pObj->iFlags & (MEMOBJ_NULL | MEMOBJ_HASHMAP | MEMOBJ_OBJ | MEMOBJ_RES)) == 0) {
       if (pObj->iFlags & MEMOBJ_REAL) {
@@ -4864,7 +4864,7 @@ static void DoubleProd(ph7_context *pCtx, ph7_hashmap *pMap)
   sxu32 n;
   pEntry = pMap->pFirst;
   dProd = 1;
-  for ( n = 0 ; n < pMap->nEntry ; n++ ) {
+  for (n = 0 ; n < pMap->nEntry ; n++) {
     pObj = HashmapExtractNodeValue(pEntry);
     if (pObj && (pObj->iFlags & (MEMOBJ_NULL | MEMOBJ_HASHMAP | MEMOBJ_OBJ | MEMOBJ_RES)) == 0) {
       if (pObj->iFlags & MEMOBJ_REAL) {
@@ -4893,7 +4893,7 @@ static void Int64Prod(ph7_context *pCtx, ph7_hashmap *pMap)
   sxu32 n;
   pEntry = pMap->pFirst;
   nProd = 1;
-  for ( n = 0 ; n < pMap->nEntry ; n++ ) {
+  for (n = 0 ; n < pMap->nEntry ; n++) {
     pObj = HashmapExtractNodeValue(pEntry);
     if (pObj && (pObj->iFlags & (MEMOBJ_NULL | MEMOBJ_HASHMAP | MEMOBJ_OBJ | MEMOBJ_RES)) == 0) {
       if (pObj->iFlags & MEMOBJ_REAL) {
@@ -5253,7 +5253,7 @@ static int ph7_hashmap_replace(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Perform the requested operation */
-  for ( i = 0 ; i < nArg ; i++ ) {
+  for (i = 0 ; i < nArg ; i++) {
     if (!ph7_value_is_array(apArg[i])) {
       continue;
     }
@@ -5305,7 +5305,7 @@ static int ph7_hashmap_filter(ph7_context *pCtx, int nArg, ph7_value **apArg)
   PH7_MemObjInit(pMap->pVm, &sResult);
   sResult.nIdx = SXU32_HIGH;   /* Mark as constant */
   /* Perform the requested operation */
-  for ( n = 0 ; n < pMap->nEntry ; n++ ) {
+  for (n = 0 ; n < pMap->nEntry ; n++) {
     /* Extract node value */
     pValue = HashmapExtractNodeValue(pEntry);
     if (nArg > 1 && pValue) {
@@ -5370,7 +5370,7 @@ static int ph7_hashmap_map(ph7_context *pCtx, int nArg, ph7_value **apArg)
   sKey.nIdx = SXU32_HIGH;      /* Mark as constant */
   /* Perform the requested operation */
   pEntry = pMap->pFirst;
-  for ( n = 0 ; n < pMap->nEntry ; n++ ) {
+  for (n = 0 ; n < pMap->nEntry ; n++) {
     /* Extrcat the node value */
     pValue = HashmapExtractNodeValue(pEntry);
     if (pValue) {
@@ -5433,7 +5433,7 @@ static int ph7_hashmap_reduce(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   /* Perform the requested operation */
   pEntry = pMap->pFirst;
-  for ( n = 0 ; n < pMap->nEntry ; n++ ) {
+  for (n = 0 ; n < pMap->nEntry ; n++) {
     /* Extract the node value */
     pValue = HashmapExtractNodeValue(pEntry);
     /* Invoke the supplied callback */
@@ -5483,7 +5483,7 @@ static int ph7_hashmap_walk(ph7_context *pCtx, int nArg, ph7_value **apArg)
   sKey.nIdx = SXU32_HIGH;   /* Mark as constant */
   /* Perform the desired operation */
   pEntry = pMap->pFirst;
-  for ( n = 0 ; n < pMap->nEntry ; n++ ) {
+  for (n = 0 ; n < pMap->nEntry ; n++) {
     /* Extract the node value */
     pValue = HashmapExtractNodeValue(pEntry);
     if (pValue) {
@@ -5524,7 +5524,7 @@ static int HashmapWalkRecursive(
   PH7_MemObjInit(pMap->pVm, &sKey);
   sKey.nIdx = SXU32_HIGH;   /* Mark as constant */
   pEntry = pMap->pFirst;
-  for ( n = 0 ; n < pMap->nEntry ; n++ ) {
+  for (n = 0 ; n < pMap->nEntry ; n++) {
     /* Extract the node value */
     pValue = HashmapExtractNodeValue(pEntry);
     if (pValue) {
@@ -5659,7 +5659,7 @@ static const ph7_builtin_func aHashmapFunc[] = {
 PH7_PRIVATE void PH7_RegisterHashmapFunctions(ph7_vm *pVm)
 {
   sxu32 n;
-  for ( n = 0 ; n < SX_ARRAYSIZE(aHashmapFunc) ; n++ ) {
+  for (n = 0 ; n < SX_ARRAYSIZE(aHashmapFunc) ; n++) {
     ph7_create_function(&(*pVm), aHashmapFunc[n].zName, aHashmapFunc[n].xFunc, 0);
   }
 }
@@ -5705,7 +5705,7 @@ PH7_PRIVATE sxi32 PH7_HashmapDump(SyBlob *pOut, ph7_hashmap *pMap, int ShowType,
     if (n >= pMap->nEntry) {
       break;
     }
-    for ( i = 0 ; i < nTab ; i++ ) {
+    for (i = 0 ; i < nTab ; i++) {
       SyBlobAppend(&(*pOut), " ", sizeof(char));
     }
     /* Dump key */
@@ -5737,7 +5737,7 @@ PH7_PRIVATE sxi32 PH7_HashmapDump(SyBlob *pOut, ph7_hashmap *pMap, int ShowType,
     n++;
     pEntry = pEntry->pPrev;     /* Reverse link */
   }
-  for ( i = 0 ; i < nTab ; i++ ) {
+  for (i = 0 ; i < nTab ; i++) {
     SyBlobAppend(&(*pOut), " ", sizeof(char));
   }
   SyBlobAppend(&(*pOut), "}", sizeof(char));

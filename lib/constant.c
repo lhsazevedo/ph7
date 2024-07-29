@@ -2074,7 +2074,7 @@ PH7_PRIVATE void PH7_RegisterBuiltInConstant(ph7_vm *pVm)
    * Note that all built-in constants have access to the ph7 virtual machine
    * that trigger the constant invocation as their private data.
    */
-  for ( n = 0 ; n < SX_ARRAYSIZE(aBuiltIn) ; ++n ) {
+  for (n = 0 ; n < SX_ARRAYSIZE(aBuiltIn) ; ++n) {
     ph7_create_constant(&(*pVm), aBuiltIn[n].zName, aBuiltIn[n].xExpand, &(*pVm));
   }
 }

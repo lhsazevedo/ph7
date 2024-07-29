@@ -118,7 +118,7 @@ int main(int argc, char **argv)
   int n;                /* Script arguments */
   int rc;
   /* Process interpreter arguments first*/
-  for (n = 1 ; n < argc ; ++n ) {
+  for (n = 1 ; n < argc ; ++n) {
     int c;
     if (argv[n][0] != '-') {
       /* No more interpreter arguments */
@@ -189,7 +189,7 @@ int main(int argc, char **argv)
   /* Register script agruments so we can access them later using the $argv[]
    * array from the compiled PHP program.
    */
-  for ( n = n + 1 ; n < argc ; ++n ) {
+  for (n = n + 1 ; n < argc ; ++n) {
     ph7_vm_config(pVm, PH7_VM_CONFIG_ARGV_ENTRY, argv[n] /* Argument value */ );
   }
   if (err_report) {

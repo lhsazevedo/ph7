@@ -8138,10 +8138,10 @@ PH7_PRIVATE sxi32 PH7_RegisterIORoutine(ph7_vm *pVm)
   const ph7_io_stream *pFileStream = 0;
   sxu32 n = 0;
   /* Register the functions defined above */
-  for ( n = 0 ; n < SX_ARRAYSIZE(aVfsFunc) ; ++n ) {
+  for (n = 0 ; n < SX_ARRAYSIZE(aVfsFunc) ; ++n) {
     ph7_create_function(&(*pVm), aVfsFunc[n].zName, aVfsFunc[n].xFunc, (void *) pVm->pEngine->pVfs);
   }
-  for ( n = 0 ; n < SX_ARRAYSIZE(aIOFunc) ; ++n ) {
+  for (n = 0 ; n < SX_ARRAYSIZE(aIOFunc) ; ++n) {
     ph7_create_function(&(*pVm), aIOFunc[n].zName, aIOFunc[n].xFunc, pVm);
   }
 #ifndef PH7_DISABLE_DISK_IO

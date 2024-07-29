@@ -59,7 +59,7 @@ static sxi32 WinMutexGlobaInit(void)
   rc = InterlockedCompareExchange(&winMutexLock, 1, 0);
   if (rc == 0) {
     sxu32 n;
-    for ( n = 0 ; n < SX_ARRAYSIZE(aStaticMutexes) ; ++n ) {
+    for (n = 0 ; n < SX_ARRAYSIZE(aStaticMutexes) ; ++n) {
       InitializeCriticalSection(&aStaticMutexes[n].sMutex);
     }
     winMutexInit = TRUE;
@@ -79,7 +79,7 @@ static void WinMutexGlobalRelease(void)
     /* The first to decrement to zero does the actual global release */
     if (winMutexInit == TRUE) {
       sxu32 n;
-      for ( n = 0 ; n < SX_ARRAYSIZE(aStaticMutexes) ; ++n ) {
+      for (n = 0 ; n < SX_ARRAYSIZE(aStaticMutexes) ; ++n) {
         DeleteCriticalSection(&aStaticMutexes[n].sMutex);
       }
       winMutexInit = FALSE;
@@ -349,10 +349,10 @@ PH7_PRIVATE sxi32 SyByteListFind(const char *zSrc, sxu32 nLen, const char *zList
   sxi32 c;
   zEnd = &zSrc[nLen];
   for (;;) {
-    if (zIn >= zEnd) { break; } for (zPtr = zList ; (c = zPtr[0]) != 0 ; zPtr++ ) { if (zIn[0] == c) { if (pFirstPos) { *pFirstPos = (sxu32) (zIn - zSrc); } return SXRET_OK; } } zIn++;
-    if (zIn >= zEnd) { break; } for (zPtr = zList ; (c = zPtr[0]) != 0 ; zPtr++ ) { if (zIn[0] == c) { if (pFirstPos) { *pFirstPos = (sxu32) (zIn - zSrc); } return SXRET_OK; } } zIn++;
-    if (zIn >= zEnd) { break; } for (zPtr = zList ; (c = zPtr[0]) != 0 ; zPtr++ ) { if (zIn[0] == c) { if (pFirstPos) { *pFirstPos = (sxu32) (zIn - zSrc); } return SXRET_OK; } } zIn++;
-    if (zIn >= zEnd) { break; } for (zPtr = zList ; (c = zPtr[0]) != 0 ; zPtr++ ) { if (zIn[0] == c) { if (pFirstPos) { *pFirstPos = (sxu32) (zIn - zSrc); } return SXRET_OK; } } zIn++;
+    if (zIn >= zEnd) { break; } for (zPtr = zList ; (c = zPtr[0]) != 0 ; zPtr++) { if (zIn[0] == c) { if (pFirstPos) { *pFirstPos = (sxu32) (zIn - zSrc); } return SXRET_OK; } } zIn++;
+    if (zIn >= zEnd) { break; } for (zPtr = zList ; (c = zPtr[0]) != 0 ; zPtr++) { if (zIn[0] == c) { if (pFirstPos) { *pFirstPos = (sxu32) (zIn - zSrc); } return SXRET_OK; } } zIn++;
+    if (zIn >= zEnd) { break; } for (zPtr = zList ; (c = zPtr[0]) != 0 ; zPtr++) { if (zIn[0] == c) { if (pFirstPos) { *pFirstPos = (sxu32) (zIn - zSrc); } return SXRET_OK; } } zIn++;
+    if (zIn >= zEnd) { break; } for (zPtr = zList ; (c = zPtr[0]) != 0 ; zPtr++) { if (zIn[0] == c) { if (pFirstPos) { *pFirstPos = (sxu32) (zIn - zSrc); } return SXRET_OK; } } zIn++;
   }
   return SXERR_NOTFOUND;
 }
@@ -1564,7 +1564,7 @@ PH7_PRIVATE sxi32 SyHashForEach(SyHash *pHash, sxi32 (*xStep)(SyHashEntry *, voi
   }
 #endif
   pEntry = pHash->pList;
-  for ( n = 0 ; n < pHash->nEntry ; n++ ) {
+  for (n = 0 ; n < pHash->nEntry ; n++) {
     /* Invoke the callback */
     rc = xStep((SyHashEntry *) pEntry, pUserData);
     if (rc != SXRET_OK) {
@@ -1591,7 +1591,7 @@ static sxi32 HashGrowTable(SyHash *pHash)
   /* Zero the new table */
   SyZero((void *) apNew, nNewSize * sizeof(SyHashEntry_Pr *));
   /* Rehash all entries */
-  for ( n = 0, pEntry = pHash->pList ; n < pHash->nEntry ; n++  ) {
+  for (n = 0, pEntry = pHash->pList ; n < pHash->nEntry ; n++) {
     pEntry->pNextCollide = pEntry->pPrevCollide = 0;
     /* Install in the new bucket */
     iBucket = pEntry->nHash & (nNewSize - 1);
@@ -2100,7 +2100,7 @@ PH7_PRIVATE sxi32 SyStrToReal(const char *zSrc, sxu32 nLen, void *pOutVal, const
     } else if (exp > SXDBL_MAX_EXP) {
       exp = SXDBL_MAX_EXP;
     }
-    for ( p = (sxreal *) aTab ; exp ; exp >>= 1, p++ ) {
+    for (p = (sxreal *) aTab ; exp ; exp >>= 1, p++) {
       if (exp & 01) {
         if (neg) {
           Val /= *p;
@@ -2214,7 +2214,7 @@ PH7_PRIVATE sxi32 SyBase64Decode(const char *zB64, sxu32 nLen, ProcConsumer xCon
   while (nLen > 0 && zB64[nLen - 1] == '=') {
     nLen--;
   }
-  for ( n = 0 ; n + 3 < nLen ; n += 4) {
+  for (n = 0 ; n + 3 < nLen ; n += 4) {
     w = aBase64Trans[zB64[n] & 0x7F];
     x = aBase64Trans[zB64[n + 1] & 0x7F];
     y = aBase64Trans[zB64[n + 2] & 0x7F];
@@ -3516,7 +3516,7 @@ static sxi32 XML_Tokenize(SyStream *pStream, SyToken *pToken, void *pUserData, v
 static int XMLCheckDuplicateAttr(SyXMLRawStr *aSet, sxu32 nEntry, SyXMLRawStr *pEntry)
 {
   sxu32 n;
-  for ( n = 0 ; n < nEntry ; n += 2 ) {
+  for (n = 0 ; n < nEntry ; n += 2) {
     SyXMLRawStr *pAttr = &aSet[n];
     if (pAttr->nByte == pEntry->nByte && SyMemcmp(pAttr->zString, pEntry->zString, pEntry->nByte) == 0) {
       /* Attribute found */
@@ -3920,7 +3920,7 @@ static sxi32 XMLnsUnlink(SyXMLParser *pParse, SyXMLRawStrNS *pLast, SyToken *pTo
   sxu32 n;
   /* Release namespace entries */
   apEntry = (SyHashEntry **) SySetBasePtr(&pLast->sNSset);
-  for ( n = 0 ; n < SySetUsed(&pLast->sNSset) ; ++n ) {
+  for (n = 0 ; n < SySetUsed(&pLast->sNSset) ; ++n) {
     pEntry = apEntry[n];
     /* Invoke the end namespace declaration callback */
     if (pParse->xNameSpaceEnd && (pParse->nFlags & SXML_ENABLE_NAMESPACE) && pToken) {
@@ -4249,7 +4249,7 @@ PH7_PRIVATE sxi32 SyXMLProcess(SyXMLParser *pParser, const char *zInput, sxu32 n
         while (SySetGetNextEntry(&sTagStack, (void **) &pEntry) == SXRET_OK) {
           /* Release namespace entries */
           apEntry = (SyHashEntry **) SySetBasePtr(&pEntry->sNSset);
-          for ( n = 0 ; n < SySetUsed(&pEntry->sNSset) ; ++n ) {
+          for (n = 0 ; n < SySetUsed(&pEntry->sNSset) ; ++n) {
             SyMemBackendFree(pParser->pAllocator, apEntry[n]->pUserData);
           }
           SySetRelease(&pEntry->sNSset);
@@ -4453,7 +4453,7 @@ static sxi32 ArchiveHashGrowTable(SyArchive *pArch)
   }
   SyZero(apNew, nNewSize * sizeof(SyArchiveEntry *));
   /* Rehash old entries */
-  for ( n = 0, pEntry = pArch->pList ; n < pArch->nLoaded ; n++, pEntry = pEntry->pNext ) {
+  for (n = 0, pEntry = pArch->pList ; n < pArch->nLoaded ; n++, pEntry = pEntry->pNext) {
     pEntry->pNextHash = pEntry->pPrevHash = 0;
     ArchiveHashBucketInstall(apNew, pEntry->nHash & (nNewSize - 1), pEntry);
   }

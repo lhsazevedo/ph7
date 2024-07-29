@@ -593,13 +593,13 @@ static void VmLeaveFrame(ph7_vm *pVm)
       sxu32 n;
       /* Restore local variable to the free pool so that they can be reused again */
       aSlot = (VmSlot *) SySetBasePtr(&pFrame->sLocal);
-      for (n = 0 ; n < SySetUsed(&pFrame->sLocal) ; ++n ) {
+      for (n = 0 ; n < SySetUsed(&pFrame->sLocal) ; ++n) {
         /* Unset the local variable */
         PH7_VmUnsetMemObj(&(*pVm), aSlot[n].nIdx, FALSE);
       }
       /* Remove local reference */
       aSlot = (VmSlot *) SySetBasePtr(&pFrame->sRef);
-      for (n = 0 ; n < SySetUsed(&pFrame->sRef) ; ++n ) {
+      for (n = 0 ; n < SySetUsed(&pFrame->sRef) ; ++n) {
         PH7_VmRefObjRemove(&(*pVm), aSlot[n].nIdx, (SyHashEntry *) aSlot[n].pUserData, 0);
       }
     }
@@ -678,7 +678,7 @@ static ph7_vm_func* VmOverload(
   }
   /* Calculate function signature */
   SyBlobInit(&sSig, &pVm->sAllocator);
-  for ( j = 0 ; j < nArg ; j++ ) {
+  for (j = 0 ; j < nArg ; j++) {
     int c = 'n';     /* null */
     if (aArg[j].iFlags & MEMOBJ_HASHMAP) {
       /* Hashmap */
@@ -710,7 +710,7 @@ static ph7_vm_func* VmOverload(
   iTarget = 0;
   iMax = -1;
   /* Select the appropriate function */
-  for ( j = 0 ; j < i ; j++ ) {
+  for (j = 0 ; j < i ; j++) {
     /* Compare the two signatures */
     iCur = VmOverloadCompare(&sArgSig, &apSet[j]->sSignature);
     if (iCur > iMax) {
@@ -1541,7 +1541,7 @@ static void VmReleaseCallContext(ph7_context *pCtx)
   sxu32 n;
   if (SySetUsed(&pCtx->sVar) > 0) {
     ph7_value **apObj = (ph7_value **) SySetBasePtr(&pCtx->sVar);
-    for ( n = 0 ; n < SySetUsed(&pCtx->sVar) ; ++n ) {
+    for (n = 0 ; n < SySetUsed(&pCtx->sVar) ; ++n) {
       if (apObj[n] == 0) {
         /* Already released */
         continue;
@@ -1558,7 +1558,7 @@ static void VmReleaseCallContext(ph7_context *pCtx)
      * using [ph7_context_alloc_chunk()].
      */
     aAux = (ph7_aux_data *) SySetBasePtr(&pCtx->sChunk);
-    for ( n = 0 ; n < SySetUsed(&pCtx->sChunk) ; ++n ) {
+    for (n = 0 ; n < SySetUsed(&pCtx->sChunk) ; ++n) {
       pChunk = aAux[n].pAuxData;
       /* Release the chunk */
       if (pChunk) {
@@ -1584,7 +1584,7 @@ PH7_PRIVATE void PH7_VmReleaseContextValue(
   if (SySetUsed(&pCtx->sVar) > 0) {
     ph7_value **apObj = (ph7_value **) SySetBasePtr(&pCtx->sVar);
     sxu32 n;
-    for ( n = 0 ; n < SySetUsed(&pCtx->sVar) ; ++n ) {
+    for (n = 0 ; n < SySetUsed(&pCtx->sVar) ; ++n) {
       if (apObj[n] == pValue) {
         PH7_MemObjRelease(pValue);
         SyMemBackendPoolFree(&pCtx->pVm->sAllocator, pValue);
@@ -3015,7 +3015,7 @@ static sxi32 VmByteCodeExec(
           /* Set up closure environment */
           SySetInit(&pClosure->aClosureEnv, &pVm->sAllocator, sizeof(ph7_vm_func_closure_env));
           aEnv = (ph7_vm_func_closure_env *) SySetBasePtr(&pFunc->aClosureEnv);
-          for ( n = 0 ; n < SySetUsed(&pFunc->aClosureEnv) ; ++n ) {
+          for (n = 0 ; n < SySetUsed(&pFunc->aClosureEnv) ; ++n) {
             ph7_value *pValue;
             pEnv = &aEnv[n];
             sEnv.sName = pEnv->sName;
@@ -5175,7 +5175,7 @@ static sxi32 VmByteCodeExec(
         /* Select the appropriate case block to execute */
         PH7_MemObjInit(pVm, &sValue);
         PH7_MemObjInit(pVm, &sCaseValue);
-        for ( n = 0 ; n < nEntry ; ++n ) {
+        for (n = 0 ; n < nEntry ; ++n) {
           pCase = &aCase[n];
           PH7_MemObjLoad(pTos, &sValue);
           /* Execute the case expression first */
@@ -5379,7 +5379,7 @@ static sxi32 VmByteCodeExec(
             ph7_vm_func_static_var *pStatic, *aStatic;
             /* Install static variables */
             aStatic = (ph7_vm_func_static_var *) SySetBasePtr(&pVmFunc->aStatic);
-            for ( n = 0 ; n < SySetUsed(&pVmFunc->aStatic) ; ++n ) {
+            for (n = 0 ; n < SySetUsed(&pVmFunc->aStatic) ; ++n) {
               pStatic = &aStatic[n];
               if (pStatic->nIdx == SXU32_HIGH) {
                 /* Initialize the static variables */
@@ -5499,7 +5499,7 @@ static sxi32 VmByteCodeExec(
             ph7_value *pValue;
             sxu32 n;
             aEnv = (ph7_vm_func_closure_env *) SySetBasePtr(&pVmFunc->aClosureEnv);
-            for (n = 0 ; n < SySetUsed(&pVmFunc->aClosureEnv) ; ++n ) {
+            for (n = 0 ; n < SySetUsed(&pVmFunc->aClosureEnv) ; ++n) {
               pEnv = &aEnv[n];
               if ((pEnv->iFlags & VM_FUNC_ARG_IGNORE) && (pEnv->sValue.iFlags & MEMOBJ_NULL)) {
                 /* Do not install null value */
@@ -5576,7 +5576,7 @@ static sxi32 VmByteCodeExec(
               VmSlot *aSlot = (VmSlot *) SySetBasePtr(&pFrame->sLocal);
               sxu32 i;
               /* Make sure the referenced object is not a local variable */
-              for ( i = 0 ; i < SySetUsed(&pFrame->sLocal) ; ++i ) {
+              for (i = 0 ; i < SySetUsed(&pFrame->sLocal) ; ++i) {
                 if (n == aSlot[i].nIdx) {
                   pObj = (ph7_value *) SySetAt(&pVm->aMemObj, n);
                   if (pObj && (pObj->iFlags & (MEMOBJ_NULL | MEMOBJ_OBJ | MEMOBJ_HASHMAP | MEMOBJ_RES)) == 0) {
@@ -5766,14 +5766,14 @@ static void VmInvokeShutdownCallbacks(ph7_vm *pVm)
   int i;
   /* Point to the stack of registered callbacks */
   nEntry = SySetUsed(&pVm->aShutdown);
-  for ( i = 0 ; i < (int) SX_ARRAYSIZE(apArg) ; i++ ) {
+  for (i = 0 ; i < (int) SX_ARRAYSIZE(apArg) ; i++) {
     apArg[i] = 0;
   }
-  for ( n = 0 ; n < nEntry ; ++n ) {
+  for (n = 0 ; n < nEntry ; ++n) {
     pEntry = (VmShutdownCB *) SySetAt(&pVm->aShutdown, n);
     if (pEntry) {
       /* Prepare callback arguments if any */
-      for ( i = 0 ; i < pEntry->nArg ; i++ ) {
+      for (i = 0 ; i < pEntry->nArg ; i++) {
         if (i >= (int) SX_ARRAYSIZE(apArg)) {
           break;
         }
@@ -5788,7 +5788,7 @@ static void VmInvokeShutdownCallbacks(ph7_vm *pVm)
       pEntry = (VmShutdownCB *) SySetAt(&pVm->aShutdown, n);
       if (pEntry) {
         PH7_MemObjRelease(&pEntry->sCallback);
-        for ( i = 0 ; i < pEntry->nArg ; ++i ) {
+        for (i = 0 ; i < pEntry->nArg ; ++i) {
           PH7_MemObjRelease(apArg[i]);
         }
       }
@@ -6136,7 +6136,7 @@ static int vm_builtin_func_get_args_byref(ph7_context *pCtx, int nArg, ph7_value
   }
   /* Start filling the array with the given arguments (Pass by reference) */
   aSlot = (VmSlot *) SySetBasePtr(&pFrame->sArg);
-  for ( n = 0 ; n < SySetUsed(&pFrame->sArg) ; n++ ) {
+  for (n = 0 ; n < SySetUsed(&pFrame->sArg) ; n++) {
     PH7_HashmapInsertByRef((ph7_hashmap *) pArray->x.pOther, 0 /*Automatic index assign*/, aSlot[n].nIdx);
   }
   /* Return the freshly created array */
@@ -6182,7 +6182,7 @@ static int vm_builtin_func_get_args(ph7_context *pCtx, int nArg, ph7_value **apA
   }
   /* Start filling the array with the given arguments */
   aSlot = (VmSlot *) SySetBasePtr(&pFrame->sArg);
-  for ( n = 0 ; n < SySetUsed(&pFrame->sArg) ; n++ ) {
+  for (n = 0 ; n < SySetUsed(&pFrame->sArg) ; n++) {
     pObj = (ph7_value *) SySetAt(&pCtx->pVm->aMemObj, aSlot[n].nIdx);
     if (pObj) {
       ph7_array_add_elem(pArray, 0 /* Automatic index assign*/, pObj);
@@ -6419,11 +6419,11 @@ static int vm_builtin_register_shutdown_function(ph7_context *pCtx, int nArg, ph
   PH7_MemObjInit(pCtx->pVm, &sEntry.sCallback);
   /* Save the callback name for later invocation name */
   PH7_MemObjStore(apArg[0], &sEntry.sCallback);
-  for ( i = 0 ; i < (int) SX_ARRAYSIZE(sEntry.aArg) ; ++i ) {
+  for (i = 0 ; i < (int) SX_ARRAYSIZE(sEntry.aArg) ; ++i) {
     PH7_MemObjInit(pCtx->pVm, &sEntry.aArg[i]);
   }
   /* Copy arguments */
-  for (j = 0, i = 1 ; i < nArg ; j++, i++ ) {
+  for (j = 0, i = 1 ; i < nArg ; j++, i++) {
     if (j >= (int) SX_ARRAYSIZE(sEntry.aArg)) {
       /* Limit reached */
       break;
@@ -7134,7 +7134,7 @@ static int VmQueryInterfaceSet(ph7_class *pClass, SySet *pSet)
   /* Point to the set of implemented interfaces */
   apInterface = (ph7_class **) SySetBasePtr(pSet);
   /* Perform the lookup */
-  for ( n = 0 ; n < SySetUsed(pSet) ; n++ ) {
+  for (n = 0 ; n < SySetUsed(pSet) ; n++) {
     if (apInterface[n] == pClass) {
       return TRUE;
     }
@@ -7289,7 +7289,7 @@ PH7_PRIVATE sxi32 PH7_VmCallClassMethod(
     return SXERR_MEM;
   }
   /* Fill the operand stack with the given arguments */
-  for ( i = 0 ; i < nArg ; i++ ) {
+  for (i = 0 ; i < nArg ; i++) {
     PH7_MemObjLoad(apArg[i], &aStack[i]);
     /*
      * Symisc eXtension:
@@ -7418,7 +7418,7 @@ PH7_PRIVATE sxi32 PH7_VmCallUserFunction(
     return SXERR_MEM;
   }
   /* Fill the operand stack with the given arguments */
-  for ( i = 0 ; i < nArg ; i++ ) {
+  for (i = 0 ; i < nArg ; i++) {
     PH7_MemObjLoad(apArg[i], &aStack[i]);
     /*
      * Symisc eXtension:
@@ -7544,7 +7544,7 @@ static int vm_builtin_call_user_func_array(ph7_context *pCtx, int nArg, ph7_valu
   /* Turn hashmap entries into callback arguments */
   pMap = (ph7_hashmap *) apArg[1]->x.pOther;
   pEntry = pMap->pFirst;   /* First inserted entry */
-  for ( n = 0 ; n < pMap->nEntry ; n++ ) {
+  for (n = 0 ; n < pMap->nEntry ; n++) {
     /* Extract node value */
     if ((pValue = (ph7_value *) SySetAt(&pCtx->pVm->aMemObj, pEntry->nValIdx)) != 0) {
       SySetPut(&aArg, (const void *) &pValue);
@@ -8184,7 +8184,7 @@ static int vm_builtin_ob_list_handlers(ph7_context *pCtx, int nArg, ph7_value **
   /* Point to the installed OB entries */
   aEntry = (VmObEntry *) SySetBasePtr(&pVm->aOB);
   /* Perform the requested operation */
-  for ( n = 0 ; n < SySetUsed(&pVm->aOB) ; n++ ) {
+  for (n = 0 ; n < SySetUsed(&pVm->aOB) ; n++) {
     VmObEntry *pEntry = &aEntry[n];
     /* Extract handler name */
     SyBlobReset(&sVal.sBlob);
@@ -8238,7 +8238,7 @@ PH7_PRIVATE void PH7_VmRandomString(ph7_vm *pVm, char *zBuf, int nLen)
   /* Generate a binary string first */
   SyRandomness(&pVm->sPrng, zBuf, (sxu32) nLen);
   /* Turn the binary string into english based alphabet */
-  for ( i = 0 ; i < nLen ; ++i ) {
+  for (i = 0 ; i < nLen ; ++i) {
     zBuf[i] = zBase[zBuf[i] % (sizeof(zBase) - 1)];
   }
 }
@@ -8450,7 +8450,7 @@ static int vm_builtin_echo(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Point to the target VM */
   pVm = pCtx->pVm;
   /* Output */
-  for ( i = 0 ; i < nArg ; ++i ) {
+  for (i = 0 ; i < nArg ; ++i) {
     zData = ph7_value_to_string(apArg[i], &nDataLen);
     if (nDataLen > 0) {
       rc = pVm->sVmConsumer.xConsumer((const void *) zData, (unsigned int) nDataLen, pVm->sVmConsumer.pUserData);
@@ -8484,7 +8484,7 @@ static int vm_builtin_print(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Point to the target VM */
   pVm = pCtx->pVm;
   /* Output */
-  for ( i = 0 ; i < nArg ; ++i ) {
+  for (i = 0 ; i < nArg ; ++i) {
     zData = ph7_value_to_string(apArg[i], &nDataLen);
     if (nDataLen > 0) {
       rc = pVm->sVmConsumer.xConsumer((const void *) zData, (unsigned int) nDataLen, pVm->sVmConsumer.pUserData);
@@ -8553,7 +8553,7 @@ static int vm_builtin_isset(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return SXRET_OK;
   }
   /* Iterate over available arguments */
-  for ( i = 0 ; i < nArg ; ++i ) {
+  for (i = 0 ; i < nArg ; ++i) {
     pObj = apArg[i];
     if (pObj->nIdx == SXU32_HIGH) {
       if ((pObj->iFlags & MEMOBJ_NULL) == 0) {
@@ -8618,7 +8618,7 @@ static int vm_builtin_unset(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Point to the target VM */
   pVm = pCtx->pVm;
   /* Iterate and unset */
-  for ( i = 0 ; i < nArg ; ++i ) {
+  for (i = 0 ; i < nArg ; ++i) {
     pObj = apArg[i];
     if (pObj->nIdx == SXU32_HIGH) {
       if ((pObj->iFlags & MEMOBJ_NULL) == 0) {
@@ -8747,7 +8747,7 @@ static int vm_builtin_var_dump(ph7_context *pCtx, int nArg, ph7_value **apArg)
   int i;
   SyBlobInit(&sDump, &pCtx->pVm->sAllocator);
   /* Dump one or more expressions */
-  for ( i = 0 ; i < nArg ; i++ ) {
+  for (i = 0 ; i < nArg ; i++) {
     ph7_value *pObj = apArg[i];
     /* Reset the working buffer */
     SyBlobReset(&sDump);
@@ -9360,7 +9360,7 @@ static int vm_builtin_debug_backtrace(ph7_context *pCtx, int nArg, ph7_value **a
       sxu32 n;
       /* Start filling the array with the given arguments */
       aSlot = (VmSlot *) SySetBasePtr(&pFrame->sArg);
-      for ( n = 0 ; n < SySetUsed(&pFrame->sArg) ; n++ ) {
+      for (n = 0 ; n < SySetUsed(&pFrame->sArg) ; n++) {
         pObj = (ph7_value *) SySetAt(&pCtx->pVm->aMemObj, aSlot[n].nIdx);
         if (pObj) {
           ph7_array_add_elem(pArg, 0 /* Automatic index assign*/, pObj);
@@ -9577,7 +9577,7 @@ static sxi32 VmThrowException(
     pException = apException[SySetUsed(&pVm->aException) - 1];
     (void) SySetPop(&pVm->aException);
     aCatch = (ph7_exception_block *) SySetBasePtr(&pException->sEntry);
-    for ( j = 0 ; j < SySetUsed(&pException->sEntry) ; ++j ) {
+    for (j = 0 ; j < SySetUsed(&pException->sEntry) ; ++j) {
       SyString *pName = &aCatch[j].sClass;
       /* Extract the target class */
       pClass = PH7_VmExtractClass(&(*pVm), pName->zString, pName->nByte, TRUE, 0);
@@ -10154,7 +10154,7 @@ static int vm_builtin_compact(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Perform the requested operation */
-  for ( i = 0 ; i < nArg ; i++ ) {
+  for (i = 0 ; i < nArg ; i++) {
     if (!ph7_value_is_string(apArg[i])) {
       if (ph7_value_is_array(apArg[i])) {
         struct compact_data sData;
@@ -10538,7 +10538,7 @@ static int VmIsIncludedFile(ph7_vm *pVm, SyString *pFile)
   sxu32 n;
   aEntries = (SyString *) SySetBasePtr(&pVm->aIncluded);
   /* Perform a linear search */
-  for ( n = 0 ; n < SySetUsed(&pVm->aIncluded) ; ++n ) {
+  for (n = 0 ; n < SySetUsed(&pVm->aIncluded) ; ++n) {
     if (SyStringCmp(pFile, &aEntries[n], SyMemcmp) == 0) {
       /* Already included */
       return TRUE;
@@ -10693,7 +10693,7 @@ static int vm_builtin_get_include_path(ph7_context *pCtx, int nArg, ph7_value **
   SXUNUSED(apArg);
   /* Point to the list of import paths */
   aEntry = (SyString *) SySetBasePtr(&pVm->aPaths);
-  for ( n = 0 ; n < SySetUsed(&pVm->aPaths) ; n++ ) {
+  for (n = 0 ; n < SySetUsed(&pVm->aPaths) ; n++) {
     SyString *pEntry = &aEntry[n];
     if (n > 0) {
       /* Append dir seprator */
@@ -12120,7 +12120,7 @@ static ph7_xml_engine* VmCreateXMLEngine(ph7_context *pCtx, int process_ns, int 
   SyXMLParserInit(&pEngine->sParser, &pVm->sAllocator, process_ns ? SXML_ENABLE_NAMESPACE : 0);
   SyBlobInit(&pEngine->sErr, &pVm->sAllocator);
   PH7_MemObjInit(pVm, &pEngine->sParserValue);
-  for ( n = 0 ; n < SX_ARRAYSIZE(pEngine->aCB) ; ++n ) {
+  for (n = 0 ; n < SX_ARRAYSIZE(pEngine->aCB) ; ++n) {
     pValue = &pEngine->aCB[n];
     /* NULLIFY the array entries,until someone register an event handler */
     PH7_MemObjInit(&(*pVm), pValue);
@@ -12143,7 +12143,7 @@ static void VmReleaseXMLEngine(ph7_xml_engine *pEngine)
   SyBlobRelease(&pEngine->sErr);
   SyXMLParserRelease(&pEngine->sParser);
   PH7_MemObjRelease(&pEngine->sParserValue);
-  for ( n = 0 ; n < SX_ARRAYSIZE(pEngine->aCB) ; ++n ) {
+  for (n = 0 ; n < SX_ARRAYSIZE(pEngine->aCB) ; ++n) {
     pValue = &pEngine->aCB[n];
     PH7_MemObjRelease(pValue);
   }
@@ -12903,7 +12903,7 @@ static ph7_value* VmXMLAttrValue(ph7_xml_engine *pEngine, SyXMLRawStr *aAttr, sx
       return 0;
     }
     /* Copy attributes */
-    for ( n = 0 ; n < nAttr ; n += 2 ) {
+    for (n = 0 ; n < nAttr ; n += 2) {
       /* Reset string cursors */
       ph7_value_reset_string_cursor(pKey);
       ph7_value_reset_string_cursor(pValue);
@@ -13707,7 +13707,7 @@ static sxi32 VmRegisterSpecialFunction(ph7_vm *pVm)
 {
   sxi32 rc;
   sxu32 n;
-  for ( n = 0 ; n < SX_ARRAYSIZE(aVmFunc) ; ++n ) {
+  for (n = 0 ; n < SX_ARRAYSIZE(aVmFunc) ; ++n) {
     /* Note that these special functions have access
      * to the underlying virtual machine as their
      * private data.
@@ -13859,7 +13859,7 @@ static sxi32 VmRefObjInsert(ph7_vm *pVm, VmRefObj *pRef)
       /* Zero the structure */
       SyZero((void *) apNew, nNew * sizeof(VmRefObj *));
       /* Rehash all referenced entries */
-      for ( n = 0 ; n < pVm->nRefUsed ; ++n ) {
+      for (n = 0 ; n < pVm->nRefUsed ; ++n) {
         /* Remove old collision links */
         pEntry->pNextCollide = pEntry->pPrevCollide = 0;
         /* Point to the appropriate bucket */
@@ -13913,12 +13913,12 @@ static sxi32 VmRefObjUnlink(ph7_vm *pVm, VmRefObj *pRef)
   apNode = (ph7_hashmap_node **) SySetBasePtr(&pRef->aArrEntries);
   apEntry = (SyHashEntry **) SySetBasePtr(&pRef->aReference);
   /* Unlink the entry from the reference table */
-  for ( n = 0 ; n < SySetUsed(&pRef->aReference) ; n++ ) {
+  for (n = 0 ; n < SySetUsed(&pRef->aReference) ; n++) {
     if (apEntry[n]) {
       SyHashDeleteEntry2(apEntry[n]);
     }
   }
-  for (n = 0 ; n < SySetUsed(&pRef->aArrEntries) ; ++n ) {
+  for (n = 0 ; n < SySetUsed(&pRef->aArrEntries) ; ++n) {
     if (apNode[n]) {
       PH7_HashmapUnlinkNode(apNode[n], FALSE);
     }
@@ -14023,7 +14023,7 @@ PH7_PRIVATE sxi32 PH7_VmRefObjRemove(
   if (pEntry) {
     SyHashEntry **apEntry;
     apEntry = (SyHashEntry **) SySetBasePtr(&pRef->aReference);
-    for ( n = 0 ; n < SySetUsed(&pRef->aReference) ; n++ ) {
+    for (n = 0 ; n < SySetUsed(&pRef->aReference) ; n++) {
       if (apEntry[n] == pEntry) {
         /* Nullify the entry */
         apEntry[n] = 0;
@@ -14038,7 +14038,7 @@ PH7_PRIVATE sxi32 PH7_VmRefObjRemove(
   if (pMapEntry) {
     ph7_hashmap_node **apNode;
     apNode = (ph7_hashmap_node **) SySetBasePtr(&pRef->aArrEntries);
-    for (n = 0 ; n < SySetUsed(&pRef->aArrEntries) ; n++ ) {
+    for (n = 0 ; n < SySetUsed(&pRef->aArrEntries) ; n++) {
       if (apNode[n] == pMapEntry) {
         /* nullify the entry */
         apNode[n] = 0;
@@ -14089,7 +14089,7 @@ PH7_PRIVATE const ph7_io_stream* PH7_VmGetStreamDevice(
   /* Perform a linear lookup on the installed stream devices */
   apStream = (ph7_io_stream **) SySetBasePtr(&pVm->aIOstream);
   nEntry = SySetUsed(&pVm->aIOstream);
-  for ( n = 0 ; n < nEntry ; n++ ) {
+  for (n = 0 ; n < nEntry ; n++) {
     pStream = apStream[n];
     SyStringInitFromBuf(&sCur, pStream->zName, SyStrlen(pStream->zName));
     /* Perfrom a case-insensitive comparison */
@@ -14417,7 +14417,7 @@ static sxi32 VmHttpProcessFirstLine(
   if (zIn > zPtr) {
     sxu32 i;
     nLen = (sxu32) (zIn - zPtr);
-    for ( i = 0 ; i < SX_ARRAYSIZE(azMethods) ; ++i ) {
+    for (i = 0 ; i < SX_ARRAYSIZE(azMethods) ; ++i) {
       if (SyStrnicmp(azMethods[i], zPtr, nLen) == 0) {
         *pMethod = aMethods[i];
         break;
@@ -14558,7 +14558,7 @@ static SyString* VmHttpExtractHeaderValue(SySet *pSet, const char *zMime, sxu32 
   /* Point to the MIME entries */
   aMime = (SyhttpHeader *) SySetBasePtr(pSet);
   /* Perform the lookup */
-  for ( n = 0 ; n < SySetUsed(pSet) ; ++n ) {
+  for (n = 0 ; n < SySetUsed(pSet) ; ++n) {
     pMime = &aMime[n];
     if (SyStringCmp(&sMime, &pMime->sName, SyStrnicmp) == 0) {
       /* Header found,return it's associated value */

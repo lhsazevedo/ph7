@@ -1253,7 +1253,7 @@ PH7_PRIVATE sxi32 PH7_MemObjDump(
   sxi32 rc = SXRET_OK;
   const char *zType;
   int i;
-  for ( i = 0 ; i < nTab ; i++ ) {
+  for (i = 0 ; i < nTab ; i++) {
     SyBlobAppend(&(*pOut), " ", sizeof(char));
   }
   if (ShowType) {

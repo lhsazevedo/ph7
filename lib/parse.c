@@ -379,7 +379,7 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
     apNode[0]->pStart->pUserData = (void *) apNode[0]->pOp;
   }
   iParen = iSquare = iQuesty = iBraces = 0;
-  for ( i = 0 ; i < nNode ; ++i ) {
+  for (i = 0 ; i < nNode ; ++i) {
     if (apNode[i]->pStart->nType & PH7_TK_LPAREN /*'('*/ ) {
       if (i > 0 && (apNode[i - 1]->xCode == PH7_CompileVariable || apNode[i - 1]->xCode == PH7_CompileLiteral ||
                     (apNode[i - 1]->pStart->nType & (PH7_TK_ID | PH7_TK_KEYWORD | PH7_TK_SSTR | PH7_TK_DSTR | PH7_TK_RPAREN /*')'*/ | PH7_TK_CSB /*']'*/ | PH7_TK_CCB /*'}'*/ )))) {
@@ -851,7 +851,7 @@ static void ExprFreeTree(ph7_gen_state *pGen, ph7_expr_node *pNode)
     sxu32 n;
     /* Release node arguments */
     apArg = (ph7_expr_node **) SySetBasePtr(&pNode->aNodeArgs);
-    for ( n = 0 ; n < SySetUsed(&pNode->aNodeArgs) ; ++n ) {
+    for (n = 0 ; n < SySetUsed(&pNode->aNodeArgs) ; ++n) {
       ExprFreeTree(&(*pGen), apArg[n]);
     }
     SySetRelease(&pNode->aNodeArgs);
@@ -868,7 +868,7 @@ PH7_PRIVATE sxi32 PH7_ExprFreeTree(ph7_gen_state *pGen, SySet *pNodeSet)
   ph7_expr_node **apNode;
   sxu32 n;
   apNode = (ph7_expr_node **) SySetBasePtr(pNodeSet);
-  for ( n = 0 ; n < SySetUsed(pNodeSet) ; ++n ) {
+  for (n = 0 ; n < SySetUsed(pNodeSet) ; ++n) {
     if (apNode[n]) {
       ExprFreeTree(&(*pGen), apNode[n]);
     }
@@ -997,7 +997,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
     return SXRET_OK;
   }
   /* Process expressions enclosed in parenthesis first */
-  for ( iCur = 0 ; iCur < nToken ; ++iCur ) {
+  for (iCur = 0 ; iCur < nToken ; ++iCur) {
     sxi32 iNest;
     /* Note that, we use strict comparison here '!=' instead of the bitwise and '&' operator
      * since the LPAREN token can also be an operator [i.e: Function call].
@@ -1038,7 +1038,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
     apNode[iCur] = 0;
   }
   /* Process expressions enclosed in braces */
-  for ( iCur = 0 ; iCur < nToken ; ++iCur ) {
+  for (iCur = 0 ; iCur < nToken ; ++iCur) {
     sxi32 iNest;
     /* Note that, we use strict comparison here '!=' instead of the bitwise and '&' operator
      * since the OCB '{' token can also be an operator [i.e: subscripting].
@@ -1080,7 +1080,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
   }
   /* Handle postfix [i.e: function call,subscripting,member access] operators with precedence 2 */
   iLeft = -1;
-  for ( iCur = 0 ; iCur < nToken ; ++iCur ) {
+  for (iCur = 0 ; iCur < nToken ; ++iCur) {
     if (apNode[iCur] == 0) {
       continue;
     }
@@ -1129,7 +1129,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
         /* Link the node to the tree */
         pNode->pLeft = apNode[iLeft];
         apNode[iLeft] = 0;
-        for ( iPtr = 1 ; iPtr <= nFuncTok ; iPtr++ ) {
+        for (iPtr = 1 ; iPtr <= nFuncTok ; iPtr++) {
           apNode[iCur + iPtr] = 0;
         }
       } else if (pNode->pOp->iOp == EXPR_OP_SUBSCRIPT) {
@@ -1175,7 +1175,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
         pNode->pLeft = apNode[iLeft];
         pNode->pRight = 0;
         apNode[iLeft] = 0;
-        for ( iNest = iCur + 1 ; iNest <= iArrTok ; ++iNest ) {
+        for (iNest = iCur + 1 ; iNest <= iArrTok ; ++iNest) {
           apNode[iNest] = 0;
         }
       } else {
@@ -1211,7 +1211,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
     iLeft = iCur;
   }
   /* Handle left associative (new, clone) operators */
-  for ( iCur = 0 ; iCur < nToken ; ++iCur ) {
+  for (iCur = 0 ; iCur < nToken ; ++iCur) {
     if (apNode[iCur] == 0) {
       continue;
     }
@@ -1280,7 +1280,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
   }
   /* Handle post/pre icrement/decrement [i.e: ++/--] operators with precedence 3 */
   iLeft = -1;
-  for ( iCur = 0 ; iCur < nToken ; ++iCur ) {
+  for (iCur = 0 ; iCur < nToken ; ++iCur) {
     if (apNode[iCur] == 0) {
       continue;
     }
@@ -1296,7 +1296,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
     iLeft = iCur;
   }
   iLeft = -1;
-  for ( iCur = nToken - 1 ; iCur >= 0 ; iCur-- ) {
+  for (iCur = nToken - 1 ; iCur >= 0 ; iCur--) {
     if (apNode[iCur] == 0) {
       continue;
     }
@@ -1321,7 +1321,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
   }
   /* Handle right associative unary and cast operators [i.e: !,(string),~...]  with precedence 4*/
   iLeft = 0;
-  for ( iCur = nToken - 1 ; iCur >= 0 ; iCur-- ) {
+  for (iCur = nToken - 1 ; iCur >= 0 ; iCur--) {
     if (apNode[iCur]) {
       pNode = apNode[iCur];
       if (pNode->pOp && pNode->pOp->iPrec == 4 && pNode->pLeft == 0) {
@@ -1353,9 +1353,9 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
     }
   }
   /* Process left and non-associative binary operators [i.e: *,/,&&,||...]*/
-  for ( i = 7 ; i < 17 ; i++ ) {
+  for (i = 7 ; i < 17 ; i++) {
     iLeft = -1;
-    for ( iCur = 0 ; iCur < nToken ; ++iCur ) {
+    for (iCur = 0 ; iCur < nToken ; ++iCur) {
       if (apNode[iCur] == 0) {
         continue;
       }
@@ -1416,7 +1416,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
    * we are dealing with a single operator.
    */
   iLeft = -1;
-  for ( iCur = 0 ; iCur < nToken ; ++iCur ) {
+  for (iCur = 0 ; iCur < nToken ; ++iCur) {
     if (apNode[iCur] == 0) {
       continue;
     }
@@ -1492,7 +1492,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
    * so there is no need for a precedence loop here.
    */
   iRight = -1;
-  for ( iCur = nToken - 1 ; iCur >= 0 ; iCur--) {
+  for (iCur = nToken - 1 ; iCur >= 0 ; iCur--) {
     if (apNode[iCur] == 0) {
       continue;
     }
@@ -1530,9 +1530,9 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
     iRight = iCur;
   }
   /* Process left associative binary operators that have the lowest precedence [i.e: and,or,xor] */
-  for ( i = 19 ; i < 23 ; i++ ) {
+  for (i = 19 ; i < 23 ; i++) {
     iLeft = -1;
-    for ( iCur = 0 ; iCur < nToken ; ++iCur ) {
+    for (iCur = 0 ; iCur < nToken ; ++iCur) {
       if (apNode[iCur] == 0) {
         continue;
       }
@@ -1560,7 +1560,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
     }
   }
   /* Point to the root of the expression tree */
-  for ( iCur = 1 ; iCur < nToken ; ++iCur ) {
+  for (iCur = 1 ; iCur < nToken ; ++iCur) {
     if (apNode[iCur]) {
       if ((apNode[iCur]->pOp || apNode[iCur]->xCode) && apNode[0] != 0) {
         rc = PH7_GenCompileError(pGen, E_ERROR, apNode[iCur]->pStart->nLine, "Unexpected token '%z'", &apNode[iCur]->pStart->sData);

@@ -911,7 +911,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceDump(SyBlob *pOut, ph7_class_instance *pThis,
     VmClassAttr *pVmAttr = (VmClassAttr *) pEntry->pUserData;
     if ((pVmAttr->pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC)) == 0) {
       /* Dump non-static/constant attribute only */
-      for ( i = 0 ; i < nTab ; i++ ) {
+      for (i = 0 ; i < nTab ; i++) {
         SyBlobAppend(&(*pOut), " ", sizeof(char));
       }
       pValue = ExtractClassAttrValue(pThis->pVm, pVmAttr);
@@ -929,7 +929,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceDump(SyBlob *pOut, ph7_class_instance *pThis,
       }
     }
   }
-  for ( i = 0 ; i < nTab ; i++ ) {
+  for (i = 0 ; i < nTab ; i++) {
     SyBlobAppend(&(*pOut), " ", sizeof(char));
   }
   SyBlobAppend(&(*pOut), "}", sizeof(char));
