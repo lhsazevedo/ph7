@@ -183,8 +183,7 @@ typedef sxi32 (*ProcSort)(void *, sxu32, sxu32, ProcCmp);
 /*
  * A generic dynamic set.
  */
-struct SySet
-{
+struct SySet {
   SyMemBackend *pAllocator;   /* Memory backend */
   void *pBase;                /* Base pointer */
   sxu32 nUsed;                /* Total number of used slots  */
@@ -205,8 +204,7 @@ struct SySet
 /*
  * A variable length containers for generic data.
  */
-struct SyBlob
-{
+struct SyBlob {
   SyMemBackend *pAllocator;   /* Memory backend */
   void *pBlob;                /* Base pointer */
   sxu32 nByte;                /* Total number of used bytes */
@@ -233,8 +231,7 @@ struct SyBlob
 /* A memory backend subsystem is defined by an instance of the following structures */
 typedef union SyMemHeader SyMemHeader;
 typedef struct SyMemBlock SyMemBlock;
-struct SyMemBlock
-{
+struct SyMemBlock {
   SyMemBlock *pNext, *pPrev;   /* Chain of allocated memory blocks */
 #ifdef UNTRUST
   sxu32 nGuard;               /* magic number associated with each valid block,so we
@@ -245,13 +242,11 @@ struct SyMemBlock
 /*
  * Header associated with each valid memory pool block.
  */
-union SyMemHeader
-{
+union SyMemHeader {
   SyMemHeader *pNext;   /* Next chunk of size 1 << (nBucket + SXMEM_POOL_INCR) in the list */
   sxu32 nBucket;        /* Bucket index in aPool[] */
 };
-struct SyMemBackend
-{
+struct SyMemBackend {
   const SyMutexMethods *pMutexMethods;   /* Mutex methods */
   const SyMemMethods *pMethods;    /* Memory allocation methods */
   SyMemBlock *pBlocks;             /* List of valid memory blocks */
@@ -354,8 +349,7 @@ typedef struct SyHash SyHash;
  * Each public hashtable entry is represented by an instance
  * of the following structure.
  */
-struct SyHashEntry
-{
+struct SyHashEntry {
   const void *pKey;   /* Hash key */
   sxu32 nKeyLen;      /* Key length */
   void *pUserData;    /* User private data */
@@ -363,8 +357,7 @@ struct SyHashEntry
 #define SyHashEntryGetUserData(ENTRY) ((ENTRY)->pUserData)
 #define SyHashEntryGetKey(ENTRY)      ((ENTRY)->pKey)
 /* Each active hashtable is identified by an instance of the following structure */
-struct SyHash
-{
+struct SyHash {
   SyMemBackend *pAllocator;           /* Memory backend */
   ProcHash xHash;                     /* Hash function */
   ProcCmp xCmp;                       /* Comparison function */
@@ -390,8 +383,7 @@ struct SyHash
  * This implementation is taken from the SQLite3 source tree.
  */
 typedef struct SyPRNGCtx SyPRNGCtx;
-struct SyPRNGCtx
-{
+struct SyPRNGCtx {
   sxu8 i, j;                 /* State variables */
   unsigned char s[256];     /* State variables */
   sxu16 nMagic;             /* Sanity check */
@@ -399,8 +391,7 @@ struct SyPRNGCtx
 typedef sxi32 (*ProcRandomSeed)(void *, unsigned int, void *);
 /* High resolution timer.*/
 typedef struct sytime sytime;
-struct sytime
-{
+struct sytime {
   long tm_sec;      /* seconds */
   long tm_usec;     /* microseconds */
 };
@@ -416,8 +407,7 @@ typedef sxi32 (*ProcTokenizer)(SyStream *, SyToken *, void *, void *);
  * Each token in the input is represented by an instance
  * of the following structure.
  */
-struct SyToken
-{
+struct SyToken {
   SyString sData;    /* Token text and length */
   sxu32 nType;       /* Token type */
   sxu32 nLine;       /* Token line number */
@@ -427,8 +417,7 @@ struct SyToken
  * During tokenization, information about the state of the input
  * stream is held in an instance of the following structure.
  */
-struct SyStream
-{
+struct SyStream {
   const unsigned char *zInput;   /* Complete text of the input */
   const unsigned char *zText;   /* Current input we are processing */
   const unsigned char *zEnd;   /* End of input marker */
@@ -439,8 +428,7 @@ struct SyStream
 /*
  * Each lexer is represented by an instance of the following structure.
  */
-struct SyLex
-{
+struct SyLex {
   SyStream sStream;           /* Input stream */
   ProcTokenizer xTokenizer;   /* Tokenizer callback */
   void *pUserData;            /* Third argument to xTokenizer() */
@@ -551,8 +539,7 @@ struct SyLex
  * in an instance of the following structure.
  */
 typedef struct SyXMLRawStr SyXMLRawStr;
-struct SyXMLRawStr
-{
+struct SyXMLRawStr {
   const char *zString;   /* Raw text [UTF-8 ENCODED EXCEPT CDATA] [NOT NULL TERMINATED] */
   sxu32 nByte;   /* Text length */
   sxu32 nLine;   /* Line number this text occurs */
@@ -606,8 +593,7 @@ enum xml_err_code {
  * of the following structure.
  */
 typedef struct SyXMLParser SyXMLParser;
-struct SyXMLParser
-{
+struct SyXMLParser {
   SyMemBackend *pAllocator;   /* Memory backend */
   void *pUserData;            /* User private data forwarded varbatim by the XML parser
                                * as the last argument to the users callbacks.
@@ -640,8 +626,7 @@ struct SyXMLParser
  */
 typedef struct SyArchiveEntry SyArchiveEntry;
 typedef struct SyArchive SyArchive;
-struct SyArchive
-{
+struct SyArchive {
   SyMemBackend *pAllocator;      /* Memory backend */
   SyArchiveEntry *pCursor;       /* Cursor for linear traversal of archive entries */
   SyArchiveEntry *pList;         /* Pointer to the List of the loaded archive */
@@ -668,8 +653,7 @@ struct SyArchive
  * Each loaded archive record is identified by an instance
  * of the following structure.
  */
-struct SyArchiveEntry
-{
+struct SyArchiveEntry {
   sxu32 nByte;           /* Contents size before compression */
   sxu32 nByteCompr;      /* Contents size after compression */
   sxu32 nReadCount;      /* Read counter */
@@ -716,8 +700,7 @@ struct SHA1Context {
  * Each ph7_values struct may cache multiple representations (string, integer etc.)
  * of the same value.
  */
-struct ph7_value
-{
+struct ph7_value {
   ph7_real rVal;        /* Real value */
   union {
     sxi64 iVal;         /* Integer value */
@@ -767,8 +750,7 @@ typedef struct ph7_conf ph7_conf;
  * Please refer to the official documentation for more information
  * on how to register an output consumer callback.
  */
-struct ph7_output_consumer
-{
+struct ph7_output_consumer {
   ProcConsumer xConsumer;   /* VM output consumer routine */
   void *pUserData;          /* Third argument to xConsumer() */
   ProcConsumer xDef;        /* Default output consumer routine */
@@ -780,8 +762,7 @@ struct ph7_output_consumer
  * Please refer to the official documentation for more information
  * on how to configure your ph7 engine instance.
  */
-struct ph7_conf
-{
+struct ph7_conf {
   ProcConsumer xErr;     /* Compile-time error consumer callback */
   void *pErrData;        /* Third argument to xErr() */
   SyBlob sErrConsumer;   /* Default error consumer */
@@ -797,8 +778,7 @@ typedef void (*ProcConstant)(ph7_value *, void *);
  * on how to create/install foreign constants.
  */
 typedef struct ph7_constant ph7_constant;
-struct ph7_constant
-{
+struct ph7_constant {
   SyString sName;          /* Constant name */
   ProcConstant xExpand;    /* Function responsible of expanding constant value */
   void *pUserData;         /* Last argument to xExpand() */
@@ -810,8 +790,7 @@ typedef struct ph7_aux_data ph7_aux_data;
  * Note that automatic tracked chunks are also stored in an instance
  * of this structure.
  */
-struct ph7_aux_data
-{
+struct ph7_aux_data {
   void *pAuxData;   /* Aux data */
 };
 /* Foreign functions signature */
@@ -822,8 +801,7 @@ typedef int (*ProchHostFunction)(ph7_context *, int, ph7_value **);
  * Please refer to the official documentation for more information on how
  * to create/install foreign functions.
  */
-struct ph7_user_func
-{
+struct ph7_user_func {
   ph7_vm *pVm;                /* VM that own this instance */
   SyString sName;             /* Foreign function name */
   ProchHostFunction xFunc;    /* Implementation of the foreign function */
@@ -835,8 +813,7 @@ struct ph7_user_func
  * instance of this structure is the first argument to the routines used
  * implement the foreign functions.
  */
-struct ph7_context
-{
+struct ph7_context {
   ph7_user_func *pFunc;     /* Function information. */
   ph7_value *pRet;          /* Return value is stored here. */
   SySet sVar;               /* Container of dynamically allocated ph7_values
@@ -852,8 +829,7 @@ struct ph7_context
  * Each hashmap entry [i.e: array(4,5,6)] is recorded in an instance
  * of the following structure.
  */
-struct ph7_hashmap_node
-{
+struct ph7_hashmap_node {
   ph7_hashmap *pMap;       /* Hashmap that own this instance */
   sxi32 iType;             /* Node type */
   union {
@@ -870,8 +846,7 @@ struct ph7_hashmap_node
  * Each active hashmap aka array in the PHP jargon is represented
  * by an instance of the following structure.
  */
-struct ph7_hashmap
-{
+struct ph7_hashmap {
   ph7_vm *pVm;                    /* VM that own this instance */
   ph7_hashmap_node **apBucket;    /* Hash bucket */
   ph7_hashmap_node *pFirst;       /* First inserted entry */
@@ -891,15 +866,13 @@ struct ph7_hashmap
  * This structure is made available to these instructions
  * as the P3 operand.
  */
-struct ph7_foreach_info
-{
+struct ph7_foreach_info {
   SyString sKey;        /* Key name. Empty otherwise*/
   SyString sValue;      /* Value name */
   sxi32 iFlags;         /* Control flags */
   SySet aStep;          /* Stack of steps [i.e: ph7_foreach_step instance] */
 };
-struct ph7_foreach_step
-{
+struct ph7_foreach_step {
   sxi32 iFlags;                     /* Control flags (see below) */
   /* Iterate on those values */
   union {
@@ -919,8 +892,7 @@ struct ph7_foreach_step
  * Please refer to the official documentation for more information
  * on how to configure your PH7 engine instance.
  */
-struct ph7
-{
+struct ph7 {
   SyMemBackend sAllocator;       /* Low level memory allocation subsystem */
   const ph7_vfs *pVfs;           /* Underlying Virtual File System */
   ph7_conf xConf;                /* Configuration */
@@ -948,8 +920,7 @@ typedef sxi32 (*ProcNodeConstruct)(ph7_gen_state *, sxi32);
  * That is, the PH7 parser is thread-safe ,full reentrant, produce consistant
  * compile-time errrors and at least 7 times faster than the standard PHP parser.
  */
-struct ph7_expr_op
-{
+struct ph7_expr_op {
   SyString sOp;     /* String representation of the operator [i.e: "+","*","=="...] */
   sxi32 iOp;        /* Operator ID */
   sxi32 iPrec;      /* Operator precedence: 1 == Highest */
@@ -960,8 +931,7 @@ struct ph7_expr_op
  * Each expression node is parsed out and recorded
  * in an instance of the following structure.
  */
-struct ph7_expr_node
-{
+struct ph7_expr_node {
   const ph7_expr_op *pOp;    /* Operator ID or NULL if literal, constant, variable, function or class method call */
   ph7_expr_node *pLeft;      /* Left expression tree */
   ph7_expr_node *pRight;     /* Right expression tree */
@@ -979,8 +949,7 @@ struct ph7_expr_node
  * This structure is used only during compile-time and have no meaning
  * during bytecode execution.
  */
-struct GenBlock
-{
+struct GenBlock {
   ph7_gen_state *pGen;    /* State of the code generator */
   GenBlock *pParent;      /* Upper block or NULL if global */
   sxu32 nFirstInstr;      /* First instruction to execute  */
@@ -1002,8 +971,7 @@ struct GenBlock
  * This structure is used only during compile-time and have no meaning
  * during bytecode execution.
  */
-struct ph7_gen_state
-{
+struct ph7_gen_state {
   ph7_vm *pVm;           /* VM that own this instance */
   SyHash hLiteral;       /* Constant string Literals table */
   SyHash hNumLiteral;    /* Numeric literals table */
@@ -1049,8 +1017,7 @@ typedef struct VmFrame VmFrame;
  * Refer to the official documentation for more information on this
  * mechanism and other extension introduced by the PH7 engine.
  */
-struct ph7_vm_func_arg
-{
+struct ph7_vm_func_arg {
   SyString sName;        /* Argument name */
   SySet aByteCode;       /* Compiled default value associated with this argument */
   sxu32 nType;           /* Type of this argument [i.e: array, int, string, float, object, etc.] */
@@ -1070,8 +1037,7 @@ struct ph7_vm_func_arg
  *   //You should see something like this
  *   string(6 'PH7awt');
  */
-struct ph7_vm_func_static_var
-{
+struct ph7_vm_func_static_var {
   SyString sName;     /* Static variable name */
   SySet aByteCode;    /* Compiled initialization expression  */
   sxu32 nIdx;         /* Object index in the global memory object container */
@@ -1080,8 +1046,7 @@ struct ph7_vm_func_static_var
  * Each imported variable from the outside closure environnment is recoded
  * in an instance of the following structure.
  */
-struct ph7_vm_func_closure_env
-{
+struct ph7_vm_func_closure_env {
   SyString sName;     /* Imported variable name */
   int iFlags;         /* Control flags */
   ph7_value sValue;   /* Imported variable value */
@@ -1108,8 +1073,7 @@ struct ph7_vm_func_closure_env
  * arguments values and many more.
  * Please refer to the official documentation for more information.
  */
-struct ph7_vm_func
-{
+struct ph7_vm_func {
   SySet aArgs;           /* Expected arguments (ph7_vm_func_arg instance) */
   SySet aStatic;         /* Static variable (ph7_vm_func_static_var instance) */
   SyString sName;        /* Function name */
@@ -1132,8 +1096,7 @@ typedef struct ph7_builtin_func ph7_builtin_func;
  * Please refer to the official documentation for more information
  * on how to create/install foreign functions.
  */
-struct ph7_builtin_func
-{
+struct ph7_builtin_func {
   const char *zName;          /* Function name [i.e: strlen(), rand(), array_merge(), etc.]*/
   ProchHostFunction xFunc;    /* C routine performing the computation */
 };
@@ -1143,8 +1106,7 @@ struct ph7_builtin_func
  * Please refer to the official documentation for more information
  * on how to create/install foreign constants.
  */
-struct ph7_builtin_constant
-{
+struct ph7_builtin_constant {
   const char *zName;       /* Constant name */
   ProcConstant xExpand;    /* C routine responsible of expanding constant value*/
 };
@@ -1156,8 +1118,7 @@ typedef struct ph7_class_attr ph7_class_attr;
  * PH7 introduced powerfull extensions to the PHP 5 OO subsystems.
  * Please refer to the official documentation for more information.
  */
-struct ph7_class
-{
+struct ph7_class {
   ph7_class *pBase;       /* Base class if any */
   SyHash hDerived;        /* Derived [child] classes */
   SyString sName;         /* Class full qualified name */
@@ -1180,8 +1141,7 @@ struct ph7_class
  * each class attribute (variable, constants) is parsed out and stored
  * in an instance of the following structure.
  */
-struct ph7_class_attr
-{
+struct ph7_class_attr {
   SyString sName;        /* Atrribute name */
   sxi32 iFlags;          /* Attribute configuration [i.e: static, variable, constant, etc.] */
   sxi32 iProtection;     /* Protection level [i.e: public, private, protected] */
@@ -1202,8 +1162,7 @@ struct ph7_class_attr
  * arguments and many more.
  * Please refer to the official documentation for more information.
  */
-struct ph7_class_method
-{
+struct ph7_class_method {
   ph7_vm_func sFunc;     /* Compiled method body */
   SyString sVmName;      /* Automatically generated name assigned to this method.
                           * Typically this is "[class_name__method_name@random_string]"
@@ -1217,8 +1176,7 @@ struct ph7_class_method
  * Each active object (class instance) is represented by an instance of
  * the following structure.
  */
-struct ph7_class_instance
-{
+struct ph7_class_instance {
   ph7_vm *pVm;          /* VM that own this instance */
   ph7_class *pClass;    /* Object is an instance of this class */
   SyHash hAttr;         /* Hashtable of active class members */
@@ -1232,8 +1190,7 @@ struct ph7_class_instance
  * is stored in an instance of the following structure.
  */
 typedef struct VmInstr VmInstr;
-struct VmInstr
-{
+struct VmInstr {
   sxu8 iOp;    /* Operation to preform */
   sxi32 iP1;   /* First operand */
   sxu32 iP2;   /* Second operand (Often the jump destination) */
@@ -1243,8 +1200,7 @@ struct VmInstr
  * of the following structure.
  */
 typedef struct VmClassAttr VmClassAttr;
-struct VmClassAttr
-{
+struct VmClassAttr {
   ph7_class_attr *pAttr;   /* Class attribute */
   sxu32 nIdx;              /* Memory object index */
 };
@@ -1256,8 +1212,7 @@ typedef struct VmRefObj VmRefObj;
  */
 typedef struct ph7_exception_block ph7_exception_block;
 typedef struct ph7_exception ph7_exception;
-struct ph7_exception_block
-{
+struct ph7_exception_block {
   SyString sClass;   /* Exception class name [i.e: Exception,MyException...] */
   SyString sThis;    /* Instance name [i.e: $e..] */
   SySet sByteCode;   /* Block compiled instructions */
@@ -1265,8 +1220,7 @@ struct ph7_exception_block
 /*
  * Context for the exception mechanism.
  */
-struct ph7_exception
-{
+struct ph7_exception {
   ph7_vm *pVm;      /* VM that own this exception */
   SySet sEntry;     /* Compiled 'catch' blocks (ph7_exception_block instance)
                      * container.
@@ -1280,8 +1234,7 @@ typedef struct ph7_switch ph7_switch;
  * Each compiled case block in a swicth statement is compiled
  * and stored in an instance of the following structure.
  */
-struct ph7_case_expr
-{
+struct ph7_case_expr {
   SySet aByteCode;     /* Compiled body of the case block */
   sxu32 nStart;        /* First instruction to execute */
 };
@@ -1289,8 +1242,7 @@ struct ph7_case_expr
  * Each compiled switch statement is parsed out and stored
  * in an instance of the following structure.
  */
-struct ph7_switch
-{
+struct ph7_switch {
   SySet aCaseExpr;    /* Compile case block */
   sxu32 nOut;         /* First instruction to execute after this statement */
   sxu32 nDefault;     /* First instruction to execute in the default block */
@@ -1312,8 +1264,7 @@ typedef void (*ProcErrLog)(const char *, int, const char *, const char *);
  * resulting from compiling a PHP script.
  * This structure contains the complete state of the virtual machine.
  */
-struct ph7_vm
-{
+struct ph7_vm {
   SyMemBackend sAllocator;      /* Memory backend */
 #if defined(PH7_ENABLE_THREADS)
   SyMutex *pMutex;             /* Recursive mutex associated with VM. */
@@ -1385,8 +1336,7 @@ struct ph7_vm
 /*
  * Error codes according to the PHP language reference manual.
  */
-enum iErrCode
-{
+enum iErrCode {
   E_ERROR             = 1,     /* Fatal run-time errors. These indicate errors that can not be recovered
                                 * from, such as a memory allocation problem. Execution of the script is
                                 * halted.

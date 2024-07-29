@@ -3857,8 +3857,7 @@ static int PH7_builtin_nl2br(ph7_context *pCtx, int nArg, ph7_value **apArg)
 ** by an instance of the following structure
 */
 typedef struct ph7_fmt_info ph7_fmt_info;
-struct ph7_fmt_info
-{
+struct ph7_fmt_info {
   char fmttype;   /* The format field code letter [i.e: 'd','s','x'] */
   sxu8 base;     /* The base for radix conversion */
   int flags;    /* One or more of PH7_FMT_FLAG_ constants below */
@@ -5711,8 +5710,7 @@ static sxi32 ExtractToken(const char **pzIn, const char *zEnd, const char *zMask
 }
 /* strtok auxiliary private data */
 typedef struct strtok_aux_data strtok_aux_data;
-struct strtok_aux_data
-{
+struct strtok_aux_data {
   const char *zDup;    /* Complete duplicate of the input */
   const char *zIn;     /* Current input stream */
   const char *zEnd;    /* End of input */
@@ -5945,8 +5943,7 @@ static int PH7_builtin_str_pad(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * String replacement private data.
  */
 typedef struct str_replace_data str_replace_data;
-struct str_replace_data
-{
+struct str_replace_data {
   /* The following two fields are only used by the strtr function */
   SyBlob *pWorker;           /* Working buffer */
   ProcStringMatch xMatch;    /* Pattern match routine */
@@ -7076,8 +7073,7 @@ static int PH7_builtin_ctype_upper(ph7_context *pCtx, int nArg, ph7_value **apAr
 ** Taken from the SQLite3 source tree.
 ** Status: Public domain
 */
-struct tm * __cdecl localtime(const time_t *t)
-{
+struct tm * __cdecl localtime(const time_t *t) {
   static struct tm y;
   FILETIME uTm, lTm;
   SYSTEMTIME pTm;

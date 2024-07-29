@@ -50,8 +50,7 @@
  * of the following structure.
  * VM Frame hold local variables and other stuff related to function call.
  */
-struct VmFrame
-{
+struct VmFrame {
   VmFrame *pParent;   /* Parent frame or NULL if global scope */
   void *pUserData;    /* Upper layer private data associated with this frame */
   ph7_class_instance *pThis;   /* Current class instance [i.e: the '$this' variable].NULL otherwise */
@@ -73,8 +72,7 @@ struct VmFrame
  * a new memory object.
  */
 typedef struct VmSlot VmSlot;
-struct VmSlot
-{
+struct VmSlot {
   sxu32 nIdx;        /* Index in pVm->aMemObj[] */
   void *pUserData;   /* Upper-layer private data */
 };
@@ -88,8 +86,7 @@ struct VmSlot
  * Refer to the official for more information on this powerful
  * extension.
  */
-struct VmRefObj
-{
+struct VmRefObj {
   SySet aReference;    /* Table of references to this memory object */
   SySet aArrEntries;   /* Foreign hashmap entries [i.e: array(&$a) ] */
   sxu32 nIdx;          /* Referenced object index */
@@ -103,8 +100,7 @@ struct VmRefObj
  * Refer to the implementation of [ob_start()] for more information.
  */
 typedef struct VmObEntry VmObEntry;
-struct VmObEntry
-{
+struct VmObEntry {
   ph7_value sCallback;   /* User defined callback */
   SyBlob sOB;            /* Output buffer consumer */
 };
@@ -114,8 +110,7 @@ struct VmObEntry
  * Refer to the implementation of [register_shutdown_function(()] for more information.
  */
 typedef struct VmShutdownCB VmShutdownCB;
-struct VmShutdownCB
-{
+struct VmShutdownCB {
   ph7_value sCallback;   /* Shutdown callback */
   ph7_value aArg[10];     /* Callback arguments (10 maximum arguments) */
   int nArg;               /* Total number of given arguments */
@@ -129,8 +124,7 @@ struct VmShutdownCB
  * the xHT project is developed internally by Symisc Systems.
  */
 typedef struct SyhttpUri SyhttpUri;
-struct SyhttpUri
-{
+struct SyhttpUri {
   SyString sHost;       /* Hostname or IP address */
   SyString sPort;       /* Port number */
   SyString sPath;       /* Mandatory resource path passed verbatim (Not decoded) */
@@ -149,8 +143,7 @@ struct SyhttpUri
  * the xHT project is developed internally by Symisc Systems.
  */
 typedef struct SyhttpHeader SyhttpHeader;
-struct SyhttpHeader
-{
+struct SyhttpHeader {
   SyString sName;      /* Header name [i.e:"Content-Type","Host","User-Agent"]. NOT NUL TERMINATED */
   SyString sValue;     /* Header values [i.e: "text/html"]. NOT NUL TERMINATED */
 };
@@ -8335,8 +8328,7 @@ static int vm_builtin_rand_str(ph7_context *pCtx, int nArg, ph7_value **apArg)
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 #if !defined(PH7_DISABLE_HASH_FUNC)
 /* Unique ID private data */
-struct unique_id_data
-{
+struct unique_id_data {
   ph7_context *pCtx;   /* Call context */
   int entropy;         /* TRUE if the more_entropy flag is set */
 };
@@ -10077,8 +10069,7 @@ static int vm_builtin_parse_url(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * The [compact()] function store it's state information in an instance
  * of the following structure.
  */
-struct compact_data
-{
+struct compact_data {
   ph7_value *pArray;    /* Target array */
   int nRecCount;        /* Recursion count */
 };
@@ -10186,8 +10177,7 @@ static int vm_builtin_compact(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * of the following structure.
  */
 typedef struct extract_aux_data extract_aux_data;
-struct extract_aux_data
-{
+struct extract_aux_data {
   ph7_vm *pVm;            /* VM that own this instance */
   int iCount;             /* Number of variables successfully imported  */
   const char *zPrefix;    /* Prefix name */
@@ -10982,8 +10972,7 @@ static const char* VmFindLongOpt(const char *zLong, int nByte, const char *zIn, 
 /*
  * Long option [i.e: --opt] arguments private data structure.
  */
-struct getopt_long_opt
-{
+struct getopt_long_opt {
   const char *zArgIn, *zArgEnd;   /* Command line arguments */
   ph7_value *pWorker;    /* Worker variable*/
   ph7_value *pArray;     /* getopt() return value */
@@ -11266,8 +11255,7 @@ static int VmJsonObjectEncode(const char *zAttr, ph7_value *pValue, void *pUserD
  * of the following structure.
  */
 typedef struct json_private_data json_private_data;
-struct json_private_data
-{
+struct json_private_data {
   ph7_context *pCtx;   /* Call context */
   int isFirst;         /* True if first encoded entry */
   int iFlags;          /* JSON encoding flags */
@@ -11687,8 +11675,7 @@ typedef int (*ProcJsonConsumer)(ph7_context *, ph7_value *, ph7_value *, void *)
  * JSON decoder state is kept in the following structure.
  */
 typedef struct json_decoder json_decoder;
-struct json_decoder
-{
+struct json_decoder {
   ph7_context *pCtx;   /* Call context */
   ProcJsonConsumer xConsumer;   /* Consumer callback */
   void *pUserData;     /* Last argument to xConsumer() */
@@ -12078,8 +12065,7 @@ enum ph7_xml_handler_id {
  * XML engine instance.
  */
 typedef struct ph7_xml_engine ph7_xml_engine;
-struct ph7_xml_engine
-{
+struct ph7_xml_engine {
   ph7_vm *pVm;           /* VM that own this instance */
   ph7_context *pCtx;     /* Call context */
   SyXMLParser sParser;   /* Underlying XML parser */

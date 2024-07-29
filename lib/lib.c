@@ -36,8 +36,7 @@
 #if defined(PH7_ENABLE_THREADS)
 /* SyRunTimeApi: sxmutex.c */
 #if defined(__WINNT__)
-struct SyMutex
-{
+struct SyMutex {
   CRITICAL_SECTION sMutex;
   sxu32 nType;   /* Mutex type,one of SXMUTEX_TYPE_* */
 };
@@ -152,8 +151,7 @@ PH7_PRIVATE const SyMutexMethods* SyMutexExportMethods(void)
 }
 #elif defined(__UNIXES__)
 #include <pthread.h>
-struct SyMutex
-{
+struct SyMutex {
   pthread_mutex_t sMutex;
   sxu32 nType;
 };
@@ -228,8 +226,7 @@ PH7_PRIVATE const SyMutexMethods* SyMutexExportMethods(void)
 /* Host application must register their own mutex subsystem if the target
  * platform is not an UNIX-like or windows systems.
  */
-struct SyMutex
-{
+struct SyMutex {
   sxu32 nType;
 };
 static SyMutex* DummyMutexNew(int nType)
@@ -1375,8 +1372,7 @@ PH7_PRIVATE void* SySetAt(SySet *pSet, sxu32 nIdx)
   return (void *) &zBase[nIdx * pSet->eSize];
 }
 /* Private hash entry */
-struct SyHashEntry_Pr
-{
+struct SyHashEntry_Pr {
   const void *pKey;   /* Hash key */
   sxu32 nKeyLen;      /* Key length */
   void *pUserData;    /* User private data */
@@ -2552,8 +2548,7 @@ PH7_PRIVATE const char* SyTimeGetMonth(sxi32 iMonth)
 ** by an instance of the following structure
 */
 typedef struct SyFmtInfo SyFmtInfo;
-struct SyFmtInfo
-{
+struct SyFmtInfo {
   char fmttype;   /* The format field code letter [i.e: 'd','s','x'] */
   sxu8 base;     /* The base for radix conversion */
   int flags;    /* One or more of SXFLAG_ constants below */
@@ -2562,8 +2557,7 @@ struct SyFmtInfo
   char *prefix;   /* Prefix on non-zero values in alt format */
 };
 typedef struct SyFmtConsumer SyFmtConsumer;
-struct SyFmtConsumer
-{
+struct SyFmtConsumer {
   sxu32 nLen;   /* Total output length */
   sxi32 nType;   /* Type of the consumer see below */
   sxi32 rc;     /* Consumer return value;Abort processing if rc != SXRET_OK */
@@ -3208,8 +3202,7 @@ PH7_PRIVATE sxu32 SyBufferFormat(char *zBuf, sxu32 nLen, const char *zFormat, ..
  * in an instance of the following structure.
  */
 typedef struct SyXMLRawStrNS SyXMLRawStrNS;
-struct SyXMLRawStrNS
-{
+struct SyXMLRawStrNS {
   /* Public field [Must match the SyXMLRawStr fields ] */
   const char *zString;   /* Raw text [UTF-8 ENCODED EXCEPT CDATA] [NOT NULL TERMINATED] */
   sxu32 nByte;   /* Text length */

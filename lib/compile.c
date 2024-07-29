@@ -49,8 +49,7 @@ typedef struct Label Label;
  *  LABEL:
  *		echo "hello\n";
  */
-struct Label
-{
+struct Label {
   ph7_vm_func *pFunc;    /* Compiled function where the label was declared.NULL otherwise */
   sxu32 nJumpDest;       /* Jump destination */
   SyString sName;        /* Label name */
@@ -65,8 +64,7 @@ struct Label
  * are emitted, we record each forward jump in an instance of the following
  * structure. Those jumps are fixed later when the jump destination is resolved.
  */
-struct JumpFixup
-{
+struct JumpFixup {
   sxi32 nJumpType;       /* Jump type. Either TRUE jump, FALSE jump or Unconditional jump */
   sxu32 nInstrIdx;       /* Instruction index to fix later when the jump destination is resolved. */
   /* The following fields are only used by the goto statement */
@@ -78,8 +76,7 @@ struct JumpFixup
  * Each language construct is represented by an instance
  * of the following structure.
  */
-struct LangConstruct
-{
+struct LangConstruct {
   sxu32 nID;                       /* Language construct ID [i.e: PH7_TKWRD_WHILE,PH7_TKWRD_FOR,PH7_TKWRD_IF...] */
   ProcLangConstruct xConstruct;    /* C function implementing the language construct */
 };

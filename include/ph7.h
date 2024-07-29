@@ -211,8 +211,7 @@ typedef struct syiovec syiovec;
 typedef struct SyMutex SyMutex;
 typedef struct Sytm Sytm;
 /* Scatter and gather array. */
-struct syiovec
-{
+struct syiovec {
 #if defined (__WINNT__)
   /* Same fields type and offset as WSABUF structure defined one winsock2 header */
   unsigned long nLen;
@@ -222,14 +221,12 @@ struct syiovec
   unsigned long nLen;
 #endif
 };
-struct SyString
-{
+struct SyString {
   const char *zString;    /* Raw string (may not be null terminated) */
   unsigned int nByte;     /* Raw string length */
 };
 /* Time structure. */
-struct Sytm
-{
+struct Sytm {
   int tm_sec;     /* seconds (0 - 60) */
   int tm_min;     /* minutes (0 - 59) */
   int tm_hour;    /* hours (0 - 23) */
@@ -271,8 +268,7 @@ struct Sytm
         (pSYTM)->tm_zone = 0;
 
 /* Dynamic memory allocation methods. */
-struct SyMemMethods
-{
+struct SyMemMethods {
   void * (*xAlloc)(unsigned int);            /* [Required:] Allocate a memory chunk */
   void * (*xRealloc)(void *, unsigned int);   /* [Required:] Re-allocate a memory chunk */
   void (*xFree)(void *);                     /* [Required:] Release a memory chunk */
@@ -284,8 +280,7 @@ struct SyMemMethods
 /* Out of memory callback signature. */
 typedef int (*ProcMemError)(void *);
 /* Mutex methods. */
-struct SyMutexMethods
-{
+struct SyMutexMethods {
   int (*xGlobalInit)(void);         /* [Optional:] Global mutex initialization */
   void (*xGlobalRelease)(void);     /* [Optional:] Global Release callback () */
   SyMutex * (*xNew)(int);           /* [Required:] Request a new mutex */
@@ -496,8 +491,7 @@ typedef sxi64 ph7_int64;
  * Developers wishing to implement the vfs methods can contact symisc systems to obtain
  * the PH7 VFS C/C++ Specification manual.
  */
-struct ph7_vfs
-{
+struct ph7_vfs {
   const char *zName;    /* Underlying VFS name [i.e: FreeBSD/Linux/Windows...] */
   int iVersion;         /* Current VFS structure version [default 2] */
   /* Directory functions */
@@ -591,8 +585,7 @@ struct ph7_vfs
  * Developers wishing to implement their own IO stream devices must understand and follow
  * The PH7 IO Stream C/C++ specification manual (http://ph7.symisc.net/io_stream_spec.html).
  */
-struct ph7_io_stream
-{
+struct ph7_io_stream {
   const char *zName;                                       /* Underlying stream name [i.e: file/http/zip/php,..] */
   int iVersion;                                            /* IO stream structure version [default 1]*/
   int (*xOpen)(const char *, int, ph7_value *, void **);      /* Open handle*/

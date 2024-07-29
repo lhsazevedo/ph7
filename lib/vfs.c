@@ -1553,8 +1553,7 @@ static int PH7_builtin_basename(ph7_context *pCtx, int nArg, ph7_value **apArg)
  *  If options is present, returns a string containing the requested element.
  */
 typedef struct path_info path_info;
-struct path_info
-{
+struct path_info {
   SyString sDir;   /* Directory [i.e: /var/www] */
   SyString sBasename;   /* Basename [i.e httpd.conf] */
   SyString sExtension;   /* File extension [i.e xml,pdf..] */
@@ -2421,8 +2420,7 @@ static int PH7_vfs_ph7_uname(ph7_context *pCtx, int nArg, ph7_value **apArg)
  *    Stable.
  */
 typedef struct io_private io_private;
-struct io_private
-{
+struct io_private {
   const ph7_io_stream *pStream;   /* Underlying IO device */
   void *pHandle;   /* IO handle */
   /* Unbuffered IO */
@@ -4311,8 +4309,7 @@ static int PH7_builtin_fpassthru(ph7_context *pCtx, int nArg, ph7_value **apArg)
   return PH7_OK;
 }
 /* CSV reader/writer private data */
-struct csv_data
-{
+struct csv_data {
   int delimiter;      /* Delimiter. Default ',' */
   int enclosure;      /* Enclosure. Default '"'*/
   io_private *pDev;   /* Open stream handle */
@@ -4453,8 +4450,7 @@ static int PH7_builtin_fputcsv(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * input consumer callback defined below.
  */
 typedef struct fprintf_data fprintf_data;
-struct fprintf_data
-{
+struct fprintf_data {
   io_private *pIO;          /* IO stream */
   ph7_int64 nCount;         /* Total number of bytes written */
 };
@@ -5116,8 +5112,7 @@ static int PH7_builtin_parse_ini_file(ph7_context *pCtx, int nArg, ph7_value **a
  *    Stable.
  */
 typedef struct zip_raw_data zip_raw_data;
-struct zip_raw_data
-{
+struct zip_raw_data {
   int iType;           /* Where the raw data is stored */
   union raw_data {
     struct mmap_data {
@@ -6573,8 +6568,7 @@ static int WinFile_Open(const char *zPath, int iOpenMode, ph7_value *pResource, 
  * while iterating throw directory entries.
  */
 typedef struct WinDir_Info WinDir_Info;
-struct WinDir_Info
-{
+struct WinDir_Info {
   HANDLE pDirHandle;
   void *pPath;
   WIN32_FIND_DATAW sInfo;
@@ -7794,8 +7788,7 @@ typedef struct ph7_stream_data ph7_stream_data;
 #define PH7_IO_STREAM_STDERR 3 /* php://stderr */
 #define PH7_IO_STREAM_OUTPUT 4 /* php://output */
 /* The following structure is the private data associated with the php:// stream */
-struct ph7_stream_data
-{
+struct ph7_stream_data {
   ph7_vm *pVm;   /* VM that own this instance */
   int iType;     /* Stream type */
   union {

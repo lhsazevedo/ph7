@@ -40,8 +40,7 @@
  * That way it is clear in the code when we are using static variable because
  * its name start with sMPGlobal.
  */
-static struct Global_Data
-{
+static struct Global_Data {
   SyMemBackend sAllocator;                  /* Global low level memory allocator */
 #if defined(PH7_ENABLE_THREADS)
   const SyMutexMethods *pMutexMethods;     /* Mutex methods */
