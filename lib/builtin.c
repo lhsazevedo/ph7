@@ -3984,7 +3984,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     flag_leftjustify = flag_plussign = flag_blanksign =
       flag_alternateform = flag_zeropad = 0;
     zIn++;     /* Jump the precent sign */
-    do{
+    do {
       c = zIn[0];
       switch (c) {
       case '-':   flag_leftjustify = 1;     c = 0;   break;
@@ -4005,7 +4005,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         break;
       default:                                       break;
       }
-    }while (c == 0 && (zIn++ < zEnd));
+    } while (c == 0 && (zIn++ < zEnd));
     /* Get the field width */
     width = 0;
     while (zIn < zEnd && (zIn[0] >= '0' && zIn[0] <= '9')) {
@@ -4172,10 +4172,10 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         register int base;
         cset = pInfo->charset;
         base = pInfo->base;
-        do{                                             /* Convert to ascii */
+        do {                                             /* Convert to ascii */
           *(--zBuf) = cset[iVal % base];
           iVal = iVal / base;
-        }while (iVal > 0);
+        } while (iVal > 0);
       }
       length = &zWorker[PH7_FMT_BUFSIZ - 1] - zBuf;
       for (idx = precision - length; idx > 0; idx--) {

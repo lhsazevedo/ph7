@@ -2684,7 +2684,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
     /* Find out what flags are present */
     flag_leftjustify = flag_plussign = flag_blanksign =
       flag_alternateform = flag_zeropad = 0;
-    do{
+    do {
       switch (c) {
       case '-':   flag_leftjustify = 1;     c = 0;   break;
       case '+':   flag_plussign = 1;        c = 0;   break;
@@ -2693,7 +2693,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       case '0':   flag_zeropad = 1;         c = 0;   break;
       default:                                       break;
       }
-    }while (c == 0 && (c = (*++zFormat)) != 0);
+    } while (c == 0 && (c = (*++zFormat)) != 0);
     /* Get the field width */
     width = 0;
     if (c == '*') {
@@ -2827,10 +2827,10 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
         register int base;
         cset = infop->charset;
         base = infop->base;
-        do{                                             /* Convert to ascii */
+        do {                                             /* Convert to ascii */
           *(--bufpt) = cset[longvalue % base];
           longvalue = longvalue / base;
-        }while (longvalue > 0);
+        } while (longvalue > 0);
       }
       length = &buf[SXFMT_BUFSIZ - 1] - bufpt;
       for (idx = precision - length; idx > 0; idx--) {
