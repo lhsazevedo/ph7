@@ -189,7 +189,7 @@ int main(int argc,char **argv)
   /* Register script agruments so we can access them later using the $argv[]
    * array from the compiled PHP program.
    */
-  for ( n = n + 1; n < argc ; ++n ) {
+  for ( n = n + 1 ; n < argc ; ++n ) {
     ph7_vm_config(pVm,PH7_VM_CONFIG_ARGV_ENTRY,argv[n] /* Argument value */ );
   }
   if (err_report) {

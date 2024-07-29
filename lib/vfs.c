@@ -5936,7 +5936,7 @@ static ph7_int64 WinVfs_DiskFreeSpace(const char *zPath)
     return 0;
   }
   p = (WCHAR *)pConverted;
-  for (; *p; p++) {
+  for (; *p ; p++) {
     if (*p == '\\' || *p == '/') {
       *p = '\0';
       break;
@@ -5966,7 +5966,7 @@ static ph7_int64 WinVfs_DiskTotalSpace(const char *zPath)
     return 0;
   }
   p = (WCHAR *)pConverted;
-  for (; *p; p++) {
+  for (; *p ; p++) {
     if (*p == '\\' || *p == '/') {
       *p = '\0';
       break;
@@ -7330,7 +7330,7 @@ static void UnixVfs_TempDir(ph7_context *pCtx)
     ph7_result_string(pCtx,zDir,-1);
     return;
   }
-  for (i = 0; i < sizeof(azDirs) / sizeof(azDirs[0]); i++) {
+  for (i = 0 ; i < sizeof(azDirs) / sizeof(azDirs[0]) ; i++) {
     zDir = azDirs[i];
     if (zDir == 0) continue;
     if (stat(zDir, &buf)) continue;

@@ -4053,7 +4053,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     xtype = PH7_FMT_ERROR;
     c = zIn[0];
     zIn++;     /* Jump the format specifer */
-    for (idx = 0; idx < (int)SX_ARRAYSIZE(aFmt); idx++) {
+    for (idx = 0 ; idx < (int)SX_ARRAYSIZE(aFmt) ; idx++) {
       if (c == aFmt[idx].fmttype) {
         pInfo = &aFmt[idx];
         xtype = pInfo->type;
@@ -4178,7 +4178,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         } while (iVal > 0);
       }
       length = &zWorker[PH7_FMT_BUFSIZ - 1] - zBuf;
-      for (idx = precision - length; idx > 0; idx--) {
+      for (idx = precision - length ; idx > 0 ; idx--) {
         *(--zBuf) = '0';                               /* Zero pad */
       }
       if (prefix) *(--zBuf) = (char)prefix;                  /* Add sign */
@@ -4186,7 +4186,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         char *pre, x;
         pre = pInfo->prefix;
         if (*zBuf != pre[0]) {
-          for (pre = pInfo->prefix; (x = (*pre)) != 0; pre++) *(--zBuf) = x;
+          for (pre = pInfo->prefix ; (x = (*pre)) != 0 ; pre++) *(--zBuf) = x;
         }
       }
       length = &zWorker[PH7_FMT_BUFSIZ - 1] - zBuf;
@@ -4222,10 +4222,10 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       rounder = 0.0;
 #if 0
       /* Rounding works like BSD when the constant 0.4999 is used.Wierd! */
-      for (idx = precision, rounder = 0.4999; idx > 0; idx--, rounder *= 0.1);
+      for (idx = precision, rounder = 0.4999 ; idx > 0 ; idx--, rounder *= 0.1);
 #else
       /* It makes more sense to use 0.5 */
-      for (idx = precision, rounder = 0.5; idx > 0; idx--, rounder *= 0.1);
+      for (idx = precision, rounder = 0.5 ; idx > 0 ; idx--, rounder *= 0.1);
 #endif
       if (pInfo->type == PH7_FMT_FLOAT) realvalue += rounder;
       /* Normalize realvalue to within 10.0 > realvalue >= 1.0 */
@@ -4271,9 +4271,9 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         flag_dp = (precision > 0 || flag_alternateform);
         if (prefix) *(zBuf++) = (char)prefix;            /* Sign */
         if (exp < 0) *(zBuf++) = '0';              /* Digits before "." */
-        else for (; exp >= 0; exp--) *(zBuf++) = (char)vxGetdigit(&realvalue,&nsd);
+        else for (; exp >= 0 ; exp--) *(zBuf++) = (char)vxGetdigit(&realvalue,&nsd);
         if (flag_dp) *(zBuf++) = '.';              /* The decimal point */
-        for (exp++; exp < 0 && precision > 0; precision--, exp++) {
+        for (exp++ ; exp < 0 && precision > 0 ; precision--, exp++) {
           *(zBuf++) = '0';
         }
         while ((precision--) > 0) *(zBuf++) = (char)vxGetdigit(&realvalue,&nsd);
@@ -4317,7 +4317,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       if (flag_zeropad && !flag_leftjustify && length < width) {
         int i;
         int nPad = width - length;
-        for (i = width; i >= nPad; i--) {
+        for (i = width ; i >= nPad ; i--) {
           zBuf[i] = zBuf[i - nPad];
         }
         i = prefix != 0;
@@ -5556,11 +5556,11 @@ static int PH7_builtin_soundex(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   zIn = (unsigned char *)ph7_value_to_string(apArg[0],0);
-  for (i = 0; zIn[i] && zIn[i] < 0xc0 && !SyisAlpha(zIn[i]); i++) {}
+  for (i = 0 ; zIn[i] && zIn[i] < 0xc0 && !SyisAlpha(zIn[i]) ; i++) {}
   if (zIn[i]) {
     unsigned char prevcode = iCode[zIn[i] & 0x7f];
     zResult[0] = (char)SyToUpper(zIn[i]);
-    for (j = 1; j < 4 && zIn[i]; i++) {
+    for (j = 1 ; j < 4 && zIn[i] ; i++) {
       int code = iCode[zIn[i] & 0x7f];
       if (code > 0) {
         if (code != prevcode) {

@@ -1558,7 +1558,7 @@ static void VmReleaseCallContext(ph7_context *pCtx)
      * using [ph7_context_alloc_chunk()].
      */
     aAux = (ph7_aux_data *)SySetBasePtr(&pCtx->sChunk);
-    for ( n = 0; n < SySetUsed(&pCtx->sChunk) ; ++n ) {
+    for ( n = 0 ; n < SySetUsed(&pCtx->sChunk) ; ++n ) {
       pChunk = aAux[n].pAuxData;
       /* Release the chunk */
       if (pChunk) {
@@ -6136,7 +6136,7 @@ static int vm_builtin_func_get_args_byref(ph7_context *pCtx,int nArg,ph7_value *
   }
   /* Start filling the array with the given arguments (Pass by reference) */
   aSlot = (VmSlot *)SySetBasePtr(&pFrame->sArg);
-  for ( n = 0; n < SySetUsed(&pFrame->sArg) ; n++ ) {
+  for ( n = 0 ; n < SySetUsed(&pFrame->sArg) ; n++ ) {
     PH7_HashmapInsertByRef((ph7_hashmap *)pArray->x.pOther,0 /*Automatic index assign*/,aSlot[n].nIdx);
   }
   /* Return the freshly created array */
@@ -6182,7 +6182,7 @@ static int vm_builtin_func_get_args(ph7_context *pCtx,int nArg,ph7_value **apArg
   }
   /* Start filling the array with the given arguments */
   aSlot = (VmSlot *)SySetBasePtr(&pFrame->sArg);
-  for ( n = 0; n < SySetUsed(&pFrame->sArg) ; n++ ) {
+  for ( n = 0 ; n < SySetUsed(&pFrame->sArg) ; n++ ) {
     pObj = (ph7_value *)SySetAt(&pCtx->pVm->aMemObj,aSlot[n].nIdx);
     if (pObj) {
       ph7_array_add_elem(pArray,0 /* Automatic index assign*/,pObj);
@@ -9360,7 +9360,7 @@ static int vm_builtin_debug_backtrace(ph7_context *pCtx,int nArg,ph7_value **apA
       sxu32 n;
       /* Start filling the array with the given arguments */
       aSlot = (VmSlot *)SySetBasePtr(&pFrame->sArg);
-      for ( n = 0; n < SySetUsed(&pFrame->sArg) ; n++ ) {
+      for ( n = 0 ; n < SySetUsed(&pFrame->sArg) ; n++ ) {
         pObj = (ph7_value *)SySetAt(&pCtx->pVm->aMemObj,aSlot[n].nIdx);
         if (pObj) {
           ph7_array_add_elem(pArg,0 /* Automatic index assign*/,pObj);

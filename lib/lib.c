@@ -1591,7 +1591,7 @@ static sxi32 HashGrowTable(SyHash *pHash)
   /* Zero the new table */
   SyZero((void *)apNew,nNewSize * sizeof(SyHashEntry_Pr *));
   /* Rehash all entries */
-  for ( n = 0,pEntry = pHash->pList; n < pHash->nEntry ; n++  ) {
+  for ( n = 0,pEntry = pHash->pList ; n < pHash->nEntry ; n++  ) {
     pEntry->pNextCollide = pEntry->pPrevCollide = 0;
     /* Install in the new bucket */
     iBucket = pEntry->nHash & (nNewSize - 1);
@@ -2163,7 +2163,7 @@ PH7_PRIVATE sxi32 SyBase64Encode(const char *zSrc,sxu32 nLen,ProcConsumer xConsu
     return SXERR_EMPTY;
   }
 #endif
-  for (i = 0; i + 2 < nLen; i += 3) {
+  for (i = 0 ; i + 2 < nLen ; i += 3) {
     z64[0] = zBase64[(zIn[i] >> 2) & 0x3F];
     z64[1] = zBase64[(((zIn[i] & 0x03) << 4) | (zIn[i + 1] >> 4)) & 0x3F];
     z64[2] = zBase64[(((zIn[i + 1] & 0x0F) << 2) | (zIn[i + 2] >> 6)) & 0x3F];
@@ -2659,7 +2659,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
 
   length = 0;
   bufpt = 0;
-  for (; (c = (*zFormat)) != 0; ++zFormat) {
+  for (; (c = (*zFormat)) != 0 ; ++zFormat) {
     if (c != '%') {
       unsigned int amt;
       bufpt = (char *)zFormat;
@@ -2741,7 +2741,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
     /* Fetch the info entry for the field */
     infop = 0;
     xtype = SXFMT_ERROR;
-    for (idx = 0; idx < (int)SX_ARRAYSIZE(aFmt); idx++) {
+    for (idx = 0 ; idx < (int)SX_ARRAYSIZE(aFmt) ; idx++) {
       if (c == aFmt[idx].fmttype) {
         infop = &aFmt[idx];
         xtype = infop->type;
@@ -2833,7 +2833,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
         } while (longvalue > 0);
       }
       length = &buf[SXFMT_BUFSIZ - 1] - bufpt;
-      for (idx = precision - length; idx > 0; idx--) {
+      for (idx = precision - length ; idx > 0 ; idx--) {
         *(--bufpt) = '0';                               /* Zero pad */
       }
       if (prefix) *(--bufpt) = prefix;                  /* Add sign */
@@ -2841,7 +2841,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
         char *pre, x;
         pre = infop->prefix;
         if (*bufpt != pre[0]) {
-          for (pre = infop->prefix; (x = (*pre)) != 0; pre++) *(--bufpt) = x;
+          for (pre = infop->prefix ; (x = (*pre)) != 0 ; pre++) *(--bufpt) = x;
         }
       }
       length = &buf[SXFMT_BUFSIZ - 1] - bufpt;
@@ -2865,10 +2865,10 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       rounder = 0.0;
 #if 0
       /* Rounding works like BSD when the constant 0.4999 is used.Wierd! */
-      for (idx = precision, rounder = 0.4999; idx > 0; idx--, rounder *= 0.1);
+      for (idx = precision, rounder = 0.4999 ; idx > 0 ; idx--, rounder *= 0.1);
 #else
       /* It makes more sense to use 0.5 */
-      for (idx = precision, rounder = 0.5; idx > 0; idx--, rounder *= 0.1);
+      for (idx = precision, rounder = 0.5 ; idx > 0 ; idx--, rounder *= 0.1);
 #endif
       if (infop->type == SXFMT_FLOAT) realvalue += rounder;
       /* Normalize realvalue to within 10.0 > realvalue >= 1.0 */
@@ -2914,9 +2914,9 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
         flag_dp = (precision > 0 || flag_alternateform);
         if (prefix) *(bufpt++) = prefix;            /* Sign */
         if (exp < 0) *(bufpt++) = '0';              /* Digits before "." */
-        else for (; exp >= 0; exp--) *(bufpt++) = (char)getdigit(&realvalue,&nsd);
+        else for (; exp >= 0 ; exp--) *(bufpt++) = (char)getdigit(&realvalue,&nsd);
         if (flag_dp) *(bufpt++) = '.';              /* The decimal point */
-        for (exp++; exp < 0 && precision > 0; precision--, exp++) {
+        for (exp++ ; exp < 0 && precision > 0 ; precision--, exp++) {
           *(bufpt++) = '0';
         }
         while ((precision--) > 0) *(bufpt++) = (char)getdigit(&realvalue,&nsd);
@@ -2961,7 +2961,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       if (flag_zeropad && !flag_leftjustify && length < width) {
         int i;
         int nPad = width - length;
-        for (i = width; i >= nPad; i--) {
+        for (i = width ; i >= nPad ; i--) {
           bufpt[i] = bufpt[i - nPad];
         }
         i = prefix != 0;
@@ -2990,7 +2990,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       /* Limit the precision to prevent overflowing buf[] during conversion */
       if (precision > SXFMT_BUFSIZ - 40) precision = SXFMT_BUFSIZ - 40;
       if (precision >= 0) {
-        for (idx = 1; idx < precision; idx++) buf[idx] = (char)c;
+        for (idx = 1 ; idx < precision ; idx++) buf[idx] = (char)c;
         length = precision;
       }else{
         length = 1;
@@ -4894,10 +4894,10 @@ PH7_PRIVATE sxi32 SyRandomnessInit(SyPRNGCtx *pCtx,ProcRandomSeed xSeed,void *pU
     return rc;
   }
   pCtx->i = pCtx->j = 0;
-  for (i = 0; i < SX_ARRAYSIZE(pCtx->s) ; i++) {
+  for (i = 0 ; i < SX_ARRAYSIZE(pCtx->s) ; i++) {
     pCtx->s[i] = (unsigned char)i;
   }
-  for (i = 0; i < sizeof(zSeed) ; i++) {
+  for (i = 0 ; i < sizeof(zSeed) ; i++) {
     pCtx->j += pCtx->s[i] + zSeed[i];
     t = pCtx->s[pCtx->j];
     pCtx->s[pCtx->j] = pCtx->s[i];
@@ -5341,7 +5341,7 @@ PH7_PRIVATE void SHA1Update(SHA1Context *context,const unsigned char *data,unsig
   if ((j + len) > 63) {
     (void)SyMemcpy(data,&context->buffer[j],  (i = 64 - j));
     SHA1Transform(context->state, context->buffer);
-    for ( ; i + 63 < len; i += 64)
+    for ( ; i + 63 < len ; i += 64)
       SHA1Transform(context->state, &data[i]);
     j = 0;
   } else {
@@ -5356,7 +5356,7 @@ PH7_PRIVATE void SHA1Final(SHA1Context *context, unsigned char digest[20]){
   unsigned int i;
   unsigned char finalcount[8];
 
-  for (i = 0; i < 8; i++) {
+  for (i = 0 ; i < 8 ; i++) {
     finalcount[i] = (unsigned char)((context->count[(i >= 4 ? 0 : 1)]
                                      >> ((3 - (i & 3)) * 8)) & 255);      /* Endian independent */
   }
@@ -5366,7 +5366,7 @@ PH7_PRIVATE void SHA1Final(SHA1Context *context, unsigned char digest[20]){
   SHA1Update(context, finalcount, 8);    /* Should cause a SHA1Transform() */
 
   if (digest) {
-    for (i = 0; i < 20; i++)
+    for (i = 0 ; i < 20 ; i++)
       digest[i] = (unsigned char)
                   ((context->state[i >> 2] >> ((3 - (i & 3)) * 8)) & 255);
   }

@@ -1357,7 +1357,7 @@ PH7_PRIVATE sxi32 PH7_HashmapCreateSuper(ph7_vm *pVm)
     return rc;
   }
   /* Install superglobals now */
-  for ( n = 0 ; n < SX_ARRAYSIZE(azSuper)  ; n++ ) {
+  for ( n = 0 ; n < SX_ARRAYSIZE(azSuper) ; n++ ) {
     ph7_value *pSuper;
     /* Request an empty array */
     pSuper = ph7_new_array(&(*pVm));
@@ -1698,7 +1698,7 @@ static sxi32 HashmapMergeSort(ph7_hashmap *pMap,ProcNodeCmp xCmp,void *pCmpData)
     p = pIn;
     pIn = p->pPrev;
     p->pPrev = 0;
-    for (i = 0; i < N_SORT_BUCKET - 1; i++) {
+    for (i = 0 ; i < N_SORT_BUCKET - 1 ; i++) {
       if (a[i] == 0) {
         a[i] = p;
         break;
@@ -1715,7 +1715,7 @@ static sxi32 HashmapMergeSort(ph7_hashmap *pMap,ProcNodeCmp xCmp,void *pCmpData)
     }
   }
   p = a[0];
-  for (i = 1; i < N_SORT_BUCKET; i++) {
+  for (i = 1 ; i < N_SORT_BUCKET ; i++) {
     p = HashmapNodeMerge(p,a[i],xCmp,pCmpData);
   }
   p->pNext = 0;
@@ -3789,7 +3789,7 @@ static int ph7_hashmap_udiff(ph7_context *pCtx,int nArg,ph7_value **apArg)
     /* Extract the node value */
     pVal = HashmapExtractNodeValue(pEntry);
     if (pVal) {
-      for ( i = 1 ; i < nArg - 1; i++ ) {
+      for ( i = 1 ; i < nArg - 1 ; i++ ) {
         if (!ph7_value_is_array(apArg[i])) {
           /* ignore */
           continue;
@@ -3963,7 +3963,7 @@ static int ph7_hashmap_diff_uassoc(ph7_context *pCtx,int nArg,ph7_value **apArg)
     if (n < 1) {
       break;
     }
-    for ( i = 1 ; i < nArg - 1; i++ ) {
+    for ( i = 1 ; i < nArg - 1 ; i++ ) {
       if (!ph7_value_is_array(apArg[i])) {
         /* ignore */
         continue;
@@ -4392,7 +4392,7 @@ static int ph7_hashmap_uintersect(ph7_context *pCtx,int nArg,ph7_value **apArg)
     /* Extract the node value */
     pVal = HashmapExtractNodeValue(pEntry);
     if (pVal) {
-      for ( i = 1 ; i < nArg - 1; i++ ) {
+      for ( i = 1 ; i < nArg - 1 ; i++ ) {
         if (!ph7_value_is_array(apArg[i])) {
           /* ignore */
           continue;

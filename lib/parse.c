@@ -868,7 +868,7 @@ PH7_PRIVATE sxi32 PH7_ExprFreeTree(ph7_gen_state *pGen,SySet *pNodeSet)
   ph7_expr_node **apNode;
   sxu32 n;
   apNode = (ph7_expr_node **)SySetBasePtr(pNodeSet);
-  for ( n = 0  ; n < SySetUsed(pNodeSet) ; ++n ) {
+  for ( n = 0 ; n < SySetUsed(pNodeSet) ; ++n ) {
     if (apNode[n]) {
       ExprFreeTree(&(*pGen),apNode[n]);
     }
@@ -1129,7 +1129,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen,ph7_expr_node **apNode,sxi32 nToke
         /* Link the node to the tree */
         pNode->pLeft = apNode[iLeft];
         apNode[iLeft] = 0;
-        for ( iPtr = 1; iPtr <= nFuncTok ; iPtr++ ) {
+        for ( iPtr = 1 ; iPtr <= nFuncTok ; iPtr++ ) {
           apNode[iCur + iPtr] = 0;
         }
       }else if (pNode->pOp->iOp == EXPR_OP_SUBSCRIPT) {

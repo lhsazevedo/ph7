@@ -1479,7 +1479,7 @@ static ph7_aux_data* ContextFindChunk(ph7_context *pCtx,void *pChunk)
   }
   /* Perform the lookup */
   aAux = (ph7_aux_data *)SySetBasePtr(&pCtx->sChunk);
-  for ( n = 0; n < SySetUsed(&pCtx->sChunk) ; ++n ) {
+  for ( n = 0 ; n < SySetUsed(&pCtx->sChunk) ; ++n ) {
     pAux = &aAux[n];
     if (pAux->pAuxData == pChunk) {
       /* Chunk found */
