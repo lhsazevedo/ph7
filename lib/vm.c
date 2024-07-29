@@ -11292,7 +11292,7 @@ struct json_private_data
 static sxi32 VmJsonEncode(
   ph7_value *pIn,            /* Encode this value */
   json_private_data *pData   /* Context data */
-  ){
+  ) {
   ph7_context *pCtx = pData->pCtx;
   int iFlags = pData->iFlags;
   int nByte;
@@ -11763,7 +11763,7 @@ static void VmJsonDequoteString(const SyString *pStr, ph7_value *pWorker)
 static sxi32 VmJsonDecode(
   json_decoder *pDecoder,   /* JSON decoder */
   ph7_value *pArrayKey      /* Key for the decoded array */
-  ){
+  ) {
   ph7_value *pWorker;   /* Worker variable */
   sxi32 rc;
   /* Check if we do not nest to much */
@@ -13508,7 +13508,7 @@ PH7_PRIVATE int PH7_Utf8Read(
   const unsigned char *z,         /* First byte of UTF-8 character */
   const unsigned char *zTerm,     /* Pretend this byte is 0x00 */
   const unsigned char **pzNext    /* Write first byte past UTF-8 char here */
-  ){
+  ) {
   int c;
   READ_UTF8(z, zTerm, c);
   *pzNext = z;
