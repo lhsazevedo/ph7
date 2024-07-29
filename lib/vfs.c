@@ -1658,46 +1658,46 @@ static int PH7_builtin_pathinfo(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Return path component */
     int nComp = ph7_value_to_int(apArg[1]);
     switch (nComp) {
-    case 1:     /* PATHINFO_DIRNAME */
-      pComp = &sInfo.sDir;
-      if (pComp->nByte > 0) {
-        ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-      } else {
+      case 1:   /* PATHINFO_DIRNAME */
+        pComp = &sInfo.sDir;
+        if (pComp->nByte > 0) {
+          ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
+        } else {
+          /* Expand the empty string */
+          ph7_result_string(pCtx, "", 0);
+        }
+        break;
+      case 2:   /*PATHINFO_BASENAME*/
+        pComp = &sInfo.sBasename;
+        if (pComp->nByte > 0) {
+          ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
+        } else {
+          /* Expand the empty string */
+          ph7_result_string(pCtx, "", 0);
+        }
+        break;
+      case 3:   /*PATHINFO_EXTENSION*/
+        pComp = &sInfo.sExtension;
+        if (pComp->nByte > 0) {
+          ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
+        } else {
+          /* Expand the empty string */
+          ph7_result_string(pCtx, "", 0);
+        }
+        break;
+      case 4:   /*PATHINFO_FILENAME*/
+        pComp = &sInfo.sFilename;
+        if (pComp->nByte > 0) {
+          ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
+        } else {
+          /* Expand the empty string */
+          ph7_result_string(pCtx, "", 0);
+        }
+        break;
+      default:
         /* Expand the empty string */
         ph7_result_string(pCtx, "", 0);
-      }
-      break;
-    case 2:     /*PATHINFO_BASENAME*/
-      pComp = &sInfo.sBasename;
-      if (pComp->nByte > 0) {
-        ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-      } else {
-        /* Expand the empty string */
-        ph7_result_string(pCtx, "", 0);
-      }
-      break;
-    case 3:     /*PATHINFO_EXTENSION*/
-      pComp = &sInfo.sExtension;
-      if (pComp->nByte > 0) {
-        ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-      } else {
-        /* Expand the empty string */
-        ph7_result_string(pCtx, "", 0);
-      }
-      break;
-    case 4:     /*PATHINFO_FILENAME*/
-      pComp = &sInfo.sFilename;
-      if (pComp->nByte > 0) {
-        ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-      } else {
-        /* Expand the empty string */
-        ph7_result_string(pCtx, "", 0);
-      }
-      break;
-    default:
-      /* Expand the empty string */
-      ph7_result_string(pCtx, "", 0);
-      break;
+        break;
     }
   } else {
     /* Return an associative array */
@@ -2328,46 +2328,46 @@ static int PH7_vfs_ph7_uname(ph7_context *pCtx, int nArg, ph7_value **apArg)
       zName = "Microsoft Windows NT";
     } else if (sVer.dwMajorVersion == 5) {
       switch (sVer.dwMinorVersion) {
-      case 0: zName = "Microsoft Windows 2000"; break;
-      case 1: zName = "Microsoft Windows XP";   break;
-      case 2: zName = "Microsoft Windows Server 2003"; break;
+        case 0: zName = "Microsoft Windows 2000"; break;
+        case 1: zName = "Microsoft Windows XP";   break;
+        case 2: zName = "Microsoft Windows Server 2003"; break;
       }
     } else if (sVer.dwMajorVersion == 6) {
       switch (sVer.dwMinorVersion) {
-      case 0: zName = "Microsoft Windows Vista"; break;
-      case 1: zName = "Microsoft Windows 7"; break;
-      case 2: zName = "Microsoft Windows Server 2008"; break;
-      case 3: zName = "Microsoft Windows 8"; break;
-      default: break;
+        case 0: zName = "Microsoft Windows Vista"; break;
+        case 1: zName = "Microsoft Windows 7"; break;
+        case 2: zName = "Microsoft Windows Server 2008"; break;
+        case 3: zName = "Microsoft Windows 8"; break;
+        default: break;
       }
     }
   }
   switch (zMode[0]) {
-  case 's':
-    /* Operating system name */
-    ph7_result_string(pCtx, zName, -1 /* Compute length automatically*/ );
-    break;
-  case 'n':
-    /* Host name */
-    ph7_result_string(pCtx, "localhost", (int) sizeof("localhost") - 1);
-    break;
-  case 'r':
-  case 'v':
-    /* Version information. */
-    ph7_result_string_format(pCtx, "%u.%u build %u",
-                             sVer.dwMajorVersion, sVer.dwMinorVersion, sVer.dwBuildNumber
-                             );
-    break;
-  case 'm':
-    /* Machine name */
-    ph7_result_string(pCtx, "x86", (int) sizeof("x86") - 1);
-    break;
-  default:
-    ph7_result_string_format(pCtx, "%s localhost %u.%u build %u x86",
-                             zName,
-                             sVer.dwMajorVersion, sVer.dwMinorVersion, sVer.dwBuildNumber
-                             );
-    break;
+    case 's':
+      /* Operating system name */
+      ph7_result_string(pCtx, zName, -1 /* Compute length automatically*/ );
+      break;
+    case 'n':
+      /* Host name */
+      ph7_result_string(pCtx, "localhost", (int) sizeof("localhost") - 1);
+      break;
+    case 'r':
+    case 'v':
+      /* Version information. */
+      ph7_result_string_format(pCtx, "%u.%u build %u",
+                               sVer.dwMajorVersion, sVer.dwMinorVersion, sVer.dwBuildNumber
+                               );
+      break;
+    case 'm':
+      /* Machine name */
+      ph7_result_string(pCtx, "x86", (int) sizeof("x86") - 1);
+      break;
+    default:
+      ph7_result_string_format(pCtx, "%s localhost %u.%u build %u x86",
+                               zName,
+                               sVer.dwMajorVersion, sVer.dwMinorVersion, sVer.dwBuildNumber
+                               );
+      break;
   }
 #elif defined(__UNIXES__)
   if (uname(&sName) != 0) {
@@ -2375,36 +2375,36 @@ static int PH7_vfs_ph7_uname(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   switch (zMode[0]) {
-  case 's':
-    /* Operating system name */
-    ph7_result_string(pCtx, sName.sysname, -1 /* Compute length automatically*/ );
-    break;
-  case 'n':
-    /* Host name */
-    ph7_result_string(pCtx, sName.nodename, -1 /* Compute length automatically*/ );
-    break;
-  case 'r':
-    /* Release information */
-    ph7_result_string(pCtx, sName.release, -1 /* Compute length automatically*/ );
-    break;
-  case 'v':
-    /* Version information. */
-    ph7_result_string(pCtx, sName.version, -1 /* Compute length automatically*/ );
-    break;
-  case 'm':
-    /* Machine name */
-    ph7_result_string(pCtx, sName.machine, -1 /* Compute length automatically*/ );
-    break;
-  default:
-    ph7_result_string_format(pCtx,
-                             "%s %s %s %s %s",
-                             sName.sysname,
-                             sName.release,
-                             sName.version,
-                             sName.nodename,
-                             sName.machine
-                             );
-    break;
+    case 's':
+      /* Operating system name */
+      ph7_result_string(pCtx, sName.sysname, -1 /* Compute length automatically*/ );
+      break;
+    case 'n':
+      /* Host name */
+      ph7_result_string(pCtx, sName.nodename, -1 /* Compute length automatically*/ );
+      break;
+    case 'r':
+      /* Release information */
+      ph7_result_string(pCtx, sName.release, -1 /* Compute length automatically*/ );
+      break;
+    case 'v':
+      /* Version information. */
+      ph7_result_string(pCtx, sName.version, -1 /* Compute length automatically*/ );
+      break;
+    case 'm':
+      /* Machine name */
+      ph7_result_string(pCtx, sName.machine, -1 /* Compute length automatically*/ );
+      break;
+    default:
+      ph7_result_string_format(pCtx,
+                               "%s %s %s %s %s",
+                               sName.sysname,
+                               sName.release,
+                               sName.version,
+                               sName.nodename,
+                               sName.machine
+                               );
+      break;
   }
 #else
   ph7_result_string(pCtx, "Unknown Operating System", (int) sizeof("Unknown Operating System") - 1);
@@ -5628,32 +5628,32 @@ static int PH7_builtin_zip_entry_compressionmethod(ph7_context *pCtx, int nArg, 
     return PH7_OK;
   }
   switch (pEntry->nComprMeth) {
-  case 0:
-    /* No compression;entry is stored */
-    ph7_result_string(pCtx, "stored", (int) sizeof("stored") - 1);
-    break;
-  case 8:
-    /* Entry is deflated (Default compression algorithm)  */
-    ph7_result_string(pCtx, "deflate", (int) sizeof("deflate") - 1);
-    break;
-  /* Exotic compression algorithms */
-  case 1:
-    ph7_result_string(pCtx, "shrunk", (int) sizeof("shrunk") - 1);
-    break;
-  case 2:
-  case 3:
-  case 4:
-  case 5:
-    /* Entry is reduced */
-    ph7_result_string(pCtx, "reduced", (int) sizeof("reduced") - 1);
-    break;
-  case 6:
-    /* Entry is imploded */
-    ph7_result_string(pCtx, "implode", (int) sizeof("implode") - 1);
-    break;
-  default:
-    ph7_result_string(pCtx, "unknown", (int) sizeof("unknown") - 1);
-    break;
+    case 0:
+      /* No compression;entry is stored */
+      ph7_result_string(pCtx, "stored", (int) sizeof("stored") - 1);
+      break;
+    case 8:
+      /* Entry is deflated (Default compression algorithm)  */
+      ph7_result_string(pCtx, "deflate", (int) sizeof("deflate") - 1);
+      break;
+    /* Exotic compression algorithms */
+    case 1:
+      ph7_result_string(pCtx, "shrunk", (int) sizeof("shrunk") - 1);
+      break;
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+      /* Entry is reduced */
+      ph7_result_string(pCtx, "reduced", (int) sizeof("reduced") - 1);
+      break;
+    case 6:
+      /* Entry is imploded */
+      ph7_result_string(pCtx, "implode", (int) sizeof("implode") - 1);
+      break;
+    default:
+      ph7_result_string(pCtx, "unknown", (int) sizeof("unknown") - 1);
+      break;
   }
   return PH7_OK;
 }
@@ -6738,16 +6738,16 @@ static int WinFile_Seek(void *pUserData, ph7_int64 iOfft, int whence)
   DWORD dwMove, dwNew;
   LONG nHighOfft;
   switch (whence) {
-  case 1:  /*SEEK_CUR*/
-    dwMove = FILE_CURRENT;
-    break;
-  case 2:   /* SEEK_END */
-    dwMove = FILE_END;
-    break;
-  case 0:   /* SEEK_SET */
-  default:
-    dwMove = FILE_BEGIN;
-    break;
+    case 1: /*SEEK_CUR*/
+      dwMove = FILE_CURRENT;
+      break;
+    case 2: /* SEEK_END */
+      dwMove = FILE_END;
+      break;
+    case 0: /* SEEK_SET */
+    default:
+      dwMove = FILE_BEGIN;
+      break;
   }
   nHighOfft = (LONG) (iOfft >> 32);
   dwNew = SetFilePointer(pHandle, (LONG) iOfft, &nHighOfft, dwMove);
@@ -7601,16 +7601,16 @@ static int UnixFile_Seek(void *pUserData, ph7_int64 iOfft, int whence)
 {
   off_t iNew;
   switch (whence) {
-  case 1:  /*SEEK_CUR*/
-    whence = SEEK_CUR;
-    break;
-  case 2:   /* SEEK_END */
-    whence = SEEK_END;
-    break;
-  case 0:   /* SEEK_SET */
-  default:
-    whence = SEEK_SET;
-    break;
+    case 1: /*SEEK_CUR*/
+      whence = SEEK_CUR;
+      break;
+    case 2: /* SEEK_END */
+      whence = SEEK_END;
+      break;
+    case 0: /* SEEK_SET */
+    default:
+      whence = SEEK_SET;
+      break;
   }
   iNew = lseek(SX_PTR_TO_INT(pUserData), (off_t) iOfft, whence);
   if (iNew < 0) {
@@ -7828,21 +7828,21 @@ static ph7_stream_data* PHPStreamDataInit(ph7_vm *pVm, int iType)
 #ifdef __WINNT__
     DWORD nChannel;
     switch (iType) {
-    case PH7_IO_STREAM_STDOUT:  nChannel = STD_OUTPUT_HANDLE; break;
-    case PH7_IO_STREAM_STDERR:  nChannel = STD_ERROR_HANDLE; break;
-    default:
-      nChannel = STD_INPUT_HANDLE;
-      break;
+      case PH7_IO_STREAM_STDOUT:  nChannel = STD_OUTPUT_HANDLE; break;
+      case PH7_IO_STREAM_STDERR:  nChannel = STD_ERROR_HANDLE; break;
+      default:
+        nChannel = STD_INPUT_HANDLE;
+        break;
     }
     pData->x.pHandle = GetStdHandle(nChannel);
 #else
     /* Assume an UNIX system */
     int ifd = STDIN_FILENO;
     switch (iType) {
-    case PH7_IO_STREAM_STDOUT:  ifd = STDOUT_FILENO; break;
-    case PH7_IO_STREAM_STDERR:  ifd = STDERR_FILENO; break;
-    default:
-      break;
+      case PH7_IO_STREAM_STDOUT:  ifd = STDOUT_FILENO; break;
+      case PH7_IO_STREAM_STDERR:  ifd = STDERR_FILENO; break;
+      default:
+        break;
     }
     pData->x.pHandle = SX_INT_TO_PTR(ifd);
 #endif

@@ -97,47 +97,47 @@ static sxi32 EngineConfig(ph7 *pEngine, sxi32 nOp, va_list ap)
   int rc = PH7_OK;
   /* Perform the requested operation */
   switch (nOp) {
-  case PH7_CONFIG_ERR_OUTPUT: {
-    ProcConsumer xConsumer = va_arg(ap, ProcConsumer);
-    void *pUserData = va_arg(ap, void *);
-    /* Compile time error consumer routine */
-    if (xConsumer == 0) {
-      rc = PH7_CORRUPT;
-      break;
-    }
-    /* Install the error consumer */
-    pConf->xErr = xConsumer;
-    pConf->pErrData = pUserData;
-    break;
-  }
-  case PH7_CONFIG_ERR_LOG: {
-    /* Extract compile-time error log if any */
-    const char **pzPtr = va_arg(ap, const char **);
-    int *pLen = va_arg(ap, int *);
-    if (pzPtr == 0) {
-      rc = PH7_CORRUPT;
-      break;
-    }
-    /* NULL terminate the error-log buffer */
-    SyBlobNullAppend(&pConf->sErrConsumer);
-    /* Point to the error-log buffer */
-    *pzPtr = (const char *) SyBlobData(&pConf->sErrConsumer);
-    if (pLen) {
-      if (SyBlobLength(&pConf->sErrConsumer) > 1 /* NULL '\0' terminator */ ) {
-        *pLen = (int) SyBlobLength(&pConf->sErrConsumer);
-      } else {
-        *pLen = 0;
+    case PH7_CONFIG_ERR_OUTPUT: {
+      ProcConsumer xConsumer = va_arg(ap, ProcConsumer);
+      void *pUserData = va_arg(ap, void *);
+      /* Compile time error consumer routine */
+      if (xConsumer == 0) {
+        rc = PH7_CORRUPT;
+        break;
       }
+      /* Install the error consumer */
+      pConf->xErr = xConsumer;
+      pConf->pErrData = pUserData;
+      break;
     }
-    break;
-  }
-  case PH7_CONFIG_ERR_ABORT:
-    /* Reserved for future use */
-    break;
-  default:
-    /* Unknown configuration verb */
-    rc = PH7_CORRUPT;
-    break;
+    case PH7_CONFIG_ERR_LOG: {
+      /* Extract compile-time error log if any */
+      const char **pzPtr = va_arg(ap, const char **);
+      int *pLen = va_arg(ap, int *);
+      if (pzPtr == 0) {
+        rc = PH7_CORRUPT;
+        break;
+      }
+      /* NULL terminate the error-log buffer */
+      SyBlobNullAppend(&pConf->sErrConsumer);
+      /* Point to the error-log buffer */
+      *pzPtr = (const char *) SyBlobData(&pConf->sErrConsumer);
+      if (pLen) {
+        if (SyBlobLength(&pConf->sErrConsumer) > 1 /* NULL '\0' terminator */ ) {
+          *pLen = (int) SyBlobLength(&pConf->sErrConsumer);
+        } else {
+          *pLen = 0;
+        }
+      }
+      break;
+    }
+    case PH7_CONFIG_ERR_ABORT:
+      /* Reserved for future use */
+      break;
+    default:
+      /* Unknown configuration verb */
+      rc = PH7_CORRUPT;
+      break;
   }   /* Switch() */
   return rc;
 }
@@ -151,103 +151,103 @@ static sxi32 PH7CoreConfigure(sxi32 nOp, va_list ap)
 {
   int rc = PH7_OK;
   switch (nOp) {
-  case PH7_LIB_CONFIG_VFS: {
-    /* Install a virtual file system */
-    const ph7_vfs *pVfs = va_arg(ap, const ph7_vfs *);
-    sMPGlobal.pVfs = pVfs;
-    break;
-  }
-  case PH7_LIB_CONFIG_USER_MALLOC: {
-    /* Use an alternative low-level memory allocation routines */
-    const SyMemMethods *pMethods = va_arg(ap, const SyMemMethods *);
-    /* Save the memory failure callback (if available) */
-    ProcMemError xMemErr = sMPGlobal.sAllocator.xMemError;
-    void *pMemErr = sMPGlobal.sAllocator.pUserData;
-    if (pMethods == 0) {
-      /* Use the built-in memory allocation subsystem */
-      rc = SyMemBackendInit(&sMPGlobal.sAllocator, xMemErr, pMemErr);
-    } else {
-      rc = SyMemBackendInitFromOthers(&sMPGlobal.sAllocator, pMethods, xMemErr, pMemErr);
-    }
-    break;
-  }
-  case PH7_LIB_CONFIG_MEM_ERR_CALLBACK: {
-    /* Memory failure callback */
-    ProcMemError xMemErr = va_arg(ap, ProcMemError);
-    void *pUserData = va_arg(ap, void *);
-    sMPGlobal.sAllocator.xMemError = xMemErr;
-    sMPGlobal.sAllocator.pUserData = pUserData;
-    break;
-  }
-  case PH7_LIB_CONFIG_USER_MUTEX: {
-#if defined(PH7_ENABLE_THREADS)
-    /* Use an alternative low-level mutex subsystem */
-    const SyMutexMethods *pMethods = va_arg(ap, const SyMutexMethods *);
-#if defined (UNTRUST)
-    if (pMethods == 0) {
-      rc = PH7_CORRUPT;
-    }
-#endif
-    /* Sanity check */
-    if (pMethods->xEnter == 0 || pMethods->xLeave == 0 || pMethods->xNew == 0) {
-      /* At least three criticial callbacks xEnter(),xLeave() and xNew() must be supplied */
-      rc = PH7_CORRUPT;
+    case PH7_LIB_CONFIG_VFS: {
+      /* Install a virtual file system */
+      const ph7_vfs *pVfs = va_arg(ap, const ph7_vfs *);
+      sMPGlobal.pVfs = pVfs;
       break;
     }
-    if (sMPGlobal.pMutexMethods) {
-      /* Overwrite the previous mutex subsystem */
-      SyMutexRelease(sMPGlobal.pMutexMethods, sMPGlobal.pMutex);
-      if (sMPGlobal.pMutexMethods->xGlobalRelease) {
-        sMPGlobal.pMutexMethods->xGlobalRelease();
+    case PH7_LIB_CONFIG_USER_MALLOC: {
+      /* Use an alternative low-level memory allocation routines */
+      const SyMemMethods *pMethods = va_arg(ap, const SyMemMethods *);
+      /* Save the memory failure callback (if available) */
+      ProcMemError xMemErr = sMPGlobal.sAllocator.xMemError;
+      void *pMemErr = sMPGlobal.sAllocator.pUserData;
+      if (pMethods == 0) {
+        /* Use the built-in memory allocation subsystem */
+        rc = SyMemBackendInit(&sMPGlobal.sAllocator, xMemErr, pMemErr);
+      } else {
+        rc = SyMemBackendInitFromOthers(&sMPGlobal.sAllocator, pMethods, xMemErr, pMemErr);
       }
-      sMPGlobal.pMutex = 0;
+      break;
     }
-    /* Initialize and install the new mutex subsystem */
-    if (pMethods->xGlobalInit) {
-      rc = pMethods->xGlobalInit();
-      if (rc != PH7_OK) {
+    case PH7_LIB_CONFIG_MEM_ERR_CALLBACK: {
+      /* Memory failure callback */
+      ProcMemError xMemErr = va_arg(ap, ProcMemError);
+      void *pUserData = va_arg(ap, void *);
+      sMPGlobal.sAllocator.xMemError = xMemErr;
+      sMPGlobal.sAllocator.pUserData = pUserData;
+      break;
+    }
+    case PH7_LIB_CONFIG_USER_MUTEX: {
+#if defined(PH7_ENABLE_THREADS)
+      /* Use an alternative low-level mutex subsystem */
+      const SyMutexMethods *pMethods = va_arg(ap, const SyMutexMethods *);
+#if defined (UNTRUST)
+      if (pMethods == 0) {
+        rc = PH7_CORRUPT;
+      }
+#endif
+      /* Sanity check */
+      if (pMethods->xEnter == 0 || pMethods->xLeave == 0 || pMethods->xNew == 0) {
+        /* At least three criticial callbacks xEnter(),xLeave() and xNew() must be supplied */
+        rc = PH7_CORRUPT;
         break;
       }
-    }
-    /* Create the global mutex */
-    sMPGlobal.pMutex = pMethods->xNew(SXMUTEX_TYPE_FAST);
-    if (sMPGlobal.pMutex == 0) {
-      /*
-       * If the supplied mutex subsystem is so sick that we are unable to
-       * create a single mutex,there is no much we can do here.
-       */
-      if (pMethods->xGlobalRelease) {
-        pMethods->xGlobalRelease();
+      if (sMPGlobal.pMutexMethods) {
+        /* Overwrite the previous mutex subsystem */
+        SyMutexRelease(sMPGlobal.pMutexMethods, sMPGlobal.pMutex);
+        if (sMPGlobal.pMutexMethods->xGlobalRelease) {
+          sMPGlobal.pMutexMethods->xGlobalRelease();
+        }
+        sMPGlobal.pMutex = 0;
       }
-      rc = PH7_CORRUPT;
+      /* Initialize and install the new mutex subsystem */
+      if (pMethods->xGlobalInit) {
+        rc = pMethods->xGlobalInit();
+        if (rc != PH7_OK) {
+          break;
+        }
+      }
+      /* Create the global mutex */
+      sMPGlobal.pMutex = pMethods->xNew(SXMUTEX_TYPE_FAST);
+      if (sMPGlobal.pMutex == 0) {
+        /*
+         * If the supplied mutex subsystem is so sick that we are unable to
+         * create a single mutex,there is no much we can do here.
+         */
+        if (pMethods->xGlobalRelease) {
+          pMethods->xGlobalRelease();
+        }
+        rc = PH7_CORRUPT;
+        break;
+      }
+      sMPGlobal.pMutexMethods = pMethods;
+      if (sMPGlobal.nThreadingLevel == 0) {
+        /* Set a default threading level */
+        sMPGlobal.nThreadingLevel = PH7_THREAD_LEVEL_MULTI;
+      }
+#endif
       break;
     }
-    sMPGlobal.pMutexMethods = pMethods;
-    if (sMPGlobal.nThreadingLevel == 0) {
-      /* Set a default threading level */
+    case PH7_LIB_CONFIG_THREAD_LEVEL_SINGLE:
+#if defined(PH7_ENABLE_THREADS)
+      /* Single thread mode(Only one thread is allowed to play with the library) */
+      sMPGlobal.nThreadingLevel = PH7_THREAD_LEVEL_SINGLE;
+#endif
+      break;
+    case PH7_LIB_CONFIG_THREAD_LEVEL_MULTI:
+#if defined(PH7_ENABLE_THREADS)
+      /* Multi-threading mode (library is thread safe and PH7 engines and virtual machines
+       * may be shared between multiple threads).
+       */
       sMPGlobal.nThreadingLevel = PH7_THREAD_LEVEL_MULTI;
-    }
 #endif
-    break;
-  }
-  case PH7_LIB_CONFIG_THREAD_LEVEL_SINGLE:
-#if defined(PH7_ENABLE_THREADS)
-    /* Single thread mode(Only one thread is allowed to play with the library) */
-    sMPGlobal.nThreadingLevel = PH7_THREAD_LEVEL_SINGLE;
-#endif
-    break;
-  case PH7_LIB_CONFIG_THREAD_LEVEL_MULTI:
-#if defined(PH7_ENABLE_THREADS)
-    /* Multi-threading mode (library is thread safe and PH7 engines and virtual machines
-     * may be shared between multiple threads).
-     */
-    sMPGlobal.nThreadingLevel = PH7_THREAD_LEVEL_MULTI;
-#endif
-    break;
-  default:
-    /* Unknown configuration option */
-    rc = PH7_CORRUPT;
-    break;
+      break;
+    default:
+      /* Unknown configuration option */
+      rc = PH7_CORRUPT;
+      break;
   }
   return rc;
 }

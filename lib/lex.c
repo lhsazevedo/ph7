@@ -207,343 +207,343 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
     /* Assume we are dealing with an operator*/
     pToken->nType = PH7_TK_OP;
     switch (c) {
-    case '$': pToken->nType = PH7_TK_DOLLAR; break;
-    case '{': pToken->nType = PH7_TK_OCB;    break;
-    case '}': pToken->nType = PH7_TK_CCB;    break;
-    case '(': pToken->nType = PH7_TK_LPAREN; break;
-    case '[': pToken->nType |= PH7_TK_OSB;   break;     /* Bitwise operation here,since the square bracket token '['
+      case '$': pToken->nType = PH7_TK_DOLLAR; break;
+      case '{': pToken->nType = PH7_TK_OCB;    break;
+      case '}': pToken->nType = PH7_TK_CCB;    break;
+      case '(': pToken->nType = PH7_TK_LPAREN; break;
+      case '[': pToken->nType |= PH7_TK_OSB;   break;   /* Bitwise operation here,since the square bracket token '['
                                                          * is a potential operator [i.e: subscripting] */
-    case ']': pToken->nType = PH7_TK_CSB;    break;
-    case ')': {
-      SySet *pTokSet = pStream->pSet;
-      /* Assemble type cast operators [i.e: (int),(float),(bool)...] */
-      if (pTokSet->nUsed >= 2) {
-        SyToken *pTmp;
-        /* Peek the last recongnized token */
-        pTmp = (SyToken *) SySetPeek(pTokSet);
-        if (pTmp->nType & PH7_TK_KEYWORD) {
-          sxi32 nID = SX_PTR_TO_INT(pTmp->pUserData);
-          if ((sxu32) nID & (PH7_TKWRD_ARRAY | PH7_TKWRD_INT | PH7_TKWRD_FLOAT | PH7_TKWRD_STRING | PH7_TKWRD_OBJECT | PH7_TKWRD_BOOL | PH7_TKWRD_UNSET)) {
-            pTmp = (SyToken *) SySetAt(pTokSet, pTokSet->nUsed - 2);
-            if (pTmp->nType & PH7_TK_LPAREN) {
-              /* Merge the three tokens '(' 'TYPE' ')' into a single one */
-              const char *zTypeCast = "(int)";
-              if (nID & PH7_TKWRD_FLOAT) {
-                zTypeCast = "(float)";
-              } else if (nID & PH7_TKWRD_BOOL) {
-                zTypeCast = "(bool)";
-              } else if (nID & PH7_TKWRD_STRING) {
-                zTypeCast = "(string)";
-              } else if (nID & PH7_TKWRD_ARRAY) {
-                zTypeCast = "(array)";
-              } else if (nID & PH7_TKWRD_OBJECT) {
-                zTypeCast = "(object)";
-              } else if (nID & PH7_TKWRD_UNSET) {
-                zTypeCast = "(unset)";
-              }
-              /* Reflect the change */
-              pToken->nType = PH7_TK_OP;
-              SyStringInitFromBuf(&pToken->sData, zTypeCast, SyStrlen(zTypeCast));
-              /* Save the instance associated with the type cast operator */
-              pToken->pUserData = (void *) PH7_ExprExtractOperator(&pToken->sData, 0);
-              /* Remove the two previous tokens */
-              pTokSet->nUsed -= 2;
-              return SXRET_OK;
-            }
-          }
-        }
-      }
-      pToken->nType = PH7_TK_RPAREN;
-      break;
-    }
-    case '\'': {
-      /* Single quoted string */
-      pStr->zString++;
-      while (pStream->zText < pStream->zEnd) {
-        if (pStream->zText[0] == '\'') {
-          if (pStream->zText[-1] != '\\') {
-            break;
-          } else {
-            const unsigned char *zPtr = &pStream->zText[-2];
-            sxi32 i = 1;
-            while (zPtr > pStream->zInput && zPtr[0] == '\\') {
-              zPtr--;
-              i++;
-            }
-            if ((i & 1) == 0) {
-              break;
-            }
-          }
-        }
-        if (pStream->zText[0] == '\n') {
-          pStream->nLine++;
-        }
-        pStream->zText++;
-      }
-      /* Record token length and type */
-      pStr->nByte = (sxu32) ((const char *) pStream->zText - pStr->zString);
-      pToken->nType = PH7_TK_SSTR;
-      /* Jump the trailing single quote */
-      pStream->zText++;
-      return SXRET_OK;
-    }
-    case '"': {
-      sxi32 iNest;
-      /* Double quoted string */
-      pStr->zString++;
-      while (pStream->zText < pStream->zEnd) {
-        if (pStream->zText[0] == '{' && &pStream->zText[1] < pStream->zEnd && pStream->zText[1] == '$') {
-          iNest = 1;
-          pStream->zText++;
-          /* TICKET 1433-40: Hnadle braces'{}' in double quoted string where everything is allowed */
-          while (pStream->zText < pStream->zEnd) {
-            if (pStream->zText[0] == '{') {
-              iNest++;
-            } else if (pStream->zText[0] == '}') {
-              iNest--;
-              if (iNest <= 0) {
-                pStream->zText++;
-                break;
-              }
-            } else if (pStream->zText[0] == '\n') {
-              pStream->nLine++;
-            }
-            pStream->zText++;
-          }
-          if (pStream->zText >= pStream->zEnd) {
-            break;
-          }
-        }
-        if (pStream->zText[0] == '"') {
-          if (pStream->zText[-1] != '\\') {
-            break;
-          } else {
-            const unsigned char *zPtr = &pStream->zText[-2];
-            sxi32 i = 1;
-            while (zPtr > pStream->zInput && zPtr[0] == '\\') {
-              zPtr--;
-              i++;
-            }
-            if ((i & 1) == 0) {
-              break;
-            }
-          }
-        }
-        if (pStream->zText[0] == '\n') {
-          pStream->nLine++;
-        }
-        pStream->zText++;
-      }
-      /* Record token length and type */
-      pStr->nByte = (sxu32) ((const char *) pStream->zText - pStr->zString);
-      pToken->nType = PH7_TK_DSTR;
-      /* Jump the trailing quote */
-      pStream->zText++;
-      return SXRET_OK;
-    }
-    case '`': {
-      /* Backtick quoted string */
-      pStr->zString++;
-      while (pStream->zText < pStream->zEnd) {
-        if (pStream->zText[0] == '`' && pStream->zText[-1] != '\\') {
-          break;
-        }
-        if (pStream->zText[0] == '\n') {
-          pStream->nLine++;
-        }
-        pStream->zText++;
-      }
-      /* Record token length and type */
-      pStr->nByte = (sxu32) ((const char *) pStream->zText - pStr->zString);
-      pToken->nType = PH7_TK_BSTR;
-      /* Jump the trailing backtick */
-      pStream->zText++;
-      return SXRET_OK;
-    }
-    case '\\': pToken->nType = PH7_TK_NSSEP;  break;
-    case ':':
-      if (pStream->zText < pStream->zEnd && pStream->zText[0] == ':') {
-        /* Current operator: '::' */
-        pStream->zText++;
-      } else {
-        pToken->nType = PH7_TK_COLON;         /* Single colon */
-      }
-      break;
-    case ',': pToken->nType |= PH7_TK_COMMA;  break;     /* Comma is also an operator */
-    case ';': pToken->nType = PH7_TK_SEMI;    break;
-    /* Handle combined operators [i.e: +=,===,!=== ...] */
-    case '=':
-      pToken->nType |= PH7_TK_EQUAL;
-      if (pStream->zText < pStream->zEnd) {
-        if (pStream->zText[0] == '=') {
-          pToken->nType &= ~PH7_TK_EQUAL;
-          /* Current operator: == */
-          pStream->zText++;
-          if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
-            /* Current operator: === */
-            pStream->zText++;
-          }
-        } else if (pStream->zText[0] == '>') {
-          /* Array operator: => */
-          pToken->nType = PH7_TK_ARRAY_OP;
-          pStream->zText++;
-        } else {
-          /* TICKET 1433-0010: Reference operator '=&' */
-          const unsigned char *zCur = pStream->zText;
-          sxu32 nLine = 0;
-          while (zCur < pStream->zEnd && zCur[0] < 0xc0 && SyisSpace(zCur[0])) {
-            if (zCur[0] == '\n') {
-              nLine++;
-            }
-            zCur++;
-          }
-          if (zCur < pStream->zEnd && zCur[0] == '&') {
-            /* Current operator: =& */
-            pToken->nType &= ~PH7_TK_EQUAL;
-            SyStringInitFromBuf(pStr, "=&", sizeof("=&") - 1);
-            /* Update token stream */
-            pStream->zText = &zCur[1];
-            pStream->nLine += nLine;
-          }
-        }
-      }
-      break;
-    case '!':
-      if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
-        /* Current operator: != */
-        pStream->zText++;
-        if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
-          /* Current operator: !== */
-          pStream->zText++;
-        }
-      }
-      break;
-    case '&':
-      pToken->nType |= PH7_TK_AMPER;
-      if (pStream->zText < pStream->zEnd) {
-        if (pStream->zText[0] == '&') {
-          pToken->nType &= ~PH7_TK_AMPER;
-          /* Current operator: && */
-          pStream->zText++;
-        } else if (pStream->zText[0] == '=') {
-          pToken->nType &= ~PH7_TK_AMPER;
-          /* Current operator: &= */
-          pStream->zText++;
-        }
-      }
-      break;
-    case '|':
-      if (pStream->zText < pStream->zEnd) {
-        if (pStream->zText[0] == '|') {
-          /* Current operator: || */
-          pStream->zText++;
-        } else if (pStream->zText[0] == '=') {
-          /* Current operator: |= */
-          pStream->zText++;
-        }
-      }
-      break;
-    case '+':
-      if (pStream->zText < pStream->zEnd) {
-        if (pStream->zText[0] == '+') {
-          /* Current operator: ++ */
-          pStream->zText++;
-        } else if (pStream->zText[0] == '=') {
-          /* Current operator: += */
-          pStream->zText++;
-        }
-      }
-      break;
-    case '-':
-      if (pStream->zText < pStream->zEnd) {
-        if (pStream->zText[0] == '-') {
-          /* Current operator: -- */
-          pStream->zText++;
-        } else if (pStream->zText[0] == '=') {
-          /* Current operator: -= */
-          pStream->zText++;
-        } else if (pStream->zText[0] == '>') {
-          /* Current operator: -> */
-          pStream->zText++;
-        }
-      }
-      break;
-    case '*':
-      if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
-        /* Current operator: *= */
-        pStream->zText++;
-      }
-      break;
-    case '/':
-      if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
-        /* Current operator: /= */
-        pStream->zText++;
-      }
-      break;
-    case '%':
-      if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
-        /* Current operator: %= */
-        pStream->zText++;
-      }
-      break;
-    case '^':
-      if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
-        /* Current operator: ^= */
-        pStream->zText++;
-      }
-      break;
-    case '.':
-      if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
-        /* Current operator: .= */
-        pStream->zText++;
-      }
-      break;
-    case '<':
-      if (pStream->zText < pStream->zEnd) {
-        if (pStream->zText[0] == '<') {
-          /* Current operator: << */
-          pStream->zText++;
-          if (pStream->zText < pStream->zEnd) {
-            if (pStream->zText[0] == '=') {
-              /* Current operator: <<= */
-              pStream->zText++;
-            } else if (pStream->zText[0] == '<') {
-              /* Current Token: <<<  */
-              pStream->zText++;
-              /* This may be the beginning of a Heredoc/Nowdoc string,try to delimit it */
-              rc = LexExtractHeredoc(&(*pStream), &(*pToken));
-              if (rc == SXRET_OK) {
-                /* Here/Now doc successfuly extracted */
+      case ']': pToken->nType = PH7_TK_CSB;    break;
+      case ')': {
+        SySet *pTokSet = pStream->pSet;
+        /* Assemble type cast operators [i.e: (int),(float),(bool)...] */
+        if (pTokSet->nUsed >= 2) {
+          SyToken *pTmp;
+          /* Peek the last recongnized token */
+          pTmp = (SyToken *) SySetPeek(pTokSet);
+          if (pTmp->nType & PH7_TK_KEYWORD) {
+            sxi32 nID = SX_PTR_TO_INT(pTmp->pUserData);
+            if ((sxu32) nID & (PH7_TKWRD_ARRAY | PH7_TKWRD_INT | PH7_TKWRD_FLOAT | PH7_TKWRD_STRING | PH7_TKWRD_OBJECT | PH7_TKWRD_BOOL | PH7_TKWRD_UNSET)) {
+              pTmp = (SyToken *) SySetAt(pTokSet, pTokSet->nUsed - 2);
+              if (pTmp->nType & PH7_TK_LPAREN) {
+                /* Merge the three tokens '(' 'TYPE' ')' into a single one */
+                const char *zTypeCast = "(int)";
+                if (nID & PH7_TKWRD_FLOAT) {
+                  zTypeCast = "(float)";
+                } else if (nID & PH7_TKWRD_BOOL) {
+                  zTypeCast = "(bool)";
+                } else if (nID & PH7_TKWRD_STRING) {
+                  zTypeCast = "(string)";
+                } else if (nID & PH7_TKWRD_ARRAY) {
+                  zTypeCast = "(array)";
+                } else if (nID & PH7_TKWRD_OBJECT) {
+                  zTypeCast = "(object)";
+                } else if (nID & PH7_TKWRD_UNSET) {
+                  zTypeCast = "(unset)";
+                }
+                /* Reflect the change */
+                pToken->nType = PH7_TK_OP;
+                SyStringInitFromBuf(&pToken->sData, zTypeCast, SyStrlen(zTypeCast));
+                /* Save the instance associated with the type cast operator */
+                pToken->pUserData = (void *) PH7_ExprExtractOperator(&pToken->sData, 0);
+                /* Remove the two previous tokens */
+                pTokSet->nUsed -= 2;
                 return SXRET_OK;
               }
             }
           }
-        } else if (pStream->zText[0] == '>') {
-          /* Current operator: <> */
-          pStream->zText++;
-        } else if (pStream->zText[0] == '=') {
-          /* Current operator: <= */
+        }
+        pToken->nType = PH7_TK_RPAREN;
+        break;
+      }
+      case '\'': {
+        /* Single quoted string */
+        pStr->zString++;
+        while (pStream->zText < pStream->zEnd) {
+          if (pStream->zText[0] == '\'') {
+            if (pStream->zText[-1] != '\\') {
+              break;
+            } else {
+              const unsigned char *zPtr = &pStream->zText[-2];
+              sxi32 i = 1;
+              while (zPtr > pStream->zInput && zPtr[0] == '\\') {
+                zPtr--;
+                i++;
+              }
+              if ((i & 1) == 0) {
+                break;
+              }
+            }
+          }
+          if (pStream->zText[0] == '\n') {
+            pStream->nLine++;
+          }
           pStream->zText++;
         }
+        /* Record token length and type */
+        pStr->nByte = (sxu32) ((const char *) pStream->zText - pStr->zString);
+        pToken->nType = PH7_TK_SSTR;
+        /* Jump the trailing single quote */
+        pStream->zText++;
+        return SXRET_OK;
       }
-      break;
-    case '>':
-      if (pStream->zText < pStream->zEnd) {
-        if (pStream->zText[0] == '>') {
-          /* Current operator: >> */
+      case '"': {
+        sxi32 iNest;
+        /* Double quoted string */
+        pStr->zString++;
+        while (pStream->zText < pStream->zEnd) {
+          if (pStream->zText[0] == '{' && &pStream->zText[1] < pStream->zEnd && pStream->zText[1] == '$') {
+            iNest = 1;
+            pStream->zText++;
+            /* TICKET 1433-40: Hnadle braces'{}' in double quoted string where everything is allowed */
+            while (pStream->zText < pStream->zEnd) {
+              if (pStream->zText[0] == '{') {
+                iNest++;
+              } else if (pStream->zText[0] == '}') {
+                iNest--;
+                if (iNest <= 0) {
+                  pStream->zText++;
+                  break;
+                }
+              } else if (pStream->zText[0] == '\n') {
+                pStream->nLine++;
+              }
+              pStream->zText++;
+            }
+            if (pStream->zText >= pStream->zEnd) {
+              break;
+            }
+          }
+          if (pStream->zText[0] == '"') {
+            if (pStream->zText[-1] != '\\') {
+              break;
+            } else {
+              const unsigned char *zPtr = &pStream->zText[-2];
+              sxi32 i = 1;
+              while (zPtr > pStream->zInput && zPtr[0] == '\\') {
+                zPtr--;
+                i++;
+              }
+              if ((i & 1) == 0) {
+                break;
+              }
+            }
+          }
+          if (pStream->zText[0] == '\n') {
+            pStream->nLine++;
+          }
+          pStream->zText++;
+        }
+        /* Record token length and type */
+        pStr->nByte = (sxu32) ((const char *) pStream->zText - pStr->zString);
+        pToken->nType = PH7_TK_DSTR;
+        /* Jump the trailing quote */
+        pStream->zText++;
+        return SXRET_OK;
+      }
+      case '`': {
+        /* Backtick quoted string */
+        pStr->zString++;
+        while (pStream->zText < pStream->zEnd) {
+          if (pStream->zText[0] == '`' && pStream->zText[-1] != '\\') {
+            break;
+          }
+          if (pStream->zText[0] == '\n') {
+            pStream->nLine++;
+          }
+          pStream->zText++;
+        }
+        /* Record token length and type */
+        pStr->nByte = (sxu32) ((const char *) pStream->zText - pStr->zString);
+        pToken->nType = PH7_TK_BSTR;
+        /* Jump the trailing backtick */
+        pStream->zText++;
+        return SXRET_OK;
+      }
+      case '\\': pToken->nType = PH7_TK_NSSEP;  break;
+      case ':':
+        if (pStream->zText < pStream->zEnd && pStream->zText[0] == ':') {
+          /* Current operator: '::' */
+          pStream->zText++;
+        } else {
+          pToken->nType = PH7_TK_COLON;       /* Single colon */
+        }
+        break;
+      case ',': pToken->nType |= PH7_TK_COMMA;  break;   /* Comma is also an operator */
+      case ';': pToken->nType = PH7_TK_SEMI;    break;
+      /* Handle combined operators [i.e: +=,===,!=== ...] */
+      case '=':
+        pToken->nType |= PH7_TK_EQUAL;
+        if (pStream->zText < pStream->zEnd) {
+          if (pStream->zText[0] == '=') {
+            pToken->nType &= ~PH7_TK_EQUAL;
+            /* Current operator: == */
+            pStream->zText++;
+            if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
+              /* Current operator: === */
+              pStream->zText++;
+            }
+          } else if (pStream->zText[0] == '>') {
+            /* Array operator: => */
+            pToken->nType = PH7_TK_ARRAY_OP;
+            pStream->zText++;
+          } else {
+            /* TICKET 1433-0010: Reference operator '=&' */
+            const unsigned char *zCur = pStream->zText;
+            sxu32 nLine = 0;
+            while (zCur < pStream->zEnd && zCur[0] < 0xc0 && SyisSpace(zCur[0])) {
+              if (zCur[0] == '\n') {
+                nLine++;
+              }
+              zCur++;
+            }
+            if (zCur < pStream->zEnd && zCur[0] == '&') {
+              /* Current operator: =& */
+              pToken->nType &= ~PH7_TK_EQUAL;
+              SyStringInitFromBuf(pStr, "=&", sizeof("=&") - 1);
+              /* Update token stream */
+              pStream->zText = &zCur[1];
+              pStream->nLine += nLine;
+            }
+          }
+        }
+        break;
+      case '!':
+        if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
+          /* Current operator: != */
           pStream->zText++;
           if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
-            /* Current operator: >>= */
+            /* Current operator: !== */
             pStream->zText++;
           }
-        } else if (pStream->zText[0] == '=') {
-          /* Current operator: >= */
+        }
+        break;
+      case '&':
+        pToken->nType |= PH7_TK_AMPER;
+        if (pStream->zText < pStream->zEnd) {
+          if (pStream->zText[0] == '&') {
+            pToken->nType &= ~PH7_TK_AMPER;
+            /* Current operator: && */
+            pStream->zText++;
+          } else if (pStream->zText[0] == '=') {
+            pToken->nType &= ~PH7_TK_AMPER;
+            /* Current operator: &= */
+            pStream->zText++;
+          }
+        }
+        break;
+      case '|':
+        if (pStream->zText < pStream->zEnd) {
+          if (pStream->zText[0] == '|') {
+            /* Current operator: || */
+            pStream->zText++;
+          } else if (pStream->zText[0] == '=') {
+            /* Current operator: |= */
+            pStream->zText++;
+          }
+        }
+        break;
+      case '+':
+        if (pStream->zText < pStream->zEnd) {
+          if (pStream->zText[0] == '+') {
+            /* Current operator: ++ */
+            pStream->zText++;
+          } else if (pStream->zText[0] == '=') {
+            /* Current operator: += */
+            pStream->zText++;
+          }
+        }
+        break;
+      case '-':
+        if (pStream->zText < pStream->zEnd) {
+          if (pStream->zText[0] == '-') {
+            /* Current operator: -- */
+            pStream->zText++;
+          } else if (pStream->zText[0] == '=') {
+            /* Current operator: -= */
+            pStream->zText++;
+          } else if (pStream->zText[0] == '>') {
+            /* Current operator: -> */
+            pStream->zText++;
+          }
+        }
+        break;
+      case '*':
+        if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
+          /* Current operator: *= */
           pStream->zText++;
         }
-      }
-      break;
-    default:
-      break;
+        break;
+      case '/':
+        if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
+          /* Current operator: /= */
+          pStream->zText++;
+        }
+        break;
+      case '%':
+        if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
+          /* Current operator: %= */
+          pStream->zText++;
+        }
+        break;
+      case '^':
+        if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
+          /* Current operator: ^= */
+          pStream->zText++;
+        }
+        break;
+      case '.':
+        if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
+          /* Current operator: .= */
+          pStream->zText++;
+        }
+        break;
+      case '<':
+        if (pStream->zText < pStream->zEnd) {
+          if (pStream->zText[0] == '<') {
+            /* Current operator: << */
+            pStream->zText++;
+            if (pStream->zText < pStream->zEnd) {
+              if (pStream->zText[0] == '=') {
+                /* Current operator: <<= */
+                pStream->zText++;
+              } else if (pStream->zText[0] == '<') {
+                /* Current Token: <<<  */
+                pStream->zText++;
+                /* This may be the beginning of a Heredoc/Nowdoc string,try to delimit it */
+                rc = LexExtractHeredoc(&(*pStream), &(*pToken));
+                if (rc == SXRET_OK) {
+                  /* Here/Now doc successfuly extracted */
+                  return SXRET_OK;
+                }
+              }
+            }
+          } else if (pStream->zText[0] == '>') {
+            /* Current operator: <> */
+            pStream->zText++;
+          } else if (pStream->zText[0] == '=') {
+            /* Current operator: <= */
+            pStream->zText++;
+          }
+        }
+        break;
+      case '>':
+        if (pStream->zText < pStream->zEnd) {
+          if (pStream->zText[0] == '>') {
+            /* Current operator: >> */
+            pStream->zText++;
+            if (pStream->zText < pStream->zEnd && pStream->zText[0] == '=') {
+              /* Current operator: >>= */
+              pStream->zText++;
+            }
+          } else if (pStream->zText[0] == '=') {
+            /* Current operator: >= */
+            pStream->zText++;
+          }
+        }
+        break;
+      default:
+        break;
     }
     if (pStr->nByte <= 0) {
       /* Record token length */

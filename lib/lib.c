@@ -1847,22 +1847,22 @@ PH7_PRIVATE sxi32 SyStrToInt64(const char *zSrc, sxu32 nLen, void *pOutVal, cons
 PH7_PRIVATE sxi32 SyHexToint(sxi32 c)
 {
   switch (c) {
-  case '0': return 0;
-  case '1': return 1;
-  case '2': return 2;
-  case '3': return 3;
-  case '4': return 4;
-  case '5': return 5;
-  case '6': return 6;
-  case '7': return 7;
-  case '8': return 8;
-  case '9': return 9;
-  case 'A': case 'a': return 10;
-  case 'B': case 'b': return 11;
-  case 'C': case 'c': return 12;
-  case 'D': case 'd': return 13;
-  case 'E': case 'e': return 14;
-  case 'F': case 'f': return 15;
+    case '0': return 0;
+    case '1': return 1;
+    case '2': return 2;
+    case '3': return 3;
+    case '4': return 4;
+    case '5': return 5;
+    case '6': return 6;
+    case '7': return 7;
+    case '8': return 8;
+    case '9': return 9;
+    case 'A': case 'a': return 10;
+    case 'B': case 'b': return 11;
+    case 'C': case 'c': return 12;
+    case 'D': case 'd': return 13;
+    case 'E': case 'e': return 14;
+    case 'F': case 'f': return 15;
   }
   return -1;
 }
@@ -2686,12 +2686,12 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
       flag_alternateform = flag_zeropad = 0;
     do {
       switch (c) {
-      case '-':   flag_leftjustify = 1;     c = 0;   break;
-      case '+':   flag_plussign = 1;        c = 0;   break;
-      case ' ':   flag_blanksign = 1;       c = 0;   break;
-      case '#':   flag_alternateform = 1;   c = 0;   break;
-      case '0':   flag_zeropad = 1;         c = 0;   break;
-      default:                                       break;
+        case '-':   flag_leftjustify = 1;     c = 0;   break;
+        case '+':   flag_plussign = 1;        c = 0;   break;
+        case ' ':   flag_blanksign = 1;       c = 0;   break;
+        case '#':   flag_alternateform = 1;   c = 0;   break;
+        case '0':   flag_zeropad = 1;         c = 0;   break;
+        default:                                       break;
       }
     } while (c == 0 && (c = (*++zFormat)) != 0);
     /* Get the field width */
@@ -2769,266 +2769,266 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
     **   infop                       Pointer to the appropriate info struct.
     */
     switch (xtype) {
-    case SXFMT_RADIX:
-      if (flag_long > 0) {
-        if (flag_long > 1) {
-          /* BSD quad: expect a 64-bit integer */
-          longvalue = va_arg(ap, sxi64);
+      case SXFMT_RADIX:
+        if (flag_long > 0) {
+          if (flag_long > 1) {
+            /* BSD quad: expect a 64-bit integer */
+            longvalue = va_arg(ap, sxi64);
+          } else {
+            longvalue = va_arg(ap, sxlong);
+          }
         } else {
-          longvalue = va_arg(ap, sxlong);
+          if (infop->flags & SXFLAG_SIGNED) {
+            longvalue = va_arg(ap, sxi32);
+          } else {
+            longvalue = va_arg(ap, sxu32);
+          }
         }
-      } else {
-        if (infop->flags & SXFLAG_SIGNED) {
-          longvalue = va_arg(ap, sxi32);
-        } else {
-          longvalue = va_arg(ap, sxu32);
-        }
-      }
-      /* Limit the precision to prevent overflowing buf[] during conversion */
-      if (precision > SXFMT_BUFSIZ - 40) precision = SXFMT_BUFSIZ - 40;
+        /* Limit the precision to prevent overflowing buf[] during conversion */
+        if (precision > SXFMT_BUFSIZ - 40) precision = SXFMT_BUFSIZ - 40;
 #if 1
-      /* For the format %#x, the value zero is printed "0" not "0x0".
-      ** I think this is stupid.*/
-      if (longvalue == 0) flag_alternateform = 0;
+        /* For the format %#x, the value zero is printed "0" not "0x0".
+        ** I think this is stupid.*/
+        if (longvalue == 0) flag_alternateform = 0;
 #else
-      /* More sensible: turn off the prefix for octal (to prevent "00"),
-      ** but leave the prefix for hex.*/
-      if (longvalue == 0 && infop->base == 8) flag_alternateform = 0;
+        /* More sensible: turn off the prefix for octal (to prevent "00"),
+        ** but leave the prefix for hex.*/
+        if (longvalue == 0 && infop->base == 8) flag_alternateform = 0;
 #endif
-      if (infop->flags & SXFLAG_SIGNED) {
-        if (longvalue < 0) {
-          longvalue = -longvalue;
-          /* Ticket 1433-003 */
+        if (infop->flags & SXFLAG_SIGNED) {
           if (longvalue < 0) {
-            /* Overflow */
-            longvalue = 0x7FFFFFFFFFFFFFFF;
-          }
-          prefix = '-';
-        } else if (flag_plussign) prefix = '+';
-        else if (flag_blanksign) prefix = ' ';
-        else prefix = 0;
-      } else {
-        if (longvalue < 0) {
-          longvalue = -longvalue;
-          /* Ticket 1433-003 */
-          if (longvalue < 0) {
-            /* Overflow */
-            longvalue = 0x7FFFFFFFFFFFFFFF;
-          }
-        }
-        prefix = 0;
-      }
-      if (flag_zeropad && precision < width - (prefix != 0)) {
-        precision = width - (prefix != 0);
-      }
-      bufpt = &buf[SXFMT_BUFSIZ - 1];
-      {
-        register char *cset;         /* Use registers for speed */
-        register int base;
-        cset = infop->charset;
-        base = infop->base;
-        do {                                             /* Convert to ascii */
-          *(--bufpt) = cset[longvalue % base];
-          longvalue = longvalue / base;
-        } while (longvalue > 0);
-      }
-      length = &buf[SXFMT_BUFSIZ - 1] - bufpt;
-      for (idx = precision - length ; idx > 0 ; idx--) {
-        *(--bufpt) = '0';                               /* Zero pad */
-      }
-      if (prefix) *(--bufpt) = prefix; /* Add sign */
-      if (flag_alternateform && infop->prefix) {          /* Add "0" or "0x" */
-        char *pre, x;
-        pre = infop->prefix;
-        if (*bufpt != pre[0]) {
-          for (pre = infop->prefix ; (x = (*pre)) != 0 ; pre++) *(--bufpt) = x;
-        }
-      }
-      length = &buf[SXFMT_BUFSIZ - 1] - bufpt;
-      break;
-    case SXFMT_FLOAT:
-    case SXFMT_EXP:
-    case SXFMT_GENERIC:
-#ifndef SX_OMIT_FLOATINGPOINT
-      realvalue = va_arg(ap, double);
-      if (precision < 0) precision = 6; /* Set default precision */
-      if (precision > SXFMT_BUFSIZ - 40) precision = SXFMT_BUFSIZ - 40;
-      if (realvalue < 0.0) {
-        realvalue = -realvalue;
-        prefix = '-';
-      } else {
-        if (flag_plussign) prefix = '+';
-        else if (flag_blanksign) prefix = ' ';
-        else prefix = 0;
-      }
-      if (infop->type == SXFMT_GENERIC && precision > 0) precision--;
-      rounder = 0.0;
-#if 0
-      /* Rounding works like BSD when the constant 0.4999 is used.Wierd! */
-      for (idx = precision, rounder = 0.4999 ; idx > 0 ; idx--, rounder *= 0.1);
-#else
-      /* It makes more sense to use 0.5 */
-      for (idx = precision, rounder = 0.5 ; idx > 0 ; idx--, rounder *= 0.1);
-#endif
-      if (infop->type == SXFMT_FLOAT) realvalue += rounder;
-      /* Normalize realvalue to within 10.0 > realvalue >= 1.0 */
-      exp = 0;
-      if (realvalue > 0.0) {
-        while (realvalue >= 1e8 && exp <= 350) { realvalue *= 1e-8; exp += 8; }
-        while (realvalue >= 10.0 && exp <= 350) { realvalue *= 0.1; exp++; }
-        while (realvalue < 1e-8 && exp >= -350) { realvalue *= 1e8; exp -= 8; }
-        while (realvalue < 1.0 && exp >= -350) { realvalue *= 10.0; exp--; }
-        if (exp > 350 || exp < -350) {
-          bufpt = "NaN";
-          length = 3;
-          break;
-        }
-      }
-      bufpt = buf;
-      /*
-      ** If the field type is etGENERIC, then convert to either etEXP
-      ** or etFLOAT, as appropriate.
-      */
-      flag_exp = xtype == SXFMT_EXP;
-      if (xtype != SXFMT_FLOAT) {
-        realvalue += rounder;
-        if (realvalue >= 10.0) { realvalue *= 0.1; exp++; }
-      }
-      if (xtype == SXFMT_GENERIC) {
-        flag_rtz = !flag_alternateform;
-        if (exp < -4 || exp > precision) {
-          xtype = SXFMT_EXP;
+            longvalue = -longvalue;
+            /* Ticket 1433-003 */
+            if (longvalue < 0) {
+              /* Overflow */
+              longvalue = 0x7FFFFFFFFFFFFFFF;
+            }
+            prefix = '-';
+          } else if (flag_plussign) prefix = '+';
+          else if (flag_blanksign) prefix = ' ';
+          else prefix = 0;
         } else {
-          precision = precision - exp;
-          xtype = SXFMT_FLOAT;
-        }
-      } else {
-        flag_rtz = 0;
-      }
-      /*
-      ** The "exp+precision" test causes output to be of type etEXP if
-      ** the precision is too large to fit in buf[].
-      */
-      nsd = 0;
-      if (xtype == SXFMT_FLOAT && exp + precision < SXFMT_BUFSIZ - 30) {
-        flag_dp = (precision > 0 || flag_alternateform);
-        if (prefix) *(bufpt++) = prefix; /* Sign */
-        if (exp < 0) *(bufpt++) = '0'; /* Digits before "." */
-        else for (; exp >= 0 ; exp--) *(bufpt++) = (char) getdigit(&realvalue, &nsd);
-        if (flag_dp) *(bufpt++) = '.'; /* The decimal point */
-        for (exp++ ; exp < 0 && precision > 0 ; precision--, exp++) {
-          *(bufpt++) = '0';
-        }
-        while ((precision--) > 0) *(bufpt++) = (char) getdigit(&realvalue, &nsd);
-        *(bufpt--) = 0;                             /* Null terminate */
-        if (flag_rtz && flag_dp) {           /* Remove trailing zeros and "." */
-          while (bufpt >= buf && *bufpt == '0') *(bufpt--) = 0;
-          if (bufpt >= buf && *bufpt == '.') *(bufpt--) = 0;
-        }
-        bufpt++;                              /* point to next free slot */
-      } else {       /* etEXP or etGENERIC */
-        flag_dp = (precision > 0 || flag_alternateform);
-        if (prefix) *(bufpt++) = prefix; /* Sign */
-        *(bufpt++) = (char) getdigit(&realvalue, &nsd);         /* First digit */
-        if (flag_dp) *(bufpt++) = '.'; /* Decimal point */
-        while ((precision--) > 0) *(bufpt++) = (char) getdigit(&realvalue, &nsd);
-        bufpt--;                              /* point to last digit */
-        if (flag_rtz && flag_dp) {              /* Remove tail zeros */
-          while (bufpt >= buf && *bufpt == '0') *(bufpt--) = 0;
-          if (bufpt >= buf && *bufpt == '.') *(bufpt--) = 0;
-        }
-        bufpt++;                              /* point to next free slot */
-        if (exp || flag_exp) {
-          *(bufpt++) = infop->charset[0];
-          if (exp < 0) { *(bufpt++) = '-'; exp = -exp; }               /* sign of exp */
-          else { *(bufpt++) = '+'; }
-          if (exp >= 100) {
-            *(bufpt++) = (char) ((exp / 100) + '0');                  /* 100's digit */
-            exp %= 100;
+          if (longvalue < 0) {
+            longvalue = -longvalue;
+            /* Ticket 1433-003 */
+            if (longvalue < 0) {
+              /* Overflow */
+              longvalue = 0x7FFFFFFFFFFFFFFF;
+            }
           }
-          *(bufpt++) = (char) (exp / 10 + '0');                       /* 10's digit */
-          *(bufpt++) = (char) (exp % 10 + '0');                       /* 1's digit */
+          prefix = 0;
         }
-      }
-      /* The converted number is in buf[] and zero terminated.Output it.
-      ** Note that the number is in the usual order, not reversed as with
-      ** integer conversions.*/
-      length = bufpt - buf;
-      bufpt = buf;
-
-      /* Special case:  Add leading zeros if the flag_zeropad flag is
-      ** set and we are not left justified */
-      if (flag_zeropad && !flag_leftjustify && length < width) {
-        int i;
-        int nPad = width - length;
-        for (i = width ; i >= nPad ; i--) {
-          bufpt[i] = bufpt[i - nPad];
+        if (flag_zeropad && precision < width - (prefix != 0)) {
+          precision = width - (prefix != 0);
         }
-        i = prefix != 0;
-        while (nPad--) bufpt[i++] = '0';
-        length = width;
-      }
+        bufpt = &buf[SXFMT_BUFSIZ - 1];
+        {
+          register char *cset;       /* Use registers for speed */
+          register int base;
+          cset = infop->charset;
+          base = infop->base;
+          do {                                           /* Convert to ascii */
+            *(--bufpt) = cset[longvalue % base];
+            longvalue = longvalue / base;
+          } while (longvalue > 0);
+        }
+        length = &buf[SXFMT_BUFSIZ - 1] - bufpt;
+        for (idx = precision - length ; idx > 0 ; idx--) {
+          *(--bufpt) = '0';                             /* Zero pad */
+        }
+        if (prefix) *(--bufpt) = prefix; /* Add sign */
+        if (flag_alternateform && infop->prefix) {        /* Add "0" or "0x" */
+          char *pre, x;
+          pre = infop->prefix;
+          if (*bufpt != pre[0]) {
+            for (pre = infop->prefix ; (x = (*pre)) != 0 ; pre++) *(--bufpt) = x;
+          }
+        }
+        length = &buf[SXFMT_BUFSIZ - 1] - bufpt;
+        break;
+      case SXFMT_FLOAT:
+      case SXFMT_EXP:
+      case SXFMT_GENERIC:
+#ifndef SX_OMIT_FLOATINGPOINT
+        realvalue = va_arg(ap, double);
+        if (precision < 0) precision = 6; /* Set default precision */
+        if (precision > SXFMT_BUFSIZ - 40) precision = SXFMT_BUFSIZ - 40;
+        if (realvalue < 0.0) {
+          realvalue = -realvalue;
+          prefix = '-';
+        } else {
+          if (flag_plussign) prefix = '+';
+          else if (flag_blanksign) prefix = ' ';
+          else prefix = 0;
+        }
+        if (infop->type == SXFMT_GENERIC && precision > 0) precision--;
+        rounder = 0.0;
+#if 0
+        /* Rounding works like BSD when the constant 0.4999 is used.Wierd! */
+        for (idx = precision, rounder = 0.4999 ; idx > 0 ; idx--, rounder *= 0.1);
 #else
-      bufpt = " ";
-      length = (int) sizeof(" ") - 1;
-#endif /* SX_OMIT_FLOATINGPOINT */
-      break;
-    case SXFMT_SIZE: {
-      int *pSize = va_arg(ap, int *);
-      *pSize = ((SyFmtConsumer *) pUserData)->nLen;
-      length = width = 0;
-    }
-    break;
-    case SXFMT_PERCENT:
-      buf[0] = '%';
-      bufpt = buf;
-      length = 1;
-      break;
-    case SXFMT_CHARX:
-      c = va_arg(ap, int);
-      buf[0] = (char) c;
-      /* Limit the precision to prevent overflowing buf[] during conversion */
-      if (precision > SXFMT_BUFSIZ - 40) precision = SXFMT_BUFSIZ - 40;
-      if (precision >= 0) {
-        for (idx = 1 ; idx < precision ; idx++) buf[idx] = (char) c;
-        length = precision;
-      } else {
-        length = 1;
-      }
-      bufpt = buf;
-      break;
-    case SXFMT_STRING:
-      bufpt = va_arg(ap, char *);
-      if (bufpt == 0) {
+        /* It makes more sense to use 0.5 */
+        for (idx = precision, rounder = 0.5 ; idx > 0 ; idx--, rounder *= 0.1);
+#endif
+        if (infop->type == SXFMT_FLOAT) realvalue += rounder;
+        /* Normalize realvalue to within 10.0 > realvalue >= 1.0 */
+        exp = 0;
+        if (realvalue > 0.0) {
+          while (realvalue >= 1e8 && exp <= 350) { realvalue *= 1e-8; exp += 8; }
+          while (realvalue >= 10.0 && exp <= 350) { realvalue *= 0.1; exp++; }
+          while (realvalue < 1e-8 && exp >= -350) { realvalue *= 1e8; exp -= 8; }
+          while (realvalue < 1.0 && exp >= -350) { realvalue *= 10.0; exp--; }
+          if (exp > 350 || exp < -350) {
+            bufpt = "NaN";
+            length = 3;
+            break;
+          }
+        }
+        bufpt = buf;
+        /*
+        ** If the field type is etGENERIC, then convert to either etEXP
+        ** or etFLOAT, as appropriate.
+        */
+        flag_exp = xtype == SXFMT_EXP;
+        if (xtype != SXFMT_FLOAT) {
+          realvalue += rounder;
+          if (realvalue >= 10.0) { realvalue *= 0.1; exp++; }
+        }
+        if (xtype == SXFMT_GENERIC) {
+          flag_rtz = !flag_alternateform;
+          if (exp < -4 || exp > precision) {
+            xtype = SXFMT_EXP;
+          } else {
+            precision = precision - exp;
+            xtype = SXFMT_FLOAT;
+          }
+        } else {
+          flag_rtz = 0;
+        }
+        /*
+        ** The "exp+precision" test causes output to be of type etEXP if
+        ** the precision is too large to fit in buf[].
+        */
+        nsd = 0;
+        if (xtype == SXFMT_FLOAT && exp + precision < SXFMT_BUFSIZ - 30) {
+          flag_dp = (precision > 0 || flag_alternateform);
+          if (prefix) *(bufpt++) = prefix; /* Sign */
+          if (exp < 0) *(bufpt++) = '0'; /* Digits before "." */
+          else for (; exp >= 0 ; exp--) *(bufpt++) = (char) getdigit(&realvalue, &nsd);
+          if (flag_dp) *(bufpt++) = '.'; /* The decimal point */
+          for (exp++ ; exp < 0 && precision > 0 ; precision--, exp++) {
+            *(bufpt++) = '0';
+          }
+          while ((precision--) > 0) *(bufpt++) = (char) getdigit(&realvalue, &nsd);
+          *(bufpt--) = 0;                           /* Null terminate */
+          if (flag_rtz && flag_dp) {         /* Remove trailing zeros and "." */
+            while (bufpt >= buf && *bufpt == '0') *(bufpt--) = 0;
+            if (bufpt >= buf && *bufpt == '.') *(bufpt--) = 0;
+          }
+          bufpt++;                            /* point to next free slot */
+        } else {     /* etEXP or etGENERIC */
+          flag_dp = (precision > 0 || flag_alternateform);
+          if (prefix) *(bufpt++) = prefix; /* Sign */
+          *(bufpt++) = (char) getdigit(&realvalue, &nsd);       /* First digit */
+          if (flag_dp) *(bufpt++) = '.'; /* Decimal point */
+          while ((precision--) > 0) *(bufpt++) = (char) getdigit(&realvalue, &nsd);
+          bufpt--;                            /* point to last digit */
+          if (flag_rtz && flag_dp) {            /* Remove tail zeros */
+            while (bufpt >= buf && *bufpt == '0') *(bufpt--) = 0;
+            if (bufpt >= buf && *bufpt == '.') *(bufpt--) = 0;
+          }
+          bufpt++;                            /* point to next free slot */
+          if (exp || flag_exp) {
+            *(bufpt++) = infop->charset[0];
+            if (exp < 0) { *(bufpt++) = '-'; exp = -exp; }             /* sign of exp */
+            else { *(bufpt++) = '+'; }
+            if (exp >= 100) {
+              *(bufpt++) = (char) ((exp / 100) + '0');                /* 100's digit */
+              exp %= 100;
+            }
+            *(bufpt++) = (char) (exp / 10 + '0');                     /* 10's digit */
+            *(bufpt++) = (char) (exp % 10 + '0');                     /* 1's digit */
+          }
+        }
+        /* The converted number is in buf[] and zero terminated.Output it.
+        ** Note that the number is in the usual order, not reversed as with
+        ** integer conversions.*/
+        length = bufpt - buf;
+        bufpt = buf;
+
+        /* Special case:  Add leading zeros if the flag_zeropad flag is
+        ** set and we are not left justified */
+        if (flag_zeropad && !flag_leftjustify && length < width) {
+          int i;
+          int nPad = width - length;
+          for (i = width ; i >= nPad ; i--) {
+            bufpt[i] = bufpt[i - nPad];
+          }
+          i = prefix != 0;
+          while (nPad--) bufpt[i++] = '0';
+          length = width;
+        }
+#else
         bufpt = " ";
         length = (int) sizeof(" ") - 1;
+#endif /* SX_OMIT_FLOATINGPOINT */
         break;
+      case SXFMT_SIZE: {
+        int *pSize = va_arg(ap, int *);
+        *pSize = ((SyFmtConsumer *) pUserData)->nLen;
+        length = width = 0;
       }
-      length = precision;
-      if (precision < 0) {
+      break;
+      case SXFMT_PERCENT:
+        buf[0] = '%';
+        bufpt = buf;
+        length = 1;
+        break;
+      case SXFMT_CHARX:
+        c = va_arg(ap, int);
+        buf[0] = (char) c;
+        /* Limit the precision to prevent overflowing buf[] during conversion */
+        if (precision > SXFMT_BUFSIZ - 40) precision = SXFMT_BUFSIZ - 40;
+        if (precision >= 0) {
+          for (idx = 1 ; idx < precision ; idx++) buf[idx] = (char) c;
+          length = precision;
+        } else {
+          length = 1;
+        }
+        bufpt = buf;
+        break;
+      case SXFMT_STRING:
+        bufpt = va_arg(ap, char *);
+        if (bufpt == 0) {
+          bufpt = " ";
+          length = (int) sizeof(" ") - 1;
+          break;
+        }
+        length = precision;
+        if (precision < 0) {
+          /* Symisc extension */
+          length = (int) SyStrlen(bufpt);
+        }
+        if (precision >= 0 && precision < length) length = precision;
+        break;
+      case SXFMT_RAWSTR: {
         /* Symisc extension */
-        length = (int) SyStrlen(bufpt);
-      }
-      if (precision >= 0 && precision < length) length = precision;
-      break;
-    case SXFMT_RAWSTR: {
-      /* Symisc extension */
-      SyString *pStr = va_arg(ap, SyString *);
-      if (pStr == 0 || pStr->zString == 0) {
-        bufpt = " ";
-        length = (int) sizeof(char);
+        SyString *pStr = va_arg(ap, SyString *);
+        if (pStr == 0 || pStr->zString == 0) {
+          bufpt = " ";
+          length = (int) sizeof(char);
+          break;
+        }
+        bufpt = (char *) pStr->zString;
+        length = (int) pStr->nByte;
         break;
       }
-      bufpt = (char *) pStr->zString;
-      length = (int) pStr->nByte;
-      break;
-    }
-    case SXFMT_ERROR:
-      buf[0] = '?';
-      bufpt = buf;
-      length = (int) sizeof(char);
-      if (c == 0) zFormat--;
-      break;
+      case SXFMT_ERROR:
+        buf[0] = '?';
+        bufpt = buf;
+        length = (int) sizeof(char);
+        if (c == 0) zFormat--;
+        break;
     }    /* End switch over the format type */
     /*
     ** The text of the conversion is pointed to by "bufpt" and is
@@ -3087,17 +3087,17 @@ static sxi32 FormatConsumer(const void *pSrc, unsigned int nLen, void *pData)
   SyFmtConsumer *pConsumer = (SyFmtConsumer *) pData;
   sxi32 rc = SXERR_ABORT;
   switch (pConsumer->nType) {
-  case SXFMT_CONS_PROC:
-    /* User callback */
-    rc = pConsumer->uConsumer.sFunc.xUserConsumer(pSrc, nLen, pConsumer->uConsumer.sFunc.pUserData);
-    break;
-  case SXFMT_CONS_BLOB:
-    /* Blob consumer */
-    rc = SyBlobAppend(pConsumer->uConsumer.pBlob, pSrc, (sxu32) nLen);
-    break;
-  default:
-    /* Unknown consumer */
-    break;
+    case SXFMT_CONS_PROC:
+      /* User callback */
+      rc = pConsumer->uConsumer.sFunc.xUserConsumer(pSrc, nLen, pConsumer->uConsumer.sFunc.pUserData);
+      break;
+    case SXFMT_CONS_BLOB:
+      /* Blob consumer */
+      rc = SyBlobAppend(pConsumer->uConsumer.pBlob, pSrc, (sxu32) nLen);
+      break;
+    default:
+      /* Unknown consumer */
+      break;
   }
   /* Update total number of bytes consumed so far */
   pConsumer->nLen += nLen;
@@ -3114,20 +3114,20 @@ static sxi32 FormatMount(sxi32 nType, void *pConsumer, ProcConsumer xUserCons, v
     *pOutLen = 0;
   }
   switch (nType) {
-  case SXFMT_CONS_PROC:
+    case SXFMT_CONS_PROC:
 #if defined(UNTRUST)
-    if (xUserCons == 0) {
-      return SXERR_EMPTY;
-    }
+      if (xUserCons == 0) {
+        return SXERR_EMPTY;
+      }
 #endif
-    sCons.uConsumer.sFunc.xUserConsumer = xUserCons;
-    sCons.uConsumer.sFunc.pUserData = pUserData;
-    break;
-  case SXFMT_CONS_BLOB:
-    sCons.uConsumer.pBlob = (SyBlob *) pConsumer;
-    break;
-  default:
-    return SXERR_UNKNOWN;
+      sCons.uConsumer.sFunc.xUserConsumer = xUserCons;
+      sCons.uConsumer.sFunc.pUserData = pUserData;
+      break;
+    case SXFMT_CONS_BLOB:
+      sCons.uConsumer.pBlob = (SyBlob *) pConsumer;
+      break;
+    default:
+      return SXERR_UNKNOWN;
   }
   InternFormat(FormatConsumer, &sCons, zFormat, ap);
   if (pOutLen) {
@@ -3967,188 +3967,188 @@ static sxi32 ProcessXML(SyXMLParser *pParse, SySet *pTagStack, SySet *pWorker)
     SySetInit(&sEntry.sNSset, pParse->pAllocator, sizeof(SyHashEntry *));
     sEntry.nLine = sNs.nLine = pToken->nLine;
     switch (pToken->nType) {
-    case SXML_TOK_DOCTYPE:
-      if (SySetUsed(pTagStack) > 1 || bGotTag) {
-        if (pParse->xError) {
-          rc = pParse->xError("DOCTYPE must be declared first", SXML_ERROR_MISPLACED_XML_PI, pToken, pParse->pUserData);
+      case SXML_TOK_DOCTYPE:
+        if (SySetUsed(pTagStack) > 1 || bGotTag) {
+          if (pParse->xError) {
+            rc = pParse->xError("DOCTYPE must be declared first", SXML_ERROR_MISPLACED_XML_PI, pToken, pParse->pUserData);
+            if (rc == SXERR_ABORT) {
+              return SXERR_ABORT;
+            }
+          }
+          break;
+        }
+        /* Invoke the supplied callback if any */
+        if (pParse->xDoctype) {
+          TokenToXMLString(pToken, &sEntry);
+          rc = pParse->xDoctype((SyXMLRawStr *) &sEntry, pParse->pUserData);
+          if (rc == SXERR_ABORT) {
+            return SXERR_ABORT;
+          }
+        }
+        break;
+      case SXML_TOK_CDATA:
+        if (SySetUsed(pTagStack) < 1) {
+          if (pParse->xError) {
+            rc = pParse->xError("CDATA without matching tag", SXML_ERROR_TAG_MISMATCH, pToken, pParse->pUserData);
+            if (rc == SXERR_ABORT) {
+              return SXERR_ABORT;
+            }
+          }
+        }
+        /* Invoke the supplied callback if any */
+        if (pParse->xRaw) {
+          TokenToXMLString(pToken, &sEntry);
+          rc = pParse->xRaw((SyXMLRawStr *) &sEntry, pParse->pUserData);
+          if (rc == SXERR_ABORT) {
+            return SXERR_ABORT;
+          }
+        }
+        break;
+      case SXML_TOK_PI: {
+        SyXMLRawStr sTarget, sData;
+        int isXML = 0;
+        /* Extract the target and data */
+        XMLExtactPI(pToken, &sTarget, &sData, &isXML);
+        if (isXML && SySetCursor(pTokenSet) - 1 > 0) {
+          if (pParse->xError) {
+            rc = pParse->xError("Unexpected XML declaration. The XML declaration must be the first node in the document",
+                                SXML_ERROR_MISPLACED_XML_PI, pToken, pParse->pUserData);
+            if (rc == SXERR_ABORT) {
+              return SXERR_ABORT;
+            }
+          }
+        } else if (pParse->xPi) {
+          /* Invoke the supplied callback*/
+          rc = pParse->xPi(&sTarget, &sData, pParse->pUserData);
           if (rc == SXERR_ABORT) {
             return SXERR_ABORT;
           }
         }
         break;
       }
-      /* Invoke the supplied callback if any */
-      if (pParse->xDoctype) {
-        TokenToXMLString(pToken, &sEntry);
-        rc = pParse->xDoctype((SyXMLRawStr *) &sEntry, pParse->pUserData);
-        if (rc == SXERR_ABORT) {
-          return SXERR_ABORT;
-        }
-      }
-      break;
-    case SXML_TOK_CDATA:
-      if (SySetUsed(pTagStack) < 1) {
-        if (pParse->xError) {
-          rc = pParse->xError("CDATA without matching tag", SXML_ERROR_TAG_MISMATCH, pToken, pParse->pUserData);
-          if (rc == SXERR_ABORT) {
-            return SXERR_ABORT;
+      case SXML_TOK_RAW:
+        if (SySetUsed(pTagStack) < 1) {
+          if (pParse->xError) {
+            rc = pParse->xError("Text (Raw data) without matching tag", SXML_ERROR_TAG_MISMATCH, pToken, pParse->pUserData);
+            if (rc == SXERR_ABORT) {
+              return SXERR_ABORT;
+            }
           }
+          break;
         }
-      }
-      /* Invoke the supplied callback if any */
-      if (pParse->xRaw) {
-        TokenToXMLString(pToken, &sEntry);
-        rc = pParse->xRaw((SyXMLRawStr *) &sEntry, pParse->pUserData);
-        if (rc == SXERR_ABORT) {
-          return SXERR_ABORT;
-        }
-      }
-      break;
-    case SXML_TOK_PI: {
-      SyXMLRawStr sTarget, sData;
-      int isXML = 0;
-      /* Extract the target and data */
-      XMLExtactPI(pToken, &sTarget, &sData, &isXML);
-      if (isXML && SySetCursor(pTokenSet) - 1 > 0) {
-        if (pParse->xError) {
-          rc = pParse->xError("Unexpected XML declaration. The XML declaration must be the first node in the document",
-                              SXML_ERROR_MISPLACED_XML_PI, pToken, pParse->pUserData);
-          if (rc == SXERR_ABORT) {
-            return SXERR_ABORT;
-          }
-        }
-      } else if (pParse->xPi) {
-        /* Invoke the supplied callback*/
-        rc = pParse->xPi(&sTarget, &sData, pParse->pUserData);
-        if (rc == SXERR_ABORT) {
-          return SXERR_ABORT;
-        }
-      }
-      break;
-    }
-    case SXML_TOK_RAW:
-      if (SySetUsed(pTagStack) < 1) {
-        if (pParse->xError) {
-          rc = pParse->xError("Text (Raw data) without matching tag", SXML_ERROR_TAG_MISMATCH, pToken, pParse->pUserData);
+        /* Invoke the supplied callback if any */
+        if (pParse->xRaw) {
+          TokenToXMLString(pToken, &sEntry);
+          rc = pParse->xRaw((SyXMLRawStr *) &sEntry, pParse->pUserData);
           if (rc == SXERR_ABORT) {
             return SXERR_ABORT;
           }
         }
         break;
-      }
-      /* Invoke the supplied callback if any */
-      if (pParse->xRaw) {
-        TokenToXMLString(pToken, &sEntry);
-        rc = pParse->xRaw((SyXMLRawStr *) &sEntry, pParse->pUserData);
-        if (rc == SXERR_ABORT) {
-          return SXERR_ABORT;
-        }
-      }
-      break;
-    case SXML_TOK_END_TAG: {
-      SyXMLRawStrNS *pLast = 0;       /* cc warning */
-      if (SySetUsed(pTagStack) < 1) {
-        if (pParse->xError) {
-          rc = pParse->xError("Unexpected closing tag", SXML_ERROR_TAG_MISMATCH, pToken, pParse->pUserData);
-          if (rc == SXERR_ABORT) {
-            return SXERR_ABORT;
-          }
-        }
-        break;
-      }
-      rc = XMLExtractEndTag(pParse, pToken, &sEntry);
-      if (rc == SXRET_OK) {
-        /* Extract the last inserted entry */
-        pLast = (SyXMLRawStrNS *) SySetPeek(pTagStack);
-        if (pLast == 0 || pLast->nByte != sEntry.nByte ||
-            SyMemcmp(pLast->zString, sEntry.zString, sEntry.nByte) != 0) {
+      case SXML_TOK_END_TAG: {
+        SyXMLRawStrNS *pLast = 0;     /* cc warning */
+        if (SySetUsed(pTagStack) < 1) {
           if (pParse->xError) {
             rc = pParse->xError("Unexpected closing tag", SXML_ERROR_TAG_MISMATCH, pToken, pParse->pUserData);
             if (rc == SXERR_ABORT) {
               return SXERR_ABORT;
             }
           }
-        } else {
-          /* Invoke the supllied callback if any */
-          if (pParse->xEndTag) {
-            rc = SXRET_OK;
-            if (pParse->nFlags & SXML_ENABLE_NAMESPACE) {
-              /* Extract namespace URI */
-              rc = XMLExtractNS(pParse, pToken, &sEntry, &sNs);
+          break;
+        }
+        rc = XMLExtractEndTag(pParse, pToken, &sEntry);
+        if (rc == SXRET_OK) {
+          /* Extract the last inserted entry */
+          pLast = (SyXMLRawStrNS *) SySetPeek(pTagStack);
+          if (pLast == 0 || pLast->nByte != sEntry.nByte ||
+              SyMemcmp(pLast->zString, sEntry.zString, sEntry.nByte) != 0) {
+            if (pParse->xError) {
+              rc = pParse->xError("Unexpected closing tag", SXML_ERROR_TAG_MISMATCH, pToken, pParse->pUserData);
               if (rc == SXERR_ABORT) {
                 return SXERR_ABORT;
               }
             }
-            if (rc == SXRET_OK) {
-              rc = pParse->xEndTag((SyXMLRawStr *) &sEntry, &sNs, pParse->pUserData);
-              if (rc == SXERR_ABORT) {
-                return SXERR_ABORT;
+          } else {
+            /* Invoke the supllied callback if any */
+            if (pParse->xEndTag) {
+              rc = SXRET_OK;
+              if (pParse->nFlags & SXML_ENABLE_NAMESPACE) {
+                /* Extract namespace URI */
+                rc = XMLExtractNS(pParse, pToken, &sEntry, &sNs);
+                if (rc == SXERR_ABORT) {
+                  return SXERR_ABORT;
+                }
+              }
+              if (rc == SXRET_OK) {
+                rc = pParse->xEndTag((SyXMLRawStr *) &sEntry, &sNs, pParse->pUserData);
+                if (rc == SXERR_ABORT) {
+                  return SXERR_ABORT;
+                }
               }
             }
           }
-        }
-      } else if (rc == SXERR_ABORT) {
-        return SXERR_ABORT;
-      }
-      if (pLast) {
-        rc = XMLnsUnlink(pParse, pLast, pToken);
-        (void) SySetPop(pTagStack);
-        if (rc == SXERR_ABORT) {
+        } else if (rc == SXERR_ABORT) {
           return SXERR_ABORT;
         }
-      }
-      break;
-    }
-    case SXML_TOK_START_TAG:
-    case SXML_TOK_START_END:
-      if (SySetUsed(pTagStack) < 1 && bGotTag) {
-        if (pParse->xError) {
-          rc = pParse->xError("XML document cannot contain multiple root level elements documents",
-                              SXML_ERROR_SYNTAX, pToken, pParse->pUserData);
+        if (pLast) {
+          rc = XMLnsUnlink(pParse, pLast, pToken);
+          (void) SySetPop(pTagStack);
           if (rc == SXERR_ABORT) {
             return SXERR_ABORT;
           }
         }
         break;
       }
-      bGotTag = 1;
-      /* Extract the tag and it's supplied attribute */
-      rc = XMLProcessStartTag(pParse, pToken, &sEntry, pWorker, pTagStack);
-      if (rc == SXRET_OK) {
-        if (pParse->nFlags & SXML_ENABLE_NAMESPACE) {
-          /* Extract namespace URI */
-          rc = XMLExtractNS(pParse, pToken, &sEntry, &sNs);
-        }
-      }
-      if (rc == SXRET_OK) {
-        /* Invoke the supplied callback */
-        if (pParse->xStartTag) {
-          rc = pParse->xStartTag((SyXMLRawStr *) &sEntry, &sNs, SySetUsed(pWorker),
-                                 (SyXMLRawStr *) SySetBasePtr(pWorker), pParse->pUserData);
-          if (rc == SXERR_ABORT) {
-            return SXERR_ABORT;
-          }
-        }
-        if (pToken->nType == SXML_TOK_START_END) {
-          if (pParse->xEndTag) {
-            rc = pParse->xEndTag((SyXMLRawStr *) &sEntry, &sNs, pParse->pUserData);
+      case SXML_TOK_START_TAG:
+      case SXML_TOK_START_END:
+        if (SySetUsed(pTagStack) < 1 && bGotTag) {
+          if (pParse->xError) {
+            rc = pParse->xError("XML document cannot contain multiple root level elements documents",
+                                SXML_ERROR_SYNTAX, pToken, pParse->pUserData);
             if (rc == SXERR_ABORT) {
               return SXERR_ABORT;
             }
           }
-          rc = XMLnsUnlink(pParse, &sEntry, pToken);
-          if (rc == SXERR_ABORT) {
-            return SXERR_ABORT;
+          break;
+        }
+        bGotTag = 1;
+        /* Extract the tag and it's supplied attribute */
+        rc = XMLProcessStartTag(pParse, pToken, &sEntry, pWorker, pTagStack);
+        if (rc == SXRET_OK) {
+          if (pParse->nFlags & SXML_ENABLE_NAMESPACE) {
+            /* Extract namespace URI */
+            rc = XMLExtractNS(pParse, pToken, &sEntry, &sNs);
           }
         }
-      } else if (rc == SXERR_ABORT) {
-        /* Abort processing immediately */
-        return SXERR_ABORT;
-      }
-      break;
-    default:
-      /* Can't happen */
-      break;
+        if (rc == SXRET_OK) {
+          /* Invoke the supplied callback */
+          if (pParse->xStartTag) {
+            rc = pParse->xStartTag((SyXMLRawStr *) &sEntry, &sNs, SySetUsed(pWorker),
+                                   (SyXMLRawStr *) SySetBasePtr(pWorker), pParse->pUserData);
+            if (rc == SXERR_ABORT) {
+              return SXERR_ABORT;
+            }
+          }
+          if (pToken->nType == SXML_TOK_START_END) {
+            if (pParse->xEndTag) {
+              rc = pParse->xEndTag((SyXMLRawStr *) &sEntry, &sNs, pParse->pUserData);
+              if (rc == SXERR_ABORT) {
+                return SXERR_ABORT;
+              }
+            }
+            rc = XMLnsUnlink(pParse, &sEntry, pToken);
+            if (rc == SXERR_ABORT) {
+              return SXERR_ABORT;
+            }
+          }
+        } else if (rc == SXERR_ABORT) {
+          /* Abort processing immediately */
+          return SXERR_ABORT;
+        }
+        break;
+      default:
+        /* Can't happen */
+        break;
     }
   }
   if (SySetUsed(pTagStack) > 0 && pParse->xError) {
