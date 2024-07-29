@@ -3961,7 +3961,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
   int width;                 /* Width of the current field */
   int idx;
   n = (vf == TRUE) ? 0 : 1;
-#define NEXT_ARG    ( n < nArg ? apArg[n++] : 0 )
+#define NEXT_ARG    (n < nArg ? apArg[n++] : 0)
   /* Start the format process */
   for(;;){
     zCur = zIn;
@@ -4008,7 +4008,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     }while( c == 0 && (zIn++ < zEnd) );
     /* Get the field width */
     width = 0;
-    while( zIn < zEnd && ( zIn[0] >= '0' && zIn[0] <= '9') ){
+    while( zIn < zEnd && (zIn[0] >= '0' && zIn[0] <= '9') ){
       width = width * 10 + (zIn[0] - '0');
       zIn++;
     }
@@ -4026,7 +4026,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         flag_zeropad = 1;
         zIn++;
       }
-      while( zIn < zEnd && ( zIn[0] >= '0' && zIn[0] <= '9') ){
+      while( zIn < zEnd && (zIn[0] >= '0' && zIn[0] <= '9') ){
         width = width * 10 + (zIn[0] - '0');
         zIn++;
       }
@@ -4039,7 +4039,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     if( zIn < zEnd && zIn[0] == '.' ){
       precision = 0;
       zIn++;
-      while( zIn < zEnd && ( zIn[0] >= '0' && zIn[0] <= '9') ){
+      while( zIn < zEnd && (zIn[0] >= '0' && zIn[0] <= '9') ){
         precision = precision * 10 + (zIn[0] - '0');
         zIn++;
       }
@@ -6499,7 +6499,7 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx,const char *zIn,sxu32 nBy
           ph7_array_add_elem(pCur,is_array ? 0 /*Automatic index assign */: pWorker,pValue);
         }
       }else{
-        while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && ( SyisSpace(zIn[0]) || zIn[0] == '=' ) ){
+        while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && (SyisSpace(zIn[0]) || zIn[0] == '=') ){
           zIn++;
         }
       }
@@ -7337,7 +7337,7 @@ static int PH7_builtin_gettimeofday(ph7_context *pCtx,int nArg,ph7_value **apArg
   return PH7_OK;
 }
 /* Check if the given year is leap or not */
-#define IS_LEAP_YEAR(YEAR)  (YEAR % 400 ? ( YEAR % 100 ? ( YEAR % 4 ? 0 : 1 ) : 0 ) : 1)
+#define IS_LEAP_YEAR(YEAR)  (YEAR % 400 ? (YEAR % 100 ? (YEAR % 4 ? 0 : 1) : 0) : 1)
 /* ISO-8601 numeric representation of the day of the week */
 static const int aISO8601[] = { 7 /* Sunday */,1 /* Monday */,2,3,4,5,6 };
 /*

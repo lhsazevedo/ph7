@@ -10742,11 +10742,11 @@ static int vm_builtin_get_included_files(ph7_context *pCtx,int nArg,ph7_value **
     /* Extract base name */
     zEnd = &pEntry->zString[pEntry->nByte - 1];
     /* Ignore trailing '/' */
-    while( zEnd > pEntry->zString && ( (int)zEnd[0] == c || (int)zEnd[0] == d ) ){
+    while( zEnd > pEntry->zString && ( (int)zEnd[0] == c || (int)zEnd[0] == d) ){
       zEnd--;
     }
     iLen = (int)(&zEnd[1] - pEntry->zString);
-    while( zEnd > pEntry->zString && ( (int)zEnd[0] != c && (int)zEnd[0] != d ) ){
+    while( zEnd > pEntry->zString && ( (int)zEnd[0] != c && (int)zEnd[0] != d) ){
       zEnd--;
     }
     zBase = (zEnd > pEntry->zString) ? &zEnd[1] : pEntry->zString;

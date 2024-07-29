@@ -381,8 +381,8 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen,ph7_expr_node **apNode,sxi32 nN
   iParen = iSquare = iQuesty = iBraces = 0;
   for( i = 0 ; i < nNode ; ++i ){
     if( apNode[i]->pStart->nType & PH7_TK_LPAREN /*'('*/ ){
-      if( i > 0 && ( apNode[i - 1]->xCode == PH7_CompileVariable || apNode[i - 1]->xCode == PH7_CompileLiteral ||
-                     (apNode[i - 1]->pStart->nType & (PH7_TK_ID | PH7_TK_KEYWORD | PH7_TK_SSTR | PH7_TK_DSTR | PH7_TK_RPAREN /*')'*/ | PH7_TK_CSB /*']'*/ | PH7_TK_CCB /*'}'*/ ))) ){
+      if( i > 0 && (apNode[i - 1]->xCode == PH7_CompileVariable || apNode[i - 1]->xCode == PH7_CompileLiteral ||
+                    (apNode[i - 1]->pStart->nType & (PH7_TK_ID | PH7_TK_KEYWORD | PH7_TK_SSTR | PH7_TK_DSTR | PH7_TK_RPAREN /*')'*/ | PH7_TK_CSB /*']'*/ | PH7_TK_CCB /*'}'*/ ))) ){
         /* Ticket 1433-033: Take care to ignore alpha-stream [i.e: or,xor] operators followed by an opening parenthesis */
         if( (apNode[i - 1]->pStart->nType & PH7_TK_OP) == 0 ){
           /* We are dealing with a postfix [i.e: function call]  operator
@@ -416,7 +416,7 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen,ph7_expr_node **apNode,sxi32 nN
       iSquare--;
     }else if( apNode[i]->pStart->nType & PH7_TK_OCB /*'{'*/ ){
       iBraces++;
-      if( i > 0 && ( apNode[i - 1]->xCode == PH7_CompileVariable || (apNode[i - 1]->pStart->nType & PH7_TK_CSB /*]*/ )) ){
+      if( i > 0 && (apNode[i - 1]->xCode == PH7_CompileVariable || (apNode[i - 1]->pStart->nType & PH7_TK_CSB /*]*/ )) ){
         const ph7_expr_op *pOp,*pEnd;
         int iNest = 1;
         sxi32 j = i + 1;
@@ -909,7 +909,7 @@ static int ExprIsModifiableValue(ph7_expr_node *pNode,sxu8 bFunc)
 /* Forward declaration */
 static sxi32 ExprMakeTree(ph7_gen_state *pGen,ph7_expr_node **apNode,sxi32 nToken);
 /* Macro to check if the given node is a terminal */
-#define NODE_ISTERM(NODE) (apNode[NODE] && (!apNode[NODE]->pOp || apNode[NODE]->pLeft ))
+#define NODE_ISTERM(NODE) (apNode[NODE] && (!apNode[NODE]->pOp || apNode[NODE]->pLeft))
 /*
  * Buid an expression tree for each given function argument.
  * When errors,PH7 take care of generating the appropriate error message.
@@ -1137,8 +1137,8 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen,ph7_expr_node **apNode,sxi32 nToke
         sxi32 iArrTok = iCur + 1;
         sxi32 iNest = 1;
         if(  iLeft < 0 || apNode[iLeft] == 0 || (apNode[iLeft]->pOp == 0 && (apNode[iLeft]->xCode != PH7_CompileVariable &&
-                                                                             apNode[iLeft]->xCode != PH7_CompileSimpleString && apNode[iLeft]->xCode != PH7_CompileString ) ) ||
-             ( apNode[iLeft]->pOp && apNode[iLeft]->pOp->iPrec != 2 /* postfix */ ) ){
+                                                                             apNode[iLeft]->xCode != PH7_CompileSimpleString && apNode[iLeft]->xCode != PH7_CompileString) ) ||
+             (apNode[iLeft]->pOp && apNode[iLeft]->pOp->iPrec != 2 /* postfix */ ) ){
           /* Syntax error */
           rc = PH7_GenCompileError(pGen,E_ERROR,pNode->pStart->nLine,"Invalid array name");
           if( rc != SXERR_ABORT ){
@@ -1303,7 +1303,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen,ph7_expr_node **apNode,sxi32 nToke
     pNode = apNode[iCur];
     if( pNode->pOp && pNode->pOp->iPrec == 3 && pNode->pLeft == 0){
       if( iLeft < 0 || (apNode[iLeft]->pOp == 0 && apNode[iLeft]->xCode != PH7_CompileVariable)
-          || ( apNode[iLeft]->pOp && apNode[iLeft]->pOp->iPrec != 2 /* Postfix */ ) ){
+          || (apNode[iLeft]->pOp && apNode[iLeft]->pOp->iPrec != 2 /* Postfix */ ) ){
         /* Syntax error */
         rc = PH7_GenCompileError(pGen,E_ERROR,pNode->pStart->nLine,"'%z' operator needs l-value",&pNode->pOp->sOp);
         if( rc != SXERR_ABORT ){
@@ -1562,7 +1562,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen,ph7_expr_node **apNode,sxi32 nToke
   /* Point to the root of the expression tree */
   for( iCur = 1 ; iCur < nToken ; ++iCur ){
     if( apNode[iCur] ){
-      if( (apNode[iCur]->pOp || apNode[iCur]->xCode ) && apNode[0] != 0){
+      if( (apNode[iCur]->pOp || apNode[iCur]->xCode) && apNode[0] != 0){
         rc = PH7_GenCompileError(pGen,E_ERROR,apNode[iCur]->pStart->nLine,"Unexpected token '%z'",&apNode[iCur]->pStart->sData);
         if( rc != SXERR_ABORT ){
           rc = SXERR_SYNTAX;

@@ -591,7 +591,7 @@ PH7_PRIVATE ProcMemObjCast PH7_MemObjCastMethod(sxi32 iFlags)
  */
 PH7_PRIVATE sxi32 PH7_MemObjIsNumeric(ph7_value *pObj)
 {
-  if( pObj->iFlags & ( MEMOBJ_BOOL | MEMOBJ_INT | MEMOBJ_REAL) ){
+  if( pObj->iFlags & (MEMOBJ_BOOL | MEMOBJ_INT | MEMOBJ_REAL) ){
     return TRUE;
   }else if( pObj->iFlags & (MEMOBJ_NULL | MEMOBJ_HASHMAP | MEMOBJ_OBJ | MEMOBJ_RES) ){
     return FALSE;

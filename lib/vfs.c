@@ -35,7 +35,7 @@ PH7_PRIVATE const char * PH7_ExtractDirName(const char *zPath,int nByte,int *pLe
 #ifdef __WINNT__
   d = '\\';
 #endif
-  while( zEnd > zPath && ( (int)zEnd[0] != c && (int)zEnd[0] != d ) ){
+  while( zEnd > zPath && ( (int)zEnd[0] != c && (int)zEnd[0] != d) ){
     zEnd--;
   }
   *pLen = (int)(zEnd - zPath);
@@ -1516,11 +1516,11 @@ static int PH7_builtin_basename(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Perform the requested operation */
   zEnd = &zPath[iLen - 1];
   /* Ignore trailing '/' */
-  while( zEnd > zPath && ( (int)zEnd[0] == c || (int)zEnd[0] == d ) ){
+  while( zEnd > zPath && ( (int)zEnd[0] == c || (int)zEnd[0] == d) ){
     zEnd--;
   }
   iLen = (int)(&zEnd[1] - zPath);
-  while( zEnd > zPath && ( (int)zEnd[0] != c && (int)zEnd[0] != d ) ){
+  while( zEnd > zPath && ( (int)zEnd[0] != c && (int)zEnd[0] != d) ){
     zEnd--;
   }
   zBase = (zEnd > zPath) ? &zEnd[1] : zPath;
@@ -1575,7 +1575,7 @@ static sxi32 ExtractPathInfo(const char *zPath,int nByte,path_info *pOut)
   /* Zero the structure */
   SyZero(pOut,sizeof(path_info));
   /* Handle special case */
-  if( nByte == sizeof(char) && ( (int)zPath[0] == c || (int)zPath[0] == d ) ){
+  if( nByte == sizeof(char) && ( (int)zPath[0] == c || (int)zPath[0] == d) ){
 #ifdef __WINNT__
     SyStringInitFromBuf(&pOut->sDir,"\\",sizeof(char));
 #else
@@ -1584,7 +1584,7 @@ static sxi32 ExtractPathInfo(const char *zPath,int nByte,path_info *pOut)
     return SXRET_OK;
   }
   /* Extract the basename */
-  while( zEnd > zPath && ( (int)zEnd[0] != c && (int)zEnd[0] != d ) ){
+  while( zEnd > zPath && ( (int)zEnd[0] != c && (int)zEnd[0] != d) ){
     zEnd--;
   }
   zPtr = (zEnd > zPath) ? &zEnd[1] : zPath;
@@ -2432,7 +2432,7 @@ struct io_private
 };
 #define IO_PRIVATE_MAGIC 0xFEAC14
 /* Make sure we are dealing with a valid io_private instance */
-#define IO_PRIVATE_INVALID(IO) ( IO == 0 || IO->iMagic != IO_PRIVATE_MAGIC )
+#define IO_PRIVATE_INVALID(IO) (IO == 0 || IO->iMagic != IO_PRIVATE_MAGIC)
 /* Forward declaration */
 static void ResetIOPrivate(io_private *pDev);
 /*
@@ -6659,7 +6659,7 @@ static int WinDir_Read(void *pUserData,ph7_context *pCtx)
     }
     n = SyStrlen(zName);
     /* Ignore '.' && '..' */
-    if( n > sizeof("..") - 1 || zName[0] != '.' || ( n == sizeof("..") - 1 && zName[1] != '.') ){
+    if( n > sizeof("..") - 1 || zName[0] != '.' || (n == sizeof("..") - 1 && zName[1] != '.') ){
       break;
     }
     HeapFree(GetProcessHeap(),0,zName);
@@ -7545,7 +7545,7 @@ static int UnixDir_Read(void *pUserData,ph7_context *pCtx)
     zName = pEntry->d_name;
     n = SyStrlen(zName);
     /* Ignore '.' && '..' */
-    if( n > sizeof("..") - 1 || zName[0] != '.' || ( n == sizeof("..") - 1 && zName[1] != '.') ){
+    if( n > sizeof("..") - 1 || zName[0] != '.' || (n == sizeof("..") - 1 && zName[1] != '.') ){
       break;
     }
     /* Next entry */

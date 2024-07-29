@@ -152,7 +152,7 @@ typedef sxi32 (*ProcRawStrCmp)(const SyString *,const SyString *);
 #define SX_ARRAYSIZE(X) (sizeof(X) / sizeof(X[0]))
 #define SXUNUSED(P) (P = 0)
 #define SX_EMPTY(PTR)   (PTR == 0)
-#define SX_EMPTY_STR(STR) (STR == 0 || STR[0] == 0 )
+#define SX_EMPTY_STR(STR) (STR == 0 || STR[0] == 0)
 typedef struct SyMemBackend SyMemBackend;
 typedef struct SyBlob SyBlob;
 typedef struct SySet SySet;
@@ -503,7 +503,7 @@ struct SyLex
 #define SyisAlphaNum(c) isalnum(c)
 #define SyisGraph(c)     isgraph(c)
 #define SyDigToHex(c)    "0123456789ABCDEF"[c & 0x0F]
-#define SyDigToInt(c)     ((c < 0xc0 && SyisDigit(c))? (c - '0') : 0 )
+#define SyDigToInt(c)     ((c < 0xc0 && SyisDigit(c))? (c - '0') : 0)
 #define SyCharToUpper(c)  ((c < 0xc0 && SyisLower(c))? SyToUpper(c) : c)
 #define SyCharToLower(c)  ((c < 0xc0 && SyisUpper(c))? SyToLower(c) : c)
 /* Remove white space/NUL byte from a raw string */
@@ -523,7 +523,7 @@ struct SyLex
         }
 #define SyStringRightTrimSafe(RAW) \
         while((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[(RAW)->nByte - 1] < 0xc0 && \
-              (( RAW)->zString[(RAW)->nByte - 1] == 0 || SyisSpace((RAW)->zString[(RAW)->nByte - 1]))){ \
+              ((RAW)->zString[(RAW)->nByte - 1] == 0 || SyisSpace((RAW)->zString[(RAW)->nByte - 1]))){ \
           (RAW)->nByte--; \
         }
 

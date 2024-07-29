@@ -111,7 +111,7 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
     sxi32 c;
     /* Non-alpha stream */
     if( pStream->zText[0] == '#' ||
-        ( pStream->zText[0] == '/' && &pStream->zText[1] < pStream->zEnd && pStream->zText[1] == '/') ){
+        (pStream->zText[0] == '/' && &pStream->zText[1] < pStream->zEnd && pStream->zText[1] == '/') ){
       pStream->zText++;
       /* Inline comments */
       while( pStream->zText < pStream->zEnd && pStream->zText[0] != '\n' ){

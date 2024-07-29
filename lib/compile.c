@@ -892,7 +892,7 @@ static sxi32 GenStateCompileString(ph7_gen_state *pGen)
           zIn++;
         }
         for(;;){
-          while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && (SyisAlphaNum(zIn[0]) || zIn[0] == '_' ) ){
+          while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && (SyisAlphaNum(zIn[0]) || zIn[0] == '_') ){
             zIn++;
           }
           if((unsigned char)zIn[0] >= 0xc0 ){
@@ -2078,7 +2078,7 @@ Consume:
     /* Advance the stream cursor */
     pGen->pRawIn++;
     /* TICKET 1433-011 */
-    if( pGen->pIn < pGen->pEnd && ( pGen->pIn->nType & PH7_TK_EQUAL ) ){
+    if( pGen->pIn < pGen->pEnd && (pGen->pIn->nType & PH7_TK_EQUAL) ){
       static const sxu32 nKeyID = PH7_TKWRD_ECHO;
       sxi32 rc;
       /* Refer to TICKET 1433-009  */
@@ -6284,7 +6284,7 @@ static sxi32 PH7_CompilePHP(
     PH7_VmEmitInstr(pGen->pVm,PH7_OP_DONE,(rc != SXERR_EMPTY ? 1 : 0),0,0,0);
     return SXRET_OK;
   }
-  if( pGen->pIn < pGen->pEnd && ( pGen->pIn->nType & PH7_TK_EQUAL ) ){
+  if( pGen->pIn < pGen->pEnd && (pGen->pIn->nType & PH7_TK_EQUAL) ){
     static const sxu32 nKeyID = PH7_TKWRD_ECHO;
     /*
      * Shortcut syntax for the 'echo' language construct.
