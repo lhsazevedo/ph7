@@ -91,14 +91,14 @@ static int Output_Consumer(const void *pOutput,unsigned int nOutputLen,void *pUs
 #ifdef __WINNT__
   BOOL rc;
   rc = WriteFile(GetStdHandle(STD_OUTPUT_HANDLE),pOutput,(DWORD)nOutputLen,0,0);
-  if( !rc ){
+  if ( !rc ){
     /* Abort processing */
     return PH7_ABORT;
   }
 #else
   ssize_t nWr;
   nWr = write(STDOUT_FILENO,pOutput,nOutputLen);
-  if( nWr < 0 ){
+  if ( nWr < 0 ){
     /* Abort processing */
     return PH7_ABORT;
   }
@@ -118,17 +118,17 @@ int main(int argc,char **argv)
   int n;                /* Script arguments */
   int rc;
   /* Process interpreter arguments first*/
-  for(n = 1 ; n < argc ; ++n ){
+  for (n = 1 ; n < argc ; ++n ){
     int c;
-    if( argv[n][0] != '-' ){
+    if ( argv[n][0] != '-' ){
       /* No more interpreter arguments */
       break;
     }
     c = argv[n][1];
-    if( c == 'd' || c == 'D' ){
+    if ( c == 'd' || c == 'D' ){
       /* Dump byte-code instructions */
       dump_vm = 1;
-    }else if( c == 'r' || c == 'R' ){
+    }else if ( c == 'r' || c == 'R' ){
       /* Report run-time errors */
       err_report = 1;
     }else{
@@ -136,13 +136,13 @@ int main(int argc,char **argv)
       Help();
     }
   }
-  if( n >= argc ){
+  if ( n >= argc ){
     puts("Missing PHP file to compile");
     Help();
   }
   /* Allocate a new PH7 engine instance */
   rc = ph7_init(&pEngine);
-  if( rc != PH7_OK ){
+  if ( rc != PH7_OK ){
     /*
      * If the supplied memory subsystem is so sick that we are unable
      * to allocate a tiny chunk of memory,there is no much we can do here.
@@ -163,10 +163,10 @@ int main(int argc,char **argv)
     &pVm,        /* OUT: Compiled PHP program */
     0            /* IN: Compile flags */
     );
-  if( rc != PH7_OK ){   /* Compile error */
-    if( rc == PH7_IO_ERR ){
+  if ( rc != PH7_OK ){   /* Compile error */
+    if ( rc == PH7_IO_ERR ){
       Fatal("IO error while opening the target file");
-    }else if( rc == PH7_VM_ERR ){
+    }else if ( rc == PH7_VM_ERR ){
       Fatal("VM initialization error");
     }else{
       /* Compile-time error, your output (STDOUT) should display the error messages */
@@ -183,20 +183,20 @@ int main(int argc,char **argv)
                      Output_Consumer,   /* Output Consumer callback */
                      0      /* Callback private data */
                      );
-  if( rc != PH7_OK ){
+  if ( rc != PH7_OK ){
     Fatal("Error while installing the VM output consumer callback");
   }
   /* Register script agruments so we can access them later using the $argv[]
    * array from the compiled PHP program.
    */
-  for( n = n + 1; n < argc ; ++n ){
+  for ( n = n + 1; n < argc ; ++n ){
     ph7_vm_config(pVm,PH7_VM_CONFIG_ARGV_ENTRY,argv[n] /* Argument value */ );
   }
-  if( err_report ){
+  if ( err_report ){
     /* Report script run-time errors */
     ph7_vm_config(pVm,PH7_VM_CONFIG_ERR_REPORT);
   }
-  if( dump_vm ){
+  if ( dump_vm ){
     /* Dump PH7 byte-code instructions */
     ph7_vm_dump_v2(pVm,
                    Output_Consumer,     /* Dump consumer callback */
