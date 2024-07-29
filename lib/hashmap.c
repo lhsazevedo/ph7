@@ -33,14 +33,14 @@
  */
 static sxu32 IntHash(sxi64 iKey)
 {
-  return (sxu32)(iKey ^ (iKey << 8) ^ (iKey >> 8));
+  return (sxu32) (iKey ^ (iKey << 8) ^ (iKey >> 8));
 }
 /*
  * Default hash function for string/BLOB keys.
  */
 static sxu32 BinHash(const void *pSrc, sxu32 nLen)
 {
-  register unsigned char *zIn = (unsigned char *)pSrc;
+  register unsigned char *zIn = (unsigned char *) pSrc;
   unsigned char *zEnd;
   sxu32 nH = 5381;
   zEnd = &zIn[nLen];
@@ -72,7 +72,7 @@ static sxi64 HashmapCount(ph7_hashmap *pMap, int bRecursive, int iRecCount)
         break;
       }
       /* Point to the element value */
-      pElem = (ph7_value *)SySetAt(&pMap->pVm->aMemObj, pEntry->nValIdx);
+      pElem = (ph7_value *) SySetAt(&pMap->pVm->aMemObj, pEntry->nValIdx);
       if (pElem) {
         if (pElem->iFlags & MEMOBJ_HASHMAP) {
           if (iRecCount > 31) {
@@ -81,7 +81,7 @@ static sxi64 HashmapCount(ph7_hashmap *pMap, int bRecursive, int iRecCount)
           }
           /* Recurse */
           iRecCount++;
-          iCount += HashmapCount((ph7_hashmap *)pElem->x.pOther, TRUE, iRecCount);
+          iCount += HashmapCount((ph7_hashmap *) pElem->x.pOther, TRUE, iRecCount);
           iRecCount--;
         }
       }
@@ -103,7 +103,7 @@ static ph7_hashmap_node* HashmapNewIntNode(ph7_hashmap *pMap, sxi64 iKey, sxu32 
 {
   ph7_hashmap_node *pNode;
   /* Allocate a new node */
-  pNode = (ph7_hashmap_node *)SyMemBackendPoolAlloc(&pMap->pVm->sAllocator, sizeof(ph7_hashmap_node));
+  pNode = (ph7_hashmap_node *) SyMemBackendPoolAlloc(&pMap->pVm->sAllocator, sizeof(ph7_hashmap_node));
   if (pNode == 0) {
     return 0;
   }
@@ -126,7 +126,7 @@ static ph7_hashmap_node* HashmapNewBlobNode(ph7_hashmap *pMap, const void *pKey,
 {
   ph7_hashmap_node *pNode;
   /* Allocate a new node */
-  pNode = (ph7_hashmap_node *)SyMemBackendPoolAlloc(&pMap->pVm->sAllocator, sizeof(ph7_hashmap_node));
+  pNode = (ph7_hashmap_node *) SyMemBackendPoolAlloc(&pMap->pVm->sAllocator, sizeof(ph7_hashmap_node));
   if (pNode == 0) {
     return 0;
   }
@@ -225,7 +225,7 @@ static sxi32 HashmapGrowBucket(ph7_hashmap *pMap)
       nNew = 16;
     }
     /* Allocate a new bucket */
-    apNew = (ph7_hashmap_node **)SyMemBackendAlloc(&pMap->pVm->sAllocator, nNew * sizeof(ph7_hashmap_node *));
+    apNew = (ph7_hashmap_node **) SyMemBackendAlloc(&pMap->pVm->sAllocator, nNew * sizeof(ph7_hashmap_node *));
     if (apNew == 0) {
       if (pMap->nSize < 1) {
         return SXERR_MEM;         /* Fatal */
@@ -234,7 +234,7 @@ static sxi32 HashmapGrowBucket(ph7_hashmap *pMap)
       return SXRET_OK;
     }
     /* Zero the table */
-    SyZero((void *)apNew, nNew * sizeof(ph7_hashmap_node *));
+    SyZero((void *) apNew, nNew * sizeof(ph7_hashmap_node *));
     /* Reflect the change */
     pMap->apBucket = apNew;
     pMap->nSize = nNew;
@@ -263,7 +263,7 @@ static sxi32 HashmapGrowBucket(ph7_hashmap *pMap)
       n++;
     }
     /* Free the old table */
-    SyMemBackendFree(&pMap->pVm->sAllocator, (void *)apOld);
+    SyMemBackendFree(&pMap->pVm->sAllocator, (void *) apOld);
   }
   return SXRET_OK;
 }
@@ -455,9 +455,9 @@ static sxi32 HashmapLookupBlobKey(
  */
 static int HashmapIsIntKey(SyBlob *pKey)
 {
-  const char *zIn = (const char *)SyBlobData(pKey);
+  const char *zIn = (const char *) SyBlobData(pKey);
   const char *zEnd = &zIn[SyBlobLength(pKey)];
-  if ((int)(zEnd - zIn) > 1 && zIn[0] == '0') {
+  if ((int) (zEnd - zIn) > 1 && zIn[0] == '0') {
     /* Octal not decimal number */
     return FALSE;
   }
@@ -468,7 +468,7 @@ static int HashmapIsIntKey(SyBlob *pKey)
     if (zIn >= zEnd) {
       return TRUE;
     }
-    if ((unsigned char)zIn[0] >= 0xc0 /* UTF-8 stream */ || !SyisDigit(zIn[0])) {
+    if ((unsigned char) zIn[0] >= 0xc0 /* UTF-8 stream */ || !SyisDigit(zIn[0])) {
       break;
     }
     zIn++;
@@ -548,7 +548,7 @@ static sxi32 HashmapInsert(
                                          SyBlobLength(&pKey->sBlob), &pNode)) {
       /* Overwrite the old value */
       ph7_value *pElem;
-      pElem = (ph7_value *)SySetAt(&pMap->pVm->aMemObj, pNode->nValIdx);
+      pElem = (ph7_value *) SySetAt(&pMap->pVm->aMemObj, pNode->nValIdx);
       if (pElem) {
         if (pVal) {
           PH7_MemObjStore(pVal, pElem);
@@ -577,7 +577,7 @@ IntKey:
     if (SXRET_OK == HashmapLookupIntKey(&(*pMap), pKey->x.iVal, &pNode)) {
       /* Overwrite the old value */
       ph7_value *pElem;
-      pElem = (ph7_value *)SySetAt(&pMap->pVm->aMemObj, pNode->nValIdx);
+      pElem = (ph7_value *) SySetAt(&pMap->pVm->aMemObj, pNode->nValIdx);
       if (pElem) {
         if (pVal) {
           PH7_MemObjStore(pVal, pElem);
@@ -723,7 +723,7 @@ static ph7_value* HashmapExtractNodeValue(ph7_hashmap_node *pNode)
 {
   /* Point to the desired object */
   ph7_value *pObj;
-  pObj = (ph7_value *)SySetAt(&pNode->pMap->pVm->aMemObj, pNode->nValIdx);
+  pObj = (ph7_value *) SySetAt(&pNode->pMap->pVm->aMemObj, pNode->nValIdx);
   return pObj;
 }
 /*
@@ -924,7 +924,7 @@ static int HashmapFindValueByCallback(
           /* Perform an int cast */
           PH7_MemObjToInteger(&sResult);
         }
-        rc = (sxi32)sResult.x.iVal;
+        rc = (sxi32) sResult.x.iVal;
         PH7_MemObjRelease(&sResult);
         if (rc == 0) {
           /* Match found*/
@@ -1083,7 +1083,7 @@ static sxi32 HashmapMerge(ph7_hashmap *pSrc, ph7_hashmap *pDest)
     if (pEntry->iType == HASHMAP_BLOB_NODE) {
       /* Blob key insertion */
       PH7_MemObjInitFromString(pDest->pVm, &sKey, 0);
-      PH7_MemObjStringAppend(&sKey, (const char *)SyBlobData(&pEntry->xKey.sKey), SyBlobLength(&pEntry->xKey.sKey));
+      PH7_MemObjStringAppend(&sKey, (const char *) SyBlobData(&pEntry->xKey.sKey), SyBlobLength(&pEntry->xKey.sKey));
       rc = PH7_HashmapInsert(&(*pDest), &sKey, pVal);
       PH7_MemObjRelease(&sKey);
     }else{
@@ -1132,7 +1132,7 @@ static sxi32 HashmapOverwrite(ph7_hashmap *pSrc, ph7_hashmap *pDest)
     if (pEntry->iType == HASHMAP_BLOB_NODE) {
       /* Blob key insertion */
       PH7_MemObjInitFromString(pDest->pVm, &sKey, 0);
-      PH7_MemObjStringAppend(&sKey, (const char *)SyBlobData(&pEntry->xKey.sKey), SyBlobLength(&pEntry->xKey.sKey));
+      PH7_MemObjStringAppend(&sKey, (const char *) SyBlobData(&pEntry->xKey.sKey), SyBlobLength(&pEntry->xKey.sKey));
     }else{
       /* Int key insertion */
       PH7_MemObjInitFromInt(pDest->pVm, &sKey, pEntry->xKey.iKey);
@@ -1172,7 +1172,7 @@ PH7_PRIVATE sxi32 PH7_HashmapDup(ph7_hashmap *pSrc, ph7_hashmap *pDest)
     if (pEntry->iType == HASHMAP_BLOB_NODE) {
       /* Blob key insertion */
       PH7_MemObjInitFromString(pDest->pVm, &sKey, 0);
-      PH7_MemObjStringAppend(&sKey, (const char *)SyBlobData(&pEntry->xKey.sKey), SyBlobLength(&pEntry->xKey.sKey));
+      PH7_MemObjStringAppend(&sKey, (const char *) SyBlobData(&pEntry->xKey.sKey), SyBlobLength(&pEntry->xKey.sKey));
       rc = PH7_HashmapInsert(&(*pDest), &sKey, pVal);
       PH7_MemObjRelease(&sKey);
     }else{
@@ -1284,7 +1284,7 @@ PH7_PRIVATE ph7_hashmap* PH7_NewHashmap(
 {
   ph7_hashmap *pMap;
   /* Allocate a new instance */
-  pMap = (ph7_hashmap *)SyMemBackendPoolAlloc(&pVm->sAllocator, sizeof(ph7_hashmap));
+  pMap = (ph7_hashmap *) SyMemBackendPoolAlloc(&pVm->sAllocator, sizeof(ph7_hashmap));
   if (pMap == 0) {
     return 0;
   }
@@ -1352,7 +1352,7 @@ PH7_PRIVATE sxi32 PH7_HashmapCreateSuper(ph7_vm *pVm)
   /* Record object index */
   pVm->nGlobalIdx = pObj->nIdx;
   /* Install the special $GLOBALS array */
-  rc = SyHashInsert(&pVm->hSuper, (const void *)"GLOBALS", sizeof("GLOBALS") - 1, SX_INT_TO_PTR(pVm->nGlobalIdx));
+  rc = SyHashInsert(&pVm->hSuper, (const void *) "GLOBALS", sizeof("GLOBALS") - 1, SX_INT_TO_PTR(pVm->nGlobalIdx));
   if (rc != SXRET_OK) {
     return rc;
   }
@@ -1373,7 +1373,7 @@ PH7_PRIVATE sxi32 PH7_HashmapCreateSuper(ph7_vm *pVm)
     ph7_release_value(&(*pVm), pSuper);
   }
   /* Set some $_SERVER entries */
-  pFile = (SyString *)SySetPeek(&pVm->aFiles);
+  pFile = (SyString *) SySetPeek(&pVm->aFiles);
   /*
    * 'SCRIPT_FILENAME'
    * The absolute pathname of the currently executing script.
@@ -1485,7 +1485,7 @@ PH7_PRIVATE sxi32 PH7_HashmapInsert(
   )
 {
   sxi32 rc;
-  if (pVal && (pVal->iFlags & MEMOBJ_HASHMAP) && (ph7_hashmap *)pVal->x.pOther == pMap->pVm->pGlobal) {
+  if (pVal && (pVal->iFlags & MEMOBJ_HASHMAP) && (ph7_hashmap *) pVal->x.pOther == pMap->pVm->pGlobal) {
     /*
      * TICKET 1433-35: Insertion in the $GLOBALS array is forbidden.
      */
@@ -1615,13 +1615,13 @@ PH7_PRIVATE int PH7_HashmapValuesToSet(ph7_hashmap *pMap, SySet *pOut)
     /* Extract node value */
     pValue = HashmapExtractNodeValue(pEntry);
     if (pValue) {
-      SySetPut(pOut, (const void *)&pValue);
+      SySetPut(pOut, (const void *) &pValue);
     }
     /* Point to the next entry */
     pEntry = pEntry->pPrev;     /* Reverse link */
   }
   /* Total inserted entries */
-  return (int)SySetUsed(pOut);
+  return (int) SySetUsed(pOut);
 }
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
 /*
@@ -1785,7 +1785,7 @@ static sxi32 HashmapCmpCallback2(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
       if (sStr.nByte < 1) {
         iA = 0;
       }else{
-        SyStrToInt64(sStr.zString, sStr.nByte, (void *)&iA, 0);
+        SyStrToInt64(sStr.zString, sStr.nByte, (void *) &iA, 0);
       }
     }else{
       iA = pA->xKey.iKey;
@@ -1796,12 +1796,12 @@ static sxi32 HashmapCmpCallback2(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
       if (sStr.nByte < 1) {
         iB = 0;
       }else{
-        SyStrToInt64(sStr.zString, sStr.nByte, (void *)&iB, 0);
+        SyStrToInt64(sStr.zString, sStr.nByte, (void *) &iB, 0);
       }
     }else{
       iB = pB->xKey.iKey;
     }
-    rc = (sxi32)(iA - iB);
+    rc = (sxi32) (iA - iB);
   }
   /* Comparison result */
   return rc;
@@ -1856,7 +1856,7 @@ static sxi32 HashmapCmpCallback4(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
   ph7_value *apArg[2];    /* Callback arguments */
   sxi32 rc;
   /* Point to the desired callback */
-  pCallback = (ph7_value *)pCmpData;
+  pCallback = (ph7_value *) pCmpData;
   /* initialize the result value */
   PH7_MemObjInit(pA->pMap->pVm, &sResult);
   /* Extract nodes values */
@@ -1875,7 +1875,7 @@ static sxi32 HashmapCmpCallback4(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
       /* Perform an int cast */
       PH7_MemObjToInteger(&sResult);
     }
-    rc = (sxi32)sResult.x.iVal;
+    rc = (sxi32) sResult.x.iVal;
   }
   PH7_MemObjRelease(&sResult);
   /* Callback result */
@@ -1902,7 +1902,7 @@ static sxi32 HashmapCmpCallback5(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
       if (sStr.nByte < 1) {
         iA = 0;
       }else{
-        SyStrToInt64(sStr.zString, sStr.nByte, (void *)&iA, 0);
+        SyStrToInt64(sStr.zString, sStr.nByte, (void *) &iA, 0);
       }
     }else{
       iA = pA->xKey.iKey;
@@ -1913,12 +1913,12 @@ static sxi32 HashmapCmpCallback5(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
       if (sStr.nByte < 1) {
         iB = 0;
       }else{
-        SyStrToInt64(sStr.zString, sStr.nByte, (void *)&iB, 0);
+        SyStrToInt64(sStr.zString, sStr.nByte, (void *) &iB, 0);
       }
     }else{
       iB = pB->xKey.iKey;
     }
-    rc = (sxi32)(iA - iB);
+    rc = (sxi32) (iA - iB);
   }
   return -rc;   /* Reverse result */
 }
@@ -1933,7 +1933,7 @@ static sxi32 HashmapCmpCallback6(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
   ph7_value sK1, sK2;
   sxi32 rc;
   /* Point to the desired callback */
-  pCallback = (ph7_value *)pCmpData;
+  pCallback = (ph7_value *) pCmpData;
   /* initialize the result value */
   PH7_MemObjInit(pA->pMap->pVm, &sResult);
   PH7_MemObjInit(pA->pMap->pVm, &sK1);
@@ -1957,7 +1957,7 @@ static sxi32 HashmapCmpCallback6(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
       /* Perform an int cast */
       PH7_MemObjToInteger(&sResult);
     }
-    rc = (sxi32)sResult.x.iVal;
+    rc = (sxi32) sResult.x.iVal;
   }
   PH7_MemObjRelease(&sResult);
   PH7_MemObjRelease(&sK1);
@@ -2045,7 +2045,7 @@ static int ph7_hashmap_sort(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry > 1) {
     sxi32 iCmpFlags = 0;
     if (nArg > 1) {
@@ -2089,7 +2089,7 @@ static int ph7_hashmap_asort(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry > 1) {
     sxi32 iCmpFlags = 0;
     if (nArg > 1) {
@@ -2135,7 +2135,7 @@ static int ph7_hashmap_arsort(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry > 1) {
     sxi32 iCmpFlags = 0;
     if (nArg > 1) {
@@ -2181,7 +2181,7 @@ static int ph7_hashmap_ksort(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry > 1) {
     sxi32 iCmpFlags = 0;
     if (nArg > 1) {
@@ -2227,7 +2227,7 @@ static int ph7_hashmap_krsort(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry > 1) {
     sxi32 iCmpFlags = 0;
     if (nArg > 1) {
@@ -2273,7 +2273,7 @@ static int ph7_hashmap_rsort(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry > 1) {
     sxi32 iCmpFlags = 0;
     if (nArg > 1) {
@@ -2316,7 +2316,7 @@ static int ph7_hashmap_usort(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry > 1) {
     ph7_value *pCallback = 0;
     ProcNodeCmp xCmp;
@@ -2362,7 +2362,7 @@ static int ph7_hashmap_uasort(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry > 1) {
     ph7_value *pCallback = 0;
     ProcNodeCmp xCmp;
@@ -2410,7 +2410,7 @@ static int ph7_hashmap_uksort(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry > 1) {
     ph7_value *pCallback = 0;
     ProcNodeCmp xCmp;
@@ -2453,7 +2453,7 @@ static int ph7_hashmap_shuffle(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry > 1) {
     /* Do the merge sort */
     HashmapMergeSort(pMap, HashmapCmpCallback7, 0);
@@ -2500,7 +2500,7 @@ static int ph7_hashmap_count(ph7_context *pCtx, int nArg, ph7_value **apArg)
     bRecursive = ph7_value_to_int(apArg[1]) == 1 /* COUNT_RECURSIVE */;
   }
   /* Count */
-  iCount = HashmapCount((ph7_hashmap *)apArg[0]->x.pOther, bRecursive, 0);
+  iCount = HashmapCount((ph7_hashmap *) apArg[0]->x.pOther, bRecursive, 0);
   ph7_result_int64(pCtx, iCount);
   return PH7_OK;
 }
@@ -2530,7 +2530,7 @@ static int ph7_hashmap_key_exists(ph7_context *pCtx, int nArg, ph7_value **apArg
     return PH7_OK;
   }
   /* Perform the lookup */
-  rc = PH7_HashmapLookup((ph7_hashmap *)apArg[1]->x.pOther, apArg[0], 0);
+  rc = PH7_HashmapLookup((ph7_hashmap *) apArg[1]->x.pOther, apArg[0], 0);
   /* lookup result */
   ph7_result_bool(pCtx, rc == SXRET_OK ? 1 : 0);
   return PH7_OK;
@@ -2557,7 +2557,7 @@ static int ph7_hashmap_pop(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_null(pCtx);
     return PH7_OK;
   }
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry < 1) {
     /* Noting to pop,return NULL */
     ph7_result_null(pCtx);
@@ -2606,7 +2606,7 @@ static int ph7_hashmap_push(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Start pushing given values */
   for ( i = 1 ; i < nArg ; ++i ) {
     rc = PH7_HashmapInsert(pMap, 0, apArg[i]);
@@ -2615,7 +2615,7 @@ static int ph7_hashmap_push(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
   }
   /* Return the new count */
-  ph7_result_int64(pCtx, (sxi64)pMap->nEntry);
+  ph7_result_int64(pCtx, (sxi64) pMap->nEntry);
   return PH7_OK;
 }
 /*
@@ -2641,7 +2641,7 @@ static int ph7_hashmap_shift(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry < 1) {
     /* Empty hashmap,return NULL */
     ph7_result_null(pCtx);
@@ -2739,7 +2739,7 @@ static int ph7_hashmap_current(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_bool(pCtx, 0);
     return PH7_OK;
   }
-  HashmapCurrentValue(&(*pCtx), (ph7_hashmap *)apArg[0]->x.pOther, 0);
+  HashmapCurrentValue(&(*pCtx), (ph7_hashmap *) apArg[0]->x.pOther, 0);
   return PH7_OK;
 }
 /*
@@ -2765,7 +2765,7 @@ static int ph7_hashmap_next(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_bool(pCtx, 0);
     return PH7_OK;
   }
-  HashmapCurrentValue(&(*pCtx), (ph7_hashmap *)apArg[0]->x.pOther, 1);
+  HashmapCurrentValue(&(*pCtx), (ph7_hashmap *) apArg[0]->x.pOther, 1);
   return PH7_OK;
 }
 /*
@@ -2791,7 +2791,7 @@ static int ph7_hashmap_prev(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_bool(pCtx, 0);
     return PH7_OK;
   }
-  HashmapCurrentValue(&(*pCtx), (ph7_hashmap *)apArg[0]->x.pOther, -1);
+  HashmapCurrentValue(&(*pCtx), (ph7_hashmap *) apArg[0]->x.pOther, -1);
   return PH7_OK;
 }
 /*
@@ -2817,7 +2817,7 @@ static int ph7_hashmap_end(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Point to the last node */
   pMap->pCur = pMap->pLast;
   /* Return the last node value */
@@ -2847,7 +2847,7 @@ static int ph7_hashmap_reset(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Point to the first node */
   pMap->pCur = pMap->pFirst;
   /* Return the last node value if available */
@@ -2881,7 +2881,7 @@ static int ph7_hashmap_simple_key(ph7_context *pCtx, int nArg, ph7_value **apArg
     ph7_result_null(pCtx);
     return PH7_OK;
   }
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   pCur = pMap->pCur;
   if (pCur == 0) {
     /* Cursor does not point to anything,return NULL */
@@ -2894,7 +2894,7 @@ static int ph7_hashmap_simple_key(ph7_context *pCtx, int nArg, ph7_value **apArg
   }else{
     /* Key is blob */
     ph7_result_string(pCtx,
-                      (const char *)SyBlobData(&pCur->xKey.sKey), (int)SyBlobLength(&pCur->xKey.sKey));
+                      (const char *) SyBlobData(&pCur->xKey.sKey), (int) SyBlobLength(&pCur->xKey.sKey));
   }
   return PH7_OK;
 }
@@ -2930,7 +2930,7 @@ static int ph7_hashmap_each(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation that describe the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->pCur == 0) {
     /* Cursor does not point to anything,return FALSE */
     ph7_result_bool(pCtx, 0);
@@ -2952,7 +2952,7 @@ static int ph7_hashmap_each(ph7_context *pCtx, int nArg, ph7_value **apArg)
     PH7_MemObjInitFromInt(pMap->pVm, &sKey, pCur->xKey.iKey);
   }else{
     PH7_MemObjInitFromString(pMap->pVm, &sKey, 0);
-    PH7_MemObjStringAppend(&sKey, (const char *)SyBlobData(&pCur->xKey.sKey), SyBlobLength(&pCur->xKey.sKey));
+    PH7_MemObjStringAppend(&sKey, (const char *) SyBlobData(&pCur->xKey.sKey), SyBlobLength(&pCur->xKey.sKey));
   }
   /* Insert the current key */
   ph7_array_add_intkey_elem(pArray, 0, &sKey);
@@ -3053,7 +3053,7 @@ static int ph7_hashmap_values(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation that describe the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Create a new array */
   pArray = ph7_context_new_array(pCtx);
   if (pArray == 0) {
@@ -3111,7 +3111,7 @@ static int ph7_hashmap_keys(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Create a new array */
   pArray = ph7_context_new_array(pCtx);
   if (pArray == 0) {
@@ -3179,8 +3179,8 @@ static int ph7_hashmap_same(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the hashmaps */
-  p1 = (ph7_hashmap *)apArg[0]->x.pOther;
-  p2 = (ph7_hashmap *)apArg[1]->x.pOther;
+  p1 = (ph7_hashmap *) apArg[0]->x.pOther;
+  p2 = (ph7_hashmap *) apArg[1]->x.pOther;
   rc = (p1 == p2);
   /* Same instance? */
   ph7_result_bool(pCtx, rc);
@@ -3214,7 +3214,7 @@ static int ph7_hashmap_merge(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the hashmap */
-  pMap = (ph7_hashmap *)pArray->x.pOther;
+  pMap = (ph7_hashmap *) pArray->x.pOther;
   /* Start merging */
   for ( i = 0 ; i < nArg ; i++ ) {
     /* Make sure we are dealing with a valid hashmap */
@@ -3222,7 +3222,7 @@ static int ph7_hashmap_merge(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* Insert scalar value */
       ph7_array_add_elem(pArray, 0, apArg[i]);
     }else{
-      pSrc = (ph7_hashmap *)apArg[i]->x.pOther;
+      pSrc = (ph7_hashmap *) apArg[i]->x.pOther;
       /* Merge the two hashmaps */
       HashmapMerge(pSrc, pMap);
     }
@@ -3258,10 +3258,10 @@ static int ph7_hashmap_copy(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the hashmap */
-  pMap = (ph7_hashmap *)pArray->x.pOther;
+  pMap = (ph7_hashmap *) pArray->x.pOther;
   if (ph7_value_is_array(apArg[0])) {
     /* Point to the internal representation of the source */
-    ph7_hashmap *pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+    ph7_hashmap *pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
     /* Perform the copy */
     PH7_HashmapDup(pSrc, pMap);
   }else{
@@ -3292,7 +3292,7 @@ static int ph7_hashmap_erase(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the target hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Erase */
   PH7_HashmapRelease(pMap, FALSE);
   return PH7_OK;
@@ -3331,26 +3331,26 @@ static int ph7_hashmap_slice(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point the internal representation of the target array */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   bPreserve = FALSE;
   /* Get the offset */
   iOfft = ph7_value_to_int(apArg[1]);
   if (iOfft < 0) {
-    iOfft = (int)pSrc->nEntry + iOfft;
+    iOfft = (int) pSrc->nEntry + iOfft;
   }
-  if (iOfft < 0 || iOfft > (int)pSrc->nEntry) {
+  if (iOfft < 0 || iOfft > (int) pSrc->nEntry) {
     /* Invalid offset,return the last entry */
-    iOfft = (int)pSrc->nEntry - 1;
+    iOfft = (int) pSrc->nEntry - 1;
   }
   /* Get the length */
-  iLength = (int)pSrc->nEntry - iOfft;
+  iLength = (int) pSrc->nEntry - iOfft;
   if (nArg > 2) {
     iLength = ph7_value_to_int(apArg[2]);
     if (iLength < 0) {
-      iLength = ((int)pSrc->nEntry + iLength) - iOfft;
+      iLength = ((int) pSrc->nEntry + iLength) - iOfft;
     }
-    if (iLength < 0 || iOfft + iLength >= (int)pSrc->nEntry) {
-      iLength = (int)pSrc->nEntry - iOfft;
+    if (iLength < 0 || iOfft + iLength >= (int) pSrc->nEntry) {
+      iLength = (int) pSrc->nEntry - iOfft;
     }
     if (nArg > 3 && ph7_value_is_bool(apArg[3])) {
       bPreserve = ph7_value_to_bool(apArg[3]);
@@ -3378,7 +3378,7 @@ static int ph7_hashmap_slice(ph7_context *pCtx, int nArg, ph7_value **apArg)
     iOfft--;
   }
   /* Point to the internal representation of the hashmap */
-  pMap = (ph7_hashmap *)pArray->x.pOther;
+  pMap = (ph7_hashmap *) pArray->x.pOther;
   for (;;) {
     if (iLength < 1) {
       break;
@@ -3434,25 +3434,25 @@ static int ph7_hashmap_splice(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point the internal representation of the target array */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Get the offset */
   iOfft = ph7_value_to_int(apArg[1]);
   if (iOfft < 0) {
-    iOfft = (int)pSrc->nEntry + iOfft;
+    iOfft = (int) pSrc->nEntry + iOfft;
   }
-  if (iOfft < 0 || iOfft > (int)pSrc->nEntry) {
+  if (iOfft < 0 || iOfft > (int) pSrc->nEntry) {
     /* Invalid offset,remove the last entry */
-    iOfft = (int)pSrc->nEntry - 1;
+    iOfft = (int) pSrc->nEntry - 1;
   }
   /* Get the length */
-  iLength = (int)pSrc->nEntry - iOfft;
+  iLength = (int) pSrc->nEntry - iOfft;
   if (nArg > 2) {
     iLength = ph7_value_to_int(apArg[2]);
     if (iLength < 0) {
-      iLength = ((int)pSrc->nEntry + iLength) - iOfft;
+      iLength = ((int) pSrc->nEntry + iLength) - iOfft;
     }
-    if (iLength < 0 || iOfft + iLength >= (int)pSrc->nEntry) {
-      iLength = (int)pSrc->nEntry - iOfft;
+    if (iLength < 0 || iOfft + iLength >= (int) pSrc->nEntry) {
+      iLength = (int) pSrc->nEntry - iOfft;
     }
   }
   /* Create a new array */
@@ -3482,10 +3482,10 @@ static int ph7_hashmap_splice(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* Perform an array cast */
       PH7_MemObjToHashmap(apArg[3]);
       if (ph7_value_is_array(apArg[3])) {
-        pRep = (ph7_hashmap *)apArg[3]->x.pOther;
+        pRep = (ph7_hashmap *) apArg[3]->x.pOther;
       }
     }else{
-      pRep = (ph7_hashmap *)apArg[3]->x.pOther;
+      pRep = (ph7_hashmap *) apArg[3]->x.pOther;
     }
     if (pRep) {
       /* Reset the loop cursor */
@@ -3493,7 +3493,7 @@ static int ph7_hashmap_splice(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
   }
   /* Point to the internal representation of the hashmap */
-  pMap = (ph7_hashmap *)pArray->x.pOther;
+  pMap = (ph7_hashmap *) pArray->x.pOther;
   for (;;) {
     if (iLength < 1) {
       break;
@@ -3565,7 +3565,7 @@ static int ph7_hashmap_in_array(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Perform the lookup */
-  rc = HashmapFindValue((ph7_hashmap *)apArg[1]->x.pOther, pNeedle, 0, bStrict);
+  rc = HashmapFindValue((ph7_hashmap *) apArg[1]->x.pOther, pNeedle, 0, bStrict);
   /* Lookup result */
   ph7_result_bool(pCtx, rc == SXRET_OK);
   return PH7_OK;
@@ -3609,7 +3609,7 @@ static int ph7_hashmap_search(ph7_context *pCtx, int nArg, ph7_value **apArg)
     bStrict = ph7_value_to_bool(apArg[2]);
   }
   /* Point to the internal representation of the internal hashmap */
-  pMap = (ph7_hashmap *)apArg[1]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[1]->x.pOther;
   /* Perform a linear search since we cannot sort the hashmap based on values */
   PH7_MemObjInit(pMap->pVm, &sVal);
   PH7_MemObjInit(pMap->pVm, &sNeedle);
@@ -3638,7 +3638,7 @@ static int ph7_hashmap_search(ph7_context *pCtx, int nArg, ph7_value **apArg)
         }else{
           SyBlob *pKey = &pEntry->xKey.sKey;
           /* Blob key */
-          ph7_result_string(pCtx, (const char *)SyBlobData(pKey), (int)SyBlobLength(pKey));
+          ph7_result_string(pCtx, (const char *) SyBlobData(pKey), (int) SyBlobLength(pKey));
         }
         return PH7_OK;
       }
@@ -3691,7 +3691,7 @@ static int ph7_hashmap_diff(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the source hashmap */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Perform the diff */
   pEntry = pSrc->pFirst;
   n = pSrc->nEntry;
@@ -3708,7 +3708,7 @@ static int ph7_hashmap_diff(ph7_context *pCtx, int nArg, ph7_value **apArg)
           continue;
         }
         /* Point to the internal representation of the hashmap */
-        pMap = (ph7_hashmap *)apArg[i]->x.pOther;
+        pMap = (ph7_hashmap *) apArg[i]->x.pOther;
         /* Perform the lookup */
         rc = HashmapFindValue(pMap, pVal, 0, TRUE);
         if (rc == SXRET_OK) {
@@ -3718,7 +3718,7 @@ static int ph7_hashmap_diff(ph7_context *pCtx, int nArg, ph7_value **apArg)
       }
       if (i >= nArg) {
         /* Perform the insertion */
-        HashmapInsertNode((ph7_hashmap *)pArray->x.pOther, pEntry, TRUE);
+        HashmapInsertNode((ph7_hashmap *) pArray->x.pOther, pEntry, TRUE);
       }
     }
     /* Point to the next entry */
@@ -3778,7 +3778,7 @@ static int ph7_hashmap_udiff(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the source hashmap */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Perform the diff */
   pEntry = pSrc->pFirst;
   n = pSrc->nEntry;
@@ -3795,7 +3795,7 @@ static int ph7_hashmap_udiff(ph7_context *pCtx, int nArg, ph7_value **apArg)
           continue;
         }
         /* Point to the internal representation of the hashmap */
-        pMap = (ph7_hashmap *)apArg[i]->x.pOther;
+        pMap = (ph7_hashmap *) apArg[i]->x.pOther;
         /* Perform the lookup */
         rc = HashmapFindValueByCallback(pMap, pVal, pCallback, 0);
         if (rc == SXRET_OK) {
@@ -3805,7 +3805,7 @@ static int ph7_hashmap_udiff(ph7_context *pCtx, int nArg, ph7_value **apArg)
       }
       if (i >= (nArg - 1)) {
         /* Perform the insertion */
-        HashmapInsertNode((ph7_hashmap *)pArray->x.pOther, pEntry, TRUE);
+        HashmapInsertNode((ph7_hashmap *) pArray->x.pOther, pEntry, TRUE);
       }
     }
     /* Point to the next entry */
@@ -3856,7 +3856,7 @@ static int ph7_hashmap_diff_assoc(ph7_context *pCtx, int nArg, ph7_value **apArg
     return PH7_OK;
   }
   /* Point to the internal representation of the source hashmap */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Perform the diff */
   pEntry = pSrc->pFirst;
   n = pSrc->nEntry;
@@ -3871,7 +3871,7 @@ static int ph7_hashmap_diff_assoc(ph7_context *pCtx, int nArg, ph7_value **apArg
         continue;
       }
       /* Point to the internal representation of the hashmap */
-      pMap = (ph7_hashmap *)apArg[i]->x.pOther;
+      pMap = (ph7_hashmap *) apArg[i]->x.pOther;
       /* Perform a key lookup first */
       if (pEntry->iType == HASHMAP_INT_NODE) {
         rc = HashmapLookupIntKey(pMap, pEntry->xKey.iKey, &pN1);
@@ -3895,7 +3895,7 @@ static int ph7_hashmap_diff_assoc(ph7_context *pCtx, int nArg, ph7_value **apArg
     }
     if (i < nArg) {
       /* Perform the insertion */
-      HashmapInsertNode((ph7_hashmap *)pArray->x.pOther, pEntry, TRUE);
+      HashmapInsertNode((ph7_hashmap *) pArray->x.pOther, pEntry, TRUE);
     }
     /* Point to the next entry */
     pEntry = pEntry->pPrev;     /* Reverse link */
@@ -3954,7 +3954,7 @@ static int ph7_hashmap_diff_uassoc(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   /* Point to the internal representation of the source hashmap */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Perform the diff */
   pEntry = pSrc->pFirst;
   n = pSrc->nEntry;
@@ -3969,7 +3969,7 @@ static int ph7_hashmap_diff_uassoc(ph7_context *pCtx, int nArg, ph7_value **apAr
         continue;
       }
       /* Point to the internal representation of the hashmap */
-      pMap = (ph7_hashmap *)apArg[i]->x.pOther;
+      pMap = (ph7_hashmap *) apArg[i]->x.pOther;
       /* Perform a key lookup first */
       if (pEntry->iType == HASHMAP_INT_NODE) {
         rc = HashmapLookupIntKey(pMap, pEntry->xKey.iKey, &pN1);
@@ -3993,7 +3993,7 @@ static int ph7_hashmap_diff_uassoc(ph7_context *pCtx, int nArg, ph7_value **apAr
     }
     if (i < (nArg - 1)) {
       /* Perform the insertion */
-      HashmapInsertNode((ph7_hashmap *)pArray->x.pOther, pEntry, TRUE);
+      HashmapInsertNode((ph7_hashmap *) pArray->x.pOther, pEntry, TRUE);
     }
     /* Point to the next entry */
     pEntry = pEntry->pPrev;     /* Reverse link */
@@ -4043,7 +4043,7 @@ static int ph7_hashmap_diff_key(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the main hashmap */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Perfrom the diff */
   pEntry = pSrc->pFirst;
   n = pSrc->nEntry;
@@ -4056,7 +4056,7 @@ static int ph7_hashmap_diff_key(ph7_context *pCtx, int nArg, ph7_value **apArg)
         /* ignore */
         continue;
       }
-      pMap = (ph7_hashmap *)apArg[i]->x.pOther;
+      pMap = (ph7_hashmap *) apArg[i]->x.pOther;
       if (pEntry->iType == HASHMAP_BLOB_NODE) {
         SyBlob *pKey = &pEntry->xKey.sKey;
         /* Blob lookup */
@@ -4072,7 +4072,7 @@ static int ph7_hashmap_diff_key(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     if (i >= nArg) {
       /* Perform the insertion */
-      HashmapInsertNode((ph7_hashmap *)pArray->x.pOther, pEntry, TRUE);
+      HashmapInsertNode((ph7_hashmap *) pArray->x.pOther, pEntry, TRUE);
     }
     /* Point to the next entry */
     pEntry = pEntry->pPrev;     /* Reverse link */
@@ -4123,7 +4123,7 @@ static int ph7_hashmap_intersect(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the source hashmap */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Perform the intersection */
   pEntry = pSrc->pFirst;
   n = pSrc->nEntry;
@@ -4140,7 +4140,7 @@ static int ph7_hashmap_intersect(ph7_context *pCtx, int nArg, ph7_value **apArg)
           continue;
         }
         /* Point to the internal representation of the hashmap */
-        pMap = (ph7_hashmap *)apArg[i]->x.pOther;
+        pMap = (ph7_hashmap *) apArg[i]->x.pOther;
         /* Perform the lookup */
         rc = HashmapFindValue(pMap, pVal, 0, TRUE);
         if (rc != SXRET_OK) {
@@ -4150,7 +4150,7 @@ static int ph7_hashmap_intersect(ph7_context *pCtx, int nArg, ph7_value **apArg)
       }
       if (i >= nArg) {
         /* Perform the insertion */
-        HashmapInsertNode((ph7_hashmap *)pArray->x.pOther, pEntry, TRUE);
+        HashmapInsertNode((ph7_hashmap *) pArray->x.pOther, pEntry, TRUE);
       }
     }
     /* Point to the next entry */
@@ -4202,7 +4202,7 @@ static int ph7_hashmap_intersect_assoc(ph7_context *pCtx, int nArg, ph7_value **
     return PH7_OK;
   }
   /* Point to the internal representation of the source hashmap */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Perform the intersection */
   pEntry = pSrc->pFirst;
   n = pSrc->nEntry;
@@ -4220,7 +4220,7 @@ static int ph7_hashmap_intersect_assoc(ph7_context *pCtx, int nArg, ph7_value **
           continue;
         }
         /* Point to the internal representation of the hashmap */
-        pMap = (ph7_hashmap *)apArg[i]->x.pOther;
+        pMap = (ph7_hashmap *) apArg[i]->x.pOther;
         /* Perform a key lookup first */
         if (pEntry->iType == HASHMAP_INT_NODE) {
           rc = HashmapLookupIntKey(pMap, pEntry->xKey.iKey, &pN1);
@@ -4240,7 +4240,7 @@ static int ph7_hashmap_intersect_assoc(ph7_context *pCtx, int nArg, ph7_value **
       }
       if (i >= nArg) {
         /* Perform the insertion */
-        HashmapInsertNode((ph7_hashmap *)pArray->x.pOther, pEntry, TRUE);
+        HashmapInsertNode((ph7_hashmap *) pArray->x.pOther, pEntry, TRUE);
       }
     }
     /* Point to the next entry */
@@ -4291,7 +4291,7 @@ static int ph7_hashmap_intersect_key(ph7_context *pCtx, int nArg, ph7_value **ap
     return PH7_OK;
   }
   /* Point to the internal representation of the main hashmap */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Perfrom the intersection */
   pEntry = pSrc->pFirst;
   n = pSrc->nEntry;
@@ -4304,7 +4304,7 @@ static int ph7_hashmap_intersect_key(ph7_context *pCtx, int nArg, ph7_value **ap
         /* ignore */
         continue;
       }
-      pMap = (ph7_hashmap *)apArg[i]->x.pOther;
+      pMap = (ph7_hashmap *) apArg[i]->x.pOther;
       if (pEntry->iType == HASHMAP_BLOB_NODE) {
         SyBlob *pKey = &pEntry->xKey.sKey;
         /* Blob lookup */
@@ -4320,7 +4320,7 @@ static int ph7_hashmap_intersect_key(ph7_context *pCtx, int nArg, ph7_value **ap
     }
     if (i >= nArg) {
       /* Perform the insertion */
-      HashmapInsertNode((ph7_hashmap *)pArray->x.pOther, pEntry, TRUE);
+      HashmapInsertNode((ph7_hashmap *) pArray->x.pOther, pEntry, TRUE);
     }
     /* Point to the next entry */
     pEntry = pEntry->pPrev;     /* Reverse link */
@@ -4381,7 +4381,7 @@ static int ph7_hashmap_uintersect(ph7_context *pCtx, int nArg, ph7_value **apArg
     return PH7_OK;
   }
   /* Point to the internal representation of the source hashmap */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Perform the intersection */
   pEntry = pSrc->pFirst;
   n = pSrc->nEntry;
@@ -4398,7 +4398,7 @@ static int ph7_hashmap_uintersect(ph7_context *pCtx, int nArg, ph7_value **apArg
           continue;
         }
         /* Point to the internal representation of the hashmap */
-        pMap = (ph7_hashmap *)apArg[i]->x.pOther;
+        pMap = (ph7_hashmap *) apArg[i]->x.pOther;
         /* Perform the lookup */
         rc = HashmapFindValueByCallback(pMap, pVal, pCallback, 0);
         if (rc != SXRET_OK) {
@@ -4408,7 +4408,7 @@ static int ph7_hashmap_uintersect(ph7_context *pCtx, int nArg, ph7_value **apArg
       }
       if (i >= (nArg - 1)) {
         /* Perform the insertion */
-        HashmapInsertNode((ph7_hashmap *)pArray->x.pOther, pEntry, TRUE);
+        HashmapInsertNode((ph7_hashmap *) pArray->x.pOther, pEntry, TRUE);
       }
     }
     /* Point to the next entry */
@@ -4488,7 +4488,7 @@ static int ph7_hashmap_fill_keys(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Create a new array */
   pArray = ph7_context_new_array(pCtx);
   if (pArray == 0) {
@@ -4537,8 +4537,8 @@ static int ph7_hashmap_combine(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmaps */
-  pKey = (ph7_hashmap *)apArg[0]->x.pOther;
-  pValue = (ph7_hashmap *)apArg[1]->x.pOther;
+  pKey = (ph7_hashmap *) apArg[0]->x.pOther;
+  pValue = (ph7_hashmap *) apArg[1]->x.pOther;
   if (pKey->nEntry != pValue->nEntry) {
     /* Array length differs,return FALSE */
     ph7_result_bool(pCtx, 0);
@@ -4597,7 +4597,7 @@ static int ph7_hashmap_reverse(ph7_context *pCtx, int nArg, ph7_value **apArg)
     bPreserve = ph7_value_to_bool(apArg[1]);
   }
   /* Point to the internal representation of the input hashmap */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Create a new array */
   pArray = ph7_context_new_array(pCtx);
   if (pArray == 0) {
@@ -4607,7 +4607,7 @@ static int ph7_hashmap_reverse(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Perform the requested operation */
   pEntry = pSrc->pLast;
   for ( n = 0 ; n < pSrc->nEntry ; n++ ) {
-    HashmapInsertNode((ph7_hashmap *)pArray->x.pOther, pEntry, bPreserve);
+    HashmapInsertNode((ph7_hashmap *) pArray->x.pOther, pEntry, bPreserve);
     /* Point to the previous entry */
     pEntry = pEntry->pNext;     /* Reverse link */
   }
@@ -4655,7 +4655,7 @@ static int ph7_hashmap_unique(ph7_context *pCtx, int nArg, ph7_value **apArg)
     bStrict = ph7_value_to_int(apArg[1]) == 3 /* SORT_REGULAR */ ? 1 : 0;
   }
   /* Point to the internal representation of the input hashmap */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Create a new array */
   pArray = ph7_context_new_array(pCtx);
   if (pArray == 0) {
@@ -4668,11 +4668,11 @@ static int ph7_hashmap_unique(ph7_context *pCtx, int nArg, ph7_value **apArg)
     pNeedle = HashmapExtractNodeValue(pEntry);
     rc = SXERR_NOTFOUND;
     if (pNeedle) {
-      rc = HashmapFindValue((ph7_hashmap *)pArray->x.pOther, pNeedle, 0, bStrict);
+      rc = HashmapFindValue((ph7_hashmap *) pArray->x.pOther, pNeedle, 0, bStrict);
     }
     if (rc != SXRET_OK) {
       /* Perform the insertion */
-      HashmapInsertNode((ph7_hashmap *)pArray->x.pOther, pEntry, TRUE);
+      HashmapInsertNode((ph7_hashmap *) pArray->x.pOther, pEntry, TRUE);
     }
     /* Point to the next entry */
     pEntry = pEntry->pPrev;     /* Reverse link */
@@ -4710,7 +4710,7 @@ static int ph7_hashmap_flip(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pSrc = (ph7_hashmap *)apArg[0]->x.pOther;
+  pSrc = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Create a new array */
   pArray = ph7_context_new_array(pCtx);
   if (pArray == 0) {
@@ -4766,11 +4766,11 @@ static void DoubleSum(ph7_context *pCtx, ph7_hashmap *pMap)
       if (pObj->iFlags & MEMOBJ_REAL) {
         dSum += pObj->rVal;
       }else if (pObj->iFlags & (MEMOBJ_INT | MEMOBJ_BOOL)) {
-        dSum += (double)pObj->x.iVal;
+        dSum += (double) pObj->x.iVal;
       }else if (pObj->iFlags & MEMOBJ_STRING) {
         if (SyBlobLength(&pObj->sBlob) > 0) {
           double dv = 0;
-          SyStrToReal((const char *)SyBlobData(&pObj->sBlob), SyBlobLength(&pObj->sBlob), (void *)&dv, 0);
+          SyStrToReal((const char *) SyBlobData(&pObj->sBlob), SyBlobLength(&pObj->sBlob), (void *) &dv, 0);
           dSum += dv;
         }
       }
@@ -4792,13 +4792,13 @@ static void Int64Sum(ph7_context *pCtx, ph7_hashmap *pMap)
     pObj = HashmapExtractNodeValue(pEntry);
     if (pObj && (pObj->iFlags & (MEMOBJ_NULL | MEMOBJ_HASHMAP | MEMOBJ_OBJ | MEMOBJ_RES)) == 0) {
       if (pObj->iFlags & MEMOBJ_REAL) {
-        nSum += (sxi64)pObj->rVal;
+        nSum += (sxi64) pObj->rVal;
       }else if (pObj->iFlags & (MEMOBJ_INT | MEMOBJ_BOOL)) {
         nSum += pObj->x.iVal;
       }else if (pObj->iFlags & MEMOBJ_STRING) {
         if (SyBlobLength(&pObj->sBlob) > 0) {
           sxi64 nv = 0;
-          SyStrToInt64((const char *)SyBlobData(&pObj->sBlob), SyBlobLength(&pObj->sBlob), (void *)&nv, 0);
+          SyStrToInt64((const char *) SyBlobData(&pObj->sBlob), SyBlobLength(&pObj->sBlob), (void *) &nv, 0);
           nSum += nv;
         }
       }
@@ -4827,7 +4827,7 @@ static int ph7_hashmap_sum(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_int(pCtx, 0);
     return PH7_OK;
   }
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry < 1) {
     /* Nothing to compute,return 0 */
     ph7_result_int(pCtx, 0);
@@ -4870,11 +4870,11 @@ static void DoubleProd(ph7_context *pCtx, ph7_hashmap *pMap)
       if (pObj->iFlags & MEMOBJ_REAL) {
         dProd *= pObj->rVal;
       }else if (pObj->iFlags & (MEMOBJ_INT | MEMOBJ_BOOL)) {
-        dProd *= (double)pObj->x.iVal;
+        dProd *= (double) pObj->x.iVal;
       }else if (pObj->iFlags & MEMOBJ_STRING) {
         if (SyBlobLength(&pObj->sBlob) > 0) {
           double dv = 0;
-          SyStrToReal((const char *)SyBlobData(&pObj->sBlob), SyBlobLength(&pObj->sBlob), (void *)&dv, 0);
+          SyStrToReal((const char *) SyBlobData(&pObj->sBlob), SyBlobLength(&pObj->sBlob), (void *) &dv, 0);
           dProd *= dv;
         }
       }
@@ -4897,13 +4897,13 @@ static void Int64Prod(ph7_context *pCtx, ph7_hashmap *pMap)
     pObj = HashmapExtractNodeValue(pEntry);
     if (pObj && (pObj->iFlags & (MEMOBJ_NULL | MEMOBJ_HASHMAP | MEMOBJ_OBJ | MEMOBJ_RES)) == 0) {
       if (pObj->iFlags & MEMOBJ_REAL) {
-        nProd *= (sxi64)pObj->rVal;
+        nProd *= (sxi64) pObj->rVal;
       }else if (pObj->iFlags & (MEMOBJ_INT | MEMOBJ_BOOL)) {
         nProd *= pObj->x.iVal;
       }else if (pObj->iFlags & MEMOBJ_STRING) {
         if (SyBlobLength(&pObj->sBlob) > 0) {
           sxi64 nv = 0;
-          SyStrToInt64((const char *)SyBlobData(&pObj->sBlob), SyBlobLength(&pObj->sBlob), (void *)&nv, 0);
+          SyStrToInt64((const char *) SyBlobData(&pObj->sBlob), SyBlobLength(&pObj->sBlob), (void *) &nv, 0);
           nProd *= nv;
         }
       }
@@ -4932,7 +4932,7 @@ static int ph7_hashmap_product(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_int(pCtx, 0);
     return PH7_OK;
   }
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry < 1) {
     /* Nothing to compute,return 0 */
     ph7_result_int(pCtx, 0);
@@ -4982,7 +4982,7 @@ static int ph7_hashmap_rand(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   if (pMap->nEntry < 1) {
     /* Empty hashmap,return NULL */
     ph7_result_null(pCtx);
@@ -5027,7 +5027,7 @@ static int ph7_hashmap_rand(ph7_context *pCtx, int nArg, ph7_value **apArg)
       ph7_result_int64(pCtx, pNode->xKey.iKey);
     }else{
       /* Blob key */
-      ph7_result_string(pCtx, (const char *)SyBlobData(&pNode->xKey.sKey), (int)SyBlobLength(&pNode->xKey.sKey));
+      ph7_result_string(pCtx, (const char *) SyBlobData(&pNode->xKey.sKey), (int) SyBlobLength(&pNode->xKey.sKey));
     }
   }else{
     ph7_value sKey, *pArray;
@@ -5039,12 +5039,12 @@ static int ph7_hashmap_rand(ph7_context *pCtx, int nArg, ph7_value **apArg)
       return PH7_OK;
     }
     /* Point to the internal representation of the hashmap */
-    pDest = (ph7_hashmap *)pArray->x.pOther;
+    pDest = (ph7_hashmap *) pArray->x.pOther;
     PH7_MemObjInit(pDest->pVm, &sKey);
     /* Copy the first n items */
     pNode = pMap->pFirst;
-    if (nItem > (int)pMap->nEntry) {
-      nItem = (int)pMap->nEntry;
+    if (nItem > (int) pMap->nEntry) {
+      nItem = (int) pMap->nEntry;
     }
     while (nItem > 0) {
       PH7_HashmapExtractNodeKey(pNode, &sKey);
@@ -5099,9 +5099,9 @@ static int ph7_hashmap_chunk(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Extract the chunk size */
-  nSize = (sxu32)ph7_value_to_int(apArg[1]);
+  nSize = (sxu32) ph7_value_to_int(apArg[1]);
   if (nSize < 1) {
     ph7_result_null(pCtx);
     return PH7_OK;
@@ -5144,7 +5144,7 @@ static int ph7_hashmap_chunk(ph7_context *pCtx, int nArg, ph7_value **apArg)
       nChunk = nSize;
     }
     /* Insert the entry */
-    HashmapInsertNode((ph7_hashmap *)pChunk->x.pOther, pEntry, bPreserve);
+    HashmapInsertNode((ph7_hashmap *) pChunk->x.pOther, pEntry, bPreserve);
     /* Point to the next entry */
     pEntry = pEntry->pPrev;     /* Reverse link */
     nChunk--;
@@ -5181,7 +5181,7 @@ static int ph7_hashmap_pad(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Extract the total number of desired entry to insert */
   nEntry = ph7_value_to_int(apArg[1]);
   if (nEntry < 0) {
@@ -5189,33 +5189,33 @@ static int ph7_hashmap_pad(ph7_context *pCtx, int nArg, ph7_value **apArg)
     if (nEntry > 1048576) {
       nEntry = 1048576;       /* Limit imposed by PHP */
     }
-    if (nEntry > (int)pMap->nEntry) {
-      nEntry -= (int)pMap->nEntry;
+    if (nEntry > (int) pMap->nEntry) {
+      nEntry -= (int) pMap->nEntry;
       /* Insert given items first */
       while (nEntry > 0) {
         ph7_array_add_elem(pArray, 0, apArg[2]);
         nEntry--;
       }
       /* Merge the two arrays */
-      HashmapMerge(pMap, (ph7_hashmap *)pArray->x.pOther);
+      HashmapMerge(pMap, (ph7_hashmap *) pArray->x.pOther);
     }else{
-      PH7_HashmapDup(pMap, (ph7_hashmap *)pArray->x.pOther);
+      PH7_HashmapDup(pMap, (ph7_hashmap *) pArray->x.pOther);
     }
   }else if (nEntry > 0) {
     if (nEntry > 1048576) {
       nEntry = 1048576;       /* Limit imposed by PHP */
     }
-    if (nEntry > (int)pMap->nEntry) {
-      nEntry -= (int)pMap->nEntry;
+    if (nEntry > (int) pMap->nEntry) {
+      nEntry -= (int) pMap->nEntry;
       /* Merge the two arrays first */
-      HashmapMerge(pMap, (ph7_hashmap *)pArray->x.pOther);
+      HashmapMerge(pMap, (ph7_hashmap *) pArray->x.pOther);
       /* Insert given items */
       while (nEntry > 0) {
         ph7_array_add_elem(pArray, 0, apArg[2]);
         nEntry--;
       }
     }else{
-      PH7_HashmapDup(pMap, (ph7_hashmap *)pArray->x.pOther);
+      PH7_HashmapDup(pMap, (ph7_hashmap *) pArray->x.pOther);
     }
   }
   /* Return the new array */
@@ -5258,8 +5258,8 @@ static int ph7_hashmap_replace(ph7_context *pCtx, int nArg, ph7_value **apArg)
       continue;
     }
     /* Point to the internal representation of the input hashmap */
-    pMap = (ph7_hashmap *)apArg[i]->x.pOther;
-    HashmapOverwrite(pMap, (ph7_hashmap *)pArray->x.pOther);
+    pMap = (ph7_hashmap *) apArg[i]->x.pOther;
+    HashmapOverwrite(pMap, (ph7_hashmap *) pArray->x.pOther);
   }
   /* Return the new array */
   ph7_result_value(pCtx, pArray);
@@ -5300,7 +5300,7 @@ static int ph7_hashmap_filter(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   pEntry = pMap->pFirst;
   PH7_MemObjInit(pMap->pVm, &sResult);
   sResult.nIdx = SXU32_HIGH;   /* Mark as constant */
@@ -5323,7 +5323,7 @@ static int ph7_hashmap_filter(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     if (keep) {
       /* Perform the insertion,now the callback returned true */
-      HashmapInsertNode((ph7_hashmap *)pArray->x.pOther, pEntry, TRUE);
+      HashmapInsertNode((ph7_hashmap *) pArray->x.pOther, pEntry, TRUE);
     }
     /* Point to the next entry */
     pEntry = pEntry->pPrev;     /* Reverse link */
@@ -5363,7 +5363,7 @@ static int ph7_hashmap_map(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[1]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[1]->x.pOther;
   PH7_MemObjInit(pMap->pVm, &sResult);
   PH7_MemObjInit(pMap->pVm, &sKey);
   sResult.nIdx = SXU32_HIGH;   /* Mark as constant */
@@ -5423,7 +5423,7 @@ static int ph7_hashmap_reduce(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Assume a NULL initial value */
   PH7_MemObjInit(pMap->pVm, &sResult);
   sResult.nIdx = SXU32_HIGH;   /* Mark as constant */
@@ -5478,7 +5478,7 @@ static int ph7_hashmap_walk(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   pUserData = nArg > 2 ? apArg[2] : 0;
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   PH7_MemObjInit(pMap->pVm, &sKey);
   sKey.nIdx = SXU32_HIGH;   /* Mark as constant */
   /* Perform the desired operation */
@@ -5532,7 +5532,7 @@ static int HashmapWalkRecursive(
         if (iNest < 32) {
           /* Recurse */
           iNest++;
-          HashmapWalkRecursive((ph7_hashmap *)pValue->x.pOther, pCallback, pUserData, iNest);
+          HashmapWalkRecursive((ph7_hashmap *) pValue->x.pOther, pCallback, pUserData, iNest);
           iNest--;
         }
       }else{
@@ -5580,7 +5580,7 @@ static int ph7_hashmap_walk_recursive(ph7_context *pCtx, int nArg, ph7_value **a
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmap */
-  pMap = (ph7_hashmap *)apArg[0]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[0]->x.pOther;
   /* Perform the desired operation */
   rc = HashmapWalkRecursive(pMap, apArg[1], nArg > 2 ? apArg[2] : 0, 0);
   /* All done */

@@ -90,7 +90,7 @@ static int Output_Consumer(const void *pOutput, unsigned int nOutputLen, void *p
 {
 #ifdef __WINNT__
   BOOL rc;
-  rc = WriteFile(GetStdHandle(STD_OUTPUT_HANDLE), pOutput, (DWORD)nOutputLen, 0, 0);
+  rc = WriteFile(GetStdHandle(STD_OUTPUT_HANDLE), pOutput, (DWORD) nOutputLen, 0, 0);
   if (!rc) {
     /* Abort processing */
     return PH7_ABORT;

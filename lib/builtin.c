@@ -857,15 +857,15 @@ static int PH7_builtin_round(ph7_context *pCtx, int nArg, ph7_value **apArg)
    * use our own cutsom printf [i.e:SyBufferFormat()].
    */
   if (n == 0 && r >= 0 && r < LARGEST_INT64 - 1) {
-    r = (double)((ph7_int64)(r + 0.5));
+    r = (double) ((ph7_int64) (r + 0.5));
   }else if (n == 0 && r < 0 && (-r) < LARGEST_INT64 - 1) {
-    r = -(double)((ph7_int64)((-r) + 0.5));
+    r = -(double) ((ph7_int64) ((-r) + 0.5));
   }else{
     char zBuf[256];
     sxu32 nLen;
     nLen = SyBufferFormat(zBuf, sizeof(zBuf), "%.*f", n, r);
     /* Convert the string to real number */
-    SyStrToReal(zBuf, nLen, (void *)&r, 0);
+    SyStrToReal(zBuf, nLen, (void *) &r, 0);
   }
   /* Return thr rounded value */
   ph7_result_double(pCtx, r);
@@ -967,10 +967,10 @@ static int PH7_builtin_hexdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
     zEnd = &zString[nLen];
     /* Ignore non hex-stream */
     while (zString < zEnd) {
-      if ((unsigned char)zString[0] >= 0xc0) {
+      if ((unsigned char) zString[0] >= 0xc0) {
         /* UTF-8 stream */
         zString++;
-        while (zString < zEnd && (((unsigned char)zString[0] & 0xc0) == 0x80)) {
+        while (zString < zEnd && (((unsigned char) zString[0] & 0xc0) == 0x80)) {
           zString++;
         }
       }else{
@@ -983,7 +983,7 @@ static int PH7_builtin_hexdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     if (zString < zEnd) {
       /* Cast */
-      SyHexStrToInt64(zString, (sxu32)(zEnd - zString), (void *)&iVal, 0);
+      SyHexStrToInt64(zString, (sxu32) (zEnd - zString), (void *) &iVal, 0);
     }
   }else{
     /* Extract as a 64-bit integer */
@@ -1018,7 +1018,7 @@ static int PH7_builtin_bindec(ph7_context *pCtx, int nArg, ph7_value **apArg)
     zString = ph7_value_to_string(apArg[0], &nLen);
     if (nLen > 0) {
       /* Perform a binary cast */
-      SyBinaryStrToInt64(zString, (sxu32)nLen, (void *)&iVal, 0);
+      SyBinaryStrToInt64(zString, (sxu32) nLen, (void *) &iVal, 0);
     }
   }else{
     /* Extract as a 64-bit integer */
@@ -1053,7 +1053,7 @@ static int PH7_builtin_octdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
     zString = ph7_value_to_string(apArg[0], &nLen);
     if (nLen > 0) {
       /* Perform the cast */
-      SyOctalStrToInt64(zString, (sxu32)nLen, (void *)&iVal, 0);
+      SyOctalStrToInt64(zString, (sxu32) nLen, (void *) &iVal, 0);
     }
   }else{
     /* Extract as a 64-bit integer */
@@ -1121,19 +1121,19 @@ static int PH7_builtin_base_convert(ph7_context *pCtx, int nArg, ph7_value **apA
     switch (iFbase) {
     case 16:
       /* Hex */
-      SyHexStrToInt64(zNum, (sxu32)nLen, (void *)&iNum, 0);
+      SyHexStrToInt64(zNum, (sxu32) nLen, (void *) &iNum, 0);
       break;
     case 8:
       /* Octal */
-      SyOctalStrToInt64(zNum, (sxu32)nLen, (void *)&iNum, 0);
+      SyOctalStrToInt64(zNum, (sxu32) nLen, (void *) &iNum, 0);
       break;
     case 2:
       /* Binary */
-      SyBinaryStrToInt64(zNum, (sxu32)nLen, (void *)&iNum, 0);
+      SyBinaryStrToInt64(zNum, (sxu32) nLen, (void *) &iNum, 0);
       break;
     default:
       /* Decimal */
-      SyStrToInt64(zNum, (sxu32)nLen, (void *)&iNum, 0);
+      SyStrToInt64(zNum, (sxu32) nLen, (void *) &iNum, 0);
       break;
     }
   }else{
@@ -1219,8 +1219,8 @@ static int PH7_builtin_substr(ph7_context *pCtx, int nArg, ph7_value **apArg)
       ph7_result_bool(pCtx, 0);
       return PH7_OK;
     }
-    nLen = (int)(&zSource[nSrcLen] - zOfft);
-    nOfft = (int)(zOfft - zSource);
+    nLen = (int) (&zSource[nSrcLen] - zOfft);
+    nOfft = (int) (zOfft - zSource);
   }else if (nOfft >= nSrcLen) {
     /* Invalid offset */
     ph7_result_bool(pCtx, 0);
@@ -1308,8 +1308,8 @@ static int PH7_builtin_substr_compare(ph7_context *pCtx, int nArg, ph7_value **a
       ph7_result_bool(pCtx, 0);
       return PH7_OK;
     }
-    nLen = (int)(&zSource[nSrcLen] - zOfft);
-    nOfft = (int)(zOfft - zSource);
+    nLen = (int) (&zSource[nSrcLen] - zOfft);
+    nOfft = (int) (zOfft - zSource);
   }else if (nOfft >= nSrcLen) {
     /* Invalid offset */
     ph7_result_bool(pCtx, 0);
@@ -1336,9 +1336,9 @@ static int PH7_builtin_substr_compare(ph7_context *pCtx, int nArg, ph7_value **a
   }
   /* Perform the comparison */
   if (iCase) {
-    rc = SyStrnicmp(zOfft, zSub, (sxu32)nLen);
+    rc = SyStrnicmp(zOfft, zSub, (sxu32) nLen);
   }else{
-    rc = SyStrncmp(zOfft, zSub, (sxu32)nLen);
+    rc = SyStrncmp(zOfft, zSub, (sxu32) nLen);
   }
   /* Comparison result */
   ph7_result_int(pCtx, rc);
@@ -1412,7 +1412,7 @@ static int PH7_builtin_substr_count(ph7_context *pCtx, int nArg, ph7_value **apA
   }
   /* Perform the search */
   for (;;) {
-    rc = SyBlobSearch((const void *)zText, (sxu32)(zEnd - zText), (const void *)zPattern, nPatlen, &nOfft);
+    rc = SyBlobSearch((const void *) zText, (sxu32) (zEnd - zText), (const void *) zPattern, nPatlen, &nOfft);
     if (rc != SXRET_OK) {
       /* Pattern not found,break immediately */
       break;
@@ -1451,7 +1451,7 @@ static int PH7_builtin_chunk_split(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   /* initialize/Extract arguments */
-  nSepLen = (int)sizeof("\r\n") - 1;
+  nSepLen = (int) sizeof("\r\n") - 1;
   nChunkLen = 76;
   zIn = ph7_value_to_string(apArg[0], &nLen);
   zEnd = &zIn[nLen];
@@ -1468,7 +1468,7 @@ static int PH7_builtin_chunk_split(ph7_context *pCtx, int nArg, ph7_value **apAr
       if (nSepLen < 1) {
         /* Switch back to the default separator */
         zSep = "\r\n";
-        nSepLen = (int)sizeof("\r\n") - 1;
+        nSepLen = (int) sizeof("\r\n") - 1;
       }
     }
   }
@@ -1479,8 +1479,8 @@ static int PH7_builtin_chunk_split(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   while (zIn < zEnd) {
-    if (nChunkLen > (int)(zEnd - zIn)) {
-      nChunkLen = (int)(zEnd - zIn);
+    if (nChunkLen > (int) (zEnd - zIn)) {
+      nChunkLen = (int) (zEnd - zIn);
     }
     /* Append the chunk and the separator */
     ph7_result_string_format(pCtx, "%.*s%.*s", nChunkLen, zIn, nSepLen, zSep);
@@ -1529,7 +1529,7 @@ static int PH7_builtin_addslashes(ph7_context *pCtx, int nArg, ph7_value **apArg
     }
     if (zIn > zCur) {
       /* Append raw contents */
-      ph7_result_string(pCtx, zCur, (int)(zIn - zCur));
+      ph7_result_string(pCtx, zCur, (int) (zIn - zCur));
     }
     if (zIn < zEnd) {
       int c = zIn[0];
@@ -1603,7 +1603,7 @@ static int PH7_builtin_addcslashes(ph7_context *pCtx, int nArg, ph7_value **apAr
     }
     if (zIn > zCur) {
       /* Append raw contents */
-      ph7_result_string(pCtx, zCur, (int)(zIn - zCur));
+      ph7_result_string(pCtx, zCur, (int) (zIn - zCur));
     }
     if (zIn < zEnd) {
       int c = zIn[0];
@@ -1651,12 +1651,12 @@ static int PH7_builtin_quotemeta(ph7_context *pCtx, int nArg, ph7_value **apArg)
       break;
     }
     zCur = zIn;
-    while (zIn < zEnd && !cSlashCheckMask(zIn[0], ".\\+*?[^]($)", (int)sizeof(".\\+*?[^]($)") - 1)) {
+    while (zIn < zEnd && !cSlashCheckMask(zIn[0], ".\\+*?[^]($)", (int) sizeof(".\\+*?[^]($)") - 1)) {
       zIn++;
     }
     if (zIn > zCur) {
       /* Append raw contents */
-      ph7_result_string(pCtx, zCur, (int)(zIn - zCur));
+      ph7_result_string(pCtx, zCur, (int) (zIn - zCur));
     }
     if (zIn < zEnd) {
       int c = zIn[0];
@@ -1707,7 +1707,7 @@ static int PH7_builtin_stripslashes(ph7_context *pCtx, int nArg, ph7_value **apA
     }
     if (zIn > zCur) {
       /* Append raw contents */
-      ph7_result_string(pCtx, zCur, (int)(zIn - zCur));
+      ph7_result_string(pCtx, zCur, (int) (zIn - zCur));
     }
     if (&zIn[1] < zEnd) {
       int c = zIn[1];
@@ -1776,7 +1776,7 @@ static int PH7_builtin_htmlspecialchars(ph7_context *pCtx, int nArg, ph7_value *
     }
     if (zCur < zIn) {
       /* Append the raw string verbatim */
-      ph7_result_string(pCtx, zCur, (int)(zIn - zCur));
+      ph7_result_string(pCtx, zCur, (int) (zIn - zCur));
     }
     if (zIn >= zEnd) {
       break;
@@ -1784,28 +1784,28 @@ static int PH7_builtin_htmlspecialchars(ph7_context *pCtx, int nArg, ph7_value *
     c = zIn[0];
     if (c == '&') {
       /* Expand '&amp;' */
-      ph7_result_string(pCtx, "&amp;", (int)sizeof("&amp;") - 1);
+      ph7_result_string(pCtx, "&amp;", (int) sizeof("&amp;") - 1);
     }else if (c == '<') {
       /* Expand '&lt;' */
-      ph7_result_string(pCtx, "&lt;", (int)sizeof("&lt;") - 1);
+      ph7_result_string(pCtx, "&lt;", (int) sizeof("&lt;") - 1);
     }else if (c == '>') {
       /* Expand '&gt;' */
-      ph7_result_string(pCtx, "&gt;", (int)sizeof("&gt;") - 1);
+      ph7_result_string(pCtx, "&gt;", (int) sizeof("&gt;") - 1);
     }else if (c == '\'') {
       if (iFlags & 0x02 /*ENT_QUOTES*/ ) {
         /* Expand '&#039;' */
-        ph7_result_string(pCtx, "&#039;", (int)sizeof("&#039;") - 1);
+        ph7_result_string(pCtx, "&#039;", (int) sizeof("&#039;") - 1);
       }else{
         /* Leave the single quote untouched */
-        ph7_result_string(pCtx, "'", (int)sizeof(char));
+        ph7_result_string(pCtx, "'", (int) sizeof(char));
       }
     }else if (c == '"') {
       if ((iFlags & 0x04) == 0 /*ENT_NOQUOTES*/ ) {
         /* Expand '&quot;' */
-        ph7_result_string(pCtx, "&quot;", (int)sizeof("&quot;") - 1);
+        ph7_result_string(pCtx, "&quot;", (int) sizeof("&quot;") - 1);
       }else{
         /* Leave the double quote untouched */
-        ph7_result_string(pCtx, "\"", (int)sizeof(char));
+        ph7_result_string(pCtx, "\"", (int) sizeof(char));
       }
     }
     /* Ignore the unsafe HTML character */
@@ -1858,44 +1858,44 @@ static int PH7_builtin_htmlspecialchars_decode(ph7_context *pCtx, int nArg, ph7_
     }
     if (zCur < zIn) {
       /* Append the raw string verbatim */
-      ph7_result_string(pCtx, zCur, (int)(zIn - zCur));
+      ph7_result_string(pCtx, zCur, (int) (zIn - zCur));
     }
-    nLen = (int)(zEnd - zIn);
-    nJump = (int)sizeof(char);
-    if (nLen >= (int)sizeof("&amp;") - 1 && SyStrnicmp(zIn, "&amp;", sizeof("&amp;") - 1) == 0) {
+    nLen = (int) (zEnd - zIn);
+    nJump = (int) sizeof(char);
+    if (nLen >= (int) sizeof("&amp;") - 1 && SyStrnicmp(zIn, "&amp;", sizeof("&amp;") - 1) == 0) {
       /* &amp; ==> '&' */
-      ph7_result_string(pCtx, "&", (int)sizeof(char));
-      nJump = (int)sizeof("&amp;") - 1;
-    }else if (nLen >= (int)sizeof("&lt;") - 1 && SyStrnicmp(zIn, "&lt;", sizeof("&lt;") - 1) == 0) {
+      ph7_result_string(pCtx, "&", (int) sizeof(char));
+      nJump = (int) sizeof("&amp;") - 1;
+    }else if (nLen >= (int) sizeof("&lt;") - 1 && SyStrnicmp(zIn, "&lt;", sizeof("&lt;") - 1) == 0) {
       /* &lt; ==> < */
-      ph7_result_string(pCtx, "<", (int)sizeof(char));
-      nJump = (int)sizeof("&lt;") - 1;
-    }else if (nLen >= (int)sizeof("&gt;") - 1 && SyStrnicmp(zIn, "&gt;", sizeof("&gt;") - 1) == 0) {
+      ph7_result_string(pCtx, "<", (int) sizeof(char));
+      nJump = (int) sizeof("&lt;") - 1;
+    }else if (nLen >= (int) sizeof("&gt;") - 1 && SyStrnicmp(zIn, "&gt;", sizeof("&gt;") - 1) == 0) {
       /* &gt; ==> '>' */
-      ph7_result_string(pCtx, ">", (int)sizeof(char));
-      nJump = (int)sizeof("&gt;") - 1;
-    }else if (nLen >= (int)sizeof("&quot;") - 1 && SyStrnicmp(zIn, "&quot;", sizeof("&quot;") - 1) == 0) {
+      ph7_result_string(pCtx, ">", (int) sizeof(char));
+      nJump = (int) sizeof("&gt;") - 1;
+    }else if (nLen >= (int) sizeof("&quot;") - 1 && SyStrnicmp(zIn, "&quot;", sizeof("&quot;") - 1) == 0) {
       /* &quot; ==> '"' */
       if ((iFlags & 0x04) == 0 /*ENT_NOQUOTES*/ ) {
-        ph7_result_string(pCtx, "\"", (int)sizeof(char));
+        ph7_result_string(pCtx, "\"", (int) sizeof(char));
       }else{
         /* Leave untouched */
-        ph7_result_string(pCtx, "&quot;", (int)sizeof("&quot;") - 1);
+        ph7_result_string(pCtx, "&quot;", (int) sizeof("&quot;") - 1);
       }
-      nJump = (int)sizeof("&quot;") - 1;
-    }else if (nLen >= (int)sizeof("&#039;") - 1 && SyStrnicmp(zIn, "&#039;", sizeof("&#039;") - 1) == 0) {
+      nJump = (int) sizeof("&quot;") - 1;
+    }else if (nLen >= (int) sizeof("&#039;") - 1 && SyStrnicmp(zIn, "&#039;", sizeof("&#039;") - 1) == 0) {
       /* &#039; ==> ''' */
       if (iFlags & 0x02 /*ENT_QUOTES*/ ) {
         /* Expand ''' */
-        ph7_result_string(pCtx, "'", (int)sizeof(char));
+        ph7_result_string(pCtx, "'", (int) sizeof(char));
       }else{
         /* Leave untouched */
-        ph7_result_string(pCtx, "&#039;", (int)sizeof("&#039;") - 1);
+        ph7_result_string(pCtx, "&#039;", (int) sizeof("&#039;") - 1);
       }
-      nJump = (int)sizeof("&#039;") - 1;
-    }else if (nLen >= (int)sizeof(char)) {
+      nJump = (int) sizeof("&#039;") - 1;
+    }else if (nLen >= (int) sizeof(char)) {
       /* expand '&' */
-      ph7_result_string(pCtx, "&", (int)sizeof(char));
+      ph7_result_string(pCtx, "&", (int) sizeof(char));
     }else{
       /* No more input to process */
       break;
@@ -2008,16 +2008,16 @@ static int PH7_builtin_htmlentities(ph7_context *pCtx, int nArg, ph7_value **apA
       /* Output the safe sequence [i.e: '<' ==> '&lt;"] */
       if (c == '"' && (iFlags & 0x04) /*ENT_NOQUOTES*/ ) {
         /* Expand the double quote verbatim */
-        ph7_result_string(pCtx, (const char *)&c, (int)sizeof(char));
+        ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
       }else if (c == '\'' && ((iFlags & 0x02 /*ENT_QUOTES*/ ) == 0 || (iFlags & 0x04) /*ENT_NOQUOTES*/ )) {
         /* expand single quote verbatim */
-        ph7_result_string(pCtx, (const char *)&c, (int)sizeof(char));
+        ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
       }else{
         ph7_result_string(pCtx, azHtmlEscape[n], -1 /*Compute length automatically */ );
       }
     }else{
       /* Output character verbatim */
-      ph7_result_string(pCtx, (const char *)&c, (int)sizeof(char));
+      ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
     }
     zIn++;
   }
@@ -2067,16 +2067,16 @@ static int PH7_builtin_html_entity_decode(ph7_context *pCtx, int nArg, ph7_value
     }
     if (zCur < zIn) {
       /* Append raw string verbatim */
-      ph7_result_string(pCtx, zCur, (int)(zIn - zCur));
+      ph7_result_string(pCtx, zCur, (int) (zIn - zCur));
     }
     if (zIn >= zEnd) {
       break;
     }
-    nLen = (int)(zEnd - zIn);
+    nLen = (int) (zEnd - zIn);
     /* Find an encoded sequence */
     for (n = 0 ; n < SX_ARRAYSIZE(azHtmlEscape) ; n += 2 ) {
-      int iLen = (int)SyStrlen(azHtmlEscape[n]);
-      if (nLen >= iLen && SyStrnicmp(zIn, azHtmlEscape[n], (sxu32)iLen) == 0) {
+      int iLen = (int) SyStrlen(azHtmlEscape[n]);
+      if (nLen >= iLen && SyStrnicmp(zIn, azHtmlEscape[n], (sxu32) iLen) == 0) {
         /* Got one */
         zIn += iLen;
         break;
@@ -2096,7 +2096,7 @@ static int PH7_builtin_html_entity_decode(ph7_context *pCtx, int nArg, ph7_value
       }
     }else{
       /* Append '&' */
-      ph7_result_string(pCtx, "&", (int)sizeof(char));
+      ph7_result_string(pCtx, "&", (int) sizeof(char));
       zIn++;
     }
   }
@@ -2143,7 +2143,7 @@ static int PH7_builtin_strcmp(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Perform the comparison */
   z1 = ph7_value_to_string(apArg[0], &n1);
   z2 = ph7_value_to_string(apArg[1], &n2);
-  res = SyStrncmp(z1, z2, (sxu32)(SXMAX(n1, n2)));
+  res = SyStrncmp(z1, z2, (sxu32) (SXMAX(n1, n2)));
   /* Comparison result */
   ph7_result_int(pCtx, res);
   return PH7_OK;
@@ -2177,7 +2177,7 @@ static int PH7_builtin_strncmp(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Perform the comparison */
   z1 = ph7_value_to_string(apArg[0], 0);
   z2 = ph7_value_to_string(apArg[1], 0);
-  res = SyStrncmp(z1, z2, (sxu32)n);
+  res = SyStrncmp(z1, z2, (sxu32) n);
   /* Comparison result */
   ph7_result_int(pCtx, res);
   return PH7_OK;
@@ -2205,7 +2205,7 @@ static int PH7_builtin_strcasecmp(ph7_context *pCtx, int nArg, ph7_value **apArg
   /* Perform the comparison */
   z1 = ph7_value_to_string(apArg[0], &n1);
   z2 = ph7_value_to_string(apArg[1], &n2);
-  res = SyStrnicmp(z1, z2, (sxu32)(SXMAX(n1, n2)));
+  res = SyStrnicmp(z1, z2, (sxu32) (SXMAX(n1, n2)));
   /* Comparison result */
   ph7_result_int(pCtx, res);
   return PH7_OK;
@@ -2240,7 +2240,7 @@ static int PH7_builtin_strncasecmp(ph7_context *pCtx, int nArg, ph7_value **apAr
   /* Perform the comparison */
   z1 = ph7_value_to_string(apArg[0], 0);
   z2 = ph7_value_to_string(apArg[1], 0);
-  res = SyStrnicmp(z1, z2, (sxu32)n);
+  res = SyStrnicmp(z1, z2, (sxu32) n);
   /* Comparison result */
   ph7_result_int(pCtx, res);
   return PH7_OK;
@@ -2265,7 +2265,7 @@ struct implode_data {
  */
 static int implode_callback(ph7_value *pKey, ph7_value *pValue, void *pUserData)
 {
-  struct implode_data *pData = (struct implode_data *)pUserData;
+  struct implode_data *pData = (struct implode_data *) pUserData;
   const char *zData;
   int nLen;
   if (pData->bRecursive && ph7_value_is_array(pValue) && pData->nRecCount < 32) {
@@ -2280,7 +2280,7 @@ static int implode_callback(ph7_value *pKey, ph7_value *pValue, void *pUserData)
     /* Recurse */
     pData->bFirst = 1;
     pData->nRecCount++;
-    PH7_HashmapWalk((ph7_hashmap *)pValue->x.pOther, implode_callback, pData);
+    PH7_HashmapWalk((ph7_hashmap *) pValue->x.pOther, implode_callback, pData);
     pData->nRecCount--;
     return PH7_OK;
   }
@@ -2506,11 +2506,11 @@ static int PH7_builtin_explode(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* No more entry to process */
       break;
     }
-    rc = SyBlobSearch(zString, (sxu32)(zEnd - zString), zDelim, nDelim, &nOfft);
-    if (rc != SXRET_OK || iLimit <= (int)ph7_array_count(pArray)) {
+    rc = SyBlobSearch(zString, (sxu32) (zEnd - zString), zDelim, nDelim, &nOfft);
+    if (rc != SXRET_OK || iLimit <= (int) ph7_array_count(pArray)) {
       /* Limit reached,insert the rest of the string and break */
       if (zEnd > zString) {
-        ph7_value_string(pValue, zString, (int)(zEnd - zString));
+        ph7_value_string(pValue, zString, (int) (zEnd - zString));
         ph7_array_add_elem(pArray, 0 /* Automatic index assign*/, pValue);
       }
       break;
@@ -2519,7 +2519,7 @@ static int PH7_builtin_explode(ph7_context *pCtx, int nArg, ph7_value **apArg)
     zCur = &zString[nOfft];
     if (zCur > zString) {
       /* Perform the store operation */
-      ph7_value_string(pValue, zString, (int)(zCur - zString));
+      ph7_value_string(pValue, zString, (int) (zCur - zString));
       ph7_array_add_elem(pArray, 0 /* Automatic index assign*/, pValue);
     }
     /* Point beyond the delimiter */
@@ -2571,7 +2571,7 @@ static int PH7_builtin_trim(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Remove white spaces and NUL bytes */
     SyStringInitFromBuf(&sStr, zString, nLen);
     SyStringFullTrimSafe(&sStr);
-    ph7_result_string(pCtx, sStr.zString, (int)sStr.nByte);
+    ph7_result_string(pCtx, sStr.zString, (int) sStr.nByte);
   }else{
     /* Char list */
     const char *zList;
@@ -2622,7 +2622,7 @@ static int PH7_builtin_trim(ph7_context *pCtx, int nArg, ph7_value **apArg)
         ph7_result_string(pCtx, "", 0);
       }else{
         zEnd++;
-        ph7_result_string(pCtx, zCur, (int)(zEnd - zCur));
+        ph7_result_string(pCtx, zCur, (int) (zEnd - zCur));
       }
     }
   }
@@ -2665,7 +2665,7 @@ static int PH7_builtin_rtrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Remove white spaces and NUL bytes*/
     SyStringInitFromBuf(&sStr, zString, nLen);
     SyStringRightTrimSafe(&sStr);
-    ph7_result_string(pCtx, sStr.zString, (int)sStr.nByte);
+    ph7_result_string(pCtx, sStr.zString, (int) sStr.nByte);
   }else{
     /* Char list */
     const char *zList;
@@ -2699,7 +2699,7 @@ static int PH7_builtin_rtrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
         ph7_result_string(pCtx, "", 0);
       }else{
         zEnd++;
-        ph7_result_string(pCtx, zCur, (int)(zEnd - zCur));
+        ph7_result_string(pCtx, zCur, (int) (zEnd - zCur));
       }
     }
   }
@@ -2742,7 +2742,7 @@ static int PH7_builtin_ltrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Remove white spaces and NUL byte */
     SyStringInitFromBuf(&sStr, zString, nLen);
     SyStringLeftTrimSafe(&sStr);
-    ph7_result_string(pCtx, sStr.zString, (int)sStr.nByte);
+    ph7_result_string(pCtx, sStr.zString, (int) sStr.nByte);
   }else{
     /* Char list */
     const char *zList;
@@ -2776,7 +2776,7 @@ static int PH7_builtin_ltrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
         /* Return the empty string */
         ph7_result_string(pCtx, "", 0);
       }else{
-        ph7_result_string(pCtx, zCur, (int)(zEnd - zCur));
+        ph7_result_string(pCtx, zCur, (int) (zEnd - zCur));
       }
     }
   }
@@ -2814,22 +2814,22 @@ static int PH7_builtin_strtolower(ph7_context *pCtx, int nArg, ph7_value **apArg
       /* No more input,break immediately */
       break;
     }
-    if ((unsigned char)zString[0] >= 0xc0) {
+    if ((unsigned char) zString[0] >= 0xc0) {
       /* UTF-8 stream,output verbatim */
       zCur = zString;
       zString++;
-      while (zString < zEnd && ((unsigned char)zString[0] & 0xc0) == 0x80) {
+      while (zString < zEnd && ((unsigned char) zString[0] & 0xc0) == 0x80) {
         zString++;
       }
       /* Append UTF-8 stream */
-      ph7_result_string(pCtx, zCur, (int)(zString - zCur));
+      ph7_result_string(pCtx, zCur, (int) (zString - zCur));
     }else{
       int c = zString[0];
       if (SyisUpper(c)) {
         c = SyToLower(zString[0]);
       }
       /* Append character */
-      ph7_result_string(pCtx, (const char *)&c, (int)sizeof(char));
+      ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
       /* Advance the cursor */
       zString++;
     }
@@ -2868,22 +2868,22 @@ static int PH7_builtin_strtoupper(ph7_context *pCtx, int nArg, ph7_value **apArg
       /* No more input,break immediately */
       break;
     }
-    if ((unsigned char)zString[0] >= 0xc0) {
+    if ((unsigned char) zString[0] >= 0xc0) {
       /* UTF-8 stream,output verbatim */
       zCur = zString;
       zString++;
-      while (zString < zEnd && ((unsigned char)zString[0] & 0xc0) == 0x80) {
+      while (zString < zEnd && ((unsigned char) zString[0] & 0xc0) == 0x80) {
         zString++;
       }
       /* Append UTF-8 stream */
-      ph7_result_string(pCtx, zCur, (int)(zString - zCur));
+      ph7_result_string(pCtx, zCur, (int) (zString - zCur));
     }else{
       int c = zString[0];
       if (SyisLower(c)) {
         c = SyToUpper(zString[0]);
       }
       /* Append character */
-      ph7_result_string(pCtx, (const char *)&c, (int)sizeof(char));
+      ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
       /* Advance the cursor */
       zString++;
     }
@@ -2923,11 +2923,11 @@ static int PH7_builtin_ucfirst(ph7_context *pCtx, int nArg, ph7_value **apArg)
     c = SyToUpper(c);
   }
   /* Append the first character */
-  ph7_result_string(pCtx, (const char *)&c, (int)sizeof(char));
+  ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
   zString++;
   if (zString < zEnd) {
     /* Append the rest of the input verbatim */
-    ph7_result_string(pCtx, zString, (int)(zEnd - zString));
+    ph7_result_string(pCtx, zString, (int) (zEnd - zString));
   }
   return PH7_OK;
 }
@@ -2963,11 +2963,11 @@ static int PH7_builtin_lcfirst(ph7_context *pCtx, int nArg, ph7_value **apArg)
     c = SyToLower(c);
   }
   /* Append the first character */
-  ph7_result_string(pCtx, (const char *)&c, (int)sizeof(char));
+  ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
   zString++;
   if (zString < zEnd) {
     /* Append the rest of the input verbatim */
-    ph7_result_string(pCtx, zString, (int)(zEnd - zString));
+    ph7_result_string(pCtx, zString, (int) (zEnd - zString));
   }
   return PH7_OK;
 }
@@ -3022,7 +3022,7 @@ static int PH7_builtin_chr(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Extract the ASCII value */
   c = ph7_value_to_int(apArg[0]);
   /* Return the specified character */
-  ph7_result_string(pCtx, (const char *)&c, (int)sizeof(char));
+  ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
   return PH7_OK;
 }
 /*
@@ -3033,7 +3033,7 @@ static int PH7_builtin_chr(ph7_context *pCtx, int nArg, ph7_value **apArg)
 static int HashConsumer(const void *pData, unsigned int nLen, void *pUserData)
 {
   /* Append hex chunk verbatim */
-  ph7_result_string((ph7_context *)pUserData, (const char *)pData, (int)nLen);
+  ph7_result_string((ph7_context *) pUserData, (const char *) pData, (int) nLen);
   return SXRET_OK;
 }
 /*
@@ -3062,7 +3062,7 @@ static int PH7_builtin_bin2hex(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Perform the requested operation */
-  SyBinToHexConsumer((const void *)zString, (sxu32)nLen, HashConsumer, pCtx);
+  SyBinToHexConsumer((const void *) zString, (sxu32) nLen, HashConsumer, pCtx);
   return PH7_OK;
 }
 /* Search callback signature */
@@ -3075,8 +3075,8 @@ typedef sxi32 (*ProcStringMatch)(const void *, sxu32, const void *, sxu32, sxu32
  */
 static sxi32 iPatternMatch(const void *pText, sxu32 nLen, const void *pPattern, sxu32 iPatLen, sxu32 *pOfft)
 {
-  const char *zpIn = (const char *)pPattern;
-  const char *zIn = (const char *)pText;
+  const char *zpIn = (const char *) pPattern;
+  const char *zIn = (const char *) pText;
   const char *zpEnd = &zpIn[iPatLen];
   const char *zEnd = &zIn[nLen];
   const char *zPtr, *zPtr2;
@@ -3097,7 +3097,7 @@ static sxi32 iPatternMatch(const void *pText, sxu32 nLen, const void *pPattern, 
       for (;;) {
         if (zPtr2 >= zpEnd) {
           /* Pattern found */
-          if (pOfft) { *pOfft = (sxu32)(zIn - (const char *)pText); }
+          if (pOfft) { *pOfft = (sxu32) (zIn - (const char *) pText); }
           return SXRET_OK;
         }
         if (zPtr >= zEnd) {
@@ -3149,7 +3149,7 @@ static int PH7_builtin_strstr(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (nLen > 0 && nPatLen > 0) {
     int before = 0;
     /* Perform the lookup */
-    rc = xPatternMatch(zBlob, (sxu32)nLen, zPattern, (sxu32)nPatLen, &nOfft);
+    rc = xPatternMatch(zBlob, (sxu32) nLen, zPattern, (sxu32) nPatLen, &nOfft);
     if (rc != SXRET_OK) {
       /* Pattern not found,return FALSE */
       ph7_result_bool(pCtx, 0);
@@ -3160,9 +3160,9 @@ static int PH7_builtin_strstr(ph7_context *pCtx, int nArg, ph7_value **apArg)
       before = ph7_value_to_int(apArg[2]);
     }
     if (before) {
-      ph7_result_string(pCtx, zBlob, (int)(&zBlob[nOfft] - zBlob));
+      ph7_result_string(pCtx, zBlob, (int) (&zBlob[nOfft] - zBlob));
     }else{
-      ph7_result_string(pCtx, &zBlob[nOfft], (int)(&zBlob[nLen] - &zBlob[nOfft]));
+      ph7_result_string(pCtx, &zBlob[nOfft], (int) (&zBlob[nLen] - &zBlob[nOfft]));
     }
   }else{
     ph7_result_bool(pCtx, 0);
@@ -3202,7 +3202,7 @@ static int PH7_builtin_stristr(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (nLen > 0 && nPatLen > 0) {
     int before = 0;
     /* Perform the lookup */
-    rc = xPatternMatch(zBlob, (sxu32)nLen, zPattern, (sxu32)nPatLen, &nOfft);
+    rc = xPatternMatch(zBlob, (sxu32) nLen, zPattern, (sxu32) nPatLen, &nOfft);
     if (rc != SXRET_OK) {
       /* Pattern not found,return FALSE */
       ph7_result_bool(pCtx, 0);
@@ -3213,9 +3213,9 @@ static int PH7_builtin_stristr(ph7_context *pCtx, int nArg, ph7_value **apArg)
       before = ph7_value_to_int(apArg[2]);
     }
     if (before) {
-      ph7_result_string(pCtx, zBlob, (int)(&zBlob[nOfft] - zBlob));
+      ph7_result_string(pCtx, zBlob, (int) (&zBlob[nOfft] - zBlob));
     }else{
-      ph7_result_string(pCtx, &zBlob[nOfft], (int)(&zBlob[nLen] - &zBlob[nOfft]));
+      ph7_result_string(pCtx, &zBlob[nOfft], (int) (&zBlob[nLen] - &zBlob[nOfft]));
     }
   }else{
     ph7_result_bool(pCtx, 0);
@@ -3270,14 +3270,14 @@ static int PH7_builtin_strpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   if (nLen > 0 && nPatLen > 0) {
     /* Perform the lookup */
-    rc = xPatternMatch(zBlob, (sxu32)nLen, zPattern, (sxu32)nPatLen, &nOfft);
+    rc = xPatternMatch(zBlob, (sxu32) nLen, zPattern, (sxu32) nPatLen, &nOfft);
     if (rc != SXRET_OK) {
       /* Pattern not found,return FALSE */
       ph7_result_bool(pCtx, 0);
       return PH7_OK;
     }
     /* Return the pattern position */
-    ph7_result_int64(pCtx, (ph7_int64)(nOfft + nStart));
+    ph7_result_int64(pCtx, (ph7_int64) (nOfft + nStart));
   }else{
     ph7_result_bool(pCtx, 0);
   }
@@ -3331,14 +3331,14 @@ static int PH7_builtin_stripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   if (nLen > 0 && nPatLen > 0) {
     /* Perform the lookup */
-    rc = xPatternMatch(zBlob, (sxu32)nLen, zPattern, (sxu32)nPatLen, &nOfft);
+    rc = xPatternMatch(zBlob, (sxu32) nLen, zPattern, (sxu32) nPatLen, &nOfft);
     if (rc != SXRET_OK) {
       /* Pattern not found,return FALSE */
       ph7_result_bool(pCtx, 0);
       return PH7_OK;
     }
     /* Return the pattern position */
-    ph7_result_int64(pCtx, (ph7_int64)(nOfft + nStart));
+    ph7_result_int64(pCtx, (ph7_int64) (nOfft + nStart));
   }else{
     ph7_result_bool(pCtx, 0);
   }
@@ -3412,10 +3412,10 @@ static int PH7_builtin_strrpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (zBlob >= zPtr) {
         break;
       }
-      rc = xPatternMatch((const void *)zPtr, (sxu32)(zEnd - zPtr), (const void *)zPattern, (sxu32)nPatLen, &nOfft);
+      rc = xPatternMatch((const void *) zPtr, (sxu32) (zEnd - zPtr), (const void *) zPattern, (sxu32) nPatLen, &nOfft);
       if (rc == SXRET_OK) {
         /* Pattern found,return it's position */
-        ph7_result_int64(pCtx, (ph7_int64)(&zPtr[nOfft] - zStart));
+        ph7_result_int64(pCtx, (ph7_int64) (&zPtr[nOfft] - zStart));
         return PH7_OK;
       }
       zPtr--;
@@ -3495,10 +3495,10 @@ static int PH7_builtin_strripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (zBlob >= zPtr) {
         break;
       }
-      rc = xPatternMatch((const void *)zPtr, (sxu32)(zEnd - zPtr), (const void *)zPattern, (sxu32)nPatLen, &nOfft);
+      rc = xPatternMatch((const void *) zPtr, (sxu32) (zEnd - zPtr), (const void *) zPattern, (sxu32) nPatLen, &nOfft);
       if (rc == SXRET_OK) {
         /* Pattern found,return it's position */
-        ph7_result_int64(pCtx, (ph7_int64)(&zPtr[nOfft] - zStart));
+        ph7_result_int64(pCtx, (ph7_int64) (&zPtr[nOfft] - zStart));
         return PH7_OK;
       }
       zPtr--;
@@ -3550,14 +3550,14 @@ static int PH7_builtin_strrchr(ph7_context *pCtx, int nArg, ph7_value **apArg)
       c = ph7_value_to_int(apArg[1]);
     }
     /* Perform the lookup */
-    rc = SyByteFind2(zBlob, (sxu32)nLen, c, &nOfft);
+    rc = SyByteFind2(zBlob, (sxu32) nLen, c, &nOfft);
     if (rc != SXRET_OK) {
       /* No such entry,return FALSE */
       ph7_result_bool(pCtx, 0);
       return PH7_OK;
     }
     /* Return the string portion */
-    ph7_result_string(pCtx, &zBlob[nOfft], (int)(&zBlob[nLen] - &zBlob[nOfft]));
+    ph7_result_string(pCtx, &zBlob[nOfft], (int) (&zBlob[nLen] - &zBlob[nOfft]));
   }else{
     ph7_result_bool(pCtx, 0);
   }
@@ -3597,7 +3597,7 @@ static int PH7_builtin_strrev(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     /* Append current character */
     c = zEnd[0];
-    ph7_result_string(pCtx, (const char *)&c, (int)sizeof(char));
+    ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
     zEnd--;
   }
   return PH7_OK;
@@ -3634,12 +3634,12 @@ static int PH7_builtin_ucwords(ph7_context *pCtx, int nArg, ph7_value **apArg)
   for (;;) {
     /* Jump leading white spaces */
     zCur = zIn;
-    while (zIn < zEnd && (unsigned char)zIn[0] < 0x80 && SyisSpace(zIn[0])) {
+    while (zIn < zEnd && (unsigned char) zIn[0] < 0x80 && SyisSpace(zIn[0])) {
       zIn++;
     }
     if (zCur < zIn) {
       /* Append white space stream */
-      ph7_result_string(pCtx, zCur, (int)(zIn - zCur));
+      ph7_result_string(pCtx, zCur, (int) (zIn - zCur));
     }
     if (zIn >= zEnd) {
       /* No more input to process */
@@ -3650,12 +3650,12 @@ static int PH7_builtin_ucwords(ph7_context *pCtx, int nArg, ph7_value **apArg)
       c = SyToUpper(c);
     }
     /* Append the upper-cased character */
-    ph7_result_string(pCtx, (const char *)&c, (int)sizeof(char));
+    ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
     zIn++;
     zCur = zIn;
     /* Append the word varbatim */
     while (zIn < zEnd) {
-      if ((unsigned char)zIn[0] >= 0xc0) {
+      if ((unsigned char) zIn[0] >= 0xc0) {
         /* UTF-8 stream */
         zIn++;
         SX_JMP_UTF8(zIn, zEnd);
@@ -3666,7 +3666,7 @@ static int PH7_builtin_ucwords(ph7_context *pCtx, int nArg, ph7_value **apArg)
       }
     }
     if (zCur < zIn) {
-      ph7_result_string(pCtx, zCur, (int)(zIn - zCur));
+      ph7_result_string(pCtx, zCur, (int) (zIn - zCur));
     }
   }
   return PH7_OK;
@@ -3764,7 +3764,7 @@ static int PH7_builtin_nl2br(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     if (zCur < zIn) {
       /* Output chunk verbatim */
-      ph7_result_string(pCtx, zCur, (int)(zIn - zCur));
+      ph7_result_string(pCtx, zCur, (int) (zIn - zCur));
     }
     if (zIn >= zEnd) {
       /* No more input to process */
@@ -3772,9 +3772,9 @@ static int PH7_builtin_nl2br(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     /* Output the HTML line break */
     if (is_xhtml) {
-      ph7_result_string(pCtx, "<br>", (int)sizeof("<br>") - 1);
+      ph7_result_string(pCtx, "<br>", (int) sizeof("<br>") - 1);
     }else{
-      ph7_result_string(pCtx, "<br/>", (int)sizeof("<br/>") - 1);
+      ph7_result_string(pCtx, "<br/>", (int) sizeof("<br/>") - 1);
     }
     zCur = zIn;
     /* Append trailing line */
@@ -3783,7 +3783,7 @@ static int PH7_builtin_nl2br(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     if (zCur < zIn) {
       /* Output chunk verbatim */
-      ph7_result_string(pCtx, zCur, (int)(zIn - zCur));
+      ph7_result_string(pCtx, zCur, (int) (zIn - zCur));
     }
   }
   return PH7_OK;
@@ -3888,7 +3888,7 @@ static int vxGetdigit(sxlongreal *val, int *cnt)
   if ((*cnt)++ >= 16) {
     return '0';
   }
-  digit = (int)*val;
+  digit = (int) *val;
   d = digit;
   *val = (*val - d) * 10.0;
   return digit + '0';
@@ -3941,7 +3941,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
   )
 {
   char spaces[] = "                                                  ";
-#define etSPACESIZE ((int)sizeof(spaces) - 1)
+#define etSPACESIZE ((int) sizeof(spaces) - 1)
   const char *zCur, *zEnd = &zIn[nByte];
   char *zBuf, zWorker[PH7_FMT_BUFSIZ];         /* Working buffer */
   const ph7_fmt_info *pInfo;    /* Pointer to the appropriate info structure */
@@ -3970,7 +3970,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     }
     if (zCur < zIn) {
       /* Consume chunk verbatim */
-      rc = xConsumer(pCtx, zCur, (int)(zIn - zCur), pUserData);
+      rc = xConsumer(pCtx, zCur, (int) (zIn - zCur), pUserData);
       if (rc == SXERR_ABORT) {
         /* Callback request an operation abort */
         break;
@@ -3998,7 +3998,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           /* An alternate padding character can be specified by prefixing it with a single quote (') */
           c = zIn[0];
           for (idx = 0 ; idx < etSPACESIZE ; ++idx ) {
-            spaces[idx] = (char)c;
+            spaces[idx] = (char) c;
           }
           c = 0;
         }
@@ -4053,7 +4053,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     xtype = PH7_FMT_ERROR;
     c = zIn[0];
     zIn++;     /* Jump the format specifer */
-    for (idx = 0 ; idx < (int)SX_ARRAYSIZE(aFmt) ; idx++) {
+    for (idx = 0 ; idx < (int) SX_ARRAYSIZE(aFmt) ; idx++) {
       if (c == aFmt[idx].fmttype) {
         pInfo = &aFmt[idx];
         xtype = pInfo->type;
@@ -4082,7 +4082,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     case PH7_FMT_PERCENT:
       /* A literal percent character */
       zWorker[0] = '%';
-      length = (int)sizeof(char);
+      length = (int) sizeof(char);
       break;
     case PH7_FMT_CHARX:
       /* The argument is treated as an integer, and presented as the character
@@ -4095,8 +4095,8 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         c = ph7_value_to_int(pArg);
       }
       /* NUL byte is an acceptable value */
-      zWorker[0] = (char)c;
-      length = (int)sizeof(char);
+      zWorker[0] = (char) c;
+      length = (int) sizeof(char);
       break;
     case PH7_FMT_STRING:
       /* the argument is treated as and presented as a string */
@@ -4104,11 +4104,11 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       if (pArg == 0) {
         length = 0;
       }else{
-        zBuf = (char *)ph7_value_to_string(pArg, &length);
+        zBuf = (char *) ph7_value_to_string(pArg, &length);
       }
       if (length < 1) {
         zBuf = " ";
-        length = (int)sizeof(char);
+        length = (int) sizeof(char);
       }
       if (precision >= 0 && precision < length) {
         length = precision;
@@ -4181,7 +4181,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       for (idx = precision - length ; idx > 0 ; idx--) {
         *(--zBuf) = '0';                               /* Zero pad */
       }
-      if (prefix) *(--zBuf) = (char)prefix;                  /* Add sign */
+      if (prefix) *(--zBuf) = (char) prefix;                 /* Add sign */
       if (flag_alternateform && pInfo->prefix) {          /* Add "0" or "0x" */
         char *pre, x;
         pre = pInfo->prefix;
@@ -4269,14 +4269,14 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       nsd = 0;
       if (xtype == PH7_FMT_FLOAT && exp + precision < PH7_FMT_BUFSIZ - 30) {
         flag_dp = (precision > 0 || flag_alternateform);
-        if (prefix) *(zBuf++) = (char)prefix;            /* Sign */
+        if (prefix) *(zBuf++) = (char) prefix;           /* Sign */
         if (exp < 0) *(zBuf++) = '0';              /* Digits before "." */
-        else for (; exp >= 0 ; exp--) *(zBuf++) = (char)vxGetdigit(&realvalue, &nsd);
+        else for (; exp >= 0 ; exp--) *(zBuf++) = (char) vxGetdigit(&realvalue, &nsd);
         if (flag_dp) *(zBuf++) = '.';              /* The decimal point */
         for (exp++ ; exp < 0 && precision > 0 ; precision--, exp++) {
           *(zBuf++) = '0';
         }
-        while ((precision--) > 0) *(zBuf++) = (char)vxGetdigit(&realvalue, &nsd);
+        while ((precision--) > 0) *(zBuf++) = (char) vxGetdigit(&realvalue, &nsd);
         *(zBuf--) = 0;                             /* Null terminate */
         if (flag_rtz && flag_dp) {           /* Remove trailing zeros and "." */
           while (zBuf >= zWorker && *zBuf == '0') *(zBuf--) = 0;
@@ -4285,10 +4285,10 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         zBuf++;                              /* point to next free slot */
       }else{       /* etEXP or etGENERIC */
         flag_dp = (precision > 0 || flag_alternateform);
-        if (prefix) *(zBuf++) = (char)prefix;          /* Sign */
-        *(zBuf++) = (char)vxGetdigit(&realvalue, &nsd);         /* First digit */
+        if (prefix) *(zBuf++) = (char) prefix;         /* Sign */
+        *(zBuf++) = (char) vxGetdigit(&realvalue, &nsd);         /* First digit */
         if (flag_dp) *(zBuf++) = '.';          /* Decimal point */
-        while ((precision--) > 0) *(zBuf++) = (char)vxGetdigit(&realvalue, &nsd);
+        while ((precision--) > 0) *(zBuf++) = (char) vxGetdigit(&realvalue, &nsd);
         zBuf--;                              /* point to last digit */
         if (flag_rtz && flag_dp) {              /* Remove tail zeros */
           while (zBuf >= zWorker && *zBuf == '0') *(zBuf--) = 0;
@@ -4300,17 +4300,17 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           if (exp < 0) { *(zBuf++) = '-'; exp = -exp; }             /* sign of exp */
           else       { *(zBuf++) = '+'; }
           if (exp >= 100) {
-            *(zBuf++) = (char)((exp / 100) + '0');                  /* 100's digit */
+            *(zBuf++) = (char) ((exp / 100) + '0');                  /* 100's digit */
             exp %= 100;
           }
-          *(zBuf++) = (char)(exp / 10 + '0');                       /* 10's digit */
-          *(zBuf++) = (char)(exp % 10 + '0');                       /* 1's digit */
+          *(zBuf++) = (char) (exp / 10 + '0');                       /* 10's digit */
+          *(zBuf++) = (char) (exp % 10 + '0');                       /* 1's digit */
         }
       }
       /* The converted number is in buf[] and zero terminated.Output it.
       ** Note that the number is in the usual order, not reversed as with
       ** integer conversions.*/
-      length = (int)(zBuf - zWorker);
+      length = (int) (zBuf - zWorker);
       zBuf = zWorker;
       /* Special case:  Add leading zeros if the flag_zeropad flag is
       ** set and we are not left justified */
@@ -4326,14 +4326,14 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       }
 #else
       zBuf = " ";
-      length = (int)sizeof(char);
+      length = (int) sizeof(char);
 #endif /* PH7_OMIT_FLOATING_POINT */
       break;
     }
     default:
       /* Invalid format specifer */
       zWorker[0] = '?';
-      length = (int)sizeof(char);
+      length = (int) sizeof(char);
       break;
     }
     /*
@@ -4353,7 +4353,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           nspace -= etSPACESIZE;
         }
         if (nspace > 0) {
-          rc = xConsumer(pCtx, spaces, (unsigned int)nspace, pUserData);
+          rc = xConsumer(pCtx, spaces, (unsigned int) nspace, pUserData);
           if (rc != SXRET_OK) {
             return SXERR_ABORT;             /* Consumer routine request an operation abort */
           }
@@ -4361,7 +4361,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       }
     }
     if (length > 0) {
-      rc = xConsumer(pCtx, zBuf, (unsigned int)length, pUserData);
+      rc = xConsumer(pCtx, zBuf, (unsigned int) length, pUserData);
       if (rc != SXRET_OK) {
         return SXERR_ABORT;         /* Consumer routine request an operation abort */
       }
@@ -4378,7 +4378,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           nspace -= etSPACESIZE;
         }
         if (nspace > 0) {
-          rc = xConsumer(pCtx, spaces, (unsigned int)nspace, pUserData);
+          rc = xConsumer(pCtx, spaces, (unsigned int) nspace, pUserData);
           if (rc != SXRET_OK) {
             return SXERR_ABORT;             /* Consumer routine request an operation abort */
           }
@@ -4432,7 +4432,7 @@ static int PH7_builtin_sprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
  */
 static int printfConsumer(ph7_context *pCtx, const char *zInput, int nLen, void *pUserData)
 {
-  ph7_int64 *pCounter = (ph7_int64 *)pUserData;
+  ph7_int64 *pCounter = (ph7_int64 *) pUserData;
   /* Call the VM output consumer directly */
   ph7_context_output(pCtx, zInput, nLen);
   /* Increment counter */
@@ -4466,7 +4466,7 @@ static int PH7_builtin_printf(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Format the string */
-  PH7_InputFormat(printfConsumer, pCtx, zFormat, nLen, nArg, apArg, (void *)&nCounter, FALSE);
+  PH7_InputFormat(printfConsumer, pCtx, zFormat, nLen, nArg, apArg, (void *) &nCounter, FALSE);
   /* Return the length of the outputted string */
   ph7_result_int64(pCtx, nCounter);
   return PH7_OK;
@@ -4500,11 +4500,11 @@ static int PH7_builtin_vprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the hashmap */
-  pMap = (ph7_hashmap *)apArg[1]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[1]->x.pOther;
   /* Extract arguments from the hashmap */
   n = PH7_HashmapValuesToSet(pMap, &sArg);
   /* Format the string */
-  PH7_InputFormat(printfConsumer, pCtx, zFormat, nLen, n, (ph7_value **)SySetBasePtr(&sArg), (void *)&nCounter, TRUE);
+  PH7_InputFormat(printfConsumer, pCtx, zFormat, nLen, n, (ph7_value **) SySetBasePtr(&sArg), (void *) &nCounter, TRUE);
   /* Return the length of the outputted string */
   ph7_result_int64(pCtx, nCounter);
   /* Release the container */
@@ -4539,11 +4539,11 @@ static int PH7_builtin_vsprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to hashmap */
-  pMap = (ph7_hashmap *)apArg[1]->x.pOther;
+  pMap = (ph7_hashmap *) apArg[1]->x.pOther;
   /* Extract arguments from the hashmap */
   n = PH7_HashmapValuesToSet(pMap, &sArg);
   /* Format the string */
-  PH7_InputFormat(sprintfConsumer, pCtx, zFormat, nLen, n, (ph7_value **)SySetBasePtr(&sArg), 0, TRUE);
+  PH7_InputFormat(sprintfConsumer, pCtx, zFormat, nLen, n, (ph7_value **) SySetBasePtr(&sArg), 0, TRUE);
   /* Release the container */
   SySetRelease(&sArg);
   return PH7_OK;
@@ -4579,11 +4579,11 @@ static int PH7_builtin_size_format(ph7_context *pCtx, int nArg, ph7_value **apAr
   iSize = ph7_value_to_int64(apArg[0]);
   if (iSize < 100 /* Bytes */ ) {
     /* Don't bother formatting,return immediately */
-    ph7_result_string(pCtx, "0.1 KB", (int)sizeof("0.1 KB") - 1);
+    ph7_result_string(pCtx, "0.1 KB", (int) sizeof("0.1 KB") - 1);
     return PH7_OK;
   }
   for (;;) {
-    nRest = (sxi32)(iSize & 0x3FF);
+    nRest = (sxi32) (iSize & 0x3FF);
     iSize >>= 10;
     c++;
     if ((iSize & (~0 ^ 1023)) == 0) {
@@ -4599,7 +4599,7 @@ static int PH7_builtin_size_format(ph7_context *pCtx, int nArg, ph7_value **apAr
     nRest = 9;
     iSize = 0;
   }
-  i_32 = (sxi32)iSize;
+  i_32 = (sxi32) iSize;
   /* Format */
   ph7_result_string_format(pCtx, "%d.%d %cB", i_32, nRest, zUnit[c]);
   return PH7_OK;
@@ -4629,7 +4629,7 @@ static int PH7_builtin_md5(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the input string */
-  pIn = (const void *)ph7_value_to_string(apArg[0], &nLen);
+  pIn = (const void *) ph7_value_to_string(apArg[0], &nLen);
   if (nLen < 1) {
     /* Empty string */
     ph7_result_string(pCtx, "", 0);
@@ -4639,13 +4639,13 @@ static int PH7_builtin_md5(ph7_context *pCtx, int nArg, ph7_value **apArg)
     raw_output = ph7_value_to_bool(apArg[1]);
   }
   /* Compute the MD5 digest */
-  SyMD5Compute(pIn, (sxu32)nLen, zDigest);
+  SyMD5Compute(pIn, (sxu32) nLen, zDigest);
   if (raw_output) {
     /* Output raw digest */
-    ph7_result_string(pCtx, (const char *)zDigest, (int)sizeof(zDigest));
+    ph7_result_string(pCtx, (const char *) zDigest, (int) sizeof(zDigest));
   }else{
     /* Perform a binary to hex conversion */
-    SyBinToHexConsumer((const void *)zDigest, sizeof(zDigest), HashConsumer, pCtx);
+    SyBinToHexConsumer((const void *) zDigest, sizeof(zDigest), HashConsumer, pCtx);
   }
   return PH7_OK;
 }
@@ -4673,7 +4673,7 @@ static int PH7_builtin_sha1(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the input string */
-  pIn = (const void *)ph7_value_to_string(apArg[0], &nLen);
+  pIn = (const void *) ph7_value_to_string(apArg[0], &nLen);
   if (nLen < 1) {
     /* Empty string */
     ph7_result_string(pCtx, "", 0);
@@ -4683,13 +4683,13 @@ static int PH7_builtin_sha1(ph7_context *pCtx, int nArg, ph7_value **apArg)
     raw_output = ph7_value_to_bool(apArg[1]);
   }
   /* Compute the SHA1 digest */
-  SySha1Compute(pIn, (sxu32)nLen, zDigest);
+  SySha1Compute(pIn, (sxu32) nLen, zDigest);
   if (raw_output) {
     /* Output raw digest */
-    ph7_result_string(pCtx, (const char *)zDigest, (int)sizeof(zDigest));
+    ph7_result_string(pCtx, (const char *) zDigest, (int) sizeof(zDigest));
   }else{
     /* Perform a binary to hex conversion */
-    SyBinToHexConsumer((const void *)zDigest, sizeof(zDigest), HashConsumer, pCtx);
+    SyBinToHexConsumer((const void *) zDigest, sizeof(zDigest), HashConsumer, pCtx);
   }
   return PH7_OK;
 }
@@ -4713,16 +4713,16 @@ static int PH7_builtin_crc32(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the input string */
-  pIn = (const void *)ph7_value_to_string(apArg[0], &nLen);
+  pIn = (const void *) ph7_value_to_string(apArg[0], &nLen);
   if (nLen < 1) {
     /* Empty string */
     ph7_result_int(pCtx, 0);
     return PH7_OK;
   }
   /* Calculate the sum */
-  nCRC = SyCrc32(pIn, (sxu32)nLen);
+  nCRC = SyCrc32(pIn, (sxu32) nLen);
   /* Return the CRC32 as 64-bit integer */
-  ph7_result_int64(pCtx, (ph7_int64)nCRC ^ 0xFFFFFFFF);
+  ph7_result_int64(pCtx, (ph7_int64) nCRC ^ 0xFFFFFFFF);
   return PH7_OK;
 }
 #endif /* PH7_DISABLE_HASH_FUNC */
@@ -4767,7 +4767,7 @@ PH7_PRIVATE sxi32 PH7_ProcessCsv(
       zIn++;
     }
     if (zIn > zPtr) {
-      int nByte = (int)(zIn - zPtr);
+      int nByte = (int) (zIn - zPtr);
       sxi32 rc;
       /* Invoke the supllied callback */
       if (zPtr[0] == encl) {
@@ -4796,7 +4796,7 @@ PH7_PRIVATE sxi32 PH7_ProcessCsv(
  */
 PH7_PRIVATE sxi32 PH7_CsvConsumer(const char *zToken, int nTokenLen, void *pUserData)
 {
-  ph7_value *pArray = (ph7_value *)pUserData;
+  ph7_value *pArray = (ph7_value *) pUserData;
   ph7_value sEntry;
   SyString sToken;
   /* Insert the token in the given array */
@@ -4895,7 +4895,7 @@ static sxi32 AddTag(SySet *pSet, const char *zTag, int nByte)
   /* Strip tags */
   for (;;) {
     while (zTag < zEnd && (zTag[0] == '<' || zTag[0] == '/' || zTag[0] == '?'
-                           || zTag[0] == '!' || zTag[0] == '-' || ((unsigned char)zTag[0] < 0xc0 && SyisSpace(zTag[0])))) {
+                           || zTag[0] == '!' || zTag[0] == '-' || ((unsigned char) zTag[0] < 0xc0 && SyisSpace(zTag[0])))) {
       zTag++;
     }
     if (zTag >= zEnd) {
@@ -4904,7 +4904,7 @@ static sxi32 AddTag(SySet *pSet, const char *zTag, int nByte)
     zPtr = zTag;
     /* Delimit the tag */
     while (zTag < zEnd) {
-      if ((unsigned char)zTag[0] >= 0xc0) {
+      if ((unsigned char) zTag[0] >= 0xc0) {
         /* UTF-8 stream */
         zTag++;
         SX_JMP_UTF8(zTag, zEnd);
@@ -4916,9 +4916,9 @@ static sxi32 AddTag(SySet *pSet, const char *zTag, int nByte)
     }
     if (zTag > zPtr) {
       /* Perform the insertion */
-      SyStringInitFromBuf(&sEntry, zPtr, (int)(zTag - zPtr));
+      SyStringInitFromBuf(&sEntry, zPtr, (int) (zTag - zPtr));
       SyStringFullTrim(&sEntry);
-      SySetPut(pSet, (const void *)&sEntry);
+      SySetPut(pSet, (const void *) &sEntry);
     }
     /* Jump the trailing '>' */
     zTag++;
@@ -4936,13 +4936,13 @@ static sxi32 FindTag(SySet *pSet, const char *zTag, int nByte)
     const char *zCur, *zEnd = &zTag[nByte];
     SyString sTag;
     while (zTag < zEnd && (zTag[0] == '<' || zTag[0] == '/' || zTag[0] == '?' ||
-                           ((unsigned char)zTag[0] < 0xc0 && SyisSpace(zTag[0])))) {
+                           ((unsigned char) zTag[0] < 0xc0 && SyisSpace(zTag[0])))) {
       zTag++;
     }
     /* Delimit the tag */
     zCur = zTag;
     while (zTag < zEnd) {
-      if ((unsigned char)zTag[0] >= 0xc0) {
+      if ((unsigned char) zTag[0] >= 0xc0) {
         /* UTF-8 stream */
         zTag++;
         SX_JMP_UTF8(zTag, zEnd);
@@ -4960,7 +4960,7 @@ static sxi32 FindTag(SySet *pSet, const char *zTag, int nByte)
       sxi32 rc;
       sxu32 n;
       /* Perform the lookup */
-      aEntry = (SyString *)SySetBasePtr(pSet);
+      aEntry = (SyString *) SySetBasePtr(pSet);
       for ( n = 0 ; n < SySetUsed(pSet) ; ++n ) {
         pEntry = &aEntry[n];
         /* Do the comparison */
@@ -5005,7 +5005,7 @@ PH7_PRIVATE sxi32 PH7_StripTagsFromString(ph7_context *pCtx, const char *zIn, in
     }
     if (zIn > zPtr) {
       /* Consume raw input */
-      ph7_result_string(pCtx, zPtr, (int)(zIn - zPtr));
+      ph7_result_string(pCtx, zPtr, (int) (zIn - zPtr));
     }
     /* Ignore trailing null bytes */
     while (zIn < zEnd && zIn[0] == 0) {
@@ -5026,10 +5026,10 @@ PH7_PRIVATE sxi32 PH7_StripTagsFromString(ph7_context *pCtx, const char *zIn, in
         zIn++;         /* Ignore the trailing closing tag */
       }
       /* Query the set */
-      rc = FindTag(&sSet, zTag, (int)(zIn - zTag));
+      rc = FindTag(&sSet, zTag, (int) (zIn - zTag));
       if (rc == SXRET_OK) {
         /* Keep the tag */
-        ph7_result_string(pCtx, zTag, (int)(zIn - zTag));
+        ph7_result_string(pCtx, zTag, (int) (zIn - zTag));
       }
     }
   }
@@ -5102,7 +5102,7 @@ static int PH7_builtin_str_shuffle(ph7_context *pCtx, int nArg, ph7_value **apAr
     /* Extract a random offset */
     c = zString[iR % nLen];
     /* Append it */
-    ph7_result_string(pCtx, (const char *)&c, (int)sizeof(char));
+    ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
   }
   return PH7_OK;
 }
@@ -5139,7 +5139,7 @@ static int PH7_builtin_str_split(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_bool(pCtx, 0);
     return PH7_OK;
   }
-  split_len = (int)sizeof(char);
+  split_len = (int) sizeof(char);
   if (nArg > 1) {
     /* Split length */
     split_len = ph7_value_to_int(apArg[1]);
@@ -5170,7 +5170,7 @@ static int PH7_builtin_str_split(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* No more input to process */
       break;
     }
-    nMax = (int)(zEnd - zString);
+    nMax = (int) (zEnd - zString);
     if (nMax < split_len) {
       split_len = nMax;
     }
@@ -5200,7 +5200,7 @@ static sxi32 ExtractNonSpaceToken(const char **pzIn, const char *zEnd, SyString 
   const char *zIn = *pzIn;
   const char *zPtr;
   /* Ignore leading white spaces */
-  while (zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && SyisSpace(zIn[0])) {
+  while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && SyisSpace(zIn[0])) {
     zIn++;
   }
   if (zIn >= zEnd) {
@@ -5209,7 +5209,7 @@ static sxi32 ExtractNonSpaceToken(const char **pzIn, const char *zEnd, SyString 
   }
   zPtr = zIn;
   /* Extract the token */
-  while (zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && !SyisSpace(zIn[0])) {
+  while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && !SyisSpace(zIn[0])) {
     zIn++;
   }
   SyStringInitFromBuf(pOut, zPtr, zIn - zPtr);
@@ -5249,7 +5249,7 @@ static int LongestStringMask(const char *zString, int nLen, const char *zMask, i
     zString++;
   }
   /* Longest match */
-  return (int)(zString - zIn);
+  return (int) (zString - zIn);
 }
 /*
  * Do the reverse operation of the previous function [i.e: LongestStringMask()].
@@ -5280,7 +5280,7 @@ static int LongestStringMask2(const char *zString, int nLen, const char *zMask, 
     zString++;
   }
   /* Longest match */
-  return (int)(zString - zIn);
+  return (int) (zString - zIn);
 }
 /*
  * int strspn(string $str,string $mask[,int $start[,int $length]])
@@ -5336,7 +5336,7 @@ static int PH7_builtin_strspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
     if (nOfft < 0) {
       const char *zBase = &zString[iLen + nOfft];
       if (zBase > zString) {
-        iLen = (int)(&zString[iLen] - zBase);
+        iLen = (int) (&zString[iLen] - zBase);
         zString = zBase;
       }else{
         /* Invalid offset */
@@ -5369,7 +5369,7 @@ static int PH7_builtin_strspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
   rc = ExtractNonSpaceToken(&zString, zEnd, &sToken);
   if (rc == SXRET_OK && sToken.nByte > 0) {
     /* Compare against the current mask */
-    iCount = LongestStringMask(sToken.zString, (int)sToken.nByte, zMask, iMasklen);
+    iCount = LongestStringMask(sToken.zString, (int) sToken.nByte, zMask, iMasklen);
   }
   /* Longest match */
   ph7_result_int(pCtx, iCount);
@@ -5432,7 +5432,7 @@ static int PH7_builtin_strcspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
     if (nOfft < 0) {
       const char *zBase = &zString[iLen + nOfft];
       if (zBase > zString) {
-        iLen = (int)(&zString[iLen] - zBase);
+        iLen = (int) (&zString[iLen] - zBase);
         zString = zBase;
       }else{
         /* Invalid offset */
@@ -5465,7 +5465,7 @@ static int PH7_builtin_strcspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
   rc = ExtractNonSpaceToken(&zString, zEnd, &sToken);
   if (rc == SXRET_OK && sToken.nByte > 0) {
     /* Compare against the current mask */
-    iCount = LongestStringMask2(sToken.zString, (int)sToken.nByte, zMask, iMasklen);
+    iCount = LongestStringMask2(sToken.zString, (int) sToken.nByte, zMask, iMasklen);
   }
   /* Longest match */
   ph7_result_int(pCtx, iCount);
@@ -5507,7 +5507,7 @@ static int PH7_builtin_strpbrk(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* perform the requested operation */
   for ( i = 0 ; i < iListLen ; i++ ) {
     c = zList[i];
-    rc = SyByteFind(zString, (sxu32)iLen, c, &nMax);
+    rc = SyByteFind(zString, (sxu32) iLen, c, &nMax);
     if (rc == SXRET_OK) {
       if (nMax < nOfft) {
         nOfft = nMax;
@@ -5519,7 +5519,7 @@ static int PH7_builtin_strpbrk(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_bool(pCtx, 0);
   }else{
     /* Return the substring */
-    ph7_result_string(pCtx, &zString[nOfft], (int)(zEnd - &zString[nOfft]));
+    ph7_result_string(pCtx, &zString[nOfft], (int) (zEnd - &zString[nOfft]));
   }
   return PH7_OK;
 }
@@ -5555,17 +5555,17 @@ static int PH7_builtin_soundex(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_string(pCtx, "", 0);
     return PH7_OK;
   }
-  zIn = (unsigned char *)ph7_value_to_string(apArg[0], 0);
+  zIn = (unsigned char *) ph7_value_to_string(apArg[0], 0);
   for (i = 0 ; zIn[i] && zIn[i] < 0xc0 && !SyisAlpha(zIn[i]) ; i++) {}
   if (zIn[i]) {
     unsigned char prevcode = iCode[zIn[i] & 0x7f];
-    zResult[0] = (char)SyToUpper(zIn[i]);
+    zResult[0] = (char) SyToUpper(zIn[i]);
     for (j = 1 ; j < 4 && zIn[i] ; i++) {
       int code = iCode[zIn[i] & 0x7f];
       if (code > 0) {
         if (code != prevcode) {
-          prevcode = (unsigned char)code;
-          zResult[j++] = (char)code + '0';
+          prevcode = (unsigned char) code;
+          zResult[j++] = (char) code + '0';
         }
       }else{
         prevcode = 0;
@@ -5626,10 +5626,10 @@ static int PH7_builtin_wordwrap(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Set a default column break */
 #ifdef __WINNT__
     zBreak = "\r\n";
-    iBreaklen = (int)sizeof("\r\n") - 1;
+    iBreaklen = (int) sizeof("\r\n") - 1;
 #else
     zBreak = "\n";
-    iBreaklen = (int)sizeof(char);
+    iBreaklen = (int) sizeof(char);
 #endif
   }
   /* Perform the requested operation */
@@ -5640,7 +5640,7 @@ static int PH7_builtin_wordwrap(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* No more input to process */
       break;
     }
-    nMax = (int)(zEnd - zIn);
+    nMax = (int) (zEnd - zIn);
     if (iChunk > nMax) {
       iChunk = nMax;
     }
@@ -5682,7 +5682,7 @@ static sxi32 ExtractToken(const char **pzIn, const char *zEnd, const char *zMask
   const char *zIn = *pzIn;
   const char *zPtr;
   /* Ignore leading delimiter */
-  while (zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && CheckMask(zIn[0], zMask, nMasklen, 0)) {
+  while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && CheckMask(zIn[0], zMask, nMasklen, 0)) {
     zIn++;
   }
   if (zIn >= zEnd) {
@@ -5692,7 +5692,7 @@ static sxi32 ExtractToken(const char **pzIn, const char *zEnd, const char *zMask
   zPtr = zIn;
   /* Extract the token */
   while (zIn < zEnd) {
-    if ((unsigned char)zIn[0] >= 0xc0) {
+    if ((unsigned char) zIn[0] >= 0xc0) {
       /* UTF-8 stream */
       zIn++;
       SX_JMP_UTF8(zIn, zEnd);
@@ -5747,7 +5747,7 @@ static int PH7_builtin_strtok(ph7_context *pCtx, int nArg, ph7_value **apArg)
   sxi32 rc;
   if (nArg < 2) {
     /* Extract top aux data */
-    pAux = (strtok_aux_data *)ph7_context_peek_aux_data(pCtx);
+    pAux = (strtok_aux_data *) ph7_context_peek_aux_data(pCtx);
     if (pAux == 0) {
       /* No aux data,return FALSE */
       ph7_result_bool(pCtx, 0);
@@ -5761,9 +5761,9 @@ static int PH7_builtin_strtok(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     if (nMasklen < 1) {
       /* Invalid mask,return FALSE */
-      ph7_context_free_chunk(pCtx, (void *)pAux->zDup);
+      ph7_context_free_chunk(pCtx, (void *) pAux->zDup);
       ph7_context_free_chunk(pCtx, pAux);
-      (void)ph7_context_pop_aux_data(pCtx);
+      (void) ph7_context_pop_aux_data(pCtx);
       ph7_result_bool(pCtx, 0);
       return PH7_OK;
     }
@@ -5771,13 +5771,13 @@ static int PH7_builtin_strtok(ph7_context *pCtx, int nArg, ph7_value **apArg)
     rc = ExtractToken(&pAux->zIn, pAux->zEnd, zMask, nMasklen, &sToken);
     if (rc != SXRET_OK) {
       /* EOF ,discard the aux data */
-      ph7_context_free_chunk(pCtx, (void *)pAux->zDup);
+      ph7_context_free_chunk(pCtx, (void *) pAux->zDup);
       ph7_context_free_chunk(pCtx, pAux);
-      (void)ph7_context_pop_aux_data(pCtx);
+      (void) ph7_context_pop_aux_data(pCtx);
       ph7_result_bool(pCtx, 0);
     }else{
       /* Return the extracted token */
-      ph7_result_string(pCtx, sToken.zString, (int)sToken.nByte);
+      ph7_result_string(pCtx, sToken.zString, (int) sToken.nByte);
     }
   }else{
     const char *zInput, *zCur;
@@ -5796,7 +5796,7 @@ static int PH7_builtin_strtok(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* Set a default mask */
 #define TOK_MASK " \n\t\r\f"
       zMask = TOK_MASK;
-      nMasklen = (int)sizeof(TOK_MASK) - 1;
+      nMasklen = (int) sizeof(TOK_MASK) - 1;
 #undef TOK_MASK
     }
     /* Extract a single token */
@@ -5807,20 +5807,20 @@ static int PH7_builtin_strtok(ph7_context *pCtx, int nArg, ph7_value **apArg)
       return PH7_OK;
     }else{
       /* Return the extracted token */
-      ph7_result_string(pCtx, sToken.zString, (int)sToken.nByte);
+      ph7_result_string(pCtx, sToken.zString, (int) sToken.nByte);
     }
     /* Create our auxilliary data and copy the input */
-    pAux = (strtok_aux_data *)ph7_context_alloc_chunk(pCtx, sizeof(strtok_aux_data), TRUE, FALSE);
+    pAux = (strtok_aux_data *) ph7_context_alloc_chunk(pCtx, sizeof(strtok_aux_data), TRUE, FALSE);
     if (pAux) {
-      nLen -= (int)(zInput - zCur);
+      nLen -= (int) (zInput - zCur);
       if (nLen < 1) {
         ph7_context_free_chunk(pCtx, pAux);
         return PH7_OK;
       }
       /* Duplicate input */
-      zDup = (char *)ph7_context_alloc_chunk(pCtx, (unsigned int)(nLen + 1), TRUE, FALSE);
+      zDup = (char *) ph7_context_alloc_chunk(pCtx, (unsigned int) (nLen + 1), TRUE, FALSE);
       if (zDup) {
-        SyMemcpy(zInput, zDup, (sxu32)nLen);
+        SyMemcpy(zInput, zDup, (sxu32) nLen);
         /* Register the aux data */
         pAux->zDup = pAux->zIn = zDup;
         pAux->zEnd = &zDup[nLen];
@@ -5871,7 +5871,7 @@ static int PH7_builtin_str_pad(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   zPad = " ";   /* Whitespace padding */
-  iStrpad = (int)sizeof(char);
+  iStrpad = (int) sizeof(char);
   iType = 1;    /* STR_PAD_RIGHT */
   if (nArg > 2) {
     /* Padding string */
@@ -5879,7 +5879,7 @@ static int PH7_builtin_str_pad(ph7_context *pCtx, int nArg, ph7_value **apArg)
     if (iStrpad < 1) {
       /* Empty string */
       zPad = " ";       /* Whitespace padding */
-      iStrpad = (int)sizeof(char);
+      iStrpad = (int) sizeof(char);
     }
     if (nArg > 3) {
       /* Padd type */
@@ -5898,14 +5898,14 @@ static int PH7_builtin_str_pad(ph7_context *pCtx, int nArg, ph7_value **apArg)
     jPad = iStrpad;
     for ( i = 0 ; i < iPadlen / iDiv ; i += jPad ) {
       /* Padding */
-      if ((int)ph7_context_result_buf_length(pCtx) + iLen + jPad >= iRealPad) {
+      if ((int) ph7_context_result_buf_length(pCtx) + iLen + jPad >= iRealPad) {
         break;
       }
       ph7_result_string(pCtx, zPad, jPad);
     }
     if (iType == 0 /* STR_PAD_LEFT */ ) {
-      while ((int)ph7_context_result_buf_length(pCtx) + iLen < iRealPad) {
-        jPad = iRealPad - (iLen + (int)ph7_context_result_buf_length(pCtx));
+      while ((int) ph7_context_result_buf_length(pCtx) + iLen < iRealPad) {
+        jPad = iRealPad - (iLen + (int) ph7_context_result_buf_length(pCtx));
         if (jPad > iStrpad) {
           jPad = iStrpad;
         }
@@ -5923,13 +5923,13 @@ static int PH7_builtin_str_pad(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (iType == 1 /* STR_PAD_RIGHT */ || iType == 2 /* STR_PAD_BOTH */ ) {
     for ( i = 0 ; i < iPadlen / iDiv ; i += iStrpad ) {
       /* Padding */
-      if ((int)ph7_context_result_buf_length(pCtx) + iStrpad >= iRealPad) {
+      if ((int) ph7_context_result_buf_length(pCtx) + iStrpad >= iRealPad) {
         break;
       }
       ph7_result_string(pCtx, zPad, iStrpad);
     }
-    while ((int)ph7_context_result_buf_length(pCtx) < iRealPad) {
-      jPad = iRealPad - (int)ph7_context_result_buf_length(pCtx);
+    while ((int) ph7_context_result_buf_length(pCtx) < iRealPad) {
+      jPad = iRealPad - (int) ph7_context_result_buf_length(pCtx);
       if (jPad > iStrpad) {
         jPad = iStrpad;
       }
@@ -5980,7 +5980,7 @@ struct str_replace_data
  */
 static int StringReplace(SyBlob *pWorker, sxu32 nOfft, int nLen, const char *zReplace, int nReplen)
 {
-  char *zInput = (char *)SyBlobData(pWorker);
+  char *zInput = (char *) SyBlobData(pWorker);
   sxu32 n, m;
   n = SyBlobLength(pWorker);
   m = nOfft;
@@ -5994,13 +5994,13 @@ static int StringReplace(SyBlob *pWorker, sxu32 nOfft, int nLen, const char *zRe
      * Make sure the working buffer is big enough to hold the replacement
      * string.
      */
-    rc = SyBlobAppend(pWorker, 0 /* Grow without an append operation*/, (sxu32)nReplen);
+    rc = SyBlobAppend(pWorker, 0 /* Grow without an append operation*/, (sxu32) nReplen);
     if (rc != SXRET_OK) {
       /* Simply ignore any memory failure problem */
       return SXRET_OK;
     }
     /* Perform the insertion now */
-    zInput = (char *)SyBlobData(pWorker);
+    zInput = (char *) SyBlobData(pWorker);
     n = SyBlobLength(pWorker);
     SHIFTRANDINSERT(zInput, n, nOfft, zReplace, iRep);
     SyBlobLength(pWorker) += nReplen;
@@ -6015,7 +6015,7 @@ static int StringReplace(SyBlob *pWorker, sxu32 nOfft, int nLen, const char *zRe
  */
 static int StringReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserData)
 {
-  str_replace_data *pRepData = (str_replace_data *)pUserData;
+  str_replace_data *pRepData = (str_replace_data *) pUserData;
   const char *zTarget, *zReplace;
   SyBlob *pWorker;
   int tLen, nLen;
@@ -6034,7 +6034,7 @@ static int StringReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserDat
     return PH7_OK;
   }
   /* Perform a pattern search */
-  rc = pRepData->xMatch(SyBlobData(pWorker), SyBlobLength(pWorker), (const void *)zTarget, (sxu32)tLen, &nOfft);
+  rc = pRepData->xMatch(SyBlobData(pWorker), SyBlobLength(pWorker), (const void *) zTarget, (sxu32) tLen, &nOfft);
   if (rc != SXRET_OK) {
     /* Pattern not found */
     return PH7_OK;
@@ -6053,7 +6053,7 @@ static int StringReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserDat
  */
 static int StrReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserData)
 {
-  str_replace_data *pRep = (str_replace_data *)pUserData;
+  str_replace_data *pRep = (str_replace_data *) pUserData;
   SyString sWorker;
   const char *zIn;
   int nByte;
@@ -6063,20 +6063,20 @@ static int StrReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserData)
   if (nByte > 0) {
     char *zDup;
     /* Duplicate the chunk */
-    zDup = (char *)ph7_context_alloc_chunk(pRep->pCtx, (unsigned int)nByte, FALSE,
-                                           TRUE     /* Release the chunk automatically,upon this context is destroyd */
-                                           );
+    zDup = (char *) ph7_context_alloc_chunk(pRep->pCtx, (unsigned int) nByte, FALSE,
+                                            TRUE    /* Release the chunk automatically,upon this context is destroyd */
+                                            );
     if (zDup == 0) {
       /* Ignore any memory failure problem */
       ph7_context_throw_error(pRep->pCtx, PH7_CTX_ERR, "PH7 is running out of memory");
       return PH7_OK;
     }
-    SyMemcpy(zIn, zDup, (sxu32)nByte);
+    SyMemcpy(zIn, zDup, (sxu32) nByte);
     /* Save the chunk */
     SyStringInitFromBuf(&sWorker, zDup, nByte);
   }
   /* Save for later processing */
-  SySetPut(pRep->pCollector, (const void *)&sWorker);
+  SySetPut(pRep->pCollector, (const void *) &sWorker);
   /* All done */
   SXUNUSED(pKey);   /* cc warning */
   return PH7_OK;
@@ -6140,7 +6140,7 @@ static int PH7_builtin_str_replace(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   /* Copy the subject */
-  SyBlobAppend(&sWorker, (const void *)zIn, (sxu32)nByte);
+  SyBlobAppend(&sWorker, (const void *) zIn, (sxu32) nByte);
   /* Search string */
   if (ph7_value_is_array(apArg[0])) {
     /* Collect search string */
@@ -6155,7 +6155,7 @@ static int PH7_builtin_str_replace(ph7_context *pCtx, int nArg, ph7_value **apAr
     }
     SyStringInitFromBuf(&sTemp, zIn, nByte);
     /* Save for later processing */
-    SySetPut(&sSearch, (const void *)&sTemp);
+    SySetPut(&sSearch, (const void *) &sTemp);
   }
   /* Replace string */
   if (ph7_value_is_array(apArg[1])) {
@@ -6168,7 +6168,7 @@ static int PH7_builtin_str_replace(ph7_context *pCtx, int nArg, ph7_value **apAr
     rep_str = 1;
     SyStringInitFromBuf(&sTemp, zIn, nByte);
     /* Save for later processing */
-    SySetPut(&sReplace, (const void *)&sTemp);
+    SySetPut(&sReplace, (const void *) &sTemp);
   }
   /* Reset loop cursors */
   SySetResetCursor(&sSearch);
@@ -6184,7 +6184,7 @@ static int PH7_builtin_str_replace(ph7_context *pCtx, int nArg, ph7_value **apAr
     xMatch = iPatternMatch;
   }
   /* Start the replace process */
-  while (SXRET_OK == SySetGetNextEntry(&sSearch, (void **)&pSearch)) {
+  while (SXRET_OK == SySetGetNextEntry(&sSearch, (void **) &pSearch)) {
     sxu32 nCount, nOfft;
     if (pSearch->nByte < 1) {
       /* Empty string,ignore */
@@ -6192,9 +6192,9 @@ static int PH7_builtin_str_replace(ph7_context *pCtx, int nArg, ph7_value **apAr
     }
     /* Extract the replace string */
     if (rep_str) {
-      pReplace = (SyString *)SySetPeek(&sReplace);
+      pReplace = (SyString *) SySetPeek(&sReplace);
     }else{
-      if (SXRET_OK != SySetGetNextEntry(&sReplace, (void **)&pReplace)) {
+      if (SXRET_OK != SySetGetNextEntry(&sReplace, (void **) &pReplace)) {
         /* Sepecial case when 'replace set' has fewer values than the search set.
          * An empty string is used for the rest of replacement values
          */
@@ -6211,20 +6211,20 @@ static int PH7_builtin_str_replace(ph7_context *pCtx, int nArg, ph7_value **apAr
         break;
       }
       /* Perform a pattern lookup */
-      rc = xMatch(SyBlobDataAt(&sWorker, nCount), SyBlobLength(&sWorker) - nCount, (const void *)pSearch->zString,
+      rc = xMatch(SyBlobDataAt(&sWorker, nCount), SyBlobLength(&sWorker) - nCount, (const void *) pSearch->zString,
                   pSearch->nByte, &nOfft);
       if (rc != SXRET_OK) {
         /* Pattern not found */
         break;
       }
       /* Perform the replace operation */
-      StringReplace(&sWorker, nCount + nOfft, (int)pSearch->nByte, pReplace->zString, (int)pReplace->nByte);
+      StringReplace(&sWorker, nCount + nOfft, (int) pSearch->nByte, pReplace->zString, (int) pReplace->nByte);
       /* Increment offset counter */
       nCount += nOfft + pReplace->nByte;
     }
   }
   /* All done,clean-up the mess left behind */
-  ph7_result_string(pCtx, (const char *)SyBlobData(&sWorker), (int)SyBlobLength(&sWorker));
+  ph7_result_string(pCtx, (const char *) SyBlobData(&sWorker), (int) SyBlobLength(&sWorker));
   SySetRelease(&sSearch);
   SySetRelease(&sReplace);
   SyBlobRelease(&sWorker);
@@ -6269,15 +6269,15 @@ static int PH7_builtin_strtr(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Initilaize the working buffer */
     SyBlobInit(&sWorker, &pCtx->pVm->sAllocator);
     /* Copy raw string */
-    SyBlobAppend(&sWorker, (const void *)zIn, (sxu32)nLen);
+    SyBlobAppend(&sWorker, (const void *) zIn, (sxu32) nLen);
     /* Init our replace data instance */
     sRepData.pWorker = &sWorker;
     sRepData.xMatch = SyBlobSearch;
     /* Iterate throw array entries and perform the replace operation.*/
     ph7_array_walk(apArg[1], StringReplaceWalker, &sRepData);
     /* All done, return the result string */
-    ph7_result_string(pCtx, (const char *)SyBlobData(&sWorker),
-                      (int)SyBlobLength(&sWorker));     /* Will make it's own copy */
+    ph7_result_string(pCtx, (const char *) SyBlobData(&sWorker),
+                      (int) SyBlobLength(&sWorker));     /* Will make it's own copy */
     /* Clean-up */
     SyBlobRelease(&sWorker);
   }else{
@@ -6304,7 +6304,7 @@ static int PH7_builtin_strtr(ph7_context *pCtx, int nArg, ph7_value **apArg)
           c = zTo[iOfft];
         }
       }
-      ph7_result_string(pCtx, (const char *)&c, (int)sizeof(char));
+      ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
 
     }
   }
@@ -6356,7 +6356,7 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
   /* Start the parse process */
   for (;;) {
     /* Ignore leading white spaces */
-    while (zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && SyisSpace(zIn[0])) {
+    while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && SyisSpace(zIn[0])) {
       zIn++;
     }
     if (zIn >= zEnd) {
@@ -6382,9 +6382,9 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
       }
       if (zIn > zCur && bProcessSection) {
         /* Save the section name */
-        SyStringInitFromBuf(&sEntry, zCur, (int)(zIn - zCur));
+        SyStringInitFromBuf(&sEntry, zCur, (int) (zIn - zCur));
         SyStringFullTrim(&sEntry);
-        ph7_value_string(pWorker, sEntry.zString, (int)sEntry.nByte);
+        ph7_value_string(pWorker, sEntry.zString, (int) sEntry.nByte);
         if (sEntry.nByte > 0) {
           /* Associate an array with the section */
           pSection = ph7_context_new_array(pCtx);
@@ -6407,25 +6407,25 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
       while (zIn < zEnd && zIn[0] != '=') {
         if (zIn[0] == '[' && !is_array) {
           /* Array */
-          iLen = (int)(zIn - zCur);
+          iLen = (int) (zIn - zCur);
           is_array = 1;
           if (iLen > 0) {
             ph7_value *pvArr = 0;             /* cc warning */
             /* Query the hashtable */
             SyStringInitFromBuf(&sEntry, zCur, iLen);
             SyStringFullTrim(&sEntry);
-            pEntry = SyHashGet(&sHash, (const void *)sEntry.zString, sEntry.nByte);
+            pEntry = SyHashGet(&sHash, (const void *) sEntry.zString, sEntry.nByte);
             if (pEntry) {
-              pvArr = (ph7_value *)SyHashEntryGetUserData(pEntry);
+              pvArr = (ph7_value *) SyHashEntryGetUserData(pEntry);
             }else{
               /* Create an empty array */
               pvArr = ph7_context_new_array(pCtx);
               if (pvArr) {
                 /* Save the entry */
-                SyHashInsert(&sHash, (const void *)sEntry.zString, sEntry.nByte, pvArr);
+                SyHashInsert(&sHash, (const void *) sEntry.zString, sEntry.nByte, pvArr);
                 /* Insert the entry */
                 ph7_value_reset_string_cursor(pWorker);
-                ph7_value_string(pWorker, sEntry.zString, (int)sEntry.nByte);
+                ph7_value_string(pWorker, sEntry.zString, (int) sEntry.nByte);
                 ph7_array_add_elem(pCur, pWorker, pvArr);
                 ph7_value_reset_string_cursor(pWorker);
               }
@@ -6441,7 +6441,7 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
         zIn++;
       }
       if (!is_array) {
-        iLen = (int)(zIn - zCur);
+        iLen = (int) (zIn - zCur);
       }
       /* Trim the key */
       SyStringInitFromBuf(&sEntry, zCur, iLen);
@@ -6449,12 +6449,12 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
       if (sEntry.nByte > 0) {
         if (!is_array) {
           /* Save the key name */
-          ph7_value_string(pWorker, sEntry.zString, (int)sEntry.nByte);
+          ph7_value_string(pWorker, sEntry.zString, (int) sEntry.nByte);
         }
         /* extract key value */
         ph7_value_reset_string_cursor(pValue);
         zIn++;         /* '=' */
-        while (zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && SyisSpace(zIn[0])) {
+        while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && SyisSpace(zIn[0])) {
           zIn++;
         }
         if (zIn < zEnd) {
@@ -6486,20 +6486,20 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
             }
           }
           /* Trim the value */
-          SyStringInitFromBuf(&sEntry, zCur, (int)(zIn - zCur));
+          SyStringInitFromBuf(&sEntry, zCur, (int) (zIn - zCur));
           SyStringFullTrim(&sEntry);
           if (c == '"' || c == '\'') {
             SyStringTrimLeadingChar(&sEntry, c);
             SyStringTrimTrailingChar(&sEntry, c);
           }
           if (sEntry.nByte > 0) {
-            ph7_value_string(pValue, sEntry.zString, (int)sEntry.nByte);
+            ph7_value_string(pValue, sEntry.zString, (int) sEntry.nByte);
           }
           /* Insert the key and it's value */
           ph7_array_add_elem(pCur, is_array ? 0 /*Automatic index assign */: pWorker, pValue);
         }
       }else{
-        while (zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && (SyisSpace(zIn[0]) || zIn[0] == '=')) {
+        while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && (SyisSpace(zIn[0]) || zIn[0] == '=')) {
           zIn++;
         }
       }
@@ -6538,7 +6538,7 @@ static int PH7_builtin_parse_ini_string(ph7_context *pCtx, int nArg, ph7_value *
   /* Extract the raw INI buffer */
   zIni = ph7_value_to_string(apArg[0], &nByte);
   /* Process the INI buffer*/
-  PH7_ParseIniString(pCtx, zIni, (sxu32)nByte, (nArg > 1) ? ph7_value_to_bool(apArg[1]) : 0);
+  PH7_ParseIniString(pCtx, zIni, (sxu32) nByte, (nArg > 1) ? ph7_value_to_bool(apArg[1]) : 0);
   return PH7_OK;
 }
 /*
@@ -6568,7 +6568,7 @@ static int PH7_builtin_ctype_alnum(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn = (const unsigned char *)ph7_value_to_string(apArg[0], &nLen);
+  zIn = (const unsigned char *) ph7_value_to_string(apArg[0], &nLen);
   zEnd = &zIn[nLen];
   if (nLen < 1) {
     /* Empty string,return FALSE */
@@ -6611,7 +6611,7 @@ static int PH7_builtin_ctype_alpha(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn = (const unsigned char *)ph7_value_to_string(apArg[0], &nLen);
+  zIn = (const unsigned char *) ph7_value_to_string(apArg[0], &nLen);
   zEnd = &zIn[nLen];
   if (nLen < 1) {
     /* Empty string,return FALSE */
@@ -6654,7 +6654,7 @@ static int PH7_builtin_ctype_cntrl(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn = (const unsigned char *)ph7_value_to_string(apArg[0], &nLen);
+  zIn = (const unsigned char *) ph7_value_to_string(apArg[0], &nLen);
   zEnd = &zIn[nLen];
   if (nLen < 1) {
     /* Empty string,return FALSE */
@@ -6701,7 +6701,7 @@ static int PH7_builtin_ctype_digit(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn = (const unsigned char *)ph7_value_to_string(apArg[0], &nLen);
+  zIn = (const unsigned char *) ph7_value_to_string(apArg[0], &nLen);
   zEnd = &zIn[nLen];
   if (nLen < 1) {
     /* Empty string,return FALSE */
@@ -6749,7 +6749,7 @@ static int PH7_builtin_ctype_xdigit(ph7_context *pCtx, int nArg, ph7_value **apA
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn = (const unsigned char *)ph7_value_to_string(apArg[0], &nLen);
+  zIn = (const unsigned char *) ph7_value_to_string(apArg[0], &nLen);
   zEnd = &zIn[nLen];
   if (nLen < 1) {
     /* Empty string,return FALSE */
@@ -6797,7 +6797,7 @@ static int PH7_builtin_ctype_graph(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn = (const unsigned char *)ph7_value_to_string(apArg[0], &nLen);
+  zIn = (const unsigned char *) ph7_value_to_string(apArg[0], &nLen);
   zEnd = &zIn[nLen];
   if (nLen < 1) {
     /* Empty string,return FALSE */
@@ -6846,7 +6846,7 @@ static int PH7_builtin_ctype_print(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn = (const unsigned char *)ph7_value_to_string(apArg[0], &nLen);
+  zIn = (const unsigned char *) ph7_value_to_string(apArg[0], &nLen);
   zEnd = &zIn[nLen];
   if (nLen < 1) {
     /* Empty string,return FALSE */
@@ -6894,7 +6894,7 @@ static int PH7_builtin_ctype_punct(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn = (const unsigned char *)ph7_value_to_string(apArg[0], &nLen);
+  zIn = (const unsigned char *) ph7_value_to_string(apArg[0], &nLen);
   zEnd = &zIn[nLen];
   if (nLen < 1) {
     /* Empty string,return FALSE */
@@ -6943,7 +6943,7 @@ static int PH7_builtin_ctype_space(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn = (const unsigned char *)ph7_value_to_string(apArg[0], &nLen);
+  zIn = (const unsigned char *) ph7_value_to_string(apArg[0], &nLen);
   zEnd = &zIn[nLen];
   if (nLen < 1) {
     /* Empty string,return FALSE */
@@ -6990,7 +6990,7 @@ static int PH7_builtin_ctype_lower(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn = (const unsigned char *)ph7_value_to_string(apArg[0], &nLen);
+  zIn = (const unsigned char *) ph7_value_to_string(apArg[0], &nLen);
   zEnd = &zIn[nLen];
   if (nLen < 1) {
     /* Empty string,return FALSE */
@@ -7033,7 +7033,7 @@ static int PH7_builtin_ctype_upper(ph7_context *pCtx, int nArg, ph7_value **apAr
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn = (const unsigned char *)ph7_value_to_string(apArg[0], &nLen);
+  zIn = (const unsigned char *) ph7_value_to_string(apArg[0], &nLen);
   zEnd = &zIn[nLen];
   if (nLen < 1) {
     /* Empty string,return FALSE */
@@ -7084,8 +7084,8 @@ struct tm * __cdecl localtime(const time_t *t)
   ph7_int64 t64;
   t64 = *t;
   t64 = (t64 + 11644473600) * 10000000;
-  uTm.dwLowDateTime = (DWORD)(t64 & 0xFFFFFFFF);
-  uTm.dwHighDateTime = (DWORD)(t64 >> 32);
+  uTm.dwLowDateTime = (DWORD) (t64 & 0xFFFFFFFF);
+  uTm.dwHighDateTime = (DWORD) (t64 >> 32);
   FileTimeToLocalFileTime(&uTm, &lTm);
   FileTimeToSystemTime(&lTm, &pTm);
   y.tm_year = pTm.wYear - 1900;
@@ -7118,7 +7118,7 @@ static int PH7_builtin_time(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Extract the current time */
   time(&tt);
   /* Return as 64-bit integer */
-  ph7_result_int64(pCtx, (ph7_int64)tt);
+  ph7_result_int64(pCtx, (ph7_int64) tt);
   return PH7_OK;
 }
 /*
@@ -7143,20 +7143,20 @@ static int PH7_builtin_microtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
 #if defined(__UNIXES__)
   struct timeval tv;
   gettimeofday(&tv, 0);
-  sTime.tm_sec = (long)tv.tv_sec;
-  sTime.tm_usec = (long)tv.tv_usec;
+  sTime.tm_sec = (long) tv.tv_sec;
+  sTime.tm_usec = (long) tv.tv_usec;
 #else
   time_t tt;
   time(&tt);
-  sTime.tm_sec = (long)tt;
-  sTime.tm_usec = (long)(tt % SX_USEC_PER_SEC);
+  sTime.tm_sec = (long) tt;
+  sTime.tm_usec = (long) (tt % SX_USEC_PER_SEC);
 #endif /* __UNIXES__ */
   if (nArg > 0) {
     bFloat = ph7_value_to_bool(apArg[0]);
   }
   if (bFloat) {
     /* Return as float */
-    ph7_result_double(pCtx, (double)sTime.tm_sec);
+    ph7_result_double(pCtx, (double) sTime.tm_sec);
   }else{
     /* Return as string */
     ph7_result_string_format(pCtx, "%ld %ld", sTime.tm_usec, sTime.tm_sec);
@@ -7217,7 +7217,7 @@ static int PH7_builtin_getdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
 #endif
 #endif
     if (ph7_value_is_int(apArg[0])) {
-      t = (time_t)ph7_value_to_int64(apArg[0]);
+      t = (time_t) ph7_value_to_int64(apArg[0]);
       pTm = localtime(&t);
       if (pTm == 0) {
         time(&t);
@@ -7275,7 +7275,7 @@ static int PH7_builtin_getdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_value_string(pValue, SyTimeGetMonth(sTm.tm_mon), -1);
   ph7_array_add_strkey_elem(pArray, "month", pValue);
   /* Seconds since the epoch */
-  ph7_value_int64(pValue, (ph7_int64)time(0));
+  ph7_value_int64(pValue, (ph7_int64) time(0));
   ph7_array_add_intkey_elem(pArray, 0 /* Index zero */, pValue);
   /* Return the freshly created array */
   ph7_result_value(pCtx, pArray);
@@ -7298,20 +7298,20 @@ static int PH7_builtin_gettimeofday(ph7_context *pCtx, int nArg, ph7_value **apA
 #if defined(__UNIXES__)
   struct timeval tv;
   gettimeofday(&tv, 0);
-  sTime.tm_sec = (long)tv.tv_sec;
-  sTime.tm_usec = (long)tv.tv_usec;
+  sTime.tm_sec = (long) tv.tv_sec;
+  sTime.tm_usec = (long) tv.tv_usec;
 #else
   time_t tt;
   time(&tt);
-  sTime.tm_sec = (long)tt;
-  sTime.tm_usec = (long)(tt % SX_USEC_PER_SEC);
+  sTime.tm_sec = (long) tt;
+  sTime.tm_usec = (long) (tt % SX_USEC_PER_SEC);
 #endif /* __UNIXES__ */
   if (nArg > 0) {
     bFloat = ph7_value_to_bool(apArg[0]);
   }
   if (bFloat) {
     /* Return as float */
-    ph7_result_double(pCtx, (double)sTime.tm_sec);
+    ph7_result_double(pCtx, (double) sTime.tm_sec);
   }else{
     /* Return an associative array */
     ph7_value *pValue, *pArray;
@@ -7508,7 +7508,7 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
         /* English ordinal suffix for the day of the month, 2 characters */
         static const char zSuffix[] = "thstndrdthththththth";
         int v = pTm->tm_mday;
-        ph7_result_string(pCtx, &zSuffix[2 * (int)(v / 10 % 10 != 1 ? v % 10 : 0)], (int)sizeof(char) * 2);
+        ph7_result_string(pCtx, &zSuffix[2 * (int) (v / 10 % 10 != 1 ? v % 10 : 0)], (int) sizeof(char) * 2);
         break;
       }
       case 'e':
@@ -7547,7 +7547,7 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
         time_t tt;
         /* Seconds since the Unix Epoch */
         time(&tt);
-        ph7_result_string_format(pCtx, "%u", (unsigned int)tt);
+        ph7_result_string_format(pCtx, "%u", (unsigned int) tt);
         break;
       }
       case 'O':
@@ -7577,12 +7577,12 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
         zIn++;
         /* Expand verbatim */
         if (zIn < zEnd) {
-          ph7_result_string(pCtx, zIn, (int)sizeof(char));
+          ph7_result_string(pCtx, zIn, (int) sizeof(char));
         }
         break;
       default:
         /* Unknown format specifer,expand verbatim */
-        ph7_result_string(pCtx, zIn, (int)sizeof(char));
+        ph7_result_string(pCtx, zIn, (int) sizeof(char));
         break;
     }
     /* Point to the next character */
@@ -7652,7 +7652,7 @@ static int PH7_Strftime(
     }
     if (zIn > zCur) {
       /* Consume input verbatim */
-      ph7_result_string(pCtx, zCur, (int)(zIn - zCur));
+      ph7_result_string(pCtx, zCur, (int) (zIn - zCur));
     }
     zIn++;     /* Jump the percent sign */
     if (zIn >= zEnd) {
@@ -7664,19 +7664,19 @@ static int PH7_Strftime(
     switch (c) {
       case '%':
         /* A literal percentage character ("%") */
-        ph7_result_string(pCtx, "%", (int)sizeof(char));
+        ph7_result_string(pCtx, "%", (int) sizeof(char));
         break;
       case 't':
         /* A Tab character */
-        ph7_result_string(pCtx, "\t", (int)sizeof(char));
+        ph7_result_string(pCtx, "\t", (int) sizeof(char));
         break;
       case 'n':
         /* A newline character */
-        ph7_result_string(pCtx, "\n", (int)sizeof(char));
+        ph7_result_string(pCtx, "\n", (int) sizeof(char));
         break;
       case 'a':
         /* An abbreviated textual representation of the day */
-        ph7_result_string(pCtx, SyTimeGetDay(pTm->tm_wday), (int)sizeof(char) * 3);
+        ph7_result_string(pCtx, SyTimeGetDay(pTm->tm_wday), (int) sizeof(char) * 3);
         break;
       case 'A':
         /* A full textual representation of the day */
@@ -7705,7 +7705,7 @@ static int PH7_Strftime(
       case 'b':
       case 'h':
         /*A short textual representation of a month, three letters (Not based on locale)*/
-        ph7_result_string(pCtx, SyTimeGetMonth(pTm->tm_mon), (int)sizeof(char) * 3);
+        ph7_result_string(pCtx, SyTimeGetMonth(pTm->tm_mon), (int) sizeof(char) * 3);
         break;
       case 'B':
         /* Full month name (Not based on locale) */
@@ -7770,11 +7770,11 @@ static int PH7_Strftime(
         break;
       case 'P':
         /*	Lowercase Ante meridiem and Post meridiem */
-        ph7_result_string(pCtx, pTm->tm_hour > 12 ? "pm" : "am", (int)sizeof(char) * 2);
+        ph7_result_string(pCtx, pTm->tm_hour > 12 ? "pm" : "am", (int) sizeof(char) * 2);
         break;
       case 'p':
         /*	Uppercase Ante meridiem and Post meridiem */
-        ph7_result_string(pCtx, pTm->tm_hour > 12 ? "PM" : "AM", (int)sizeof(char) * 2);
+        ph7_result_string(pCtx, pTm->tm_hour > 12 ? "PM" : "AM", (int) sizeof(char) * 2);
         break;
       case 'r':
         /* Same as "%I:%M:%S %p" */
@@ -7816,7 +7816,7 @@ static int PH7_Strftime(
         time_t tt;
         /* Seconds since the Unix Epoch */
         time(&tt);
-        ph7_result_string_format(pCtx, "%u", (unsigned int)tt);
+        ph7_result_string_format(pCtx, "%u", (unsigned int) tt);
         break;
       }
       default:
@@ -7875,7 +7875,7 @@ static int PH7_builtin_date(ph7_context *pCtx, int nArg, ph7_value **apArg)
     time_t t;
     struct tm *pTm;
     if (ph7_value_is_int(apArg[1])) {
-      t = (time_t)ph7_value_to_int64(apArg[1]);
+      t = (time_t) ph7_value_to_int64(apArg[1]);
       pTm = localtime(&t);
       if (pTm == 0) {
         time(&t);
@@ -7936,7 +7936,7 @@ static int PH7_builtin_strftime(ph7_context *pCtx, int nArg, ph7_value **apArg)
     time_t t;
     struct tm *pTm;
     if (ph7_value_is_int(apArg[1])) {
-      t = (time_t)ph7_value_to_int64(apArg[1]);
+      t = (time_t) ph7_value_to_int64(apArg[1]);
       pTm = localtime(&t);
       if (pTm == 0) {
         time(&t);
@@ -8001,7 +8001,7 @@ static int PH7_builtin_gmdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
     time_t t;
     struct tm *pTm;
     if (ph7_value_is_int(apArg[1])) {
-      t = (time_t)ph7_value_to_int64(apArg[1]);
+      t = (time_t) ph7_value_to_int64(apArg[1]);
       pTm = gmtime(&t);
       if (pTm == 0) {
         time(&t);
@@ -8062,7 +8062,7 @@ static int PH7_builtin_localtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
     time_t t;
     struct tm *pTm;
     if (ph7_value_is_int(apArg[0])) {
-      t = (time_t)ph7_value_to_int64(apArg[0]);
+      t = (time_t) ph7_value_to_int64(apArg[0]);
       pTm = localtime(&t);
       if (pTm == 0) {
         time(&t);
@@ -8231,7 +8231,7 @@ static int PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
     time_t t;
     struct tm *pTm;
     if (ph7_value_is_int(apArg[1])) {
-      t = (time_t)ph7_value_to_int64(apArg[1]);
+      t = (time_t) ph7_value_to_int64(apArg[1]);
       pTm = localtime(&t);
       if (pTm == 0) {
         time(&t);
@@ -8295,7 +8295,7 @@ static int PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     case 'U':
       /*Seconds since the Unix Epoch*/
-      iVal = (ph7_int64)time(0);
+      iVal = (ph7_int64) time(0);
       break;
     case 'w':
       /*	Day of the week (0 on Sunday) */
@@ -8430,7 +8430,7 @@ static int PH7_builtin_mktime(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
   }
   /* Make the time */
-  iVal = (ph7_int64)mktime(pTm);
+  iVal = (ph7_int64) mktime(pTm);
   /* Return the timesatmp as a 64bit integer */
   ph7_result_int64(pCtx, iVal);
   return PH7_OK;
@@ -8451,7 +8451,7 @@ static int PH7_builtin_mktime(ph7_context *pCtx, int nArg, ph7_value **apArg)
 static int Consumer(const void *pData, unsigned int nLen, void *pUserData)
 {
   /* Store in the call context result buffer */
-  ph7_result_string((ph7_context *)pUserData, (const char *)pData, (int)nLen);
+  ph7_result_string((ph7_context *) pUserData, (const char *) pData, (int) nLen);
   return SXRET_OK;
 }
 /*
@@ -8481,7 +8481,7 @@ static int PH7_builtin_base64_encode(ph7_context *pCtx, int nArg, ph7_value **ap
     return PH7_OK;
   }
   /* Perform the BASE64 encoding */
-  SyBase64Encode(zIn, (sxu32)nLen, Consumer, pCtx);
+  SyBase64Encode(zIn, (sxu32) nLen, Consumer, pCtx);
   return PH7_OK;
 }
 /*
@@ -8511,7 +8511,7 @@ static int PH7_builtin_base64_decode(ph7_context *pCtx, int nArg, ph7_value **ap
     return PH7_OK;
   }
   /* Perform the BASE64 decoding */
-  SyBase64Decode(zIn, (sxu32)nLen, Consumer, pCtx);
+  SyBase64Decode(zIn, (sxu32) nLen, Consumer, pCtx);
   return PH7_OK;
 }
 /*
@@ -8542,7 +8542,7 @@ static int PH7_builtin_urlencode(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Perform the URL encoding */
-  SyUriEncode(zIn, (sxu32)nLen, Consumer, pCtx);
+  SyUriEncode(zIn, (sxu32) nLen, Consumer, pCtx);
   return PH7_OK;
 }
 /*
@@ -8572,7 +8572,7 @@ static int PH7_builtin_urldecode(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Perform the URL decoding */
-  SyUriDecode(zIn, (sxu32)nLen, Consumer, pCtx, TRUE);
+  SyUriDecode(zIn, (sxu32) nLen, Consumer, pCtx, TRUE);
   return PH7_OK;
 }
 #endif /* PH7_DISABLE_BUILTIN_FUNC */

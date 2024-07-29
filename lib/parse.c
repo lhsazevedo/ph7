@@ -293,7 +293,7 @@ PH7_PRIVATE const ph7_expr_op* PH7_ExprExtractOperator(SyString *pStr, SyToken *
         return &aOpTable[n];
       }
       if (pLast->nType & PH7_TK_OP) {
-        const ph7_expr_op *pOp = (const ph7_expr_op *)pLast->pUserData;
+        const ph7_expr_op *pOp = (const ph7_expr_op *) pLast->pUserData;
         /* Ticket 1433-31: Handle the '++','--' operators case */
         if (pOp->iOp != EXPR_OP_INCR && pOp->iOp != EXPR_OP_DECR) {
           /* Unary opertors have prcedence here over binary operators */
@@ -376,7 +376,7 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
   if (nNode > 0 && apNode[0]->pOp && (apNode[0]->pOp->iOp == EXPR_OP_ADD || apNode[0]->pOp->iOp == EXPR_OP_SUB)) {
     /* Fix and mark as an unary not binary plus/minus operator */
     apNode[0]->pOp = PH7_ExprExtractOperator(&apNode[0]->pStart->sData, 0);
-    apNode[0]->pStart->pUserData = (void *)apNode[0]->pOp;
+    apNode[0]->pStart->pUserData = (void *) apNode[0]->pOp;
   }
   iParen = iSquare = iQuesty = iBraces = 0;
   for ( i = 0 ; i < nNode ; ++i ) {
@@ -389,7 +389,7 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
            * not a simple left parenthesis. Mark the node.
            */
           apNode[i]->pStart->nType |= PH7_TK_OP;
-          apNode[i]->pStart->pUserData = (void *)&sFCallOp;               /* Function call operator */
+          apNode[i]->pStart->pUserData = (void *) &sFCallOp;               /* Function call operator */
           apNode[i]->pOp = &sFCallOp;
         }
       }
@@ -480,7 +480,7 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
       }
       iQuesty--;
     }else if (apNode[i]->pStart->nType & PH7_TK_OP) {
-      const ph7_expr_op *pOp = (const ph7_expr_op *)apNode[i]->pOp;
+      const ph7_expr_op *pOp = (const ph7_expr_op *) apNode[i]->pOp;
       if (pOp->iOp == EXPR_OP_QUESTY) {
         iQuesty++;
       }else if (i > 0 && (pOp->iOp == EXPR_OP_UMINUS || pOp->iOp == EXPR_OP_UPLUS)) {
@@ -500,7 +500,7 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
           pOp = &aOpTable[n];
           /* Mark as binary '+' or '-',not an unary */
           apNode[i]->pOp = pOp;
-          apNode[i]->pStart->pUserData = (void *)pOp;
+          apNode[i]->pStart->pUserData = (void *) pOp;
         }
       }
     }
@@ -668,7 +668,7 @@ static sxi32 ExprExtractNode(ph7_gen_state *pGen, ph7_expr_node **ppNode)
   SyToken *pCur;
   sxi32 rc;
   /* Allocate a new node */
-  pNode = (ph7_expr_node *)SyMemBackendPoolAlloc(&pGen->pVm->sAllocator, sizeof(ph7_expr_node));
+  pNode = (ph7_expr_node *) SyMemBackendPoolAlloc(&pGen->pVm->sAllocator, sizeof(ph7_expr_node));
   if (pNode == 0) {
     /* If the supplied memory subsystem is so sick that we are unable to allocate
      * a tiny chunk of memory, there is no much we can do here.
@@ -683,7 +683,7 @@ static sxi32 ExprExtractNode(ph7_gen_state *pGen, ph7_expr_node **ppNode)
   /* Start collecting tokens */
   if (pCur->nType & PH7_TK_OP) {
     /* Point to the instance that describe this operator */
-    pNode->pOp = (const ph7_expr_op *)pCur->pUserData;
+    pNode->pOp = (const ph7_expr_op *) pCur->pUserData;
     /* Advance the stream cursor */
     pCur++;
   }else if (pCur->nType & PH7_TK_DOLLAR) {
@@ -713,7 +713,7 @@ static sxi32 ExprExtractNode(ph7_gen_state *pGen, ph7_expr_node **ppNode)
     }
     pNode->xCode = PH7_CompileVariable;
   }else if (pCur->nType & PH7_TK_KEYWORD) {
-    sxu32 nKeyword = (sxu32)SX_PTR_TO_INT(pCur->pUserData);
+    sxu32 nKeyword = (sxu32) SX_PTR_TO_INT(pCur->pUserData);
     if (nKeyword == PH7_TKWRD_ARRAY || nKeyword == PH7_TKWRD_LIST) {
       /* List/Array node */
       if (&pCur[1] >= pGen->pEnd || (pCur[1].nType & PH7_TK_LPAREN) == 0) {
@@ -738,7 +738,7 @@ static sxi32 ExprExtractNode(ph7_gen_state *pGen, ph7_expr_node **ppNode)
         }
         pNode->xCode = (nKeyword == PH7_TKWRD_LIST) ? PH7_CompileList : PH7_CompileArray;
         if (pNode->xCode == PH7_CompileList) {
-          ph7_expr_op *pOp = (pCur < pGen->pEnd) ? (ph7_expr_op *)pCur->pUserData : 0;
+          ph7_expr_op *pOp = (pCur < pGen->pEnd) ? (ph7_expr_op *) pCur->pUserData : 0;
           if (pCur >= pGen->pEnd || (pCur->nType & PH7_TK_OP) == 0 || pOp == 0 || pOp->iVmOp != PH7_OP_STORE /*'='*/ ) {
             /* Syntax error */
             rc = PH7_GenCompileError(pGen, E_ERROR, pNode->pStart->nLine, "list(): expecting '=' after construct");
@@ -850,7 +850,7 @@ static void ExprFreeTree(ph7_gen_state *pGen, ph7_expr_node *pNode)
     ph7_expr_node **apArg;
     sxu32 n;
     /* Release node arguments */
-    apArg = (ph7_expr_node **)SySetBasePtr(&pNode->aNodeArgs);
+    apArg = (ph7_expr_node **) SySetBasePtr(&pNode->aNodeArgs);
     for ( n = 0 ; n < SySetUsed(&pNode->aNodeArgs) ; ++n ) {
       ExprFreeTree(&(*pGen), apArg[n]);
     }
@@ -867,7 +867,7 @@ PH7_PRIVATE sxi32 PH7_ExprFreeTree(ph7_gen_state *pGen, SySet *pNodeSet)
 {
   ph7_expr_node **apNode;
   sxu32 n;
-  apNode = (ph7_expr_node **)SySetBasePtr(pNodeSet);
+  apNode = (ph7_expr_node **) SySetBasePtr(pNodeSet);
   for ( n = 0 ; n < SySetUsed(pNodeSet) ; ++n ) {
     if (apNode[n]) {
       ExprFreeTree(&(*pGen), apNode[n]);
@@ -950,7 +950,7 @@ static sxi32 ExprProcessFuncArguments(ph7_gen_state *pGen, ph7_expr_node *pOp, p
       ExprMakeTree(&(*pGen), &apNode[iNode], iCur - iNode);
       if (apNode[iNode]) {
         /* Put a pointer to the root of the tree in the arguments set */
-        SySetPut(&pOp->aNodeArgs, (const void *)&apNode[iNode]);
+        SySetPut(&pOp->aNodeArgs, (const void *) &apNode[iNode]);
       }else{
         /* Empty function argument */
         rc = PH7_GenCompileError(&(*pGen), E_ERROR, pOp->pStart->nLine, "Empty function argument");
@@ -1169,7 +1169,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
             return rc;
           }
           /* Link the node to it's index */
-          SySetPut(&pNode->aNodeArgs, (const void *)&apNode[iCur + 1]);
+          SySetPut(&pNode->aNodeArgs, (const void *) &apNode[iCur + 1]);
         }
         /* Link the node to the tree */
         pNode->pLeft = apNode[iLeft];
@@ -1596,16 +1596,16 @@ PH7_PRIVATE sxi32 PH7_ExprMakeTree(ph7_gen_state *pGen, SySet *pExprNode, ph7_ex
       return rc;
     }
     /* Save the extracted node */
-    SySetPut(pExprNode, (const void *)&pNode);
+    SySetPut(pExprNode, (const void *) &pNode);
   }
   if (SySetUsed(pExprNode) < 1) {
     /* Empty expression [i.e: A semi-colon;] */
     *ppRoot = 0;
     return SXRET_OK;
   }
-  apNode = (ph7_expr_node **)SySetBasePtr(pExprNode);
+  apNode = (ph7_expr_node **) SySetBasePtr(pExprNode);
   /* Make sure we are dealing with valid nodes */
-  rc = ExprVerifyNodes(&(*pGen), apNode, (sxi32)SySetUsed(pExprNode));
+  rc = ExprVerifyNodes(&(*pGen), apNode, (sxi32) SySetUsed(pExprNode));
   if (rc != SXRET_OK) {
     /* Don't worry about freeing memory,upper layer will
      * cleanup the mess left behind.
@@ -1614,7 +1614,7 @@ PH7_PRIVATE sxi32 PH7_ExprMakeTree(ph7_gen_state *pGen, SySet *pExprNode, ph7_ex
     return rc;
   }
   /* Build the tree */
-  rc = ExprMakeTree(&(*pGen), apNode, (sxi32)SySetUsed(pExprNode));
+  rc = ExprMakeTree(&(*pGen), apNode, (sxi32) SySetUsed(pExprNode));
   if (rc != SXRET_OK) {
     /* Something goes wrong [i.e: Syntax error] */
     *ppRoot = 0;

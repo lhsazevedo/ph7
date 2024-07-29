@@ -37,7 +37,7 @@
  * compilers.
  */
 #ifndef LARGEST_INT64
-#define LARGEST_INT64  (0xffffffff | (((sxi64)0x7fffffff) << 32))
+#define LARGEST_INT64  (0xffffffff | (((sxi64) 0x7fffffff) << 32))
 #endif
 #ifndef SMALLEST_INT64
 #define SMALLEST_INT64 (((sxi64) - 1) - LARGEST_INT64)
@@ -95,14 +95,14 @@ typedef double sxreal;
  * integers to pointers.
  */
 #if defined(__PTRDIFF_TYPE__)
-# define SX_INT_TO_PTR(X)  ((void *)(__PTRDIFF_TYPE__)(X))
-# define SX_PTR_TO_INT(X)  ((int)(__PTRDIFF_TYPE__)(X))
+# define SX_INT_TO_PTR(X)  ((void *) (__PTRDIFF_TYPE__) (X))
+# define SX_PTR_TO_INT(X)  ((int) (__PTRDIFF_TYPE__) (X))
 #elif !defined(__GNUC__)
-# define SX_INT_TO_PTR(X)  ((void *)&((char *)0)[X])
-# define SX_PTR_TO_INT(X)  ((int)(((char *)X) - (char *)0))
+# define SX_INT_TO_PTR(X)  ((void *) &((char *) 0)[X])
+# define SX_PTR_TO_INT(X)  ((int) (((char *) X) - (char *) 0))
 #else
-# define SX_INT_TO_PTR(X)  ((void *)(X))
-# define SX_PTR_TO_INT(X)  ((int)(X))
+# define SX_INT_TO_PTR(X)  ((void *) (X))
+# define SX_PTR_TO_INT(X)  ((int) (X))
 #endif
 #define SXMIN(a, b)  ((a < b) ? (a) : (b))
 #define SXMAX(a, b)  ((a < b) ? (b) : (a))
@@ -115,8 +115,8 @@ typedef sxi32 (*ProcRawStrCmp)(const SyString *, const SyString *);
 #define SyStringData(RAW)   ((RAW)->zString)
 #define SyStringLength(RAW) ((RAW)->nByte)
 #define SyStringInitFromBuf(RAW, ZBUF, NLEN){ \
-          (RAW)->zString = (const char *)ZBUF; \
-          (RAW)->nByte = (sxu32)(NLEN); \
+          (RAW)->zString = (const char *) ZBUF; \
+          (RAW)->nByte = (sxu32) (NLEN); \
 }
 #define SyStringUpdatePtr(RAW, NBYTES){ \
           if (NBYTES > (RAW)->nByte) { \
@@ -140,15 +140,15 @@ typedef sxi32 (*ProcRawStrCmp)(const SyString *, const SyString *);
           (RAW)->nByte--; \
         }
 #define SyStringCmp(RAW1, RAW2, xCMP) \
-        (((RAW1)->nByte == (RAW2)->nByte) ? xCMP((RAW1)->zString, (RAW2)->zString, (RAW2)->nByte) : (sxi32)((RAW1)->nByte - (RAW2)->nByte))
+        (((RAW1)->nByte == (RAW2)->nByte) ? xCMP((RAW1)->zString, (RAW2)->zString, (RAW2)->nByte) : (sxi32) ((RAW1)->nByte - (RAW2)->nByte))
 
 #define SyStringCmp2(RAW1, RAW2, xCMP) \
-        (((RAW1)->nByte >= (RAW2)->nByte) ? xCMP((RAW1)->zString, (RAW2)->zString, (RAW2)->nByte) : (sxi32)((RAW2)->nByte - (RAW1)->nByte))
+        (((RAW1)->nByte >= (RAW2)->nByte) ? xCMP((RAW1)->zString, (RAW2)->zString, (RAW2)->nByte) : (sxi32) ((RAW2)->nByte - (RAW1)->nByte))
 
 #define SyStringCharCmp(RAW, CHAR) \
         (((RAW)->nByte == sizeof(char)) ? ((RAW)->zString[0] == CHAR ? 0 : CHAR - (RAW)->zString[0]) : ((RAW)->zString[0] == CHAR ? 0 : (RAW)->nByte - sizeof(char)))
 
-#define SX_ADDR(PTR)    ((sxptr)PTR)
+#define SX_ADDR(PTR)    ((sxptr) PTR)
 #define SX_ARRAYSIZE(X) (sizeof(X) / sizeof(X[0]))
 #define SXUNUSED(P) (P = 0)
 #define SX_EMPTY(PTR)   (PTR == 0)
@@ -194,7 +194,7 @@ struct SySet
   void *pUserData;            /* User private data associated with this container */
 };
 #define SySetBasePtr(S)           ((S)->pBase)
-#define SySetBasePtrJump(S, OFFT)  (&((char *)(S)->pBase)[OFFT * (S)->eSize])
+#define SySetBasePtrJump(S, OFFT)  (&((char *) (S)->pBase)[OFFT * (S)->eSize])
 #define SySetUsed(S)              ((S)->nUsed)
 #define SySetSize(S)              ((S)->nSize)
 #define SySetElemSize(S)          ((S)->eSize)
@@ -220,8 +220,8 @@ struct SyBlob
 #define SyBlobFreeSpace(BLOB)    ((BLOB)->mByte - (BLOB)->nByte)
 #define SyBlobLength(BLOB)       ((BLOB)->nByte)
 #define SyBlobData(BLOB)         ((BLOB)->pBlob)
-#define SyBlobCurData(BLOB)      ((void *)(&((char *)(BLOB)->pBlob)[(BLOB)->nByte]))
-#define SyBlobDataAt(BLOB, OFFT)  ((void *)(&((char *)(BLOB)->pBlob)[OFFT]))
+#define SyBlobCurData(BLOB)      ((void *) (&((char *) (BLOB)->pBlob)[(BLOB)->nByte]))
+#define SyBlobDataAt(BLOB, OFFT)  ((void *) (&((char *) (BLOB)->pBlob)[OFFT]))
 #define SyBlobGetAllocator(BLOB) ((BLOB)->pAllocator)
 
 #define SXMEM_POOL_INCR         3
@@ -305,8 +305,8 @@ struct SyMemBackend
 }
 /* Comparison,byte swap,byte copy macros */
 #define SX_MACRO_FAST_CMP(X1, X2, SIZE, RC){ \
-          register unsigned char *r1 = (unsigned char *)X1; \
-          register unsigned char *r2 = (unsigned char *)X2; \
+          register unsigned char *r1 = (unsigned char *) X1; \
+          register unsigned char *r2 = (unsigned char *) X2; \
           register sxu32 LEN = SIZE; \
           for (;;) { \
             if (!LEN) { break; } if (r1[0] != r2[0]) { break; } r1++; r2++; LEN--; \
@@ -317,8 +317,8 @@ struct SyMemBackend
           RC = !LEN ? 0 : r1[0] - r2[0]; \
 }
 #define SX_MACRO_FAST_MEMCPY(SRC, DST, SIZ){ \
-          register unsigned char *xSrc = (unsigned char *)SRC; \
-          register unsigned char *xDst = (unsigned char *)DST; \
+          register unsigned char *xSrc = (unsigned char *) SRC; \
+          register unsigned char *xDst = (unsigned char *) DST; \
           register sxu32 xLen = SIZ; \
           for (;;) { \
             if (!xLen) { break; } xDst[0] = xSrc[0]; xDst++; xSrc++; --xLen; \
@@ -328,15 +328,15 @@ struct SyMemBackend
           } \
 }
 #define SX_MACRO_BYTE_SWAP(X, Y, Z){ \
-          register unsigned char *s = (unsigned char *)X; \
-          register unsigned char *d = (unsigned char *)Y; \
+          register unsigned char *s = (unsigned char *) X; \
+          register unsigned char *d = (unsigned char *) Y; \
           sxu32 ZLong = Z;  \
           sxi32 c; \
           for (;;) { \
-            if (!ZLong) { break; } c = s[0]; s[0] = d[0]; d[0] = (unsigned char)c; s++; d++; --ZLong; \
-            if (!ZLong) { break; } c = s[0]; s[0] = d[0]; d[0] = (unsigned char)c; s++; d++; --ZLong; \
-            if (!ZLong) { break; } c = s[0]; s[0] = d[0]; d[0] = (unsigned char)c; s++; d++; --ZLong; \
-            if (!ZLong) { break; } c = s[0]; s[0] = d[0]; d[0] = (unsigned char)c; s++; d++; --ZLong; \
+            if (!ZLong) { break; } c = s[0]; s[0] = d[0]; d[0] = (unsigned char) c; s++; d++; --ZLong; \
+            if (!ZLong) { break; } c = s[0]; s[0] = d[0]; d[0] = (unsigned char) c; s++; d++; --ZLong; \
+            if (!ZLong) { break; } c = s[0]; s[0] = d[0]; d[0] = (unsigned char) c; s++; d++; --ZLong; \
+            if (!ZLong) { break; } c = s[0]; s[0] = d[0]; d[0] = (unsigned char) c; s++; d++; --ZLong; \
           } \
 }
 #define SX_MSEC_PER_SEC (1000)          /* Millisec per seconds */
@@ -449,7 +449,7 @@ struct SyLex
 #define SyLexTotalToken(LEX)    SySetTotalEntry(&(LEX)->aTokenSet)
 #define SyLexTotalLines(LEX)    ((LEX)->sStream.nLine)
 #define SyLexTotalIgnored(LEX)  ((LEX)->sStream.nIgn)
-#define XLEX_IN_LEN(STREAM)     (sxu32)(STREAM->zEnd - STREAM->zText)
+#define XLEX_IN_LEN(STREAM)     (sxu32) (STREAM->zEnd - STREAM->zText)
 #endif /* SYMISC_PRIVATE_AUX_DEFS */
 /*
 ** Notes on UTF-8 (According to SQLite3 authors):
@@ -466,22 +466,22 @@ struct SyLex
 ** advance zIn to point to the first byte of the next UTF-8 character.
 */
 #define SX_JMP_UTF8(zIn, zEnd) \
-        while (zIn < zEnd && (((unsigned char)zIn[0] & 0xc0) == 0x80)) { zIn++; }
+        while (zIn < zEnd && (((unsigned char) zIn[0] & 0xc0) == 0x80)) { zIn++; }
 #define SX_WRITE_UTF8(zOut, c) {                       \
           if (c < 0x00080) {                                     \
-            *zOut++ = (sxu8)(c & 0xFF);                          \
+            *zOut++ = (sxu8) (c & 0xFF);                          \
           }else if (c < 0x00800) {                               \
-            *zOut++ = 0xC0 + (sxu8)((c >> 6) & 0x1F);              \
-            *zOut++ = 0x80 + (sxu8)(c & 0x3F);                 \
+            *zOut++ = 0xC0 + (sxu8) ((c >> 6) & 0x1F);              \
+            *zOut++ = 0x80 + (sxu8) (c & 0x3F);                 \
           }else if (c < 0x10000) {                               \
-            *zOut++ = 0xE0 + (sxu8)((c >> 12) & 0x0F);             \
-            *zOut++ = 0x80 + (sxu8)((c >> 6) & 0x3F);            \
-            *zOut++ = 0x80 + (sxu8)(c & 0x3F);                 \
+            *zOut++ = 0xE0 + (sxu8) ((c >> 12) & 0x0F);             \
+            *zOut++ = 0x80 + (sxu8) ((c >> 6) & 0x3F);            \
+            *zOut++ = 0x80 + (sxu8) (c & 0x3F);                 \
           }else{                                               \
-            *zOut++ = 0xF0 + (sxu8)((c >> 18) & 0x07);           \
-            *zOut++ = 0x80 + (sxu8)((c >> 12) & 0x3F);           \
-            *zOut++ = 0x80 + (sxu8)((c >> 6) & 0x3F);            \
-            *zOut++ = 0x80 + (sxu8)(c & 0x3F);                 \
+            *zOut++ = 0xF0 + (sxu8) ((c >> 18) & 0x07);           \
+            *zOut++ = 0x80 + (sxu8) ((c >> 12) & 0x3F);           \
+            *zOut++ = 0x80 + (sxu8) ((c >> 6) & 0x3F);            \
+            *zOut++ = 0x80 + (sxu8) (c & 0x3F);                 \
           }                                                    \
 }
 /* Rely on the standard ctype */
@@ -508,40 +508,40 @@ struct SyLex
 #define SyCharToLower(c)  ((c < 0xc0 && SyisUpper(c))? SyToLower(c) : c)
 /* Remove white space/NUL byte from a raw string */
 #define SyStringLeftTrim(RAW) \
-        while ((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[0] < 0xc0 && SyisSpace((RAW)->zString[0])) { \
+        while ((RAW)->nByte > 0 && (unsigned char) (RAW)->zString[0] < 0xc0 && SyisSpace((RAW)->zString[0])) { \
           (RAW)->nByte--; \
           (RAW)->zString++; \
         }
 #define SyStringLeftTrimSafe(RAW) \
-        while ((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[0] < 0xc0 && ((RAW)->zString[0] == 0 || SyisSpace((RAW)->zString[0]))) { \
+        while ((RAW)->nByte > 0 && (unsigned char) (RAW)->zString[0] < 0xc0 && ((RAW)->zString[0] == 0 || SyisSpace((RAW)->zString[0]))) { \
           (RAW)->nByte--; \
           (RAW)->zString++; \
         }
 #define SyStringRightTrim(RAW) \
-        while ((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[(RAW)->nByte - 1] < 0xc0 && SyisSpace((RAW)->zString[(RAW)->nByte - 1])) { \
+        while ((RAW)->nByte > 0 && (unsigned char) (RAW)->zString[(RAW)->nByte - 1] < 0xc0 && SyisSpace((RAW)->zString[(RAW)->nByte - 1])) { \
           (RAW)->nByte--; \
         }
 #define SyStringRightTrimSafe(RAW) \
-        while ((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[(RAW)->nByte - 1] < 0xc0 && \
+        while ((RAW)->nByte > 0 && (unsigned char) (RAW)->zString[(RAW)->nByte - 1] < 0xc0 && \
                ((RAW)->zString[(RAW)->nByte - 1] == 0 || SyisSpace((RAW)->zString[(RAW)->nByte - 1]))) { \
           (RAW)->nByte--; \
         }
 
 #define SyStringFullTrim(RAW) \
-        while ((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[0] < 0xc0 && SyisSpace((RAW)->zString[0])) { \
+        while ((RAW)->nByte > 0 && (unsigned char) (RAW)->zString[0] < 0xc0 && SyisSpace((RAW)->zString[0])) { \
           (RAW)->nByte--; \
           (RAW)->zString++; \
         } \
-        while ((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[(RAW)->nByte - 1] < 0xc0 && SyisSpace((RAW)->zString[(RAW)->nByte - 1])) { \
+        while ((RAW)->nByte > 0 && (unsigned char) (RAW)->zString[(RAW)->nByte - 1] < 0xc0 && SyisSpace((RAW)->zString[(RAW)->nByte - 1])) { \
           (RAW)->nByte--; \
         }
 #define SyStringFullTrimSafe(RAW) \
-        while ((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[0] < 0xc0 && \
+        while ((RAW)->nByte > 0 && (unsigned char) (RAW)->zString[0] < 0xc0 && \
                ((RAW)->zString[0] == 0 || SyisSpace((RAW)->zString[0]))) { \
           (RAW)->nByte--; \
           (RAW)->zString++; \
         } \
-        while ((RAW)->nByte > 0 && (unsigned char)(RAW)->zString[(RAW)->nByte - 1] < 0xc0 && \
+        while ((RAW)->nByte > 0 && (unsigned char) (RAW)->zString[(RAW)->nByte - 1] < 0xc0 && \
                ((RAW)->zString[(RAW)->nByte - 1] == 0 || SyisSpace((RAW)->zString[(RAW)->nByte - 1]))) { \
           (RAW)->nByte--; \
         }

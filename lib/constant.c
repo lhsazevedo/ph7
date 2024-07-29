@@ -43,16 +43,16 @@ static void PH7_VER_Const(ph7_value *pVal, void *pUnused)
 static void PH7_OS_Const(ph7_value *pVal, void *pUnused)
 {
 #if defined(__WINNT__)
-  ph7_value_string(pVal, "WINNT", (int)sizeof("WINNT") - 1);
+  ph7_value_string(pVal, "WINNT", (int) sizeof("WINNT") - 1);
 #elif defined(__UNIXES__)
   struct utsname sInfo;
   if (uname(&sInfo) != 0) {
-    ph7_value_string(pVal, "Unix", (int)sizeof("Unix") - 1);
+    ph7_value_string(pVal, "Unix", (int) sizeof("Unix") - 1);
   }else{
     ph7_value_string(pVal, sInfo.sysname, -1);
   }
 #else
-  ph7_value_string(pVal, "Host OS", (int)sizeof("Host OS") - 1);
+  ph7_value_string(pVal, "Host OS", (int) sizeof("Host OS") - 1);
 #endif
   SXUNUSED(pUnused);
 }
@@ -64,9 +64,9 @@ static void PH7_EOL_Const(ph7_value *pVal, void *pUnused)
 {
   SXUNUSED(pUnused);
 #ifdef __WINNT__
-  ph7_value_string(pVal, "\r\n", (int)sizeof("\r\n") - 1);
+  ph7_value_string(pVal, "\r\n", (int) sizeof("\r\n") - 1);
 #else
-  ph7_value_string(pVal, "\n", (int)sizeof(char));
+  ph7_value_string(pVal, "\n", (int) sizeof(char));
 #endif
 }
 /*
@@ -96,9 +96,9 @@ static void PH7_DIRSEP_Const(ph7_value *pVal, void *pUnused)
 {
   SXUNUSED(pUnused);
 #ifdef __WINNT__
-  ph7_value_string(pVal, "\\", (int)sizeof(char));
+  ph7_value_string(pVal, "\\", (int) sizeof(char));
 #else
-  ph7_value_string(pVal, "/", (int)sizeof(char));
+  ph7_value_string(pVal, "/", (int) sizeof(char));
 #endif
 }
 /*
@@ -109,9 +109,9 @@ static void PH7_PATHSEP_Const(ph7_value *pVal, void *pUnused)
 {
   SXUNUSED(pUnused);
 #ifdef __WINNT__
-  ph7_value_string(pVal, ";", (int)sizeof(char));
+  ph7_value_string(pVal, ";", (int) sizeof(char));
 #else
-  ph7_value_string(pVal, ":", (int)sizeof(char));
+  ph7_value_string(pVal, ":", (int) sizeof(char));
 #endif
 }
 #ifndef __WINNT__
@@ -167,13 +167,13 @@ static void PH7_DATE_Const(ph7_value *pVal, void *pUnused)
  */
 static void PH7_FILE_Const(ph7_value *pVal, void *pUserData)
 {
-  ph7_vm *pVm = (ph7_vm *)pUserData;
+  ph7_vm *pVm = (ph7_vm *) pUserData;
   SyString *pFile;
   /* Peek the top entry */
-  pFile = (SyString *)SySetPeek(&pVm->aFiles);
+  pFile = (SyString *) SySetPeek(&pVm->aFiles);
   if (pFile == 0) {
     /* Expand the magic word: ":MEMORY:" */
-    ph7_value_string(pVal, ":MEMORY:", (int)sizeof(":MEMORY:") - 1);
+    ph7_value_string(pVal, ":MEMORY:", (int) sizeof(":MEMORY:") - 1);
   }else{
     ph7_value_string(pVal, pFile->zString, pFile->nByte);
   }
@@ -184,22 +184,22 @@ static void PH7_FILE_Const(ph7_value *pVal, void *pUserData)
  */
 static void PH7_DIR_Const(ph7_value *pVal, void *pUserData)
 {
-  ph7_vm *pVm = (ph7_vm *)pUserData;
+  ph7_vm *pVm = (ph7_vm *) pUserData;
   SyString *pFile;
   /* Peek the top entry */
-  pFile = (SyString *)SySetPeek(&pVm->aFiles);
+  pFile = (SyString *) SySetPeek(&pVm->aFiles);
   if (pFile == 0) {
     /* Expand the magic word: ":MEMORY:" */
-    ph7_value_string(pVal, ":MEMORY:", (int)sizeof(":MEMORY:") - 1);
+    ph7_value_string(pVal, ":MEMORY:", (int) sizeof(":MEMORY:") - 1);
   }else{
     if (pFile->nByte > 0) {
       const char *zDir;
       int nLen;
-      zDir = PH7_ExtractDirName(pFile->zString, (int)pFile->nByte, &nLen);
+      zDir = PH7_ExtractDirName(pFile->zString, (int) pFile->nByte, &nLen);
       ph7_value_string(pVal, zDir, nLen);
     }else{
       /* Expand '.' as the current directory*/
-      ph7_value_string(pVal, ".", (int)sizeof(char));
+      ph7_value_string(pVal, ".", (int) sizeof(char));
     }
   }
 }
@@ -210,9 +210,9 @@ static void PH7_DIR_Const(ph7_value *pVal, void *pUserData)
 static void PH7_PHP_SHLIB_SUFFIX_Const(ph7_value *pVal, void *pUserData)
 {
 #ifdef __WINNT__
-  ph7_value_string(pVal, "dll", (int)sizeof("dll") - 1);
+  ph7_value_string(pVal, "dll", (int) sizeof("dll") - 1);
 #else
-  ph7_value_string(pVal, "so", (int)sizeof("so") - 1);
+  ph7_value_string(pVal, "so", (int) sizeof("so") - 1);
 #endif
   SXUNUSED(pUserData);   /* cc warning */
 }
@@ -1301,7 +1301,7 @@ static void PH7_GLOB_ERR_Const(ph7_value *pVal, void *pUserData)
  */
 static void PH7_STDIN_Const(ph7_value *pVal, void *pUserData)
 {
-  ph7_vm *pVm = (ph7_vm *)pUserData;
+  ph7_vm *pVm = (ph7_vm *) pUserData;
   void *pResource;
   pResource = PH7_ExportStdin(pVm);
   ph7_value_resource(pVal, pResource);
@@ -1312,7 +1312,7 @@ static void PH7_STDIN_Const(ph7_value *pVal, void *pUserData)
  */
 static void PH7_STDOUT_Const(ph7_value *pVal, void *pUserData)
 {
-  ph7_vm *pVm = (ph7_vm *)pUserData;
+  ph7_vm *pVm = (ph7_vm *) pUserData;
   void *pResource;
   pResource = PH7_ExportStdout(pVm);
   ph7_value_resource(pVal, pResource);
@@ -1323,7 +1323,7 @@ static void PH7_STDOUT_Const(ph7_value *pVal, void *pUserData)
  */
 static void PH7_STDERR_Const(ph7_value *pVal, void *pUserData)
 {
-  ph7_vm *pVm = (ph7_vm *)pUserData;
+  ph7_vm *pVm = (ph7_vm *) pUserData;
   void *pResource;
   pResource = PH7_ExportStderr(pVm);
   ph7_value_resource(pVal, pResource);
@@ -1651,7 +1651,7 @@ static void PH7_XML_OPTION_SKIP_WHITE_Const(ph7_value *pVal, void *pUserData)
 static void PH7_XML_SAX_IMP_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
-  ph7_value_string(pVal, "Symisc XML engine", (int)sizeof("Symisc XML engine") - 1);
+  ph7_value_string(pVal, "Symisc XML engine", (int) sizeof("Symisc XML engine") - 1);
 }
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
 /*
@@ -1804,14 +1804,14 @@ static void PH7_JSON_ERROR_UTF8_Const(ph7_value *pVal, void *pUserData)
  */
 static void PH7_static_Const(ph7_value *pVal, void *pUserData)
 {
-  ph7_vm *pVm = (ph7_vm *)pUserData;
+  ph7_vm *pVm = (ph7_vm *) pUserData;
   ph7_class *pClass;
   /* Extract the target class if available */
   pClass = PH7_VmPeekTopClass(pVm);
   if (pClass) {
     SyString *pName = &pClass->sName;
     /* Expand class name */
-    ph7_value_string(pVal, pName->zString, (int)pName->nByte);
+    ph7_value_string(pVal, pName->zString, (int) pName->nByte);
   }else{
     /* Expand 'static' */
     ph7_value_string(pVal, "static", sizeof("static") - 1);
@@ -1824,14 +1824,14 @@ static void PH7_static_Const(ph7_value *pVal, void *pUserData)
  */
 static void PH7_self_Const(ph7_value *pVal, void *pUserData)
 {
-  ph7_vm *pVm = (ph7_vm *)pUserData;
+  ph7_vm *pVm = (ph7_vm *) pUserData;
   ph7_class *pClass;
   /* Extract the target class if available */
   pClass = PH7_VmPeekTopClass(pVm);
   if (pClass) {
     SyString *pName = &pClass->sName;
     /* Expand class name */
-    ph7_value_string(pVal, pName->zString, (int)pName->nByte);
+    ph7_value_string(pVal, pName->zString, (int) pName->nByte);
   }else{
     /* Expand null */
     ph7_value_null(pVal);
@@ -1842,14 +1842,14 @@ static void PH7_self_Const(ph7_value *pVal, void *pUserData)
  */
 static void PH7_parent_Const(ph7_value *pVal, void *pUserData)
 {
-  ph7_vm *pVm = (ph7_vm *)pUserData;
+  ph7_vm *pVm = (ph7_vm *) pUserData;
   ph7_class *pClass;
   /* Extract the target class if available */
   pClass = PH7_VmPeekTopClass(pVm);
   if (pClass && pClass->pBase) {
     SyString *pName = &pClass->pBase->sName;
     /* Expand class name */
-    ph7_value_string(pVal, pName->zString, (int)pName->nByte);
+    ph7_value_string(pVal, pName->zString, (int) pName->nByte);
   }else{
     /* Expand null */
     ph7_value_null(pVal);
