@@ -4134,11 +4134,11 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
 #if 1
       /* For the format %#x, the value zero is printed "0" not "0x0".
       ** I think this is stupid.*/
-      if (iVal == 0)  flag_alternateform = 0;
+      if (iVal == 0) flag_alternateform = 0;
 #else
       /* More sensible: turn off the prefix for octal (to prevent "00"),
       ** but leave the prefix for hex.*/
-      if (iVal == 0 && pInfo->base == 8)  flag_alternateform = 0;
+      if (iVal == 0 && pInfo->base == 8) flag_alternateform = 0;
 #endif
       if (pInfo->flags & PH7_FMT_FLAG_SIGNED) {
         if (iVal < 0) {
@@ -4149,8 +4149,8 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
             iVal = 0x7FFFFFFFFFFFFFFF;
           }
           prefix = '-';
-        }else if (flag_plussign)   prefix = '+';
-        else if (flag_blanksign)   prefix = ' ';
+        }else if (flag_plussign) prefix = '+';
+        else if (flag_blanksign) prefix = ' ';
         else prefix = 0;
       }else{
         if (iVal < 0) {
@@ -4181,12 +4181,12 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       for (idx = precision - length; idx > 0; idx--) {
         *(--zBuf) = '0';                               /* Zero pad */
       }
-      if (prefix)  *(--zBuf) = (char)prefix;                 /* Add sign */
+      if (prefix) *(--zBuf) = (char)prefix;                  /* Add sign */
       if (flag_alternateform && pInfo->prefix) {          /* Add "0" or "0x" */
         char *pre, x;
         pre = pInfo->prefix;
         if (*zBuf != pre[0]) {
-          for (pre = pInfo->prefix; (x = (*pre)) != 0; pre++)*(--zBuf) = x;
+          for (pre = pInfo->prefix; (x = (*pre)) != 0; pre++) *(--zBuf) = x;
         }
       }
       length = &zWorker[PH7_FMT_BUFSIZ - 1] - zBuf;
@@ -4208,17 +4208,17 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       }else{
         realvalue = ph7_value_to_double(pArg);
       }
-      if (precision < 0)  precision = 6;         /* Set default precision */
+      if (precision < 0) precision = 6;          /* Set default precision */
       if (precision > PH7_FMT_BUFSIZ - 40) precision = PH7_FMT_BUFSIZ - 40;
       if (realvalue < 0.0) {
         realvalue = -realvalue;
         prefix = '-';
       }else{
-        if (flag_plussign)           prefix = '+';
-        else if (flag_blanksign)     prefix = ' ';
+        if (flag_plussign) prefix = '+';
+        else if (flag_blanksign) prefix = ' ';
         else prefix = 0;
       }
-      if (pInfo->type == PH7_FMT_GENERIC && precision > 0)  precision--;
+      if (pInfo->type == PH7_FMT_GENERIC && precision > 0) precision--;
       rounder = 0.0;
 #if 0
       /* Rounding works like BSD when the constant 0.4999 is used.Wierd! */
@@ -4227,7 +4227,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       /* It makes more sense to use 0.5 */
       for (idx = precision, rounder = 0.5; idx > 0; idx--, rounder *= 0.1);
 #endif
-      if (pInfo->type == PH7_FMT_FLOAT)  realvalue += rounder;
+      if (pInfo->type == PH7_FMT_FLOAT) realvalue += rounder;
       /* Normalize realvalue to within 10.0 > realvalue >= 1.0 */
       exp = 0;
       if (realvalue > 0.0) {
@@ -4269,30 +4269,30 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       nsd = 0;
       if (xtype == PH7_FMT_FLOAT && exp + precision < PH7_FMT_BUFSIZ - 30) {
         flag_dp = (precision > 0 || flag_alternateform);
-        if (prefix)  *(zBuf++) = (char)prefix;           /* Sign */
-        if (exp < 0)  *(zBuf++) = '0';             /* Digits before "." */
-        else for (; exp >= 0; exp--)*(zBuf++) = (char)vxGetdigit(&realvalue,&nsd);
-        if (flag_dp)  *(zBuf++) = '.';             /* The decimal point */
+        if (prefix) *(zBuf++) = (char)prefix;            /* Sign */
+        if (exp < 0) *(zBuf++) = '0';              /* Digits before "." */
+        else for (; exp >= 0; exp--) *(zBuf++) = (char)vxGetdigit(&realvalue,&nsd);
+        if (flag_dp) *(zBuf++) = '.';              /* The decimal point */
         for (exp++; exp < 0 && precision > 0; precision--, exp++) {
           *(zBuf++) = '0';
         }
         while ((precision--) > 0) *(zBuf++) = (char)vxGetdigit(&realvalue,&nsd);
         *(zBuf--) = 0;                             /* Null terminate */
         if (flag_rtz && flag_dp) {           /* Remove trailing zeros and "." */
-          while (zBuf >= zWorker && *zBuf == '0')  *(zBuf--) = 0;
-          if (zBuf >= zWorker && *zBuf == '.')  *(zBuf--) = 0;
+          while (zBuf >= zWorker && *zBuf == '0') *(zBuf--) = 0;
+          if (zBuf >= zWorker && *zBuf == '.') *(zBuf--) = 0;
         }
         zBuf++;                              /* point to next free slot */
       }else{       /* etEXP or etGENERIC */
         flag_dp = (precision > 0 || flag_alternateform);
-        if (prefix)  *(zBuf++) = (char)prefix;         /* Sign */
+        if (prefix) *(zBuf++) = (char)prefix;          /* Sign */
         *(zBuf++) = (char)vxGetdigit(&realvalue,&nsd);         /* First digit */
-        if (flag_dp)  *(zBuf++) = '.';         /* Decimal point */
+        if (flag_dp) *(zBuf++) = '.';          /* Decimal point */
         while ((precision--) > 0) *(zBuf++) = (char)vxGetdigit(&realvalue,&nsd);
         zBuf--;                              /* point to last digit */
         if (flag_rtz && flag_dp) {              /* Remove tail zeros */
-          while (zBuf >= zWorker && *zBuf == '0')  *(zBuf--) = 0;
-          if (zBuf >= zWorker && *zBuf == '.')  *(zBuf--) = 0;
+          while (zBuf >= zWorker && *zBuf == '0') *(zBuf--) = 0;
+          if (zBuf >= zWorker && *zBuf == '.') *(zBuf--) = 0;
         }
         zBuf++;                              /* point to next free slot */
         if (exp || flag_exp) {
@@ -4321,7 +4321,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           zBuf[i] = zBuf[i - nPad];
         }
         i = prefix != 0;
-        while (nPad--)  zBuf[i++] = '0';
+        while (nPad--) zBuf[i++] = '0';
         length = width;
       }
 #else

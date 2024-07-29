@@ -1833,7 +1833,7 @@ static int patternCompare(
   u8 matchSet = '[';
   int prevEscape = 0;     /* True if the previous character was 'escape' */
 
-  if (!zPattern || !zString)  return 0;
+  if (!zPattern || !zString) return 0;
   while ((c = PH7_Utf8Read(zPattern,0,&zPattern)) != 0) {
     if (!prevEscape && c == matchAll) {
       while ((c = PH7_Utf8Read(zPattern,0,&zPattern)) == matchAll
@@ -1869,8 +1869,8 @@ static int patternCompare(
             c2 = PH7_Utf8Read(zString, 0, &zString);
           }
         }
-        if (c2 == 0)  return 0;
-        if (patternCompare(zPattern,zString,esc,noCase))  return 1;
+        if (c2 == 0) return 0;
+        if (patternCompare(zPattern,zString,esc,noCase)) return 1;
       }
       return 0;
     }else if (!prevEscape && c == matchOne) {
@@ -1879,24 +1879,24 @@ static int patternCompare(
       }
     }else if (c == matchSet) {
       int prior_c = 0;
-      if (esc == 0)  return 0;
+      if (esc == 0) return 0;
       seen = 0;
       invert = 0;
       c = PH7_Utf8Read(zString, 0, &zString);
-      if (c == 0)  return 0;
+      if (c == 0) return 0;
       c2 = PH7_Utf8Read(zPattern, 0, &zPattern);
       if (c2 == '^') {
         invert = 1;
         c2 = PH7_Utf8Read(zPattern, 0, &zPattern);
       }
       if (c2 == ']') {
-        if (c == ']')  seen = 1;
+        if (c == ']') seen = 1;
         c2 = PH7_Utf8Read(zPattern, 0, &zPattern);
       }
       while (c2 && c2 != ']') {
         if (c2 == '-' && zPattern[0] != ']' && zPattern[0] != 0 && prior_c > 0) {
           c2 = PH7_Utf8Read(zPattern, 0, &zPattern);
-          if (c >= prior_c && c <= c2)  seen = 1;
+          if (c >= prior_c && c <= c2) seen = 1;
           prior_c = 0;
         }else{
           if (c == c2) {
@@ -7332,10 +7332,10 @@ static void UnixVfs_TempDir(ph7_context *pCtx)
   }
   for (i = 0; i < sizeof(azDirs) / sizeof(azDirs[0]); i++) {
     zDir = azDirs[i];
-    if (zDir == 0)  continue;
-    if (stat(zDir, &buf))  continue;
-    if (!S_ISDIR(buf.st_mode))  continue;
-    if (access(zDir, 07))  continue;
+    if (zDir == 0) continue;
+    if (stat(zDir, &buf)) continue;
+    if (!S_ISDIR(buf.st_mode)) continue;
+    if (access(zDir, 07)) continue;
     /* Got one */
     ph7_result_string(pCtx,zDir,-1);
     return;

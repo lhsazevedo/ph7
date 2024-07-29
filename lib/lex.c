@@ -674,7 +674,7 @@ static sxu32 KeywordCode(const char *z, int n){
     PH7_TKWRD_UNSET,     PH7_TKWRD_XOR,         PH7_TKWRD_OR,        PH7_TKWRD_BREAK
   };
   int h, i;
-  if (n < 2)  return PH7_TK_ID;
+  if (n < 2) return PH7_TK_ID;
   h = (((int)z[0] * 4) ^ ((int)z[n - 1] * 3) ^ n) % 151;
   for (i = ((int)aHash[h]) - 1; i >= 0; i = ((int)aNext[i]) - 1) {
     if ((int)aLen[i] == n && SyMemcmp(&zText[aOffset[i]],z,n) == 0) {

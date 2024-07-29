@@ -1897,10 +1897,10 @@ PH7_PRIVATE sxi32 SyHexStrToInt64(const char *zSrc,sxu32 nLen,void *pOutVal,cons
   }
   zIn = zSrc;
   for (;;) {
-    if (zSrc >= zEnd || !SyisHex(zSrc[0]) || (int)(zSrc - zIn) > 15)break; nVal = nVal * 16 + SyHexToint(zSrc[0]);  zSrc++;
-    if (zSrc >= zEnd || !SyisHex(zSrc[0]) || (int)(zSrc - zIn) > 15)break; nVal = nVal * 16 + SyHexToint(zSrc[0]);  zSrc++;
-    if (zSrc >= zEnd || !SyisHex(zSrc[0]) || (int)(zSrc - zIn) > 15)break; nVal = nVal * 16 + SyHexToint(zSrc[0]);  zSrc++;
-    if (zSrc >= zEnd || !SyisHex(zSrc[0]) || (int)(zSrc - zIn) > 15)break; nVal = nVal * 16 + SyHexToint(zSrc[0]);  zSrc++;
+    if (zSrc >= zEnd || !SyisHex(zSrc[0]) || (int)(zSrc - zIn) > 15) break; nVal = nVal * 16 + SyHexToint(zSrc[0]);  zSrc++;
+    if (zSrc >= zEnd || !SyisHex(zSrc[0]) || (int)(zSrc - zIn) > 15) break; nVal = nVal * 16 + SyHexToint(zSrc[0]);  zSrc++;
+    if (zSrc >= zEnd || !SyisHex(zSrc[0]) || (int)(zSrc - zIn) > 15) break; nVal = nVal * 16 + SyHexToint(zSrc[0]);  zSrc++;
+    if (zSrc >= zEnd || !SyisHex(zSrc[0]) || (int)(zSrc - zIn) > 15) break; nVal = nVal * 16 + SyHexToint(zSrc[0]);  zSrc++;
   }
   while (zSrc < zEnd && SyisSpace(zSrc[0])) {
     zSrc++;
@@ -2055,19 +2055,19 @@ PH7_PRIVATE sxi32 SyStrToReal(const char *zSrc,sxu32 nLen,void *pOutVal,const ch
   }
   Lim = SXDBL_DIG;
   for (;;) {
-    if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
-    if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
-    if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
-    if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
+    if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
+    if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
+    if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
+    if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); zSrc++; --Lim;
   }
   if (zSrc < zEnd && (zSrc[0] == '.' || zSrc[0] == ',')) {
     sxreal dec = 1.0;
     zSrc++;
     for (;;) {
-      if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
-      if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
-      if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
-      if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0]))break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
+      if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
+      if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
+      if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
+      if (zSrc >= zEnd || !Lim || !SyisDigit(zSrc[0])) break; Val = Val * 10.0 + (zSrc[0] - '0'); dec *= 10.0; zSrc++; --Lim;
     }
     Val /= dec;
   }
@@ -2096,7 +2096,7 @@ PH7_PRIVATE sxi32 SyStrToReal(const char *zSrc,sxu32 nLen,void *pOutVal,const ch
       zSrc++;
     }
     if (neg) {
-      if (exp > SXDBL_MIN_EXP_PLUS)  exp = SXDBL_MIN_EXP_PLUS;
+      if (exp > SXDBL_MIN_EXP_PLUS) exp = SXDBL_MIN_EXP_PLUS;
     }else if (exp > SXDBL_MAX_EXP) {
       exp = SXDBL_MAX_EXP;
     }
@@ -2719,7 +2719,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       c = *++zFormat;
       if (c == '*') {
         precision = va_arg(ap,int);
-        if (precision < 0)  precision = -precision;
+        if (precision < 0) precision = -precision;
         c = *++zFormat;
       }else{
         while (c >= '0' && c <= '9') {
@@ -2785,15 +2785,15 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
         }
       }
       /* Limit the precision to prevent overflowing buf[] during conversion */
-      if (precision > SXFMT_BUFSIZ - 40)  precision = SXFMT_BUFSIZ - 40;
+      if (precision > SXFMT_BUFSIZ - 40) precision = SXFMT_BUFSIZ - 40;
 #if 1
       /* For the format %#x, the value zero is printed "0" not "0x0".
       ** I think this is stupid.*/
-      if (longvalue == 0)  flag_alternateform = 0;
+      if (longvalue == 0) flag_alternateform = 0;
 #else
       /* More sensible: turn off the prefix for octal (to prevent "00"),
       ** but leave the prefix for hex.*/
-      if (longvalue == 0 && infop->base == 8)  flag_alternateform = 0;
+      if (longvalue == 0 && infop->base == 8) flag_alternateform = 0;
 #endif
       if (infop->flags & SXFLAG_SIGNED) {
         if (longvalue < 0) {
@@ -2804,8 +2804,8 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
             longvalue = 0x7FFFFFFFFFFFFFFF;
           }
           prefix = '-';
-        }else if (flag_plussign)   prefix = '+';
-        else if (flag_blanksign)   prefix = ' ';
+        }else if (flag_plussign) prefix = '+';
+        else if (flag_blanksign) prefix = ' ';
         else prefix = 0;
       }else{
         if (longvalue < 0) {
@@ -2836,12 +2836,12 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       for (idx = precision - length; idx > 0; idx--) {
         *(--bufpt) = '0';                               /* Zero pad */
       }
-      if (prefix)  *(--bufpt) = prefix;                 /* Add sign */
+      if (prefix) *(--bufpt) = prefix;                  /* Add sign */
       if (flag_alternateform && infop->prefix) {          /* Add "0" or "0x" */
         char *pre, x;
         pre = infop->prefix;
         if (*bufpt != pre[0]) {
-          for (pre = infop->prefix; (x = (*pre)) != 0; pre++)*(--bufpt) = x;
+          for (pre = infop->prefix; (x = (*pre)) != 0; pre++) *(--bufpt) = x;
         }
       }
       length = &buf[SXFMT_BUFSIZ - 1] - bufpt;
@@ -2851,17 +2851,17 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
     case SXFMT_GENERIC:
 #ifndef SX_OMIT_FLOATINGPOINT
       realvalue = va_arg(ap,double);
-      if (precision < 0)  precision = 6;         /* Set default precision */
+      if (precision < 0) precision = 6;          /* Set default precision */
       if (precision > SXFMT_BUFSIZ - 40) precision = SXFMT_BUFSIZ - 40;
       if (realvalue < 0.0) {
         realvalue = -realvalue;
         prefix = '-';
       }else{
-        if (flag_plussign)           prefix = '+';
-        else if (flag_blanksign)     prefix = ' ';
+        if (flag_plussign) prefix = '+';
+        else if (flag_blanksign) prefix = ' ';
         else prefix = 0;
       }
-      if (infop->type == SXFMT_GENERIC && precision > 0)  precision--;
+      if (infop->type == SXFMT_GENERIC && precision > 0) precision--;
       rounder = 0.0;
 #if 0
       /* Rounding works like BSD when the constant 0.4999 is used.Wierd! */
@@ -2870,7 +2870,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       /* It makes more sense to use 0.5 */
       for (idx = precision, rounder = 0.5; idx > 0; idx--, rounder *= 0.1);
 #endif
-      if (infop->type == SXFMT_FLOAT)  realvalue += rounder;
+      if (infop->type == SXFMT_FLOAT) realvalue += rounder;
       /* Normalize realvalue to within 10.0 > realvalue >= 1.0 */
       exp = 0;
       if (realvalue > 0.0) {
@@ -2912,30 +2912,30 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       nsd = 0;
       if (xtype == SXFMT_FLOAT && exp + precision < SXFMT_BUFSIZ - 30) {
         flag_dp = (precision > 0 || flag_alternateform);
-        if (prefix)  *(bufpt++) = prefix;           /* Sign */
-        if (exp < 0)  *(bufpt++) = '0';             /* Digits before "." */
-        else for (; exp >= 0; exp--)*(bufpt++) = (char)getdigit(&realvalue,&nsd);
-        if (flag_dp)  *(bufpt++) = '.';             /* The decimal point */
+        if (prefix) *(bufpt++) = prefix;            /* Sign */
+        if (exp < 0) *(bufpt++) = '0';              /* Digits before "." */
+        else for (; exp >= 0; exp--) *(bufpt++) = (char)getdigit(&realvalue,&nsd);
+        if (flag_dp) *(bufpt++) = '.';              /* The decimal point */
         for (exp++; exp < 0 && precision > 0; precision--, exp++) {
           *(bufpt++) = '0';
         }
         while ((precision--) > 0) *(bufpt++) = (char)getdigit(&realvalue,&nsd);
         *(bufpt--) = 0;                             /* Null terminate */
         if (flag_rtz && flag_dp) {           /* Remove trailing zeros and "." */
-          while (bufpt >= buf && *bufpt == '0')  *(bufpt--) = 0;
-          if (bufpt >= buf && *bufpt == '.')  *(bufpt--) = 0;
+          while (bufpt >= buf && *bufpt == '0') *(bufpt--) = 0;
+          if (bufpt >= buf && *bufpt == '.') *(bufpt--) = 0;
         }
         bufpt++;                              /* point to next free slot */
       }else{       /* etEXP or etGENERIC */
         flag_dp = (precision > 0 || flag_alternateform);
-        if (prefix)  *(bufpt++) = prefix;         /* Sign */
+        if (prefix) *(bufpt++) = prefix;          /* Sign */
         *(bufpt++) = (char)getdigit(&realvalue,&nsd);         /* First digit */
-        if (flag_dp)  *(bufpt++) = '.';         /* Decimal point */
+        if (flag_dp) *(bufpt++) = '.';          /* Decimal point */
         while ((precision--) > 0) *(bufpt++) = (char)getdigit(&realvalue,&nsd);
         bufpt--;                              /* point to last digit */
         if (flag_rtz && flag_dp) {              /* Remove tail zeros */
-          while (bufpt >= buf && *bufpt == '0')  *(bufpt--) = 0;
-          if (bufpt >= buf && *bufpt == '.')  *(bufpt--) = 0;
+          while (bufpt >= buf && *bufpt == '0') *(bufpt--) = 0;
+          if (bufpt >= buf && *bufpt == '.') *(bufpt--) = 0;
         }
         bufpt++;                              /* point to next free slot */
         if (exp || flag_exp) {
@@ -2965,7 +2965,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
           bufpt[i] = bufpt[i - nPad];
         }
         i = prefix != 0;
-        while (nPad--)  bufpt[i++] = '0';
+        while (nPad--) bufpt[i++] = '0';
         length = width;
       }
 #else
@@ -2988,9 +2988,9 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       c = va_arg(ap,int);
       buf[0] = (char)c;
       /* Limit the precision to prevent overflowing buf[] during conversion */
-      if (precision > SXFMT_BUFSIZ - 40)  precision = SXFMT_BUFSIZ - 40;
+      if (precision > SXFMT_BUFSIZ - 40) precision = SXFMT_BUFSIZ - 40;
       if (precision >= 0) {
-        for (idx = 1; idx < precision; idx++)buf[idx] = (char)c;
+        for (idx = 1; idx < precision; idx++) buf[idx] = (char)c;
         length = precision;
       }else{
         length = 1;
@@ -3009,7 +3009,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
         /* Symisc extension */
         length = (int)SyStrlen(bufpt);
       }
-      if (precision >= 0 && precision < length)  length = precision;
+      if (precision >= 0 && precision < length) length = precision;
       break;
     case SXFMT_RAWSTR: {
       /* Symisc extension */
@@ -3027,7 +3027,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       buf[0] = '?';
       bufpt = buf;
       length = (int)sizeof(char);
-      if (c == 0)  zFormat--;
+      if (c == 0) zFormat--;
       break;
     }    /* End switch over the format type */
     /*
