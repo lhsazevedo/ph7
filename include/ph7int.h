@@ -503,9 +503,9 @@ struct SyLex
 #define SyisAlphaNum(c) isalnum(c)
 #define SyisGraph(c)     isgraph(c)
 #define SyDigToHex(c)    "0123456789ABCDEF"[c & 0x0F]
-#define SyDigToInt(c)     ((c < 0xc0 && SyisDigit(c))? (c - '0') : 0)
-#define SyCharToUpper(c)  ((c < 0xc0 && SyisLower(c))? SyToUpper(c) : c)
-#define SyCharToLower(c)  ((c < 0xc0 && SyisUpper(c))? SyToLower(c) : c)
+#define SyDigToInt(c)     ((c < 0xc0 && SyisDigit(c)) ? (c - '0') : 0)
+#define SyCharToUpper(c)  ((c < 0xc0 && SyisLower(c)) ? SyToUpper(c) : c)
+#define SyCharToLower(c)  ((c < 0xc0 && SyisUpper(c)) ? SyToLower(c) : c)
 /* Remove white space/NUL byte from a raw string */
 #define SyStringLeftTrim(RAW) \
         while ((RAW)->nByte > 0 && (unsigned char) (RAW)->zString[0] < 0xc0 && SyisSpace((RAW)->zString[0])) { \

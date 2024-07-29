@@ -7880,7 +7880,7 @@ static int PHPStreamData_Open(const char *zName, int iMode, ph7_value *pResource
     return -1;
   }
   /* Create our handle */
-  pData = PHPStreamDataInit(pResource?pResource->pVm:0, iMode);
+  pData = PHPStreamDataInit(pResource ? pResource->pVm : 0, iMode);
   if (pData == 0) {
     return -1;
   }

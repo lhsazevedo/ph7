@@ -363,7 +363,7 @@ PH7_PRIVATE sxi32 SyStrncmp(const char *zLeft, const char *zRight, sxu32 nLen)
   const unsigned char *zQ = (const unsigned char *) zRight;
 
   if (SX_EMPTY_STR(zP) || SX_EMPTY_STR(zQ)) {
-    return SX_EMPTY_STR(zP) ? (SX_EMPTY_STR(zQ) ? 0 : -1) :1;
+    return SX_EMPTY_STR(zP) ? (SX_EMPTY_STR(zQ) ? 0 : -1) : 1;
   }
   if (nLen <= 0) {
     return 0;
@@ -383,7 +383,7 @@ PH7_PRIVATE sxi32 SyStrnicmp(const char *zLeft, const char *zRight, sxu32 SLen)
   register unsigned char *q = (unsigned char *) zRight;
 
   if (SX_EMPTY_STR(p) || SX_EMPTY_STR(q)) {
-    return SX_EMPTY_STR(p)? SX_EMPTY_STR(q) ? 0 : -1 :1;
+    return SX_EMPTY_STR(p) ? SX_EMPTY_STR(q) ? 0 : -1 : 1;
   }
   for (;;) {
     if (!SLen) { return 0; } if (!*p || !*q || SyCharToLower(*p) != SyCharToLower(*q)) { break; } p++; q++; --SLen;
@@ -1759,7 +1759,7 @@ PH7_PRIVATE sxi32 SyStrToInt32(const char *zSrc, sxu32 nLen, void *pOutVal, cons
     zSrc++;
   }
   if (zSrc < zEnd && (zSrc[0] == '-' || zSrc[0] == '+')) {
-    isNeg = (zSrc[0] == '-') ? TRUE :FALSE;
+    isNeg = (zSrc[0] == '-') ? TRUE : FALSE;
     zSrc++;
   }
   /* Skip leading zero */
@@ -1811,7 +1811,7 @@ PH7_PRIVATE sxi32 SyStrToInt64(const char *zSrc, sxu32 nLen, void *pOutVal, cons
     zSrc++;
   }
   if (zSrc < zEnd && (zSrc[0] == '-' || zSrc[0] == '+')) {
-    isNeg = (zSrc[0] == '-') ? TRUE :FALSE;
+    isNeg = (zSrc[0] == '-') ? TRUE : FALSE;
     zSrc++;
   }
   /* Skip leading zero */
@@ -1884,7 +1884,7 @@ PH7_PRIVATE sxi32 SyHexStrToInt64(const char *zSrc, sxu32 nLen, void *pOutVal, c
     zSrc++;
   }
   if (zSrc < zEnd && (*zSrc == '-' || *zSrc == '+')) {
-    isNeg = (zSrc[0] == '-') ? TRUE :FALSE;
+    isNeg = (zSrc[0] == '-') ? TRUE : FALSE;
     zSrc++;
   }
   if (zSrc < &zEnd[-2] && zSrc[0] == '0' && (zSrc[1] == 'x' || zSrc[1] == 'X')) {
@@ -1935,7 +1935,7 @@ PH7_PRIVATE sxi32 SyOctalStrToInt64(const char *zSrc, sxu32 nLen, void *pOutVal,
     zSrc++;
   }
   if (zSrc < zEnd && (zSrc[0] == '-' || zSrc[0] == '+')) {
-    isNeg = (zSrc[0] == '-') ? TRUE :FALSE;
+    isNeg = (zSrc[0] == '-') ? TRUE : FALSE;
     zSrc++;
   }
   /* Skip leading zero */
@@ -1983,7 +1983,7 @@ PH7_PRIVATE sxi32 SyBinaryStrToInt64(const char *zSrc, sxu32 nLen, void *pOutVal
     zSrc++;
   }
   if (zSrc < zEnd && (zSrc[0] == '-' || zSrc[0] == '+')) {
-    isNeg = (zSrc[0] == '-') ? TRUE :FALSE;
+    isNeg = (zSrc[0] == '-') ? TRUE : FALSE;
     zSrc++;
   }
   if (zSrc < &zEnd[-2] && zSrc[0] == '0' && (zSrc[1] == 'b' || zSrc[1] == 'B')) {

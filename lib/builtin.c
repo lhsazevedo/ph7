@@ -6496,7 +6496,7 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
             ph7_value_string(pValue, sEntry.zString, (int) sEntry.nByte);
           }
           /* Insert the key and it's value */
-          ph7_array_add_elem(pCur, is_array ? 0 /*Automatic index assign */: pWorker, pValue);
+          ph7_array_add_elem(pCur, is_array ? 0 /*Automatic index assign */ : pWorker, pValue);
         }
       } else {
         while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && (SyisSpace(zIn[0]) || zIn[0] == '=')) {

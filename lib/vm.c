@@ -14672,10 +14672,10 @@ static sxi32 VmHttpProcessRequest(ph7_vm *pVm, const char *zRequest, int nByte)
   ph7_vm_config(pVm,
                 PH7_VM_CONFIG_SERVER_ATTR,
                 "REQUEST_METHOD",
-                iMethod == HTTP_METHOD_GET ?   "GET" :
-                (iMethod == HTTP_METHOD_POST ? "POST":
-                 (iMethod == HTTP_METHOD_PUT  ? "PUT" :
-                  (iMethod == HTTP_METHOD_HEAD ?  "HEAD" : "OTHER"))),
+                iMethod == HTTP_METHOD_GET ? "GET" :
+                (iMethod == HTTP_METHOD_POST ? "POST" :
+                 (iMethod == HTTP_METHOD_PUT ? "PUT" :
+                  (iMethod == HTTP_METHOD_HEAD ? "HEAD" : "OTHER"))),
                 -1   /* Compute attribute length automatically */
                 );
   if (SyStringLength(&sUri.sQuery) > 0 && iMethod == HTTP_METHOD_GET) {

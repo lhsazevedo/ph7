@@ -1050,7 +1050,7 @@ static sxi32 GenStateArrayNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pRoo
         pRoot->pOp->iOp != EXPR_OP_FUNC_CALL     /* function() [Symisc extension: i.e: array(&foo())] */
         && pRoot->pOp->iOp != EXPR_OP_ARROW /* -> */ && pRoot->pOp->iOp != EXPR_OP_DC /* :: */ ) {
       /* Unexpected expression */
-      rc = PH7_GenCompileError(&(*pGen), E_ERROR, pRoot->pStart? pRoot->pStart->nLine : 0,
+      rc = PH7_GenCompileError(&(*pGen), E_ERROR, pRoot->pStart ? pRoot->pStart->nLine : 0,
                                "array(): Expecting a variable/array member/function call after reference operator '&'");
       if (rc != SXERR_ABORT) {
         rc = SXERR_INVALID;
@@ -1058,7 +1058,7 @@ static sxi32 GenStateArrayNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pRoo
     }
   } else if (pRoot->xCode != PH7_CompileVariable) {
     /* Unexpected expression */
-    rc = PH7_GenCompileError(&(*pGen), E_ERROR, pRoot->pStart? pRoot->pStart->nLine : 0,
+    rc = PH7_GenCompileError(&(*pGen), E_ERROR, pRoot->pStart ? pRoot->pStart->nLine : 0,
                              "array(): Expecting a variable after reference operator '&'");
     if (rc != SXERR_ABORT) {
       rc = SXERR_INVALID;
@@ -1195,7 +1195,7 @@ static sxi32 GenStateListNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pRoot
     if (pRoot->pOp->iOp != EXPR_OP_SUBSCRIPT /* $a[] */ && pRoot->pOp->iOp != EXPR_OP_ARROW      /* -> */
         && pRoot->pOp->iOp != EXPR_OP_DC /* :: */ ) {
       /* Unexpected expression */
-      rc = PH7_GenCompileError(&(*pGen), E_ERROR, pRoot->pStart? pRoot->pStart->nLine : 0,
+      rc = PH7_GenCompileError(&(*pGen), E_ERROR, pRoot->pStart ? pRoot->pStart->nLine : 0,
                                "list(): Expecting a variable not an expression");
       if (rc != SXERR_ABORT) {
         rc = SXERR_INVALID;
@@ -1203,7 +1203,7 @@ static sxi32 GenStateListNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pRoot
     }
   } else if (pRoot->xCode != PH7_CompileVariable) {
     /* Unexpected expression */
-    rc = PH7_GenCompileError(&(*pGen), E_ERROR, pRoot->pStart? pRoot->pStart->nLine : 0,
+    rc = PH7_GenCompileError(&(*pGen), E_ERROR, pRoot->pStart ? pRoot->pStart->nLine : 0,
                              "list(): Expecting a variable not an expression");
     if (rc != SXERR_ABORT) {
       rc = SXERR_INVALID;
@@ -2609,7 +2609,7 @@ static sxi32 GenStateForEachNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pR
   sxi32 rc = SXRET_OK;   /* Assume a valid expression tree */
   if (pRoot->xCode != PH7_CompileVariable) {
     /* Unexpected expression */
-    rc = PH7_GenCompileError(&(*pGen), E_ERROR, pRoot->pStart? pRoot->pStart->nLine : 0,
+    rc = PH7_GenCompileError(&(*pGen), E_ERROR, pRoot->pStart ? pRoot->pStart->nLine : 0,
                              "foreach: Expecting a variable name");
     if (rc != SXERR_ABORT) {
       rc = SXERR_INVALID;
@@ -5152,7 +5152,7 @@ static sxi32 GenStateThrowNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pRoo
     if (pRoot->pOp->iOp != EXPR_OP_SUBSCRIPT /* $a[] */ && pRoot->pOp->iOp != EXPR_OP_NEW      /* new Exception() */
         && pRoot->pOp->iOp != EXPR_OP_ARROW /* -> */ && pRoot->pOp->iOp != EXPR_OP_DC /* :: */ ) {
       /* Unexpected expression */
-      rc = PH7_GenCompileError(&(*pGen), E_ERROR, pRoot->pStart? pRoot->pStart->nLine : 0,
+      rc = PH7_GenCompileError(&(*pGen), E_ERROR, pRoot->pStart ? pRoot->pStart->nLine : 0,
                                "throw: Expecting an exception class instance");
       if (rc != SXERR_ABORT) {
         rc = SXERR_INVALID;
@@ -5160,7 +5160,7 @@ static sxi32 GenStateThrowNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pRoo
     }
   } else if (pRoot->xCode != PH7_CompileVariable) {
     /* Unexpected expression */
-    rc = PH7_GenCompileError(&(*pGen), E_ERROR, pRoot->pStart? pRoot->pStart->nLine : 0,
+    rc = PH7_GenCompileError(&(*pGen), E_ERROR, pRoot->pStart ? pRoot->pStart->nLine : 0,
                              "throw: Expecting an exception class instance");
     if (rc != SXERR_ABORT) {
       rc = SXERR_INVALID;
