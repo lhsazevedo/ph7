@@ -26,13 +26,13 @@
  */
 /* Forward declaration */
 static sxu32 KeywordCode(const char *z, int n);
-static sxi32 LexExtractHeredoc(SyStream *pStream,SyToken *pToken);
+static sxi32 LexExtractHeredoc(SyStream *pStream, SyToken *pToken);
 /*
  * Tokenize a raw PHP input.
  * Get a single low-level token from the input file. Update the stream pointer so that
  * it points to the first character beyond the extracted token.
  */
-static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void *pCtxData)
+static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, void *pCtxData)
 {
   SyString *pStr;
   sxi32 rc;
@@ -53,7 +53,7 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
   pToken->nLine = pStream->nLine;
   pToken->pUserData = 0;
   pStr = &pToken->sData;
-  SyStringInitFromBuf(pStr,pStream->zText,0);
+  SyStringInitFromBuf(pStr, pStream->zText, 0);
   if (pStream->zText[0] >= 0xc0 || SyisAlpha(pStream->zText[0]) || pStream->zText[0] == '_') {
     /* The following code fragment is taken verbatim from the xPP source tree.
      * xPP is a modern embeddable macro processor with advanced features useful for
@@ -90,12 +90,12 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
     }
     /* Record token length */
     pStr->nByte = (sxu32)((const char *)pStream->zText - pStr->zString);
-    nKeyword = KeywordCode(pStr->zString,(int)pStr->nByte);
+    nKeyword = KeywordCode(pStr->zString, (int)pStr->nByte);
     if (nKeyword != PH7_TK_ID) {
       if (nKeyword &
           (PH7_TKWRD_NEW | PH7_TKWRD_CLONE | PH7_TKWRD_AND | PH7_TKWRD_XOR | PH7_TKWRD_OR | PH7_TKWRD_INSTANCEOF | PH7_TKWRD_SEQ | PH7_TKWRD_SNE)) {
         /* Alpha stream operators [i.e: new,clone,and,instanceof,eq,ne,or,xor],save the operator instance for later processing */
-        pToken->pUserData = (void *)PH7_ExprExtractOperator(pStr,0);
+        pToken->pUserData = (void *)PH7_ExprExtractOperator(pStr, 0);
         /* Mark as an operator */
         pToken->nType = PH7_TK_ID | PH7_TK_OP;
       }else{
@@ -224,7 +224,7 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
         if (pTmp->nType & PH7_TK_KEYWORD) {
           sxi32 nID = SX_PTR_TO_INT(pTmp->pUserData);
           if ((sxu32)nID & (PH7_TKWRD_ARRAY | PH7_TKWRD_INT | PH7_TKWRD_FLOAT | PH7_TKWRD_STRING | PH7_TKWRD_OBJECT | PH7_TKWRD_BOOL | PH7_TKWRD_UNSET)) {
-            pTmp = (SyToken *)SySetAt(pTokSet,pTokSet->nUsed - 2);
+            pTmp = (SyToken *)SySetAt(pTokSet, pTokSet->nUsed - 2);
             if (pTmp->nType & PH7_TK_LPAREN) {
               /* Merge the three tokens '(' 'TYPE' ')' into a single one */
               const char *zTypeCast = "(int)";
@@ -243,9 +243,9 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
               }
               /* Reflect the change */
               pToken->nType = PH7_TK_OP;
-              SyStringInitFromBuf(&pToken->sData,zTypeCast,SyStrlen(zTypeCast));
+              SyStringInitFromBuf(&pToken->sData, zTypeCast, SyStrlen(zTypeCast));
               /* Save the instance associated with the type cast operator */
-              pToken->pUserData = (void *)PH7_ExprExtractOperator(&pToken->sData,0);
+              pToken->pUserData = (void *)PH7_ExprExtractOperator(&pToken->sData, 0);
               /* Remove the two previous tokens */
               pTokSet->nUsed -= 2;
               return SXRET_OK;
@@ -400,7 +400,7 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
           if (zCur < pStream->zEnd && zCur[0] == '&') {
             /* Current operator: =& */
             pToken->nType &= ~PH7_TK_EQUAL;
-            SyStringInitFromBuf(pStr,"=&",sizeof("=&") - 1);
+            SyStringInitFromBuf(pStr, "=&", sizeof("=&") - 1);
             /* Update token stream */
             pStream->zText = &zCur[1];
             pStream->nLine += nLine;
@@ -511,7 +511,7 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
               /* Current Token: <<<  */
               pStream->zText++;
               /* This may be the beginning of a Heredoc/Nowdoc string,try to delimit it */
-              rc = LexExtractHeredoc(&(*pStream),&(*pToken));
+              rc = LexExtractHeredoc(&(*pStream), &(*pToken));
               if (rc == SXRET_OK) {
                 /* Here/Now doc successfuly extracted */
                 return SXRET_OK;
@@ -552,7 +552,7 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
     if (pToken->nType & PH7_TK_OP) {
       const ph7_expr_op *pOp;
       /* Check if the extracted token is an operator */
-      pOp = PH7_ExprExtractOperator(pStr,(SyToken *)SySetPeek(pStream->pSet));
+      pOp = PH7_ExprExtractOperator(pStr, (SyToken *)SySetPeek(pStream->pSet));
       if (pOp == 0) {
         /* Not an operator */
         pToken->nType &= ~PH7_TK_OP;
@@ -593,25 +593,25 @@ static sxu32 KeywordCode(const char *z, int n){
   /*   interfacendforeachissetparentprivateprotectedpublicatchunset       */
   /*   xorARRAYASArrayEXITUNSETXORbreak                                   */
   static const char zText[332] = {
-    'e','x','t','e','n','d','s','w','i','t','c','h','p','r','i','n','t','e',
-    'g','e','r','e','q','u','i','r','e','_','o','n','c','e','n','d','d','e',
-    'c','l','a','r','e','t','u','r','n','a','m','e','s','p','a','c','e','c',
-    'h','o','b','j','e','c','t','h','r','o','w','b','o','o','l','e','a','n',
-    'd','e','f','a','u','l','t','r','y','c','a','s','e','l','f','i','n','a',
-    'l','i','s','t','a','t','i','c','l','o','n','e','w','c','o','n','s','t',
-    'r','i','n','g','l','o','b','a','l','u','s','e','l','s','e','i','f','l',
-    'o','a','t','v','a','r','r','a','y','A','N','D','I','E','c','h','o','U',
-    'S','E','C','H','O','a','b','s','t','r','a','c','t','c','l','a','s','s',
-    'c','o','n','t','i','n','u','e','n','d','i','f','u','n','c','t','i','o',
-    'n','d','i','e','n','d','w','h','i','l','e','v','a','l','d','o','e','x',
-    'i','t','g','o','t','o','i','m','p','l','e','m','e','n','t','s','i','n',
-    'c','l','u','d','e','_','o','n','c','e','m','p','t','y','i','n','s','t',
-    'a','n','c','e','o','f','i','n','t','e','r','f','a','c','e','n','d','f',
-    'o','r','e','a','c','h','i','s','s','e','t','p','a','r','e','n','t','p',
-    'r','i','v','a','t','e','p','r','o','t','e','c','t','e','d','p','u','b',
-    'l','i','c','a','t','c','h','u','n','s','e','t','x','o','r','A','R','R',
-    'A','Y','A','S','A','r','r','a','y','E','X','I','T','U','N','S','E','T',
-    'X','O','R','b','r','e','a','k'
+    'e', 'x', 't', 'e', 'n', 'd', 's', 'w', 'i', 't', 'c', 'h', 'p', 'r', 'i', 'n', 't', 'e',
+    'g', 'e', 'r', 'e', 'q', 'u', 'i', 'r', 'e', '_', 'o', 'n', 'c', 'e', 'n', 'd', 'd', 'e',
+    'c', 'l', 'a', 'r', 'e', 't', 'u', 'r', 'n', 'a', 'm', 'e', 's', 'p', 'a', 'c', 'e', 'c',
+    'h', 'o', 'b', 'j', 'e', 'c', 't', 'h', 'r', 'o', 'w', 'b', 'o', 'o', 'l', 'e', 'a', 'n',
+    'd', 'e', 'f', 'a', 'u', 'l', 't', 'r', 'y', 'c', 'a', 's', 'e', 'l', 'f', 'i', 'n', 'a',
+    'l', 'i', 's', 't', 'a', 't', 'i', 'c', 'l', 'o', 'n', 'e', 'w', 'c', 'o', 'n', 's', 't',
+    'r', 'i', 'n', 'g', 'l', 'o', 'b', 'a', 'l', 'u', 's', 'e', 'l', 's', 'e', 'i', 'f', 'l',
+    'o', 'a', 't', 'v', 'a', 'r', 'r', 'a', 'y', 'A', 'N', 'D', 'I', 'E', 'c', 'h', 'o', 'U',
+    'S', 'E', 'C', 'H', 'O', 'a', 'b', 's', 't', 'r', 'a', 'c', 't', 'c', 'l', 'a', 's', 's',
+    'c', 'o', 'n', 't', 'i', 'n', 'u', 'e', 'n', 'd', 'i', 'f', 'u', 'n', 'c', 't', 'i', 'o',
+    'n', 'd', 'i', 'e', 'n', 'd', 'w', 'h', 'i', 'l', 'e', 'v', 'a', 'l', 'd', 'o', 'e', 'x',
+    'i', 't', 'g', 'o', 't', 'o', 'i', 'm', 'p', 'l', 'e', 'm', 'e', 'n', 't', 's', 'i', 'n',
+    'c', 'l', 'u', 'd', 'e', '_', 'o', 'n', 'c', 'e', 'm', 'p', 't', 'y', 'i', 'n', 's', 't',
+    'a', 'n', 'c', 'e', 'o', 'f', 'i', 'n', 't', 'e', 'r', 'f', 'a', 'c', 'e', 'n', 'd', 'f',
+    'o', 'r', 'e', 'a', 'c', 'h', 'i', 's', 's', 'e', 't', 'p', 'a', 'r', 'e', 'n', 't', 'p',
+    'r', 'i', 'v', 'a', 't', 'e', 'p', 'r', 'o', 't', 'e', 'c', 't', 'e', 'd', 'p', 'u', 'b',
+    'l', 'i', 'c', 'a', 't', 'c', 'h', 'u', 'n', 's', 'e', 't', 'x', 'o', 'r', 'A', 'R', 'R',
+    'A', 'Y', 'A', 'S', 'A', 'r', 'r', 'a', 'y', 'E', 'X', 'I', 'T', 'U', 'N', 'S', 'E', 'T',
+    'X', 'O', 'R', 'b', 'r', 'e', 'a', 'k'
   };
   static const unsigned char aHash[151] = {
     0,   0,   4,  83,   0,  61,  39,  12,   0,  33,  77,   0,  48,
@@ -667,7 +667,7 @@ static sxu32 KeywordCode(const char *z, int n){
     PH7_TKWRD_AS,        PH7_TKWRD_CONTINUE,    PH7_TKWRD_ENDIF,     PH7_TKWRD_FUNCTION,  PH7_TKWRD_DIE,
     PH7_TKWRD_ENDWHILE,  PH7_TKWRD_WHILE,       PH7_TKWRD_EVAL,      PH7_TKWRD_DO,        PH7_TKWRD_EXIT,
     PH7_TKWRD_GOTO,      PH7_TKWRD_IMPLEMENTS,  PH7_TKWRD_INCONCE,   PH7_TKWRD_INCLUDE,   PH7_TKWRD_EMPTY,
-    PH7_TKWRD_INSTANCEOF,PH7_TKWRD_INTERFACE,   PH7_TKWRD_INT,       PH7_TKWRD_ENDFOR,    PH7_TKWRD_END4EACH,
+    PH7_TKWRD_INSTANCEOF, PH7_TKWRD_INTERFACE,   PH7_TKWRD_INT,       PH7_TKWRD_ENDFOR,    PH7_TKWRD_END4EACH,
     PH7_TKWRD_FOR,       PH7_TKWRD_FOREACH,     PH7_TKWRD_OR,        PH7_TKWRD_ISSET,     PH7_TKWRD_PARENT,
     PH7_TKWRD_PRIVATE,   PH7_TKWRD_PROTECTED,   PH7_TKWRD_PUBLIC,    PH7_TKWRD_CATCH,     PH7_TKWRD_UNSET,
     PH7_TKWRD_XOR,       PH7_TKWRD_ARRAY,       PH7_TKWRD_AS,        PH7_TKWRD_ARRAY,     PH7_TKWRD_EXIT,
@@ -677,7 +677,7 @@ static sxu32 KeywordCode(const char *z, int n){
   if (n < 2) return PH7_TK_ID;
   h = (((int)z[0] * 4) ^ ((int)z[n - 1] * 3) ^ n) % 151;
   for (i = ((int)aHash[h]) - 1 ; i >= 0 ; i = ((int)aNext[i]) - 1) {
-    if ((int)aLen[i] == n && SyMemcmp(&zText[aOffset[i]],z,n) == 0) {
+    if ((int)aLen[i] == n && SyMemcmp(&zText[aOffset[i]], z, n) == 0) {
       /* PH7_TKWRD_EXTENDS */
       /* PH7_TKWRD_ENDSWITCH */
       /* PH7_TKWRD_SWITCH */
@@ -800,7 +800,7 @@ static sxu32 KeywordCode(const char *z, int n){
  *   HEREDOC Here
  *  ___
  */
-static sxi32 LexExtractHeredoc(SyStream *pStream,SyToken *pToken)
+static sxi32 LexExtractHeredoc(SyStream *pStream, SyToken *pToken)
 {
   const unsigned char *zIn = pStream->zText;
   const unsigned char *zEnd = pStream->zEnd;
@@ -878,7 +878,7 @@ static sxi32 LexExtractHeredoc(SyStream *pStream,SyToken *pToken)
     }
     pStream->nLine++;     /* Increment line counter */
     zIn++;
-    if ((sxu32)(zEnd - zIn) >= sDelim.nByte && SyMemcmp((const void *)sDelim.zString,(const void *)zIn,sDelim.nByte) == 0) {
+    if ((sxu32)(zEnd - zIn) >= sDelim.nByte && SyMemcmp((const void *)sDelim.zString, (const void *)zIn, sDelim.nByte) == 0) {
       zPtr = &zIn[sDelim.nByte];
       while (zPtr < zEnd && zPtr[0] < 0xc0 && SyisSpace(zPtr[0]) && zPtr[0] != '\n') {
         zPtr++;
@@ -912,7 +912,7 @@ static sxi32 LexExtractHeredoc(SyStream *pStream,SyToken *pToken)
   sStr.nByte = (sxu32)((const char *)zIn - sStr.zString);
   /* Record token type and length */
   pToken->nType = bNowDoc ? PH7_TK_NOWDOC : PH7_TK_HEREDOC;
-  SyStringDupPtr(&pToken->sData,&sStr);
+  SyStringDupPtr(&pToken->sData, &sStr);
   /* Remove trailing white spaces */
   SyStringRightTrim(&pToken->sData);
   /* All done */
@@ -922,18 +922,18 @@ static sxi32 LexExtractHeredoc(SyStream *pStream,SyToken *pToken)
  * Tokenize a raw PHP input.
  * This is the public tokenizer called by most code generator routines.
  */
-PH7_PRIVATE sxi32 PH7_TokenizePHP(const char *zInput,sxu32 nLen,sxu32 nLineStart,SySet *pOut)
+PH7_PRIVATE sxi32 PH7_TokenizePHP(const char *zInput, sxu32 nLen, sxu32 nLineStart, SySet *pOut)
 {
   SyLex sLexer;
   sxi32 rc;
   /* Initialize the lexer */
-  rc = SyLexInit(&sLexer,&(*pOut),TokenizePHP,0);
+  rc = SyLexInit(&sLexer, &(*pOut), TokenizePHP, 0);
   if (rc != SXRET_OK) {
     return rc;
   }
   sLexer.sStream.nLine = nLineStart;
   /* Tokenize input */
-  rc = SyLexTokenizeInput(&sLexer,zInput,nLen,0,0,0);
+  rc = SyLexTokenizeInput(&sLexer, zInput, nLen, 0, 0, 0);
   /* Release the lexer */
   SyLexRelease(&sLexer);
   /* Tokenization result */
@@ -984,11 +984,11 @@ PH7_PRIVATE sxi32 PH7_TokenizePHP(const char *zInput,sxu32 nLen,sxu32 nLineStart
  * 3.  <? echo 'this is the simplest, an SGML processing instruction'; ?>
  *   <?= expression ?> This is a shortcut for "<? echo expression ?>"
  */
-PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput,sxu32 nLen,SySet *pOut)
+PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput, sxu32 nLen, SySet *pOut)
 {
   const char *zEnd = &zInput[nLen];
   const char *zIn = zInput;
-  const char *zCur,*zCurEnd;
+  const char *zCur, *zCurEnd;
   SyString sCtag = { 0, 0 };       /* Closing tag */
   SyToken sToken;
   SyString sDoc;
@@ -1017,12 +1017,12 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput,sxu32 nLen,SySet *pOut)
         if (zIn < zEnd) {
           if (zIn[0] == '?') {
             zIn++;
-            if ((sxu32)(zEnd - zIn) >= sizeof("php") - 1 && SyStrnicmp(zIn,"php",sizeof("php") - 1) == 0) {
+            if ((sxu32)(zEnd - zIn) >= sizeof("php") - 1 && SyStrnicmp(zIn, "php", sizeof("php") - 1) == 0) {
               /* opening tag: <?php */
               zIn += sizeof("php") - 1;
             }
             /* Look for the closing tag '?>' */
-            SyStringInitFromBuf(&sCtag,"?>",sizeof("?>") - 1);
+            SyStringInitFromBuf(&sCtag, "?>", sizeof("?>") - 1);
             zCurEnd = zTmp;
             break;
           }
@@ -1038,9 +1038,9 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput,sxu32 nLen,SySet *pOut)
       zCurEnd = zIn;
     }
     /* Save the raw token */
-    SyStringInitFromBuf(&sToken.sData,zCur,zCurEnd - zCur);
+    SyStringInitFromBuf(&sToken.sData, zCur, zCurEnd - zCur);
     sToken.nType = PH7_TOKEN_RAW;
-    rc = SySetPut(&(*pOut),(const void *)&sToken);
+    rc = SySetPut(&(*pOut), (const void *)&sToken);
     if (rc != SXRET_OK) {
       return rc;
     }
@@ -1059,7 +1059,7 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput,sxu32 nLen,SySet *pOut)
     zCur = zIn;
     while ((sxu32)(zEnd - zIn) >= sCtag.nByte) {
       const char *zPtr;
-      if (SyMemcmp(zIn,sCtag.zString,sCtag.nByte) == 0 && iNest < 1) {
+      if (SyMemcmp(zIn, sCtag.zString, sCtag.nByte) == 0 && iNest < 1) {
         break;
       }
       for (;;) {
@@ -1101,14 +1101,14 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput,sxu32 nLen,SySet *pOut)
             if ((unsigned char)zIn[0] >= 0xc0) {
               /* UTF-8 stream */
               zIn++;
-              SX_JMP_UTF8(zIn,zEnd);
+              SX_JMP_UTF8(zIn, zEnd);
             }else if (!SyisAlphaNum(zIn[0]) && zIn[0] != '_') {
               break;
             }else{
               zIn++;
             }
           }
-          if ((sxu32)(zIn - zPtr) == sDoc.nByte && SyMemcmp(sDoc.zString,zPtr,sDoc.nByte) == 0) {
+          if ((sxu32)(zIn - zPtr) == sDoc.nByte && SyMemcmp(sDoc.zString, zPtr, sDoc.nByte) == 0) {
             iNest = 0;
           }
           continue;
@@ -1126,14 +1126,14 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput,sxu32 nLen,SySet *pOut)
           if ((unsigned char)zIn[0] >= 0xc0) {
             /* UTF-8 stream */
             zIn++;
-            SX_JMP_UTF8(zIn,zEnd);
+            SX_JMP_UTF8(zIn, zEnd);
           }else if (!SyisAlphaNum(zIn[0]) && zIn[0] != '_') {
             break;
           }else{
             zIn++;
           }
         }
-        SyStringInitFromBuf(&sDoc,zPtr,zIn - zPtr);
+        SyStringInitFromBuf(&sDoc, zPtr, zIn - zPtr);
         SyStringFullTrim(&sDoc);
         if (sDoc.nByte > 0) {
           iNest++;
@@ -1151,9 +1151,9 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput,sxu32 nLen,SySet *pOut)
     if (zCur < zIn) {
       /* Save the PHP chunk for later processing */
       sToken.nType = PH7_TOKEN_PHP;
-      SyStringInitFromBuf(&sToken.sData,zCur,zIn - zCur);
+      SyStringInitFromBuf(&sToken.sData, zCur, zIn - zCur);
       SyStringRightTrim(&sToken.sData);       /* Trim trailing white spaces */
-      rc = SySetPut(&(*pOut),(const void *)&sToken);
+      rc = SySetPut(&(*pOut), (const void *)&sToken);
       if (rc != SXRET_OK) {
         return rc;
       }

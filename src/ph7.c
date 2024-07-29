@@ -86,18 +86,18 @@ static void Help(void)
  * This function is registered later via a call to ph7_vm_config()
  * with a configuration verb set to: PH7_VM_CONFIG_OUTPUT.
  */
-static int Output_Consumer(const void *pOutput,unsigned int nOutputLen,void *pUserData /* Unused */ )
+static int Output_Consumer(const void *pOutput, unsigned int nOutputLen, void *pUserData /* Unused */ )
 {
 #ifdef __WINNT__
   BOOL rc;
-  rc = WriteFile(GetStdHandle(STD_OUTPUT_HANDLE),pOutput,(DWORD)nOutputLen,0,0);
+  rc = WriteFile(GetStdHandle(STD_OUTPUT_HANDLE), pOutput, (DWORD)nOutputLen, 0, 0);
   if (!rc) {
     /* Abort processing */
     return PH7_ABORT;
   }
 #else
   ssize_t nWr;
-  nWr = write(STDOUT_FILENO,pOutput,nOutputLen);
+  nWr = write(STDOUT_FILENO, pOutput, nOutputLen);
   if (nWr < 0) {
     /* Abort processing */
     return PH7_ABORT;
@@ -109,7 +109,7 @@ static int Output_Consumer(const void *pOutput,unsigned int nOutputLen,void *pUs
 /*
  * Main program: Compile and execute the PHP file.
  */
-int main(int argc,char **argv)
+int main(int argc, char **argv)
 {
   ph7 *pEngine;   /* PH7 engine */
   ph7_vm *pVm;    /* Compiled PHP program */
@@ -152,7 +152,7 @@ int main(int argc,char **argv)
   /* Set an error log consumer callback. This callback [Output_Consumer()] will
    * redirect all compile-time error messages to STDOUT.
    */
-  ph7_config(pEngine,PH7_CONFIG_ERR_OUTPUT,
+  ph7_config(pEngine, PH7_CONFIG_ERR_OUTPUT,
              Output_Consumer,   /* Error log consumer */
              0   /* NULL: Callback Private data */
              );
@@ -190,11 +190,11 @@ int main(int argc,char **argv)
    * array from the compiled PHP program.
    */
   for ( n = n + 1 ; n < argc ; ++n ) {
-    ph7_vm_config(pVm,PH7_VM_CONFIG_ARGV_ENTRY,argv[n] /* Argument value */ );
+    ph7_vm_config(pVm, PH7_VM_CONFIG_ARGV_ENTRY, argv[n] /* Argument value */ );
   }
   if (err_report) {
     /* Report script run-time errors */
-    ph7_vm_config(pVm,PH7_VM_CONFIG_ERR_REPORT);
+    ph7_vm_config(pVm, PH7_VM_CONFIG_ERR_REPORT);
   }
   if (dump_vm) {
     /* Dump PH7 byte-code instructions */
@@ -207,7 +207,7 @@ int main(int argc,char **argv)
    * And finally, execute our program. Note that your output (STDOUT in our case)
    * should display the result.
    */
-  ph7_vm_exec(pVm,0);
+  ph7_vm_exec(pVm, 0);
   /* All done, cleanup the mess left behind.
    */
   ph7_vm_release(pVm);

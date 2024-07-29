@@ -202,7 +202,7 @@ typedef signed long long int sxi64;   /* 64 bits(8 bytes) signed int64 */
 typedef unsigned long long int sxu64; /* 64 bits(8 bytes) unsigned int64 */
 #endif /* _MSC_VER */
 /* Signature of the consumer routine */
-typedef int (*ProcConsumer)(const void *,unsigned int,void *);
+typedef int (*ProcConsumer)(const void *, unsigned int, void *);
 /* Forward reference */
 typedef struct SyMutexMethods SyMutexMethods;
 typedef struct SyMemMethods SyMemMethods;
@@ -243,7 +243,7 @@ struct Sytm
   long tm_gmtoff;   /* offset from UTC in seconds */
 };
 /* Convert a tm structure (struct tm *) found in <time.h> to a Sytm structure */
-#define STRUCT_TM_TO_SYTM(pTM,pSYTM) \
+#define STRUCT_TM_TO_SYTM(pTM, pSYTM) \
         (pSYTM)->tm_hour = (pTM)->tm_hour; \
         (pSYTM)->tm_min = (pTM)->tm_min; \
         (pSYTM)->tm_sec = (pTM)->tm_sec; \
@@ -257,7 +257,7 @@ struct Sytm
         (pSYTM)->tm_zone = 0;
 
 /* Convert a SYSTEMTIME structure (LPSYSTEMTIME: Windows Systems only ) to a Sytm structure */
-#define SYSTEMTIME_TO_SYTM(pSYSTIME,pSYTM) \
+#define SYSTEMTIME_TO_SYTM(pSYSTIME, pSYTM) \
         (pSYTM)->tm_hour = (pSYSTIME)->wHour; \
         (pSYTM)->tm_min = (pSYSTIME)->wMinute; \
         (pSYTM)->tm_sec = (pSYSTIME)->wSecond; \
@@ -274,7 +274,7 @@ struct Sytm
 struct SyMemMethods
 {
   void * (*xAlloc)(unsigned int);            /* [Required:] Allocate a memory chunk */
-  void * (*xRealloc)(void *,unsigned int);   /* [Required:] Re-allocate a memory chunk */
+  void * (*xRealloc)(void *, unsigned int);   /* [Required:] Re-allocate a memory chunk */
   void (*xFree)(void *);                     /* [Required:] Release a memory chunk */
   unsigned int (*xChunkSize)(void *);        /* [Optional:] Return chunk size */
   int (*xInit)(void *);                      /* [Optional:] Initialization callback */
@@ -504,45 +504,45 @@ struct ph7_vfs
   int (*xChdir)(const char *);                       /* Change directory */
   int (*xChroot)(const char *);                      /* Change the root directory */
   int (*xGetcwd)(ph7_context *);                     /* Get the current working directory */
-  int (*xMkdir)(const char *,int,int);               /* Make directory */
+  int (*xMkdir)(const char *, int, int);               /* Make directory */
   int (*xRmdir)(const char *);                       /* Remove directory */
   int (*xIsdir)(const char *);                       /* Tells whether the filename is a directory */
-  int (*xRename)(const char *,const char *);         /* Renames a file or directory */
-  int (*xRealpath)(const char *,ph7_context *);      /* Return canonicalized absolute pathname*/
+  int (*xRename)(const char *, const char *);         /* Renames a file or directory */
+  int (*xRealpath)(const char *, ph7_context *);      /* Return canonicalized absolute pathname*/
   /* Systems functions */
   int (*xSleep)(unsigned int);                       /* Delay execution in microseconds */
   int (*xUnlink)(const char *);                      /* Deletes a file */
   int (*xFileExists)(const char *);                  /* Checks whether a file or directory exists */
-  int (*xChmod)(const char *,int);                   /* Changes file mode */
-  int (*xChown)(const char *,const char *);          /* Changes file owner */
-  int (*xChgrp)(const char *,const char *);          /* Changes file group */
+  int (*xChmod)(const char *, int);                   /* Changes file mode */
+  int (*xChown)(const char *, const char *);          /* Changes file owner */
+  int (*xChgrp)(const char *, const char *);          /* Changes file group */
   ph7_int64 (*xFreeSpace)(const char *);             /* Available space on filesystem or disk partition */
   ph7_int64 (*xTotalSpace)(const char *);            /* Total space on filesystem or disk partition */
   ph7_int64 (*xFileSize)(const char *);              /* Gets file size */
   ph7_int64 (*xFileAtime)(const char *);             /* Gets last access time of file */
   ph7_int64 (*xFileMtime)(const char *);             /* Gets file modification time */
   ph7_int64 (*xFileCtime)(const char *);             /* Gets inode change time of file */
-  int (*xStat)(const char *,ph7_value *,ph7_value *);     /* Gives information about a file */
-  int (*xlStat)(const char *,ph7_value *,ph7_value *);    /* Gives information about a file */
+  int (*xStat)(const char *, ph7_value *, ph7_value *);     /* Gives information about a file */
+  int (*xlStat)(const char *, ph7_value *, ph7_value *);    /* Gives information about a file */
   int (*xIsfile)(const char *);                      /* Tells whether the filename is a regular file */
   int (*xIslink)(const char *);                      /* Tells whether the filename is a symbolic link */
   int (*xReadable)(const char *);                    /* Tells whether a file exists and is readable */
   int (*xWritable)(const char *);                    /* Tells whether the filename is writable */
   int (*xExecutable)(const char *);                  /* Tells whether the filename is executable */
-  int (*xFiletype)(const char *,ph7_context *);      /* Gets file type [i.e: fifo,dir,file..] */
-  int (*xGetenv)(const char *,ph7_context *);        /* Gets the value of an environment variable */
-  int (*xSetenv)(const char *,const char *);         /* Sets the value of an environment variable */
-  int (*xTouch)(const char *,ph7_int64,ph7_int64);   /* Sets access and modification time of file */
-  int (*xMmap)(const char *,void **,ph7_int64 *);    /* Read-only memory map of the whole file */
-  void (*xUnmap)(void *,ph7_int64);                  /* Unmap a memory view */
-  int (*xLink)(const char *,const char *,int);       /* Create hard or symbolic link */
+  int (*xFiletype)(const char *, ph7_context *);      /* Gets file type [i.e: fifo,dir,file..] */
+  int (*xGetenv)(const char *, ph7_context *);        /* Gets the value of an environment variable */
+  int (*xSetenv)(const char *, const char *);         /* Sets the value of an environment variable */
+  int (*xTouch)(const char *, ph7_int64, ph7_int64);   /* Sets access and modification time of file */
+  int (*xMmap)(const char *, void **, ph7_int64 *);    /* Read-only memory map of the whole file */
+  void (*xUnmap)(void *, ph7_int64);                  /* Unmap a memory view */
+  int (*xLink)(const char *, const char *, int);       /* Create hard or symbolic link */
   int (*xUmask)(int);                                /* Change the current umask */
   void (*xTempDir)(ph7_context *);                   /* Get path of the temporary directory */
   unsigned int (*xProcessId)(void);                  /* Get running process ID */
   int (*xUid)(void);                                 /* user ID of the process */
   int (*xGid)(void);                                 /* group ID of the process */
   void (*xUsername)(ph7_context *);                  /* Running username */
-  int (*xExec)(const char *,ph7_context *);          /* Execute an external program */
+  int (*xExec)(const char *, ph7_context *);          /* Execute an external program */
 };
 /* Current PH7 IO stream structure version. */
 #define PH7_IO_STREAM_VERSION 1
@@ -595,20 +595,20 @@ struct ph7_io_stream
 {
   const char *zName;                                       /* Underlying stream name [i.e: file/http/zip/php,..] */
   int iVersion;                                            /* IO stream structure version [default 1]*/
-  int (*xOpen)(const char *,int,ph7_value *,void **);      /* Open handle*/
-  int (*xOpenDir)(const char *,ph7_value *,void **);       /* Open directory handle */
+  int (*xOpen)(const char *, int, ph7_value *, void **);      /* Open handle*/
+  int (*xOpenDir)(const char *, ph7_value *, void **);       /* Open directory handle */
   void (*xClose)(void *);                                  /* Close file handle */
   void (*xCloseDir)(void *);                               /* Close directory handle */
-  ph7_int64 (*xRead)(void *,void *,ph7_int64);             /* Read from the open stream */
-  int (*xReadDir)(void *,ph7_context *);                   /* Read entry from directory handle */
-  ph7_int64 (*xWrite)(void *,const void *,ph7_int64);      /* Write to the open stream */
-  int (*xSeek)(void *,ph7_int64,int);                      /* Seek on the open stream */
-  int (*xLock)(void *,int);                                /* Lock/Unlock the open stream */
+  ph7_int64 (*xRead)(void *, void *, ph7_int64);             /* Read from the open stream */
+  int (*xReadDir)(void *, ph7_context *);                   /* Read entry from directory handle */
+  ph7_int64 (*xWrite)(void *, const void *, ph7_int64);      /* Write to the open stream */
+  int (*xSeek)(void *, ph7_int64, int);                      /* Seek on the open stream */
+  int (*xLock)(void *, int);                                /* Lock/Unlock the open stream */
   void (*xRewindDir)(void *);                              /* Rewind directory handle */
   ph7_int64 (*xTell)(void *);                              /* Current position of the stream  read/write pointer */
-  int (*xTrunc)(void *,ph7_int64);                         /* Truncates the open stream to a given length */
+  int (*xTrunc)(void *, ph7_int64);                         /* Truncates the open stream to a given length */
   int (*xSync)(void *);                                    /* Flush open stream data */
-  int (*xStat)(void *,ph7_value *,ph7_value *);            /* Stat an open stream handle */
+  int (*xStat)(void *, ph7_value *, ph7_value *);            /* Stat an open stream handle */
 };
 /*
  * C-API-REF: Please refer to the official documentation for interfaces
@@ -616,85 +616,85 @@ struct ph7_io_stream
  */
 /* Engine Handling Interfaces */
 PH7_APIEXPORT int ph7_init(ph7 **ppEngine);
-PH7_APIEXPORT int ph7_config(ph7 *pEngine,int nConfigOp,...);
+PH7_APIEXPORT int ph7_config(ph7 *pEngine, int nConfigOp, ...);
 PH7_APIEXPORT int ph7_release(ph7 *pEngine);
 /* Compile Interfaces */
-PH7_APIEXPORT int ph7_compile(ph7 *pEngine,const char *zSource,int nLen,ph7_vm **ppOutVm);
-PH7_APIEXPORT int ph7_compile_v2(ph7 *pEngine,const char *zSource,int nLen,ph7_vm **ppOutVm,int iFlags);
-PH7_APIEXPORT int ph7_compile_file(ph7 *pEngine,const char *zFilePath,ph7_vm **ppOutVm,int iFlags);
+PH7_APIEXPORT int ph7_compile(ph7 *pEngine, const char *zSource, int nLen, ph7_vm **ppOutVm);
+PH7_APIEXPORT int ph7_compile_v2(ph7 *pEngine, const char *zSource, int nLen, ph7_vm **ppOutVm, int iFlags);
+PH7_APIEXPORT int ph7_compile_file(ph7 *pEngine, const char *zFilePath, ph7_vm **ppOutVm, int iFlags);
 /* Virtual Machine Handling Interfaces */
-PH7_APIEXPORT int ph7_vm_config(ph7_vm *pVm,int iConfigOp,...);
-PH7_APIEXPORT int ph7_vm_exec(ph7_vm *pVm,int *pExitStatus);
+PH7_APIEXPORT int ph7_vm_config(ph7_vm *pVm, int iConfigOp, ...);
+PH7_APIEXPORT int ph7_vm_exec(ph7_vm *pVm, int *pExitStatus);
 PH7_APIEXPORT int ph7_vm_reset(ph7_vm *pVm);
 PH7_APIEXPORT int ph7_vm_release(ph7_vm *pVm);
-PH7_APIEXPORT int ph7_vm_dump_v2(ph7_vm *pVm,int (*xConsumer)(const void *,unsigned int,void *),void *pUserData);
+PH7_APIEXPORT int ph7_vm_dump_v2(ph7_vm *pVm, int (*xConsumer)(const void *, unsigned int, void *), void *pUserData);
 /* In-process Extending Interfaces */
-PH7_APIEXPORT int ph7_create_function(ph7_vm *pVm,const char *zName,int (*xFunc)(ph7_context *,int,ph7_value **),void *pUserData);
-PH7_APIEXPORT int ph7_delete_function(ph7_vm *pVm,const char *zName);
-PH7_APIEXPORT int ph7_create_constant(ph7_vm *pVm,const char *zName,void (*xExpand)(ph7_value *,void *),void *pUserData);
-PH7_APIEXPORT int ph7_delete_constant(ph7_vm *pVm,const char *zName);
+PH7_APIEXPORT int ph7_create_function(ph7_vm *pVm, const char *zName, int (*xFunc)(ph7_context *, int, ph7_value **), void *pUserData);
+PH7_APIEXPORT int ph7_delete_function(ph7_vm *pVm, const char *zName);
+PH7_APIEXPORT int ph7_create_constant(ph7_vm *pVm, const char *zName, void (*xExpand)(ph7_value *, void *), void *pUserData);
+PH7_APIEXPORT int ph7_delete_constant(ph7_vm *pVm, const char *zName);
 /* Foreign Function Parameter Values */
 PH7_APIEXPORT int ph7_value_to_int(ph7_value *pValue);
 PH7_APIEXPORT int ph7_value_to_bool(ph7_value *pValue);
 PH7_APIEXPORT ph7_int64 ph7_value_to_int64(ph7_value *pValue);
 PH7_APIEXPORT double ph7_value_to_double(ph7_value *pValue);
-PH7_APIEXPORT const char* ph7_value_to_string(ph7_value *pValue,int *pLen);
+PH7_APIEXPORT const char* ph7_value_to_string(ph7_value *pValue, int *pLen);
 PH7_APIEXPORT void* ph7_value_to_resource(ph7_value *pValue);
-PH7_APIEXPORT int ph7_value_compare(ph7_value *pLeft,ph7_value *pRight,int bStrict);
+PH7_APIEXPORT int ph7_value_compare(ph7_value *pLeft, ph7_value *pRight, int bStrict);
 /* Setting The Result Of A Foreign Function */
-PH7_APIEXPORT int ph7_result_int(ph7_context *pCtx,int iValue);
-PH7_APIEXPORT int ph7_result_int64(ph7_context *pCtx,ph7_int64 iValue);
-PH7_APIEXPORT int ph7_result_bool(ph7_context *pCtx,int iBool);
-PH7_APIEXPORT int ph7_result_double(ph7_context *pCtx,double Value);
+PH7_APIEXPORT int ph7_result_int(ph7_context *pCtx, int iValue);
+PH7_APIEXPORT int ph7_result_int64(ph7_context *pCtx, ph7_int64 iValue);
+PH7_APIEXPORT int ph7_result_bool(ph7_context *pCtx, int iBool);
+PH7_APIEXPORT int ph7_result_double(ph7_context *pCtx, double Value);
 PH7_APIEXPORT int ph7_result_null(ph7_context *pCtx);
-PH7_APIEXPORT int ph7_result_string(ph7_context *pCtx,const char *zString,int nLen);
-PH7_APIEXPORT int ph7_result_string_format(ph7_context *pCtx,const char *zFormat,...);
-PH7_APIEXPORT int ph7_result_value(ph7_context *pCtx,ph7_value *pValue);
-PH7_APIEXPORT int ph7_result_resource(ph7_context *pCtx,void *pUserData);
+PH7_APIEXPORT int ph7_result_string(ph7_context *pCtx, const char *zString, int nLen);
+PH7_APIEXPORT int ph7_result_string_format(ph7_context *pCtx, const char *zFormat, ...);
+PH7_APIEXPORT int ph7_result_value(ph7_context *pCtx, ph7_value *pValue);
+PH7_APIEXPORT int ph7_result_resource(ph7_context *pCtx, void *pUserData);
 /* Call Context Handling Interfaces */
-PH7_APIEXPORT int ph7_context_output(ph7_context *pCtx,const char *zString,int nLen);
-PH7_APIEXPORT int ph7_context_output_format(ph7_context *pCtx,const char *zFormat,...);
-PH7_APIEXPORT int ph7_context_throw_error(ph7_context *pCtx,int iErr,const char *zErr);
-PH7_APIEXPORT int ph7_context_throw_error_format(ph7_context *pCtx,int iErr,const char *zFormat,...);
+PH7_APIEXPORT int ph7_context_output(ph7_context *pCtx, const char *zString, int nLen);
+PH7_APIEXPORT int ph7_context_output_format(ph7_context *pCtx, const char *zFormat, ...);
+PH7_APIEXPORT int ph7_context_throw_error(ph7_context *pCtx, int iErr, const char *zErr);
+PH7_APIEXPORT int ph7_context_throw_error_format(ph7_context *pCtx, int iErr, const char *zFormat, ...);
 PH7_APIEXPORT unsigned int ph7_context_random_num(ph7_context *pCtx);
-PH7_APIEXPORT int ph7_context_random_string(ph7_context *pCtx,char *zBuf,int nBuflen);
+PH7_APIEXPORT int ph7_context_random_string(ph7_context *pCtx, char *zBuf, int nBuflen);
 PH7_APIEXPORT void* ph7_context_user_data(ph7_context *pCtx);
-PH7_APIEXPORT int ph7_context_push_aux_data(ph7_context *pCtx,void *pUserData);
+PH7_APIEXPORT int ph7_context_push_aux_data(ph7_context *pCtx, void *pUserData);
 PH7_APIEXPORT void* ph7_context_peek_aux_data(ph7_context *pCtx);
 PH7_APIEXPORT void* ph7_context_pop_aux_data(ph7_context *pCtx);
 PH7_APIEXPORT unsigned int ph7_context_result_buf_length(ph7_context *pCtx);
 PH7_APIEXPORT const char* ph7_function_name(ph7_context *pCtx);
 /* Call Context Memory Management Interfaces */
-PH7_APIEXPORT void* ph7_context_alloc_chunk(ph7_context *pCtx,unsigned int nByte,int ZeroChunk,int AutoRelease);
-PH7_APIEXPORT void* ph7_context_realloc_chunk(ph7_context *pCtx,void *pChunk,unsigned int nByte);
-PH7_APIEXPORT void ph7_context_free_chunk(ph7_context *pCtx,void *pChunk);
+PH7_APIEXPORT void* ph7_context_alloc_chunk(ph7_context *pCtx, unsigned int nByte, int ZeroChunk, int AutoRelease);
+PH7_APIEXPORT void* ph7_context_realloc_chunk(ph7_context *pCtx, void *pChunk, unsigned int nByte);
+PH7_APIEXPORT void ph7_context_free_chunk(ph7_context *pCtx, void *pChunk);
 /* On Demand Dynamically Typed Value Object allocation interfaces */
 PH7_APIEXPORT ph7_value* ph7_new_scalar(ph7_vm *pVm);
 PH7_APIEXPORT ph7_value* ph7_new_array(ph7_vm *pVm);
-PH7_APIEXPORT int ph7_release_value(ph7_vm *pVm,ph7_value *pValue);
+PH7_APIEXPORT int ph7_release_value(ph7_vm *pVm, ph7_value *pValue);
 PH7_APIEXPORT ph7_value* ph7_context_new_scalar(ph7_context *pCtx);
 PH7_APIEXPORT ph7_value* ph7_context_new_array(ph7_context *pCtx);
-PH7_APIEXPORT void ph7_context_release_value(ph7_context *pCtx,ph7_value *pValue);
+PH7_APIEXPORT void ph7_context_release_value(ph7_context *pCtx, ph7_value *pValue);
 /* Dynamically Typed Value Object Management Interfaces */
-PH7_APIEXPORT int ph7_value_int(ph7_value *pVal,int iValue);
-PH7_APIEXPORT int ph7_value_int64(ph7_value *pVal,ph7_int64 iValue);
-PH7_APIEXPORT int ph7_value_bool(ph7_value *pVal,int iBool);
+PH7_APIEXPORT int ph7_value_int(ph7_value *pVal, int iValue);
+PH7_APIEXPORT int ph7_value_int64(ph7_value *pVal, ph7_int64 iValue);
+PH7_APIEXPORT int ph7_value_bool(ph7_value *pVal, int iBool);
 PH7_APIEXPORT int ph7_value_null(ph7_value *pVal);
-PH7_APIEXPORT int ph7_value_double(ph7_value *pVal,double Value);
-PH7_APIEXPORT int ph7_value_string(ph7_value *pVal,const char *zString,int nLen);
-PH7_APIEXPORT int ph7_value_string_format(ph7_value *pVal,const char *zFormat,...);
+PH7_APIEXPORT int ph7_value_double(ph7_value *pVal, double Value);
+PH7_APIEXPORT int ph7_value_string(ph7_value *pVal, const char *zString, int nLen);
+PH7_APIEXPORT int ph7_value_string_format(ph7_value *pVal, const char *zFormat, ...);
 PH7_APIEXPORT int ph7_value_reset_string_cursor(ph7_value *pVal);
-PH7_APIEXPORT int ph7_value_resource(ph7_value *pVal,void *pUserData);
+PH7_APIEXPORT int ph7_value_resource(ph7_value *pVal, void *pUserData);
 PH7_APIEXPORT int ph7_value_release(ph7_value *pVal);
-PH7_APIEXPORT ph7_value* ph7_array_fetch(ph7_value *pArray,const char *zKey,int nByte);
-PH7_APIEXPORT int ph7_array_walk(ph7_value *pArray,int (*xWalk)(ph7_value *,ph7_value *,void *),void *pUserData);
-PH7_APIEXPORT int ph7_array_add_elem(ph7_value *pArray,ph7_value *pKey,ph7_value *pValue);
-PH7_APIEXPORT int ph7_array_add_strkey_elem(ph7_value *pArray,const char *zKey,ph7_value *pValue);
-PH7_APIEXPORT int ph7_array_add_intkey_elem(ph7_value *pArray,int iKey,ph7_value *pValue);
+PH7_APIEXPORT ph7_value* ph7_array_fetch(ph7_value *pArray, const char *zKey, int nByte);
+PH7_APIEXPORT int ph7_array_walk(ph7_value *pArray, int (*xWalk)(ph7_value *, ph7_value *, void *), void *pUserData);
+PH7_APIEXPORT int ph7_array_add_elem(ph7_value *pArray, ph7_value *pKey, ph7_value *pValue);
+PH7_APIEXPORT int ph7_array_add_strkey_elem(ph7_value *pArray, const char *zKey, ph7_value *pValue);
+PH7_APIEXPORT int ph7_array_add_intkey_elem(ph7_value *pArray, int iKey, ph7_value *pValue);
 PH7_APIEXPORT unsigned int ph7_array_count(ph7_value *pArray);
-PH7_APIEXPORT int ph7_object_walk(ph7_value *pObject,int (*xWalk)(const char *,ph7_value *,void *),void *pUserData);
-PH7_APIEXPORT ph7_value* ph7_object_fetch_attr(ph7_value *pObject,const char *zAttr);
-PH7_APIEXPORT const char* ph7_object_get_class_name(ph7_value *pObject,int *pLength);
+PH7_APIEXPORT int ph7_object_walk(ph7_value *pObject, int (*xWalk)(const char *, ph7_value *, void *), void *pUserData);
+PH7_APIEXPORT ph7_value* ph7_object_fetch_attr(ph7_value *pObject, const char *zAttr);
+PH7_APIEXPORT const char* ph7_object_get_class_name(ph7_value *pObject, int *pLength);
 PH7_APIEXPORT int ph7_value_is_int(ph7_value *pVal);
 PH7_APIEXPORT int ph7_value_is_float(ph7_value *pVal);
 PH7_APIEXPORT int ph7_value_is_bool(ph7_value *pVal);
@@ -709,7 +709,7 @@ PH7_APIEXPORT int ph7_value_is_resource(ph7_value *pVal);
 PH7_APIEXPORT int ph7_value_is_empty(ph7_value *pVal);
 /* Global Library Management Interfaces */
 PH7_APIEXPORT int ph7_lib_init(void);
-PH7_APIEXPORT int ph7_lib_config(int nConfigOp,...);
+PH7_APIEXPORT int ph7_lib_config(int nConfigOp, ...);
 PH7_APIEXPORT int ph7_lib_shutdown(void);
 PH7_APIEXPORT int ph7_lib_is_threadsafe(void);
 PH7_APIEXPORT const char* ph7_lib_version(void);

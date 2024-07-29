@@ -58,7 +58,7 @@ static struct Global_Data
   ph7 *pEngines;                            /* List of active engine */
   sxu32 nMagic;                             /* Sanity check against library misuse */
 } sMPGlobal = {
-  {0,0,0,0,0,0,0,0,{0}},
+  {0, 0, 0, 0, 0, 0, 0, 0, {0}},
 #if defined(PH7_ENABLE_THREADS)
   0,
   0,
@@ -91,15 +91,15 @@ static struct Global_Data
  * value indicates failure.
  * Refer to [ph7_config()].
  */
-static sxi32 EngineConfig(ph7 *pEngine,sxi32 nOp,va_list ap)
+static sxi32 EngineConfig(ph7 *pEngine, sxi32 nOp, va_list ap)
 {
   ph7_conf *pConf = &pEngine->xConf;
   int rc = PH7_OK;
   /* Perform the requested operation */
   switch (nOp) {
   case PH7_CONFIG_ERR_OUTPUT: {
-    ProcConsumer xConsumer = va_arg(ap,ProcConsumer);
-    void *pUserData = va_arg(ap,void *);
+    ProcConsumer xConsumer = va_arg(ap, ProcConsumer);
+    void *pUserData = va_arg(ap, void *);
     /* Compile time error consumer routine */
     if (xConsumer == 0) {
       rc = PH7_CORRUPT;
@@ -112,8 +112,8 @@ static sxi32 EngineConfig(ph7 *pEngine,sxi32 nOp,va_list ap)
   }
   case PH7_CONFIG_ERR_LOG: {
     /* Extract compile-time error log if any */
-    const char **pzPtr = va_arg(ap,const char **);
-    int *pLen = va_arg(ap,int *);
+    const char **pzPtr = va_arg(ap, const char **);
+    int *pLen = va_arg(ap, int *);
     if (pzPtr == 0) {
       rc = PH7_CORRUPT;
       break;
@@ -147,34 +147,34 @@ static sxi32 EngineConfig(ph7 *pEngine,sxi32 nOp,va_list ap)
  * indicates failure.
  * Refer to [ph7_lib_config()].
  */
-static sxi32 PH7CoreConfigure(sxi32 nOp,va_list ap)
+static sxi32 PH7CoreConfigure(sxi32 nOp, va_list ap)
 {
   int rc = PH7_OK;
   switch (nOp) {
   case PH7_LIB_CONFIG_VFS: {
     /* Install a virtual file system */
-    const ph7_vfs *pVfs = va_arg(ap,const ph7_vfs *);
+    const ph7_vfs *pVfs = va_arg(ap, const ph7_vfs *);
     sMPGlobal.pVfs = pVfs;
     break;
   }
   case PH7_LIB_CONFIG_USER_MALLOC: {
     /* Use an alternative low-level memory allocation routines */
-    const SyMemMethods *pMethods = va_arg(ap,const SyMemMethods *);
+    const SyMemMethods *pMethods = va_arg(ap, const SyMemMethods *);
     /* Save the memory failure callback (if available) */
     ProcMemError xMemErr = sMPGlobal.sAllocator.xMemError;
     void *pMemErr = sMPGlobal.sAllocator.pUserData;
     if (pMethods == 0) {
       /* Use the built-in memory allocation subsystem */
-      rc = SyMemBackendInit(&sMPGlobal.sAllocator,xMemErr,pMemErr);
+      rc = SyMemBackendInit(&sMPGlobal.sAllocator, xMemErr, pMemErr);
     }else{
-      rc = SyMemBackendInitFromOthers(&sMPGlobal.sAllocator,pMethods,xMemErr,pMemErr);
+      rc = SyMemBackendInitFromOthers(&sMPGlobal.sAllocator, pMethods, xMemErr, pMemErr);
     }
     break;
   }
   case PH7_LIB_CONFIG_MEM_ERR_CALLBACK: {
     /* Memory failure callback */
-    ProcMemError xMemErr = va_arg(ap,ProcMemError);
-    void *pUserData = va_arg(ap,void *);
+    ProcMemError xMemErr = va_arg(ap, ProcMemError);
+    void *pUserData = va_arg(ap, void *);
     sMPGlobal.sAllocator.xMemError = xMemErr;
     sMPGlobal.sAllocator.pUserData = pUserData;
     break;
@@ -182,7 +182,7 @@ static sxi32 PH7CoreConfigure(sxi32 nOp,va_list ap)
   case PH7_LIB_CONFIG_USER_MUTEX: {
 #if defined(PH7_ENABLE_THREADS)
     /* Use an alternative low-level mutex subsystem */
-    const SyMutexMethods *pMethods = va_arg(ap,const SyMutexMethods *);
+    const SyMutexMethods *pMethods = va_arg(ap, const SyMutexMethods *);
 #if defined (UNTRUST)
     if (pMethods == 0) {
       rc = PH7_CORRUPT;
@@ -196,7 +196,7 @@ static sxi32 PH7CoreConfigure(sxi32 nOp,va_list ap)
     }
     if (sMPGlobal.pMutexMethods) {
       /* Overwrite the previous mutex subsystem */
-      SyMutexRelease(sMPGlobal.pMutexMethods,sMPGlobal.pMutex);
+      SyMutexRelease(sMPGlobal.pMutexMethods, sMPGlobal.pMutex);
       if (sMPGlobal.pMutexMethods->xGlobalRelease) {
         sMPGlobal.pMutexMethods->xGlobalRelease();
       }
@@ -255,7 +255,7 @@ static sxi32 PH7CoreConfigure(sxi32 nOp,va_list ap)
  * [CAPIREF: ph7_lib_config()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_lib_config(int nConfigOp,...)
+int ph7_lib_config(int nConfigOp, ...)
 {
   va_list ap;
   int rc;
@@ -264,8 +264,8 @@ int ph7_lib_config(int nConfigOp,...)
     /* Library is already initialized,this operation is forbidden */
     return PH7_LOOKED;
   }
-  va_start(ap,nConfigOp);
-  rc = PH7CoreConfigure(nConfigOp,ap);
+  va_start(ap, nConfigOp);
+  rc = PH7CoreConfigure(nConfigOp, ap);
   va_end(ap);
   return rc;
 }
@@ -297,7 +297,7 @@ static sxi32 PH7CoreInitialize(void)
   /* Point to the built-in vfs */
   pVfs = PH7_ExportBuiltinVfs();
   /* Install it */
-  ph7_lib_config(PH7_LIB_CONFIG_VFS,pVfs);
+  ph7_lib_config(PH7_LIB_CONFIG_VFS, pVfs);
 #if defined(PH7_ENABLE_THREADS)
   if (sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_SINGLE) {
     pMutexMethods = sMPGlobal.pMutexMethods;
@@ -308,25 +308,25 @@ static sxi32 PH7CoreInitialize(void)
         return PH7_CORRUPT;         /* Can't happen */
       }
       /* Install the mutex subsystem */
-      rc = ph7_lib_config(PH7_LIB_CONFIG_USER_MUTEX,pMutexMethods);
+      rc = ph7_lib_config(PH7_LIB_CONFIG_USER_MUTEX, pMutexMethods);
       if (rc != PH7_OK) {
         return rc;
       }
     }
     /* Obtain a static mutex so we can initialize the library without calling malloc() */
-    pMaster = SyMutexNew(pMutexMethods,SXMUTEX_TYPE_STATIC_1);
+    pMaster = SyMutexNew(pMutexMethods, SXMUTEX_TYPE_STATIC_1);
     if (pMaster == 0) {
       return PH7_CORRUPT;       /* Can't happen */
     }
   }
   /* Lock the master mutex */
   rc = PH7_OK;
-  SyMutexEnter(pMutexMethods,pMaster);   /* NO-OP if sMPGlobal.nThreadingLevel == PH7_THREAD_LEVEL_SINGLE */
+  SyMutexEnter(pMutexMethods, pMaster);   /* NO-OP if sMPGlobal.nThreadingLevel == PH7_THREAD_LEVEL_SINGLE */
   if (sMPGlobal.nMagic != PH7_LIB_MAGIC) {
 #endif
   if (sMPGlobal.sAllocator.pMethods == 0) {
     /* Install a memory subsystem */
-    rc = ph7_lib_config(PH7_LIB_CONFIG_USER_MALLOC,0);         /* zero mean use the built-in memory backend */
+    rc = ph7_lib_config(PH7_LIB_CONFIG_USER_MALLOC, 0);         /* zero mean use the built-in memory backend */
     if (rc != PH7_OK) {
       /* If we are unable to initialize the memory backend,there is no much we can do here.*/
       goto End;
@@ -335,7 +335,7 @@ static sxi32 PH7CoreInitialize(void)
 #if defined(PH7_ENABLE_THREADS)
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE) {
     /* Protect the memory allocation subsystem */
-    rc = SyMemBackendMakeThreadSafe(&sMPGlobal.sAllocator,sMPGlobal.pMutexMethods);
+    rc = SyMemBackendMakeThreadSafe(&sMPGlobal.sAllocator, sMPGlobal.pMutexMethods);
     if (rc != PH7_OK) {
       goto End;
     }
@@ -350,7 +350,7 @@ static sxi32 PH7CoreInitialize(void)
 End:
 #if defined(PH7_ENABLE_THREADS)
   /* Unlock the master mutex */
-  SyMutexLeave(pMutexMethods,pMaster);   /* NO-OP if sMPGlobal.nThreadingLevel == PH7_THREAD_LEVEL_SINGLE */
+  SyMutexLeave(pMutexMethods, pMaster);   /* NO-OP if sMPGlobal.nThreadingLevel == PH7_THREAD_LEVEL_SINGLE */
 #endif
   return rc;
 }
@@ -369,7 +369,7 @@ int ph7_lib_init(void)
  */
 static sxi32 EngineRelease(ph7 *pEngine)
 {
-  ph7_vm *pVm,*pNext;
+  ph7_vm *pVm, *pNext;
   /* Release all active VM */
   pVm = pEngine->pVms;
   for (;;) {
@@ -396,7 +396,7 @@ static sxi32 EngineRelease(ph7 *pEngine)
  */
 static void PH7CoreShutdown(void)
 {
-  ph7 *pEngine,*pNext;
+  ph7 *pEngine, *pNext;
   /* Release all active engines first */
   pEngine = sMPGlobal.pEngines;
   for (;;) {
@@ -412,7 +412,7 @@ static void PH7CoreShutdown(void)
   /* Release the mutex subsystem */
   if (sMPGlobal.pMutexMethods) {
     if (sMPGlobal.pMutex) {
-      SyMutexRelease(sMPGlobal.pMutexMethods,sMPGlobal.pMutex);
+      SyMutexRelease(sMPGlobal.pMutexMethods, sMPGlobal.pMutex);
       sMPGlobal.pMutex = 0;
     }
     if (sMPGlobal.pMutexMethods->xGlobalRelease) {
@@ -498,7 +498,7 @@ const char* ph7_lib_copyright(void)
  * [CAPIREF: ph7_config()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_config(ph7 *pEngine,int nConfigOp,...)
+int ph7_config(ph7 *pEngine, int nConfigOp, ...)
 {
   va_list ap;
   int rc;
@@ -507,18 +507,18 @@ int ph7_config(ph7 *pEngine,int nConfigOp,...)
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire engine mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexEnter(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
       PH7_THRD_ENGINE_RELEASE(pEngine)) {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
-  va_start(ap,nConfigOp);
-  rc = EngineConfig(&(*pEngine),nConfigOp,ap);
+  va_start(ap, nConfigOp);
+  rc = EngineConfig(&(*pEngine), nConfigOp, ap);
   va_end(ap);
 #if defined(PH7_ENABLE_THREADS)
   /* Leave engine mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexLeave(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
   return rc;
 }
@@ -542,15 +542,15 @@ int ph7_init(ph7 **ppEngine)
     return rc;
   }
   /* Allocate a new engine */
-  pEngine = (ph7 *)SyMemBackendPoolAlloc(&sMPGlobal.sAllocator,sizeof(ph7));
+  pEngine = (ph7 *)SyMemBackendPoolAlloc(&sMPGlobal.sAllocator, sizeof(ph7));
   if (pEngine == 0) {
     return PH7_NOMEM;
   }
   /* Zero the structure */
-  SyZero(pEngine,sizeof(ph7));
+  SyZero(pEngine, sizeof(ph7));
   /* Initialize engine fields */
   pEngine->nMagic = PH7_ENGINE_MAGIC;
-  rc = SyMemBackendInitFromParent(&pEngine->sAllocator,&sMPGlobal.sAllocator);
+  rc = SyMemBackendInitFromParent(&pEngine->sAllocator, &sMPGlobal.sAllocator);
   if (rc != PH7_OK) {
     goto Release;
   }
@@ -558,15 +558,15 @@ int ph7_init(ph7 **ppEngine)
   SyMemBackendDisbaleMutexing(&pEngine->sAllocator);
 #endif
   /* Default configuration */
-  SyBlobInit(&pEngine->xConf.sErrConsumer,&pEngine->sAllocator);
+  SyBlobInit(&pEngine->xConf.sErrConsumer, &pEngine->sAllocator);
   /* Install a default compile-time error consumer routine */
-  ph7_config(pEngine,PH7_CONFIG_ERR_OUTPUT,PH7_VmBlobConsumer,&pEngine->xConf.sErrConsumer);
+  ph7_config(pEngine, PH7_CONFIG_ERR_OUTPUT, PH7_VmBlobConsumer, &pEngine->xConf.sErrConsumer);
   /* Built-in vfs */
   pEngine->pVfs = sMPGlobal.pVfs;
 #if defined(PH7_ENABLE_THREADS)
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE) {
     /* Associate a recursive mutex with this instance */
-    pEngine->pMutex = SyMutexNew(sMPGlobal.pMutexMethods,SXMUTEX_TYPE_RECURSIVE);
+    pEngine->pMutex = SyMutexNew(sMPGlobal.pMutexMethods, SXMUTEX_TYPE_RECURSIVE);
     if (pEngine->pMutex == 0) {
       rc = PH7_NOMEM;
       goto Release;
@@ -576,20 +576,20 @@ int ph7_init(ph7 **ppEngine)
   /* Link to the list of active engines */
 #if defined(PH7_ENABLE_THREADS)
   /* Enter the global mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,sMPGlobal.pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel == PH7_THREAD_LEVEL_SINGLE */
+  SyMutexEnter(sMPGlobal.pMutexMethods, sMPGlobal.pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel == PH7_THREAD_LEVEL_SINGLE */
 #endif
-  MACRO_LD_PUSH(sMPGlobal.pEngines,pEngine);
+  MACRO_LD_PUSH(sMPGlobal.pEngines, pEngine);
   sMPGlobal.nEngine++;
 #if defined(PH7_ENABLE_THREADS)
   /* Leave the global mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,sMPGlobal.pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel == PH7_THREAD_LEVEL_SINGLE */
+  SyMutexLeave(sMPGlobal.pMutexMethods, sMPGlobal.pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel == PH7_THREAD_LEVEL_SINGLE */
 #endif
   /* Write a pointer to the new instance */
   *ppEngine = pEngine;
   return PH7_OK;
 Release:
   SyMemBackendRelease(&pEngine->sAllocator);
-  SyMemBackendPoolFree(&sMPGlobal.sAllocator,pEngine);
+  SyMemBackendPoolFree(&sMPGlobal.sAllocator, pEngine);
   return rc;
 }
 /*
@@ -604,7 +604,7 @@ int ph7_release(ph7 *pEngine)
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire engine mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexEnter(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
       PH7_THRD_ENGINE_RELEASE(pEngine)) {
     return PH7_ABORT;          /* Another thread have released this instance */
@@ -614,23 +614,23 @@ int ph7_release(ph7 *pEngine)
   rc = EngineRelease(&(*pEngine));
 #if defined(PH7_ENABLE_THREADS)
   /* Leave engine mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexLeave(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   /* Release engine mutex */
-  SyMutexRelease(sMPGlobal.pMutexMethods,pEngine->pMutex)    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexRelease(sMPGlobal.pMutexMethods, pEngine->pMutex)    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
 #if defined(PH7_ENABLE_THREADS)
   /* Enter the global mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,sMPGlobal.pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel == PH7_THREAD_LEVEL_SINGLE */
+  SyMutexEnter(sMPGlobal.pMutexMethods, sMPGlobal.pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel == PH7_THREAD_LEVEL_SINGLE */
 #endif
   /* Unlink from the list of active engines */
-  MACRO_LD_REMOVE(sMPGlobal.pEngines,pEngine);
+  MACRO_LD_REMOVE(sMPGlobal.pEngines, pEngine);
   sMPGlobal.nEngine--;
 #if defined(PH7_ENABLE_THREADS)
   /* Leave the global mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,sMPGlobal.pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel == PH7_THREAD_LEVEL_SINGLE */
+  SyMutexLeave(sMPGlobal.pMutexMethods, sMPGlobal.pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel == PH7_THREAD_LEVEL_SINGLE */
 #endif
   /* Release the memory chunk allocated to this engine */
-  SyMemBackendPoolFree(&sMPGlobal.sAllocator,pEngine);
+  SyMemBackendPoolFree(&sMPGlobal.sAllocator, pEngine);
   return rc;
 }
 /*
@@ -654,7 +654,7 @@ static sxi32 ProcessScript(
   ph7_vm *pVm;
   int rc;
   /* Allocate a new virtual machine */
-  pVm = (ph7_vm *)SyMemBackendPoolAlloc(&pEngine->sAllocator,sizeof(ph7_vm));
+  pVm = (ph7_vm *)SyMemBackendPoolAlloc(&pEngine->sAllocator, sizeof(ph7_vm));
   if (pVm == 0) {
     /* If the supplied memory subsystem is so sick that we are unable to allocate
      * a tiny chunk of memory, there is no much we can do here. */
@@ -668,9 +668,9 @@ static sxi32 ProcessScript(
     iFlags = 0;
   }
   /* Initialize the Virtual Machine */
-  rc = PH7_VmInit(pVm,&(*pEngine));
+  rc = PH7_VmInit(pVm, &(*pEngine));
   if (rc != PH7_OK) {
-    SyMemBackendPoolFree(&pEngine->sAllocator,pVm);
+    SyMemBackendPoolFree(&pEngine->sAllocator, pVm);
     if (ppVm) {
       *ppVm = 0;
     }
@@ -678,17 +678,17 @@ static sxi32 ProcessScript(
   }
   if (zFilePath) {
     /* Push processed file path */
-    PH7_VmPushFilePath(pVm,zFilePath,-1,TRUE,0);
+    PH7_VmPushFilePath(pVm, zFilePath, -1, TRUE, 0);
   }
   /* Reset the error message consumer */
   SyBlobReset(&pEngine->xConf.sErrConsumer);
   /* Compile the script */
-  PH7_CompileScript(pVm,&(*pScript),iFlags);
+  PH7_CompileScript(pVm, &(*pScript), iFlags);
   if (pVm->sCodeGen.nErr > 0 || pVm == 0) {
     sxu32 nErr = pVm->sCodeGen.nErr;
     /* Compilation error or null ppVm pointer,release this VM */
     SyMemBackendRelease(&pVm->sAllocator);
-    SyMemBackendPoolFree(&pEngine->sAllocator,pVm);
+    SyMemBackendPoolFree(&pEngine->sAllocator, pVm);
     if (ppVm) {
       *ppVm = 0;
     }
@@ -700,18 +700,18 @@ static sxi32 ProcessScript(
     goto Release;
   }
   /* Install local import path which is the current directory */
-  ph7_vm_config(pVm,PH7_VM_CONFIG_IMPORT_PATH,"./");
+  ph7_vm_config(pVm, PH7_VM_CONFIG_IMPORT_PATH, "./");
 #if defined(PH7_ENABLE_THREADS)
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE) {
     /* Associate a recursive mutex with this instance */
-    pVm->pMutex = SyMutexNew(sMPGlobal.pMutexMethods,SXMUTEX_TYPE_RECURSIVE);
+    pVm->pMutex = SyMutexNew(sMPGlobal.pMutexMethods, SXMUTEX_TYPE_RECURSIVE);
     if (pVm->pMutex == 0) {
       goto Release;
     }
   }
 #endif
   /* Script successfully compiled,link to the list of active virtual machines */
-  MACRO_LD_PUSH(pEngine->pVms,pVm);
+  MACRO_LD_PUSH(pEngine->pVms, pVm);
   pEngine->iVm++;
   /* Point to the freshly created VM */
   *ppVm = pVm;
@@ -719,7 +719,7 @@ static sxi32 ProcessScript(
   return PH7_OK;
 Release:
   SyMemBackendRelease(&pVm->sAllocator);
-  SyMemBackendPoolFree(&pEngine->sAllocator,pVm);
+  SyMemBackendPoolFree(&pEngine->sAllocator, pVm);
   *ppVm = 0;
   return PH7_VM_ERR;
 }
@@ -727,7 +727,7 @@ Release:
  * [CAPIREF: ph7_compile()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_compile(ph7 *pEngine,const char *zSource,int nLen,ph7_vm **ppOutVm)
+int ph7_compile(ph7 *pEngine, const char *zSource, int nLen, ph7_vm **ppOutVm)
 {
   SyString sScript;
   int rc;
@@ -738,20 +738,20 @@ int ph7_compile(ph7 *pEngine,const char *zSource,int nLen,ph7_vm **ppOutVm)
     /* Compute input length automatically */
     nLen = (int)SyStrlen(zSource);
   }
-  SyStringInitFromBuf(&sScript,zSource,nLen);
+  SyStringInitFromBuf(&sScript, zSource, nLen);
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire engine mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexEnter(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
       PH7_THRD_ENGINE_RELEASE(pEngine)) {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
   /* Compile the script */
-  rc = ProcessScript(&(*pEngine),ppOutVm,&sScript,0,0);
+  rc = ProcessScript(&(*pEngine), ppOutVm, &sScript, 0, 0);
 #if defined(PH7_ENABLE_THREADS)
   /* Leave engine mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexLeave(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
   /* Compilation result */
   return rc;
@@ -760,7 +760,7 @@ int ph7_compile(ph7 *pEngine,const char *zSource,int nLen,ph7_vm **ppOutVm)
  * [CAPIREF: ph7_compile_v2()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_compile_v2(ph7 *pEngine,const char *zSource,int nLen,ph7_vm **ppOutVm,int iFlags)
+int ph7_compile_v2(ph7 *pEngine, const char *zSource, int nLen, ph7_vm **ppOutVm, int iFlags)
 {
   SyString sScript;
   int rc;
@@ -771,20 +771,20 @@ int ph7_compile_v2(ph7 *pEngine,const char *zSource,int nLen,ph7_vm **ppOutVm,in
     /* Compute input length automatically */
     nLen = (int)SyStrlen(zSource);
   }
-  SyStringInitFromBuf(&sScript,zSource,nLen);
+  SyStringInitFromBuf(&sScript, zSource, nLen);
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire engine mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexEnter(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
       PH7_THRD_ENGINE_RELEASE(pEngine)) {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
   /* Compile the script */
-  rc = ProcessScript(&(*pEngine),ppOutVm,&sScript,iFlags,0);
+  rc = ProcessScript(&(*pEngine), ppOutVm, &sScript, iFlags, 0);
 #if defined(PH7_ENABLE_THREADS)
   /* Leave engine mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexLeave(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
   /* Compilation result */
   return rc;
@@ -793,7 +793,7 @@ int ph7_compile_v2(ph7 *pEngine,const char *zSource,int nLen,ph7_vm **ppOutVm,in
  * [CAPIREF: ph7_compile_file()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_compile_file(ph7 *pEngine,const char *zFilePath,ph7_vm **ppOutVm,int iFlags)
+int ph7_compile_file(ph7 *pEngine, const char *zFilePath, ph7_vm **ppOutVm, int iFlags)
 {
   const ph7_vfs *pVfs;
   int rc;
@@ -806,7 +806,7 @@ int ph7_compile_file(ph7 *pEngine,const char *zFilePath,ph7_vm **ppOutVm,int iFl
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire engine mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexEnter(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
       PH7_THRD_ENGINE_RELEASE(pEngine)) {
     return PH7_ABORT;          /* Another thread have released this instance */
@@ -825,23 +825,23 @@ int ph7_compile_file(ph7 *pEngine,const char *zFilePath,ph7_vm **ppOutVm,int iFl
     ph7_int64 nSize = 0;      /* cc warning */
     SyString sScript;
     /* Try to get a memory view of the whole file */
-    rc = pVfs->xMmap(zFilePath,&pMapView,&nSize);
+    rc = pVfs->xMmap(zFilePath, &pMapView, &nSize);
     if (rc != PH7_OK) {
       /* Assume an IO error */
       rc = PH7_IO_ERR;
     }else{
       /* Compile the file */
-      SyStringInitFromBuf(&sScript,pMapView,nSize);
-      rc = ProcessScript(&(*pEngine),ppOutVm,&sScript,iFlags,zFilePath);
+      SyStringInitFromBuf(&sScript, pMapView, nSize);
+      rc = ProcessScript(&(*pEngine), ppOutVm, &sScript, iFlags, zFilePath);
       /* Release the memory view of the whole file */
       if (pVfs->xUnmap) {
-        pVfs->xUnmap(pMapView,nSize);
+        pVfs->xUnmap(pMapView, nSize);
       }
     }
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Leave engine mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexLeave(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
   /* Compilation result */
   return rc;
@@ -850,7 +850,7 @@ int ph7_compile_file(ph7 *pEngine,const char *zFilePath,ph7_vm **ppOutVm,int iFl
  * [CAPIREF: ph7_vm_dump_v2()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_vm_dump_v2(ph7_vm *pVm,int (*xConsumer)(const void *,unsigned int,void *),void *pUserData)
+int ph7_vm_dump_v2(ph7_vm *pVm, int (*xConsumer)(const void *, unsigned int, void *), void *pUserData)
 {
   int rc;
   /* Ticket 1433-002: NULL VM is harmless operation */
@@ -863,14 +863,14 @@ int ph7_vm_dump_v2(ph7_vm *pVm,int (*xConsumer)(const void *,unsigned int,void *
   }
 #endif
   /* Dump VM instructions */
-  rc = PH7_VmDump(&(*pVm),xConsumer,pUserData);
+  rc = PH7_VmDump(&(*pVm), xConsumer, pUserData);
   return rc;
 }
 /*
  * [CAPIREF: ph7_vm_config()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_vm_config(ph7_vm *pVm,int iConfigOp,...)
+int ph7_vm_config(ph7_vm *pVm, int iConfigOp, ...)
 {
   va_list ap;
   int rc;
@@ -880,19 +880,19 @@ int ph7_vm_config(ph7_vm *pVm,int iConfigOp,...)
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire VM mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
       PH7_THRD_VM_RELEASE(pVm)) {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
   /* Confiugure the virtual machine */
-  va_start(ap,iConfigOp);
-  rc = PH7_VmConfigure(&(*pVm),iConfigOp,ap);
+  va_start(ap, iConfigOp);
+  rc = PH7_VmConfigure(&(*pVm), iConfigOp, ap);
   va_end(ap);
 #if defined(PH7_ENABLE_THREADS)
   /* Leave VM mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexLeave(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
   return rc;
 }
@@ -900,7 +900,7 @@ int ph7_vm_config(ph7_vm *pVm,int iConfigOp,...)
  * [CAPIREF: ph7_vm_exec()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_vm_exec(ph7_vm *pVm,int *pExitStatus)
+int ph7_vm_exec(ph7_vm *pVm, int *pExitStatus)
 {
   int rc;
   /* Ticket 1433-002: NULL VM is harmless operation */
@@ -909,7 +909,7 @@ int ph7_vm_exec(ph7_vm *pVm,int *pExitStatus)
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire VM mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
       PH7_THRD_VM_RELEASE(pVm)) {
     return PH7_ABORT;          /* Another thread have released this instance */
@@ -923,7 +923,7 @@ int ph7_vm_exec(ph7_vm *pVm,int *pExitStatus)
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Leave VM mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexLeave(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
   /* Execution result */
   return rc;
@@ -941,7 +941,7 @@ int ph7_vm_reset(ph7_vm *pVm)
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire VM mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
       PH7_THRD_VM_RELEASE(pVm)) {
     return PH7_ABORT;          /* Another thread have released this instance */
@@ -950,7 +950,7 @@ int ph7_vm_reset(ph7_vm *pVm)
   rc = PH7_VmReset(&(*pVm));
 #if defined(PH7_ENABLE_THREADS)
   /* Leave VM mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexLeave(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
   return rc;
 }
@@ -968,7 +968,7 @@ int ph7_vm_release(ph7_vm *pVm)
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire VM mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
       PH7_THRD_VM_RELEASE(pVm)) {
     return PH7_ABORT;          /* Another thread have released this instance */
@@ -978,25 +978,25 @@ int ph7_vm_release(ph7_vm *pVm)
   rc = PH7_VmRelease(&(*pVm));
 #if defined(PH7_ENABLE_THREADS)
   /* Leave VM mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexLeave(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
   if (rc == PH7_OK) {
     /* Unlink from the list of active VM */
 #if defined(PH7_ENABLE_THREADS)
     /* Acquire engine mutex */
-    SyMutexEnter(sMPGlobal.pMutexMethods,pEngine->pMutex);         /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+    SyMutexEnter(sMPGlobal.pMutexMethods, pEngine->pMutex);         /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
     if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
         PH7_THRD_ENGINE_RELEASE(pEngine)) {
       return PH7_ABORT;               /* Another thread have released this instance */
     }
 #endif
-    MACRO_LD_REMOVE(pEngine->pVms,pVm);
+    MACRO_LD_REMOVE(pEngine->pVms, pVm);
     pEngine->iVm--;
     /* Release the memory chunk allocated to this VM */
-    SyMemBackendPoolFree(&pEngine->sAllocator,pVm);
+    SyMemBackendPoolFree(&pEngine->sAllocator, pVm);
 #if defined(PH7_ENABLE_THREADS)
     /* Leave engine mutex */
-    SyMutexLeave(sMPGlobal.pMutexMethods,pEngine->pMutex);         /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+    SyMutexLeave(sMPGlobal.pMutexMethods, pEngine->pMutex);         /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
   }
   return rc;
@@ -1005,7 +1005,7 @@ int ph7_vm_release(ph7_vm *pVm)
  * [CAPIREF: ph7_create_function()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_create_function(ph7_vm *pVm,const char *zName,int (*xFunc)(ph7_context *,int,ph7_value **),void *pUserData)
+int ph7_create_function(ph7_vm *pVm, const char *zName, int (*xFunc)(ph7_context *, int, ph7_value **), void *pUserData)
 {
   SyString sName;
   int rc;
@@ -1013,7 +1013,7 @@ int ph7_create_function(ph7_vm *pVm,const char *zName,int (*xFunc)(ph7_context *
   if (PH7_VM_MISUSE(pVm)) {
     return PH7_CORRUPT;
   }
-  SyStringInitFromBuf(&sName,zName,SyStrlen(zName));
+  SyStringInitFromBuf(&sName, zName, SyStrlen(zName));
   /* Remove leading and trailing white spaces */
   SyStringFullTrim(&sName);
   /* Ticket 1433-003: NULL values are not allowed */
@@ -1022,17 +1022,17 @@ int ph7_create_function(ph7_vm *pVm,const char *zName,int (*xFunc)(ph7_context *
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire VM mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
       PH7_THRD_VM_RELEASE(pVm)) {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
   /* Install the foreign function */
-  rc = PH7_VmInstallForeignFunction(&(*pVm),&sName,xFunc,pUserData);
+  rc = PH7_VmInstallForeignFunction(&(*pVm), &sName, xFunc, pUserData);
 #if defined(PH7_ENABLE_THREADS)
   /* Leave VM mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexLeave(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
   return rc;
 }
@@ -1040,7 +1040,7 @@ int ph7_create_function(ph7_vm *pVm,const char *zName,int (*xFunc)(ph7_context *
  * [CAPIREF: ph7_delete_function()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_delete_function(ph7_vm *pVm,const char *zName)
+int ph7_delete_function(ph7_vm *pVm, const char *zName)
 {
   ph7_user_func *pFunc = 0;
   int rc;
@@ -1050,23 +1050,23 @@ int ph7_delete_function(ph7_vm *pVm,const char *zName)
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire VM mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
       PH7_THRD_VM_RELEASE(pVm)) {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
   /* Perform the deletion */
-  rc = SyHashDeleteEntry(&pVm->hHostFunction,(const void *)zName,SyStrlen(zName),(void **)&pFunc);
+  rc = SyHashDeleteEntry(&pVm->hHostFunction, (const void *)zName, SyStrlen(zName), (void **)&pFunc);
   if (rc == PH7_OK) {
     /* Release internal fields */
     SySetRelease(&pFunc->aAux);
-    SyMemBackendFree(&pVm->sAllocator,(void *)SyStringData(&pFunc->sName));
-    SyMemBackendPoolFree(&pVm->sAllocator,pFunc);
+    SyMemBackendFree(&pVm->sAllocator, (void *)SyStringData(&pFunc->sName));
+    SyMemBackendPoolFree(&pVm->sAllocator, pFunc);
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Leave VM mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexLeave(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
   return rc;
 }
@@ -1074,7 +1074,7 @@ int ph7_delete_function(ph7_vm *pVm,const char *zName)
  * [CAPIREF: ph7_create_constant()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_create_constant(ph7_vm *pVm,const char *zName,void (*xExpand)(ph7_value *,void *),void *pUserData)
+int ph7_create_constant(ph7_vm *pVm, const char *zName, void (*xExpand)(ph7_value *, void *), void *pUserData)
 {
   SyString sName;
   int rc;
@@ -1082,7 +1082,7 @@ int ph7_create_constant(ph7_vm *pVm,const char *zName,void (*xExpand)(ph7_value 
   if (PH7_VM_MISUSE(pVm)) {
     return PH7_CORRUPT;
   }
-  SyStringInitFromBuf(&sName,zName,SyStrlen(zName));
+  SyStringInitFromBuf(&sName, zName, SyStrlen(zName));
   /* Remove leading and trailing white spaces */
   SyStringFullTrim(&sName);
   if (sName.nByte < 1) {
@@ -1095,17 +1095,17 @@ int ph7_create_constant(ph7_vm *pVm,const char *zName,void (*xExpand)(ph7_value 
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire VM mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
       PH7_THRD_VM_RELEASE(pVm)) {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
   /* Perform the registration */
-  rc = PH7_VmRegisterConstant(&(*pVm),&sName,xExpand,pUserData);
+  rc = PH7_VmRegisterConstant(&(*pVm), &sName, xExpand, pUserData);
 #if defined(PH7_ENABLE_THREADS)
   /* Leave VM mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexLeave(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
   return rc;
 }
@@ -1113,7 +1113,7 @@ int ph7_create_constant(ph7_vm *pVm,const char *zName,void (*xExpand)(ph7_value 
  * [CAPIREF: ph7_delete_constant()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_delete_constant(ph7_vm *pVm,const char *zName)
+int ph7_delete_constant(ph7_vm *pVm, const char *zName)
 {
   ph7_constant *pCons;
   int rc;
@@ -1123,22 +1123,22 @@ int ph7_delete_constant(ph7_vm *pVm,const char *zName)
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Acquire VM mutex */
-  SyMutexEnter(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
       PH7_THRD_VM_RELEASE(pVm)) {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
   /* Query the constant hashtable */
-  rc = SyHashDeleteEntry(&pVm->hConstant,(const void *)zName,SyStrlen(zName),(void **)&pCons);
+  rc = SyHashDeleteEntry(&pVm->hConstant, (const void *)zName, SyStrlen(zName), (void **)&pCons);
   if (rc == PH7_OK) {
     /* Perform the deletion */
-    SyMemBackendFree(&pVm->sAllocator,(void *)SyStringData(&pCons->sName));
-    SyMemBackendPoolFree(&pVm->sAllocator,pCons);
+    SyMemBackendFree(&pVm->sAllocator, (void *)SyStringData(&pCons->sName));
+    SyMemBackendPoolFree(&pVm->sAllocator, pCons);
   }
 #if defined(PH7_ENABLE_THREADS)
   /* Leave VM mutex */
-  SyMutexLeave(sMPGlobal.pMutexMethods,pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexLeave(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
   return rc;
 }
@@ -1154,12 +1154,12 @@ ph7_value* ph7_new_scalar(ph7_vm *pVm)
     return 0;
   }
   /* Allocate a new scalar variable */
-  pObj = (ph7_value *)SyMemBackendPoolAlloc(&pVm->sAllocator,sizeof(ph7_value));
+  pObj = (ph7_value *)SyMemBackendPoolAlloc(&pVm->sAllocator, sizeof(ph7_value));
   if (pObj == 0) {
     return 0;
   }
   /* Nullify the new scalar */
-  PH7_MemObjInit(pVm,pObj);
+  PH7_MemObjInit(pVm, pObj);
   return pObj;
 }
 /*
@@ -1175,24 +1175,24 @@ ph7_value* ph7_new_array(ph7_vm *pVm)
     return 0;
   }
   /* Create a new hashmap first */
-  pMap = PH7_NewHashmap(&(*pVm),0,0);
+  pMap = PH7_NewHashmap(&(*pVm), 0, 0);
   if (pMap == 0) {
     return 0;
   }
   /* Associate a new ph7_value with this hashmap */
-  pObj = (ph7_value *)SyMemBackendPoolAlloc(&pVm->sAllocator,sizeof(ph7_value));
+  pObj = (ph7_value *)SyMemBackendPoolAlloc(&pVm->sAllocator, sizeof(ph7_value));
   if (pObj == 0) {
-    PH7_HashmapRelease(pMap,TRUE);
+    PH7_HashmapRelease(pMap, TRUE);
     return 0;
   }
-  PH7_MemObjInitFromArray(pVm,pObj,pMap);
+  PH7_MemObjInitFromArray(pVm, pObj, pMap);
   return pObj;
 }
 /*
  * [CAPIREF: ph7_release_value()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_release_value(ph7_vm *pVm,ph7_value *pValue)
+int ph7_release_value(ph7_vm *pVm, ph7_value *pValue)
 {
   /* Ticket 1433-002: NULL VM is harmless operation */
   if (PH7_VM_MISUSE(pVm)) {
@@ -1201,7 +1201,7 @@ int ph7_release_value(ph7_vm *pVm,ph7_value *pValue)
   if (pValue) {
     /* Release the value */
     PH7_MemObjRelease(pValue);
-    SyMemBackendPoolFree(&pVm->sAllocator,pValue);
+    SyMemBackendPoolFree(&pVm->sAllocator, pValue);
   }
   return PH7_OK;
 }
@@ -1261,7 +1261,7 @@ double ph7_value_to_double(ph7_value *pValue)
  * [CAPIREF: ph7_value_to_string()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-const char* ph7_value_to_string(ph7_value *pValue,int *pLen)
+const char* ph7_value_to_string(ph7_value *pValue, int *pLen)
 {
   PH7_MemObjToString(pValue);
   if (SyBlobLength(&pValue->sBlob) > 0) {
@@ -1294,7 +1294,7 @@ void* ph7_value_to_resource(ph7_value *pValue)
  * [CAPIREF: ph7_value_compare()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_compare(ph7_value *pLeft,ph7_value *pRight,int bStrict)
+int ph7_value_compare(ph7_value *pLeft, ph7_value *pRight, int bStrict)
 {
   int rc;
   if (pLeft == 0 || pRight == 0) {
@@ -1302,7 +1302,7 @@ int ph7_value_compare(ph7_value *pLeft,ph7_value *pRight,int bStrict)
     return 1;
   }
   /* Perform the comparison */
-  rc = PH7_MemObjCmp(&(*pLeft),&(*pRight),bStrict,0);
+  rc = PH7_MemObjCmp(&(*pLeft), &(*pRight), bStrict, 0);
   /* Comparison result */
   return rc;
 }
@@ -1310,33 +1310,33 @@ int ph7_value_compare(ph7_value *pLeft,ph7_value *pRight,int bStrict)
  * [CAPIREF: ph7_result_int()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_int(ph7_context *pCtx,int iValue)
+int ph7_result_int(ph7_context *pCtx, int iValue)
 {
-  return ph7_value_int(pCtx->pRet,iValue);
+  return ph7_value_int(pCtx->pRet, iValue);
 }
 /*
  * [CAPIREF: ph7_result_int64()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_int64(ph7_context *pCtx,ph7_int64 iValue)
+int ph7_result_int64(ph7_context *pCtx, ph7_int64 iValue)
 {
-  return ph7_value_int64(pCtx->pRet,iValue);
+  return ph7_value_int64(pCtx->pRet, iValue);
 }
 /*
  * [CAPIREF: ph7_result_bool()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_bool(ph7_context *pCtx,int iBool)
+int ph7_result_bool(ph7_context *pCtx, int iBool)
 {
-  return ph7_value_bool(pCtx->pRet,iBool);
+  return ph7_value_bool(pCtx->pRet, iBool);
 }
 /*
  * [CAPIREF: ph7_result_double()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_double(ph7_context *pCtx,double Value)
+int ph7_result_double(ph7_context *pCtx, double Value)
 {
-  return ph7_value_double(pCtx->pRet,Value);
+  return ph7_value_double(pCtx->pRet, Value);
 }
 /*
  * [CAPIREF: ph7_result_null()]
@@ -1352,15 +1352,15 @@ int ph7_result_null(ph7_context *pCtx)
  * [CAPIREF: ph7_result_string()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_string(ph7_context *pCtx,const char *zString,int nLen)
+int ph7_result_string(ph7_context *pCtx, const char *zString, int nLen)
 {
-  return ph7_value_string(pCtx->pRet,zString,nLen);
+  return ph7_value_string(pCtx->pRet, zString, nLen);
 }
 /*
  * [CAPIREF: ph7_result_string_format()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_string_format(ph7_context *pCtx,const char *zFormat,...)
+int ph7_result_string_format(ph7_context *pCtx, const char *zFormat, ...)
 {
   ph7_value *p;
   va_list ap;
@@ -1369,11 +1369,11 @@ int ph7_result_string_format(ph7_context *pCtx,const char *zFormat,...)
   if ((p->iFlags & MEMOBJ_STRING) == 0) {
     /* Invalidate any prior representation */
     PH7_MemObjRelease(p);
-    MemObjSetType(p,MEMOBJ_STRING);
+    MemObjSetType(p, MEMOBJ_STRING);
   }
   /* Format the given string */
-  va_start(ap,zFormat);
-  rc = SyBlobFormatAp(&p->sBlob,zFormat,ap);
+  va_start(ap, zFormat);
+  rc = SyBlobFormatAp(&p->sBlob, zFormat, ap);
   va_end(ap);
   return rc;
 }
@@ -1381,13 +1381,13 @@ int ph7_result_string_format(ph7_context *pCtx,const char *zFormat,...)
  * [CAPIREF: ph7_result_value()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_value(ph7_context *pCtx,ph7_value *pValue)
+int ph7_result_value(ph7_context *pCtx, ph7_value *pValue)
 {
   int rc = PH7_OK;
   if (pValue == 0) {
     PH7_MemObjRelease(pCtx->pRet);
   }else{
-    rc = PH7_MemObjStore(pValue,pCtx->pRet);
+    rc = PH7_MemObjStore(pValue, pCtx->pRet);
   }
   return rc;
 }
@@ -1395,9 +1395,9 @@ int ph7_result_value(ph7_context *pCtx,ph7_value *pValue)
  * [CAPIREF: ph7_result_resource()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_resource(ph7_context *pCtx,void *pUserData)
+int ph7_result_resource(ph7_context *pCtx, void *pUserData)
 {
-  return ph7_value_resource(pCtx->pRet,pUserData);
+  return ph7_value_resource(pCtx->pRet, pUserData);
 }
 /*
  * [CAPIREF: ph7_context_new_scalar()]
@@ -1411,7 +1411,7 @@ ph7_value* ph7_context_new_scalar(ph7_context *pCtx)
     /* Record value address so it can be freed automatically
      * when the calling function returns.
      */
-    SySetPut(&pCtx->sVar,(const void *)&pVal);
+    SySetPut(&pCtx->sVar, (const void *)&pVal);
   }
   return pVal;
 }
@@ -1427,7 +1427,7 @@ ph7_value* ph7_context_new_array(ph7_context *pCtx)
     /* Record value address so it can be freed automatically
      * when the calling function returns.
      */
-    SySetPut(&pCtx->sVar,(const void *)&pVal);
+    SySetPut(&pCtx->sVar, (const void *)&pVal);
   }
   return pVal;
 }
@@ -1435,22 +1435,22 @@ ph7_value* ph7_context_new_array(ph7_context *pCtx)
  * [CAPIREF: ph7_context_release_value()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-void ph7_context_release_value(ph7_context *pCtx,ph7_value *pValue)
+void ph7_context_release_value(ph7_context *pCtx, ph7_value *pValue)
 {
-  PH7_VmReleaseContextValue(&(*pCtx),pValue);
+  PH7_VmReleaseContextValue(&(*pCtx), pValue);
 }
 /*
  * [CAPIREF: ph7_context_alloc_chunk()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-void* ph7_context_alloc_chunk(ph7_context *pCtx,unsigned int nByte,int ZeroChunk,int AutoRelease)
+void* ph7_context_alloc_chunk(ph7_context *pCtx, unsigned int nByte, int ZeroChunk, int AutoRelease)
 {
   void *pChunk;
-  pChunk = SyMemBackendAlloc(&pCtx->pVm->sAllocator,nByte);
+  pChunk = SyMemBackendAlloc(&pCtx->pVm->sAllocator, nByte);
   if (pChunk) {
     if (ZeroChunk) {
       /* Zero the memory chunk */
-      SyZero(pChunk,nByte);
+      SyZero(pChunk, nByte);
     }
     if (AutoRelease) {
       ph7_aux_data sAux;
@@ -1458,7 +1458,7 @@ void* ph7_context_alloc_chunk(ph7_context *pCtx,unsigned int nByte,int ZeroChunk
        * upon this context is destroyed.
        */
       sAux.pAuxData = pChunk;
-      SySetPut(&pCtx->sChunk,(const void *)&sAux);
+      SySetPut(&pCtx->sChunk, (const void *)&sAux);
     }
   }
   return pChunk;
@@ -1469,9 +1469,9 @@ void* ph7_context_alloc_chunk(ph7_context *pCtx,unsigned int nByte,int ZeroChunk
  * Return TRUE if registered.FALSE otherwise.
  * Refer to [ph7_context_realloc_chunk(),ph7_context_free_chunk()].
  */
-static ph7_aux_data* ContextFindChunk(ph7_context *pCtx,void *pChunk)
+static ph7_aux_data* ContextFindChunk(ph7_context *pCtx, void *pChunk)
 {
-  ph7_aux_data *aAux,*pAux;
+  ph7_aux_data *aAux, *pAux;
   sxu32 n;
   if (SySetUsed(&pCtx->sChunk) < 1) {
     /* Don't bother processing,the container is empty */
@@ -1493,13 +1493,13 @@ static ph7_aux_data* ContextFindChunk(ph7_context *pCtx,void *pChunk)
  * [CAPIREF: ph7_context_realloc_chunk()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-void* ph7_context_realloc_chunk(ph7_context *pCtx,void *pChunk,unsigned int nByte)
+void* ph7_context_realloc_chunk(ph7_context *pCtx, void *pChunk, unsigned int nByte)
 {
   ph7_aux_data *pAux;
   void *pNew;
-  pNew = SyMemBackendRealloc(&pCtx->pVm->sAllocator,pChunk,nByte);
+  pNew = SyMemBackendRealloc(&pCtx->pVm->sAllocator, pChunk, nByte);
   if (pNew) {
-    pAux = ContextFindChunk(pCtx,pChunk);
+    pAux = ContextFindChunk(pCtx, pChunk);
     if (pAux) {
       pAux->pAuxData = pNew;
     }
@@ -1510,25 +1510,25 @@ void* ph7_context_realloc_chunk(ph7_context *pCtx,void *pChunk,unsigned int nByt
  * [CAPIREF: ph7_context_free_chunk()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-void ph7_context_free_chunk(ph7_context *pCtx,void *pChunk)
+void ph7_context_free_chunk(ph7_context *pCtx, void *pChunk)
 {
   ph7_aux_data *pAux;
   if (pChunk == 0) {
     /* TICKET-1433-93: NULL chunk is a harmless operation */
     return;
   }
-  pAux = ContextFindChunk(pCtx,pChunk);
+  pAux = ContextFindChunk(pCtx, pChunk);
   if (pAux) {
     /* Mark as destroyed */
     pAux->pAuxData = 0;
   }
-  SyMemBackendFree(&pCtx->pVm->sAllocator,pChunk);
+  SyMemBackendFree(&pCtx->pVm->sAllocator, pChunk);
 }
 /*
  * [CAPIREF: ph7_array_fetch()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-ph7_value* ph7_array_fetch(ph7_value *pArray,const char *zKey,int nByte)
+ph7_value* ph7_array_fetch(ph7_value *pArray, const char *zKey, int nByte)
 {
   ph7_hashmap_node *pNode;
   ph7_value *pValue;
@@ -1542,24 +1542,24 @@ ph7_value* ph7_array_fetch(ph7_value *pArray,const char *zKey,int nByte)
     nByte = (int)SyStrlen(zKey);
   }
   /* Convert the key to a ph7_value  */
-  PH7_MemObjInit(pArray->pVm,&skey);
-  PH7_MemObjStringAppend(&skey,zKey,(sxu32)nByte);
+  PH7_MemObjInit(pArray->pVm, &skey);
+  PH7_MemObjStringAppend(&skey, zKey, (sxu32)nByte);
   /* Perform the lookup */
-  rc = PH7_HashmapLookup((ph7_hashmap *)pArray->x.pOther,&skey,&pNode);
+  rc = PH7_HashmapLookup((ph7_hashmap *)pArray->x.pOther, &skey, &pNode);
   PH7_MemObjRelease(&skey);
   if (rc != PH7_OK) {
     /* No such entry */
     return 0;
   }
   /* Extract the target value */
-  pValue = (ph7_value *)SySetAt(&pArray->pVm->aMemObj,pNode->nValIdx);
+  pValue = (ph7_value *)SySetAt(&pArray->pVm->aMemObj, pNode->nValIdx);
   return pValue;
 }
 /*
  * [CAPIREF: ph7_array_walk()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_array_walk(ph7_value *pArray,int (*xWalk)(ph7_value *pValue,ph7_value *,void *),void *pUserData)
+int ph7_array_walk(ph7_value *pArray, int (*xWalk)(ph7_value *pValue, ph7_value *, void *), void *pUserData)
 {
   int rc;
   if (xWalk == 0) {
@@ -1570,14 +1570,14 @@ int ph7_array_walk(ph7_value *pArray,int (*xWalk)(ph7_value *pValue,ph7_value *,
     return PH7_CORRUPT;
   }
   /* Start the walk process */
-  rc = PH7_HashmapWalk((ph7_hashmap *)pArray->x.pOther,xWalk,pUserData);
+  rc = PH7_HashmapWalk((ph7_hashmap *)pArray->x.pOther, xWalk, pUserData);
   return rc != PH7_OK ? PH7_ABORT /* User callback request an operation abort*/ : PH7_OK;
 }
 /*
  * [CAPIREF: ph7_array_add_elem()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_array_add_elem(ph7_value *pArray,ph7_value *pKey,ph7_value *pValue)
+int ph7_array_add_elem(ph7_value *pArray, ph7_value *pKey, ph7_value *pValue)
 {
   int rc;
   /* Make sure we are dealing with a valid hashmap */
@@ -1585,14 +1585,14 @@ int ph7_array_add_elem(ph7_value *pArray,ph7_value *pKey,ph7_value *pValue)
     return PH7_CORRUPT;
   }
   /* Perform the insertion */
-  rc = PH7_HashmapInsert((ph7_hashmap *)pArray->x.pOther,&(*pKey),&(*pValue));
+  rc = PH7_HashmapInsert((ph7_hashmap *)pArray->x.pOther, &(*pKey), &(*pValue));
   return rc;
 }
 /*
  * [CAPIREF: ph7_array_add_strkey_elem()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_array_add_strkey_elem(ph7_value *pArray,const char *zKey,ph7_value *pValue)
+int ph7_array_add_strkey_elem(ph7_value *pArray, const char *zKey, ph7_value *pValue)
 {
   int rc;
   /* Make sure we are dealing with a valid hashmap */
@@ -1602,12 +1602,12 @@ int ph7_array_add_strkey_elem(ph7_value *pArray,const char *zKey,ph7_value *pVal
   /* Perform the insertion */
   if (SX_EMPTY_STR(zKey)) {
     /* Empty key,assign an automatic index */
-    rc = PH7_HashmapInsert((ph7_hashmap *)pArray->x.pOther,0,&(*pValue));
+    rc = PH7_HashmapInsert((ph7_hashmap *)pArray->x.pOther, 0, &(*pValue));
   }else{
     ph7_value sKey;
-    PH7_MemObjInitFromString(pArray->pVm,&sKey,0);
-    PH7_MemObjStringAppend(&sKey,zKey,(sxu32)SyStrlen(zKey));
-    rc = PH7_HashmapInsert((ph7_hashmap *)pArray->x.pOther,&sKey,&(*pValue));
+    PH7_MemObjInitFromString(pArray->pVm, &sKey, 0);
+    PH7_MemObjStringAppend(&sKey, zKey, (sxu32)SyStrlen(zKey));
+    rc = PH7_HashmapInsert((ph7_hashmap *)pArray->x.pOther, &sKey, &(*pValue));
     PH7_MemObjRelease(&sKey);
   }
   return rc;
@@ -1616,7 +1616,7 @@ int ph7_array_add_strkey_elem(ph7_value *pArray,const char *zKey,ph7_value *pVal
  * [CAPIREF: ph7_array_add_intkey_elem()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_array_add_intkey_elem(ph7_value *pArray,int iKey,ph7_value *pValue)
+int ph7_array_add_intkey_elem(ph7_value *pArray, int iKey, ph7_value *pValue)
 {
   ph7_value sKey;
   int rc;
@@ -1624,9 +1624,9 @@ int ph7_array_add_intkey_elem(ph7_value *pArray,int iKey,ph7_value *pValue)
   if ((pArray->iFlags & MEMOBJ_HASHMAP) == 0) {
     return PH7_CORRUPT;
   }
-  PH7_MemObjInitFromInt(pArray->pVm,&sKey,iKey);
+  PH7_MemObjInitFromInt(pArray->pVm, &sKey, iKey);
   /* Perform the insertion */
-  rc = PH7_HashmapInsert((ph7_hashmap *)pArray->x.pOther,&sKey,&(*pValue));
+  rc = PH7_HashmapInsert((ph7_hashmap *)pArray->x.pOther, &sKey, &(*pValue));
   PH7_MemObjRelease(&sKey);
   return rc;
 }
@@ -1649,7 +1649,7 @@ unsigned int ph7_array_count(ph7_value *pArray)
  * [CAPIREF: ph7_object_walk()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_object_walk(ph7_value *pObject,int (*xWalk)(const char *,ph7_value *,void *),void *pUserData)
+int ph7_object_walk(ph7_value *pObject, int (*xWalk)(const char *, ph7_value *, void *), void *pUserData)
 {
   int rc;
   if (xWalk == 0) {
@@ -1660,14 +1660,14 @@ int ph7_object_walk(ph7_value *pObject,int (*xWalk)(const char *,ph7_value *,voi
     return PH7_CORRUPT;
   }
   /* Start the walk process */
-  rc = PH7_ClassInstanceWalk((ph7_class_instance *)pObject->x.pOther,xWalk,pUserData);
+  rc = PH7_ClassInstanceWalk((ph7_class_instance *)pObject->x.pOther, xWalk, pUserData);
   return rc != PH7_OK ? PH7_ABORT /* User callback request an operation abort*/ : PH7_OK;
 }
 /*
  * [CAPIREF: ph7_object_fetch_attr()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-ph7_value* ph7_object_fetch_attr(ph7_value *pObject,const char *zAttr)
+ph7_value* ph7_object_fetch_attr(ph7_value *pObject, const char *zAttr)
 {
   ph7_value *pValue;
   SyString sAttr;
@@ -1675,17 +1675,17 @@ ph7_value* ph7_object_fetch_attr(ph7_value *pObject,const char *zAttr)
   if ((pObject->iFlags & MEMOBJ_OBJ) == 0 || zAttr == 0) {
     return 0;
   }
-  SyStringInitFromBuf(&sAttr,zAttr,SyStrlen(zAttr));
+  SyStringInitFromBuf(&sAttr, zAttr, SyStrlen(zAttr));
   /* Extract the attribute value if available.
    */
-  pValue = PH7_ClassInstanceFetchAttr((ph7_class_instance *)pObject->x.pOther,&sAttr);
+  pValue = PH7_ClassInstanceFetchAttr((ph7_class_instance *)pObject->x.pOther, &sAttr);
   return pValue;
 }
 /*
  * [CAPIREF: ph7_object_get_class_name()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-const char* ph7_object_get_class_name(ph7_value *pObject,int *pLength)
+const char* ph7_object_get_class_name(ph7_value *pObject, int *pLength)
 {
   ph7_class *pClass;
   if (pLength) {
@@ -1707,27 +1707,27 @@ const char* ph7_object_get_class_name(ph7_value *pObject,int *pLength)
  * [CAPIREF: ph7_context_output()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_context_output(ph7_context *pCtx,const char *zString,int nLen)
+int ph7_context_output(ph7_context *pCtx, const char *zString, int nLen)
 {
   SyString sData;
   int rc;
   if (nLen < 0) {
     nLen = (int)SyStrlen(zString);
   }
-  SyStringInitFromBuf(&sData,zString,nLen);
-  rc = PH7_VmOutputConsume(pCtx->pVm,&sData);
+  SyStringInitFromBuf(&sData, zString, nLen);
+  rc = PH7_VmOutputConsume(pCtx->pVm, &sData);
   return rc;
 }
 /*
  * [CAPIREF: ph7_context_output_format()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_context_output_format(ph7_context *pCtx,const char *zFormat,...)
+int ph7_context_output_format(ph7_context *pCtx, const char *zFormat, ...)
 {
   va_list ap;
   int rc;
-  va_start(ap,zFormat);
-  rc = PH7_VmOutputConsumeAp(pCtx->pVm,zFormat,ap);
+  va_start(ap, zFormat);
+  rc = PH7_VmOutputConsumeAp(pCtx->pVm, zFormat, ap);
   va_end(ap);
   return rc;
 }
@@ -1735,11 +1735,11 @@ int ph7_context_output_format(ph7_context *pCtx,const char *zFormat,...)
  * [CAPIREF: ph7_context_throw_error()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_context_throw_error(ph7_context *pCtx,int iErr,const char *zErr)
+int ph7_context_throw_error(ph7_context *pCtx, int iErr, const char *zErr)
 {
   int rc = PH7_OK;
   if (zErr) {
-    rc = PH7_VmThrowError(pCtx->pVm,&pCtx->pFunc->sName,iErr,zErr);
+    rc = PH7_VmThrowError(pCtx->pVm, &pCtx->pFunc->sName, iErr, zErr);
   }
   return rc;
 }
@@ -1747,15 +1747,15 @@ int ph7_context_throw_error(ph7_context *pCtx,int iErr,const char *zErr)
  * [CAPIREF: ph7_context_throw_error_format()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_context_throw_error_format(ph7_context *pCtx,int iErr,const char *zFormat,...)
+int ph7_context_throw_error_format(ph7_context *pCtx, int iErr, const char *zFormat, ...)
 {
   va_list ap;
   int rc;
   if (zFormat == 0) {
     return PH7_OK;
   }
-  va_start(ap,zFormat);
-  rc = PH7_VmThrowErrorAp(pCtx->pVm,&pCtx->pFunc->sName,iErr,zFormat,ap);
+  va_start(ap, zFormat);
+  rc = PH7_VmThrowErrorAp(pCtx->pVm, &pCtx->pFunc->sName, iErr, zFormat, ap);
   va_end(ap);
   return rc;
 }
@@ -1773,12 +1773,12 @@ unsigned int ph7_context_random_num(ph7_context *pCtx)
  * [CAPIREF: ph7_context_random_string()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_context_random_string(ph7_context *pCtx,char *zBuf,int nBuflen)
+int ph7_context_random_string(ph7_context *pCtx, char *zBuf, int nBuflen)
 {
   if (nBuflen < 3) {
     return PH7_CORRUPT;
   }
-  PH7_VmRandomString(pCtx->pVm,zBuf,nBuflen);
+  PH7_VmRandomString(pCtx->pVm, zBuf, nBuflen);
   return PH7_OK;
 }
 /*
@@ -1801,12 +1801,12 @@ void* ph7_context_user_data(ph7_context *pCtx)
  * [CAPIREF: ph7_context_push_aux_data()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_context_push_aux_data(ph7_context *pCtx,void *pUserData)
+int ph7_context_push_aux_data(ph7_context *pCtx, void *pUserData)
 {
   ph7_aux_data sAux;
   int rc;
   sAux.pAuxData = pUserData;
-  rc = SySetPut(&pCtx->pFunc->aAux,(const void *)&sAux);
+  rc = SySetPut(&pCtx->pFunc->aAux, (const void *)&sAux);
   return rc;
 }
 /*
@@ -1851,36 +1851,36 @@ const char* ph7_function_name(ph7_context *pCtx)
  * [CAPIREF: ph7_value_int()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_int(ph7_value *pVal,int iValue)
+int ph7_value_int(ph7_value *pVal, int iValue)
 {
   /* Invalidate any prior representation */
   PH7_MemObjRelease(pVal);
   pVal->x.iVal = (ph7_int64)iValue;
-  MemObjSetType(pVal,MEMOBJ_INT);
+  MemObjSetType(pVal, MEMOBJ_INT);
   return PH7_OK;
 }
 /*
  * [CAPIREF: ph7_value_int64()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_int64(ph7_value *pVal,ph7_int64 iValue)
+int ph7_value_int64(ph7_value *pVal, ph7_int64 iValue)
 {
   /* Invalidate any prior representation */
   PH7_MemObjRelease(pVal);
   pVal->x.iVal = iValue;
-  MemObjSetType(pVal,MEMOBJ_INT);
+  MemObjSetType(pVal, MEMOBJ_INT);
   return PH7_OK;
 }
 /*
  * [CAPIREF: ph7_value_bool()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_bool(ph7_value *pVal,int iBool)
+int ph7_value_bool(ph7_value *pVal, int iBool)
 {
   /* Invalidate any prior representation */
   PH7_MemObjRelease(pVal);
   pVal->x.iVal = iBool ? 1 : 0;
-  MemObjSetType(pVal,MEMOBJ_BOOL);
+  MemObjSetType(pVal, MEMOBJ_BOOL);
   return PH7_OK;
 }
 /*
@@ -1897,12 +1897,12 @@ int ph7_value_null(ph7_value *pVal)
  * [CAPIREF: ph7_value_double()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_double(ph7_value *pVal,double Value)
+int ph7_value_double(ph7_value *pVal, double Value)
 {
   /* Invalidate any prior representation */
   PH7_MemObjRelease(pVal);
   pVal->rVal = (ph7_real)Value;
-  MemObjSetType(pVal,MEMOBJ_REAL);
+  MemObjSetType(pVal, MEMOBJ_REAL);
   /* Try to get an integer representation also */
   PH7_MemObjTryInteger(pVal);
   return PH7_OK;
@@ -1911,19 +1911,19 @@ int ph7_value_double(ph7_value *pVal,double Value)
  * [CAPIREF: ph7_value_string()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_string(ph7_value *pVal,const char *zString,int nLen)
+int ph7_value_string(ph7_value *pVal, const char *zString, int nLen)
 {
   if ((pVal->iFlags & MEMOBJ_STRING) == 0) {
     /* Invalidate any prior representation */
     PH7_MemObjRelease(pVal);
-    MemObjSetType(pVal,MEMOBJ_STRING);
+    MemObjSetType(pVal, MEMOBJ_STRING);
   }
   if (zString) {
     if (nLen < 0) {
       /* Compute length automatically */
       nLen = (int)SyStrlen(zString);
     }
-    SyBlobAppend(&pVal->sBlob,(const void *)zString,(sxu32)nLen);
+    SyBlobAppend(&pVal->sBlob, (const void *)zString, (sxu32)nLen);
   }
   return PH7_OK;
 }
@@ -1931,17 +1931,17 @@ int ph7_value_string(ph7_value *pVal,const char *zString,int nLen)
  * [CAPIREF: ph7_value_string_format()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_string_format(ph7_value *pVal,const char *zFormat,...)
+int ph7_value_string_format(ph7_value *pVal, const char *zFormat, ...)
 {
   va_list ap;
   int rc;
   if ((pVal->iFlags & MEMOBJ_STRING) == 0) {
     /* Invalidate any prior representation */
     PH7_MemObjRelease(pVal);
-    MemObjSetType(pVal,MEMOBJ_STRING);
+    MemObjSetType(pVal, MEMOBJ_STRING);
   }
-  va_start(ap,zFormat);
-  rc = SyBlobFormatAp(&pVal->sBlob,zFormat,ap);
+  va_start(ap, zFormat);
+  rc = SyBlobFormatAp(&pVal->sBlob, zFormat, ap);
   va_end(ap);
   return PH7_OK;
 }
@@ -1959,13 +1959,13 @@ int ph7_value_reset_string_cursor(ph7_value *pVal)
  * [CAPIREF: ph7_value_resource()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_resource(ph7_value *pVal,void *pUserData)
+int ph7_value_resource(ph7_value *pVal, void *pUserData)
 {
   /* Invalidate any prior representation */
   PH7_MemObjRelease(pVal);
   /* Reflect the new type */
   pVal->x.pOther = pUserData;
-  MemObjSetType(pVal,MEMOBJ_RES);
+  MemObjSetType(pVal, MEMOBJ_RES);
   return PH7_OK;
 }
 /*
@@ -2034,7 +2034,7 @@ int ph7_value_is_numeric(ph7_value *pVal)
 int ph7_value_is_callable(ph7_value *pVal)
 {
   int rc;
-  rc = PH7_VmIsCallable(pVal->pVm,pVal,FALSE);
+  rc = PH7_VmIsCallable(pVal->pVm, pVal, FALSE);
   return rc;
 }
 /*
