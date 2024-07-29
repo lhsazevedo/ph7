@@ -37,10 +37,10 @@
  * compilers.
  */
 #ifndef LARGEST_INT64
-#define LARGEST_INT64  (0xffffffff|(((sxi64)0x7fffffff)<<32))
+#define LARGEST_INT64  (0xffffffff | (((sxi64)0x7fffffff) << 32))
 #endif
 #ifndef SMALLEST_INT64
-#define SMALLEST_INT64 (((sxi64)-1) - LARGEST_INT64)
+#define SMALLEST_INT64 (((sxi64) - 1) - LARGEST_INT64)
 #endif
 /* Forward declaration of private structures */
 typedef struct ph7_class_instance ph7_class_instance;
@@ -99,7 +99,7 @@ typedef double sxreal;
 # define SX_PTR_TO_INT(X)  ((int)(__PTRDIFF_TYPE__)(X))
 #elif !defined(__GNUC__)
 # define SX_INT_TO_PTR(X)  ((void*)&((char*)0)[X])
-# define SX_PTR_TO_INT(X)  ((int)(((char*)X)-(char*)0))
+# define SX_PTR_TO_INT(X)  ((int)(((char*)X) - (char*)0))
 #else
 # define SX_INT_TO_PTR(X)  ((void*)(X))
 # define SX_PTR_TO_INT(X)  ((int)(X))
@@ -149,7 +149,7 @@ typedef sxi32 (*ProcRawStrCmp)(const SyString *,const SyString *);
         (((RAW)->nByte == sizeof(char)) ? ((RAW)->zString[0] == CHAR ? 0 : CHAR - (RAW)->zString[0]) : ((RAW)->zString[0] == CHAR ? 0 : (RAW)->nByte - sizeof(char)))
 
 #define SX_ADDR(PTR)    ((sxptr)PTR)
-#define SX_ARRAYSIZE(X) (sizeof(X)/sizeof(X[0]))
+#define SX_ARRAYSIZE(X) (sizeof(X) / sizeof(X[0]))
 #define SXUNUSED(P) (P = 0)
 #define SX_EMPTY(PTR)   (PTR == 0)
 #define SX_EMPTY_STR(STR) (STR == 0 || STR[0] == 0 )
@@ -194,7 +194,7 @@ struct SySet
   void *pUserData;            /* User private data associated with this container */
 };
 #define SySetBasePtr(S)           ((S)->pBase)
-#define SySetBasePtrJump(S,OFFT)  (&((char *)(S)->pBase)[OFFT*(S)->eSize])
+#define SySetBasePtrJump(S,OFFT)  (&((char *)(S)->pBase)[OFFT * (S)->eSize])
 #define SySetUsed(S)              ((S)->nUsed)
 #define SySetSize(S)              ((S)->nSize)
 #define SySetElemSize(S)          ((S)->eSize)
@@ -260,7 +260,7 @@ struct SyMemBackend
   void *pUserData;                 /* First arg to xMemError() */
   SyMutex *pMutex;                 /* Per instance mutex */
   sxu32 nMagic;                    /* Sanity check against misuse */
-  SyMemHeader *apPool[SXMEM_POOL_NBUCKETS+SXMEM_POOL_INCR];   /* Pool of memory chunks */
+  SyMemHeader *apPool[SXMEM_POOL_NBUCKETS + SXMEM_POOL_INCR];   /* Pool of memory chunks */
 };
 /* Mutex types */
 #define SXMUTEX_TYPE_FAST   1
@@ -469,18 +469,18 @@ struct SyLex
         while(zIn < zEnd && (((unsigned char)zIn[0] & 0xc0) == 0x80) ){ zIn++; }
 #define SX_WRITE_UTF8(zOut, c) {                       \
           if( c<0x00080 ){                                     \
-            *zOut++ = (sxu8)(c&0xFF);                          \
+            *zOut++ = (sxu8)(c & 0xFF);                          \
           }else if( c<0x00800 ){                               \
-            *zOut++ = 0xC0 + (sxu8)((c>>6)&0x1F);              \
+            *zOut++ = 0xC0 + (sxu8)((c >> 6) & 0x1F);              \
             *zOut++ = 0x80 + (sxu8)(c & 0x3F);                 \
           }else if( c<0x10000 ){                               \
-            *zOut++ = 0xE0 + (sxu8)((c>>12)&0x0F);             \
-            *zOut++ = 0x80 + (sxu8)((c>>6) & 0x3F);            \
+            *zOut++ = 0xE0 + (sxu8)((c >> 12) & 0x0F);             \
+            *zOut++ = 0x80 + (sxu8)((c >> 6) & 0x3F);            \
             *zOut++ = 0x80 + (sxu8)(c & 0x3F);                 \
           }else{                                               \
-            *zOut++ = 0xF0 + (sxu8)((c>>18) & 0x07);           \
-            *zOut++ = 0x80 + (sxu8)((c>>12) & 0x3F);           \
-            *zOut++ = 0x80 + (sxu8)((c>>6) & 0x3F);            \
+            *zOut++ = 0xF0 + (sxu8)((c >> 18) & 0x07);           \
+            *zOut++ = 0x80 + (sxu8)((c >> 12) & 0x3F);           \
+            *zOut++ = 0x80 + (sxu8)((c >> 6) & 0x3F);            \
             *zOut++ = 0x80 + (sxu8)(c & 0x3F);                 \
           }                                                    \
 }
@@ -740,19 +740,19 @@ struct ph7_value
 #define MEMOBJ_RES       0x100  /* Memory value is a resource [User private data] */
 #define MEMOBJ_REFERENCE 0x400  /* Memory value hold a reference (64-bit index) of another ph7_value */
 /* Mask of all known types */
-#define MEMOBJ_ALL (MEMOBJ_STRING|MEMOBJ_INT|MEMOBJ_REAL|MEMOBJ_BOOL|MEMOBJ_NULL|MEMOBJ_HASHMAP|MEMOBJ_OBJ|MEMOBJ_RES)
+#define MEMOBJ_ALL (MEMOBJ_STRING | MEMOBJ_INT | MEMOBJ_REAL | MEMOBJ_BOOL | MEMOBJ_NULL | MEMOBJ_HASHMAP | MEMOBJ_OBJ | MEMOBJ_RES)
 /* Scalar variables
  * According to the PHP language reference manual
  *  Scalar variables are those containing an integer, float, string or boolean.
  *  Types array, object and resource are not scalar.
  */
-#define MEMOBJ_SCALAR (MEMOBJ_STRING|MEMOBJ_INT|MEMOBJ_REAL|MEMOBJ_BOOL|MEMOBJ_NULL)
+#define MEMOBJ_SCALAR (MEMOBJ_STRING | MEMOBJ_INT | MEMOBJ_REAL | MEMOBJ_BOOL | MEMOBJ_NULL)
 #define MEMOBJ_AUX (MEMOBJ_REFERENCE)
 /*
  * The following macro clear the current ph7_value type and replace
  * it with the given one.
  */
-#define MemObjSetType(OBJ,TYPE) ((OBJ)->iFlags = ((OBJ)->iFlags&~MEMOBJ_ALL)|TYPE)
+#define MemObjSetType(OBJ,TYPE) ((OBJ)->iFlags = ((OBJ)->iFlags & ~MEMOBJ_ALL) | TYPE)
 /* ph7_value cast method signature */
 typedef sxi32 (*ProcMemObjCast)(ph7_value *);
 /* Forward reference */
@@ -1584,7 +1584,7 @@ enum ph7_expr_id {
  */
 #define PH7_TK_INTEGER   0x0000001  /* Integer */
 #define PH7_TK_REAL      0x0000002  /* Real number */
-#define PH7_TK_NUM       (PH7_TK_INTEGER|PH7_TK_REAL) /* Numeric token,either integer or real */
+#define PH7_TK_NUM       (PH7_TK_INTEGER | PH7_TK_REAL) /* Numeric token,either integer or real */
 #define PH7_TK_KEYWORD   0x0000004 /* Keyword [i.e: while,for,if,foreach...] */
 #define PH7_TK_ID        0x0000008 /* Alphanumeric or UTF-8 stream */
 #define PH7_TK_DOLLAR    0x0000010 /* '$' Dollar sign */
@@ -1920,12 +1920,12 @@ PH7_PRIVATE sxi32 SyBinToHexConsumer(const void *pIn,sxu32 nLen,ProcConsumer xCo
 #ifndef PH7_DISABLE_HASH_FUNC
 PH7_PRIVATE sxu32 SyCrc32(const void *pSrc,sxu32 nLen);
 PH7_PRIVATE void MD5Update(MD5Context *ctx, const unsigned char *buf, unsigned int len);
-PH7_PRIVATE void MD5Final(unsigned char digest[16], MD5Context *ctx);
+PH7_PRIVATE void MD5Final(unsigned char digest[16], MD5Context * ctx);
 PH7_PRIVATE sxi32 MD5Init(MD5Context *pCtx);
 PH7_PRIVATE sxi32 SyMD5Compute(const void *pIn,sxu32 nLen,unsigned char zDigest[16]);
 PH7_PRIVATE void SHA1Init(SHA1Context *context);
 PH7_PRIVATE void SHA1Update(SHA1Context *context,const unsigned char *data,unsigned int len);
-PH7_PRIVATE void SHA1Final(SHA1Context *context, unsigned char digest[20]);
+PH7_PRIVATE void SHA1Final(SHA1Context * context, unsigned char digest[20]);
 PH7_PRIVATE sxi32 SySha1Compute(const void *pIn,sxu32 nLen,unsigned char zDigest[20]);
 #endif
 #endif /* PH7_DISABLE_BUILTIN_FUNC */

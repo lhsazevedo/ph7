@@ -109,7 +109,7 @@ PH7_PRIVATE ph7_class_method * PH7_NewClassMethod(ph7_vm *pVm,ph7_class *pClass,
   pEntry = SyHashGet(&pClass->hMethod,(const void *)pName->zString,pName->nByte);
   if( pEntry == 0 ){
     /* Associate an unique VM name to this method */
-    nByte = sizeof(zSalt) + pName->nByte + SyStringLength(&pClass->sName)+sizeof(char)*7 /*[[__'\0'*/;
+    nByte = sizeof(zSalt) + pName->nByte + SyStringLength(&pClass->sName) + sizeof(char) * 7 /*[[__'\0'*/;
     zName = (char *)SyMemBackendAlloc(&pVm->sAllocator,nByte);
     if( zName == 0 ){
       SyMemBackendPoolFree(&pVm->sAllocator,pMeth);
@@ -140,8 +140,8 @@ PH7_PRIVATE ph7_class_method * PH7_NewClassMethod(ph7_vm *pVm,ph7_class *pClass,
   pMeth->iProtection = iProtection;
   pMeth->iFlags = iFlags;
   pMeth->nLine = nLine;
-  PH7_VmInitFuncState(&(*pVm),&pMeth->sFunc,&zName[sizeof(char)*4 /*[__@*/ +SyStringLength(&pClass->sName)],
-                      pName->nByte,iFuncFlags|VM_FUNC_CLASS_METHOD,pClass);
+  PH7_VmInitFuncState(&(*pVm),&pMeth->sFunc,&zName[sizeof(char) * 4 /*[__@*/ + SyStringLength(&pClass->sName)],
+                      pName->nByte,iFuncFlags | VM_FUNC_CLASS_METHOD,pClass);
   return pMeth;
 }
 /*
@@ -649,7 +649,7 @@ PH7_PRIVATE ph7_class_instance * PH7_CloneClassInstance(ph7_class_instance *pSrc
     VmClassAttr *pSrcAttr = (VmClassAttr *)pEntry->pUserData;
     VmClassAttr *pDestAttr = (VmClassAttr *)pEntry2->pUserData;
     /* Duplicate non-static attribute */
-    if( (pSrcAttr->pAttr->iFlags & (PH7_CLASS_ATTR_STATIC|PH7_CLASS_ATTR_CONSTANT)) == 0 ){
+    if( (pSrcAttr->pAttr->iFlags & (PH7_CLASS_ATTR_STATIC | PH7_CLASS_ATTR_CONSTANT)) == 0 ){
       ph7_value *pvSrc,*pvDest;
       pvSrc = ExtractClassAttrValue(pVm,pSrcAttr);
       pvDest = ExtractClassAttrValue(pVm,pDestAttr);
@@ -659,7 +659,7 @@ PH7_PRIVATE ph7_class_instance * PH7_CloneClassInstance(ph7_class_instance *pSrc
     }
   }
   /* call the __clone method on the cloned object if available */
-  pMethod = PH7_ClassExtractMethod(pClone->pClass,"__clone",sizeof("__clone")-1);
+  pMethod = PH7_ClassExtractMethod(pClone->pClass,"__clone",sizeof("__clone") - 1);
   if( pMethod ){
     if( pMethod->iCloneDepth < 16 ){
       pMethod->iCloneDepth++;
@@ -698,7 +698,7 @@ static void PH7_ClassInstanceRelease(ph7_class_instance *pThis)
   /* Invoke any defined destructor if available */
   pVm = pThis->pVm;
   pClass = pThis->pClass;
-  pDestr = PH7_ClassExtractMethod(pClass,"__destruct",sizeof("__destruct")-1);
+  pDestr = PH7_ClassExtractMethod(pClass,"__destruct",sizeof("__destruct") - 1);
   if( pDestr ){
     /* Invoke the destructor */
     pThis->iRef = 2;     /* Prevent garbage collection */
@@ -708,7 +708,7 @@ static void PH7_ClassInstanceRelease(ph7_class_instance *pThis)
   SyHashResetLoopCursor(&pThis->hAttr);
   while((pEntry = SyHashGetNextEntry(&pThis->hAttr)) != 0 ){
     VmClassAttr *pVmAttr = (VmClassAttr *)pEntry->pUserData;
-    if( (pVmAttr->pAttr->iFlags & (PH7_CLASS_ATTR_STATIC|PH7_CLASS_ATTR_CONSTANT)) == 0 ){
+    if( (pVmAttr->pAttr->iFlags & (PH7_CLASS_ATTR_STATIC | PH7_CLASS_ATTR_CONSTANT)) == 0 ){
       PH7_VmUnsetMemObj(pVm,pVmAttr->nIdx,TRUE);
     }
     SyMemBackendPoolFree(&pVm->sAllocator,pVmAttr);
@@ -849,7 +849,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceCmp(ph7_class_instance *pLeft,ph7_class_insta
     VmClassAttr *p1 = (VmClassAttr *)pEntry->pUserData;
     VmClassAttr *p2 = (VmClassAttr *)pEntry2->pUserData;
     /* Compare only non-static attribute */
-    if( (p1->pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT|PH7_CLASS_ATTR_STATIC)) == 0 ){
+    if( (p1->pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC)) == 0 ){
       ph7_value *pL,*pR;
       pL = ExtractClassAttrValue(pLeft->pVm,p1);
       pR = ExtractClassAttrValue(pRight->pVm,p2);
@@ -857,7 +857,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceCmp(ph7_class_instance *pLeft,ph7_class_insta
         PH7_MemObjLoad(pL,&sV1);
         PH7_MemObjLoad(pR,&sV2);
         /* Compare the two values now */
-        rc = PH7_MemObjCmp(&sV1,&sV2,bStrict,iNest+1);
+        rc = PH7_MemObjCmp(&sV1,&sV2,bStrict,iNest + 1);
         PH7_MemObjRelease(&sV1);
         PH7_MemObjRelease(&sV2);
         if( rc != 0 ){
@@ -888,7 +888,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceDump(SyBlob *pOut,ph7_class_instance *pThis,i
   if( nDepth > 31 ){
     static const char zInfinite[] = "Nesting limit reached: Infinite recursion?";
     /* Nesting limit reached..halt immediately*/
-    SyBlobAppend(&(*pOut),zInfinite,sizeof(zInfinite)-1);
+    SyBlobAppend(&(*pOut),zInfinite,sizeof(zInfinite) - 1);
     if( ShowType ){
       SyBlobAppend(&(*pOut),")",sizeof(char));
     }
@@ -896,12 +896,12 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceDump(SyBlob *pOut,ph7_class_instance *pThis,i
   }
   rc = SXRET_OK;
   if( !ShowType ){
-    SyBlobAppend(&(*pOut),"Object(",sizeof("Object(")-1);
+    SyBlobAppend(&(*pOut),"Object(",sizeof("Object(") - 1);
   }
   /* Append class name */
   SyBlobFormat(&(*pOut),"%z) {",&pThis->pClass->sName);
 #ifdef __WINNT__
-  SyBlobAppend(&(*pOut),"\r\n",sizeof("\r\n")-1);
+  SyBlobAppend(&(*pOut),"\r\n",sizeof("\r\n") - 1);
 #else
   SyBlobAppend(&(*pOut),"\n",sizeof(char));
 #endif
@@ -909,7 +909,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceDump(SyBlob *pOut,ph7_class_instance *pThis,i
   SyHashResetLoopCursor(&pThis->hAttr);
   while((pEntry = SyHashGetNextEntry(&pThis->hAttr)) != 0){
     VmClassAttr *pVmAttr = (VmClassAttr *)pEntry->pUserData;
-    if((pVmAttr->pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT|PH7_CLASS_ATTR_STATIC)) == 0 ){
+    if((pVmAttr->pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC)) == 0 ){
       /* Dump non-static/constant attribute only */
       for( i = 0 ; i < nTab ; i++ ){
         SyBlobAppend(&(*pOut)," ",sizeof(char));
@@ -918,11 +918,11 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceDump(SyBlob *pOut,ph7_class_instance *pThis,i
       if( pValue ){
         SyBlobFormat(&(*pOut),"['%z'] =>",&pVmAttr->pAttr->sName);
 #ifdef __WINNT__
-        SyBlobAppend(&(*pOut),"\r\n",sizeof("\r\n")-1);
+        SyBlobAppend(&(*pOut),"\r\n",sizeof("\r\n") - 1);
 #else
         SyBlobAppend(&(*pOut),"\n",sizeof(char));
 #endif
-        rc = PH7_MemObjDump(&(*pOut),pValue,ShowType,nTab+1,nDepth,0);
+        rc = PH7_MemObjDump(&(*pOut),pValue,ShowType,nTab + 1,nDepth,0);
         if( rc == SXERR_LIMIT ){
           break;
         }
@@ -1144,7 +1144,7 @@ PH7_PRIVATE ph7_value * PH7_ClassInstanceFetchAttr(ph7_class_instance *pThis,con
   /* Point to the class atrribute */
   pAttr = (VmClassAttr *)pEntry->pUserData;
   /* Check if we are dealing with a static/constant attribute */
-  if( pAttr->pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT|PH7_CLASS_ATTR_STATIC) ){
+  if( pAttr->pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC) ){
     /* Access is forbidden */
     return 0;
   }

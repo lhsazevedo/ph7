@@ -43,16 +43,16 @@ static void PH7_VER_Const(ph7_value *pVal,void *pUnused)
 static void PH7_OS_Const(ph7_value *pVal,void *pUnused)
 {
 #if defined(__WINNT__)
-  ph7_value_string(pVal,"WINNT",(int)sizeof("WINNT")-1);
+  ph7_value_string(pVal,"WINNT",(int)sizeof("WINNT") - 1);
 #elif defined(__UNIXES__)
   struct utsname sInfo;
   if( uname(&sInfo) != 0 ){
-    ph7_value_string(pVal,"Unix",(int)sizeof("Unix")-1);
+    ph7_value_string(pVal,"Unix",(int)sizeof("Unix") - 1);
   }else{
     ph7_value_string(pVal,sInfo.sysname,-1);
   }
 #else
-  ph7_value_string(pVal,"Host OS",(int)sizeof("Host OS")-1);
+  ph7_value_string(pVal,"Host OS",(int)sizeof("Host OS") - 1);
 #endif
   SXUNUSED(pUnused);
 }
@@ -64,7 +64,7 @@ static void PH7_EOL_Const(ph7_value *pVal,void *pUnused)
 {
   SXUNUSED(pUnused);
 #ifdef __WINNT__
-  ph7_value_string(pVal,"\r\n",(int)sizeof("\r\n")-1);
+  ph7_value_string(pVal,"\r\n",(int)sizeof("\r\n") - 1);
 #else
   ph7_value_string(pVal,"\n",(int)sizeof(char));
 #endif
@@ -159,7 +159,7 @@ static void PH7_DATE_Const(ph7_value *pVal,void *pUnused)
 #endif
   SXUNUSED(pUnused);   /* cc warning */
   /* Expand */
-  ph7_value_string_format(pVal,"%04d-%02d-%02d",sTm.tm_year,sTm.tm_mon+1,sTm.tm_mday);
+  ph7_value_string_format(pVal,"%04d-%02d-%02d",sTm.tm_year,sTm.tm_mon + 1,sTm.tm_mday);
 }
 /*
  * __FILE__
@@ -173,7 +173,7 @@ static void PH7_FILE_Const(ph7_value *pVal,void *pUserData)
   pFile = (SyString *)SySetPeek(&pVm->aFiles);
   if( pFile == 0 ){
     /* Expand the magic word: ":MEMORY:" */
-    ph7_value_string(pVal,":MEMORY:",(int)sizeof(":MEMORY:")-1);
+    ph7_value_string(pVal,":MEMORY:",(int)sizeof(":MEMORY:") - 1);
   }else{
     ph7_value_string(pVal,pFile->zString,pFile->nByte);
   }
@@ -190,7 +190,7 @@ static void PH7_DIR_Const(ph7_value *pVal,void *pUserData)
   pFile = (SyString *)SySetPeek(&pVm->aFiles);
   if( pFile == 0 ){
     /* Expand the magic word: ":MEMORY:" */
-    ph7_value_string(pVal,":MEMORY:",(int)sizeof(":MEMORY:")-1);
+    ph7_value_string(pVal,":MEMORY:",(int)sizeof(":MEMORY:") - 1);
   }else{
     if( pFile->nByte > 0 ){
       const char *zDir;
@@ -210,9 +210,9 @@ static void PH7_DIR_Const(ph7_value *pVal,void *pUserData)
 static void PH7_PHP_SHLIB_SUFFIX_Const(ph7_value *pVal,void *pUserData)
 {
 #ifdef __WINNT__
-  ph7_value_string(pVal,"dll",(int)sizeof("dll")-1);
+  ph7_value_string(pVal,"dll",(int)sizeof("dll") - 1);
 #else
-  ph7_value_string(pVal,"so",(int)sizeof("so")-1);
+  ph7_value_string(pVal,"so",(int)sizeof("so") - 1);
 #endif
   SXUNUSED(pUserData);   /* cc warning */
 }
@@ -1651,7 +1651,7 @@ static void PH7_XML_OPTION_SKIP_WHITE_Const(ph7_value *pVal,void *pUserData)
 static void PH7_XML_SAX_IMP_Const(ph7_value *pVal,void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
-  ph7_value_string(pVal,"Symisc XML engine",(int)sizeof("Symisc XML engine")-1);
+  ph7_value_string(pVal,"Symisc XML engine",(int)sizeof("Symisc XML engine") - 1);
 }
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
 /*
@@ -1814,7 +1814,7 @@ static void PH7_static_Const(ph7_value *pVal,void *pUserData)
     ph7_value_string(pVal,pName->zString,(int)pName->nByte);
   }else{
     /* Expand 'static' */
-    ph7_value_string(pVal,"static",sizeof("static")-1);
+    ph7_value_string(pVal,"static",sizeof("static") - 1);
   }
 }
 /*

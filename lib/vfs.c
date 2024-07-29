@@ -38,7 +38,7 @@ PH7_PRIVATE const char * PH7_ExtractDirName(const char *zPath,int nByte,int *pLe
   while( zEnd > zPath && ( (int)zEnd[0] != c && (int)zEnd[0] != d ) ){
     zEnd--;
   }
-  *pLen = (int)(zEnd-zPath);
+  *pLen = (int)(zEnd - zPath);
 #ifdef __WINNT__
   if( (*pLen) == (int)sizeof(char) && zPath[0] == '/' ){
     /* Normalize path on windows */
@@ -1112,7 +1112,7 @@ static int PH7_vfs_filetype(ph7_context *pCtx,int nArg,ph7_value **apArg)
   ph7_vfs *pVfs;
   if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
     /* Missing/Invalid argument,return 'unknown' */
-    ph7_result_string(pCtx,"unknown",sizeof("unknown")-1);
+    ph7_result_string(pCtx,"unknown",sizeof("unknown") - 1);
     return PH7_OK;
   }
   /* Point to the underlying vfs */
@@ -1364,7 +1364,7 @@ static int PH7_vfs_putenv(ph7_context *pCtx,int nArg,ph7_value **apArg)
     }
     return PH7_OK;
   }
-  ph7_vm_config(pCtx->pVm,PH7_VM_CONFIG_ENV_ATTR,zName,zValue,(int)(zEnd-zValue));
+  ph7_vm_config(pCtx->pVm,PH7_VM_CONFIG_ENV_ATTR,zName,zValue,(int)(zEnd - zValue));
   /* Point to the underlying vfs */
   pVfs = (ph7_vfs *)ph7_context_user_data(pCtx);
   if( pVfs == 0 || pVfs->xSetenv == 0 ){
@@ -1519,7 +1519,7 @@ static int PH7_builtin_basename(ph7_context *pCtx,int nArg,ph7_value **apArg)
   while( zEnd > zPath && ( (int)zEnd[0] == c || (int)zEnd[0] == d ) ){
     zEnd--;
   }
-  iLen = (int)(&zEnd[1]-zPath);
+  iLen = (int)(&zEnd[1] - zPath);
   while( zEnd > zPath && ( (int)zEnd[0] != c && (int)zEnd[0] != d ) ){
     zEnd--;
   }
@@ -1535,7 +1535,7 @@ static int PH7_builtin_basename(ph7_context *pCtx,int nArg,ph7_value **apArg)
     }
   }
   /* Store the basename */
-  ph7_result_string(pCtx,zBase,(int)(zEnd-zBase));
+  ph7_result_string(pCtx,zBase,(int)(zEnd - zBase));
   return PH7_OK;
 }
 /*
@@ -1591,7 +1591,7 @@ static sxi32 ExtractPathInfo(const char *zPath,int nByte,path_info *pOut)
   zEnd = &zPath[nByte];
   /* dirname */
   pCur = &pOut->sDir;
-  SyStringInitFromBuf(pCur,zPath,zPtr-zPath);
+  SyStringInitFromBuf(pCur,zPath,zPtr - zPath);
   if( pCur->nByte > 1 ){
     SyStringTrimTrailingChar(pCur,'/');
 #ifdef __WINNT__
@@ -1606,7 +1606,7 @@ static sxi32 ExtractPathInfo(const char *zPath,int nByte,path_info *pOut)
   }
   /* basename/filename */
   pCur = &pOut->sBasename;
-  SyStringInitFromBuf(pCur,zPtr,zEnd-zPtr);
+  SyStringInitFromBuf(pCur,zPtr,zEnd - zPtr);
   SyStringTrimLeadingChar(pCur,'/');
 #ifdef __WINNT__
   SyStringTrimLeadingChar(pCur,'\\');
@@ -1620,7 +1620,7 @@ static sxi32 ExtractPathInfo(const char *zPath,int nByte,path_info *pOut)
     }
     if( zEnd > pCur->zString ){
       zEnd++;       /* Jump leading dot */
-      SyStringInitFromBuf(&pOut->sExtension,zEnd,&zPath[nByte]-zEnd);
+      SyStringInitFromBuf(&pOut->sExtension,zEnd,&zPath[nByte] - zEnd);
       /* Fix filename */
       pCur = &pOut->sFilename;
       if( pCur->nByte > SyStringLength(&pOut->sExtension) ){
@@ -2184,7 +2184,7 @@ static int PH7_vfs_get_current_user(ph7_context *pCtx,int nArg,ph7_value **apArg
                                    ph7_function_name(pCtx)
                                    );
     /* Set a dummy username */
-    ph7_result_string(pCtx,"unknown",sizeof("unknown")-1);
+    ph7_result_string(pCtx,"unknown",sizeof("unknown") - 1);
     return PH7_OK;
   }
   /* Perform the requested operation */
@@ -2349,7 +2349,7 @@ static int PH7_vfs_ph7_uname(ph7_context *pCtx,int nArg,ph7_value **apArg)
     break;
   case 'n':
     /* Host name */
-    ph7_result_string(pCtx,"localhost",(int)sizeof("localhost")-1);
+    ph7_result_string(pCtx,"localhost",(int)sizeof("localhost") - 1);
     break;
   case 'r':
   case 'v':
@@ -2360,7 +2360,7 @@ static int PH7_vfs_ph7_uname(ph7_context *pCtx,int nArg,ph7_value **apArg)
     break;
   case 'm':
     /* Machine name */
-    ph7_result_string(pCtx,"x86",(int)sizeof("x86")-1);
+    ph7_result_string(pCtx,"x86",(int)sizeof("x86") - 1);
     break;
   default:
     ph7_result_string_format(pCtx,"%s localhost %u.%u build %u x86",
@@ -2371,7 +2371,7 @@ static int PH7_vfs_ph7_uname(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
 #elif defined(__UNIXES__)
   if( uname(&sName) != 0 ){
-    ph7_result_string(pCtx,"Unix",(int)sizeof("Unix")-1);
+    ph7_result_string(pCtx,"Unix",(int)sizeof("Unix") - 1);
     return PH7_OK;
   }
   switch(zMode[0]){
@@ -2407,7 +2407,7 @@ static int PH7_vfs_ph7_uname(ph7_context *pCtx,int nArg,ph7_value **apArg)
     break;
   }
 #else
-  ph7_result_string(pCtx,"Unknown Operating System",(int)sizeof("Unknown Operating System")-1);
+  ph7_result_string(pCtx,"Unknown Operating System",(int)sizeof("Unknown Operating System") - 1);
 #endif
   return PH7_OK;
 }
@@ -2803,13 +2803,13 @@ static sxi32 GetLine(io_private *pDev,ph7_int64 *pLen,const char **pzLine)
 {
   const char *zIn,*zEnd,*zPtr;
   zIn = (const char *)SyBlobDataAt(&pDev->sBuffer,pDev->nOfft);
-  zEnd = &zIn[SyBlobLength(&pDev->sBuffer)-pDev->nOfft];
+  zEnd = &zIn[SyBlobLength(&pDev->sBuffer) - pDev->nOfft];
   zPtr = zIn;
   while( zIn < zEnd ){
     if( zIn[0] == '\n' ){
       /* Line found */
       zIn++;       /* Include the line ending as requested by the PHP specification */
-      *pLen = (ph7_int64)(zIn-zPtr);
+      *pLen = (ph7_int64)(zIn - zPtr);
       *pzLine = zPtr;
       return SXRET_OK;
     }
@@ -3798,7 +3798,7 @@ static int PH7_builtin_file_put_contents(ph7_context *pCtx,int nArg,ph7_value **
     return PH7_OK;
   }
   /* Try to open the file in read-write mode */
-  iOpenFlags = PH7_IO_OPEN_CREATE|PH7_IO_OPEN_RDWR|PH7_IO_OPEN_TRUNC;
+  iOpenFlags = PH7_IO_OPEN_CREATE | PH7_IO_OPEN_RDWR | PH7_IO_OPEN_TRUNC;
   /* Extract the flags */
   iFlags = 0;
   if( nArg > 2 ){
@@ -3962,7 +3962,7 @@ static int PH7_builtin_file(ph7_context *pCtx,int nArg,ph7_value **apArg)
         continue;
       }
     }
-    ph7_value_string(pLine,zBuf,(int)(zEnd-zBuf));
+    ph7_value_string(pLine,zBuf,(int)(zEnd - zBuf));
     /* Insert line */
     ph7_array_add_elem(pArray,0 /* Automatic index assign*/,pLine);
   }
@@ -4039,7 +4039,7 @@ static int PH7_builtin_copy(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Try to open the destination file in a read-write mode */
   pOut = PH7_StreamOpenHandle(pCtx->pVm,pSout,zFile,
-                              PH7_IO_OPEN_CREATE|PH7_IO_OPEN_TRUNC|PH7_IO_OPEN_RDWR,FALSE,nArg > 2 ? apArg[2] : 0,FALSE,0);
+                              PH7_IO_OPEN_CREATE | PH7_IO_OPEN_TRUNC | PH7_IO_OPEN_RDWR,FALSE,nArg > 2 ? apArg[2] : 0,FALSE,0);
   if( pOut == 0 ){
     ph7_context_throw_error_format(pCtx,PH7_CTX_ERR,"IO error while opening destination: '%s'",zFile);
     ph7_result_bool(pCtx,0);
@@ -4438,7 +4438,7 @@ static int PH7_builtin_fputcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Write a line ending */
 #ifdef __WINNT__
   zEol = "\r\n";
-  eolen = (int)sizeof("\r\n")-1;
+  eolen = (int)sizeof("\r\n") - 1;
 #else
   /* Assume UNIX LF */
   zEol = "\n";
@@ -4652,7 +4652,7 @@ static int StrModeToFlags(ph7_context *pCtx,const char *zMode,int nLen)
     /* Overwrite mode.
      * If the file does not exists,try to create it
      */
-    iFlag = PH7_IO_OPEN_WRONLY|PH7_IO_OPEN_TRUNC|PH7_IO_OPEN_CREATE;
+    iFlag = PH7_IO_OPEN_WRONLY | PH7_IO_OPEN_TRUNC | PH7_IO_OPEN_CREATE;
     zMode++;     /* Advance */
     if( zMode < zEnd ){
       c = zMode[0];
@@ -4666,7 +4666,7 @@ static int StrModeToFlags(ph7_context *pCtx,const char *zMode,int nLen)
     /* Append mode (place the file pointer at the end of the file).
      * Create the file if it does not exists.
      */
-    iFlag = PH7_IO_OPEN_WRONLY|PH7_IO_OPEN_APPEND|PH7_IO_OPEN_CREATE;
+    iFlag = PH7_IO_OPEN_WRONLY | PH7_IO_OPEN_APPEND | PH7_IO_OPEN_CREATE;
     zMode++;     /* Advance */
     if( zMode < zEnd ){
       c = zMode[0];
@@ -4681,7 +4681,7 @@ static int StrModeToFlags(ph7_context *pCtx,const char *zMode,int nLen)
      * If the file already exists,return immediately with a failure code.
      * Otherwise create a new file.
      */
-    iFlag = PH7_IO_OPEN_WRONLY|PH7_IO_OPEN_EXCL;
+    iFlag = PH7_IO_OPEN_WRONLY | PH7_IO_OPEN_EXCL;
     zMode++;     /* Advance */
     if( zMode < zEnd ){
       c = zMode[0];
@@ -4693,7 +4693,7 @@ static int StrModeToFlags(ph7_context *pCtx,const char *zMode,int nLen)
     }
   }else if( c == 'c' || c == 'C' ){
     /* Overwrite mode.Create the file if it does not exists.*/
-    iFlag = PH7_IO_OPEN_WRONLY|PH7_IO_OPEN_CREATE;
+    iFlag = PH7_IO_OPEN_WRONLY | PH7_IO_OPEN_CREATE;
     zMode++;     /* Advance */
     if( zMode < zEnd ){
       c = zMode[0];
@@ -5167,7 +5167,7 @@ static int PH7_builtin_zip_open(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Create an in-memory archive */
-  pArchive = (SyArchive *)ph7_context_alloc_chunk(pCtx,sizeof(SyArchive)+sizeof(zip_raw_data),TRUE,FALSE);
+  pArchive = (SyArchive *)ph7_context_alloc_chunk(pCtx,sizeof(SyArchive) + sizeof(zip_raw_data),TRUE,FALSE);
   if( pArchive == 0 ){
     ph7_context_throw_error(pCtx,PH7_CTX_WARNING,"PH7 is running out of memory");
     ph7_result_bool(pCtx,0);
@@ -5554,11 +5554,11 @@ static int PH7_builtin_zip_entry_read(ph7_context *pCtx,int nArg,ph7_value **apA
   /* Return the entry contents */
   pRaw = (zip_raw_data *)pEntry->pUserData;
   if( pRaw->iType == ZIP_RAW_DATA_MEMBUF ){
-    zData = (const char *)SyBlobDataAt(&pRaw->raw.sBlob,(pEntry->nOfft+pEntry->nReadCount));
+    zData = (const char *)SyBlobDataAt(&pRaw->raw.sBlob,(pEntry->nOfft + pEntry->nReadCount));
   }else{
     const char *zMap = (const char *)pRaw->raw.mmap.pMap;
     /* Memory mmaped chunk */
-    zData = &zMap[pEntry->nOfft+pEntry->nReadCount];
+    zData = &zMap[pEntry->nOfft + pEntry->nReadCount];
   }
   /* Increment the read counter */
   pEntry->nReadCount += iLength;
@@ -5630,29 +5630,29 @@ static int PH7_builtin_zip_entry_compressionmethod(ph7_context *pCtx,int nArg,ph
   switch(pEntry->nComprMeth){
   case 0:
     /* No compression;entry is stored */
-    ph7_result_string(pCtx,"stored",(int)sizeof("stored")-1);
+    ph7_result_string(pCtx,"stored",(int)sizeof("stored") - 1);
     break;
   case 8:
     /* Entry is deflated (Default compression algorithm)  */
-    ph7_result_string(pCtx,"deflate",(int)sizeof("deflate")-1);
+    ph7_result_string(pCtx,"deflate",(int)sizeof("deflate") - 1);
     break;
   /* Exotic compression algorithms */
   case 1:
-    ph7_result_string(pCtx,"shrunk",(int)sizeof("shrunk")-1);
+    ph7_result_string(pCtx,"shrunk",(int)sizeof("shrunk") - 1);
     break;
   case 2:
   case 3:
   case 4:
   case 5:
     /* Entry is reduced */
-    ph7_result_string(pCtx,"reduced",(int)sizeof("reduced")-1);
+    ph7_result_string(pCtx,"reduced",(int)sizeof("reduced") - 1);
     break;
   case 6:
     /* Entry is imploded */
-    ph7_result_string(pCtx,"implode",(int)sizeof("implode")-1);
+    ph7_result_string(pCtx,"implode",(int)sizeof("implode") - 1);
     break;
   default:
-    ph7_result_string(pCtx,"unknown",(int)sizeof("unknown")-1);
+    ph7_result_string(pCtx,"unknown",(int)sizeof("unknown") - 1);
     break;
   }
   return PH7_OK;
@@ -5729,7 +5729,7 @@ static WCHAR *utf8ToUnicode(const char *zFilename){
   WCHAR *zWideFilename;
 
   nChar = MultiByteToWideChar(CP_UTF8, 0, zFilename, -1, 0, 0);
-  zWideFilename = (WCHAR *)HeapAlloc(GetProcessHeap(),0,nChar*sizeof(zWideFilename[0]));
+  zWideFilename = (WCHAR *)HeapAlloc(GetProcessHeap(),0,nChar * sizeof(zWideFilename[0]));
   if( zWideFilename == 0 ){
     return 0;
   }
@@ -5903,7 +5903,7 @@ static int WinVfs_Realpath(const char *zPath,ph7_context *pCtx)
 /* int (*xSleep)(unsigned int) */
 static int WinVfs_Sleep(unsigned int uSec)
 {
-  Sleep(uSec/1000 /*uSec per Millisec */ );
+  Sleep(uSec / 1000 /*uSec per Millisec */ );
   return PH7_OK;
 }
 /* int (*xUnlink)(const char *) */
@@ -6054,7 +6054,7 @@ static void convertUnixTimeToWindowsTime(ph7_int64 nUnixtime,LPFILETIME pOut)
   ph7_int64 result = EPOCH_DIFFERENCE;
   result += nUnixtime;
   result *= 10000000LL;
-  pOut->dwHighDateTime = (DWORD)(nUnixtime>>32);
+  pOut->dwHighDateTime = (DWORD)(nUnixtime >> 32);
   pOut->dwLowDateTime = (DWORD)nUnixtime;
 }
 /* int (*xTouch)(const char *,ph7_int64,ph7_int64) */
@@ -6244,7 +6244,7 @@ static int WinVfs_isfile(const char *zPath)
   if( dwAttr == INVALID_FILE_ATTRIBUTES ){
     return -1;
   }
-  return (dwAttr & (FILE_ATTRIBUTE_NORMAL|FILE_ATTRIBUTE_ARCHIVE)) ? PH7_OK : -1;
+  return (dwAttr & (FILE_ATTRIBUTE_NORMAL | FILE_ATTRIBUTE_ARCHIVE)) ? PH7_OK : -1;
 }
 /* int (*xIslink)(const char *) */
 static int WinVfs_islink(const char *zPath)
@@ -6276,7 +6276,7 @@ static int WinVfs_iswritable(const char *zPath)
   if( dwAttr == INVALID_FILE_ATTRIBUTES ){
     return -1;
   }
-  if( (dwAttr & (FILE_ATTRIBUTE_ARCHIVE|FILE_ATTRIBUTE_NORMAL)) == 0 ){
+  if( (dwAttr & (FILE_ATTRIBUTE_ARCHIVE | FILE_ATTRIBUTE_NORMAL)) == 0 ){
     /* Not a regular file */
     return -1;
   }
@@ -6316,26 +6316,26 @@ static int WinVfs_Filetype(const char *zPath,ph7_context *pCtx)
   pConverted = convertUtf8Filename(zPath);
   if( pConverted == 0 ){
     /* Expand 'unknown' */
-    ph7_result_string(pCtx,"unknown",sizeof("unknown")-1);
+    ph7_result_string(pCtx,"unknown",sizeof("unknown") - 1);
     return -1;
   }
   dwAttr = GetFileAttributesW((LPCWSTR)pConverted);
   HeapFree(GetProcessHeap(),0,pConverted);
   if( dwAttr == INVALID_FILE_ATTRIBUTES ){
     /* Expand 'unknown' */
-    ph7_result_string(pCtx,"unknown",sizeof("unknown")-1);
+    ph7_result_string(pCtx,"unknown",sizeof("unknown") - 1);
     return -1;
   }
-  if(dwAttr & (FILE_ATTRIBUTE_HIDDEN|FILE_ATTRIBUTE_NORMAL|FILE_ATTRIBUTE_ARCHIVE) ){
-    ph7_result_string(pCtx,"file",sizeof("file")-1);
+  if(dwAttr & (FILE_ATTRIBUTE_HIDDEN | FILE_ATTRIBUTE_NORMAL | FILE_ATTRIBUTE_ARCHIVE) ){
+    ph7_result_string(pCtx,"file",sizeof("file") - 1);
   }else if(dwAttr & FILE_ATTRIBUTE_DIRECTORY){
-    ph7_result_string(pCtx,"dir",sizeof("dir")-1);
+    ph7_result_string(pCtx,"dir",sizeof("dir") - 1);
   }else if(dwAttr & FILE_ATTRIBUTE_REPARSE_POINT){
-    ph7_result_string(pCtx,"link",sizeof("link")-1);
+    ph7_result_string(pCtx,"link",sizeof("link") - 1);
   }else if(dwAttr & (FILE_ATTRIBUTE_DEVICE)){
-    ph7_result_string(pCtx,"block",sizeof("block")-1);
+    ph7_result_string(pCtx,"block",sizeof("block") - 1);
   }else{
-    ph7_result_string(pCtx,"unknown",sizeof("unknown")-1);
+    ph7_result_string(pCtx,"unknown",sizeof("unknown") - 1);
   }
   return PH7_OK;
 }
@@ -6352,7 +6352,7 @@ static int WinVfs_Getenv(const char *zVar,ph7_context *pCtx)
    * of lpBuffer are undefined.
    */
   n = sizeof(zValue);
-  SyMemcpy("Undefined",zValue,sizeof("Undefined")-1);
+  SyMemcpy("Undefined",zValue,sizeof("Undefined") - 1);
   /* Extract the environment value */
   n = GetEnvironmentVariableA(zVar,zValue,sizeof(zValue));
   if( !n ){
@@ -6445,12 +6445,12 @@ static void WinVfs_Username(ph7_context *pCtx)
   rc = GetUserNameW(zUser,&nByte);
   if( !rc ){
     /* Set a dummy name */
-    ph7_result_string(pCtx,"Unknown",sizeof("Unknown")-1);
+    ph7_result_string(pCtx,"Unknown",sizeof("Unknown") - 1);
   }else{
     char *zName;
     zName = unicodeToUtf8(zUser);
     if( zName == 0 ){
-      ph7_result_string(pCtx,"Unknown",sizeof("Unknown")-1);
+      ph7_result_string(pCtx,"Unknown",sizeof("Unknown") - 1);
     }else{
       ph7_result_string(pCtx,zName,-1 /*Compute length automatically*/ );       /* Will make it's own copy */
       HeapFree(GetProcessHeap(),0,zName);
@@ -6589,14 +6589,14 @@ static int WinDir_Open(const char *zPath,ph7_value *pResource,void **ppHandle)
   sxu32 n;
   /* Prepare the path */
   n = SyStrlen(zPath);
-  zPrep = (char *)HeapAlloc(GetProcessHeap(),0,n+sizeof("\\*")+4);
+  zPrep = (char *)HeapAlloc(GetProcessHeap(),0,n + sizeof("\\*") + 4);
   if( zPrep == 0 ){
     return -1;
   }
   SyMemcpy((const void *)zPath,zPrep,n);
   zPrep[n]   = '\\';
-  zPrep[n+1] =  '*';
-  zPrep[n+2] = 0;
+  zPrep[n + 1] =  '*';
+  zPrep[n + 2] = 0;
   pConverted = convertUtf8Filename(zPrep);
   HeapFree(GetProcessHeap(),0,zPrep);
   if( pConverted == 0 ){
@@ -6659,7 +6659,7 @@ static int WinDir_Read(void *pUserData,ph7_context *pCtx)
     }
     n = SyStrlen(zName);
     /* Ignore '.' && '..' */
-    if( n > sizeof("..")-1 || zName[0] != '.' || ( n == sizeof("..")-1 && zName[1] != '.') ){
+    if( n > sizeof("..") - 1 || zName[0] != '.' || ( n == sizeof("..") - 1 && zName[1] != '.') ){
       break;
     }
     HeapFree(GetProcessHeap(),0,zName);
@@ -7244,23 +7244,23 @@ static int UnixVfs_Filetype(const char *zPath,ph7_context *pCtx)
   rc = stat(zPath,&st);
   if( rc != 0 ){
     /* Expand 'unknown' */
-    ph7_result_string(pCtx,"unknown",sizeof("unknown")-1);
+    ph7_result_string(pCtx,"unknown",sizeof("unknown") - 1);
     return -1;
   }
   if(S_ISREG(st.st_mode) ){
-    ph7_result_string(pCtx,"file",sizeof("file")-1);
+    ph7_result_string(pCtx,"file",sizeof("file") - 1);
   }else if(S_ISDIR(st.st_mode)){
-    ph7_result_string(pCtx,"dir",sizeof("dir")-1);
+    ph7_result_string(pCtx,"dir",sizeof("dir") - 1);
   }else if(S_ISLNK(st.st_mode)){
-    ph7_result_string(pCtx,"link",sizeof("link")-1);
+    ph7_result_string(pCtx,"link",sizeof("link") - 1);
   }else if(S_ISBLK(st.st_mode)){
-    ph7_result_string(pCtx,"block",sizeof("block")-1);
+    ph7_result_string(pCtx,"block",sizeof("block") - 1);
   }else if(S_ISSOCK(st.st_mode)){
-    ph7_result_string(pCtx,"socket",sizeof("socket")-1);
+    ph7_result_string(pCtx,"socket",sizeof("socket") - 1);
   }else if(S_ISFIFO(st.st_mode)){
-    ph7_result_string(pCtx,"fifo",sizeof("fifo")-1);
+    ph7_result_string(pCtx,"fifo",sizeof("fifo") - 1);
   }else{
-    ph7_result_string(pCtx,"unknown",sizeof("unknown")-1);
+    ph7_result_string(pCtx,"unknown",sizeof("unknown") - 1);
   }
   return PH7_OK;
 }
@@ -7297,7 +7297,7 @@ static int UnixVfs_Mmap(const char *zPath,void **ppMap,ph7_int64 *pSize)
   /* stat the handle */
   fstat(fd,&st);
   /* Obtain a memory view of the whole file */
-  pMap = mmap(0,st.st_size,PROT_READ,MAP_PRIVATE|MAP_FILE,fd,0);
+  pMap = mmap(0,st.st_size,PROT_READ,MAP_PRIVATE | MAP_FILE,fd,0);
   rc = PH7_OK;
   if( pMap == MAP_FAILED ){
     rc = -1;
@@ -7330,7 +7330,7 @@ static void UnixVfs_TempDir(ph7_context *pCtx)
     ph7_result_string(pCtx,zDir,-1);
     return;
   }
-  for(i=0; i<sizeof(azDirs)/sizeof(azDirs[0]); i++){
+  for(i=0; i<sizeof(azDirs) / sizeof(azDirs[0]); i++){
     zDir=azDirs[i];
     if( zDir==0 ) continue;
     if( stat(zDir, &buf) ) continue;
@@ -7341,7 +7341,7 @@ static void UnixVfs_TempDir(ph7_context *pCtx)
     return;
   }
   /* Default temp dir */
-  ph7_result_string(pCtx,"/tmp",(int)sizeof("/tmp")-1);
+  ph7_result_string(pCtx,"/tmp",(int)sizeof("/tmp") - 1);
 }
 /* unsigned int (*xProcessId)(void) */
 static unsigned int UnixVfs_ProcessId(void)
@@ -7469,12 +7469,12 @@ static int UnixFile_Open(const char *zPath,int iOpenMode,ph7_value *pResource,vo
     /* Creates a new file, only if it does not already exist.
      * If the file exists, it fails.
      */
-    iOpen = O_CREAT|O_EXCL;
+    iOpen = O_CREAT | O_EXCL;
   }else if( iOpenMode & PH7_IO_OPEN_TRUNC ){
     /* Opens a file and truncates it so that its size is zero bytes
      * The file must exist.
      */
-    iOpen = O_RDWR|O_TRUNC;
+    iOpen = O_RDWR | O_TRUNC;
   }
   if( iOpenMode & PH7_IO_OPEN_RDWR ){
     /* Read+Write access */
@@ -7545,7 +7545,7 @@ static int UnixDir_Read(void *pUserData,ph7_context *pCtx)
     zName = pEntry->d_name;
     n = SyStrlen(zName);
     /* Ignore '.' && '..' */
-    if( n > sizeof("..")-1 || zName[0] != '.' || ( n == sizeof("..")-1 && zName[1] != '.') ){
+    if( n > sizeof("..") - 1 || zName[0] != '.' || ( n == sizeof("..") - 1 && zName[1] != '.') ){
       break;
     }
     /* Next entry */
@@ -7867,13 +7867,13 @@ static int PHPStreamData_Open(const char *zName,int iMode,ph7_value *pResource,v
   /* Trim leading and trailing white spaces */
   SyStringFullTrim(&sStream);
   /* Stream to open */
-  if( SyStrnicmp(sStream.zString,"stdin",sizeof("stdin")-1) == 0 ){
+  if( SyStrnicmp(sStream.zString,"stdin",sizeof("stdin") - 1) == 0 ){
     iMode = PH7_IO_STREAM_STDIN;
-  }else if( SyStrnicmp(sStream.zString,"output",sizeof("output")-1) == 0 ){
+  }else if( SyStrnicmp(sStream.zString,"output",sizeof("output") - 1) == 0 ){
     iMode = PH7_IO_STREAM_OUTPUT;
-  }else if( SyStrnicmp(sStream.zString,"stdout",sizeof("stdout")-1) == 0 ){
+  }else if( SyStrnicmp(sStream.zString,"stdout",sizeof("stdout") - 1) == 0 ){
     iMode = PH7_IO_STREAM_STDOUT;
-  }else if( SyStrnicmp(sStream.zString,"stderr",sizeof("stderr")-1) == 0 ){
+  }else if( SyStrnicmp(sStream.zString,"stderr",sizeof("stderr") - 1) == 0 ){
     iMode = PH7_IO_STREAM_STDERR;
   }else{
     /* unknown stream name */

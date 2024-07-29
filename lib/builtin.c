@@ -856,10 +856,10 @@ static int PH7_builtin_round(ph7_context *pCtx,int nArg,ph7_value **apArg)
    * handle the rounding directly.Otherwise
    * use our own cutsom printf [i.e:SyBufferFormat()].
    */
-  if( n==0 && r>=0 && r<LARGEST_INT64-1 ){
-    r = (double)((ph7_int64)(r+0.5));
-  }else if( n==0 && r<0 && (-r)<LARGEST_INT64-1 ){
-    r = -(double)((ph7_int64)((-r)+0.5));
+  if( n==0 && r>=0 && r<LARGEST_INT64 - 1 ){
+    r = (double)((ph7_int64)(r + 0.5));
+  }else if( n==0 && r<0 && (-r)<LARGEST_INT64 - 1 ){
+    r = -(double)((ph7_int64)((-r) + 0.5));
   }else{
     char zBuf[256];
     sxu32 nLen;
@@ -983,7 +983,7 @@ static int PH7_builtin_hexdec(ph7_context *pCtx,int nArg,ph7_value **apArg)
     }
     if( zString < zEnd ){
       /* Cast */
-      SyHexStrToInt64(zString,(sxu32)(zEnd-zString),(void *)&iVal,0);
+      SyHexStrToInt64(zString,(sxu32)(zEnd - zString),(void *)&iVal,0);
     }
   }else{
     /* Extract as a 64-bit integer */
@@ -1213,14 +1213,14 @@ static int PH7_builtin_substr(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Extract the offset */
   nOfft = ph7_value_to_int(apArg[1]);
   if( nOfft < 0 ){
-    zOfft = &zSource[nSrcLen+nOfft];
+    zOfft = &zSource[nSrcLen + nOfft];
     if( zOfft < zSource ){
       /* Invalid offset */
       ph7_result_bool(pCtx,0);
       return PH7_OK;
     }
-    nLen = (int)(&zSource[nSrcLen]-zOfft);
-    nOfft = (int)(zOfft-zSource);
+    nLen = (int)(&zSource[nSrcLen] - zOfft);
+    nOfft = (int)(zOfft - zSource);
   }else if( nOfft >= nSrcLen ){
     /* Invalid offset */
     ph7_result_bool(pCtx,0);
@@ -1302,14 +1302,14 @@ static int PH7_builtin_substr_compare(ph7_context *pCtx,int nArg,ph7_value **apA
   /* Extract the offset */
   nOfft = ph7_value_to_int(apArg[2]);
   if( nOfft < 0 ){
-    zOfft = &zSource[nSrcLen+nOfft];
+    zOfft = &zSource[nSrcLen + nOfft];
     if( zOfft < zSource ){
       /* Invalid offset */
       ph7_result_bool(pCtx,0);
       return PH7_OK;
     }
-    nLen = (int)(&zSource[nSrcLen]-zOfft);
-    nOfft = (int)(zOfft-zSource);
+    nLen = (int)(&zSource[nSrcLen] - zOfft);
+    nOfft = (int)(zOfft - zSource);
   }else if( nOfft >= nSrcLen ){
     /* Invalid offset */
     ph7_result_bool(pCtx,0);
@@ -1412,7 +1412,7 @@ static int PH7_builtin_substr_count(ph7_context *pCtx,int nArg,ph7_value **apArg
   }
   /* Perform the search */
   for(;;){
-    rc = SyBlobSearch((const void *)zText,(sxu32)(zEnd-zText),(const void *)zPattern,nPatlen,&nOfft);
+    rc = SyBlobSearch((const void *)zText,(sxu32)(zEnd - zText),(const void *)zPattern,nPatlen,&nOfft);
     if( rc != SXRET_OK ){
       /* Pattern not found,break immediately */
       break;
@@ -1479,7 +1479,7 @@ static int PH7_builtin_chunk_split(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   while( zIn < zEnd ){
-    if( nChunkLen > (int)(zEnd-zIn) ){
+    if( nChunkLen > (int)(zEnd - zIn) ){
       nChunkLen = (int)(zEnd - zIn);
     }
     /* Append the chunk and the separator */
@@ -1529,7 +1529,7 @@ static int PH7_builtin_addslashes(ph7_context *pCtx,int nArg,ph7_value **apArg)
     }
     if( zIn > zCur ){
       /* Append raw contents */
-      ph7_result_string(pCtx,zCur,(int)(zIn-zCur));
+      ph7_result_string(pCtx,zCur,(int)(zIn - zCur));
     }
     if( zIn < zEnd ){
       int c = zIn[0];
@@ -1603,7 +1603,7 @@ static int PH7_builtin_addcslashes(ph7_context *pCtx,int nArg,ph7_value **apArg)
     }
     if( zIn > zCur ){
       /* Append raw contents */
-      ph7_result_string(pCtx,zCur,(int)(zIn-zCur));
+      ph7_result_string(pCtx,zCur,(int)(zIn - zCur));
     }
     if( zIn < zEnd ){
       int c = zIn[0];
@@ -1651,12 +1651,12 @@ static int PH7_builtin_quotemeta(ph7_context *pCtx,int nArg,ph7_value **apArg)
       break;
     }
     zCur = zIn;
-    while( zIn < zEnd && !cSlashCheckMask(zIn[0],".\\+*?[^]($)",(int)sizeof(".\\+*?[^]($)")-1) ){
+    while( zIn < zEnd && !cSlashCheckMask(zIn[0],".\\+*?[^]($)",(int)sizeof(".\\+*?[^]($)") - 1) ){
       zIn++;
     }
     if( zIn > zCur ){
       /* Append raw contents */
-      ph7_result_string(pCtx,zCur,(int)(zIn-zCur));
+      ph7_result_string(pCtx,zCur,(int)(zIn - zCur));
     }
     if( zIn < zEnd ){
       int c = zIn[0];
@@ -1707,7 +1707,7 @@ static int PH7_builtin_stripslashes(ph7_context *pCtx,int nArg,ph7_value **apArg
     }
     if( zIn > zCur ){
       /* Append raw contents */
-      ph7_result_string(pCtx,zCur,(int)(zIn-zCur));
+      ph7_result_string(pCtx,zCur,(int)(zIn - zCur));
     }
     if( &zIn[1] < zEnd ){
       int c = zIn[1];
@@ -1748,7 +1748,7 @@ static int PH7_builtin_stripslashes(ph7_context *pCtx,int nArg,ph7_value **apArg
 static int PH7_builtin_htmlspecialchars(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   const char *zCur,*zIn,*zEnd;
-  int iFlags = 0x01|0x40;   /* ENT_COMPAT | ENT_HTML401 */
+  int iFlags = 0x01 | 0x40;   /* ENT_COMPAT | ENT_HTML401 */
   int nLen,c;
   if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
     /* Missing/Invalid arguments,return NULL */
@@ -1762,7 +1762,7 @@ static int PH7_builtin_htmlspecialchars(ph7_context *pCtx,int nArg,ph7_value **a
   if( nArg > 1 ){
     iFlags = ph7_value_to_int(apArg[1]);
     if( iFlags < 0 ){
-      iFlags = 0x01|0x40;
+      iFlags = 0x01 | 0x40;
     }
   }
   /* Perform the requested operation */
@@ -1776,7 +1776,7 @@ static int PH7_builtin_htmlspecialchars(ph7_context *pCtx,int nArg,ph7_value **a
     }
     if( zCur < zIn ){
       /* Append the raw string verbatim */
-      ph7_result_string(pCtx,zCur,(int)(zIn-zCur));
+      ph7_result_string(pCtx,zCur,(int)(zIn - zCur));
     }
     if( zIn >= zEnd ){
       break;
@@ -1784,17 +1784,17 @@ static int PH7_builtin_htmlspecialchars(ph7_context *pCtx,int nArg,ph7_value **a
     c = zIn[0];
     if( c == '&' ){
       /* Expand '&amp;' */
-      ph7_result_string(pCtx,"&amp;",(int)sizeof("&amp;")-1);
+      ph7_result_string(pCtx,"&amp;",(int)sizeof("&amp;") - 1);
     }else if( c == '<' ){
       /* Expand '&lt;' */
-      ph7_result_string(pCtx,"&lt;",(int)sizeof("&lt;")-1);
+      ph7_result_string(pCtx,"&lt;",(int)sizeof("&lt;") - 1);
     }else if( c == '>' ){
       /* Expand '&gt;' */
-      ph7_result_string(pCtx,"&gt;",(int)sizeof("&gt;")-1);
+      ph7_result_string(pCtx,"&gt;",(int)sizeof("&gt;") - 1);
     }else if( c == '\'' ){
       if( iFlags & 0x02 /*ENT_QUOTES*/ ){
         /* Expand '&#039;' */
-        ph7_result_string(pCtx,"&#039;",(int)sizeof("&#039;")-1);
+        ph7_result_string(pCtx,"&#039;",(int)sizeof("&#039;") - 1);
       }else{
         /* Leave the single quote untouched */
         ph7_result_string(pCtx,"'",(int)sizeof(char));
@@ -1802,7 +1802,7 @@ static int PH7_builtin_htmlspecialchars(ph7_context *pCtx,int nArg,ph7_value **a
     }else if( c == '"' ){
       if( (iFlags & 0x04) == 0 /*ENT_NOQUOTES*/ ){
         /* Expand '&quot;' */
-        ph7_result_string(pCtx,"&quot;",(int)sizeof("&quot;")-1);
+        ph7_result_string(pCtx,"&quot;",(int)sizeof("&quot;") - 1);
       }else{
         /* Leave the double quote untouched */
         ph7_result_string(pCtx,"\"",(int)sizeof(char));
@@ -1858,41 +1858,41 @@ static int PH7_builtin_htmlspecialchars_decode(ph7_context *pCtx,int nArg,ph7_va
     }
     if( zCur < zIn ){
       /* Append the raw string verbatim */
-      ph7_result_string(pCtx,zCur,(int)(zIn-zCur));
+      ph7_result_string(pCtx,zCur,(int)(zIn - zCur));
     }
-    nLen = (int)(zEnd-zIn);
+    nLen = (int)(zEnd - zIn);
     nJump = (int)sizeof(char);
-    if( nLen >= (int)sizeof("&amp;")-1 && SyStrnicmp(zIn,"&amp;",sizeof("&amp;")-1) == 0 ){
+    if( nLen >= (int)sizeof("&amp;") - 1 && SyStrnicmp(zIn,"&amp;",sizeof("&amp;") - 1) == 0 ){
       /* &amp; ==> '&' */
       ph7_result_string(pCtx,"&",(int)sizeof(char));
-      nJump = (int)sizeof("&amp;")-1;
-    }else if( nLen >= (int)sizeof("&lt;")-1 && SyStrnicmp(zIn,"&lt;",sizeof("&lt;")-1) == 0 ){
+      nJump = (int)sizeof("&amp;") - 1;
+    }else if( nLen >= (int)sizeof("&lt;") - 1 && SyStrnicmp(zIn,"&lt;",sizeof("&lt;") - 1) == 0 ){
       /* &lt; ==> < */
       ph7_result_string(pCtx,"<",(int)sizeof(char));
-      nJump = (int)sizeof("&lt;")-1;
-    }else if( nLen >= (int)sizeof("&gt;")-1 && SyStrnicmp(zIn,"&gt;",sizeof("&gt;")-1) == 0 ){
+      nJump = (int)sizeof("&lt;") - 1;
+    }else if( nLen >= (int)sizeof("&gt;") - 1 && SyStrnicmp(zIn,"&gt;",sizeof("&gt;") - 1) == 0 ){
       /* &gt; ==> '>' */
       ph7_result_string(pCtx,">",(int)sizeof(char));
-      nJump = (int)sizeof("&gt;")-1;
-    }else if( nLen >= (int)sizeof("&quot;")-1 && SyStrnicmp(zIn,"&quot;",sizeof("&quot;")-1) == 0 ){
+      nJump = (int)sizeof("&gt;") - 1;
+    }else if( nLen >= (int)sizeof("&quot;") - 1 && SyStrnicmp(zIn,"&quot;",sizeof("&quot;") - 1) == 0 ){
       /* &quot; ==> '"' */
       if( (iFlags & 0x04) == 0 /*ENT_NOQUOTES*/ ){
         ph7_result_string(pCtx,"\"",(int)sizeof(char));
       }else{
         /* Leave untouched */
-        ph7_result_string(pCtx,"&quot;",(int)sizeof("&quot;")-1);
+        ph7_result_string(pCtx,"&quot;",(int)sizeof("&quot;") - 1);
       }
-      nJump = (int)sizeof("&quot;")-1;
-    }else if( nLen >= (int)sizeof("&#039;")-1 && SyStrnicmp(zIn,"&#039;",sizeof("&#039;")-1) == 0 ){
+      nJump = (int)sizeof("&quot;") - 1;
+    }else if( nLen >= (int)sizeof("&#039;") - 1 && SyStrnicmp(zIn,"&#039;",sizeof("&#039;") - 1) == 0 ){
       /* &#039; ==> ''' */
       if( iFlags & 0x02 /*ENT_QUOTES*/ ){
         /* Expand ''' */
         ph7_result_string(pCtx,"'",(int)sizeof(char));
       }else{
         /* Leave untouched */
-        ph7_result_string(pCtx,"&#039;",(int)sizeof("&#039;")-1);
+        ph7_result_string(pCtx,"&#039;",(int)sizeof("&#039;") - 1);
       }
-      nJump = (int)sizeof("&#039;")-1;
+      nJump = (int)sizeof("&#039;") - 1;
     }else if( nLen >= (int)sizeof(char) ){
       /* expand '&' */
       ph7_result_string(pCtx,"&",(int)sizeof(char));
@@ -1946,7 +1946,7 @@ static int PH7_builtin_get_html_translation_table(ph7_context *pCtx,int nArg,ph7
     /* Prepare the value */
     ph7_value_string(pValue,azHtmlEscape[n],-1 /* Compute length automatically */ );
     /* Insert the value */
-    ph7_array_add_strkey_elem(pArray,azHtmlEscape[n+1],pValue);
+    ph7_array_add_strkey_elem(pArray,azHtmlEscape[n + 1],pValue);
     /* Reset the string cursor */
     ph7_value_reset_string_cursor(pValue);
   }
@@ -1999,7 +1999,7 @@ static int PH7_builtin_htmlentities(ph7_context *pCtx,int nArg,ph7_value **apArg
     c = zIn[0];
     /* Perform a linear lookup on the decoding table */
     for( n = 0 ; n < SX_ARRAYSIZE(azHtmlEscape) ; n += 2 ){
-      if( azHtmlEscape[n+1][0] == c ){
+      if( azHtmlEscape[n + 1][0] == c ){
         /* Got one */
         break;
       }
@@ -2067,12 +2067,12 @@ static int PH7_builtin_html_entity_decode(ph7_context *pCtx,int nArg,ph7_value *
     }
     if( zCur < zIn ){
       /* Append raw string verbatim */
-      ph7_result_string(pCtx,zCur,(int)(zIn-zCur));
+      ph7_result_string(pCtx,zCur,(int)(zIn - zCur));
     }
     if( zIn >= zEnd ){
       break;
     }
-    nLen = (int)(zEnd-zIn);
+    nLen = (int)(zEnd - zIn);
     /* Find an encoded sequence */
     for(n = 0 ; n < SX_ARRAYSIZE(azHtmlEscape) ; n += 2 ){
       int iLen = (int)SyStrlen(azHtmlEscape[n]);
@@ -2083,7 +2083,7 @@ static int PH7_builtin_html_entity_decode(ph7_context *pCtx,int nArg,ph7_value *
       }
     }
     if( n < SX_ARRAYSIZE(azHtmlEscape) ){
-      int c = azHtmlEscape[n+1][0];
+      int c = azHtmlEscape[n + 1][0];
       /* Output the decoded character */
       if( c == '\'' && ((iFlags & 0x02) == 0 /*ENT_QUOTES*/ || (iFlags & 0x04) /*ENT_NOQUOTES*/ )  ){
         /* Do not process single quotes */
@@ -2092,7 +2092,7 @@ static int PH7_builtin_html_entity_decode(ph7_context *pCtx,int nArg,ph7_value *
         /* Do not process double quotes */
         ph7_result_string(pCtx,azHtmlEscape[n],-1);
       }else{
-        ph7_result_string(pCtx,azHtmlEscape[n+1],-1);         /* Compute length automatically */
+        ph7_result_string(pCtx,azHtmlEscape[n + 1],-1);         /* Compute length automatically */
       }
     }else{
       /* Append '&' */
@@ -2506,11 +2506,11 @@ static int PH7_builtin_explode(ph7_context *pCtx,int nArg,ph7_value **apArg)
       /* No more entry to process */
       break;
     }
-    rc = SyBlobSearch(zString,(sxu32)(zEnd-zString),zDelim,nDelim,&nOfft);
+    rc = SyBlobSearch(zString,(sxu32)(zEnd - zString),zDelim,nDelim,&nOfft);
     if( rc != SXRET_OK || iLimit <= (int)ph7_array_count(pArray) ){
       /* Limit reached,insert the rest of the string and break */
       if( zEnd > zString ){
-        ph7_value_string(pValue,zString,(int)(zEnd-zString));
+        ph7_value_string(pValue,zString,(int)(zEnd - zString));
         ph7_array_add_elem(pArray,0 /* Automatic index assign*/,pValue);
       }
       break;
@@ -2519,7 +2519,7 @@ static int PH7_builtin_explode(ph7_context *pCtx,int nArg,ph7_value **apArg)
     zCur = &zString[nOfft];
     if( zCur > zString ){
       /* Perform the store operation */
-      ph7_value_string(pValue,zString,(int)(zCur-zString));
+      ph7_value_string(pValue,zString,(int)(zCur - zString));
       ph7_array_add_elem(pArray,0 /* Automatic index assign*/,pValue);
     }
     /* Point beyond the delimiter */
@@ -2622,7 +2622,7 @@ static int PH7_builtin_trim(ph7_context *pCtx,int nArg,ph7_value **apArg)
         ph7_result_string(pCtx,"",0);
       }else{
         zEnd++;
-        ph7_result_string(pCtx,zCur,(int)(zEnd-zCur));
+        ph7_result_string(pCtx,zCur,(int)(zEnd - zCur));
       }
     }
   }
@@ -2699,7 +2699,7 @@ static int PH7_builtin_rtrim(ph7_context *pCtx,int nArg,ph7_value **apArg)
         ph7_result_string(pCtx,"",0);
       }else{
         zEnd++;
-        ph7_result_string(pCtx,zCur,(int)(zEnd-zCur));
+        ph7_result_string(pCtx,zCur,(int)(zEnd - zCur));
       }
     }
   }
@@ -2776,7 +2776,7 @@ static int PH7_builtin_ltrim(ph7_context *pCtx,int nArg,ph7_value **apArg)
         /* Return the empty string */
         ph7_result_string(pCtx,"",0);
       }else{
-        ph7_result_string(pCtx,zCur,(int)(zEnd-zCur));
+        ph7_result_string(pCtx,zCur,(int)(zEnd - zCur));
       }
     }
   }
@@ -2822,7 +2822,7 @@ static int PH7_builtin_strtolower(ph7_context *pCtx,int nArg,ph7_value **apArg)
         zString++;
       }
       /* Append UTF-8 stream */
-      ph7_result_string(pCtx,zCur,(int)(zString-zCur));
+      ph7_result_string(pCtx,zCur,(int)(zString - zCur));
     }else{
       int c = zString[0];
       if( SyisUpper(c) ){
@@ -2876,7 +2876,7 @@ static int PH7_builtin_strtoupper(ph7_context *pCtx,int nArg,ph7_value **apArg)
         zString++;
       }
       /* Append UTF-8 stream */
-      ph7_result_string(pCtx,zCur,(int)(zString-zCur));
+      ph7_result_string(pCtx,zCur,(int)(zString - zCur));
     }else{
       int c = zString[0];
       if( SyisLower(c) ){
@@ -2927,7 +2927,7 @@ static int PH7_builtin_ucfirst(ph7_context *pCtx,int nArg,ph7_value **apArg)
   zString++;
   if( zString < zEnd ){
     /* Append the rest of the input verbatim */
-    ph7_result_string(pCtx,zString,(int)(zEnd-zString));
+    ph7_result_string(pCtx,zString,(int)(zEnd - zString));
   }
   return PH7_OK;
 }
@@ -2967,7 +2967,7 @@ static int PH7_builtin_lcfirst(ph7_context *pCtx,int nArg,ph7_value **apArg)
   zString++;
   if( zString < zEnd ){
     /* Append the rest of the input verbatim */
-    ph7_result_string(pCtx,zString,(int)(zEnd-zString));
+    ph7_result_string(pCtx,zString,(int)(zEnd - zString));
   }
   return PH7_OK;
 }
@@ -3097,7 +3097,7 @@ static sxi32 iPatternMatch(const void *pText,sxu32 nLen,const void *pPattern,sxu
       for(;;){
         if( zPtr2 >= zpEnd ){
           /* Pattern found */
-          if( pOfft ){ *pOfft = (sxu32)(zIn-(const char *)pText); }
+          if( pOfft ){ *pOfft = (sxu32)(zIn - (const char *)pText); }
           return SXRET_OK;
         }
         if( zPtr >= zEnd ){
@@ -3160,9 +3160,9 @@ static int PH7_builtin_strstr(ph7_context *pCtx,int nArg,ph7_value **apArg)
       before = ph7_value_to_int(apArg[2]);
     }
     if( before ){
-      ph7_result_string(pCtx,zBlob,(int)(&zBlob[nOfft]-zBlob));
+      ph7_result_string(pCtx,zBlob,(int)(&zBlob[nOfft] - zBlob));
     }else{
-      ph7_result_string(pCtx,&zBlob[nOfft],(int)(&zBlob[nLen]-&zBlob[nOfft]));
+      ph7_result_string(pCtx,&zBlob[nOfft],(int)(&zBlob[nLen] - &zBlob[nOfft]));
     }
   }else{
     ph7_result_bool(pCtx,0);
@@ -3213,9 +3213,9 @@ static int PH7_builtin_stristr(ph7_context *pCtx,int nArg,ph7_value **apArg)
       before = ph7_value_to_int(apArg[2]);
     }
     if( before ){
-      ph7_result_string(pCtx,zBlob,(int)(&zBlob[nOfft]-zBlob));
+      ph7_result_string(pCtx,zBlob,(int)(&zBlob[nOfft] - zBlob));
     }else{
-      ph7_result_string(pCtx,&zBlob[nOfft],(int)(&zBlob[nLen]-&zBlob[nOfft]));
+      ph7_result_string(pCtx,&zBlob[nOfft],(int)(&zBlob[nLen] - &zBlob[nOfft]));
     }
   }else{
     ph7_result_bool(pCtx,0);
@@ -3277,7 +3277,7 @@ static int PH7_builtin_strpos(ph7_context *pCtx,int nArg,ph7_value **apArg)
       return PH7_OK;
     }
     /* Return the pattern position */
-    ph7_result_int64(pCtx,(ph7_int64)(nOfft+nStart));
+    ph7_result_int64(pCtx,(ph7_int64)(nOfft + nStart));
   }else{
     ph7_result_bool(pCtx,0);
   }
@@ -3338,7 +3338,7 @@ static int PH7_builtin_stripos(ph7_context *pCtx,int nArg,ph7_value **apArg)
       return PH7_OK;
     }
     /* Return the pattern position */
-    ph7_result_int64(pCtx,(ph7_int64)(nOfft+nStart));
+    ph7_result_int64(pCtx,(ph7_int64)(nOfft + nStart));
   }else{
     ph7_result_bool(pCtx,0);
   }
@@ -3412,7 +3412,7 @@ static int PH7_builtin_strrpos(ph7_context *pCtx,int nArg,ph7_value **apArg)
       if( zBlob >= zPtr ){
         break;
       }
-      rc = xPatternMatch((const void *)zPtr,(sxu32)(zEnd-zPtr),(const void *)zPattern,(sxu32)nPatLen,&nOfft);
+      rc = xPatternMatch((const void *)zPtr,(sxu32)(zEnd - zPtr),(const void *)zPattern,(sxu32)nPatLen,&nOfft);
       if( rc == SXRET_OK ){
         /* Pattern found,return it's position */
         ph7_result_int64(pCtx,(ph7_int64)(&zPtr[nOfft] - zStart));
@@ -3495,7 +3495,7 @@ static int PH7_builtin_strripos(ph7_context *pCtx,int nArg,ph7_value **apArg)
       if( zBlob >= zPtr ){
         break;
       }
-      rc = xPatternMatch((const void *)zPtr,(sxu32)(zEnd-zPtr),(const void *)zPattern,(sxu32)nPatLen,&nOfft);
+      rc = xPatternMatch((const void *)zPtr,(sxu32)(zEnd - zPtr),(const void *)zPattern,(sxu32)nPatLen,&nOfft);
       if( rc == SXRET_OK ){
         /* Pattern found,return it's position */
         ph7_result_int64(pCtx,(ph7_int64)(&zPtr[nOfft] - zStart));
@@ -3557,7 +3557,7 @@ static int PH7_builtin_strrchr(ph7_context *pCtx,int nArg,ph7_value **apArg)
       return PH7_OK;
     }
     /* Return the string portion */
-    ph7_result_string(pCtx,&zBlob[nOfft],(int)(&zBlob[nLen]-&zBlob[nOfft]));
+    ph7_result_string(pCtx,&zBlob[nOfft],(int)(&zBlob[nLen] - &zBlob[nOfft]));
   }else{
     ph7_result_bool(pCtx,0);
   }
@@ -3639,7 +3639,7 @@ static int PH7_builtin_ucwords(ph7_context *pCtx,int nArg,ph7_value **apArg)
     }
     if( zCur < zIn ){
       /* Append white space stream */
-      ph7_result_string(pCtx,zCur,(int)(zIn-zCur));
+      ph7_result_string(pCtx,zCur,(int)(zIn - zCur));
     }
     if( zIn >= zEnd ){
       /* No more input to process */
@@ -3666,7 +3666,7 @@ static int PH7_builtin_ucwords(ph7_context *pCtx,int nArg,ph7_value **apArg)
       }
     }
     if( zCur < zIn ){
-      ph7_result_string(pCtx,zCur,(int)(zIn-zCur));
+      ph7_result_string(pCtx,zCur,(int)(zIn - zCur));
     }
   }
   return PH7_OK;
@@ -3764,7 +3764,7 @@ static int PH7_builtin_nl2br(ph7_context *pCtx,int nArg,ph7_value **apArg)
     }
     if( zCur < zIn ){
       /* Output chunk verbatim */
-      ph7_result_string(pCtx,zCur,(int)(zIn-zCur));
+      ph7_result_string(pCtx,zCur,(int)(zIn - zCur));
     }
     if( zIn >= zEnd ){
       /* No more input to process */
@@ -3772,9 +3772,9 @@ static int PH7_builtin_nl2br(ph7_context *pCtx,int nArg,ph7_value **apArg)
     }
     /* Output the HTML line break */
     if( is_xhtml ){
-      ph7_result_string(pCtx,"<br>",(int)sizeof("<br>")-1);
+      ph7_result_string(pCtx,"<br>",(int)sizeof("<br>") - 1);
     }else{
-      ph7_result_string(pCtx,"<br/>",(int)sizeof("<br/>")-1);
+      ph7_result_string(pCtx,"<br/>",(int)sizeof("<br/>") - 1);
     }
     zCur = zIn;
     /* Append trailing line */
@@ -3783,7 +3783,7 @@ static int PH7_builtin_nl2br(ph7_context *pCtx,int nArg,ph7_value **apArg)
     }
     if( zCur < zIn ){
       /* Output chunk verbatim */
-      ph7_result_string(pCtx,zCur,(int)(zIn-zCur));
+      ph7_result_string(pCtx,zCur,(int)(zIn - zCur));
     }
   }
   return PH7_OK;
@@ -3890,7 +3890,7 @@ static int vxGetdigit(sxlongreal *val,int *cnt)
   }
   digit = (int)*val;
   d = digit;
-  *val = (*val - d)*10.0;
+  *val = (*val - d) * 10.0;
   return digit + '0';
 }
 #endif /* PH7_OMIT_FLOATING_POINT */
@@ -3941,7 +3941,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
   )
 {
   char spaces[] = "                                                  ";
-#define etSPACESIZE ((int)sizeof(spaces)-1)
+#define etSPACESIZE ((int)sizeof(spaces) - 1)
   const char *zCur,*zEnd = &zIn[nByte];
   char *zBuf,zWorker[PH7_FMT_BUFSIZ];         /* Working buffer */
   const ph7_fmt_info *pInfo;    /* Pointer to the appropriate info structure */
@@ -3970,7 +3970,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     }
     if( zCur < zIn ){
       /* Consume chunk verbatim */
-      rc = xConsumer(pCtx,zCur,(int)(zIn-zCur),pUserData);
+      rc = xConsumer(pCtx,zCur,(int)(zIn - zCur),pUserData);
       if( rc == SXERR_ABORT ){
         /* Callback request an operation abort */
         break;
@@ -4009,7 +4009,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     /* Get the field width */
     width = 0;
     while( zIn < zEnd && ( zIn[0] >='0' && zIn[0] <='9') ){
-      width = width*10 + (zIn[0] - '0');
+      width = width * 10 + (zIn[0] - '0');
       zIn++;
     }
     if( zIn < zEnd && zIn[0] == '$' ){
@@ -4027,12 +4027,12 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         zIn++;
       }
       while( zIn < zEnd && ( zIn[0] >='0' && zIn[0] <='9') ){
-        width = width*10 + (zIn[0] - '0');
+        width = width * 10 + (zIn[0] - '0');
         zIn++;
       }
     }
-    if( width > PH7_FMT_BUFSIZ-10 ){
-      width = PH7_FMT_BUFSIZ-10;
+    if( width > PH7_FMT_BUFSIZ - 10 ){
+      width = PH7_FMT_BUFSIZ - 10;
     }
     /* Get the precision */
     precision = -1;
@@ -4040,7 +4040,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       precision = 0;
       zIn++;
       while( zIn < zEnd && ( zIn[0] >='0' && zIn[0] <='9') ){
-        precision = precision*10 + (zIn[0] - '0');
+        precision = precision * 10 + (zIn[0] - '0');
         zIn++;
       }
     }
@@ -4128,8 +4128,8 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         iVal = ph7_value_to_int64(pArg);
       }
       /* Limit the precision to prevent overflowing buf[] during conversion */
-      if( precision>PH7_FMT_BUFSIZ-40 ){
-        precision = PH7_FMT_BUFSIZ-40;
+      if( precision>PH7_FMT_BUFSIZ - 40 ){
+        precision = PH7_FMT_BUFSIZ - 40;
       }
 #if 1
       /* For the format %#x, the value zero is printed "0" not "0x0".
@@ -4163,22 +4163,22 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         }
         prefix = 0;
       }
-      if( flag_zeropad && precision<width-(prefix!=0) ){
-        precision = width-(prefix!=0);
+      if( flag_zeropad && precision<width - (prefix!=0) ){
+        precision = width - (prefix!=0);
       }
-      zBuf = &zWorker[PH7_FMT_BUFSIZ-1];
+      zBuf = &zWorker[PH7_FMT_BUFSIZ - 1];
       {
         register char *cset;         /* Use registers for speed */
         register int base;
         cset = pInfo->charset;
         base = pInfo->base;
         do{                                             /* Convert to ascii */
-          *(--zBuf) = cset[iVal%base];
-          iVal = iVal/base;
+          *(--zBuf) = cset[iVal % base];
+          iVal = iVal / base;
         }while( iVal>0 );
       }
-      length = &zWorker[PH7_FMT_BUFSIZ-1]-zBuf;
-      for(idx=precision-length; idx>0; idx--){
+      length = &zWorker[PH7_FMT_BUFSIZ - 1] - zBuf;
+      for(idx=precision - length; idx>0; idx--){
         *(--zBuf) = '0';                               /* Zero pad */
       }
       if( prefix ) *(--zBuf) = (char)prefix;                 /* Add sign */
@@ -4189,7 +4189,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           for(pre=pInfo->prefix; (x=(*pre))!=0; pre++) *(--zBuf) = x;
         }
       }
-      length = &zWorker[PH7_FMT_BUFSIZ-1]-zBuf;
+      length = &zWorker[PH7_FMT_BUFSIZ - 1] - zBuf;
       break;
     case PH7_FMT_FLOAT:
     case PH7_FMT_EXP:
@@ -4209,7 +4209,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         realvalue = ph7_value_to_double(pArg);
       }
       if( precision<0 ) precision = 6;           /* Set default precision */
-      if( precision>PH7_FMT_BUFSIZ-40) precision = PH7_FMT_BUFSIZ-40;
+      if( precision>PH7_FMT_BUFSIZ - 40)precision = PH7_FMT_BUFSIZ - 40;
       if( realvalue<0.0 ){
         realvalue = -realvalue;
         prefix = '-';
@@ -4267,7 +4267,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       ** the precision is too large to fit in buf[].
       */
       nsd = 0;
-      if( xtype==PH7_FMT_FLOAT && exp+precision<PH7_FMT_BUFSIZ-30 ){
+      if( xtype==PH7_FMT_FLOAT && exp + precision<PH7_FMT_BUFSIZ - 30 ){
         flag_dp = (precision>0 || flag_alternateform);
         if( prefix ) *(zBuf++) = (char)prefix;           /* Sign */
         if( exp<0 )  *(zBuf++) = '0';              /* Digits before "." */
@@ -4300,17 +4300,17 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           if( exp<0 ){ *(zBuf++) = '-'; exp = -exp; }           /* sign of exp */
           else       { *(zBuf++) = '+'; }
           if( exp>=100 ){
-            *(zBuf++) = (char)((exp/100)+'0');                  /* 100's digit */
+            *(zBuf++) = (char)((exp / 100) + '0');                  /* 100's digit */
             exp %= 100;
           }
-          *(zBuf++) = (char)(exp/10+'0');                       /* 10's digit */
-          *(zBuf++) = (char)(exp%10+'0');                       /* 1's digit */
+          *(zBuf++) = (char)(exp / 10 + '0');                       /* 10's digit */
+          *(zBuf++) = (char)(exp % 10 + '0');                       /* 1's digit */
         }
       }
       /* The converted number is in buf[] and zero terminated.Output it.
       ** Note that the number is in the usual order, not reversed as with
       ** integer conversions.*/
-      length = (int)(zBuf-zWorker);
+      length = (int)(zBuf - zWorker);
       zBuf = zWorker;
       /* Special case:  Add leading zeros if the flag_zeropad flag is
       ** set and we are not left justified */
@@ -4318,7 +4318,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         int i;
         int nPad = width - length;
         for(i=width; i>=nPad; i--){
-          zBuf[i] = zBuf[i-nPad];
+          zBuf[i] = zBuf[i - nPad];
         }
         i = prefix!=0;
         while( nPad-- ) zBuf[i++] = '0';
@@ -4343,7 +4343,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     */
     if( !flag_leftjustify ){
       register int nspace;
-      nspace = width-length;
+      nspace = width - length;
       if( nspace>0 ){
         while( nspace>=etSPACESIZE ){
           rc = xConsumer(pCtx,spaces,etSPACESIZE,pUserData);
@@ -4368,7 +4368,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     }
     if( flag_leftjustify ){
       register int nspace;
-      nspace = width-length;
+      nspace = width - length;
       if( nspace>0 ){
         while( nspace>=etSPACESIZE ){
           rc = xConsumer(pCtx,spaces,etSPACESIZE,pUserData);
@@ -4579,7 +4579,7 @@ static int PH7_builtin_size_format(ph7_context *pCtx,int nArg,ph7_value **apArg)
   iSize = ph7_value_to_int64(apArg[0]);
   if( iSize < 100 /* Bytes */ ){
     /* Don't bother formatting,return immediately */
-    ph7_result_string(pCtx,"0.1 KB",(int)sizeof("0.1 KB")-1);
+    ph7_result_string(pCtx,"0.1 KB",(int)sizeof("0.1 KB") - 1);
     return PH7_OK;
   }
   for(;;){
@@ -4722,7 +4722,7 @@ static int PH7_builtin_crc32(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Calculate the sum */
   nCRC = SyCrc32(pIn,(sxu32)nLen);
   /* Return the CRC32 as 64-bit integer */
-  ph7_result_int64(pCtx,(ph7_int64)nCRC^ 0xFFFFFFFF);
+  ph7_result_int64(pCtx,(ph7_int64)nCRC ^ 0xFFFFFFFF);
   return PH7_OK;
 }
 #endif /* PH7_DISABLE_HASH_FUNC */
@@ -4767,7 +4767,7 @@ PH7_PRIVATE sxi32 PH7_ProcessCsv(
       zIn++;
     }
     if( zIn > zPtr ){
-      int nByte = (int)(zIn-zPtr);
+      int nByte = (int)(zIn - zPtr);
       sxi32 rc;
       /* Invoke the supllied callback */
       if( zPtr[0] == encl ){
@@ -4916,7 +4916,7 @@ static sxi32 AddTag(SySet *pSet,const char *zTag,int nByte)
     }
     if( zTag > zPtr ){
       /* Perform the insertion */
-      SyStringInitFromBuf(&sEntry,zPtr,(int)(zTag-zPtr));
+      SyStringInitFromBuf(&sEntry,zPtr,(int)(zTag - zPtr));
       SyStringFullTrim(&sEntry);
       SySetPut(pSet,(const void *)&sEntry);
     }
@@ -4952,7 +4952,7 @@ static sxi32 FindTag(SySet *pSet,const char *zTag,int nByte)
         zTag++;
       }
     }
-    SyStringInitFromBuf(&sTag,zCur,zTag-zCur);
+    SyStringInitFromBuf(&sTag,zCur,zTag - zCur);
     /* Trim leading white spaces and null bytes */
     SyStringLeftTrimSafe(&sTag);
     if( sTag.nByte > 0 ){
@@ -5005,7 +5005,7 @@ PH7_PRIVATE sxi32 PH7_StripTagsFromString(ph7_context *pCtx,const char *zIn,int 
     }
     if( zIn > zPtr ){
       /* Consume raw input */
-      ph7_result_string(pCtx,zPtr,(int)(zIn-zPtr));
+      ph7_result_string(pCtx,zPtr,(int)(zIn - zPtr));
     }
     /* Ignore trailing null bytes */
     while( zIn < zEnd && zIn[0] == 0 ){
@@ -5026,10 +5026,10 @@ PH7_PRIVATE sxi32 PH7_StripTagsFromString(ph7_context *pCtx,const char *zIn,int 
         zIn++;         /* Ignore the trailing closing tag */
       }
       /* Query the set */
-      rc = FindTag(&sSet,zTag,(int)(zIn-zTag));
+      rc = FindTag(&sSet,zTag,(int)(zIn - zTag));
       if( rc == SXRET_OK ){
         /* Keep the tag */
-        ph7_result_string(pCtx,zTag,(int)(zIn-zTag));
+        ph7_result_string(pCtx,zTag,(int)(zIn - zTag));
       }
     }
   }
@@ -5170,7 +5170,7 @@ static int PH7_builtin_str_split(ph7_context *pCtx,int nArg,ph7_value **apArg)
       /* No more input to process */
       break;
     }
-    nMax = (int)(zEnd-zString);
+    nMax = (int)(zEnd - zString);
     if( nMax < split_len ){
       split_len = nMax;
     }
@@ -5212,7 +5212,7 @@ static sxi32 ExtractNonSpaceToken(const char **pzIn,const char *zEnd,SyString *p
   while( zIn < zEnd && (unsigned char)zIn[0] < 0xc0 && !SyisSpace(zIn[0]) ){
     zIn++;
   }
-  SyStringInitFromBuf(pOut,zPtr,zIn-zPtr);
+  SyStringInitFromBuf(pOut,zPtr,zIn - zPtr);
   /* Synchronize pointers */
   *pzIn = zIn;
   /* Return to the caller */
@@ -5249,7 +5249,7 @@ static int LongestStringMask(const char *zString,int nLen,const char *zMask,int 
     zString++;
   }
   /* Longest match */
-  return (int)(zString-zIn);
+  return (int)(zString - zIn);
 }
 /*
  * Do the reverse operation of the previous function [i.e: LongestStringMask()].
@@ -5280,7 +5280,7 @@ static int LongestStringMask2(const char *zString,int nLen,const char *zMask,int
     zString++;
   }
   /* Longest match */
-  return (int)(zString-zIn);
+  return (int)(zString - zIn);
 }
 /*
  * int strspn(string $str,string $mask[,int $start[,int $length]])
@@ -5336,7 +5336,7 @@ static int PH7_builtin_strspn(ph7_context *pCtx,int nArg,ph7_value **apArg)
     if( nOfft < 0 ){
       const char *zBase = &zString[iLen + nOfft];
       if( zBase > zString ){
-        iLen = (int)(&zString[iLen]-zBase);
+        iLen = (int)(&zString[iLen] - zBase);
         zString = zBase;
       }else{
         /* Invalid offset */
@@ -5432,7 +5432,7 @@ static int PH7_builtin_strcspn(ph7_context *pCtx,int nArg,ph7_value **apArg)
     if( nOfft < 0 ){
       const char *zBase = &zString[iLen + nOfft];
       if( zBase > zString ){
-        iLen = (int)(&zString[iLen]-zBase);
+        iLen = (int)(&zString[iLen] - zBase);
         zString = zBase;
       }else{
         /* Invalid offset */
@@ -5519,7 +5519,7 @@ static int PH7_builtin_strpbrk(ph7_context *pCtx,int nArg,ph7_value **apArg)
     ph7_result_bool(pCtx,0);
   }else{
     /* Return the substring */
-    ph7_result_string(pCtx,&zString[nOfft],(int)(zEnd-&zString[nOfft]));
+    ph7_result_string(pCtx,&zString[nOfft],(int)(zEnd - &zString[nOfft]));
   }
   return PH7_OK;
 }
@@ -5558,10 +5558,10 @@ static int PH7_builtin_soundex(ph7_context *pCtx,int nArg,ph7_value **apArg)
   zIn = (unsigned char *)ph7_value_to_string(apArg[0],0);
   for(i=0; zIn[i] && zIn[i] < 0xc0 && !SyisAlpha(zIn[i]); i++){}
   if( zIn[i] ){
-    unsigned char prevcode = iCode[zIn[i]&0x7f];
+    unsigned char prevcode = iCode[zIn[i] & 0x7f];
     zResult[0] = (char)SyToUpper(zIn[i]);
     for(j=1; j<4 && zIn[i]; i++){
-      int code = iCode[zIn[i]&0x7f];
+      int code = iCode[zIn[i] & 0x7f];
       if( code>0 ){
         if( code!=prevcode ){
           prevcode = (unsigned char)code;
@@ -5626,7 +5626,7 @@ static int PH7_builtin_wordwrap(ph7_context *pCtx,int nArg,ph7_value **apArg)
     /* Set a default column break */
 #ifdef __WINNT__
     zBreak = "\r\n";
-    iBreaklen = (int)sizeof("\r\n")-1;
+    iBreaklen = (int)sizeof("\r\n") - 1;
 #else
     zBreak = "\n";
     iBreaklen = (int)sizeof(char);
@@ -5640,7 +5640,7 @@ static int PH7_builtin_wordwrap(ph7_context *pCtx,int nArg,ph7_value **apArg)
       /* No more input to process */
       break;
     }
-    nMax = (int)(zEnd-zIn);
+    nMax = (int)(zEnd - zIn);
     if( iChunk > nMax ){
       iChunk = nMax;
     }
@@ -5703,7 +5703,7 @@ static sxi32 ExtractToken(const char **pzIn,const char *zEnd,const char *zMask,i
       zIn++;
     }
   }
-  SyStringInitFromBuf(pOut,zPtr,zIn-zPtr);
+  SyStringInitFromBuf(pOut,zPtr,zIn - zPtr);
   /* Update the cursor */
   *pzIn = zIn;
   /* Return to the caller */
@@ -5812,13 +5812,13 @@ static int PH7_builtin_strtok(ph7_context *pCtx,int nArg,ph7_value **apArg)
     /* Create our auxilliary data and copy the input */
     pAux = (strtok_aux_data *)ph7_context_alloc_chunk(pCtx,sizeof(strtok_aux_data),TRUE,FALSE);
     if( pAux ){
-      nLen -= (int)(zInput-zCur);
+      nLen -= (int)(zInput - zCur);
       if( nLen < 1 ){
         ph7_context_free_chunk(pCtx,pAux);
         return PH7_OK;
       }
       /* Duplicate input */
-      zDup = (char *)ph7_context_alloc_chunk(pCtx,(unsigned int)(nLen+1),TRUE,FALSE);
+      zDup = (char *)ph7_context_alloc_chunk(pCtx,(unsigned int)(nLen + 1),TRUE,FALSE);
       if( zDup  ){
         SyMemcpy(zInput,zDup,(sxu32)nLen);
         /* Register the aux data */
@@ -5896,7 +5896,7 @@ static int PH7_builtin_str_pad(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Perform the requested operation */
   if( iType == 0 /* STR_PAD_LEFT */ || iType == 2 /* STR_PAD_BOTH */ ){
     jPad = iStrpad;
-    for( i = 0 ; i < iPadlen/iDiv ; i += jPad ){
+    for( i = 0 ; i < iPadlen / iDiv ; i += jPad ){
       /* Padding */
       if( (int)ph7_context_result_buf_length(pCtx) + iLen + jPad >= iRealPad ){
         break;
@@ -5921,7 +5921,7 @@ static int PH7_builtin_str_pad(ph7_context *pCtx,int nArg,ph7_value **apArg)
     ph7_result_string(pCtx,zIn,iLen);
   }
   if( iType == 1 /* STR_PAD_RIGHT */ || iType == 2 /* STR_PAD_BOTH */ ){
-    for( i = 0 ; i < iPadlen/iDiv ; i += iStrpad ){
+    for( i = 0 ; i < iPadlen / iDiv ; i += iStrpad ){
       /* Padding */
       if( (int)ph7_context_result_buf_length(pCtx) + iStrpad >= iRealPad ){
         break;
@@ -5959,7 +5959,7 @@ struct str_replace_data
  */
 #define STRDEL(SRC,SLEN,OFFT,ILEN){ \
           for(;;){ \
-            if( OFFT + ILEN >= SLEN ) break; SRC[OFFT] = SRC[OFFT+ILEN]; ++OFFT; \
+            if( OFFT + ILEN >= SLEN ) break; SRC[OFFT] = SRC[OFFT + ILEN]; ++OFFT; \
           } \
 }
 /*
@@ -6218,7 +6218,7 @@ static int PH7_builtin_str_replace(ph7_context *pCtx,int nArg,ph7_value **apArg)
         break;
       }
       /* Perform the replace operation */
-      StringReplace(&sWorker,nCount+nOfft,(int)pSearch->nByte,pReplace->zString,(int)pReplace->nByte);
+      StringReplace(&sWorker,nCount + nOfft,(int)pSearch->nByte,pReplace->zString,(int)pReplace->nByte);
       /* Increment offset counter */
       nCount += nOfft + pReplace->nByte;
     }
@@ -6382,7 +6382,7 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx,const char *zIn,sxu32 nBy
       }
       if( zIn > zCur && bProcessSection ){
         /* Save the section name */
-        SyStringInitFromBuf(&sEntry,zCur,(int)(zIn-zCur));
+        SyStringInitFromBuf(&sEntry,zCur,(int)(zIn - zCur));
         SyStringFullTrim(&sEntry);
         ph7_value_string(pWorker,sEntry.zString,(int)sEntry.nByte);
         if( sEntry.nByte > 0 ){
@@ -6407,7 +6407,7 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx,const char *zIn,sxu32 nBy
       while( zIn < zEnd && zIn[0] != '=' ){
         if( zIn[0] == '[' && !is_array ){
           /* Array */
-          iLen = (int)(zIn-zCur);
+          iLen = (int)(zIn - zCur);
           is_array = 1;
           if( iLen > 0 ){
             ph7_value *pvArr = 0;             /* cc warning */
@@ -6441,7 +6441,7 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx,const char *zIn,sxu32 nBy
         zIn++;
       }
       if( !is_array ){
-        iLen = (int)(zIn-zCur);
+        iLen = (int)(zIn - zCur);
       }
       /* Trim the key */
       SyStringInitFromBuf(&sEntry,zCur,iLen);
@@ -6486,7 +6486,7 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx,const char *zIn,sxu32 nBy
             }
           }
           /* Trim the value */
-          SyStringInitFromBuf(&sEntry,zCur,(int)(zIn-zCur));
+          SyStringInitFromBuf(&sEntry,zCur,(int)(zIn - zCur));
           SyStringFullTrim(&sEntry);
           if( c == '"' || c == '\'' ){
             SyStringTrimLeadingChar(&sEntry,c);
@@ -7083,7 +7083,7 @@ struct tm *__cdecl localtime(const time_t *t)
   SYSTEMTIME pTm;
   ph7_int64 t64;
   t64 = *t;
-  t64 = (t64 + 11644473600)*10000000;
+  t64 = (t64 + 11644473600) * 10000000;
   uTm.dwLowDateTime = (DWORD)(t64 & 0xFFFFFFFF);
   uTm.dwHighDateTime= (DWORD)(t64 >> 32);
   FileTimeToLocalFileTime(&uTm,&lTm);
@@ -7149,7 +7149,7 @@ static int PH7_builtin_microtime(ph7_context *pCtx,int nArg,ph7_value **apArg)
   time_t tt;
   time(&tt);
   sTime.tm_sec  = (long)tt;
-  sTime.tm_usec = (long)(tt%SX_USEC_PER_SEC);
+  sTime.tm_usec = (long)(tt % SX_USEC_PER_SEC);
 #endif /* __UNIXES__ */
   if( nArg > 0 ){
     bFloat = ph7_value_to_bool(apArg[0]);
@@ -7259,7 +7259,7 @@ static int PH7_builtin_getdate(ph7_context *pCtx,int nArg,ph7_value **apArg)
   ph7_value_int(pValue,sTm.tm_wday);
   ph7_array_add_strkey_elem(pArray,"wday",pValue);
   /* mon */
-  ph7_value_int(pValue,sTm.tm_mon+1);
+  ph7_value_int(pValue,sTm.tm_mon + 1);
   ph7_array_add_strkey_elem(pArray,"mon",pValue);
   /* year */
   ph7_value_int(pValue,sTm.tm_year);
@@ -7304,7 +7304,7 @@ static int PH7_builtin_gettimeofday(ph7_context *pCtx,int nArg,ph7_value **apArg
   time_t tt;
   time(&tt);
   sTime.tm_sec  = (long)tt;
-  sTime.tm_usec = (long)(tt%SX_USEC_PER_SEC);
+  sTime.tm_usec = (long)(tt % SX_USEC_PER_SEC);
 #endif /* __UNIXES__ */
   if( nArg > 0 ){
     bFloat = ph7_value_to_bool(apArg[0]);
@@ -7466,7 +7466,7 @@ static sxi32 DateFormat(ph7_context *pCtx,const char *zIn,int nLen,Sytm *pTm)
         break;
       case 'y':
         /*A two digit representation of a year*/
-        ph7_result_string_format(pCtx,"%02d",pTm->tm_year%100);
+        ph7_result_string_format(pCtx,"%02d",pTm->tm_year % 100);
         break;
       case 'a':
         /*	Lowercase Ante meridiem and Post meridiem */
@@ -7478,7 +7478,7 @@ static sxi32 DateFormat(ph7_context *pCtx,const char *zIn,int nLen,Sytm *pTm)
         break;
       case 'g':
         /*	12-hour format of an hour without leading zeros*/
-        ph7_result_string_format(pCtx,"%d",1+(pTm->tm_hour%12));
+        ph7_result_string_format(pCtx,"%d",1 + (pTm->tm_hour % 12));
         break;
       case 'G':
         /* 24-hour format of an hour without leading zeros */
@@ -7486,7 +7486,7 @@ static sxi32 DateFormat(ph7_context *pCtx,const char *zIn,int nLen,Sytm *pTm)
         break;
       case 'h':
         /* 12-hour format of an hour with leading zeros */
-        ph7_result_string_format(pCtx,"%02d",1+(pTm->tm_hour%12));
+        ph7_result_string_format(pCtx,"%02d",1 + (pTm->tm_hour % 12));
         break;
       case 'H':
         /*	24-hour format of an hour with leading zeros */
@@ -7565,7 +7565,7 @@ static sxi32 DateFormat(ph7_context *pCtx,const char *zIn,int nLen,Sytm *pTm)
         /*      ISO 8601 date */
         ph7_result_string_format(pCtx,"%4d-%02d-%02dT%02d:%02d:%02d%+05d",
                                  pTm->tm_year,
-                                 pTm->tm_mon+1,
+                                 pTm->tm_mon + 1,
                                  pTm->tm_mday,
                                  pTm->tm_hour,
                                  pTm->tm_min,
@@ -7652,7 +7652,7 @@ static int PH7_Strftime(
     }
     if( zIn > zCur ){
       /* Consume input verbatim */
-      ph7_result_string(pCtx,zCur,(int)(zIn-zCur));
+      ph7_result_string(pCtx,zCur,(int)(zIn - zCur));
     }
     zIn++;     /* Jump the percent sign */
     if( zIn >= zEnd ){
@@ -7676,7 +7676,7 @@ static int PH7_Strftime(
         break;
       case 'a':
         /* An abbreviated textual representation of the day */
-        ph7_result_string(pCtx,SyTimeGetDay(pTm->tm_wday),(int)sizeof(char)*3);
+        ph7_result_string(pCtx,SyTimeGetDay(pTm->tm_wday),(int)sizeof(char) * 3);
         break;
       case 'A':
         /* A full textual representation of the day */
@@ -7688,7 +7688,7 @@ static int PH7_Strftime(
         break;
       case 'd':
         /* Two-digit day of the month (with leading zeros) */
-        ph7_result_string_format(pCtx,"%02d",pTm->tm_mon+1);
+        ph7_result_string_format(pCtx,"%02d",pTm->tm_mon + 1);
         break;
       case 'j':
         /*The day of the year,3 digits with leading zeros*/
@@ -7705,7 +7705,7 @@ static int PH7_Strftime(
       case 'b':
       case 'h':
         /*A short textual representation of a month, three letters (Not based on locale)*/
-        ph7_result_string(pCtx,SyTimeGetMonth(pTm->tm_mon),(int)sizeof(char)*3);
+        ph7_result_string(pCtx,SyTimeGetMonth(pTm->tm_mon),(int)sizeof(char) * 3);
         break;
       case 'B':
         /* Full month name (Not based on locale) */
@@ -7717,12 +7717,12 @@ static int PH7_Strftime(
         break;
       case 'C':
         /* Two digit representation of the century */
-        ph7_result_string_format(pCtx,"%2d",pTm->tm_year/100);
+        ph7_result_string_format(pCtx,"%2d",pTm->tm_year / 100);
         break;
       case 'y':
       case 'g':
         /* Two digit representation of the year */
-        ph7_result_string_format(pCtx,"%2d",pTm->tm_year%100);
+        ph7_result_string_format(pCtx,"%2d",pTm->tm_year % 100);
         break;
       case 'Y':
       case 'G':
@@ -7731,11 +7731,11 @@ static int PH7_Strftime(
         break;
       case 'I':
         /* 12-hour format of an hour with leading zeros */
-        ph7_result_string_format(pCtx,"%02d",1+(pTm->tm_hour%12));
+        ph7_result_string_format(pCtx,"%02d",1 + (pTm->tm_hour % 12));
         break;
       case 'l':
         /* 12-hour format of an hour with leading space */
-        ph7_result_string_format(pCtx,"%2d",1+(pTm->tm_hour%12));
+        ph7_result_string_format(pCtx,"%2d",1 + (pTm->tm_hour % 12));
         break;
       case 'H':
         /* 24-hour format of an hour with leading zeros */
@@ -7770,16 +7770,16 @@ static int PH7_Strftime(
         break;
       case 'P':
         /*	Lowercase Ante meridiem and Post meridiem */
-        ph7_result_string(pCtx,pTm->tm_hour > 12 ? "pm" : "am",(int)sizeof(char)*2);
+        ph7_result_string(pCtx,pTm->tm_hour > 12 ? "pm" : "am",(int)sizeof(char) * 2);
         break;
       case 'p':
         /*	Uppercase Ante meridiem and Post meridiem */
-        ph7_result_string(pCtx,pTm->tm_hour > 12 ? "PM" : "AM",(int)sizeof(char)*2);
+        ph7_result_string(pCtx,pTm->tm_hour > 12 ? "PM" : "AM",(int)sizeof(char) * 2);
         break;
       case 'r':
         /* Same as "%I:%M:%S %p" */
         ph7_result_string_format(pCtx,"%02d:%02d:%02d %s",
-                                 1+(pTm->tm_hour%12),
+                                 1 + (pTm->tm_hour % 12),
                                  pTm->tm_min,
                                  pTm->tm_sec,
                                  pTm->tm_hour > 12 ? "PM" : "AM"
@@ -7789,23 +7789,23 @@ static int PH7_Strftime(
       case 'x':
         /* Same as "%m/%d/%y" */
         ph7_result_string_format(pCtx,"%02d/%02d/%02d",
-                                 pTm->tm_mon+1,
+                                 pTm->tm_mon + 1,
                                  pTm->tm_mday,
-                                 pTm->tm_year%100
+                                 pTm->tm_year % 100
                                  );
         break;
       case 'F':
         /* Same as "%Y-%m-%d" */
         ph7_result_string_format(pCtx,"%d-%02d-%02d",
                                  pTm->tm_year,
-                                 pTm->tm_mon+1,
+                                 pTm->tm_mon + 1,
                                  pTm->tm_mday
                                  );
         break;
       case 'c':
         ph7_result_string_format(pCtx,"%d-%02d-%02d %02d:%02d:%02d",
                                  pTm->tm_year,
-                                 pTm->tm_mon+1,
+                                 pTm->tm_mon + 1,
                                  pTm->tm_mday,
                                  pTm->tm_hour,
                                  pTm->tm_min,
@@ -8127,7 +8127,7 @@ static int PH7_builtin_localtime(ph7_context *pCtx,int nArg,ph7_value **apArg)
     ph7_array_add_elem(pArray,0 /* Automatic index */,pValue);
   }
   /* year since 1900 */
-  ph7_value_int(pValue,sTm.tm_year-1900);
+  ph7_value_int(pValue,sTm.tm_year - 1900);
   if( isAssoc ){
     ph7_array_add_strkey_elem(pArray,"tm_year",pValue);
   }else{
