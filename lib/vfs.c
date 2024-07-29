@@ -348,7 +348,7 @@ static int PH7_vfs_rename(ph7_context *pCtx, int nArg, ph7_value **apArg)
   zNew = ph7_value_to_string(apArg[1], 0);
   rc = pVfs->xRename(zOld, zNew);
   /* IO result */
-  ph7_result_bool(pCtx, rc == PH7_OK );
+  ph7_result_bool(pCtx, rc == PH7_OK);
   return PH7_OK;
 }
 /*
@@ -1379,7 +1379,7 @@ static int PH7_vfs_putenv(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   /* Perform the requested operation */
   rc = pVfs->xSetenv(zName, zValue);
-  ph7_result_bool(pCtx, rc == PH7_OK );
+  ph7_result_bool(pCtx, rc == PH7_OK);
   zSettings[0] = '=';
   return PH7_OK;
 }
@@ -2054,7 +2054,7 @@ static int PH7_vfs_link(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Perform the requested operation */
   rc = pVfs->xLink(zTarget, zLink, 0 /*Not a symbolic link */ );
   /* IO result */
-  ph7_result_bool(pCtx, rc == PH7_OK );
+  ph7_result_bool(pCtx, rc == PH7_OK);
   return PH7_OK;
 }
 /*
@@ -2095,7 +2095,7 @@ static int PH7_vfs_symlink(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Perform the requested operation */
   rc = pVfs->xLink(zTarget, zLink, 1 /*A symbolic link */ );
   /* IO result */
-  ph7_result_bool(pCtx, rc == PH7_OK );
+  ph7_result_bool(pCtx, rc == PH7_OK);
   return PH7_OK;
 }
 /*

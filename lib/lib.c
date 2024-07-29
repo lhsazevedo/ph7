@@ -180,7 +180,7 @@ static SyMutex* UnixMutexNew(int nType)
       pthread_mutexattr_init(&sRecursiveAttr);
       pthread_mutexattr_settype(&sRecursiveAttr, PTHREAD_MUTEX_RECURSIVE);
     }
-    pthread_mutex_init(&pMutex->sMutex, nType == SXMUTEX_TYPE_RECURSIVE ? &sRecursiveAttr : 0 );
+    pthread_mutex_init(&pMutex->sMutex, nType == SXMUTEX_TYPE_RECURSIVE ? &sRecursiveAttr : 0);
     if (nType == SXMUTEX_TYPE_RECURSIVE) {
       pthread_mutexattr_destroy(&sRecursiveAttr);
     }

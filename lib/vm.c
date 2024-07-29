@@ -11786,7 +11786,7 @@ static sxi32 VmJsonDecode(
       ph7_value_null(pWorker);
     }else if (pDecoder->pIn->nType & (JSON_TK_TRUE | JSON_TK_FALSE)) {
       /* Boolean value */
-      ph7_value_bool(pWorker, (pDecoder->pIn->nType & JSON_TK_TRUE) ? 1 : 0 );
+      ph7_value_bool(pWorker, (pDecoder->pIn->nType & JSON_TK_TRUE) ? 1 : 0);
     }else if (pDecoder->pIn->nType & JSON_TK_NUM) {
       SyString *pStr = &pDecoder->pIn->sData;
       /*
