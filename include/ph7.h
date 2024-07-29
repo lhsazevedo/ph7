@@ -212,33 +212,33 @@ typedef struct Sytm Sytm;
 struct syiovec
 {
 #if defined (__WINNT__)
-    /* Same fields type and offset as WSABUF structure defined one winsock2 header */
-    unsigned long nLen;
-    char *pBase;
+  /* Same fields type and offset as WSABUF structure defined one winsock2 header */
+  unsigned long nLen;
+  char *pBase;
 #else
-    void *pBase;
-    unsigned long nLen;
+  void *pBase;
+  unsigned long nLen;
 #endif
 };
 struct SyString
 {
-    const char *zString;  /* Raw string (may not be null terminated) */
-    unsigned int nByte;   /* Raw string length */
+  const char *zString;    /* Raw string (may not be null terminated) */
+  unsigned int nByte;     /* Raw string length */
 };
 /* Time structure. */
 struct Sytm
 {
-    int tm_sec;   /* seconds (0 - 60) */
-    int tm_min;   /* minutes (0 - 59) */
-    int tm_hour;  /* hours (0 - 23) */
-    int tm_mday;  /* day of month (1 - 31) */
-    int tm_mon;   /* month of year (0 - 11) */
-    int tm_year;  /* year + 1900 */
-    int tm_wday;  /* day of week (Sunday = 0) */
-    int tm_yday;  /* day of year (0 - 365) */
-    int tm_isdst; /* is summer time in effect? */
-    char *tm_zone; /* abbreviation of timezone name */
-    long tm_gmtoff; /* offset from UTC in seconds */
+  int tm_sec;     /* seconds (0 - 60) */
+  int tm_min;     /* minutes (0 - 59) */
+  int tm_hour;    /* hours (0 - 23) */
+  int tm_mday;    /* day of month (1 - 31) */
+  int tm_mon;     /* month of year (0 - 11) */
+  int tm_year;    /* year + 1900 */
+  int tm_wday;    /* day of week (Sunday = 0) */
+  int tm_yday;    /* day of year (0 - 365) */
+  int tm_isdst;   /* is summer time in effect? */
+  char *tm_zone;   /* abbreviation of timezone name */
+  long tm_gmtoff;   /* offset from UTC in seconds */
 };
 /* Convert a tm structure (struct tm *) found in <time.h> to a Sytm structure */
 #define STRUCT_TM_TO_SYTM(pTM,pSYTM) \
@@ -271,26 +271,26 @@ struct Sytm
 /* Dynamic memory allocation methods. */
 struct SyMemMethods
 {
-    void * (*xAlloc)(unsigned int);          /* [Required:] Allocate a memory chunk */
-    void * (*xRealloc)(void *,unsigned int); /* [Required:] Re-allocate a memory chunk */
-    void (*xFree)(void *);                   /* [Required:] Release a memory chunk */
-    unsigned int (*xChunkSize)(void *);      /* [Optional:] Return chunk size */
-    int (*xInit)(void *);                    /* [Optional:] Initialization callback */
-    void (*xRelease)(void *);                /* [Optional:] Release callback */
-    void  *pUserData;                        /* [Optional:] First argument to xInit() and xRelease() */
+  void * (*xAlloc)(unsigned int);            /* [Required:] Allocate a memory chunk */
+  void * (*xRealloc)(void *,unsigned int);   /* [Required:] Re-allocate a memory chunk */
+  void (*xFree)(void *);                     /* [Required:] Release a memory chunk */
+  unsigned int (*xChunkSize)(void *);        /* [Optional:] Return chunk size */
+  int (*xInit)(void *);                      /* [Optional:] Initialization callback */
+  void (*xRelease)(void *);                  /* [Optional:] Release callback */
+  void  *pUserData;                          /* [Optional:] First argument to xInit() and xRelease() */
 };
 /* Out of memory callback signature. */
 typedef int (*ProcMemError)(void *);
 /* Mutex methods. */
 struct SyMutexMethods
 {
-    int (*xGlobalInit)(void);       /* [Optional:] Global mutex initialization */
-    void (*xGlobalRelease)(void);   /* [Optional:] Global Release callback () */
-    SyMutex * (*xNew)(int);         /* [Required:] Request a new mutex */
-    void (*xRelease)(SyMutex *);    /* [Optional:] Release a mutex  */
-    void (*xEnter)(SyMutex *);      /* [Required:] Enter mutex */
-    int (*xTryEnter)(SyMutex *);    /* [Optional:] Try to enter a mutex */
-    void (*xLeave)(SyMutex *);      /* [Required:] Leave a locked mutex */
+  int (*xGlobalInit)(void);         /* [Optional:] Global mutex initialization */
+  void (*xGlobalRelease)(void);     /* [Optional:] Global Release callback () */
+  SyMutex * (*xNew)(int);           /* [Required:] Request a new mutex */
+  void (*xRelease)(SyMutex *);      /* [Optional:] Release a mutex  */
+  void (*xEnter)(SyMutex *);        /* [Required:] Enter mutex */
+  int (*xTryEnter)(SyMutex *);      /* [Optional:] Try to enter a mutex */
+  void (*xLeave)(SyMutex *);        /* [Required:] Leave a locked mutex */
 };
 #if defined (_MSC_VER) || defined (__MINGW32__) ||  defined (__GNUC__) && defined (__declspec)
 #define SX_APIIMPORT    __declspec(dllimport)
@@ -496,51 +496,51 @@ typedef sxi64 ph7_int64;
  */
 struct ph7_vfs
 {
-    const char *zName;  /* Underlying VFS name [i.e: FreeBSD/Linux/Windows...] */
-    int iVersion;       /* Current VFS structure version [default 2] */
-    /* Directory functions */
-    int (*xChdir)(const char *);                     /* Change directory */
-    int (*xChroot)(const char *);                    /* Change the root directory */
-    int (*xGetcwd)(ph7_context *);                   /* Get the current working directory */
-    int (*xMkdir)(const char *,int,int);             /* Make directory */
-    int (*xRmdir)(const char *);                     /* Remove directory */
-    int (*xIsdir)(const char *);                     /* Tells whether the filename is a directory */
-    int (*xRename)(const char *,const char *);       /* Renames a file or directory */
-    int (*xRealpath)(const char *,ph7_context *);    /* Return canonicalized absolute pathname*/
-    /* Systems functions */
-    int (*xSleep)(unsigned int);                     /* Delay execution in microseconds */
-    int (*xUnlink)(const char *);                    /* Deletes a file */
-    int (*xFileExists)(const char *);                /* Checks whether a file or directory exists */
-    int (*xChmod)(const char *,int);                 /* Changes file mode */
-    int (*xChown)(const char *,const char *);        /* Changes file owner */
-    int (*xChgrp)(const char *,const char *);        /* Changes file group */
-    ph7_int64 (*xFreeSpace)(const char *);           /* Available space on filesystem or disk partition */
-    ph7_int64 (*xTotalSpace)(const char *);          /* Total space on filesystem or disk partition */
-    ph7_int64 (*xFileSize)(const char *);            /* Gets file size */
-    ph7_int64 (*xFileAtime)(const char *);           /* Gets last access time of file */
-    ph7_int64 (*xFileMtime)(const char *);           /* Gets file modification time */
-    ph7_int64 (*xFileCtime)(const char *);           /* Gets inode change time of file */
-    int (*xStat)(const char *,ph7_value *,ph7_value *);   /* Gives information about a file */
-    int (*xlStat)(const char *,ph7_value *,ph7_value *);  /* Gives information about a file */
-    int (*xIsfile)(const char *);                    /* Tells whether the filename is a regular file */
-    int (*xIslink)(const char *);                    /* Tells whether the filename is a symbolic link */
-    int (*xReadable)(const char *);                  /* Tells whether a file exists and is readable */
-    int (*xWritable)(const char *);                  /* Tells whether the filename is writable */
-    int (*xExecutable)(const char *);                /* Tells whether the filename is executable */
-    int (*xFiletype)(const char *,ph7_context *);    /* Gets file type [i.e: fifo,dir,file..] */
-    int (*xGetenv)(const char *,ph7_context *);      /* Gets the value of an environment variable */
-    int (*xSetenv)(const char *,const char *);       /* Sets the value of an environment variable */
-    int (*xTouch)(const char *,ph7_int64,ph7_int64); /* Sets access and modification time of file */
-    int (*xMmap)(const char *,void **,ph7_int64 *);  /* Read-only memory map of the whole file */
-    void (*xUnmap)(void *,ph7_int64);                /* Unmap a memory view */
-    int (*xLink)(const char *,const char *,int);     /* Create hard or symbolic link */
-    int (*xUmask)(int);                              /* Change the current umask */
-    void (*xTempDir)(ph7_context *);                 /* Get path of the temporary directory */
-    unsigned int (*xProcessId)(void);                /* Get running process ID */
-    int (*xUid)(void);                               /* user ID of the process */
-    int (*xGid)(void);                               /* group ID of the process */
-    void (*xUsername)(ph7_context *);                /* Running username */
-    int (*xExec)(const char *,ph7_context *);        /* Execute an external program */
+  const char *zName;    /* Underlying VFS name [i.e: FreeBSD/Linux/Windows...] */
+  int iVersion;         /* Current VFS structure version [default 2] */
+  /* Directory functions */
+  int (*xChdir)(const char *);                       /* Change directory */
+  int (*xChroot)(const char *);                      /* Change the root directory */
+  int (*xGetcwd)(ph7_context *);                     /* Get the current working directory */
+  int (*xMkdir)(const char *,int,int);               /* Make directory */
+  int (*xRmdir)(const char *);                       /* Remove directory */
+  int (*xIsdir)(const char *);                       /* Tells whether the filename is a directory */
+  int (*xRename)(const char *,const char *);         /* Renames a file or directory */
+  int (*xRealpath)(const char *,ph7_context *);      /* Return canonicalized absolute pathname*/
+  /* Systems functions */
+  int (*xSleep)(unsigned int);                       /* Delay execution in microseconds */
+  int (*xUnlink)(const char *);                      /* Deletes a file */
+  int (*xFileExists)(const char *);                  /* Checks whether a file or directory exists */
+  int (*xChmod)(const char *,int);                   /* Changes file mode */
+  int (*xChown)(const char *,const char *);          /* Changes file owner */
+  int (*xChgrp)(const char *,const char *);          /* Changes file group */
+  ph7_int64 (*xFreeSpace)(const char *);             /* Available space on filesystem or disk partition */
+  ph7_int64 (*xTotalSpace)(const char *);            /* Total space on filesystem or disk partition */
+  ph7_int64 (*xFileSize)(const char *);              /* Gets file size */
+  ph7_int64 (*xFileAtime)(const char *);             /* Gets last access time of file */
+  ph7_int64 (*xFileMtime)(const char *);             /* Gets file modification time */
+  ph7_int64 (*xFileCtime)(const char *);             /* Gets inode change time of file */
+  int (*xStat)(const char *,ph7_value *,ph7_value *);     /* Gives information about a file */
+  int (*xlStat)(const char *,ph7_value *,ph7_value *);    /* Gives information about a file */
+  int (*xIsfile)(const char *);                      /* Tells whether the filename is a regular file */
+  int (*xIslink)(const char *);                      /* Tells whether the filename is a symbolic link */
+  int (*xReadable)(const char *);                    /* Tells whether a file exists and is readable */
+  int (*xWritable)(const char *);                    /* Tells whether the filename is writable */
+  int (*xExecutable)(const char *);                  /* Tells whether the filename is executable */
+  int (*xFiletype)(const char *,ph7_context *);      /* Gets file type [i.e: fifo,dir,file..] */
+  int (*xGetenv)(const char *,ph7_context *);        /* Gets the value of an environment variable */
+  int (*xSetenv)(const char *,const char *);         /* Sets the value of an environment variable */
+  int (*xTouch)(const char *,ph7_int64,ph7_int64);   /* Sets access and modification time of file */
+  int (*xMmap)(const char *,void **,ph7_int64 *);    /* Read-only memory map of the whole file */
+  void (*xUnmap)(void *,ph7_int64);                  /* Unmap a memory view */
+  int (*xLink)(const char *,const char *,int);       /* Create hard or symbolic link */
+  int (*xUmask)(int);                                /* Change the current umask */
+  void (*xTempDir)(ph7_context *);                   /* Get path of the temporary directory */
+  unsigned int (*xProcessId)(void);                  /* Get running process ID */
+  int (*xUid)(void);                                 /* user ID of the process */
+  int (*xGid)(void);                                 /* group ID of the process */
+  void (*xUsername)(ph7_context *);                  /* Running username */
+  int (*xExec)(const char *,ph7_context *);          /* Execute an external program */
 };
 /* Current PH7 IO stream structure version. */
 #define PH7_IO_STREAM_VERSION 1
@@ -591,22 +591,22 @@ struct ph7_vfs
  */
 struct ph7_io_stream
 {
-    const char *zName;                                     /* Underlying stream name [i.e: file/http/zip/php,..] */
-    int iVersion;                                          /* IO stream structure version [default 1]*/
-    int (*xOpen)(const char *,int,ph7_value *,void **);    /* Open handle*/
-    int (*xOpenDir)(const char *,ph7_value *,void **);     /* Open directory handle */
-    void (*xClose)(void *);                                /* Close file handle */
-    void (*xCloseDir)(void *);                             /* Close directory handle */
-    ph7_int64 (*xRead)(void *,void *,ph7_int64);           /* Read from the open stream */
-    int (*xReadDir)(void *,ph7_context *);                 /* Read entry from directory handle */
-    ph7_int64 (*xWrite)(void *,const void *,ph7_int64);    /* Write to the open stream */
-    int (*xSeek)(void *,ph7_int64,int);                    /* Seek on the open stream */
-    int (*xLock)(void *,int);                              /* Lock/Unlock the open stream */
-    void (*xRewindDir)(void *);                            /* Rewind directory handle */
-    ph7_int64 (*xTell)(void *);                            /* Current position of the stream  read/write pointer */
-    int (*xTrunc)(void *,ph7_int64);                       /* Truncates the open stream to a given length */
-    int (*xSync)(void *);                                  /* Flush open stream data */
-    int (*xStat)(void *,ph7_value *,ph7_value *);          /* Stat an open stream handle */
+  const char *zName;                                       /* Underlying stream name [i.e: file/http/zip/php,..] */
+  int iVersion;                                            /* IO stream structure version [default 1]*/
+  int (*xOpen)(const char *,int,ph7_value *,void **);      /* Open handle*/
+  int (*xOpenDir)(const char *,ph7_value *,void **);       /* Open directory handle */
+  void (*xClose)(void *);                                  /* Close file handle */
+  void (*xCloseDir)(void *);                               /* Close directory handle */
+  ph7_int64 (*xRead)(void *,void *,ph7_int64);             /* Read from the open stream */
+  int (*xReadDir)(void *,ph7_context *);                   /* Read entry from directory handle */
+  ph7_int64 (*xWrite)(void *,const void *,ph7_int64);      /* Write to the open stream */
+  int (*xSeek)(void *,ph7_int64,int);                      /* Seek on the open stream */
+  int (*xLock)(void *,int);                                /* Lock/Unlock the open stream */
+  void (*xRewindDir)(void *);                              /* Rewind directory handle */
+  ph7_int64 (*xTell)(void *);                              /* Current position of the stream  read/write pointer */
+  int (*xTrunc)(void *,ph7_int64);                         /* Truncates the open stream to a given length */
+  int (*xSync)(void *);                                    /* Flush open stream data */
+  int (*xStat)(void *,ph7_value *,ph7_value *);            /* Stat an open stream handle */
 };
 /*
  * C-API-REF: Please refer to the official documentation for interfaces
