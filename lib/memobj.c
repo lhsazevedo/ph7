@@ -327,7 +327,8 @@ static sxi32 MemObjBooleanValue(ph7_value *pObj)
       return 0;
     } else if ((sString.nByte == sizeof("true") - 1 && SyStrnicmp(sString.zString, "true", sizeof("true") - 1) == 0) ||
                (sString.nByte == sizeof("on") - 1 && SyStrnicmp(sString.zString, "on", sizeof("on") - 1) == 0) ||
-               (sString.nByte == sizeof("yes") - 1 && SyStrnicmp(sString.zString, "yes", sizeof("yes") - 1) == 0)) {
+               (sString.nByte == sizeof("yes") - 1 && SyStrnicmp(sString.zString, "yes", sizeof("yes") - 1) == 0))
+    {
       return 1;
     } else if (sString.nByte == sizeof("false") - 1 && SyStrnicmp(sString.zString, "false", sizeof("false") - 1) == 0) {
       return 0;
@@ -387,7 +388,8 @@ static sxi32 MemObjTryIntger(ph7_value *pObj)
   ** architectures might behave differently.
   */
   if (pObj->rVal == (ph7_real) pObj->x.iVal && pObj->x.iVal > SMALLEST_INT64
-      && pObj->x.iVal < LARGEST_INT64) {
+      && pObj->x.iVal < LARGEST_INT64)
+  {
     pObj->iFlags |= MEMOBJ_INT;
   }
   return SXRET_OK;

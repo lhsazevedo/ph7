@@ -1836,7 +1836,8 @@ static int patternCompare(
   while ((c = PH7_Utf8Read(zPattern, 0, &zPattern)) != 0) {
     if (!prevEscape && c == matchAll) {
       while ((c = PH7_Utf8Read(zPattern, 0, &zPattern)) == matchAll
-             || c == matchOne) {
+             || c == matchOne)
+      {
         if (c == matchOne && PH7_Utf8Read(zString, 0, &zString) == 0) {
           return 0;
         }
@@ -2916,7 +2917,8 @@ PH7_PRIVATE void* PH7_StreamOpenHandle(ph7_vm *pVm, const ph7_io_stream *pStream
         (sFile.nByte > 2 && sFile.zString[1] == ':' && (sFile.zString[2] == '\\' || sFile.zString[2] == '/')) ||
 #endif
         (sFile.nByte > 1 && sFile.zString[0] == '.' && sFile.zString[1] == '/') ||
-        (sFile.nByte > 2 && sFile.zString[0] == '.' && sFile.zString[1] == '.' && sFile.zString[2] == '/')) {
+        (sFile.nByte > 2 && sFile.zString[0] == '.' && sFile.zString[1] == '.' && sFile.zString[2] == '/'))
+    {
       /*  Open the file directly */
       rc = pStream->xOpen(zFile, iFlags, pResource, &pHandle);
     } else {
@@ -3945,7 +3947,8 @@ static int PH7_builtin_file(ph7_context *pCtx, int nArg, ph7_value **apArg)
 #ifdef __WINNT__
                              || zEnd[-1] == '\r'
 #endif
-                             )) {
+                             ))
+      {
         n--;
         zEnd--;
       }
@@ -4339,7 +4342,8 @@ static int csv_write_callback(ph7_value *pKey, ph7_value *pValue, void *pUserDat
   n = 1;
   c2 = 0;
   if (SyByteFind(zData, (sxu32) nLen, pData->delimiter, 0) == SXRET_OK ||
-      SyByteFind(zData, (sxu32) nLen, pData->enclosure, &n) == SXRET_OK) {
+      SyByteFind(zData, (sxu32) nLen, pData->enclosure, &n) == SXRET_OK)
+  {
     c2 = 1;
     if (n == 0) {
       c2 = 2;

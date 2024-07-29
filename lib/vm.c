@@ -2060,7 +2060,8 @@ PH7_PRIVATE sxi32 PH7_VmConfigure(
       const ph7_io_stream *pStream = va_arg(ap, const ph7_io_stream *);
       /* Make sure we are dealing with a valid IO stream */
       if (pStream == 0 || pStream->zName == 0 || pStream->zName[0] == 0 ||
-          pStream->xOpen == 0 || pStream->xRead == 0) {
+          pStream->xOpen == 0 || pStream->xRead == 0)
+      {
         /* Invalid stream */
         rc = SXERR_INVALID;
         break;
@@ -4738,7 +4739,8 @@ static sxi32 VmByteCodeExec(
             pVmAttr = (VmClassAttr *) pEntry->pUserData;
             /* Check access permission */
             if (VmClassMemberAccess(&(*pVm), pThis->pClass, &pVmAttr->pAttr->sName,
-                                    pVmAttr->pAttr->iProtection, FALSE)) {
+                                    pVmAttr->pAttr->iProtection, FALSE))
+            {
               break;           /* Access is granted */
             }
           }
@@ -6212,7 +6214,8 @@ static int vm_builtin_func_exists(ph7_context *pCtx, int nArg, ph7_value **apArg
   res = 0;
   /* Perform the lookup */
   if (SyHashGet(&pVm->hFunction, (const void *) zName, (sxu32) nLen) != 0 ||
-      SyHashGet(&pVm->hHostFunction, (const void *) zName, (sxu32) nLen) != 0) {
+      SyHashGet(&pVm->hHostFunction, (const void *) zName, (sxu32) nLen) != 0)
+  {
     /* Function is defined */
     res = 1;
   }
@@ -6276,7 +6279,8 @@ PH7_PRIVATE int PH7_VmIsCallable(ph7_vm *pVm, ph7_value *pValue, int CallInvoke)
     zName = ph7_value_to_string(pValue, &nLen);
     /* Perform the lookup */
     if (SyHashGet(&pVm->hFunction, (const void *) zName, (sxu32) nLen) != 0 ||
-        SyHashGet(&pVm->hHostFunction, (const void *) zName, (sxu32) nLen) != 0) {
+        SyHashGet(&pVm->hHostFunction, (const void *) zName, (sxu32) nLen) != 0)
+    {
       /* Function is callable */
       res = 1;
     }
@@ -6618,7 +6622,8 @@ static int vm_builtin_property_exists(ph7_context *pCtx, int nArg, ph7_value **a
       if (nLen > 0) {
         /* Perform the lookup in the attribute and method table */
         if (SyHashGet(&pClass->hAttr, (const void *) zName, (sxu32) nLen) != 0
-            || SyHashGet(&pClass->hMethod, (const void *) zName, (sxu32) nLen) != 0) {
+            || SyHashGet(&pClass->hMethod, (const void *) zName, (sxu32) nLen) != 0)
+        {
           /* property exists,flag that */
           res = 1;
         }
@@ -11033,7 +11038,9 @@ static void VmExtractOptArgValue(
       }
       /* Save the value */
       ph7_value_string(pWorker, zCur, (int) (zArg - zCur));
-      if (zArg < zArgEnd) { zArg++; }
+      if (zArg < zArgEnd) {
+        zArg++;
+      }
     } else {
       while (zArg < zArgEnd && !SyisSpace(zArg[0])) {
         zArg++;
@@ -11549,7 +11556,8 @@ static sxi32 VmJsonTokenize(SyStream *pStream, SyToken *pToken, void *pUserData,
   pStr = &pToken->sData;
   SyStringInitFromBuf(pStr, pStream->zText, 0);
   if (pStream->zText[0] == '{' || pStream->zText[0] == '[' || pStream->zText[0] == '}' || pStream->zText[0] == ']'
-      || pStream->zText[0] == ':' || pStream->zText[0] == ',') {
+      || pStream->zText[0] == ':' || pStream->zText[0] == ',')
+  {
     /* Single character */
     c = pStream->zText[0];
     /* Set token type */
@@ -11633,19 +11641,22 @@ static sxi32 VmJsonTokenize(SyStream *pStream, SyToken *pToken, void *pUserData,
       }
     }
   } else if (XLEX_IN_LEN(pStream) >= sizeof("true") - 1 &&
-             SyStrnicmp((const char *) pStream->zText, "true", sizeof("true") - 1) == 0) {
+             SyStrnicmp((const char *) pStream->zText, "true", sizeof("true") - 1) == 0)
+  {
     /* boolean true */
     pToken->nType = JSON_TK_TRUE;
     /* Advance the stream cursor */
     pStream->zText += sizeof("true") - 1;
   } else if (XLEX_IN_LEN(pStream) >= sizeof("false") - 1 &&
-             SyStrnicmp((const char *) pStream->zText, "false", sizeof("false") - 1) == 0) {
+             SyStrnicmp((const char *) pStream->zText, "false", sizeof("false") - 1) == 0)
+  {
     /* boolean false */
     pToken->nType = JSON_TK_FALSE;
     /* Advance the stream cursor */
     pStream->zText += sizeof("false") - 1;
   } else if (XLEX_IN_LEN(pStream) >= sizeof("null") - 1 &&
-             SyStrnicmp((const char *) pStream->zText, "null", sizeof("null") - 1) == 0) {
+             SyStrnicmp((const char *) pStream->zText, "null", sizeof("null") - 1) == 0)
+  {
     /* NULL */
     pToken->nType = JSON_TK_NULL;
     /* Advance the stream cursor */
@@ -11837,7 +11848,8 @@ static sxi32 VmJsonDecode(
       }
       /*The cursor is automatically advanced by the VmJsonDecode() function */
       if ((pDecoder->pIn < pDecoder->pEnd) &&
-          ((pDecoder->pIn->nType & (JSON_TK_CSB /*']'*/ | JSON_TK_COMMA /*','*/ )) == 0)) {
+          ((pDecoder->pIn->nType & (JSON_TK_CSB /*']'*/ | JSON_TK_COMMA /*','*/ )) == 0))
+      {
         /* Unexpected token,abort immediatley */
         *pDecoder->pErr = JSON_ERROR_SYNTAX;
         return SXERR_ABORT;
@@ -11889,7 +11901,8 @@ static sxi32 VmJsonDecode(
         break;
       }
       if ((pDecoder->pIn->nType & JSON_TK_STR) == 0 || &pDecoder->pIn[1] >= pDecoder->pEnd
-          || (pDecoder->pIn[1].nType & JSON_TK_COLON) == 0) {
+          || (pDecoder->pIn[1].nType & JSON_TK_COLON) == 0)
+      {
         /* Syntax error,return immediately */
         *pDecoder->pErr = JSON_ERROR_SYNTAX;
         return SXERR_ABORT;
@@ -14819,7 +14832,8 @@ static sxi32 VmHttpProcessRequest(ph7_vm *pVm, const char *zRequest, int nByte)
                       );
     }
     if (pName->nByte == sizeof("Cookie") - 1 && SyStrnicmp(pName->zString, "Cookie", sizeof("Cookie") - 1) == 0
-        && pValue->nByte > 0) {
+        && pValue->nByte > 0)
+    {
       /* Process the name=value pair and insert them in the $_COOKIE superglobal array */
       VmHttpPorcessCookie(&(*pVm), &sWorker, pValue->zString, pValue->nByte);
     }
@@ -14828,7 +14842,8 @@ static sxi32 VmHttpProcessRequest(ph7_vm *pVm, const char *zRequest, int nByte)
     /* Extract raw POST data */
     pValue = VmHttpExtractHeaderValue(&sHeader, "Content-Type", sizeof("Content-Type") - 1);
     if (pValue && pValue->nByte >= sizeof("application/x-www-form-urlencoded") - 1 &&
-        SyMemcmp("application/x-www-form-urlencoded", pValue->zString, pValue->nByte) == 0) {
+        SyMemcmp("application/x-www-form-urlencoded", pValue->zString, pValue->nByte) == 0)
+    {
       /* Extract POST data length */
       pValue = VmHttpExtractHeaderValue(&sHeader, "Content-Length", sizeof("Content-Length") - 1);
       if (pValue) {

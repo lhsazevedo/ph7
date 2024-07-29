@@ -45,10 +45,22 @@ static sxu32 BinHash(const void *pSrc, sxu32 nLen)
   sxu32 nH = 5381;
   zEnd = &zIn[nLen];
   for (;;) {
-    if (zIn >= zEnd) { break; } nH = nH * 33 + zIn[0]; zIn++;
-    if (zIn >= zEnd) { break; } nH = nH * 33 + zIn[0]; zIn++;
-    if (zIn >= zEnd) { break; } nH = nH * 33 + zIn[0]; zIn++;
-    if (zIn >= zEnd) { break; } nH = nH * 33 + zIn[0]; zIn++;
+    if (zIn >= zEnd) {
+      break;
+    }
+    nH = nH * 33 + zIn[0]; zIn++;
+    if (zIn >= zEnd) {
+      break;
+    }
+    nH = nH * 33 + zIn[0]; zIn++;
+    if (zIn >= zEnd) {
+      break;
+    }
+    nH = nH * 33 + zIn[0]; zIn++;
+    if (zIn >= zEnd) {
+      break;
+    }
+    nH = nH * 33 + zIn[0]; zIn++;
   }
   return nH;
 }
@@ -393,7 +405,8 @@ static sxi32 HashmapLookupIntKey(
     }
     if (pNode->iType == HASHMAP_INT_NODE
         && pNode->nHash == nHash
-        && pNode->xKey.iKey == iKey) {
+        && pNode->xKey.iKey == iKey)
+    {
       /* Node found */
       if (ppNode) {
         *ppNode = pNode;
@@ -436,7 +449,8 @@ static sxi32 HashmapLookupBlobKey(
     if (pNode->iType == HASHMAP_BLOB_NODE
         && pNode->nHash == nHash
         && SyBlobLength(&pNode->xKey.sKey) == nKeyLen
-        && SyMemcmp(SyBlobData(&pNode->xKey.sKey), pKey, nKeyLen) == 0) {
+        && SyMemcmp(SyBlobData(&pNode->xKey.sKey), pKey, nKeyLen) == 0)
+    {
       /* Node found */
       if (ppNode) {
         *ppNode = pNode;
@@ -545,7 +559,8 @@ static sxi32 HashmapInsert(
       goto IntKey;
     }
     if (SXRET_OK == HashmapLookupBlobKey(&(*pMap), SyBlobData(&pKey->sBlob),
-                                         SyBlobLength(&pKey->sBlob), &pNode)) {
+                                         SyBlobLength(&pKey->sBlob), &pNode))
+    {
       /* Overwrite the old value */
       ph7_value *pElem;
       pElem = (ph7_value *) SySetAt(&pMap->pVm->aMemObj, pNode->nValIdx);
@@ -668,7 +683,8 @@ static sxi32 HashmapInsertByRef(
       goto IntKey;
     }
     if (SXRET_OK == HashmapLookupBlobKey(&(*pMap), SyBlobData(&pKey->sBlob),
-                                         SyBlobLength(&pKey->sBlob), &pNode)) {
+                                         SyBlobLength(&pKey->sBlob), &pNode))
+    {
       /* Overwrite */
       PH7_VmRefObjRemove(pMap->pVm, pNode->nValIdx, 0, pNode);
       pNode->nValIdx = nRefIdx;
@@ -1243,7 +1259,8 @@ PH7_PRIVATE sxi32 PH7_HashmapUnion(ph7_hashmap *pLeft, ph7_hashmap *pRight)
     if (pEntry->iType == HASHMAP_BLOB_NODE) {
       /* BLOB key */
       if (SXRET_OK !=
-          HashmapLookupBlobKey(&(*pLeft), SyBlobData(&pEntry->xKey.sKey), SyBlobLength(&pEntry->xKey.sKey), 0)) {
+          HashmapLookupBlobKey(&(*pLeft), SyBlobData(&pEntry->xKey.sKey), SyBlobLength(&pEntry->xKey.sKey), 0))
+      {
         pObj = HashmapExtractNodeValue(pEntry);
         if (pObj) {
           /* Perform the insertion */

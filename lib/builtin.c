@@ -3097,7 +3097,9 @@ static sxi32 iPatternMatch(const void *pText, sxu32 nLen, const void *pPattern, 
       for (;;) {
         if (zPtr2 >= zpEnd) {
           /* Pattern found */
-          if (pOfft) { *pOfft = (sxu32) (zIn - (const char *) pText); }
+          if (pOfft) {
+            *pOfft = (sxu32) (zIn - (const char *) pText);
+          }
           return SXRET_OK;
         }
         if (zPtr >= zEnd) {
@@ -4148,9 +4150,13 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
               iVal = 0x7FFFFFFFFFFFFFFF;
             }
             prefix = '-';
-          } else if (flag_plussign) prefix = '+';
-          else if (flag_blanksign) prefix = ' ';
-          else prefix = 0;
+          } else if (flag_plussign) {
+            prefix = '+';
+          } else if (flag_blanksign) {
+            prefix = ' ';
+          } else {
+            prefix = 0;
+          }
         } else {
           if (iVal < 0) {
             iVal = -iVal;
@@ -4230,10 +4236,18 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         /* Normalize realvalue to within 10.0 > realvalue >= 1.0 */
         exp = 0;
         if (realvalue > 0.0) {
-          while (realvalue >= 1e8 && exp <= 350) { realvalue *= 1e-8; exp += 8; }
-          while (realvalue >= 10.0 && exp <= 350) { realvalue *= 0.1; exp++; }
-          while (realvalue < 1e-8 && exp >= -350) { realvalue *= 1e8; exp -= 8; }
-          while (realvalue < 1.0 && exp >= -350) { realvalue *= 10.0; exp--; }
+          while (realvalue >= 1e8 && exp <= 350) {
+            realvalue *= 1e-8; exp += 8;
+          }
+          while (realvalue >= 10.0 && exp <= 350) {
+            realvalue *= 0.1; exp++;
+          }
+          while (realvalue < 1e-8 && exp >= -350) {
+            realvalue *= 1e8; exp -= 8;
+          }
+          while (realvalue < 1.0 && exp >= -350) {
+            realvalue *= 10.0; exp--;
+          }
           if (exp > 350 || exp < -350) {
             zBuf = "NaN";
             length = 3;
@@ -4248,7 +4262,9 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         flag_exp = xtype == PH7_FMT_EXP;
         if (xtype != PH7_FMT_FLOAT) {
           realvalue += rounder;
-          if (realvalue >= 10.0) { realvalue *= 0.1; exp++; }
+          if (realvalue >= 10.0) {
+            realvalue *= 0.1; exp++;
+          }
         }
         if (xtype == PH7_FMT_GENERIC) {
           flag_rtz = !flag_alternateform;
@@ -4296,8 +4312,12 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           zBuf++;                            /* point to next free slot */
           if (exp || flag_exp) {
             *(zBuf++) = pInfo->charset[0];
-            if (exp < 0) { *(zBuf++) = '-'; exp = -exp; }             /* sign of exp */
-            else { *(zBuf++) = '+'; }
+            if (exp < 0) {
+              *(zBuf++) = '-'; exp = -exp;
+            }                                                         /* sign of exp */
+            else {
+              *(zBuf++) = '+';
+            }
             if (exp >= 100) {
               *(zBuf++) = (char) ((exp / 100) + '0');                /* 100's digit */
               exp %= 100;
@@ -4894,7 +4914,8 @@ static sxi32 AddTag(SySet *pSet, const char *zTag, int nByte)
   /* Strip tags */
   for (;;) {
     while (zTag < zEnd && (zTag[0] == '<' || zTag[0] == '/' || zTag[0] == '?'
-                           || zTag[0] == '!' || zTag[0] == '-' || ((unsigned char) zTag[0] < 0xc0 && SyisSpace(zTag[0])))) {
+                           || zTag[0] == '!' || zTag[0] == '-' || ((unsigned char) zTag[0] < 0xc0 && SyisSpace(zTag[0]))))
+    {
       zTag++;
     }
     if (zTag >= zEnd) {
@@ -4935,7 +4956,8 @@ static sxi32 FindTag(SySet *pSet, const char *zTag, int nByte)
     const char *zCur, *zEnd = &zTag[nByte];
     SyString sTag;
     while (zTag < zEnd && (zTag[0] == '<' || zTag[0] == '/' || zTag[0] == '?' ||
-                           ((unsigned char) zTag[0] < 0xc0 && SyisSpace(zTag[0])))) {
+                           ((unsigned char) zTag[0] < 0xc0 && SyisSpace(zTag[0]))))
+    {
       zTag++;
     }
     /* Delimit the tag */

@@ -348,14 +348,15 @@ PH7_PRIVATE void PH7_DelimitNestedTokens(SyToken *pIn, SyToken *pEnd, sxu32 nTok
 PH7_PRIVATE int PH7_IsLangConstruct(sxu32 nKeyID, sxu8 bCheckFunc)
 {
   if (nKeyID == PH7_TKWRD_ECHO || nKeyID == PH7_TKWRD_PRINT || nKeyID == PH7_TKWRD_INCLUDE
-      || nKeyID == PH7_TKWRD_INCONCE || nKeyID == PH7_TKWRD_REQUIRE || nKeyID == PH7_TKWRD_REQONCE
-      ) {
+      || nKeyID == PH7_TKWRD_INCONCE || nKeyID == PH7_TKWRD_REQUIRE || nKeyID == PH7_TKWRD_REQONCE)
+  {
     return TRUE;
   }
   if (bCheckFunc) {
     if (nKeyID == PH7_TKWRD_ISSET || nKeyID == PH7_TKWRD_UNSET || nKeyID == PH7_TKWRD_EVAL
         || nKeyID == PH7_TKWRD_EMPTY || nKeyID == PH7_TKWRD_ARRAY || nKeyID == PH7_TKWRD_LIST
-        || /* TICKET 1433-012 */ nKeyID == PH7_TKWRD_NEW || nKeyID == PH7_TKWRD_CLONE) {
+        || /* TICKET 1433-012 */ nKeyID == PH7_TKWRD_NEW || nKeyID == PH7_TKWRD_CLONE)
+    {
       return TRUE;
     }
   }
@@ -382,7 +383,8 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
   for (i = 0 ; i < nNode ; ++i) {
     if (apNode[i]->pStart->nType & PH7_TK_LPAREN /*'('*/ ) {
       if (i > 0 && (apNode[i - 1]->xCode == PH7_CompileVariable || apNode[i - 1]->xCode == PH7_CompileLiteral ||
-                    (apNode[i - 1]->pStart->nType & (PH7_TK_ID | PH7_TK_KEYWORD | PH7_TK_SSTR | PH7_TK_DSTR | PH7_TK_RPAREN /*')'*/ | PH7_TK_CSB /*']'*/ | PH7_TK_CCB /*'}'*/ )))) {
+                    (apNode[i - 1]->pStart->nType & (PH7_TK_ID | PH7_TK_KEYWORD | PH7_TK_SSTR | PH7_TK_DSTR | PH7_TK_RPAREN /*')'*/ | PH7_TK_CSB /*']'*/ | PH7_TK_CCB /*'}'*/ ))))
+      {
         /* Ticket 1433-033: Take care to ignore alpha-stream [i.e: or,xor] operators followed by an opening parenthesis */
         if ((apNode[i - 1]->pStart->nType & PH7_TK_OP) == 0) {
           /* We are dealing with a postfix [i.e: function call]  operator
@@ -892,7 +894,8 @@ static int ExprIsModifiableValue(ph7_expr_node *pNode, sxu8 bFunc)
   if (iExprOp == EXPR_OP_SUBSCRIPT /*'[]'*/ ) {
     if (pNode->pLeft->pOp) {
       if (pNode->pLeft->pOp->iOp != EXPR_OP_SUBSCRIPT /*'['*/ && pNode->pLeft->pOp->iOp != EXPR_OP_ARROW        /*'->'*/
-          && pNode->pLeft->pOp->iOp != EXPR_OP_DC /*'::'*/ ) {
+          && pNode->pLeft->pOp->iOp != EXPR_OP_DC /*'::'*/ )
+      {
         return FALSE;
       }
     } else if (pNode->pLeft->xCode != PH7_CompileVariable) {
@@ -941,7 +944,8 @@ static sxi32 ExprProcessFuncArguments(ph7_gen_state *pGen, ph7_expr_node *pOp, p
     }
     if (iCur > iNode) {
       if (apNode[iNode] && (apNode[iNode]->pStart->nType & PH7_TK_AMPER /*'&'*/ ) && ((iCur - iNode) == 2)
-          && apNode[iNode + 1]->xCode == PH7_CompileVariable) {
+          && apNode[iNode + 1]->xCode == PH7_CompileVariable)
+      {
         PH7_GenCompileError(&(*pGen), E_WARNING, apNode[iNode]->pStart->nLine,
                             "call-time pass-by-reference is depreceated");
         ExprFreeTree(&(*pGen), apNode[iNode]);
@@ -1138,7 +1142,8 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
         sxi32 iNest = 1;
         if (iLeft < 0 || apNode[iLeft] == 0 || (apNode[iLeft]->pOp == 0 && (apNode[iLeft]->xCode != PH7_CompileVariable &&
                                                                             apNode[iLeft]->xCode != PH7_CompileSimpleString && apNode[iLeft]->xCode != PH7_CompileString)) ||
-            (apNode[iLeft]->pOp && apNode[iLeft]->pOp->iPrec != 2 /* postfix */ )) {
+            (apNode[iLeft]->pOp && apNode[iLeft]->pOp->iPrec != 2 /* postfix */ ))
+        {
           /* Syntax error */
           rc = PH7_GenCompileError(pGen, E_ERROR, pNode->pStart->nLine, "Invalid array name");
           if (rc != SXERR_ABORT) {
@@ -1195,7 +1200,8 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
         /* Link the node to the tree */
         pNode->pLeft = apNode[iLeft];
         if (pNode->pOp->iOp == EXPR_OP_ARROW /*'->'*/ && pNode->pLeft->pOp == 0 &&
-            pNode->pLeft->xCode != PH7_CompileVariable) {
+            pNode->pLeft->xCode != PH7_CompileVariable)
+        {
           /* Syntax error */
           rc = PH7_GenCompileError(pGen, E_ERROR, pNode->pStart->nLine,
                                    "'%z': Expecting a variable as left operand", &pNode->pOp->sOp);
@@ -1287,7 +1293,8 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
     pNode = apNode[iCur];
     if (pNode->pOp && pNode->pOp->iPrec == 3 && pNode->pLeft == 0) {
       if (iLeft >= 0 && ((apNode[iLeft]->pOp && apNode[iLeft]->pOp->iPrec == 2 /* Postfix */ )
-                         || apNode[iLeft]->xCode == PH7_CompileVariable)) {
+                         || apNode[iLeft]->xCode == PH7_CompileVariable))
+      {
         /* Link the node to the tree */
         pNode->pLeft = apNode[iLeft];
         apNode[iLeft] = 0;
@@ -1303,7 +1310,8 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
     pNode = apNode[iCur];
     if (pNode->pOp && pNode->pOp->iPrec == 3 && pNode->pLeft == 0) {
       if (iLeft < 0 || (apNode[iLeft]->pOp == 0 && apNode[iLeft]->xCode != PH7_CompileVariable)
-          || (apNode[iLeft]->pOp && apNode[iLeft]->pOp->iPrec != 2 /* Postfix */ )) {
+          || (apNode[iLeft]->pOp && apNode[iLeft]->pOp->iPrec != 2 /* Postfix */ ))
+      {
         /* Syntax error */
         rc = PH7_GenCompileError(pGen, E_ERROR, pNode->pStart->nLine, "'%z' operator needs l-value", &pNode->pOp->sOp);
         if (rc != SXERR_ABORT) {
@@ -1388,7 +1396,8 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
           if (apNode[iLeft]->pOp == 0 || apNode[iLeft]->pOp->iOp != EXPR_OP_SUBSCRIPT /*$a[] =& 14*/ ) {
             if (ExprIsModifiableValue(apNode[iRight], TRUE) == FALSE) {
               if (apNode[iRight]->pOp == 0 || (apNode[iRight]->pOp->iOp != EXPR_OP_NEW                  /* new */
-                                               && apNode[iRight]->pOp->iOp != EXPR_OP_CLONE /* clone */ )) {
+                                               && apNode[iRight]->pOp->iOp != EXPR_OP_CLONE /* clone */ ))
+              {
                 rc = PH7_GenCompileError(pGen, E_ERROR, pNode->pStart->nLine,
                                          "Reference operator '&' require a variable not a constant expression as it's right operand");
                 if (rc != SXERR_ABORT) {

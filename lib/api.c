@@ -508,7 +508,8 @@ int ph7_config(ph7 *pEngine, int nConfigOp, ...)
   /* Acquire engine mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_ENGINE_RELEASE(pEngine)) {
+      PH7_THRD_ENGINE_RELEASE(pEngine))
+  {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -605,7 +606,8 @@ int ph7_release(ph7 *pEngine)
   /* Acquire engine mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_ENGINE_RELEASE(pEngine)) {
+      PH7_THRD_ENGINE_RELEASE(pEngine))
+  {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -742,7 +744,8 @@ int ph7_compile(ph7 *pEngine, const char *zSource, int nLen, ph7_vm **ppOutVm)
   /* Acquire engine mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_ENGINE_RELEASE(pEngine)) {
+      PH7_THRD_ENGINE_RELEASE(pEngine))
+  {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -775,7 +778,8 @@ int ph7_compile_v2(ph7 *pEngine, const char *zSource, int nLen, ph7_vm **ppOutVm
   /* Acquire engine mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_ENGINE_RELEASE(pEngine)) {
+      PH7_THRD_ENGINE_RELEASE(pEngine))
+  {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -807,7 +811,8 @@ int ph7_compile_file(ph7 *pEngine, const char *zFilePath, ph7_vm **ppOutVm, int 
   /* Acquire engine mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_ENGINE_RELEASE(pEngine)) {
+      PH7_THRD_ENGINE_RELEASE(pEngine))
+  {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -881,7 +886,8 @@ int ph7_vm_config(ph7_vm *pVm, int iConfigOp, ...)
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm)) {
+      PH7_THRD_VM_RELEASE(pVm))
+  {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -910,7 +916,8 @@ int ph7_vm_exec(ph7_vm *pVm, int *pExitStatus)
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm)) {
+      PH7_THRD_VM_RELEASE(pVm))
+  {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -942,7 +949,8 @@ int ph7_vm_reset(ph7_vm *pVm)
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm)) {
+      PH7_THRD_VM_RELEASE(pVm))
+  {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -969,7 +977,8 @@ int ph7_vm_release(ph7_vm *pVm)
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm)) {
+      PH7_THRD_VM_RELEASE(pVm))
+  {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -985,7 +994,8 @@ int ph7_vm_release(ph7_vm *pVm)
     /* Acquire engine mutex */
     SyMutexEnter(sMPGlobal.pMutexMethods, pEngine->pMutex);         /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
     if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-        PH7_THRD_ENGINE_RELEASE(pEngine)) {
+        PH7_THRD_ENGINE_RELEASE(pEngine))
+    {
       return PH7_ABORT;               /* Another thread have released this instance */
     }
 #endif
@@ -1023,7 +1033,8 @@ int ph7_create_function(ph7_vm *pVm, const char *zName, int (*xFunc)(ph7_context
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm)) {
+      PH7_THRD_VM_RELEASE(pVm))
+  {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -1051,7 +1062,8 @@ int ph7_delete_function(ph7_vm *pVm, const char *zName)
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm)) {
+      PH7_THRD_VM_RELEASE(pVm))
+  {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -1096,7 +1108,8 @@ int ph7_create_constant(ph7_vm *pVm, const char *zName, void (*xExpand)(ph7_valu
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm)) {
+      PH7_THRD_VM_RELEASE(pVm))
+  {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
@@ -1124,7 +1137,8 @@ int ph7_delete_constant(ph7_vm *pVm, const char *zName)
   /* Acquire VM mutex */
   SyMutexEnter(sMPGlobal.pMutexMethods, pVm->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE &&
-      PH7_THRD_VM_RELEASE(pVm)) {
+      PH7_THRD_VM_RELEASE(pVm))
+  {
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
