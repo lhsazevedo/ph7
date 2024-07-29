@@ -624,7 +624,8 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
 ** on platforms with limited memory.
 */
 /* Hash score: 103 */
-static sxu32 KeywordCode(const char *z, int n) {
+static sxu32 KeywordCode(const char *z, int n)
+{
   /* zText[] encodes 532 bytes of keywords in 333 bytes */
   /*   extendswitchprintegerequire_oncenddeclareturnamespacechobject      */
   /*   hrowbooleandefaultrycaselfinalistaticlonewconstringlobaluse        */

@@ -1828,7 +1828,8 @@ static int patternCompare(
   const u8 *zString,               /* The string to compare against the glob */
   const int esc,                    /* The escape character */
   int noCase
-  ) {
+  )
+{
   int c, c2;
   int invert;
   int seen;
@@ -5756,7 +5757,8 @@ static const ph7_vfs null_vfs = {
 ** Taken from the sqlite3 source tree
 ** status: Public Domain
 */
-static WCHAR* utf8ToUnicode(const char *zFilename) {
+static WCHAR* utf8ToUnicode(const char *zFilename)
+{
   int nChar;
   WCHAR *zWideFilename;
 
@@ -5780,7 +5782,8 @@ static WCHAR* utf8ToUnicode(const char *zFilename) {
 ** Taken from the sqlite3 source tree
 ** status: Public Domain
 */
-static void* convertUtf8Filename(const char *zFilename) {
+static void* convertUtf8Filename(const char *zFilename)
+{
   void *zConverted;
   zConverted = utf8ToUnicode(zFilename);
   return zConverted;
@@ -5791,7 +5794,8 @@ static void* convertUtf8Filename(const char *zFilename) {
 ** Taken from the sqlite3 source tree
 ** status: Public Domain
 */
-static char* unicodeToUtf8(const WCHAR *zWideFilename) {
+static char* unicodeToUtf8(const WCHAR *zWideFilename)
+{
   char *zFilename;
   int nByte;
 

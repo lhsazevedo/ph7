@@ -7120,7 +7120,8 @@ static int PH7_builtin_ctype_upper(ph7_context *pCtx, int nArg, ph7_value **apAr
 ** Taken from the SQLite3 source tree.
 ** Status: Public domain
 */
-struct tm * __cdecl localtime(const time_t *t) {
+struct tm * __cdecl localtime(const time_t *t)
+{
   static struct tm y;
   FILETIME uTm, lTm;
   SYSTEMTIME pTm;

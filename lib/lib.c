@@ -4519,7 +4519,8 @@ PH7_PRIVATE sxi32 SyXMLParserSetEventHandler(SyXMLParser *pParser,
                                              ProcXMLDoctypeHandler xDoctype,
                                              ProcXMLNameSpaceStart xNameSpace,
                                              ProcXMLNameSpaceEnd xNameSpaceEnd
-                                             ) {
+                                             )
+{
   /* Install user callbacks */
   if (xErr) {
     pParser->xError = xErr;
@@ -5473,7 +5474,8 @@ PH7_PRIVATE void MD5Update(MD5Context *ctx, const unsigned char *buf, unsigned i
  * Final wrapup - pad to 64-byte boundary with the bit pattern
  * 1 0* (64-bit count of bits processed, MSB-first)
  */
-PH7_PRIVATE void MD5Final(unsigned char digest[16], MD5Context *ctx) {
+PH7_PRIVATE void MD5Final(unsigned char digest[16], MD5Context *ctx)
+{
   unsigned count;
   unsigned char *p;
 
@@ -5661,7 +5663,8 @@ static void SHA1Transform(unsigned int state[5], const unsigned char buffer[64])
 /*
  * SHA1Init - Initialize new context
  */
-PH7_PRIVATE void SHA1Init(SHA1Context *context) {
+PH7_PRIVATE void SHA1Init(SHA1Context *context)
+{
   /* SHA1 initialization constants */
   context->state[0] = 0x67452301;
   context->state[1] = 0xEFCDAB89;
@@ -5673,7 +5676,8 @@ PH7_PRIVATE void SHA1Init(SHA1Context *context) {
 /*
  * Run your data through this.
  */
-PH7_PRIVATE void SHA1Update(SHA1Context *context, const unsigned char *data, unsigned int len) {
+PH7_PRIVATE void SHA1Update(SHA1Context *context, const unsigned char *data, unsigned int len)
+{
   unsigned int i, j;
 
   j = context->count[0];
@@ -5694,7 +5698,8 @@ PH7_PRIVATE void SHA1Update(SHA1Context *context, const unsigned char *data, uns
 /*
  * Add padding and return the message digest.
  */
-PH7_PRIVATE void SHA1Final(SHA1Context *context, unsigned char digest[20]) {
+PH7_PRIVATE void SHA1Final(SHA1Context *context, unsigned char digest[20])
+{
   unsigned int i;
   unsigned char finalcount[8];
 
