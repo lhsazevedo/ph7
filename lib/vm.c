@@ -3781,13 +3781,13 @@ static sxi32 VmByteCodeExec(
         a = pNos->x.iVal;
         b = pTos->x.iVal;
         switch (pInstr->iOp) {
-            case PH7_OP_BOR_STORE:
-            case PH7_OP_BOR:  r = a | b; break;
-            case PH7_OP_BXOR_STORE:
-            case PH7_OP_BXOR: r = a ^ b; break;
-            case PH7_OP_BAND_STORE:
-            case PH7_OP_BAND:
-            default:          r = a & b; break;
+          case PH7_OP_BOR_STORE:
+          case PH7_OP_BOR:  r = a | b; break;
+          case PH7_OP_BXOR_STORE:
+          case PH7_OP_BXOR: r = a ^ b; break;
+          case PH7_OP_BAND_STORE:
+          case PH7_OP_BAND:
+          default:          r = a & b; break;
         }
         /* Push the result */
         pNos->x.iVal = r;
@@ -3835,13 +3835,13 @@ static sxi32 VmByteCodeExec(
         a = pTos->x.iVal;
         b = pNos->x.iVal;
         switch (pInstr->iOp) {
-            case PH7_OP_BOR_STORE:
-            case PH7_OP_BOR:  r = a | b; break;
-            case PH7_OP_BXOR_STORE:
-            case PH7_OP_BXOR: r = a ^ b; break;
-            case PH7_OP_BAND_STORE:
-            case PH7_OP_BAND:
-            default:          r = a & b; break;
+          case PH7_OP_BOR_STORE:
+          case PH7_OP_BOR:  r = a | b; break;
+          case PH7_OP_BXOR_STORE:
+          case PH7_OP_BXOR: r = a ^ b; break;
+          case PH7_OP_BAND_STORE:
+          case PH7_OP_BAND:
+          default:          r = a & b; break;
         }
         /* Push the result */
         pNos->x.iVal = r;
@@ -5882,98 +5882,98 @@ static const char* VmInstrToString(sxi32 nOp)
 {
   const char *zOp = "Unknown     ";
   switch (nOp) {
-      case PH7_OP_DONE:       zOp = "DONE       "; break;
-      case PH7_OP_HALT:       zOp = "HALT       "; break;
-      case PH7_OP_LOAD:       zOp = "LOAD       "; break;
-      case PH7_OP_LOADC:      zOp = "LOADC      "; break;
-      case PH7_OP_LOAD_MAP:   zOp = "LOAD_MAP   "; break;
-      case PH7_OP_LOAD_LIST:  zOp = "LOAD_LIST  "; break;
-      case PH7_OP_LOAD_IDX:   zOp = "LOAD_IDX   "; break;
-      case PH7_OP_LOAD_CLOSURE:
-        zOp = "LOAD_CLOSR "; break;
-      case PH7_OP_NOOP:       zOp = "NOOP       "; break;
-      case PH7_OP_JMP:        zOp = "JMP        "; break;
-      case PH7_OP_JZ:         zOp = "JZ         "; break;
-      case PH7_OP_JNZ:        zOp = "JNZ        "; break;
-      case PH7_OP_POP:        zOp = "POP        "; break;
-      case PH7_OP_CAT:        zOp = "CAT        "; break;
-      case PH7_OP_CVT_INT:    zOp = "CVT_INT    "; break;
-      case PH7_OP_CVT_STR:    zOp = "CVT_STR    "; break;
-      case PH7_OP_CVT_REAL:   zOp = "CVT_REAL   "; break;
-      case PH7_OP_CALL:       zOp = "CALL       "; break;
-      case PH7_OP_UMINUS:     zOp = "UMINUS     "; break;
-      case PH7_OP_UPLUS:      zOp = "UPLUS      "; break;
-      case PH7_OP_BITNOT:     zOp = "BITNOT     "; break;
-      case PH7_OP_LNOT:       zOp = "LOGNOT     "; break;
-      case PH7_OP_MUL:        zOp = "MUL        "; break;
-      case PH7_OP_DIV:        zOp = "DIV        "; break;
-      case PH7_OP_MOD:        zOp = "MOD        "; break;
-      case PH7_OP_ADD:        zOp = "ADD        "; break;
-      case PH7_OP_SUB:        zOp = "SUB        "; break;
-      case PH7_OP_SHL:        zOp = "SHL        "; break;
-      case PH7_OP_SHR:        zOp = "SHR        "; break;
-      case PH7_OP_LT:         zOp = "LT         "; break;
-      case PH7_OP_LE:         zOp = "LE         "; break;
-      case PH7_OP_GT:         zOp = "GT         "; break;
-      case PH7_OP_GE:         zOp = "GE         "; break;
-      case PH7_OP_EQ:         zOp = "EQ         "; break;
-      case PH7_OP_NEQ:        zOp = "NEQ        "; break;
-      case PH7_OP_TEQ:        zOp = "TEQ        "; break;
-      case PH7_OP_TNE:        zOp = "TNE        "; break;
-      case PH7_OP_BAND:       zOp = "BITAND     "; break;
-      case PH7_OP_BXOR:       zOp = "BITXOR     "; break;
-      case PH7_OP_BOR:        zOp = "BITOR      "; break;
-      case PH7_OP_LAND:       zOp = "LOGAND     "; break;
-      case PH7_OP_LOR:        zOp = "LOGOR      "; break;
-      case PH7_OP_LXOR:       zOp = "LOGXOR     "; break;
-      case PH7_OP_STORE:      zOp = "STORE      "; break;
-      case PH7_OP_STORE_IDX:  zOp = "STORE_IDX  "; break;
-      case PH7_OP_STORE_IDX_REF:
-        zOp = "STORE_IDX_R"; break;
-      case PH7_OP_PULL:       zOp = "PULL       "; break;
-      case PH7_OP_SWAP:       zOp = "SWAP       "; break;
-      case PH7_OP_YIELD:      zOp = "YIELD      "; break;
-      case PH7_OP_CVT_BOOL:   zOp = "CVT_BOOL   "; break;
-      case PH7_OP_CVT_NULL:   zOp = "CVT_NULL   "; break;
-      case PH7_OP_CVT_ARRAY:  zOp = "CVT_ARRAY  "; break;
-      case PH7_OP_CVT_OBJ:    zOp = "CVT_OBJ    "; break;
-      case PH7_OP_CVT_NUMC:   zOp = "CVT_NUMC   "; break;
-      case PH7_OP_INCR:       zOp = "INCR       "; break;
-      case PH7_OP_DECR:       zOp = "DECR       "; break;
-      case PH7_OP_SEQ:        zOp = "SEQ        "; break;
-      case PH7_OP_SNE:        zOp = "SNE        "; break;
-      case PH7_OP_NEW:        zOp = "NEW        "; break;
-      case PH7_OP_CLONE:      zOp = "CLONE      "; break;
-      case PH7_OP_ADD_STORE:  zOp = "ADD_STORE  "; break;
-      case PH7_OP_SUB_STORE:  zOp = "SUB_STORE  "; break;
-      case PH7_OP_MUL_STORE:  zOp = "MUL_STORE  "; break;
-      case PH7_OP_DIV_STORE:  zOp = "DIV_STORE  "; break;
-      case PH7_OP_MOD_STORE:  zOp = "MOD_STORE  "; break;
-      case PH7_OP_CAT_STORE:  zOp = "CAT_STORE  "; break;
-      case PH7_OP_SHL_STORE:  zOp = "SHL_STORE  "; break;
-      case PH7_OP_SHR_STORE:  zOp = "SHR_STORE  "; break;
-      case PH7_OP_BAND_STORE: zOp = "BAND_STORE "; break;
-      case PH7_OP_BOR_STORE:  zOp = "BOR_STORE  "; break;
-      case PH7_OP_BXOR_STORE: zOp = "BXOR_STORE "; break;
-      case PH7_OP_CONSUME:    zOp = "CONSUME    "; break;
-      case PH7_OP_LOAD_REF:   zOp = "LOAD_REF   "; break;
-      case PH7_OP_STORE_REF:  zOp = "STORE_REF  "; break;
-      case PH7_OP_MEMBER:     zOp = "MEMBER     "; break;
-      case PH7_OP_UPLINK:     zOp = "UPLINK     "; break;
-      case PH7_OP_ERR_CTRL:   zOp = "ERR_CTRL   "; break;
-      case PH7_OP_IS_A:       zOp = "IS_A       "; break;
-      case PH7_OP_SWITCH:     zOp = "SWITCH     "; break;
-      case PH7_OP_LOAD_EXCEPTION:
-        zOp = "LOAD_EXCEP "; break;
-      case PH7_OP_POP_EXCEPTION:
-        zOp = "POP_EXCEP  "; break;
-      case PH7_OP_THROW:      zOp = "THROW      "; break;
-      case PH7_OP_FOREACH_INIT:
-        zOp = "4EACH_INIT "; break;
-      case PH7_OP_FOREACH_STEP:
-        zOp = "4EACH_STEP "; break;
-      default:
-        break;
+    case PH7_OP_DONE:       zOp = "DONE       "; break;
+    case PH7_OP_HALT:       zOp = "HALT       "; break;
+    case PH7_OP_LOAD:       zOp = "LOAD       "; break;
+    case PH7_OP_LOADC:      zOp = "LOADC      "; break;
+    case PH7_OP_LOAD_MAP:   zOp = "LOAD_MAP   "; break;
+    case PH7_OP_LOAD_LIST:  zOp = "LOAD_LIST  "; break;
+    case PH7_OP_LOAD_IDX:   zOp = "LOAD_IDX   "; break;
+    case PH7_OP_LOAD_CLOSURE:
+      zOp = "LOAD_CLOSR "; break;
+    case PH7_OP_NOOP:       zOp = "NOOP       "; break;
+    case PH7_OP_JMP:        zOp = "JMP        "; break;
+    case PH7_OP_JZ:         zOp = "JZ         "; break;
+    case PH7_OP_JNZ:        zOp = "JNZ        "; break;
+    case PH7_OP_POP:        zOp = "POP        "; break;
+    case PH7_OP_CAT:        zOp = "CAT        "; break;
+    case PH7_OP_CVT_INT:    zOp = "CVT_INT    "; break;
+    case PH7_OP_CVT_STR:    zOp = "CVT_STR    "; break;
+    case PH7_OP_CVT_REAL:   zOp = "CVT_REAL   "; break;
+    case PH7_OP_CALL:       zOp = "CALL       "; break;
+    case PH7_OP_UMINUS:     zOp = "UMINUS     "; break;
+    case PH7_OP_UPLUS:      zOp = "UPLUS      "; break;
+    case PH7_OP_BITNOT:     zOp = "BITNOT     "; break;
+    case PH7_OP_LNOT:       zOp = "LOGNOT     "; break;
+    case PH7_OP_MUL:        zOp = "MUL        "; break;
+    case PH7_OP_DIV:        zOp = "DIV        "; break;
+    case PH7_OP_MOD:        zOp = "MOD        "; break;
+    case PH7_OP_ADD:        zOp = "ADD        "; break;
+    case PH7_OP_SUB:        zOp = "SUB        "; break;
+    case PH7_OP_SHL:        zOp = "SHL        "; break;
+    case PH7_OP_SHR:        zOp = "SHR        "; break;
+    case PH7_OP_LT:         zOp = "LT         "; break;
+    case PH7_OP_LE:         zOp = "LE         "; break;
+    case PH7_OP_GT:         zOp = "GT         "; break;
+    case PH7_OP_GE:         zOp = "GE         "; break;
+    case PH7_OP_EQ:         zOp = "EQ         "; break;
+    case PH7_OP_NEQ:        zOp = "NEQ        "; break;
+    case PH7_OP_TEQ:        zOp = "TEQ        "; break;
+    case PH7_OP_TNE:        zOp = "TNE        "; break;
+    case PH7_OP_BAND:       zOp = "BITAND     "; break;
+    case PH7_OP_BXOR:       zOp = "BITXOR     "; break;
+    case PH7_OP_BOR:        zOp = "BITOR      "; break;
+    case PH7_OP_LAND:       zOp = "LOGAND     "; break;
+    case PH7_OP_LOR:        zOp = "LOGOR      "; break;
+    case PH7_OP_LXOR:       zOp = "LOGXOR     "; break;
+    case PH7_OP_STORE:      zOp = "STORE      "; break;
+    case PH7_OP_STORE_IDX:  zOp = "STORE_IDX  "; break;
+    case PH7_OP_STORE_IDX_REF:
+      zOp = "STORE_IDX_R"; break;
+    case PH7_OP_PULL:       zOp = "PULL       "; break;
+    case PH7_OP_SWAP:       zOp = "SWAP       "; break;
+    case PH7_OP_YIELD:      zOp = "YIELD      "; break;
+    case PH7_OP_CVT_BOOL:   zOp = "CVT_BOOL   "; break;
+    case PH7_OP_CVT_NULL:   zOp = "CVT_NULL   "; break;
+    case PH7_OP_CVT_ARRAY:  zOp = "CVT_ARRAY  "; break;
+    case PH7_OP_CVT_OBJ:    zOp = "CVT_OBJ    "; break;
+    case PH7_OP_CVT_NUMC:   zOp = "CVT_NUMC   "; break;
+    case PH7_OP_INCR:       zOp = "INCR       "; break;
+    case PH7_OP_DECR:       zOp = "DECR       "; break;
+    case PH7_OP_SEQ:        zOp = "SEQ        "; break;
+    case PH7_OP_SNE:        zOp = "SNE        "; break;
+    case PH7_OP_NEW:        zOp = "NEW        "; break;
+    case PH7_OP_CLONE:      zOp = "CLONE      "; break;
+    case PH7_OP_ADD_STORE:  zOp = "ADD_STORE  "; break;
+    case PH7_OP_SUB_STORE:  zOp = "SUB_STORE  "; break;
+    case PH7_OP_MUL_STORE:  zOp = "MUL_STORE  "; break;
+    case PH7_OP_DIV_STORE:  zOp = "DIV_STORE  "; break;
+    case PH7_OP_MOD_STORE:  zOp = "MOD_STORE  "; break;
+    case PH7_OP_CAT_STORE:  zOp = "CAT_STORE  "; break;
+    case PH7_OP_SHL_STORE:  zOp = "SHL_STORE  "; break;
+    case PH7_OP_SHR_STORE:  zOp = "SHR_STORE  "; break;
+    case PH7_OP_BAND_STORE: zOp = "BAND_STORE "; break;
+    case PH7_OP_BOR_STORE:  zOp = "BOR_STORE  "; break;
+    case PH7_OP_BXOR_STORE: zOp = "BXOR_STORE "; break;
+    case PH7_OP_CONSUME:    zOp = "CONSUME    "; break;
+    case PH7_OP_LOAD_REF:   zOp = "LOAD_REF   "; break;
+    case PH7_OP_STORE_REF:  zOp = "STORE_REF  "; break;
+    case PH7_OP_MEMBER:     zOp = "MEMBER     "; break;
+    case PH7_OP_UPLINK:     zOp = "UPLINK     "; break;
+    case PH7_OP_ERR_CTRL:   zOp = "ERR_CTRL   "; break;
+    case PH7_OP_IS_A:       zOp = "IS_A       "; break;
+    case PH7_OP_SWITCH:     zOp = "SWITCH     "; break;
+    case PH7_OP_LOAD_EXCEPTION:
+      zOp = "LOAD_EXCEP "; break;
+    case PH7_OP_POP_EXCEPTION:
+      zOp = "POP_EXCEP  "; break;
+    case PH7_OP_THROW:      zOp = "THROW      "; break;
+    case PH7_OP_FOREACH_INIT:
+      zOp = "4EACH_INIT "; break;
+    case PH7_OP_FOREACH_STEP:
+      zOp = "4EACH_STEP "; break;
+    default:
+      break;
   }
   return zOp;
 }
@@ -9015,22 +9015,22 @@ static int vm_builtin_trigger_error(ph7_context *pCtx, int nArg, ph7_value **apA
       /* Extract the error type */
       nErr = ph7_value_to_int(apArg[1]);
       switch (nErr) {
-          case 1:       /* E_ERROR */
-          case 16:       /* E_CORE_ERROR */
-          case 64:       /* E_COMPILE_ERROR */
-          case 256:       /* E_USER_ERROR */
-            nErr = PH7_CTX_ERR;
-            rc = PH7_ABORT;         /* Abort processing immediately */
-            break;
-          case 2:       /* E_WARNING */
-          case 32:       /* E_CORE_WARNING */
-          case 123:       /* E_COMPILE_WARNING */
-          case 512:       /* E_USER_WARNING */
-            nErr = PH7_CTX_WARNING;
-            break;
-          default:
-            nErr = PH7_CTX_NOTICE;
-            break;
+        case 1:         /* E_ERROR */
+        case 16:         /* E_CORE_ERROR */
+        case 64:         /* E_COMPILE_ERROR */
+        case 256:         /* E_USER_ERROR */
+          nErr = PH7_CTX_ERR;
+          rc = PH7_ABORT;           /* Abort processing immediately */
+          break;
+        case 2:         /* E_WARNING */
+        case 32:         /* E_CORE_WARNING */
+        case 123:         /* E_COMPILE_WARNING */
+        case 512:         /* E_USER_WARNING */
+          nErr = PH7_CTX_WARNING;
+          break;
+        default:
+          nErr = PH7_CTX_NOTICE;
+          break;
       }
     }
     /* Report error */
@@ -9901,85 +9901,85 @@ static int vm_builtin_parse_url(ph7_context *pCtx, int nArg, ph7_value **apArg)
     int nComponent = ph7_value_to_int(apArg[1]);
     /* Refer to constant.c for constants values */
     switch (nComponent) {
-        case 1:     /* PHP_URL_SCHEME */
-          pComp = &sURI.sScheme;
-          if (pComp->nByte < 1) {
-            /* No available value,return NULL */
-            ph7_result_null(pCtx);
-          } else {
-            ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-          }
-          break;
-        case 2:     /* PHP_URL_HOST */
-          pComp = &sURI.sHost;
-          if (pComp->nByte < 1) {
-            /* No available value,return NULL */
-            ph7_result_null(pCtx);
-          } else {
-            ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-          }
-          break;
-        case 3:     /* PHP_URL_PORT */
-          pComp = &sURI.sPort;
-          if (pComp->nByte < 1) {
-            /* No available value,return NULL */
-            ph7_result_null(pCtx);
-          } else {
-            int iPort = 0;
-            /* Cast the value to integer */
-            SyStrToInt32(pComp->zString, pComp->nByte, (void *) &iPort, 0);
-            ph7_result_int(pCtx, iPort);
-          }
-          break;
-        case 4:     /* PHP_URL_USER */
-          pComp = &sURI.sUser;
-          if (pComp->nByte < 1) {
-            /* No available value,return NULL */
-            ph7_result_null(pCtx);
-          } else {
-            ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-          }
-          break;
-        case 5:     /* PHP_URL_PASS */
-          pComp = &sURI.sPass;
-          if (pComp->nByte < 1) {
-            /* No available value,return NULL */
-            ph7_result_null(pCtx);
-          } else {
-            ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-          }
-          break;
-        case 7:     /* PHP_URL_QUERY */
-          pComp = &sURI.sQuery;
-          if (pComp->nByte < 1) {
-            /* No available value,return NULL */
-            ph7_result_null(pCtx);
-          } else {
-            ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-          }
-          break;
-        case 8:     /* PHP_URL_FRAGMENT */
-          pComp = &sURI.sFragment;
-          if (pComp->nByte < 1) {
-            /* No available value,return NULL */
-            ph7_result_null(pCtx);
-          } else {
-            ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-          }
-          break;
-        case 6:     /*  PHP_URL_PATH */
-          pComp = &sURI.sPath;
-          if (pComp->nByte < 1) {
-            /* No available value,return NULL */
-            ph7_result_null(pCtx);
-          } else {
-            ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
-          }
-          break;
-        default:
-          /* No such entry,return NULL */
+      case 1:       /* PHP_URL_SCHEME */
+        pComp = &sURI.sScheme;
+        if (pComp->nByte < 1) {
+          /* No available value,return NULL */
           ph7_result_null(pCtx);
-          break;
+        } else {
+          ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
+        }
+        break;
+      case 2:       /* PHP_URL_HOST */
+        pComp = &sURI.sHost;
+        if (pComp->nByte < 1) {
+          /* No available value,return NULL */
+          ph7_result_null(pCtx);
+        } else {
+          ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
+        }
+        break;
+      case 3:       /* PHP_URL_PORT */
+        pComp = &sURI.sPort;
+        if (pComp->nByte < 1) {
+          /* No available value,return NULL */
+          ph7_result_null(pCtx);
+        } else {
+          int iPort = 0;
+          /* Cast the value to integer */
+          SyStrToInt32(pComp->zString, pComp->nByte, (void *) &iPort, 0);
+          ph7_result_int(pCtx, iPort);
+        }
+        break;
+      case 4:       /* PHP_URL_USER */
+        pComp = &sURI.sUser;
+        if (pComp->nByte < 1) {
+          /* No available value,return NULL */
+          ph7_result_null(pCtx);
+        } else {
+          ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
+        }
+        break;
+      case 5:       /* PHP_URL_PASS */
+        pComp = &sURI.sPass;
+        if (pComp->nByte < 1) {
+          /* No available value,return NULL */
+          ph7_result_null(pCtx);
+        } else {
+          ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
+        }
+        break;
+      case 7:       /* PHP_URL_QUERY */
+        pComp = &sURI.sQuery;
+        if (pComp->nByte < 1) {
+          /* No available value,return NULL */
+          ph7_result_null(pCtx);
+        } else {
+          ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
+        }
+        break;
+      case 8:       /* PHP_URL_FRAGMENT */
+        pComp = &sURI.sFragment;
+        if (pComp->nByte < 1) {
+          /* No available value,return NULL */
+          ph7_result_null(pCtx);
+        } else {
+          ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
+        }
+        break;
+      case 6:       /*  PHP_URL_PATH */
+        pComp = &sURI.sPath;
+        if (pComp->nByte < 1) {
+          /* No available value,return NULL */
+          ph7_result_null(pCtx);
+        } else {
+          ph7_result_string(pCtx, pComp->zString, (int) pComp->nByte);
+        }
+        break;
+      default:
+        /* No such entry,return NULL */
+        ph7_result_null(pCtx);
+        break;
     }
   } else {
     ph7_value *pArray, *pValue;
@@ -11566,14 +11566,14 @@ static sxi32 VmJsonTokenize(SyStream *pStream, SyToken *pToken, void *pUserData,
     c = pStream->zText[0];
     /* Set token type */
     switch (c) {
-        case '[': pToken->nType = JSON_TK_OSB;   break;
-        case '{': pToken->nType = JSON_TK_OCB;   break;
-        case '}': pToken->nType = JSON_TK_CCB;   break;
-        case ']': pToken->nType = JSON_TK_CSB;   break;
-        case ':': pToken->nType = JSON_TK_COLON; break;
-        case ',': pToken->nType = JSON_TK_COMMA; break;
-        default:
-          break;
+      case '[': pToken->nType = JSON_TK_OSB;   break;
+      case '{': pToken->nType = JSON_TK_OCB;   break;
+      case '}': pToken->nType = JSON_TK_CCB;   break;
+      case ']': pToken->nType = JSON_TK_CSB;   break;
+      case ':': pToken->nType = JSON_TK_COLON; break;
+      case ',': pToken->nType = JSON_TK_COMMA; break;
+      default:
+        break;
     }
     /* Advance the stream cursor */
     pStream->zText++;
@@ -11731,15 +11731,15 @@ static void VmJsonDequoteString(const SyString *pStr, ph7_value *pWorker)
     c = zIn[0];
     /* Unescape the character */
     switch (c) {
-        case '"':  ph7_value_string(pWorker, (const char *) &c, (int) sizeof(char)); break;
-        case '\\': ph7_value_string(pWorker, (const char *) &c, (int) sizeof(char)); break;
-        case 'n':  ph7_value_string(pWorker, "\n", (int) sizeof(char)); break;
-        case 'r':  ph7_value_string(pWorker, "\r", (int) sizeof(char)); break;
-        case 't':  ph7_value_string(pWorker, "\t", (int) sizeof(char)); break;
-        case 'f':  ph7_value_string(pWorker, "\f", (int) sizeof(char)); break;
-        default:
-          ph7_value_string(pWorker, (const char *) &c, (int) sizeof(char));
-          break;
+      case '"':  ph7_value_string(pWorker, (const char *) &c, (int) sizeof(char)); break;
+      case '\\': ph7_value_string(pWorker, (const char *) &c, (int) sizeof(char)); break;
+      case 'n':  ph7_value_string(pWorker, "\n", (int) sizeof(char)); break;
+      case 'r':  ph7_value_string(pWorker, "\r", (int) sizeof(char)); break;
+      case 't':  ph7_value_string(pWorker, "\t", (int) sizeof(char)); break;
+      case 'f':  ph7_value_string(pWorker, "\f", (int) sizeof(char)); break;
+      default:
+        ph7_value_string(pWorker, (const char *) &c, (int) sizeof(char));
+        break;
     }
     /* Advance the stream cursor */
     zIn++;
@@ -13309,17 +13309,17 @@ static int vm_builtin_xml_parser_get_option(ph7_context *pCtx, int nArg, ph7_val
   /* Extract the option */
   nOp = ph7_value_to_int(apArg[1]);
   switch (nOp) {
-      case SXML_OPTION_SKIP_TAGSTART:
-      case SXML_OPTION_SKIP_WHITE:
-      case SXML_OPTION_CASE_FOLDING:
-        ph7_result_int(pCtx, 0); break;
-      case SXML_OPTION_TARGET_ENCODING:
-        ph7_result_string(pCtx, "UTF-8", (int) sizeof("UTF-8") - 1);
-        break;
-      default:
-        /* Unknown option,return FALSE*/
-        ph7_result_bool(pCtx, 0);
-        break;
+    case SXML_OPTION_SKIP_TAGSTART:
+    case SXML_OPTION_SKIP_WHITE:
+    case SXML_OPTION_CASE_FOLDING:
+      ph7_result_int(pCtx, 0); break;
+    case SXML_OPTION_TARGET_ENCODING:
+      ph7_result_string(pCtx, "UTF-8", (int) sizeof("UTF-8") - 1);
+      break;
+    default:
+      /* Unknown option,return FALSE*/
+      ph7_result_bool(pCtx, 0);
+      break;
   }
   return PH7_OK;
 }
@@ -13340,33 +13340,33 @@ static int vm_builtin_xml_error_string(ph7_context *pCtx, int nArg, ph7_value **
     nErr = ph7_value_to_int(apArg[0]);
   }
   switch (nErr) {
-      case SXML_ERROR_DUPLICATE_ATTRIBUTE:
-        ph7_result_string(pCtx, "Duplicate attribute", -1 /*Compute length automatically*/ );
-        break;
-      case SXML_ERROR_INCORRECT_ENCODING:
-        ph7_result_string(pCtx, "Incorrect encoding", -1);
-        break;
-      case SXML_ERROR_INVALID_TOKEN:
-        ph7_result_string(pCtx, "Unexpected token", -1);
-        break;
-      case SXML_ERROR_MISPLACED_XML_PI:
-        ph7_result_string(pCtx, "Misplaced processing instruction", -1);
-        break;
-      case SXML_ERROR_NO_MEMORY:
-        ph7_result_string(pCtx, "Out of memory", -1);
-        break;
-      case SXML_ERROR_NONE:
-        ph7_result_string(pCtx, "Not an error", -1);
-        break;
-      case SXML_ERROR_TAG_MISMATCH:
-        ph7_result_string(pCtx, "Tag mismatch", -1);
-        break;
-      case -1:
-        ph7_result_string(pCtx, "Unknown error code", -1);
-        break;
-      default:
-        ph7_result_string(pCtx, "Syntax error", -1);
-        break;
+    case SXML_ERROR_DUPLICATE_ATTRIBUTE:
+      ph7_result_string(pCtx, "Duplicate attribute", -1 /*Compute length automatically*/ );
+      break;
+    case SXML_ERROR_INCORRECT_ENCODING:
+      ph7_result_string(pCtx, "Incorrect encoding", -1);
+      break;
+    case SXML_ERROR_INVALID_TOKEN:
+      ph7_result_string(pCtx, "Unexpected token", -1);
+      break;
+    case SXML_ERROR_MISPLACED_XML_PI:
+      ph7_result_string(pCtx, "Misplaced processing instruction", -1);
+      break;
+    case SXML_ERROR_NO_MEMORY:
+      ph7_result_string(pCtx, "Out of memory", -1);
+      break;
+    case SXML_ERROR_NONE:
+      ph7_result_string(pCtx, "Not an error", -1);
+      break;
+    case SXML_ERROR_TAG_MISMATCH:
+      ph7_result_string(pCtx, "Tag mismatch", -1);
+      break;
+    case -1:
+      ph7_result_string(pCtx, "Unknown error code", -1);
+      break;
+    default:
+      ph7_result_string(pCtx, "Syntax error", -1);
+      break;
   }
   return PH7_OK;
 }
