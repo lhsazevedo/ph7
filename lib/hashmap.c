@@ -1443,7 +1443,7 @@ PH7_PRIVATE sxi32 PH7_HashmapRelease(ph7_hashmap *pMap,int FreeDS)
  * If the count reaches zero which mean no more variables
  * are pointing to this hashmap,then release the whole instance.
  */
-PH7_PRIVATE void  PH7_HashmapUnref(ph7_hashmap *pMap)
+PH7_PRIVATE void PH7_HashmapUnref(ph7_hashmap *pMap)
 {
   ph7_vm *pVm = pMap->pVm;
   /* TICKET 1432-49: $GLOBALS is not subject to garbage collection */

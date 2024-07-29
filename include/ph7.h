@@ -659,7 +659,7 @@ PH7_APIEXPORT int ph7_context_throw_error_format(ph7_context *pCtx,int iErr,cons
 PH7_APIEXPORT unsigned int ph7_context_random_num(ph7_context *pCtx);
 PH7_APIEXPORT int ph7_context_random_string(ph7_context *pCtx,char *zBuf,int nBuflen);
 PH7_APIEXPORT void * ph7_context_user_data(ph7_context *pCtx);
-PH7_APIEXPORT int    ph7_context_push_aux_data(ph7_context *pCtx,void *pUserData);
+PH7_APIEXPORT int ph7_context_push_aux_data(ph7_context *pCtx,void *pUserData);
 PH7_APIEXPORT void * ph7_context_peek_aux_data(ph7_context *pCtx);
 PH7_APIEXPORT void * ph7_context_pop_aux_data(ph7_context *pCtx);
 PH7_APIEXPORT unsigned int ph7_context_result_buf_length(ph7_context *pCtx);

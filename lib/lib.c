@@ -3943,7 +3943,7 @@ static sxi32 XMLnsUnlink(SyXMLParser *pParse,SyXMLRawStrNS *pLast,SyToken *pToke
   return SXRET_OK;
 }
 /* Process XML tokens */
-static sxi32  ProcessXML(SyXMLParser *pParse,SySet *pTagStack,SySet *pWorker)
+static sxi32 ProcessXML(SyXMLParser *pParse,SySet *pTagStack,SySet *pWorker)
 {
   SySet *pTokenSet = &pParse->sToken;
   SyXMLRawStrNS sEntry;
