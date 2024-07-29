@@ -110,11 +110,11 @@ static ph7_hashmap_node * HashmapNewIntNode(ph7_hashmap *pMap,sxi64 iKey,sxu32 n
   /* Zero the stucture */
   SyZero(pNode,sizeof(ph7_hashmap_node));
   /* Fill in the structure */
-  pNode->pMap  = &(*pMap);
+  pNode->pMap = &(*pMap);
   pNode->iType = HASHMAP_INT_NODE;
   pNode->nHash = nHash;
   pNode->xKey.iKey = iKey;
-  pNode->nValIdx  = nValIdx;
+  pNode->nValIdx = nValIdx;
   return pNode;
 }
 /*
@@ -133,7 +133,7 @@ static ph7_hashmap_node * HashmapNewBlobNode(ph7_hashmap *pMap,const void *pKey,
   /* Zero the stucture */
   SyZero(pNode,sizeof(ph7_hashmap_node));
   /* Fill in the structure */
-  pNode->pMap  = &(*pMap);
+  pNode->pMap = &(*pMap);
   pNode->iType = HASHMAP_BLOB_NODE;
   pNode->nHash = nHash;
   SyBlobInit(&pNode->xKey.sKey,&pMap->pVm->sAllocator);
@@ -455,7 +455,7 @@ static sxi32 HashmapLookupBlobKey(
  */
 static int HashmapIsIntKey(SyBlob *pKey)
 {
-  const char *zIn  = (const char *)SyBlobData(pKey);
+  const char *zIn = (const char *)SyBlobData(pKey);
   const char *zEnd = &zIn[SyBlobLength(pKey)];
   if( (int)(zEnd - zIn) > 1 && zIn[0] == '0' ){
     /* Octal not decimal number */
@@ -1294,7 +1294,7 @@ PH7_PRIVATE ph7_hashmap * PH7_NewHashmap(
   pMap->pVm = &(*pVm);
   pMap->iRef = 1;
   /* Default hash functions */
-  pMap->xIntHash  = xIntHash ? xIntHash : IntHash;
+  pMap->xIntHash = xIntHash ? xIntHash : IntHash;
   pMap->xBlobHash = xBlobHash ? xBlobHash : BinHash;
   return pMap;
 }
@@ -1357,7 +1357,7 @@ PH7_PRIVATE sxi32 PH7_HashmapCreateSuper(ph7_vm *pVm)
     return rc;
   }
   /* Install superglobals now */
-  for( n =  0 ; n < SX_ARRAYSIZE(azSuper)  ; n++ ){
+  for( n = 0 ; n < SX_ARRAYSIZE(azSuper)  ; n++ ){
     ph7_value *pSuper;
     /* Request an empty array */
     pSuper = ph7_new_array(&(*pVm));
@@ -1698,7 +1698,7 @@ static sxi32 HashmapMergeSort(ph7_hashmap *pMap,ProcNodeCmp xCmp,void *pCmpData)
     p = pIn;
     pIn = p->pPrev;
     p->pPrev = 0;
-    for(i=0; i<N_SORT_BUCKET - 1; i++){
+    for(i = 0; i<N_SORT_BUCKET - 1; i++){
       if( a[i]==0 ){
         a[i] = p;
         break;
@@ -1715,7 +1715,7 @@ static sxi32 HashmapMergeSort(ph7_hashmap *pMap,ProcNodeCmp xCmp,void *pCmpData)
     }
   }
   p = a[0];
-  for(i=1; i<N_SORT_BUCKET; i++){
+  for(i = 1; i<N_SORT_BUCKET; i++){
     p = HashmapNodeMerge(p,a[i],xCmp,pCmpData);
   }
   p->pNext = 0;
@@ -4537,7 +4537,7 @@ static int ph7_hashmap_combine(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Point to the internal representation of the input hashmaps */
-  pKey   = (ph7_hashmap *)apArg[0]->x.pOther;
+  pKey = (ph7_hashmap *)apArg[0]->x.pOther;
   pValue = (ph7_hashmap *)apArg[1]->x.pOther;
   if( pKey->nEntry != pValue->nEntry ){
     /* Array length differs,return FALSE */
@@ -5367,7 +5367,7 @@ static int ph7_hashmap_map(ph7_context *pCtx,int nArg,ph7_value **apArg)
   PH7_MemObjInit(pMap->pVm,&sResult);
   PH7_MemObjInit(pMap->pVm,&sKey);
   sResult.nIdx = SXU32_HIGH;   /* Mark as constant */
-  sKey.nIdx    = SXU32_HIGH;   /* Mark as constant */
+  sKey.nIdx = SXU32_HIGH;      /* Mark as constant */
   /* Perform the requested operation */
   pEntry = pMap->pFirst;
   for( n = 0 ; n < pMap->nEntry ; n++ ){

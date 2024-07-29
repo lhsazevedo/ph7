@@ -255,7 +255,7 @@ static sxi32 PH7_NewForeignFunction(
   SyZero(pFunc,sizeof(ph7_user_func));
   /* Initialize structure fields */
   SyStringInitFromBuf(&pFunc->sName,zDup,pName->nByte);
-  pFunc->pVm   = pVm;
+  pFunc->pVm = pVm;
   pFunc->xFunc = xFunc;
   pFunc->pUserData = pUserData;
   SySetInit(&pFunc->aAux,&pVm->sAllocator,sizeof(ph7_aux_data));
@@ -409,7 +409,7 @@ PH7_PRIVATE sxi32 PH7_VmEmitInstr(
   sInstr.iOp = (sxu8)iOp;
   sInstr.iP1 = iP1;
   sInstr.iP2 = iP2;
-  sInstr.p3  = p3;
+  sInstr.p3 = p3;
   if( pIndex ){
     /* Instruction index in the bytecode array */
     *pIndex = SySetUsed(pVm->pByteContainer);
@@ -1523,7 +1523,7 @@ static sxi32 VmInitCallContext(
   )
 {
   pOut->pFunc = pFunc;
-  pOut->pVm   = pVm;
+  pOut->pVm = pVm;
   SySetInit(&pOut->sVar,&pVm->sAllocator,sizeof(ph7_value *));
   SySetInit(&pOut->sChunk,&pVm->sAllocator,sizeof(ph7_aux_data));
   /* Assume a null return value */
@@ -1975,7 +1975,7 @@ PH7_PRIVATE sxi32 PH7_VmConfigure(
   case PH7_VM_CONFIG_GET_ATTR:
   case PH7_VM_CONFIG_COOKIE_ATTR:
   case PH7_VM_CONFIG_HEADER_ATTR: {
-    const char *zKey   = va_arg(ap,const char *);
+    const char *zKey = va_arg(ap,const char *);
     const char *zValue = va_arg(ap,const char *);
     int nLen = va_arg(ap,int);
     ph7_hashmap *pMap;
@@ -2091,7 +2091,7 @@ PH7_PRIVATE sxi32 PH7_VmConfigure(
     }
 #endif
     *ppOut = SyBlobData(&pVm->sConsumer);
-    *pLen  = SyBlobLength(&pVm->sConsumer);
+    *pLen = SyBlobLength(&pVm->sConsumer);
     break;
   }
   case PH7_VM_CONFIG_HTTP_REQUEST: {
@@ -2143,7 +2143,7 @@ static sxi32 VmByteCodeDump(
   sxu32 n;
   /* Point to the PH7 instructions */
   pInstr = (VmInstr *)SySetBasePtr(pByteCode);
-  pEnd   = &pInstr[SySetUsed(pByteCode)];
+  pEnd = &pInstr[SySetUsed(pByteCode)];
   n = 0;
   xConsumer((const void *)zDump,sizeof(zDump) - 1,pUserData);
   /* Dump instructions */
@@ -3018,7 +3018,7 @@ static sxi32 VmByteCodeExec(
         for( n = 0 ; n < SySetUsed(&pFunc->aClosureEnv) ; ++n ){
           ph7_value *pValue;
           pEnv = &aEnv[n];
-          sEnv.sName  = pEnv->sName;
+          sEnv.sName = pEnv->sName;
           sEnv.iFlags = pEnv->iFlags;
           sEnv.nIdx = SXU32_HIGH;
           PH7_MemObjInit(pVm,&sEnv.sValue);
@@ -7317,12 +7317,12 @@ PH7_PRIVATE sxi32 PH7_VmCallClassMethod(
   aInstr[0].iOp = PH7_OP_CALL;
   aInstr[0].iP1 = nArg;   /* Total number of given arguments */
   aInstr[0].iP2 = 0;
-  aInstr[0].p3  = 0;
+  aInstr[0].p3 = 0;
   /* Emit the DONE instruction */
   aInstr[1].iOp = PH7_OP_DONE;
   aInstr[1].iP1 = 1;     /* Extract method return value */
   aInstr[1].iP2 = 0;
-  aInstr[1].p3  = 0;
+  aInstr[1].p3 = 0;
   /* Execute the method body (if available) */
   VmByteCodeExec(&(*pVm),aInstr,aStack,iCursor,pResult,0,TRUE);
   /* Clean up the mess left behind */
@@ -7433,12 +7433,12 @@ PH7_PRIVATE sxi32 PH7_VmCallUserFunction(
   aInstr[0].iOp = PH7_OP_CALL;
   aInstr[0].iP1 = nArg;   /* Total number of given arguments */
   aInstr[0].iP2 = 0;
-  aInstr[0].p3  = 0;
+  aInstr[0].p3 = 0;
   /* Emit the DONE instruction */
   aInstr[1].iOp = PH7_OP_DONE;
   aInstr[1].iP1 = 1;     /* Extract function return value if available */
   aInstr[1].iP2 = 0;
-  aInstr[1].p3  = 0;
+  aInstr[1].p3 = 0;
   /* Execute the function body (if available) */
   VmByteCodeExec(&(*pVm),aInstr,aStack,nArg,pResult,0,TRUE);
   /* Clean up the mess left behind */
@@ -10719,7 +10719,7 @@ static int vm_builtin_get_included_files(ph7_context *pCtx,int nArg,ph7_value **
   SyString *pEntry;
   int c,d;
   /* Create an array and a working value */
-  pArray  = ph7_context_new_array(pCtx);
+  pArray = ph7_context_new_array(pCtx);
   pWorker = ph7_context_new_scalar(pCtx);
   if( pArray == 0 || pWorker == 0 ){
     /* Out of memory,return null */
@@ -11135,7 +11135,7 @@ static int vm_builtin_getopt(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract option arguments */
-  zIn  = ph7_value_to_string(apArg[0],&nByte);
+  zIn = ph7_value_to_string(apArg[0],&nByte);
   zEnd = &zIn[nByte];
   /* Point to the string representation of the $argv[] array */
   pArg = &pCtx->pVm->sArgv;
@@ -11160,7 +11160,7 @@ static int vm_builtin_getopt(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Fill the long option structure */
   sLong.pArray = pArray;
   sLong.pWorker = pWorker;
-  sLong.zArgIn =  zArgIn;
+  sLong.zArgIn = zArgIn;
   sLong.zArgEnd = zArgEnd;
   sLong.pCtx = pCtx;
   /* Start processing */
@@ -14388,7 +14388,7 @@ static sxi32 VmHttpProcessFirstLine(
   )
 {
   static const char *azMethods[] = { "get","post","head","put"};
-  static const sxi32 aMethods[]  = { HTTP_METHOD_GET,HTTP_METHOD_POST,HTTP_METHOD_HEAD,HTTP_METHOD_PUT};
+  static const sxi32 aMethods[] = { HTTP_METHOD_GET,HTTP_METHOD_POST,HTTP_METHOD_HEAD,HTTP_METHOD_PUT};
   const char *zIn,*zEnd,*zPtr;
   SyString sLine;
   sxu32 nLen;
@@ -14823,7 +14823,7 @@ static sxi32 VmHttpProcessRequest(ph7_vm *pVm,const char *zRequest,int nByte)
   SySetResetCursor(&sHeader);
   pHeader = 0;    /* stupid cc warning */
   while( SXRET_OK == SySetGetNextEntry(&sHeader,(void **)&pHeader) ){
-    pName  = &pHeader->sName;
+    pName = &pHeader->sName;
     pValue = &pHeader->sValue;
     if( pHeaderArray && (pHeaderArray->iFlags & MEMOBJ_HASHMAP)){
       /* Insert the MIME header and it's associated value */

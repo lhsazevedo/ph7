@@ -106,7 +106,7 @@ static sxi32 EngineConfig(ph7 *pEngine,sxi32 nOp,va_list ap)
       break;
     }
     /* Install the error consumer */
-    pConf->xErr     = xConsumer;
+    pConf->xErr = xConsumer;
     pConf->pErrData = pUserData;
     break;
   }

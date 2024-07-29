@@ -87,8 +87,8 @@ struct LangConstruct
 #define PH7_COMPILE_SINGLE_STMT 0x001 /* Compile a single statement */
 /* Token stream synchronization macros */
 #define SWAP_TOKEN_STREAM(GEN,START,END) \
-        pTmp  = GEN->pEnd; \
-        pGen->pIn  = START; \
+        pTmp = GEN->pEnd; \
+        pGen->pIn = START; \
         pGen->pEnd = END
 #define UPDATE_TOKEN_STREAM(GEN) \
         if( GEN->pIn < pTmp ){ \
@@ -96,12 +96,12 @@ struct LangConstruct
         } \
         GEN->pEnd = pTmp
 #define SWAP_DELIMITER(GEN,START,END) \
-        pTmpIn  = GEN->pIn; \
+        pTmpIn = GEN->pIn; \
         pTmpEnd = GEN->pEnd; \
         GEN->pIn = START; \
         GEN->pEnd = END
 #define RE_SWAP_DELIMITER(GEN) \
-        GEN->pIn  = pTmpIn; \
+        GEN->pIn = pTmpIn; \
         GEN->pEnd = pTmpEnd
 /* Flags related to expression compilation */
 #define EXPR_FLAG_LOAD_IDX_STORE    0x001 /* Set the iP2 flag when dealing with the LOAD_IDX instruction */
@@ -175,10 +175,10 @@ static void GenStateInitBlock(
 {
   /* Initialize block fields */
   pBlock->nFirstInstr = nFirstInstr;
-  pBlock->pUserData   = pUserData;
-  pBlock->pGen        = pGen;
-  pBlock->iFlags      = iType;
-  pBlock->pParent     = 0;
+  pBlock->pUserData = pUserData;
+  pBlock->pGen = pGen;
+  pBlock->iFlags = iType;
+  pBlock->pParent = 0;
   SySetInit(&pBlock->aJumpFix,&pGen->pVm->sAllocator,sizeof(JumpFixup));
   SySetInit(&pBlock->aPostContFix,&pGen->pVm->sAllocator,sizeof(JumpFixup));
 }
@@ -488,7 +488,7 @@ PH7_PRIVATE sxi32 PH7_CompileSimpleString(ph7_gen_state *pGen,sxi32 iCompileFlag
   sxu32 nIdx;
   nIdx = 0;   /* Prevent compiler warning */
   /* Delimit the string */
-  zIn  = pStr->zString;
+  zIn = pStr->zString;
   zEnd = &zIn[pStr->nByte];
   if( zIn >= zEnd ){
     /* Empty string,load NULL */
@@ -629,14 +629,14 @@ static sxi32 GenStateProcessStringExpression(
   /* Tokenize the text */
   PH7_TokenizePHP(zIn,(sxu32)(zEnd - zIn),nLine,&sToken);
   /* Swap delimiter */
-  pTmpIn  = pGen->pIn;
+  pTmpIn = pGen->pIn;
   pTmpEnd = pGen->pEnd;
   pGen->pIn = (SyToken *)SySetBasePtr(&sToken);
   pGen->pEnd = &pGen->pIn[SySetUsed(&sToken)];
   /* Compile the expression */
   rc = PH7_CompileExpr(&(*pGen),0,0);
   /* Restore token stream */
-  pGen->pIn  = pTmpIn;
+  pGen->pIn = pTmpIn;
   pGen->pEnd = pTmpEnd;
   /* Release the token set */
   SySetRelease(&sToken);
@@ -708,7 +708,7 @@ static sxi32 GenStateCompileString(ph7_gen_state *pGen)
   sxi32 iCons;
   sxi32 rc;
   /* Delimit the string */
-  zIn  = pStr->zString;
+  zIn = pStr->zString;
   zEnd = &zIn[pStr->nByte];
   if( zIn >= zEnd ){
     /* Empty string,load NULL */
@@ -810,7 +810,7 @@ static sxi32 GenStateCompileString(ph7_gen_state *pGen)
           /* Hex digit */
           c = SyHexToint(zIn[1]) << 4;
           if( &zIn[2] < zEnd ){
-            c +=  SyHexToint(zIn[2]);
+            c += SyHexToint(zIn[2]);
           }
           /* Output char */
           PH7_MemObjStringAppend(pObj,(const char *)&c,sizeof(char));
@@ -1461,7 +1461,7 @@ PH7_PRIVATE sxi32 PH7_CompileVariable(ph7_gen_state *pGen,sxi32 iCompileFlag)
     }
     return SXRET_OK;
   }
-  p3  = 0;
+  p3 = 0;
   if( pGen->pIn->nType & PH7_TK_OCB /*'{'*/ ){
     /* Dynamic variable creation */
     pGen->pIn++;      /* Jump the open curly */
@@ -1933,7 +1933,7 @@ static sxi32 PH7_CompileLabel(ph7_gen_state *pGen)
       return SXERR_ABORT;
     }
     SyStringInitFromBuf(&sLabel.sName,zDup,pTarget->nByte);
-    sLabel.bRef  = FALSE;
+    sLabel.bRef = FALSE;
     sLabel.nLine = pGen->pIn->nLine;
     pBlock = pGen->pCurrent;
     while( pBlock ){
@@ -2073,7 +2073,7 @@ Consume:
     PH7_TokenizePHP(SyStringData(&pGen->pRawIn->sData),SyStringLength(&pGen->pRawIn->sData),
                     pGen->pRawIn->nLine,pTokenSet);
     /* Point to the fresh token stream */
-    pGen->pIn  = (SyToken *)SySetBasePtr(pTokenSet);
+    pGen->pIn = (SyToken *)SySetBasePtr(pTokenSet);
     pGen->pEnd = &pGen->pIn[SySetUsed(pTokenSet)];
     /* Advance the stream cursor */
     pGen->pRawIn++;
@@ -2274,7 +2274,7 @@ static sxi32 PH7_CompileWhile(ph7_gen_state *pGen)
     pGen->pIn++;
   }
   /* Synchronize pointers */
-  pGen->pIn  = &pEnd[1];
+  pGen->pIn = &pEnd[1];
   pGen->pEnd = pTmp;
   /* Emit the false jump */
   PH7_VmEmitInstr(pGen->pVm,PH7_OP_JZ,0,0,0,&nFalseJump);
@@ -2410,7 +2410,7 @@ static sxi32 PH7_CompileDoWhile(ph7_gen_state *pGen)
     }
     pGen->pIn++;
   }
-  pGen->pIn  = &pEnd[1];
+  pGen->pIn = &pEnd[1];
   pGen->pEnd = pTmp;
   /* Emit the true jump to the beginning of the loop */
   PH7_VmEmitInstr(pGen->pVm,PH7_OP_JNZ,0,pDoBlock->nFirstInstr,0,0);
@@ -2543,7 +2543,7 @@ static sxi32 PH7_CompileFor(ph7_gen_state *pGen)
   /* Save the post condition stream */
   pPostStart = pGen->pIn;
   /* Compile the loop body */
-  pGen->pIn  = &pEnd[1];   /* Jump the trailing parenthesis ')' */
+  pGen->pIn = &pEnd[1];    /* Jump the trailing parenthesis ')' */
   pGen->pEnd = pTmp;
   rc = PH7_CompileBlock(&(*pGen),PH7_TKWRD_ENDFOR);
   if( rc == SXERR_ABORT ){
@@ -2918,7 +2918,7 @@ static sxi32 PH7_CompileIf(ph7_gen_state *pGen)
       PH7_GenCompileError(&(*pGen),E_ERROR,pGen->pIn->nLine,"Unexpected token '%z'",&pGen->pIn->sData);
       pGen->pIn++;
     }
-    pGen->pIn  = &pEnd[1];
+    pGen->pIn = &pEnd[1];
     pGen->pEnd = pTmp;
     if( rc == SXERR_ABORT ){
       /* Expression handler request an operation abort [i.e: Out-of-memory] */
@@ -4659,7 +4659,7 @@ static sxi32 PH7_CompileClassInterface(ph7_gen_state *pGen)
   }
 done:
   /* Point beyond the interface body */
-  pGen->pIn  = &pEnd[1];
+  pGen->pIn = &pEnd[1];
   pGen->pEnd = pTmp;
   return PH7_OK;
 }
@@ -5500,7 +5500,7 @@ static sxi32 GenStateCompileCaseExpr(ph7_gen_state *pGen,ph7_case_expr *pExpr)
   PH7_VmEmitInstr(pGen->pVm,PH7_OP_DONE,(rc != SXERR_EMPTY ? 1 : 0),0,0,0);
   PH7_VmSetByteCodeContainer(pGen->pVm,pInstrContainer);
   /* Update token stream */
-  pGen->pIn  = pEnd;
+  pGen->pIn = pEnd;
   pGen->pEnd = pTmp;
   if( rc == SXERR_ABORT ){
     return SXERR_ABORT;
@@ -5589,7 +5589,7 @@ static sxi32 PH7_CompileSwitch(ph7_gen_state *pGen)
     }
     pGen->pIn++;
   }
-  pGen->pIn  = &pEnd[1];
+  pGen->pIn = &pEnd[1];
   pGen->pEnd = pTmp;
   if( pGen->pIn >= pGen->pEnd || &pGen->pIn[1] >= pGen->pEnd ||
       (pGen->pIn->nType & (PH7_TK_OCB /*'{'*/ | PH7_TK_COLON /*:*/ )) == 0 ){
@@ -5746,7 +5746,7 @@ static sxi32 GenStateEmitExprCode(
   sxu32 nJmpIdx;
   sxi32 iP1 = 0;
   sxu32 iP2 = 0;
-  void *p3  = 0;
+  void *p3 = 0;
   sxi32 iVmOp;
   sxi32 rc;
   if( pNode->xCode ){
@@ -5908,7 +5908,7 @@ static sxi32 GenStateEmitExprCode(
           iVmOp = PH7_OP_STORE_IDX_REF;
           iP1 = pInstr->iP1;
           iP2 = pInstr->iP2;
-          p3  = pInstr->p3;
+          p3 = pInstr->p3;
         }else{
           p3 = pInstr->p3;
         }
@@ -6042,7 +6042,7 @@ static sxi32 PH7_CompileExpr(
     PH7_ExprFreeTree(&(*pGen),&sExprNode);
     /* Synchronize token stream */
     pGen->pEnd = pTmp;
-    pGen->pIn  = pEnd;
+    pGen->pIn = pEnd;
     if( rc == SXERR_ABORT ){
       SySetRelease(&sExprNode);
       return SXERR_ABORT;
@@ -6272,7 +6272,7 @@ static sxi32 PH7_CompilePHP(
   /* Tokenize the PHP chunk first */
   PH7_TokenizePHP(SyStringData(&pScript->sData),SyStringLength(&pScript->sData),pScript->nLine,&(*pTokenSet));
   /* Point to the head and tail of the token stream. */
-  pGen->pIn  = (SyToken *)SySetBasePtr(pTokenSet);
+  pGen->pIn = (SyToken *)SySetBasePtr(pTokenSet);
   pGen->pEnd = &pGen->pIn[SySetUsed(pTokenSet)];
   if( is_expr ){
     rc = SXERR_EMPTY;
@@ -6428,7 +6428,7 @@ PH7_PRIVATE sxi32 PH7_InitCodeGenerator(
   /* Zero the structure */
   SyZero(pGen,sizeof(ph7_gen_state));
   /* Initial state */
-  pGen->pVm  = &(*pVm);
+  pGen->pVm = &(*pVm);
   pGen->xErr = xErr;
   pGen->pErrData = pErrData;
   SySetInit(&pGen->aLabel,&pVm->sAllocator,sizeof(Label));

@@ -676,7 +676,7 @@ static sxu32 KeywordCode(const char *z, int n){
   int h, i;
   if( n<2 ) return PH7_TK_ID;
   h = (((int)z[0] * 4) ^ ((int)z[n - 1] * 3) ^ n) % 151;
-  for(i=((int)aHash[h]) - 1; i>=0; i=((int)aNext[i]) - 1){
+  for(i = ((int)aHash[h]) - 1; i>=0; i = ((int)aNext[i]) - 1){
     if( (int)aLen[i]==n && SyMemcmp(&zText[aOffset[i]],z,n)==0 ){
       /* PH7_TKWRD_EXTENDS */
       /* PH7_TKWRD_ENDSWITCH */
@@ -802,7 +802,7 @@ static sxu32 KeywordCode(const char *z, int n){
  */
 static sxi32 LexExtractHeredoc(SyStream *pStream,SyToken *pToken)
 {
-  const unsigned char *zIn  = pStream->zText;
+  const unsigned char *zIn = pStream->zText;
   const unsigned char *zEnd = pStream->zEnd;
   const unsigned char *zPtr;
   sxu8 bNowDoc = FALSE;
@@ -818,7 +818,7 @@ static sxi32 LexExtractHeredoc(SyStream *pStream,SyToken *pToken)
   }
   if( zIn[0] == '\'' || zIn[0] == '"' ){
     /* Make sure we are dealing with a nowdoc */
-    bNowDoc =  zIn[0] == '\'' ? TRUE : FALSE;
+    bNowDoc = zIn[0] == '\'' ? TRUE : FALSE;
     zIn++;
   }
   if( zIn[0] < 0xc0 && !SyisAlphaNum(zIn[0]) && zIn[0] != '_' ){
@@ -987,7 +987,7 @@ PH7_PRIVATE sxi32 PH7_TokenizePHP(const char *zInput,sxu32 nLen,sxu32 nLineStart
 PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput,sxu32 nLen,SySet *pOut)
 {
   const char *zEnd = &zInput[nLen];
-  const char *zIn  = zInput;
+  const char *zIn = zInput;
   const char *zCur,*zCurEnd;
   SyString sCtag = { 0, 0 };       /* Closing tag */
   SyToken sToken;
@@ -997,7 +997,7 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput,sxu32 nLen,SySet *pOut)
   sxi32 rc;
   /* Tokenize the input into PHP tokens and raw tokens */
   nLine = 1;
-  zCur = zCurEnd   = 0;   /* Prevent compiler warning */
+  zCur = zCurEnd = 0;     /* Prevent compiler warning */
   sToken.pUserData = 0;
   iNest = 0;
   sDoc.nByte = 0;

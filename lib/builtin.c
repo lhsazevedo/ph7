@@ -1107,7 +1107,7 @@ static int PH7_builtin_base_convert(ph7_context *pCtx,int nArg,ph7_value **apArg
     return PH7_OK;
   }
   /* Base numbers */
-  iFbase  = ph7_value_to_int(apArg[1]);
+  iFbase = ph7_value_to_int(apArg[1]);
   iTobase = ph7_value_to_int(apArg[2]);
   if( ph7_value_is_string(apArg[0]) ){
     /* Extract the target number */
@@ -1510,7 +1510,7 @@ static int PH7_builtin_addslashes(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the string to process */
-  zIn  = ph7_value_to_string(apArg[0],&nLen);
+  zIn = ph7_value_to_string(apArg[0],&nLen);
   if( nLen < 1 ){
     /* Return the empty string */
     ph7_result_string(pCtx,"",0);
@@ -1582,7 +1582,7 @@ static int PH7_builtin_addcslashes(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the string to process */
-  zIn  = ph7_value_to_string(apArg[0],&nLen);
+  zIn = ph7_value_to_string(apArg[0],&nLen);
   if( nLen < 1 || nArg < 2 ){
     /* Return the string untouched */
     ph7_result_string(pCtx,zIn,nLen);
@@ -1637,7 +1637,7 @@ static int PH7_builtin_quotemeta(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the string to process */
-  zIn  = ph7_value_to_string(apArg[0],&nLen);
+  zIn = ph7_value_to_string(apArg[0],&nLen);
   if( nLen < 1 ){
     /* Return the empty string */
     ph7_result_string(pCtx,"",0);
@@ -1688,7 +1688,7 @@ static int PH7_builtin_stripslashes(ph7_context *pCtx,int nArg,ph7_value **apArg
     return PH7_OK;
   }
   /* Extract the string to process */
-  zIn  = ph7_value_to_string(apArg[0],&nLen);
+  zIn = ph7_value_to_string(apArg[0],&nLen);
   if( zIn == 0 ){
     ph7_result_null(pCtx);
     return PH7_OK;
@@ -2168,7 +2168,7 @@ static int PH7_builtin_strncmp(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_builtin_strcmp(pCtx,nArg,apArg);
   }
   /* Desired comparison length */
-  n  = ph7_value_to_int(apArg[2]);
+  n = ph7_value_to_int(apArg[2]);
   if( n < 0 ){
     /* Invalid length */
     ph7_result_int(pCtx,-1);
@@ -2231,7 +2231,7 @@ static int PH7_builtin_strncasecmp(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_builtin_strcasecmp(pCtx,nArg,apArg);
   }
   /* Desired comparison length */
-  n  = ph7_value_to_int(apArg[2]);
+  n = ph7_value_to_int(apArg[2]);
   if( n < 0 ){
     /* Invalid length */
     ph7_result_int(pCtx,-1);
@@ -2481,7 +2481,7 @@ static int PH7_builtin_explode(ph7_context *pCtx,int nArg,ph7_value **apArg)
   /* Point to the end of the string */
   zEnd = &zString[nStrlen];
   /* Create the array */
-  pArray =  ph7_context_new_array(pCtx);
+  pArray = ph7_context_new_array(pCtx);
   pValue = ph7_context_new_scalar(pCtx);
   if( pArray == 0 || pValue == 0 ){
     /* Out of memory,return FALSE */
@@ -3092,8 +3092,8 @@ static sxi32 iPatternMatch(const void *pText,sxu32 nLen,const void *pPattern,sxu
     c = SyToLower(zIn[0]);
     d = SyToLower(zpIn[0]);
     if( c == d ){
-      zPtr   = &zIn[1];
-      zPtr2  = &zpIn[1];
+      zPtr = &zIn[1];
+      zPtr2 = &zpIn[1];
       for(;;){
         if( zPtr2 >= zpEnd ){
           /* Pattern found */
@@ -4053,7 +4053,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     xtype = PH7_FMT_ERROR;
     c = zIn[0];
     zIn++;     /* Jump the format specifer */
-    for(idx=0; idx< (int)SX_ARRAYSIZE(aFmt); idx++){
+    for(idx = 0; idx< (int)SX_ARRAYSIZE(aFmt); idx++){
       if( c==aFmt[idx].fmttype ){
         pInfo = &aFmt[idx];
         xtype = pInfo->type;
@@ -4146,7 +4146,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           /* Ticket 1433-003 */
           if( iVal < 0 ){
             /* Overflow */
-            iVal= 0x7FFFFFFFFFFFFFFF;
+            iVal = 0x7FFFFFFFFFFFFFFF;
           }
           prefix = '-';
         }else if( flag_plussign )  prefix = '+';
@@ -4158,7 +4158,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           /* Ticket 1433-003 */
           if( iVal < 0 ){
             /* Overflow */
-            iVal= 0x7FFFFFFFFFFFFFFF;
+            iVal = 0x7FFFFFFFFFFFFFFF;
           }
         }
         prefix = 0;
@@ -4178,7 +4178,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         }while( iVal>0 );
       }
       length = &zWorker[PH7_FMT_BUFSIZ - 1] - zBuf;
-      for(idx=precision - length; idx>0; idx--){
+      for(idx = precision - length; idx>0; idx--){
         *(--zBuf) = '0';                               /* Zero pad */
       }
       if( prefix ) *(--zBuf) = (char)prefix;                 /* Add sign */
@@ -4186,7 +4186,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         char *pre, x;
         pre = pInfo->prefix;
         if( *zBuf!=pre[0] ){
-          for(pre=pInfo->prefix; (x=(*pre))!=0; pre++) *(--zBuf) = x;
+          for(pre = pInfo->prefix; (x = (*pre))!=0; pre++)*(--zBuf) = x;
         }
       }
       length = &zWorker[PH7_FMT_BUFSIZ - 1] - zBuf;
@@ -4222,18 +4222,18 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       rounder = 0.0;
 #if 0
       /* Rounding works like BSD when the constant 0.4999 is used.Wierd! */
-      for(idx=precision, rounder=0.4999; idx>0; idx--, rounder*=0.1) ;
+      for(idx = precision, rounder = 0.4999; idx>0; idx--, rounder *= 0.1);
 #else
       /* It makes more sense to use 0.5 */
-      for(idx=precision, rounder=0.5; idx>0; idx--, rounder*=0.1) ;
+      for(idx = precision, rounder = 0.5; idx>0; idx--, rounder *= 0.1);
 #endif
       if( pInfo->type==PH7_FMT_FLOAT ) realvalue += rounder;
       /* Normalize realvalue to within 10.0 > realvalue >= 1.0 */
       exp = 0;
       if( realvalue>0.0 ){
-        while( realvalue>=1e8 && exp<=350 ){ realvalue *= 1e-8; exp+=8; }
+        while( realvalue>=1e8 && exp<=350 ){ realvalue *= 1e-8; exp += 8; }
         while( realvalue>=10.0 && exp<=350 ){ realvalue *= 0.1; exp++; }
-        while( realvalue<1e-8 && exp>=-350 ){ realvalue *= 1e8; exp-=8; }
+        while( realvalue<1e-8 && exp>=-350 ){ realvalue *= 1e8; exp -= 8; }
         while( realvalue<1.0 && exp>=-350 ){ realvalue *= 10.0; exp--; }
         if( exp>350 || exp<-350 ){
           zBuf = "NaN";
@@ -4317,7 +4317,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
       if( flag_zeropad && !flag_leftjustify && length < width){
         int i;
         int nPad = width - length;
-        for(i=width; i>=nPad; i--){
+        for(i = width; i>=nPad; i--){
           zBuf[i] = zBuf[i - nPad];
         }
         i = prefix!=0;
@@ -4772,7 +4772,7 @@ PH7_PRIVATE sxi32 PH7_ProcessCsv(
       /* Invoke the supllied callback */
       if( zPtr[0] == encl ){
         zPtr++;
-        nByte-=2;
+        nByte -= 2;
       }
       if( nByte > 0 ){
         rc = xConsumer(zPtr,nByte,pUserData);
@@ -4830,8 +4830,8 @@ static int PH7_builtin_str_getcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   const char *zInput,*zPtr;
   ph7_value *pArray;
-  int delim  = ',';     /* Delimiter */
-  int encl   = '"';     /* Enclosure */
+  int delim = ',';      /* Delimiter */
+  int encl = '"';       /* Enclosure */
   int escape = '\\';    /* Escape character */
   int nLen;
   if( nArg < 1 || !ph7_value_is_string(apArg[0]) ){
@@ -5556,11 +5556,11 @@ static int PH7_builtin_soundex(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   zIn = (unsigned char *)ph7_value_to_string(apArg[0],0);
-  for(i=0; zIn[i] && zIn[i] < 0xc0 && !SyisAlpha(zIn[i]); i++){}
+  for(i = 0; zIn[i] && zIn[i] < 0xc0 && !SyisAlpha(zIn[i]); i++){}
   if( zIn[i] ){
     unsigned char prevcode = iCode[zIn[i] & 0x7f];
     zResult[0] = (char)SyToUpper(zIn[i]);
-    for(j=1; j<4 && zIn[i]; i++){
+    for(j = 1; j<4 && zIn[i]; i++){
       int code = iCode[zIn[i] & 0x7f];
       if( code>0 ){
         if( code!=prevcode ){
@@ -6568,7 +6568,7 @@ static int PH7_builtin_ctype_alnum(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn  = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
+  zIn = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
   zEnd = &zIn[nLen];
   if( nLen < 1 ){
     /* Empty string,return FALSE */
@@ -6611,7 +6611,7 @@ static int PH7_builtin_ctype_alpha(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn  = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
+  zIn = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
   zEnd = &zIn[nLen];
   if( nLen < 1 ){
     /* Empty string,return FALSE */
@@ -6654,7 +6654,7 @@ static int PH7_builtin_ctype_cntrl(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn  = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
+  zIn = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
   zEnd = &zIn[nLen];
   if( nLen < 1 ){
     /* Empty string,return FALSE */
@@ -6701,7 +6701,7 @@ static int PH7_builtin_ctype_digit(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn  = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
+  zIn = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
   zEnd = &zIn[nLen];
   if( nLen < 1 ){
     /* Empty string,return FALSE */
@@ -6749,7 +6749,7 @@ static int PH7_builtin_ctype_xdigit(ph7_context *pCtx,int nArg,ph7_value **apArg
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn  = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
+  zIn = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
   zEnd = &zIn[nLen];
   if( nLen < 1 ){
     /* Empty string,return FALSE */
@@ -6797,7 +6797,7 @@ static int PH7_builtin_ctype_graph(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn  = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
+  zIn = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
   zEnd = &zIn[nLen];
   if( nLen < 1 ){
     /* Empty string,return FALSE */
@@ -6846,7 +6846,7 @@ static int PH7_builtin_ctype_print(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn  = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
+  zIn = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
   zEnd = &zIn[nLen];
   if( nLen < 1 ){
     /* Empty string,return FALSE */
@@ -6894,7 +6894,7 @@ static int PH7_builtin_ctype_punct(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn  = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
+  zIn = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
   zEnd = &zIn[nLen];
   if( nLen < 1 ){
     /* Empty string,return FALSE */
@@ -6943,7 +6943,7 @@ static int PH7_builtin_ctype_space(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn  = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
+  zIn = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
   zEnd = &zIn[nLen];
   if( nLen < 1 ){
     /* Empty string,return FALSE */
@@ -6990,7 +6990,7 @@ static int PH7_builtin_ctype_lower(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn  = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
+  zIn = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
   zEnd = &zIn[nLen];
   if( nLen < 1 ){
     /* Empty string,return FALSE */
@@ -7033,7 +7033,7 @@ static int PH7_builtin_ctype_upper(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the target string */
-  zIn  = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
+  zIn = (const unsigned char *)ph7_value_to_string(apArg[0],&nLen);
   zEnd = &zIn[nLen];
   if( nLen < 1 ){
     /* Empty string,return FALSE */
@@ -7085,7 +7085,7 @@ struct tm *__cdecl localtime(const time_t *t)
   t64 = *t;
   t64 = (t64 + 11644473600) * 10000000;
   uTm.dwLowDateTime = (DWORD)(t64 & 0xFFFFFFFF);
-  uTm.dwHighDateTime= (DWORD)(t64 >> 32);
+  uTm.dwHighDateTime = (DWORD)(t64 >> 32);
   FileTimeToLocalFileTime(&uTm,&lTm);
   FileTimeToSystemTime(&lTm,&pTm);
   y.tm_year = pTm.wYear - 1900;
@@ -7143,12 +7143,12 @@ static int PH7_builtin_microtime(ph7_context *pCtx,int nArg,ph7_value **apArg)
 #if defined(__UNIXES__)
   struct timeval tv;
   gettimeofday(&tv,0);
-  sTime.tm_sec  = (long)tv.tv_sec;
+  sTime.tm_sec = (long)tv.tv_sec;
   sTime.tm_usec = (long)tv.tv_usec;
 #else
   time_t tt;
   time(&tt);
-  sTime.tm_sec  = (long)tt;
+  sTime.tm_sec = (long)tt;
   sTime.tm_usec = (long)(tt % SX_USEC_PER_SEC);
 #endif /* __UNIXES__ */
   if( nArg > 0 ){
@@ -7298,12 +7298,12 @@ static int PH7_builtin_gettimeofday(ph7_context *pCtx,int nArg,ph7_value **apArg
 #if defined(__UNIXES__)
   struct timeval tv;
   gettimeofday(&tv,0);
-  sTime.tm_sec  = (long)tv.tv_sec;
+  sTime.tm_sec = (long)tv.tv_sec;
   sTime.tm_usec = (long)tv.tv_usec;
 #else
   time_t tt;
   time(&tt);
-  sTime.tm_sec  = (long)tt;
+  sTime.tm_sec = (long)tt;
   sTime.tm_usec = (long)(tt % SX_USEC_PER_SEC);
 #endif /* __UNIXES__ */
   if( nArg > 0 ){

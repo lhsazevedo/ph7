@@ -1112,7 +1112,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceWalk(
     if( pValue ){
       PH7_MemObjLoad(pValue,&sValue);
       /* Invoke the supplied callback */
-      rc =  xWalk(SyStringData(&pAttr->pAttr->sName),&sValue,pUserData);
+      rc = xWalk(SyStringData(&pAttr->pAttr->sName),&sValue,pUserData);
       PH7_MemObjRelease(&sValue);
       if( rc != PH7_OK){
         /* User callback request an operation abort */

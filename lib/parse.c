@@ -419,13 +419,13 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen,ph7_expr_node **apNode,sxi32 nN
       if( i > 0 && ( apNode[i - 1]->xCode == PH7_CompileVariable || (apNode[i - 1]->pStart->nType & PH7_TK_CSB /*]*/ )) ){
         const ph7_expr_op *pOp,*pEnd;
         int iNest = 1;
-        sxi32 j=i + 1;
+        sxi32 j = i + 1;
         /*
          * Dirty Hack: $a{'x'} == > $a['x']
          */
         apNode[i]->pStart->nType &= ~PH7_TK_OCB /*'{'*/;
         apNode[i]->pStart->nType |= PH7_TK_OSB /*'['*/;
-        pOp =  aOpTable;
+        pOp = aOpTable;
         pEnd = &pOp[sizeof(aOpTable)];
         while( pOp < pEnd ){
           if( pOp->iOp == EXPR_OP_SUBSCRIPT ){
@@ -997,7 +997,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen,ph7_expr_node **apNode,sxi32 nToke
     return SXRET_OK;
   }
   /* Process expressions enclosed in parenthesis first */
-  for( iCur =  0 ; iCur < nToken ; ++iCur ){
+  for( iCur = 0 ; iCur < nToken ; ++iCur ){
     sxi32 iNest;
     /* Note that, we use strict comparison here '!=' instead of the bitwise and '&' operator
      * since the LPAREN token can also be an operator [i.e: Function call].
@@ -1038,7 +1038,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen,ph7_expr_node **apNode,sxi32 nToke
     apNode[iCur] = 0;
   }
   /* Process expressions enclosed in braces */
-  for( iCur =  0 ; iCur < nToken ; ++iCur ){
+  for( iCur = 0 ; iCur < nToken ; ++iCur ){
     sxi32 iNest;
     /* Note that, we use strict comparison here '!=' instead of the bitwise and '&' operator
      * since the OCB '{' token can also be an operator [i.e: subscripting].
@@ -1472,7 +1472,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen,ph7_expr_node **apNode,sxi32 nToke
         }
         /* Link the node to the tree */
         pNode->pRight = apNode[iRight + 1];
-        apNode[iRight + 1] =  apNode[iRight] = 0;
+        apNode[iRight + 1] = apNode[iRight] = 0;
       }else{
         rc = PH7_GenCompileError(pGen,E_ERROR,pNode->pStart->nLine,"'%z': Missing 'else' expression",&pNode->pOp->sOp);
         if( rc != SXERR_ABORT ){
@@ -1481,7 +1481,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen,ph7_expr_node **apNode,sxi32 nToke
         return rc;
       }
       /* Point to the condition */
-      pNode->pCond  = apNode[iLeft];
+      pNode->pCond = apNode[iLeft];
       apNode[iLeft] = 0;
       break;
     }

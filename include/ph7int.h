@@ -115,8 +115,8 @@ typedef sxi32 (*ProcRawStrCmp)(const SyString *,const SyString *);
 #define SyStringData(RAW)   ((RAW)->zString)
 #define SyStringLength(RAW) ((RAW)->nByte)
 #define SyStringInitFromBuf(RAW,ZBUF,NLEN){ \
-          (RAW)->zString  = (const char *)ZBUF; \
-          (RAW)->nByte    = (sxu32)(NLEN); \
+          (RAW)->zString = (const char *)ZBUF; \
+          (RAW)->nByte = (sxu32)(NLEN); \
 }
 #define SyStringUpdatePtr(RAW,NBYTES){ \
           if( NBYTES > (RAW)->nByte ){ \

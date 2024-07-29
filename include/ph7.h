@@ -245,9 +245,9 @@ struct Sytm
 /* Convert a tm structure (struct tm *) found in <time.h> to a Sytm structure */
 #define STRUCT_TM_TO_SYTM(pTM,pSYTM) \
         (pSYTM)->tm_hour = (pTM)->tm_hour; \
-        (pSYTM)->tm_min  = (pTM)->tm_min; \
-        (pSYTM)->tm_sec  = (pTM)->tm_sec; \
-        (pSYTM)->tm_mon  = (pTM)->tm_mon; \
+        (pSYTM)->tm_min = (pTM)->tm_min; \
+        (pSYTM)->tm_sec = (pTM)->tm_sec; \
+        (pSYTM)->tm_mon = (pTM)->tm_mon; \
         (pSYTM)->tm_mday = (pTM)->tm_mday; \
         (pSYTM)->tm_year = (pTM)->tm_year + 1900; \
         (pSYTM)->tm_yday = (pTM)->tm_yday; \
@@ -259,9 +259,9 @@ struct Sytm
 /* Convert a SYSTEMTIME structure (LPSYSTEMTIME: Windows Systems only ) to a Sytm structure */
 #define SYSTEMTIME_TO_SYTM(pSYSTIME,pSYTM) \
         (pSYTM)->tm_hour = (pSYSTIME)->wHour; \
-        (pSYTM)->tm_min  = (pSYSTIME)->wMinute; \
-        (pSYTM)->tm_sec  = (pSYSTIME)->wSecond; \
-        (pSYTM)->tm_mon  = (pSYSTIME)->wMonth - 1; \
+        (pSYTM)->tm_min = (pSYSTIME)->wMinute; \
+        (pSYTM)->tm_sec = (pSYSTIME)->wSecond; \
+        (pSYTM)->tm_mon = (pSYSTIME)->wMonth - 1; \
         (pSYTM)->tm_mday = (pSYSTIME)->wDay; \
         (pSYTM)->tm_year = (pSYSTIME)->wYear; \
         (pSYTM)->tm_yday = 0; \

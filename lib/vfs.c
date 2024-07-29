@@ -1836,7 +1836,7 @@ static int patternCompare(
   if( !zPattern || !zString ) return 0;
   while( (c = PH7_Utf8Read(zPattern,0,&zPattern))!=0 ){
     if( !prevEscape && c==matchAll ){
-      while( (c=PH7_Utf8Read(zPattern,0,&zPattern)) == matchAll
+      while( (c = PH7_Utf8Read(zPattern,0,&zPattern)) == matchAll
              || c == matchOne ){
         if( c==matchOne && PH7_Utf8Read(zString, 0, &zString)==0 ){
           return 0;
@@ -1967,7 +1967,7 @@ static int PH7_builtin_fnmatch(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the pattern and the string */
-  zPattern  = ph7_value_to_string(apArg[0],0);
+  zPattern = ph7_value_to_string(apArg[0],0);
   zString = ph7_value_to_string(apArg[1],0);
   /* Extract the flags if avaialble */
   if( nArg > 2 && ph7_value_is_int(apArg[2]) ){
@@ -2008,7 +2008,7 @@ static int PH7_builtin_strglob(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the pattern and the string */
-  zPattern  = ph7_value_to_string(apArg[0],0);
+  zPattern = ph7_value_to_string(apArg[0],0);
   zString = ph7_value_to_string(apArg[1],0);
   /* Go globbing */
   rc = Glob((const unsigned char *)zPattern,(const unsigned char *)zString,iEsc,0);
@@ -2049,7 +2049,7 @@ static int PH7_vfs_link(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the given arguments */
-  zTarget  = ph7_value_to_string(apArg[0],0);
+  zTarget = ph7_value_to_string(apArg[0],0);
   zLink = ph7_value_to_string(apArg[1],0);
   /* Perform the requested operation */
   rc = pVfs->xLink(zTarget,zLink,0 /*Not a symbolic link */ );
@@ -2090,7 +2090,7 @@ static int PH7_vfs_symlink(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the given arguments */
-  zTarget  = ph7_value_to_string(apArg[0],0);
+  zTarget = ph7_value_to_string(apArg[0],0);
   zLink = ph7_value_to_string(apArg[1],0);
   /* Perform the requested operation */
   rc = pVfs->xLink(zTarget,zLink,1 /*A symbolic link */ );
@@ -3261,8 +3261,8 @@ static int PH7_builtin_fgetcsv(ph7_context *pCtx,int nArg,ph7_value **apArg)
     ph7_result_bool(pCtx,0);
   }else{
     ph7_value *pArray;
-    int delim  = ',';       /* Delimiter */
-    int encl   = '"';       /* Enclosure */
+    int delim = ',';        /* Delimiter */
+    int encl = '"';         /* Enclosure */
     int escape = '\\';      /* Escape character */
     if( nArg > 2 ){
       const char *zPtr;
@@ -3539,7 +3539,7 @@ static int PH7_builtin_opendir(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the target path */
-  zPath  = ph7_value_to_string(apArg[0],&iLen);
+  zPath = ph7_value_to_string(apArg[0],&iLen);
   /* Try to extract a stream */
   pStream = PH7_VmGetStreamDevice(pCtx->pVm,&zPath,iLen);
   if( pStream == 0 ){
@@ -3593,7 +3593,7 @@ static int PH7_builtin_opendir(ph7_context *pCtx,int nArg,ph7_value **apArg)
  */
 static int PH7_builtin_readfile(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
-  int use_include  = FALSE;
+  int use_include = FALSE;
   const ph7_io_stream *pStream;
   ph7_int64 n,nRead;
   const char *zFile;
@@ -3672,7 +3672,7 @@ static int PH7_builtin_file_get_contents(ph7_context *pCtx,int nArg,ph7_value **
 {
   const ph7_io_stream *pStream;
   ph7_int64 n,nRead,nMaxlen;
-  int use_include  = FALSE;
+  int use_include = FALSE;
   const char *zFile;
   char zBuf[8192];
   void *pHandle;
@@ -3766,7 +3766,7 @@ static int PH7_builtin_file_get_contents(ph7_context *pCtx,int nArg,ph7_value **
  */
 static int PH7_builtin_file_put_contents(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
-  int use_include  = FALSE;
+  int use_include = FALSE;
   const ph7_io_stream *pStream;
   const char *zFile;
   const char *zData;
@@ -4787,7 +4787,7 @@ static int PH7_builtin_fopen(ph7_context *pCtx,int nArg,ph7_value **apArg)
     return PH7_OK;
   }
   /* Extract the URI and the desired access mode */
-  zUri  = ph7_value_to_string(apArg[0],&iLen);
+  zUri = ph7_value_to_string(apArg[0],&iLen);
   if( nArg > 1 ){
     zMode = ph7_value_to_string(apArg[1],&imLen);
   }else{
@@ -4915,7 +4915,7 @@ static int PH7_builtin_md5_file(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   const ph7_io_stream *pStream;
   unsigned char zDigest[16];
-  int raw_output  = FALSE;
+  int raw_output = FALSE;
   const char *zFile;
   MD5Context sCtx;
   char zBuf[8192];
@@ -4986,7 +4986,7 @@ static int PH7_builtin_sha1_file(ph7_context *pCtx,int nArg,ph7_value **apArg)
 {
   const ph7_io_stream *pStream;
   unsigned char zDigest[20];
-  int raw_output  = FALSE;
+  int raw_output = FALSE;
   const char *zFile;
   SHA1Context sCtx;
   char zBuf[8192];
@@ -5816,7 +5816,7 @@ static int WinVfs_mkdir(const char *zPath,int mode,int recursive)
   if( pConverted == 0 ){
     return -1;
   }
-  mode= 0;   /* MSVC warning */
+  mode = 0;   /* MSVC warning */
   recursive = 0;
   rc = CreateDirectoryW((LPCWSTR)pConverted,0);
   HeapFree(GetProcessHeap(),0,pConverted);
@@ -6594,8 +6594,8 @@ static int WinDir_Open(const char *zPath,ph7_value *pResource,void **ppHandle)
     return -1;
   }
   SyMemcpy((const void *)zPath,zPrep,n);
-  zPrep[n]   = '\\';
-  zPrep[n + 1] =  '*';
+  zPrep[n] = '\\';
+  zPrep[n + 1] = '*';
   zPrep[n + 2] = 0;
   pConverted = convertUtf8Filename(zPrep);
   HeapFree(GetProcessHeap(),0,zPrep);
@@ -7009,7 +7009,7 @@ static int UnixVfs_Touch(const char *zPath,ph7_int64 touch_time,ph7_int64 access
 {
   struct utimbuf ut;
   int rc;
-  ut.actime  = (time_t)access_time;
+  ut.actime = (time_t)access_time;
   ut.modtime = (time_t)touch_time;
   rc = utime(zPath,&ut);
   if( rc != 0 ){
@@ -7330,8 +7330,8 @@ static void UnixVfs_TempDir(ph7_context *pCtx)
     ph7_result_string(pCtx,zDir,-1);
     return;
   }
-  for(i=0; i<sizeof(azDirs) / sizeof(azDirs[0]); i++){
-    zDir=azDirs[i];
+  for(i = 0; i<sizeof(azDirs) / sizeof(azDirs[0]); i++){
+    zDir = azDirs[i];
     if( zDir==0 ) continue;
     if( stat(zDir, &buf) ) continue;
     if( !S_ISDIR(buf.st_mode) ) continue;
