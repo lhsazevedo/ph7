@@ -468,12 +468,12 @@ struct SyLex
 #define SX_JMP_UTF8(zIn,zEnd) \
         while(zIn < zEnd && (((unsigned char)zIn[0] & 0xc0) == 0x80) ){ zIn++; }
 #define SX_WRITE_UTF8(zOut, c) {                       \
-          if( c<0x00080 ){                                     \
+          if( c < 0x00080 ){                                     \
             *zOut++ = (sxu8)(c & 0xFF);                          \
-          }else if( c<0x00800 ){                               \
+          }else if( c < 0x00800 ){                               \
             *zOut++ = 0xC0 + (sxu8)((c >> 6) & 0x1F);              \
             *zOut++ = 0x80 + (sxu8)(c & 0x3F);                 \
-          }else if( c<0x10000 ){                               \
+          }else if( c < 0x10000 ){                               \
             *zOut++ = 0xE0 + (sxu8)((c >> 12) & 0x0F);             \
             *zOut++ = 0x80 + (sxu8)((c >> 6) & 0x3F);            \
             *zOut++ = 0x80 + (sxu8)(c & 0x3F);                 \

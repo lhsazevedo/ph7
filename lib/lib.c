@@ -59,7 +59,7 @@ static sxi32 WinMutexGlobaInit(void)
   rc = InterlockedCompareExchange(&winMutexLock,1,0);
   if ( rc == 0 ){
     sxu32 n;
-    for( n = 0 ; n  < SX_ARRAYSIZE(aStaticMutexes) ; ++n ){
+    for( n = 0 ; n < SX_ARRAYSIZE(aStaticMutexes) ; ++n ){
       InitializeCriticalSection(&aStaticMutexes[n].sMutex);
     }
     winMutexInit = TRUE;
@@ -528,7 +528,7 @@ static void * MemBackendAlloc(SyMemBackend *pBackend,sxu32 nByte)
     }
     nRetry++;
   }
-  if( pBlock  == 0 ){
+  if( pBlock == 0 ){
     return 0;
   }
   pBlock->pNext = pBlock->pPrev = 0;
@@ -949,7 +949,7 @@ PH7_PRIVATE sxi32 SyMemBackendInitFromParent(SyMemBackend *pBackend,SyMemBackend
     pBackend->pMutexMethods = pParent->pMutexMethods;
     /* Create a private mutex */
     pBackend->pMutex = pBackend->pMutexMethods->xNew(SXMUTEX_TYPE_FAST);
-    if( pBackend->pMutex ==  0){
+    if( pBackend->pMutex == 0){
       return SXERR_OS;
     }
   }
@@ -2214,7 +2214,7 @@ PH7_PRIVATE sxi32 SyBase64Decode(const char *zB64,sxu32 nLen,ProcConsumer xConsu
   while(nLen > 0 && zB64[nLen - 1] == '=' ){
     nLen--;
   }
-  for( n = 0 ; n + 3<nLen ; n += 4){
+  for( n = 0 ; n + 3 < nLen ; n += 4){
     w = aBase64Trans[zB64[n] & 0x7F];
     x = aBase64Trans[zB64[n + 1] & 0x7F];
     y = aBase64Trans[zB64[n + 2] & 0x7F];
@@ -2659,21 +2659,21 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
 
   length = 0;
   bufpt = 0;
-  for(; (c = (*zFormat))!=0; ++zFormat){
-    if( c!='%' ){
+  for(; (c = (*zFormat)) != 0; ++zFormat){
+    if( c != '%' ){
       unsigned int amt;
       bufpt = (char *)zFormat;
       amt = 1;
-      while( (c = (*++zFormat))!='%' && c!=0 )amt++;
+      while( (c = (*++zFormat)) != '%' && c != 0 )amt++;
       rc = xConsumer((const void *)bufpt,amt,pUserData);
       if( rc != SXRET_OK ){
         return SXERR_ABORT;         /* Consumer routine request an operation abort */
       }
-      if( c==0 ){
+      if( c == 0 ){
         return errorflag > 0 ? SXERR_FORMAT : SXRET_OK;
       }
     }
-    if( (c = (*++zFormat))==0 ){
+    if( (c = (*++zFormat)) == 0 ){
       errorflag = 1;
       rc = xConsumer("%",sizeof("%") - 1,pUserData);
       if( rc != SXRET_OK ){
@@ -2693,18 +2693,18 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       case '0':   flag_zeropad = 1;         c = 0;   break;
       default:                                       break;
       }
-    }while( c==0 && (c = (*++zFormat))!=0 );
+    }while( c == 0 && (c = (*++zFormat)) != 0 );
     /* Get the field width */
     width = 0;
-    if( c=='*' ){
+    if( c == '*' ){
       width = va_arg(ap,int);
-      if( width<0 ){
+      if( width < 0 ){
         flag_leftjustify = 1;
         width = -width;
       }
       c = *++zFormat;
     }else{
-      while( c>='0' && c<='9' ){
+      while( c >= '0' && c <= '9' ){
         width = width * 10 + c - '0';
         c = *++zFormat;
       }
@@ -2714,15 +2714,15 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
     }
     /* Get the precision */
     precision = -1;
-    if( c=='.' ){
+    if( c == '.' ){
       precision = 0;
       c = *++zFormat;
-      if( c=='*' ){
+      if( c == '*' ){
         precision = va_arg(ap,int);
-        if( precision<0 ) precision = -precision;
+        if( precision < 0 )precision = -precision;
         c = *++zFormat;
       }else{
-        while( c>='0' && c<='9' ){
+        while( c >= '0' && c <= '9' ){
           precision = precision * 10 + c - '0';
           c = *++zFormat;
         }
@@ -2730,7 +2730,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
     }
     /* Get the conversion type modifier */
     flag_long = 0;
-    if( c=='l' || c == 'q' /* BSD quad (expect a 64-bit integer) */ ){
+    if( c == 'l' || c == 'q' /* BSD quad (expect a 64-bit integer) */ ){
       flag_long = (c == 'q') ? 2 : 1;
       c = *++zFormat;
       if( c == 'l' ){
@@ -2741,8 +2741,8 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
     /* Fetch the info entry for the field */
     infop = 0;
     xtype = SXFMT_ERROR;
-    for(idx = 0; idx< (int)SX_ARRAYSIZE(aFmt); idx++){
-      if( c==aFmt[idx].fmttype ){
+    for(idx = 0; idx < (int)SX_ARRAYSIZE(aFmt); idx++){
+      if( c == aFmt[idx].fmttype ){
         infop = &aFmt[idx];
         xtype = infop->type;
         break;
@@ -2785,18 +2785,18 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
         }
       }
       /* Limit the precision to prevent overflowing buf[] during conversion */
-      if( precision>SXFMT_BUFSIZ - 40 )precision = SXFMT_BUFSIZ - 40;
+      if( precision > SXFMT_BUFSIZ - 40 )precision = SXFMT_BUFSIZ - 40;
 #if 1
       /* For the format %#x, the value zero is printed "0" not "0x0".
       ** I think this is stupid.*/
-      if( longvalue==0 ) flag_alternateform = 0;
+      if( longvalue == 0 )flag_alternateform = 0;
 #else
       /* More sensible: turn off the prefix for octal (to prevent "00"),
       ** but leave the prefix for hex.*/
-      if( longvalue==0 && infop->base==8 ) flag_alternateform = 0;
+      if( longvalue == 0 && infop->base == 8 )flag_alternateform = 0;
 #endif
       if( infop->flags & SXFLAG_SIGNED ){
-        if( longvalue<0 ){
+        if( longvalue < 0 ){
           longvalue = -longvalue;
           /* Ticket 1433-003 */
           if( longvalue < 0 ){
@@ -2808,7 +2808,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
         else if( flag_blanksign )  prefix = ' ';
         else prefix = 0;
       }else{
-        if( longvalue<0 ){
+        if( longvalue < 0 ){
           longvalue = -longvalue;
           /* Ticket 1433-003 */
           if( longvalue < 0 ){
@@ -2818,8 +2818,8 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
         }
         prefix = 0;
       }
-      if( flag_zeropad && precision<width - (prefix!=0) ){
-        precision = width - (prefix!=0);
+      if( flag_zeropad && precision < width - (prefix != 0) ){
+        precision = width - (prefix != 0);
       }
       bufpt = &buf[SXFMT_BUFSIZ - 1];
       {
@@ -2830,18 +2830,18 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
         do{                                             /* Convert to ascii */
           *(--bufpt) = cset[longvalue % base];
           longvalue = longvalue / base;
-        }while( longvalue>0 );
+        }while( longvalue > 0 );
       }
       length = &buf[SXFMT_BUFSIZ - 1] - bufpt;
-      for(idx = precision - length; idx>0; idx--){
+      for(idx = precision - length; idx > 0; idx--){
         *(--bufpt) = '0';                               /* Zero pad */
       }
       if( prefix ) *(--bufpt) = prefix;                 /* Add sign */
       if( flag_alternateform && infop->prefix ){        /* Add "0" or "0x" */
         char *pre, x;
         pre = infop->prefix;
-        if( *bufpt!=pre[0] ){
-          for(pre = infop->prefix; (x = (*pre))!=0; pre++)*(--bufpt) = x;
+        if( *bufpt != pre[0] ){
+          for(pre = infop->prefix; (x = (*pre)) != 0; pre++)*(--bufpt) = x;
         }
       }
       length = &buf[SXFMT_BUFSIZ - 1] - bufpt;
@@ -2851,9 +2851,9 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
     case SXFMT_GENERIC:
 #ifndef SX_OMIT_FLOATINGPOINT
       realvalue = va_arg(ap,double);
-      if( precision<0 ) precision = 6;           /* Set default precision */
-      if( precision>SXFMT_BUFSIZ - 40)precision = SXFMT_BUFSIZ - 40;
-      if( realvalue<0.0 ){
+      if( precision < 0 )precision = 6;          /* Set default precision */
+      if( precision > SXFMT_BUFSIZ - 40)precision = SXFMT_BUFSIZ - 40;
+      if( realvalue < 0.0 ){
         realvalue = -realvalue;
         prefix = '-';
       }else{
@@ -2861,24 +2861,24 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
         else if( flag_blanksign )    prefix = ' ';
         else prefix = 0;
       }
-      if( infop->type==SXFMT_GENERIC && precision>0 ) precision--;
+      if( infop->type == SXFMT_GENERIC && precision > 0 )precision--;
       rounder = 0.0;
 #if 0
       /* Rounding works like BSD when the constant 0.4999 is used.Wierd! */
-      for(idx = precision, rounder = 0.4999; idx>0; idx--, rounder *= 0.1);
+      for(idx = precision, rounder = 0.4999; idx > 0; idx--, rounder *= 0.1);
 #else
       /* It makes more sense to use 0.5 */
-      for(idx = precision, rounder = 0.5; idx>0; idx--, rounder *= 0.1);
+      for(idx = precision, rounder = 0.5; idx > 0; idx--, rounder *= 0.1);
 #endif
-      if( infop->type==SXFMT_FLOAT ) realvalue += rounder;
+      if( infop->type == SXFMT_FLOAT )realvalue += rounder;
       /* Normalize realvalue to within 10.0 > realvalue >= 1.0 */
       exp = 0;
-      if( realvalue>0.0 ){
-        while( realvalue>=1e8 && exp<=350 ){ realvalue *= 1e-8; exp += 8; }
-        while( realvalue>=10.0 && exp<=350 ){ realvalue *= 0.1; exp++; }
-        while( realvalue<1e-8 && exp>=-350 ){ realvalue *= 1e8; exp -= 8; }
-        while( realvalue<1.0 && exp>=-350 ){ realvalue *= 10.0; exp--; }
-        if( exp>350 || exp<-350 ){
+      if( realvalue > 0.0 ){
+        while( realvalue >= 1e8 && exp <= 350 ){ realvalue *= 1e-8; exp += 8; }
+        while( realvalue >= 10.0 && exp <= 350 ){ realvalue *= 0.1; exp++; }
+        while( realvalue < 1e-8 && exp >= -350 ){ realvalue *= 1e8; exp -= 8; }
+        while( realvalue < 1.0 && exp >= -350 ){ realvalue *= 10.0; exp--; }
+        if( exp > 350 || exp < -350 ){
           bufpt = "NaN";
           length = 3;
           break;
@@ -2889,14 +2889,14 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       ** If the field type is etGENERIC, then convert to either etEXP
       ** or etFLOAT, as appropriate.
       */
-      flag_exp = xtype==SXFMT_EXP;
-      if( xtype!=SXFMT_FLOAT ){
+      flag_exp = xtype == SXFMT_EXP;
+      if( xtype != SXFMT_FLOAT ){
         realvalue += rounder;
-        if( realvalue>=10.0 ){ realvalue *= 0.1; exp++; }
+        if( realvalue >= 10.0 ){ realvalue *= 0.1; exp++; }
       }
-      if( xtype==SXFMT_GENERIC ){
+      if( xtype == SXFMT_GENERIC ){
         flag_rtz = !flag_alternateform;
-        if( exp<-4 || exp>precision ){
+        if( exp < -4 || exp > precision ){
           xtype = SXFMT_EXP;
         }else{
           precision = precision - exp;
@@ -2910,39 +2910,39 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       ** the precision is too large to fit in buf[].
       */
       nsd = 0;
-      if( xtype==SXFMT_FLOAT && exp + precision<SXFMT_BUFSIZ - 30 ){
-        flag_dp = (precision>0 || flag_alternateform);
+      if( xtype == SXFMT_FLOAT && exp + precision < SXFMT_BUFSIZ - 30 ){
+        flag_dp = (precision > 0 || flag_alternateform);
         if( prefix ) *(bufpt++) = prefix;           /* Sign */
-        if( exp<0 )  *(bufpt++) = '0';              /* Digits before "." */
-        else for(; exp>=0; exp--) *(bufpt++) = (char)getdigit(&realvalue,&nsd);
+        if( exp < 0 )*(bufpt++) = '0';              /* Digits before "." */
+        else for(; exp >= 0; exp--)*(bufpt++) = (char)getdigit(&realvalue,&nsd);
         if( flag_dp ) *(bufpt++) = '.';             /* The decimal point */
-        for(exp++; exp<0 && precision>0; precision--, exp++){
+        for(exp++; exp < 0 && precision > 0; precision--, exp++){
           *(bufpt++) = '0';
         }
-        while( (precision--)>0 ) *(bufpt++) = (char)getdigit(&realvalue,&nsd);
+        while( (precision--) > 0 )*(bufpt++) = (char)getdigit(&realvalue,&nsd);
         *(bufpt--) = 0;                             /* Null terminate */
         if( flag_rtz && flag_dp ){         /* Remove trailing zeros and "." */
-          while( bufpt>=buf && *bufpt=='0' ) *(bufpt--) = 0;
-          if( bufpt>=buf && *bufpt=='.' ) *(bufpt--) = 0;
+          while( bufpt >= buf && *bufpt == '0' )*(bufpt--) = 0;
+          if( bufpt >= buf && *bufpt == '.' )*(bufpt--) = 0;
         }
         bufpt++;                              /* point to next free slot */
       }else{       /* etEXP or etGENERIC */
-        flag_dp = (precision>0 || flag_alternateform);
+        flag_dp = (precision > 0 || flag_alternateform);
         if( prefix ) *(bufpt++) = prefix;         /* Sign */
         *(bufpt++) = (char)getdigit(&realvalue,&nsd);         /* First digit */
         if( flag_dp ) *(bufpt++) = '.';         /* Decimal point */
-        while( (precision--)>0 ) *(bufpt++) = (char)getdigit(&realvalue,&nsd);
+        while( (precision--) > 0 )*(bufpt++) = (char)getdigit(&realvalue,&nsd);
         bufpt--;                              /* point to last digit */
         if( flag_rtz && flag_dp ){            /* Remove tail zeros */
-          while( bufpt>=buf && *bufpt=='0' ) *(bufpt--) = 0;
-          if( bufpt>=buf && *bufpt=='.' ) *(bufpt--) = 0;
+          while( bufpt >= buf && *bufpt == '0' )*(bufpt--) = 0;
+          if( bufpt >= buf && *bufpt == '.' )*(bufpt--) = 0;
         }
         bufpt++;                              /* point to next free slot */
         if( exp || flag_exp ){
           *(bufpt++) = infop->charset[0];
-          if( exp<0 ){ *(bufpt++) = '-'; exp = -exp; }           /* sign of exp */
+          if( exp < 0 ){ *(bufpt++) = '-'; exp = -exp; }           /* sign of exp */
           else       { *(bufpt++) = '+'; }
-          if( exp>=100 ){
+          if( exp >= 100 ){
             *(bufpt++) = (char)((exp / 100) + '0');                  /* 100's digit */
             exp %= 100;
           }
@@ -2961,10 +2961,10 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       if( flag_zeropad && !flag_leftjustify && length < width){
         int i;
         int nPad = width - length;
-        for(i = width; i>=nPad; i--){
+        for(i = width; i >= nPad; i--){
           bufpt[i] = bufpt[i - nPad];
         }
-        i = prefix!=0;
+        i = prefix != 0;
         while( nPad-- ) bufpt[i++] = '0';
         length = width;
       }
@@ -2988,9 +2988,9 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       c = va_arg(ap,int);
       buf[0] = (char)c;
       /* Limit the precision to prevent overflowing buf[] during conversion */
-      if( precision>SXFMT_BUFSIZ - 40 )precision = SXFMT_BUFSIZ - 40;
-      if( precision>=0 ){
-        for(idx = 1; idx<precision; idx++)buf[idx] = (char)c;
+      if( precision > SXFMT_BUFSIZ - 40 )precision = SXFMT_BUFSIZ - 40;
+      if( precision >= 0 ){
+        for(idx = 1; idx < precision; idx++)buf[idx] = (char)c;
         length = precision;
       }else{
         length = 1;
@@ -2999,7 +2999,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       break;
     case SXFMT_STRING:
       bufpt = va_arg(ap,char*);
-      if( bufpt==0 ){
+      if( bufpt == 0 ){
         bufpt = " ";
         length = (int)sizeof(" ") - 1;
         break;
@@ -3009,7 +3009,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
         /* Symisc extension */
         length = (int)SyStrlen(bufpt);
       }
-      if( precision>=0 && precision<length ) length = precision;
+      if( precision >= 0 && precision < length )length = precision;
       break;
     case SXFMT_RAWSTR: {
       /* Symisc extension */
@@ -3027,7 +3027,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       buf[0] = '?';
       bufpt = buf;
       length = (int)sizeof(char);
-      if( c==0 ) zFormat--;
+      if( c == 0 )zFormat--;
       break;
     }    /* End switch over the format type */
     /*
@@ -3038,15 +3038,15 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
     if( !flag_leftjustify ){
       register int nspace;
       nspace = width - length;
-      if( nspace>0 ){
-        while( nspace>=etSPACESIZE ){
+      if( nspace > 0 ){
+        while( nspace >= etSPACESIZE ){
           rc = xConsumer(spaces,etSPACESIZE,pUserData);
           if( rc != SXRET_OK ){
             return SXERR_ABORT;             /* Consumer routine request an operation abort */
           }
           nspace -= etSPACESIZE;
         }
-        if( nspace>0 ){
+        if( nspace > 0 ){
           rc = xConsumer(spaces,(unsigned int)nspace,pUserData);
           if( rc != SXRET_OK ){
             return SXERR_ABORT;             /* Consumer routine request an operation abort */
@@ -3054,7 +3054,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
         }
       }
     }
-    if( length>0 ){
+    if( length > 0 ){
       rc = xConsumer(bufpt,(unsigned int)length,pUserData);
       if( rc != SXRET_OK ){
         return SXERR_ABORT;         /* Consumer routine request an operation abort */
@@ -3063,15 +3063,15 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
     if( flag_leftjustify ){
       register int nspace;
       nspace = width - length;
-      if( nspace>0 ){
-        while( nspace>=etSPACESIZE ){
+      if( nspace > 0 ){
+        while( nspace >= etSPACESIZE ){
           rc = xConsumer(spaces,etSPACESIZE,pUserData);
           if( rc != SXRET_OK ){
             return SXERR_ABORT;             /* Consumer routine request an operation abort */
           }
           nspace -= etSPACESIZE;
         }
-        if( nspace>0 ){
+        if( nspace > 0 ){
           rc = xConsumer(spaces,(unsigned int)nspace,pUserData);
           if( rc != SXRET_OK ){
             return SXERR_ABORT;             /* Consumer routine request an operation abort */

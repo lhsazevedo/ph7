@@ -6774,7 +6774,7 @@ static int vm_builtin_class_alias(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Perform a hash lookup */
   pEntry = SyHashGet(&pCtx->pVm->hClass,(const void *)zOld,(sxu32)nOldLen);
-  if( pEntry ==  0 ){
+  if( pEntry == 0 ){
     /* No such class,return FALSE */
     ph7_result_bool(pCtx,0);
     return PH7_OK;
@@ -11355,7 +11355,7 @@ static sxi32 VmJsonEncode(
           ph7_result_string(pCtx,"\\u0022",(int)sizeof("\\u0022") - 1);
           continue;
         }
-        if( c == '"' || (c == '\\' && ((iFlags & JSON_UNESCAPED_SLASHES)==0)) ){
+        if( c == '"' || (c == '\\' && ((iFlags & JSON_UNESCAPED_SLASHES) == 0)) ){
           /* Unescape the character */
           ph7_result_string(pCtx,"\\",(int)sizeof(char));
         }
@@ -11617,11 +11617,11 @@ static sxi32 VmJsonTokenize(SyStream *pStream,SyToken *pToken,void *pUserData,vo
         }
         if( pStream->zText < pStream->zEnd ){
           c = pStream->zText[0];
-          if( c=='e' || c=='E' ){
+          if( c == 'e' || c == 'E' ){
             pStream->zText++;
             if( pStream->zText < pStream->zEnd ){
               c = pStream->zText[0];
-              if( c =='+' || c=='-' ){
+              if( c == '+' || c == '-' ){
                 pStream->zText++;
               }
               while( pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0 && SyisDigit(pStream->zText[0]) ){
@@ -11630,12 +11630,12 @@ static sxi32 VmJsonTokenize(SyStream *pStream,SyToken *pToken,void *pUserData,vo
             }
           }
         }
-      }else if( c=='e' || c=='E' ){
+      }else if( c == 'e' || c == 'E' ){
         /* Real number */
         pStream->zText++;
         if( pStream->zText < pStream->zEnd ){
           c = pStream->zText[0];
-          if( c =='+' || c=='-' ){
+          if( c == '+' || c == '-' ){
             pStream->zText++;
           }
           while( pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0 && SyisDigit(pStream->zText[0]) ){
@@ -11850,7 +11850,7 @@ static sxi32 VmJsonDecode(
       }
       /*The cursor is automatically advanced by the VmJsonDecode() function */
       if( (pDecoder->pIn < pDecoder->pEnd) &&
-          ((pDecoder->pIn->nType & (JSON_TK_CSB /*']'*/ | JSON_TK_COMMA /*','*/ ))==0) ){
+          ((pDecoder->pIn->nType & (JSON_TK_CSB /*']'*/ | JSON_TK_COMMA /*','*/ )) == 0) ){
         /* Unexpected token,abort immediatley */
         *pDecoder->pErr = JSON_ERROR_SYNTAX;
         return SXERR_ABORT;
@@ -13418,15 +13418,15 @@ static int vm_builtin_utf8_encode(ph7_context *pCtx,int nArg,ph7_value **apArg)
     /* Advance the stream cursor */
     zIn++;
     /* Encode */
-    if( c<0x00080 ){
+    if( c < 0x00080 ){
       e = (c & 0xFF);
       ph7_result_string(pCtx,(const char *)&e,(int)sizeof(char));
-    }else if( c<0x00800 ){
+    }else if( c < 0x00800 ){
       e = 0xC0 + ((c >> 6) & 0x1F);
       ph7_result_string(pCtx,(const char *)&e,(int)sizeof(char));
       e = 0x80 + (c & 0x3F);
       ph7_result_string(pCtx,(const char *)&e,(int)sizeof(char));
-    }else if( c<0x10000 ){
+    }else if( c < 0x10000 ){
       e = 0xE0 + ((c >> 12) & 0x0F);
       ph7_result_string(pCtx,(const char *)&e,(int)sizeof(char));
       e = 0x80 + ((c >> 6) & 0x3F);
@@ -13495,14 +13495,14 @@ static const unsigned char UtfTrans1[] = {
 */
 #define READ_UTF8(zIn, zTerm, c)                           \
         c = *(zIn++);                                            \
-        if( c>=0xc0 ){                                           \
+        if( c >= 0xc0 ){                                           \
           c = UtfTrans1[c - 0xc0];                                 \
-          while( zIn!=zTerm && (*zIn & 0xc0)==0x80 ){            \
+          while( zIn != zTerm && (*zIn & 0xc0) == 0x80 ){            \
             c = (c << 6) + (0x3f & *(zIn++));                      \
           }                                                      \
-          if( c<0x80                                             \
-              || (c & 0xFFFFF800)==0xD800                          \
-              || (c & 0xFFFFFFFE)==0xFFFE ){  c = 0xFFFD; }        \
+          if( c < 0x80                                             \
+              || (c & 0xFFFFF800) == 0xD800                          \
+              || (c & 0xFFFFFFFE) == 0xFFFE ){  c = 0xFFFD; }        \
         }
 PH7_PRIVATE int PH7_Utf8Read(
   const unsigned char *z,         /* First byte of UTF-8 character */

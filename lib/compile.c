@@ -3258,7 +3258,7 @@ Synchronize:
   /* Synchronize with the first semi-colon ';',so we can avoid compiling this erroneous
    * statement.
    */
-  while(pGen->pIn < pGen->pEnd && (pGen->pIn->nType & PH7_TK_SEMI) ==  0 ){
+  while(pGen->pIn < pGen->pEnd && (pGen->pIn->nType & PH7_TK_SEMI) == 0 ){
     pGen->pIn++;
   }
   return SXRET_OK;
@@ -6016,7 +6016,7 @@ static sxi32 PH7_CompileExpr(
       }
       pEnd2++;
     }
-    if( pEnd2 <pEnd ){
+    if( pEnd2 < pEnd ){
       pEnd = pEnd2;
     }
   }

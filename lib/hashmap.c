@@ -1698,8 +1698,8 @@ static sxi32 HashmapMergeSort(ph7_hashmap *pMap,ProcNodeCmp xCmp,void *pCmpData)
     p = pIn;
     pIn = p->pPrev;
     p->pPrev = 0;
-    for(i = 0; i<N_SORT_BUCKET - 1; i++){
-      if( a[i]==0 ){
+    for(i = 0; i < N_SORT_BUCKET - 1; i++){
+      if( a[i] == 0 ){
         a[i] = p;
         break;
       }else{
@@ -1707,7 +1707,7 @@ static sxi32 HashmapMergeSort(ph7_hashmap *pMap,ProcNodeCmp xCmp,void *pCmpData)
         a[i] = 0;
       }
     }
-    if( i==N_SORT_BUCKET - 1 ){
+    if( i == N_SORT_BUCKET - 1 ){
       /* To get here, there need to be 2^(N_SORT_BUCKET) elements in he input list.
        * But that is impossible.
        */
@@ -1715,7 +1715,7 @@ static sxi32 HashmapMergeSort(ph7_hashmap *pMap,ProcNodeCmp xCmp,void *pCmpData)
     }
   }
   p = a[0];
-  for(i = 1; i<N_SORT_BUCKET; i++){
+  for(i = 1; i < N_SORT_BUCKET; i++){
     p = HashmapNodeMerge(p,a[i],xCmp,pCmpData);
   }
   p->pNext = 0;

@@ -154,11 +154,11 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
           }
           if( pStream->zText < pStream->zEnd ){
             c = pStream->zText[0];
-            if( c=='e' || c=='E' ){
+            if( c == 'e' || c == 'E' ){
               pStream->zText++;
               if( pStream->zText < pStream->zEnd ){
                 c = pStream->zText[0];
-                if( (c =='+' || c=='-') && &pStream->zText[1] < pStream->zEnd &&
+                if( (c == '+' || c == '-') && &pStream->zText[1] < pStream->zEnd &&
                     pStream->zText[1] < 0xc0 && SyisDigit(pStream->zText[1]) ){
                   pStream->zText++;
                 }
@@ -169,13 +169,13 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
             }
           }
           pToken->nType = PH7_TK_REAL;
-        }else if( c=='e' || c=='E' ){
+        }else if( c == 'e' || c == 'E' ){
           SXUNUSED(pUserData);           /* Prevent compiler warning */
           SXUNUSED(pCtxData);
           pStream->zText++;
           if( pStream->zText < pStream->zEnd ){
             c = pStream->zText[0];
-            if( (c =='+' || c=='-') && &pStream->zText[1] < pStream->zEnd &&
+            if( (c == '+' || c == '-') && &pStream->zText[1] < pStream->zEnd &&
                 pStream->zText[1] < 0xc0 && SyisDigit(pStream->zText[1]) ){
               pStream->zText++;
             }
@@ -190,7 +190,7 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
           while( pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0 && SyisHex(pStream->zText[0]) ){
             pStream->zText++;
           }
-        }else if(c  == 'b' || c == 'B' ){
+        }else if(c == 'b' || c == 'B' ){
           /* Binary digit stream */
           pStream->zText++;
           while( pStream->zText < pStream->zEnd && (pStream->zText[0] == '0' || pStream->zText[0] == '1') ){
@@ -270,7 +270,7 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
               zPtr--;
               i++;
             }
-            if((i & 1)==0){
+            if((i & 1) == 0){
               break;
             }
           }
@@ -324,7 +324,7 @@ static sxi32 TokenizePHP(SyStream *pStream,SyToken *pToken,void *pUserData,void 
               zPtr--;
               i++;
             }
-            if((i & 1)==0){
+            if((i & 1) == 0){
               break;
             }
           }
@@ -674,10 +674,10 @@ static sxu32 KeywordCode(const char *z, int n){
     PH7_TKWRD_UNSET,     PH7_TKWRD_XOR,         PH7_TKWRD_OR,        PH7_TKWRD_BREAK
   };
   int h, i;
-  if( n<2 ) return PH7_TK_ID;
+  if( n < 2 )return PH7_TK_ID;
   h = (((int)z[0] * 4) ^ ((int)z[n - 1] * 3) ^ n) % 151;
-  for(i = ((int)aHash[h]) - 1; i>=0; i = ((int)aNext[i]) - 1){
-    if( (int)aLen[i]==n && SyMemcmp(&zText[aOffset[i]],z,n)==0 ){
+  for(i = ((int)aHash[h]) - 1; i >= 0; i = ((int)aNext[i]) - 1){
+    if( (int)aLen[i] == n && SyMemcmp(&zText[aOffset[i]],z,n) == 0 ){
       /* PH7_TKWRD_EXTENDS */
       /* PH7_TKWRD_ENDSWITCH */
       /* PH7_TKWRD_SWITCH */

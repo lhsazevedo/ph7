@@ -55,9 +55,9 @@ static sxi64 MemObjRealToInt(ph7_value *pObj)
   static const sxi64 maxInt = LARGEST_INT64;
   static const sxi64 minInt = SMALLEST_INT64;
   ph7_real r = pObj->rVal;
-  if( r<(ph7_real)minInt ){
+  if( r < (ph7_real)minInt ){
     return minInt;
-  }else if( r>(ph7_real)maxInt ){
+  }else if( r > (ph7_real)maxInt ){
     /* minInt is correct here - not maxInt.  It turns out that assigning
     ** a very large positive number to an integer results in a very large
     ** negative integer.  This makes no sense, but it is what x86 hardware
@@ -84,7 +84,7 @@ PH7_PRIVATE sxi64 PH7_TokenValueToInt64(SyString *pVal)
       return 0;
     }
     c = pVal->zString[1];
-    if( c  == 'x' || c == 'X' ){
+    if( c == 'x' || c == 'X' ){
       /* Hex digit stream */
       SyHexStrToInt64(pVal->zString,pVal->nByte,(void *)&iVal,0);
     }else if( c == 'b' || c == 'B' ){
@@ -386,8 +386,8 @@ static sxi32 MemObjTryIntger(ph7_value *pObj)
   ** true and could be omitted.  But we leave it in because other
   ** architectures might behave differently.
   */
-  if( pObj->rVal ==(ph7_real)pObj->x.iVal && pObj->x.iVal>SMALLEST_INT64
-      && pObj->x.iVal<LARGEST_INT64 ){
+  if( pObj->rVal == (ph7_real)pObj->x.iVal && pObj->x.iVal > SMALLEST_INT64
+      && pObj->x.iVal < LARGEST_INT64 ){
     pObj->iFlags |= MEMOBJ_INT;
   }
   return SXRET_OK;

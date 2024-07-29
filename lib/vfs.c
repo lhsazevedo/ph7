@@ -1359,7 +1359,7 @@ static int PH7_vfs_putenv(ph7_context *pCtx,int nArg,ph7_value **apArg)
   if( zValue == 0 || zName[0] == 0 || zValue >= zEnd || zName >= zValue ){
     /* Invalid settings,retun FALSE */
     ph7_result_bool(pCtx,0);
-    if( zSettings  < zEnd ){
+    if( zSettings < zEnd ){
       zSettings[0] = '=';
     }
     return PH7_OK;
@@ -1781,14 +1781,14 @@ static const unsigned char sqlite3UpperToLower[] = {
   234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,
   252,253,254,255
 };
-#define GlogUpperToLower(A)     if( A<0x80 ){ A = sqlite3UpperToLower[A]; }
+#define GlogUpperToLower(A)     if( A < 0x80 ){ A = sqlite3UpperToLower[A]; }
 /*
 ** Assuming zIn points to the first byte of a UTF-8 character,
 ** advance zIn to point to the first byte of the next UTF-8 character.
 */
 #define SQLITE_SKIP_UTF8(zIn) {                        \
-          if( (*(zIn++))>=0xc0 ){                              \
-            while( (*zIn & 0xc0)==0x80 ){ zIn++; }             \
+          if( (*(zIn++)) >= 0xc0 ){                              \
+            while( (*zIn & 0xc0) == 0x80 ){ zIn++; }             \
           }                                                    \
 }
 /*
@@ -1834,29 +1834,29 @@ static int patternCompare(
   int prevEscape = 0;     /* True if the previous character was 'escape' */
 
   if( !zPattern || !zString ) return 0;
-  while( (c = PH7_Utf8Read(zPattern,0,&zPattern))!=0 ){
-    if( !prevEscape && c==matchAll ){
+  while( (c = PH7_Utf8Read(zPattern,0,&zPattern)) != 0 ){
+    if( !prevEscape && c == matchAll ){
       while( (c = PH7_Utf8Read(zPattern,0,&zPattern)) == matchAll
              || c == matchOne ){
-        if( c==matchOne && PH7_Utf8Read(zString, 0, &zString)==0 ){
+        if( c == matchOne && PH7_Utf8Read(zString, 0, &zString) == 0 ){
           return 0;
         }
       }
-      if( c==0 ){
+      if( c == 0 ){
         return 1;
-      }else if( c==esc ){
+      }else if( c == esc ){
         c = PH7_Utf8Read(zPattern, 0, &zPattern);
-        if( c==0 ){
+        if( c == 0 ){
           return 0;
         }
-      }else if( c==matchSet ){
-        if( (esc==0) || (matchSet<0x80) ) return 0;
-        while( *zString && patternCompare(&zPattern[-1],zString,esc,noCase)==0 ){
+      }else if( c == matchSet ){
+        if( (esc == 0) || (matchSet < 0x80) )return 0;
+        while( *zString && patternCompare(&zPattern[-1],zString,esc,noCase) == 0 ){
           SQLITE_SKIP_UTF8(zString);
         }
-        return *zString!=0;
+        return *zString != 0;
       }
-      while( (c2 = PH7_Utf8Read(zString,0,&zString))!=0 ){
+      while( (c2 = PH7_Utf8Read(zString,0,&zString)) != 0 ){
         if( noCase ){
           GlogUpperToLower(c2);
           GlogUpperToLower(c);
@@ -1869,47 +1869,47 @@ static int patternCompare(
             c2 = PH7_Utf8Read(zString, 0, &zString);
           }
         }
-        if( c2==0 ) return 0;
+        if( c2 == 0 )return 0;
         if( patternCompare(zPattern,zString,esc,noCase) ) return 1;
       }
       return 0;
-    }else if( !prevEscape && c==matchOne ){
-      if( PH7_Utf8Read(zString, 0, &zString)==0 ){
+    }else if( !prevEscape && c == matchOne ){
+      if( PH7_Utf8Read(zString, 0, &zString) == 0 ){
         return 0;
       }
-    }else if( c==matchSet ){
+    }else if( c == matchSet ){
       int prior_c = 0;
       if( esc == 0 ) return 0;
       seen = 0;
       invert = 0;
       c = PH7_Utf8Read(zString, 0, &zString);
-      if( c==0 ) return 0;
+      if( c == 0 )return 0;
       c2 = PH7_Utf8Read(zPattern, 0, &zPattern);
-      if( c2=='^' ){
+      if( c2 == '^' ){
         invert = 1;
         c2 = PH7_Utf8Read(zPattern, 0, &zPattern);
       }
-      if( c2==']' ){
-        if( c==']' ) seen = 1;
+      if( c2 == ']' ){
+        if( c == ']' )seen = 1;
         c2 = PH7_Utf8Read(zPattern, 0, &zPattern);
       }
-      while( c2 && c2!=']' ){
-        if( c2=='-' && zPattern[0]!=']' && zPattern[0]!=0 && prior_c>0 ){
+      while( c2 && c2 != ']' ){
+        if( c2 == '-' && zPattern[0] != ']' && zPattern[0] != 0 && prior_c > 0 ){
           c2 = PH7_Utf8Read(zPattern, 0, &zPattern);
-          if( c>=prior_c && c<=c2 ) seen = 1;
+          if( c >= prior_c && c <= c2 )seen = 1;
           prior_c = 0;
         }else{
-          if( c==c2 ){
+          if( c == c2 ){
             seen = 1;
           }
           prior_c = c2;
         }
         c2 = PH7_Utf8Read(zPattern, 0, &zPattern);
       }
-      if( c2==0 || (seen ^ invert)==0 ){
+      if( c2 == 0 || (seen ^ invert) == 0 ){
         return 0;
       }
-    }else if( esc==c && !prevEscape ){
+    }else if( esc == c && !prevEscape ){
       prevEscape = 1;
     }else{
       c2 = PH7_Utf8Read(zString, 0, &zString);
@@ -1917,13 +1917,13 @@ static int patternCompare(
         GlogUpperToLower(c);
         GlogUpperToLower(c2);
       }
-      if( c!=c2 ){
+      if( c != c2 ){
         return 0;
       }
       prevEscape = 0;
     }
   }
-  return *zString==0;
+  return *zString == 0;
 }
 /*
  * Wrapper around patternCompare() defined above.
@@ -4185,7 +4185,7 @@ static int PH7_builtin_fwrite(ph7_context *pCtx,int nArg,ph7_value **apArg)
   }
   /* Perform the requested operation */
   n = (int)pStream->xWrite(pDev->pHandle,(const void *)zString,nLen);
-  if( n <  0 ){
+  if( n < 0 ){
     /* IO error,return FALSE */
     ph7_result_bool(pCtx,0);
   }else{
@@ -5734,7 +5734,7 @@ static WCHAR *utf8ToUnicode(const char *zFilename){
     return 0;
   }
   nChar = MultiByteToWideChar(CP_UTF8, 0, zFilename, -1, zWideFilename, nChar);
-  if( nChar==0 ){
+  if( nChar == 0 ){
     HeapFree(GetProcessHeap(),0,zWideFilename);
     return 0;
   }
@@ -7330,9 +7330,9 @@ static void UnixVfs_TempDir(ph7_context *pCtx)
     ph7_result_string(pCtx,zDir,-1);
     return;
   }
-  for(i = 0; i<sizeof(azDirs) / sizeof(azDirs[0]); i++){
+  for(i = 0; i < sizeof(azDirs) / sizeof(azDirs[0]); i++){
     zDir = azDirs[i];
-    if( zDir==0 ) continue;
+    if( zDir == 0 )continue;
     if( stat(zDir, &buf) ) continue;
     if( !S_ISDIR(buf.st_mode) ) continue;
     if( access(zDir, 07) ) continue;
