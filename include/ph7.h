@@ -722,4 +722,3 @@ PH7_APIEXPORT const char* ph7_lib_copyright(void);
 #endif /* __cplusplus */
 /* @uncrustify on */
 #endif /* _PH7_H_ */
-

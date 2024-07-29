@@ -8758,4 +8758,3 @@ PH7_PRIVATE void PH7_RegisterBuiltInFunction(ph7_vm *pVm)
   /* Register IO functions [i.e: fread(),fwrite(),chdir(),mkdir(),file(),...] */
   PH7_RegisterIORoutine(&(*pVm));
 }
-

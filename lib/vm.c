@@ -14865,4 +14865,3 @@ static sxi32 VmHttpProcessRequest(ph7_vm *pVm, const char *zRequest, int nByte)
   SyBlobRelease(&sWorker);
   return SXRET_OK;
 }
-

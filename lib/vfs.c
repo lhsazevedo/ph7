@@ -8259,4 +8259,3 @@ PH7_PRIVATE void* PH7_ExportStderr(ph7_vm *pVm)
   return 0;
 #endif
 }
-
