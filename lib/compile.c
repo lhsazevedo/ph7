@@ -141,7 +141,7 @@ static sxi32 GenStateGetLabel(ph7_gen_state *pGen,SyString *pName,Label **ppOut)
  * compiled blocks.
  * Return a pointer to that block on success. NULL otherwise.
  */
-static GenBlock * GenStateFetchBlock(GenBlock *pCurrent,sxi32 iBlockType,sxi32 iCount)
+static GenBlock* GenStateFetchBlock(GenBlock *pCurrent,sxi32 iBlockType,sxi32 iCount)
 {
   GenBlock *pBlock = pCurrent;
   for(;;){
@@ -401,7 +401,7 @@ static sxi32 GenStateInstallLiteral(ph7_gen_state *pGen,ph7_value *pObj,sxu32 nI
  * Reserve a room for a numeric constant [i.e: 64-bit integer or real number]
  * in the constant table.
  */
-static ph7_value * GenStateInstallNumLiteral(ph7_gen_state *pGen,sxu32 *pIdx)
+static ph7_value* GenStateInstallNumLiteral(ph7_gen_state *pGen,sxu32 *pIdx)
 {
   ph7_value *pObj;
   sxu32 nIdx = 0;   /* cc warning */
@@ -646,7 +646,7 @@ static sxi32 GenStateProcessStringExpression(
 /*
  * Reserve a new constant for a double quoted/heredoc string.
  */
-static ph7_value * GenStateNewStrObj(ph7_gen_state *pGen,sxi32 *pCount)
+static ph7_value* GenStateNewStrObj(ph7_gen_state *pGen,sxi32 *pCount)
 {
   ph7_value *pConstObj;
   sxu32 nIdx = 0;

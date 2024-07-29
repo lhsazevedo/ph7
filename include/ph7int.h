@@ -1708,7 +1708,7 @@ enum json_err_code {
 #define JSON_UNESCAPED_UNICODE 0x200 /* Not used */
 /* memobj.c function prototypes */
 PH7_PRIVATE sxi32 PH7_MemObjDump(SyBlob *pOut,ph7_value *pObj,int ShowType,int nTab,int nDepth,int isRef);
-PH7_PRIVATE const char * PH7_MemObjTypeDump(ph7_value *pVal);
+PH7_PRIVATE const char* PH7_MemObjTypeDump(ph7_value *pVal);
 PH7_PRIVATE sxi32 PH7_MemObjAdd(ph7_value *pObj1,ph7_value *pObj2,int bAddStore);
 PH7_PRIVATE sxi32 PH7_MemObjCmp(ph7_value *pObj1,ph7_value *pObj2,int bStrict,int iNest);
 PH7_PRIVATE sxi32 PH7_MemObjInitFromString(ph7_vm *pVm,ph7_value *pObj,const SyString *pVal);
@@ -1753,13 +1753,13 @@ PH7_PRIVATE sxi32 PH7_VmCreateClassInstanceFrame(ph7_vm *pVm,ph7_class_instance 
 PH7_PRIVATE sxi32 PH7_VmRefObjRemove(ph7_vm *pVm,sxu32 nIdx,SyHashEntry *pEntry,ph7_hashmap_node *pMapEntry);
 PH7_PRIVATE sxi32 PH7_VmRefObjInstall(ph7_vm *pVm,sxu32 nIdx,SyHashEntry *pEntry,ph7_hashmap_node *pMapEntry,sxi32 iFlags);
 PH7_PRIVATE sxi32 PH7_VmPushFilePath(ph7_vm *pVm,const char *zPath,int nLen,sxu8 bMain,sxi32 *pNew);
-PH7_PRIVATE ph7_class * PH7_VmExtractClass(ph7_vm *pVm,const char *zName,sxu32 nByte,sxi32 iLoadable,sxi32 iNest);
+PH7_PRIVATE ph7_class* PH7_VmExtractClass(ph7_vm *pVm,const char *zName,sxu32 nByte,sxi32 iLoadable,sxi32 iNest);
 PH7_PRIVATE sxi32 PH7_VmRegisterConstant(ph7_vm *pVm,const SyString *pName,ProcConstant xExpand,void *pUserData);
 PH7_PRIVATE sxi32 PH7_VmInstallForeignFunction(ph7_vm *pVm,const SyString *pName,ProchHostFunction xFunc,void *pUserData);
 PH7_PRIVATE sxi32 PH7_VmInstallClass(ph7_vm *pVm,ph7_class *pClass);
 PH7_PRIVATE sxi32 PH7_VmBlobConsumer(const void *pSrc,unsigned int nLen,void *pUserData);
-PH7_PRIVATE ph7_value * PH7_ReserveMemObj(ph7_vm *pVm);
-PH7_PRIVATE ph7_value * PH7_ReserveConstObj(ph7_vm *pVm,sxu32 *pIndex);
+PH7_PRIVATE ph7_value* PH7_ReserveMemObj(ph7_vm *pVm);
+PH7_PRIVATE ph7_value* PH7_ReserveConstObj(ph7_vm *pVm,sxu32 *pIndex);
 PH7_PRIVATE sxi32 PH7_VmOutputConsume(ph7_vm *pVm,SyString *pString);
 PH7_PRIVATE sxi32 PH7_VmOutputConsumeAp(ph7_vm *pVm,const char *zFormat,va_list ap);
 PH7_PRIVATE sxi32 PH7_VmThrowErrorAp(ph7_vm *pVm,SyString *pFuncName,sxi32 iErr,const char *zFormat,va_list ap);
@@ -1773,11 +1773,11 @@ PH7_PRIVATE sxi32 PH7_VmRelease(ph7_vm *pVm);
 PH7_PRIVATE sxi32 PH7_VmReset(ph7_vm *pVm);
 PH7_PRIVATE sxi32 PH7_VmMakeReady(ph7_vm *pVm);
 PH7_PRIVATE sxu32 PH7_VmInstrLength(ph7_vm *pVm);
-PH7_PRIVATE VmInstr * PH7_VmPopInstr(ph7_vm *pVm);
-PH7_PRIVATE VmInstr * PH7_VmPeekInstr(ph7_vm *pVm);
-PH7_PRIVATE VmInstr * PH7_VmPeekNextInstr(ph7_vm *pVm);
-PH7_PRIVATE VmInstr * PH7_VmGetInstr(ph7_vm *pVm,sxu32 nIndex);
-PH7_PRIVATE SySet * PH7_VmGetByteCodeContainer(ph7_vm *pVm);
+PH7_PRIVATE VmInstr* PH7_VmPopInstr(ph7_vm *pVm);
+PH7_PRIVATE VmInstr* PH7_VmPeekInstr(ph7_vm *pVm);
+PH7_PRIVATE VmInstr* PH7_VmPeekNextInstr(ph7_vm *pVm);
+PH7_PRIVATE VmInstr* PH7_VmGetInstr(ph7_vm *pVm,sxu32 nIndex);
+PH7_PRIVATE SySet* PH7_VmGetByteCodeContainer(ph7_vm *pVm);
 PH7_PRIVATE sxi32 PH7_VmSetByteCodeContainer(ph7_vm *pVm,SySet *pContainer);
 PH7_PRIVATE sxi32 PH7_VmEmitInstr(ph7_vm *pVm,sxi32 iOp,sxi32 iP1,sxu32 iP2,void *p3,sxu32 *pIndex);
 PH7_PRIVATE sxu32 PH7_VmRandomNum(ph7_vm *pVm);
@@ -1787,10 +1787,10 @@ PH7_PRIVATE sxi32 PH7_VmCallUserFunction(ph7_vm *pVm,ph7_value *pFunc,int nArg,p
 PH7_PRIVATE sxi32 PH7_VmCallUserFunctionAp(ph7_vm *pVm,ph7_value *pFunc,ph7_value *pResult,...);
 PH7_PRIVATE sxi32 PH7_VmUnsetMemObj(ph7_vm *pVm,sxu32 nObjIdx,int bForce);
 PH7_PRIVATE void PH7_VmRandomString(ph7_vm *pVm,char *zBuf,int nLen);
-PH7_PRIVATE ph7_class * PH7_VmPeekTopClass(ph7_vm *pVm);
+PH7_PRIVATE ph7_class* PH7_VmPeekTopClass(ph7_vm *pVm);
 PH7_PRIVATE int PH7_VmIsCallable(ph7_vm *pVm,ph7_value *pValue,int CallInvoke);
 #ifndef PH7_DISABLE_BUILTIN_FUNC
-PH7_PRIVATE const ph7_io_stream * PH7_VmGetStreamDevice(ph7_vm *pVm,const char **pzDevice,int nByte);
+PH7_PRIVATE const ph7_io_stream* PH7_VmGetStreamDevice(ph7_vm *pVm,const char **pzDevice,int nByte);
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
 PH7_PRIVATE int PH7_Utf8Read(
   const unsigned char *z,         /* First byte of UTF-8 character */
@@ -1802,7 +1802,7 @@ PH7_PRIVATE int PH7_IsLangConstruct(sxu32 nKeyID,sxu8 bCheckFunc);
 PH7_PRIVATE sxi32 PH7_ExprMakeTree(ph7_gen_state *pGen,SySet *pExprNode,ph7_expr_node **ppRoot);
 PH7_PRIVATE sxi32 PH7_GetNextExpr(SyToken *pStart,SyToken *pEnd,SyToken **ppNext);
 PH7_PRIVATE void PH7_DelimitNestedTokens(SyToken *pIn,SyToken *pEnd,sxu32 nTokStart,sxu32 nTokEnd,SyToken **ppEnd);
-PH7_PRIVATE const ph7_expr_op * PH7_ExprExtractOperator(SyString *pStr,SyToken *pLast);
+PH7_PRIVATE const ph7_expr_op* PH7_ExprExtractOperator(SyString *pStr,SyToken *pLast);
 PH7_PRIVATE sxi32 PH7_ExprFreeTree(ph7_gen_state *pGen,SySet *pNodeSet);
 /* compile.c function prototypes */
 PH7_PRIVATE ProcNodeConstruct PH7_GetNodeHandler(sxu32 nNodeType);
@@ -1823,7 +1823,7 @@ PH7_PRIVATE void PH7_RegisterBuiltInConstant(ph7_vm *pVm);
 /* builtin.c function prototypes */
 PH7_PRIVATE void PH7_RegisterBuiltInFunction(ph7_vm *pVm);
 /* hashmap.c function prototypes */
-PH7_PRIVATE ph7_hashmap * PH7_NewHashmap(ph7_vm *pVm,sxu32 (*xIntHash)(sxi64),sxu32 (*xBlobHash)(const void *,sxu32));
+PH7_PRIVATE ph7_hashmap* PH7_NewHashmap(ph7_vm *pVm,sxu32 (*xIntHash)(sxi64),sxu32 (*xBlobHash)(const void *,sxu32));
 PH7_PRIVATE sxi32 PH7_HashmapCreateSuper(ph7_vm *pVm);
 PH7_PRIVATE sxi32 PH7_HashmapRelease(ph7_hashmap *pMap,int FreeDS);
 PH7_PRIVATE void PH7_HashmapUnref(ph7_hashmap *pMap);
@@ -1835,7 +1835,7 @@ PH7_PRIVATE void PH7_HashmapUnlinkNode(ph7_hashmap_node *pNode,int bRestore);
 PH7_PRIVATE sxi32 PH7_HashmapDup(ph7_hashmap *pSrc,ph7_hashmap *pDest);
 PH7_PRIVATE sxi32 PH7_HashmapCmp(ph7_hashmap *pLeft,ph7_hashmap *pRight,int bStrict);
 PH7_PRIVATE void PH7_HashmapResetLoopCursor(ph7_hashmap *pMap);
-PH7_PRIVATE ph7_hashmap_node * PH7_HashmapGetNextEntry(ph7_hashmap *pMap);
+PH7_PRIVATE ph7_hashmap_node* PH7_HashmapGetNextEntry(ph7_hashmap *pMap);
 PH7_PRIVATE void PH7_HashmapExtractNodeValue(ph7_hashmap_node *pNode,ph7_value *pValue,int bStore);
 PH7_PRIVATE void PH7_HashmapExtractNodeKey(ph7_hashmap_node *pNode,ph7_value *pKey);
 PH7_PRIVATE void PH7_RegisterHashmapFunctions(ph7_vm *pVm);
@@ -1853,42 +1853,42 @@ PH7_PRIVATE sxi32 PH7_StripTagsFromString(ph7_context *pCtx,const char *zIn,int 
 PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx,const char *zIn,sxu32 nByte,int bProcessSection);
 #endif
 /* oo.c function prototypes */
-PH7_PRIVATE ph7_class * PH7_NewRawClass(ph7_vm *pVm,const SyString *pName,sxu32 nLine);
-PH7_PRIVATE ph7_class_attr * PH7_NewClassAttr(ph7_vm *pVm,const SyString *pName,sxu32 nLine,sxi32 iProtection,sxi32 iFlags);
-PH7_PRIVATE ph7_class_method * PH7_NewClassMethod(ph7_vm *pVm,ph7_class *pClass,const SyString *pName,sxu32 nLine,
-                                                  sxi32 iProtection,sxi32 iFlags,sxi32 iFuncFlags);
-PH7_PRIVATE ph7_class_method * PH7_ClassExtractMethod(ph7_class *pClass,const char *zName,sxu32 nByte);
-PH7_PRIVATE ph7_class_attr * PH7_ClassExtractAttribute(ph7_class *pClass,const char *zName,sxu32 nByte);
+PH7_PRIVATE ph7_class* PH7_NewRawClass(ph7_vm *pVm,const SyString *pName,sxu32 nLine);
+PH7_PRIVATE ph7_class_attr* PH7_NewClassAttr(ph7_vm *pVm,const SyString *pName,sxu32 nLine,sxi32 iProtection,sxi32 iFlags);
+PH7_PRIVATE ph7_class_method* PH7_NewClassMethod(ph7_vm *pVm,ph7_class *pClass,const SyString *pName,sxu32 nLine,
+                                                 sxi32 iProtection,sxi32 iFlags,sxi32 iFuncFlags);
+PH7_PRIVATE ph7_class_method* PH7_ClassExtractMethod(ph7_class *pClass,const char *zName,sxu32 nByte);
+PH7_PRIVATE ph7_class_attr* PH7_ClassExtractAttribute(ph7_class *pClass,const char *zName,sxu32 nByte);
 PH7_PRIVATE sxi32 PH7_ClassInstallAttr(ph7_class *pClass,ph7_class_attr *pAttr);
 PH7_PRIVATE sxi32 PH7_ClassInstallMethod(ph7_class *pClass,ph7_class_method *pMeth);
 PH7_PRIVATE sxi32 PH7_ClassInherit(ph7_gen_state *pGen,ph7_class *pSub,ph7_class *pBase);
 PH7_PRIVATE sxi32 PH7_ClassInterfaceInherit(ph7_class *pSub,ph7_class *pBase);
 PH7_PRIVATE sxi32 PH7_ClassImplement(ph7_class *pMain,ph7_class *pInterface);
-PH7_PRIVATE ph7_class_instance * PH7_NewClassInstance(ph7_vm *pVm,ph7_class *pClass);
-PH7_PRIVATE ph7_class_instance * PH7_CloneClassInstance(ph7_class_instance *pSrc);
+PH7_PRIVATE ph7_class_instance* PH7_NewClassInstance(ph7_vm *pVm,ph7_class *pClass);
+PH7_PRIVATE ph7_class_instance* PH7_CloneClassInstance(ph7_class_instance *pSrc);
 PH7_PRIVATE sxi32 PH7_ClassInstanceCmp(ph7_class_instance *pLeft,ph7_class_instance *pRight,int bStrict,int iNest);
 PH7_PRIVATE void PH7_ClassInstanceUnref(ph7_class_instance *pThis);
 PH7_PRIVATE sxi32 PH7_ClassInstanceDump(SyBlob *pOut,ph7_class_instance *pThis,int ShowType,int nTab,int nDepth);
 PH7_PRIVATE sxi32 PH7_ClassInstanceCallMagicMethod(ph7_vm *pVm,ph7_class *pClass,ph7_class_instance *pThis,const char *zMethod,
                                                    sxu32 nByte,const SyString *pAttrName);
-PH7_PRIVATE ph7_value * PH7_ClassInstanceExtractAttrValue(ph7_class_instance *pThis,VmClassAttr *pAttr);
+PH7_PRIVATE ph7_value* PH7_ClassInstanceExtractAttrValue(ph7_class_instance *pThis,VmClassAttr *pAttr);
 PH7_PRIVATE sxi32 PH7_ClassInstanceToHashmap(ph7_class_instance *pThis,ph7_hashmap *pMap);
 PH7_PRIVATE sxi32 PH7_ClassInstanceWalk(ph7_class_instance *pThis,
                                         int (*xWalk)(const char *,ph7_value *,void *),void *pUserData);
-PH7_PRIVATE ph7_value * PH7_ClassInstanceFetchAttr(ph7_class_instance *pThis,const SyString *pName);
+PH7_PRIVATE ph7_value* PH7_ClassInstanceFetchAttr(ph7_class_instance *pThis,const SyString *pName);
 /* vfs.c */
 #ifndef PH7_DISABLE_BUILTIN_FUNC
-PH7_PRIVATE void * PH7_StreamOpenHandle(ph7_vm *pVm,const ph7_io_stream *pStream,const char *zFile,
-                                        int iFlags,int use_include,ph7_value *pResource,int bPushInclude,int *pNew);
+PH7_PRIVATE void* PH7_StreamOpenHandle(ph7_vm *pVm,const ph7_io_stream *pStream,const char *zFile,
+                                       int iFlags,int use_include,ph7_value *pResource,int bPushInclude,int *pNew);
 PH7_PRIVATE sxi32 PH7_StreamReadWholeFile(void *pHandle,const ph7_io_stream *pStream,SyBlob *pOut);
 PH7_PRIVATE void PH7_StreamCloseHandle(const ph7_io_stream *pStream,void *pHandle);
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
-PH7_PRIVATE const char * PH7_ExtractDirName(const char *zPath,int nByte,int *pLen);
+PH7_PRIVATE const char* PH7_ExtractDirName(const char *zPath,int nByte,int *pLen);
 PH7_PRIVATE sxi32 PH7_RegisterIORoutine(ph7_vm *pVm);
-PH7_PRIVATE const ph7_vfs * PH7_ExportBuiltinVfs(void);
-PH7_PRIVATE void * PH7_ExportStdin(ph7_vm *pVm);
-PH7_PRIVATE void * PH7_ExportStdout(ph7_vm *pVm);
-PH7_PRIVATE void * PH7_ExportStderr(ph7_vm *pVm);
+PH7_PRIVATE const ph7_vfs* PH7_ExportBuiltinVfs(void);
+PH7_PRIVATE void* PH7_ExportStdin(ph7_vm *pVm);
+PH7_PRIVATE void* PH7_ExportStdout(ph7_vm *pVm);
+PH7_PRIVATE void* PH7_ExportStderr(ph7_vm *pVm);
 /* lib.c function prototypes */
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 PH7_PRIVATE sxi32 SyXMLParserInit(SyXMLParser *pParser,SyMemBackend *pAllocator,sxi32 iFlags);
@@ -1936,8 +1936,8 @@ PH7_PRIVATE sxu32 SyBlobFormatAp(SyBlob *pBlob,const char *zFormat,va_list ap);
 PH7_PRIVATE sxu32 SyBlobFormat(SyBlob *pBlob,const char *zFormat,...);
 PH7_PRIVATE sxi32 SyProcFormat(ProcConsumer xConsumer,void *pData,const char *zFormat,...);
 #ifndef PH7_DISABLE_BUILTIN_FUNC
-PH7_PRIVATE const char * SyTimeGetMonth(sxi32 iMonth);
-PH7_PRIVATE const char * SyTimeGetDay(sxi32 iDay);
+PH7_PRIVATE const char* SyTimeGetMonth(sxi32 iMonth);
+PH7_PRIVATE const char* SyTimeGetDay(sxi32 iDay);
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
 PH7_PRIVATE sxi32 SyUriDecode(const char *zSrc,sxu32 nLen,ProcConsumer xConsumer,void *pUserData,int bUTF8);
 #ifndef PH7_DISABLE_BUILTIN_FUNC
@@ -1958,26 +1958,26 @@ PH7_PRIVATE sxi32 SyHexToint(sxi32 c);
 PH7_PRIVATE sxi32 SyStrToInt64(const char *zSrc,sxu32 nLen,void *pOutVal,const char **zRest);
 PH7_PRIVATE sxi32 SyStrToInt32(const char *zSrc,sxu32 nLen,void *pOutVal,const char **zRest);
 PH7_PRIVATE sxi32 SyStrIsNumeric(const char *zSrc,sxu32 nLen,sxu8 *pReal,const char **pzTail);
-PH7_PRIVATE SyHashEntry * SyHashLastEntry(SyHash *pHash);
+PH7_PRIVATE SyHashEntry* SyHashLastEntry(SyHash *pHash);
 PH7_PRIVATE sxi32 SyHashInsert(SyHash *pHash,const void *pKey,sxu32 nKeyLen,void *pUserData);
 PH7_PRIVATE sxi32 SyHashForEach(SyHash *pHash,sxi32 (*xStep)(SyHashEntry *,void *),void *pUserData);
-PH7_PRIVATE SyHashEntry * SyHashGetNextEntry(SyHash *pHash);
+PH7_PRIVATE SyHashEntry* SyHashGetNextEntry(SyHash *pHash);
 PH7_PRIVATE sxi32 SyHashResetLoopCursor(SyHash *pHash);
 PH7_PRIVATE sxi32 SyHashDeleteEntry2(SyHashEntry *pEntry);
 PH7_PRIVATE sxi32 SyHashDeleteEntry(SyHash *pHash,const void *pKey,sxu32 nKeyLen,void **ppUserData);
-PH7_PRIVATE SyHashEntry * SyHashGet(SyHash *pHash,const void *pKey,sxu32 nKeyLen);
+PH7_PRIVATE SyHashEntry* SyHashGet(SyHash *pHash,const void *pKey,sxu32 nKeyLen);
 PH7_PRIVATE sxi32 SyHashRelease(SyHash *pHash);
 PH7_PRIVATE sxi32 SyHashInit(SyHash *pHash,SyMemBackend *pAllocator,ProcHash xHash,ProcCmp xCmp);
 PH7_PRIVATE sxu32 SyStrHash(const void *pSrc,sxu32 nLen);
-PH7_PRIVATE void * SySetAt(SySet *pSet,sxu32 nIdx);
-PH7_PRIVATE void * SySetPop(SySet *pSet);
-PH7_PRIVATE void * SySetPeek(SySet *pSet);
+PH7_PRIVATE void* SySetAt(SySet *pSet,sxu32 nIdx);
+PH7_PRIVATE void* SySetPop(SySet *pSet);
+PH7_PRIVATE void* SySetPeek(SySet *pSet);
 PH7_PRIVATE sxi32 SySetRelease(SySet *pSet);
 PH7_PRIVATE sxi32 SySetReset(SySet *pSet);
 PH7_PRIVATE sxi32 SySetResetCursor(SySet *pSet);
 PH7_PRIVATE sxi32 SySetGetNextEntry(SySet *pSet,void **ppEntry);
 #ifndef PH7_DISABLE_BUILTIN_FUNC
-PH7_PRIVATE void * SySetPeekCurrentEntry(SySet *pSet);
+PH7_PRIVATE void* SySetPeekCurrentEntry(SySet *pSet);
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
 PH7_PRIVATE sxi32 SySetTruncate(SySet *pSet,sxu32 nNewSize);
 PH7_PRIVATE sxi32 SySetAlloc(SySet *pSet,sxi32 nItem);
@@ -1995,21 +1995,21 @@ PH7_PRIVATE sxi32 SyBlobAppend(SyBlob *pBlob,const void *pData,sxu32 nSize);
 PH7_PRIVATE sxi32 SyBlobReadOnly(SyBlob *pBlob,const void *pData,sxu32 nByte);
 PH7_PRIVATE sxi32 SyBlobInit(SyBlob *pBlob,SyMemBackend *pAllocator);
 PH7_PRIVATE sxi32 SyBlobInitFromBuf(SyBlob *pBlob,void *pBuffer,sxu32 nSize);
-PH7_PRIVATE char * SyMemBackendStrDup(SyMemBackend *pBackend,const char *zSrc,sxu32 nSize);
-PH7_PRIVATE void * SyMemBackendDup(SyMemBackend *pBackend,const void *pSrc,sxu32 nSize);
+PH7_PRIVATE char* SyMemBackendStrDup(SyMemBackend *pBackend,const char *zSrc,sxu32 nSize);
+PH7_PRIVATE void* SyMemBackendDup(SyMemBackend *pBackend,const void *pSrc,sxu32 nSize);
 PH7_PRIVATE sxi32 SyMemBackendRelease(SyMemBackend *pBackend);
 PH7_PRIVATE sxi32 SyMemBackendInitFromOthers(SyMemBackend *pBackend,const SyMemMethods *pMethods,ProcMemError xMemErr,void *pUserData);
 PH7_PRIVATE sxi32 SyMemBackendInit(SyMemBackend *pBackend,ProcMemError xMemErr,void *pUserData);
 PH7_PRIVATE sxi32 SyMemBackendInitFromParent(SyMemBackend *pBackend,SyMemBackend *pParent);
 #if 0
 /* Not used in the current release of the PH7 engine */
-PH7_PRIVATE void * SyMemBackendPoolRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte);
+PH7_PRIVATE void* SyMemBackendPoolRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte);
 #endif
 PH7_PRIVATE sxi32 SyMemBackendPoolFree(SyMemBackend *pBackend,void *pChunk);
-PH7_PRIVATE void * SyMemBackendPoolAlloc(SyMemBackend *pBackend,sxu32 nByte);
+PH7_PRIVATE void* SyMemBackendPoolAlloc(SyMemBackend *pBackend,sxu32 nByte);
 PH7_PRIVATE sxi32 SyMemBackendFree(SyMemBackend *pBackend,void *pChunk);
-PH7_PRIVATE void * SyMemBackendRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte);
-PH7_PRIVATE void * SyMemBackendAlloc(SyMemBackend *pBackend,sxu32 nByte);
+PH7_PRIVATE void* SyMemBackendRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte);
+PH7_PRIVATE void* SyMemBackendAlloc(SyMemBackend *pBackend,sxu32 nByte);
 #if defined(PH7_ENABLE_THREADS)
 PH7_PRIVATE sxi32 SyMemBackendMakeThreadSafe(SyMemBackend *pBackend,const SyMutexMethods *pMethods);
 PH7_PRIVATE sxi32 SyMemBackendDisbaleMutexing(SyMemBackend *pBackend);
@@ -2029,7 +2029,7 @@ PH7_PRIVATE sxi32 SyByteFind2(const char *zStr,sxu32 nLen,sxi32 c,sxu32 *pPos);
 PH7_PRIVATE sxi32 SyByteFind(const char *zStr,sxu32 nLen,sxi32 c,sxu32 *pPos);
 PH7_PRIVATE sxu32 SyStrlen(const char *zSrc);
 #if defined(PH7_ENABLE_THREADS)
-PH7_PRIVATE const SyMutexMethods * SyMutexExportMethods(void);
+PH7_PRIVATE const SyMutexMethods* SyMutexExportMethods(void);
 PH7_PRIVATE sxi32 SyMemBackendMakeThreadSafe(SyMemBackend *pBackend,const SyMutexMethods *pMethods);
 PH7_PRIVATE sxi32 SyMemBackendDisbaleMutexing(SyMemBackend *pBackend);
 #endif

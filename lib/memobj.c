@@ -1215,7 +1215,7 @@ PH7_PRIVATE sxi32 PH7_MemObjAdd(ph7_value *pObj1,ph7_value *pObj2,int bAddStore)
  * Return a printable representation of the type of a given
  * ph7_value.
  */
-PH7_PRIVATE const char * PH7_MemObjTypeDump(ph7_value *pVal)
+PH7_PRIVATE const char* PH7_MemObjTypeDump(ph7_value *pVal)
 {
   const char *zType = "";
   if( pVal->iFlags & MEMOBJ_NULL ){

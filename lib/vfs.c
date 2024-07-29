@@ -27,7 +27,7 @@
  * Given a string containing the path of a file or directory, this function
  * return the parent directory's path.
  */
-PH7_PRIVATE const char * PH7_ExtractDirName(const char *zPath,int nByte,int *pLen)
+PH7_PRIVATE const char* PH7_ExtractDirName(const char *zPath,int nByte,int *pLen)
 {
   const char *zEnd = &zPath[nByte - 1];
   int c,d;
@@ -2901,8 +2901,8 @@ static ph7_int64 StreamReadLine(io_private *pDev,const char **pzData,ph7_int64 n
  * Please refer to the official documentation for a full discussion.
  * This function return a handle on success. Otherwise null.
  */
-PH7_PRIVATE void * PH7_StreamOpenHandle(ph7_vm *pVm,const ph7_io_stream *pStream,const char *zFile,
-                                        int iFlags,int use_include,ph7_value *pResource,int bPushInclude,int *pNew)
+PH7_PRIVATE void* PH7_StreamOpenHandle(ph7_vm *pVm,const ph7_io_stream *pStream,const char *zFile,
+                                       int iFlags,int use_include,ph7_value *pResource,int bPushInclude,int *pNew)
 {
   void *pHandle = 0;   /* cc warning */
   SyString sFile;
@@ -5724,7 +5724,7 @@ static const ph7_vfs null_vfs = {
 ** Taken from the sqlite3 source tree
 ** status: Public Domain
 */
-static WCHAR * utf8ToUnicode(const char *zFilename){
+static WCHAR* utf8ToUnicode(const char *zFilename){
   int nChar;
   WCHAR *zWideFilename;
 
@@ -5748,7 +5748,7 @@ static WCHAR * utf8ToUnicode(const char *zFilename){
 ** Taken from the sqlite3 source tree
 ** status: Public Domain
 */
-static void * convertUtf8Filename(const char *zFilename){
+static void* convertUtf8Filename(const char *zFilename){
   void *zConverted;
   zConverted = utf8ToUnicode(zFilename);
   return zConverted;
@@ -5759,7 +5759,7 @@ static void * convertUtf8Filename(const char *zFilename){
 ** Taken from the sqlite3 source tree
 ** status: Public Domain
 */
-static char * unicodeToUtf8(const WCHAR *zWideFilename){
+static char* unicodeToUtf8(const WCHAR *zWideFilename){
   char *zFilename;
   int nByte;
 
@@ -7740,7 +7740,7 @@ static const ph7_io_stream sUnixFileStream = {
  *  If the engine is compiled with the PH7_DISABLE_DISK_IO/PH7_DISABLE_BUILTIN_FUNC
  *  directives defined then this function return the null_vfs instead.
  */
-PH7_PRIVATE const ph7_vfs * PH7_ExportBuiltinVfs(void)
+PH7_PRIVATE const ph7_vfs* PH7_ExportBuiltinVfs(void)
 {
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 #ifdef PH7_DISABLE_DISK_IO
@@ -7806,7 +7806,7 @@ struct ph7_stream_data
 /*
  * Allocate a new instance of the ph7_stream_data structure.
  */
-static ph7_stream_data * PHPStreamDataInit(ph7_vm *pVm,int iType)
+static ph7_stream_data* PHPStreamDataInit(ph7_vm *pVm,int iType)
 {
   ph7_stream_data *pData;
   if( pVm == 0 ){
@@ -8166,7 +8166,7 @@ PH7_PRIVATE sxi32 PH7_RegisterIORoutine(ph7_vm *pVm)
 /*
  * Export the STDIN handle.
  */
-PH7_PRIVATE void * PH7_ExportStdin(ph7_vm *pVm)
+PH7_PRIVATE void* PH7_ExportStdin(ph7_vm *pVm)
 {
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 #ifndef PH7_DISABLE_DISK_IO
@@ -8198,7 +8198,7 @@ PH7_PRIVATE void * PH7_ExportStdin(ph7_vm *pVm)
 /*
  * Export the STDOUT handle.
  */
-PH7_PRIVATE void * PH7_ExportStdout(ph7_vm *pVm)
+PH7_PRIVATE void* PH7_ExportStdout(ph7_vm *pVm)
 {
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 #ifndef PH7_DISABLE_DISK_IO
@@ -8230,7 +8230,7 @@ PH7_PRIVATE void * PH7_ExportStdout(ph7_vm *pVm)
 /*
  * Export the STDERR handle.
  */
-PH7_PRIVATE void * PH7_ExportStderr(ph7_vm *pVm)
+PH7_PRIVATE void* PH7_ExportStderr(ph7_vm *pVm)
 {
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 #ifndef PH7_DISABLE_DISK_IO

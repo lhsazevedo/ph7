@@ -99,7 +99,7 @@ static sxi64 HashmapCount(ph7_hashmap *pMap,int bRecursive,int iRecCount)
  * If something goes wrong [i.e: out of memory],this function return NULL.
  * Otherwise a fresh [ph7_hashmap_node] instance is returned.
  */
-static ph7_hashmap_node * HashmapNewIntNode(ph7_hashmap *pMap,sxi64 iKey,sxu32 nHash,sxu32 nValIdx)
+static ph7_hashmap_node* HashmapNewIntNode(ph7_hashmap *pMap,sxi64 iKey,sxu32 nHash,sxu32 nValIdx)
 {
   ph7_hashmap_node *pNode;
   /* Allocate a new node */
@@ -122,7 +122,7 @@ static ph7_hashmap_node * HashmapNewIntNode(ph7_hashmap *pMap,sxi64 iKey,sxu32 n
  * If something goes wrong [i.e: out of memory],this function return NULL.
  * Otherwise a fresh [ph7_hashmap_node] instance is returned.
  */
-static ph7_hashmap_node * HashmapNewBlobNode(ph7_hashmap *pMap,const void *pKey,sxu32 nKeyLen,sxu32 nHash,sxu32 nValIdx)
+static ph7_hashmap_node* HashmapNewBlobNode(ph7_hashmap *pMap,const void *pKey,sxu32 nKeyLen,sxu32 nHash,sxu32 nValIdx)
 {
   ph7_hashmap_node *pNode;
   /* Allocate a new node */
@@ -719,7 +719,7 @@ IntKey:
 /*
  * Extract node value.
  */
-static ph7_value * HashmapExtractNodeValue(ph7_hashmap_node *pNode)
+static ph7_value* HashmapExtractNodeValue(ph7_hashmap_node *pNode)
 {
   /* Point to the desired object */
   ph7_value *pObj;
@@ -1276,7 +1276,7 @@ PH7_PRIVATE sxi32 PH7_HashmapUnion(ph7_hashmap *pLeft,ph7_hashmap *pRight)
  * Allocate a new hashmap.
  * Return a pointer to the freshly allocated hashmap on success.NULL otherwise.
  */
-PH7_PRIVATE ph7_hashmap * PH7_NewHashmap(
+PH7_PRIVATE ph7_hashmap* PH7_NewHashmap(
   ph7_vm *pVm,                /* VM that trigger the hashmap creation */
   sxu32 (*xIntHash)(sxi64),   /* Hash function for int keys.NULL otherwise*/
   sxu32 (*xBlobHash)(const void *,sxu32)   /* Hash function for BLOB keys.NULL otherwise */
@@ -1553,7 +1553,7 @@ PH7_PRIVATE void PH7_HashmapResetLoopCursor(ph7_hashmap *pMap)
  * return NULL.
  * Note that the node cursor is automatically advanced by this function.
  */
-PH7_PRIVATE ph7_hashmap_node * PH7_HashmapGetNextEntry(ph7_hashmap *pMap)
+PH7_PRIVATE ph7_hashmap_node* PH7_HashmapGetNextEntry(ph7_hashmap *pMap)
 {
   ph7_hashmap_node *pCur = pMap->pCur;
   if( pCur == 0 ){
@@ -1645,7 +1645,7 @@ typedef sxi32 (*ProcNodeCmp)(ph7_hashmap_node *,ph7_hashmap_node *,void *);
 **   The "next","prev" pointers for elements in the lists a and b are
 **   changed.
 */
-static ph7_hashmap_node * HashmapNodeMerge(ph7_hashmap_node *pA,ph7_hashmap_node *pB,ProcNodeCmp xCmp,void *pCmpData)
+static ph7_hashmap_node* HashmapNodeMerge(ph7_hashmap_node *pA,ph7_hashmap_node *pB,ProcNodeCmp xCmp,void *pCmpData)
 {
   ph7_hashmap_node result,*pTail;
   /* Prevent compiler warning */

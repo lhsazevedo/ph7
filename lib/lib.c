@@ -86,7 +86,7 @@ static void WinMutexGlobalRelease(void)
     }
   }
 }
-static SyMutex * WinMutexNew(int nType)
+static SyMutex* WinMutexNew(int nType)
 {
   SyMutex *pMutex = 0;
   if( nType == SXMUTEX_TYPE_FAST || nType == SXMUTEX_TYPE_RECURSIVE ){
@@ -146,7 +146,7 @@ static const SyMutexMethods sWinMutexMethods = {
   WinMutexTryEnter,   /* xTryEnter() */
   WinMutexLeave       /* xLeave() */
 };
-PH7_PRIVATE const SyMutexMethods * SyMutexExportMethods(void)
+PH7_PRIVATE const SyMutexMethods* SyMutexExportMethods(void)
 {
   return &sWinMutexMethods;
 }
@@ -157,7 +157,7 @@ struct SyMutex
   pthread_mutex_t sMutex;
   sxu32 nType;
 };
-static SyMutex * UnixMutexNew(int nType)
+static SyMutex* UnixMutexNew(int nType)
 {
   static SyMutex aStaticMutexes[] = {
     {PTHREAD_MUTEX_INITIALIZER,SXMUTEX_TYPE_STATIC_1},
@@ -220,7 +220,7 @@ static const SyMutexMethods sPthreadMutexMethods = {
   0,                   /* xTryEnter() */
   UnixMutexLeave       /* xLeave() */
 };
-PH7_PRIVATE const SyMutexMethods * SyMutexExportMethods(void)
+PH7_PRIVATE const SyMutexMethods* SyMutexExportMethods(void)
 {
   return &sPthreadMutexMethods;
 }
@@ -232,7 +232,7 @@ struct SyMutex
 {
   sxu32 nType;
 };
-static SyMutex * DummyMutexNew(int nType)
+static SyMutex* DummyMutexNew(int nType)
 {
   static SyMutex sMutex;
   SXUNUSED(nType);
@@ -260,13 +260,13 @@ static const SyMutexMethods sDummyMutexMethods = {
   0,                    /* xTryEnter() */
   DummyMutexLeave       /* xLeave() */
 };
-PH7_PRIVATE const SyMutexMethods * SyMutexExportMethods(void)
+PH7_PRIVATE const SyMutexMethods* SyMutexExportMethods(void)
 {
   return &sDummyMutexMethods;
 }
 #endif /* __WINNT__ */
 #endif /* PH7_ENABLE_THREADS */
-static void * SyOSHeapAlloc(sxu32 nByte)
+static void* SyOSHeapAlloc(sxu32 nByte)
 {
   void *pNew;
 #if defined(__WINNT__)
@@ -276,7 +276,7 @@ static void * SyOSHeapAlloc(sxu32 nByte)
 #endif
   return pNew;
 }
-static void * SyOSHeapRealloc(void *pOld,sxu32 nByte)
+static void* SyOSHeapRealloc(void *pOld,sxu32 nByte)
 {
   void *pNew;
 #if defined(__WINNT__)
@@ -464,7 +464,7 @@ PH7_PRIVATE sxu32 SyMemcpy(const void *pSrc,void *pDest,sxu32 nLen)
   SX_MACRO_FAST_MEMCPY(pSrc,pDest,nLen);
   return nLen;
 }
-static void * MemOSAlloc(sxu32 nBytes)
+static void* MemOSAlloc(sxu32 nBytes)
 {
   sxu32 *pChunk;
   pChunk = (sxu32 *)SyOSHeapAlloc(nBytes + sizeof(sxu32));
@@ -474,7 +474,7 @@ static void * MemOSAlloc(sxu32 nBytes)
   pChunk[0] = nBytes;
   return (void *)&pChunk[1];
 }
-static void * MemOSRealloc(void *pOld,sxu32 nBytes)
+static void* MemOSRealloc(void *pOld,sxu32 nBytes)
 {
   sxu32 *pOldChunk;
   sxu32 *pChunk;
@@ -511,7 +511,7 @@ static const SyMemMethods sOSAllocMethods = {
   0,
   0
 };
-static void * MemBackendAlloc(SyMemBackend *pBackend,sxu32 nByte)
+static void* MemBackendAlloc(SyMemBackend *pBackend,sxu32 nByte)
 {
   SyMemBlock *pBlock;
   sxi32 nRetry = 0;
@@ -540,7 +540,7 @@ static void * MemBackendAlloc(SyMemBackend *pBackend,sxu32 nByte)
   pBackend->nBlock++;
   return (void *)&pBlock[1];
 }
-PH7_PRIVATE void * SyMemBackendAlloc(SyMemBackend *pBackend,sxu32 nByte)
+PH7_PRIVATE void* SyMemBackendAlloc(SyMemBackend *pBackend,sxu32 nByte)
 {
   void *pChunk;
 #if defined(UNTRUST)
@@ -557,7 +557,7 @@ PH7_PRIVATE void * SyMemBackendAlloc(SyMemBackend *pBackend,sxu32 nByte)
   }
   return pChunk;
 }
-static void * MemBackendRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte)
+static void* MemBackendRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte)
 {
   SyMemBlock *pBlock,*pNew,*pPrev,*pNext;
   sxu32 nRetry = 0;
@@ -600,7 +600,7 @@ static void * MemBackendRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte)
   }
   return (void *)&pNew[1];
 }
-PH7_PRIVATE void * SyMemBackendRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte)
+PH7_PRIVATE void* SyMemBackendRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte)
 {
   void *pChunk;
 #if defined(UNTRUST)
@@ -728,7 +728,7 @@ static sxi32 MemPoolBucketAlloc(SyMemBackend *pBackend,sxu32 nBucket)
 
   return SXRET_OK;
 }
-static void * MemBackendPoolAlloc(SyMemBackend *pBackend,sxu32 nByte)
+static void* MemBackendPoolAlloc(SyMemBackend *pBackend,sxu32 nByte)
 {
   SyMemHeader *pBucket,*pNext;
   sxu32 nBucketSize;
@@ -767,7 +767,7 @@ static void * MemBackendPoolAlloc(SyMemBackend *pBackend,sxu32 nByte)
   pBucket->nBucket = (SXMEM_POOL_MAGIC << 16) | nBucket;
   return (void *)&pBucket[1];
 }
-PH7_PRIVATE void * SyMemBackendPoolAlloc(SyMemBackend *pBackend,sxu32 nByte)
+PH7_PRIVATE void* SyMemBackendPoolAlloc(SyMemBackend *pBackend,sxu32 nByte)
 {
   void *pChunk;
 #if defined(UNTRUST)
@@ -823,7 +823,7 @@ PH7_PRIVATE sxi32 SyMemBackendPoolFree(SyMemBackend *pBackend,void *pChunk)
   return rc;
 }
 #if 0
-static void * MemBackendPoolRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte)
+static void* MemBackendPoolRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte)
 {
   sxu32 nBucket,nBucketSize;
   SyMemHeader *pHeader;
@@ -861,7 +861,7 @@ static void * MemBackendPoolRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByt
   MemBackendPoolFree(&(*pBackend),pOld);
   return pNew;
 }
-PH7_PRIVATE void * SyMemBackendPoolRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte)
+PH7_PRIVATE void* SyMemBackendPoolRealloc(SyMemBackend *pBackend,void *pOld,sxu32 nByte)
 {
   void *pChunk;
 #if defined(UNTRUST)
@@ -1025,7 +1025,7 @@ PH7_PRIVATE sxi32 SyMemBackendRelease(SyMemBackend *pBackend)
   }
   return SXRET_OK;
 }
-PH7_PRIVATE void * SyMemBackendDup(SyMemBackend *pBackend,const void *pSrc,sxu32 nSize)
+PH7_PRIVATE void* SyMemBackendDup(SyMemBackend *pBackend,const void *pSrc,sxu32 nSize)
 {
   void *pNew;
 #if defined(UNTRUST)
@@ -1039,7 +1039,7 @@ PH7_PRIVATE void * SyMemBackendDup(SyMemBackend *pBackend,const void *pSrc,sxu32
   }
   return pNew;
 }
-PH7_PRIVATE char * SyMemBackendStrDup(SyMemBackend *pBackend,const char *zSrc,sxu32 nSize)
+PH7_PRIVATE char* SyMemBackendStrDup(SyMemBackend *pBackend,const char *zSrc,sxu32 nSize)
 {
   char *zDest;
   zDest = (char *)SyMemBackendAlloc(&(*pBackend),nSize + 1);
@@ -1315,7 +1315,7 @@ PH7_PRIVATE sxi32 SySetGetNextEntry(SySet *pSet,void **ppEntry)
   return SXRET_OK;
 }
 #ifndef PH7_DISABLE_BUILTIN_FUNC
-PH7_PRIVATE void * SySetPeekCurrentEntry(SySet *pSet)
+PH7_PRIVATE void* SySetPeekCurrentEntry(SySet *pSet)
 {
   register unsigned char *zSrc;
   if( pSet->nCursor >= pSet->nUsed ){
@@ -1343,7 +1343,7 @@ PH7_PRIVATE sxi32 SySetRelease(SySet *pSet)
   pSet->nCursor = 0;
   return rc;
 }
-PH7_PRIVATE void * SySetPeek(SySet *pSet)
+PH7_PRIVATE void* SySetPeek(SySet *pSet)
 {
   const char *zBase;
   if( pSet->nUsed <= 0 ){
@@ -1352,7 +1352,7 @@ PH7_PRIVATE void * SySetPeek(SySet *pSet)
   zBase = (const char *)pSet->pBase;
   return (void *)&zBase[(pSet->nUsed - 1) * pSet->eSize];
 }
-PH7_PRIVATE void * SySetPop(SySet *pSet)
+PH7_PRIVATE void* SySetPop(SySet *pSet)
 {
   const char *zBase;
   void *pData;
@@ -1364,7 +1364,7 @@ PH7_PRIVATE void * SySetPop(SySet *pSet)
   pData = (void *)&zBase[pSet->nUsed * pSet->eSize];
   return pData;
 }
-PH7_PRIVATE void * SySetAt(SySet *pSet,sxu32 nIdx)
+PH7_PRIVATE void* SySetAt(SySet *pSet,sxu32 nIdx)
 {
   const char *zBase;
   if( nIdx >= pSet->nUsed ){
@@ -1438,7 +1438,7 @@ PH7_PRIVATE sxi32 SyHashRelease(SyHash *pHash)
   pHash->pAllocator = 0;
   return SXRET_OK;
 }
-static SyHashEntry_Pr * HashGetEntry(SyHash *pHash,const void *pKey,sxu32 nKeyLen)
+static SyHashEntry_Pr* HashGetEntry(SyHash *pHash,const void *pKey,sxu32 nKeyLen)
 {
   SyHashEntry_Pr *pEntry;
   sxu32 nHash;
@@ -1458,7 +1458,7 @@ static SyHashEntry_Pr * HashGetEntry(SyHash *pHash,const void *pKey,sxu32 nKeyLe
   /* Entry not found */
   return 0;
 }
-PH7_PRIVATE SyHashEntry * SyHashGet(SyHash *pHash,const void *pKey,sxu32 nKeyLen)
+PH7_PRIVATE SyHashEntry* SyHashGet(SyHash *pHash,const void *pKey,sxu32 nKeyLen)
 {
   SyHashEntry_Pr *pEntry;
 #if defined(UNTRUST)
@@ -1535,7 +1535,7 @@ PH7_PRIVATE sxi32 SyHashResetLoopCursor(SyHash *pHash)
   pHash->pCurrent = pHash->pList;
   return SXRET_OK;
 }
-PH7_PRIVATE SyHashEntry * SyHashGetNextEntry(SyHash *pHash)
+PH7_PRIVATE SyHashEntry* SyHashGetNextEntry(SyHash *pHash)
 {
   SyHashEntry_Pr *pEntry;
 #if defined(UNTRUST)
@@ -1657,7 +1657,7 @@ PH7_PRIVATE sxi32 SyHashInsert(SyHash *pHash,const void *pKey,sxu32 nKeyLen,void
   rc = HashInsert(&(*pHash),pEntry);
   return rc;
 }
-PH7_PRIVATE SyHashEntry * SyHashLastEntry(SyHash *pHash)
+PH7_PRIVATE SyHashEntry* SyHashLastEntry(SyHash *pHash)
 {
 #if defined(UNTRUST)
   if( INVALID_HASH(pHash)){
@@ -2502,19 +2502,19 @@ static const char *zEngMonth[] = {
   "May","June","July","August",
   "September","October","November","December"
 };
-static const char * GetDay(sxi32 i)
+static const char* GetDay(sxi32 i)
 {
   return zEngDay[ i % 7 ];
 }
-static const char * GetMonth(sxi32 i)
+static const char* GetMonth(sxi32 i)
 {
   return zEngMonth[ i % 12 ];
 }
-PH7_PRIVATE const char * SyTimeGetDay(sxi32 iDay)
+PH7_PRIVATE const char* SyTimeGetDay(sxi32 iDay)
 {
   return GetDay(iDay);
 }
-PH7_PRIVATE const char * SyTimeGetMonth(sxi32 iMonth)
+PH7_PRIVATE const char* SyTimeGetMonth(sxi32 iMonth)
 {
   return GetMonth(iMonth);
 }

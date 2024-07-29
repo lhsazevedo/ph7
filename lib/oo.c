@@ -27,7 +27,7 @@
  * Create an empty class.
  * Return a pointer to a raw class (ph7_class instance) on success. NULL otherwise.
  */
-PH7_PRIVATE ph7_class * PH7_NewRawClass(ph7_vm *pVm,const SyString *pName,sxu32 nLine)
+PH7_PRIVATE ph7_class* PH7_NewRawClass(ph7_vm *pVm,const SyString *pName,sxu32 nLine)
 {
   ph7_class *pClass;
   char *zName;
@@ -58,7 +58,7 @@ PH7_PRIVATE ph7_class * PH7_NewRawClass(ph7_vm *pVm,const SyString *pName,sxu32 
  * Allocate and initialize a new class attribute.
  * Return a pointer to the class attribute on success. NULL otherwise.
  */
-PH7_PRIVATE ph7_class_attr * PH7_NewClassAttr(ph7_vm *pVm,const SyString *pName,sxu32 nLine,sxi32 iProtection,sxi32 iFlags)
+PH7_PRIVATE ph7_class_attr* PH7_NewClassAttr(ph7_vm *pVm,const SyString *pName,sxu32 nLine,sxi32 iProtection,sxi32 iFlags)
 {
   ph7_class_attr *pAttr;
   char *zName;
@@ -89,8 +89,8 @@ PH7_PRIVATE ph7_class_attr * PH7_NewClassAttr(ph7_vm *pVm,const SyString *pName,
  * This function associate with the newly created method an automatically generated
  * random unique name.
  */
-PH7_PRIVATE ph7_class_method * PH7_NewClassMethod(ph7_vm *pVm,ph7_class *pClass,const SyString *pName,sxu32 nLine,
-                                                  sxi32 iProtection,sxi32 iFlags,sxi32 iFuncFlags)
+PH7_PRIVATE ph7_class_method* PH7_NewClassMethod(ph7_vm *pVm,ph7_class *pClass,const SyString *pName,sxu32 nLine,
+                                                 sxi32 iProtection,sxi32 iFlags,sxi32 iFuncFlags)
 {
   ph7_class_method *pMeth;
   SyHashEntry *pEntry;
@@ -148,7 +148,7 @@ PH7_PRIVATE ph7_class_method * PH7_NewClassMethod(ph7_vm *pVm,ph7_class *pClass,
  * Check if the given name have a class method associated with it.
  * Return the desired method [i.e: ph7_class_method instance] on success. NULL otherwise.
  */
-PH7_PRIVATE ph7_class_method * PH7_ClassExtractMethod(ph7_class *pClass,const char *zName,sxu32 nByte)
+PH7_PRIVATE ph7_class_method* PH7_ClassExtractMethod(ph7_class *pClass,const char *zName,sxu32 nByte)
 {
   SyHashEntry *pEntry;
   /* Perform a hash lookup */
@@ -164,7 +164,7 @@ PH7_PRIVATE ph7_class_method * PH7_ClassExtractMethod(ph7_class *pClass,const ch
  * Check if the given name is a class attribute.
  * Return the desired attribute [i.e: ph7_class_attr instance] on success.NULL otherwise.
  */
-PH7_PRIVATE ph7_class_attr * PH7_ClassExtractAttribute(ph7_class *pClass,const char *zName,sxu32 nByte)
+PH7_PRIVATE ph7_class_attr* PH7_ClassExtractAttribute(ph7_class *pClass,const char *zName,sxu32 nByte)
 {
   SyHashEntry *pEntry;
   /* Perform a hash lookup */
@@ -490,7 +490,7 @@ PH7_PRIVATE sxi32 PH7_ClassImplement(ph7_class *pMain,ph7_class *pInterface)
  *  };
  * Refer to the official documentation for more information.
  */
-static ph7_class_instance * NewClassInstance(ph7_vm *pVm,ph7_class *pClass)
+static ph7_class_instance* NewClassInstance(ph7_vm *pVm,ph7_class *pClass)
 {
   ph7_class_instance *pThis;
   /* Allocate a new instance */
@@ -511,7 +511,7 @@ static ph7_class_instance * NewClassInstance(ph7_vm *pVm,ph7_class *pClass)
  * Wrapper around the NewClassInstance() function defined above.
  * See the block comment above for more information.
  */
-PH7_PRIVATE ph7_class_instance * PH7_NewClassInstance(ph7_vm *pVm,ph7_class *pClass)
+PH7_PRIVATE ph7_class_instance* PH7_NewClassInstance(ph7_vm *pVm,ph7_class *pClass)
 {
   ph7_class_instance *pNew;
   sxi32 rc;
@@ -531,7 +531,7 @@ PH7_PRIVATE ph7_class_instance * PH7_NewClassInstance(ph7_vm *pVm,ph7_class *pCl
  * Extract the value of a class instance [i.e: Object in the PHP jargon] attribute.
  * This function never fail.
  */
-static ph7_value * ExtractClassAttrValue(ph7_vm *pVm,VmClassAttr *pAttr)
+static ph7_value* ExtractClassAttrValue(ph7_vm *pVm,VmClassAttr *pAttr)
 {
   /* Extract the value */
   ph7_value *pValue;
@@ -622,7 +622,7 @@ static ph7_value * ExtractClassAttrValue(ph7_vm *pVm,VmClassAttr *pAttr)
  *       )
  * )
  */
-PH7_PRIVATE ph7_class_instance * PH7_CloneClassInstance(ph7_class_instance *pSrc)
+PH7_PRIVATE ph7_class_instance* PH7_CloneClassInstance(ph7_class_instance *pSrc)
 {
   ph7_class_instance *pClone;
   ph7_class_method *pMethod;
@@ -1016,7 +1016,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceCallMagicMethod(
  * Extract the value of a class instance [i.e: Object in the PHP jargon].
  * This function is simply a wrapper on ExtractClassAttrValue().
  */
-PH7_PRIVATE ph7_value * PH7_ClassInstanceExtractAttrValue(ph7_class_instance *pThis,VmClassAttr *pAttr)
+PH7_PRIVATE ph7_value* PH7_ClassInstanceExtractAttrValue(ph7_class_instance *pThis,VmClassAttr *pAttr)
 {
   /* Extract the attribute value */
   ph7_value *pValue;
@@ -1131,7 +1131,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceWalk(
  *  will return NULL in case someone (host-application code) try to extract
  *  a static/constant attribute.
  */
-PH7_PRIVATE ph7_value * PH7_ClassInstanceFetchAttr(ph7_class_instance *pThis,const SyString *pName)
+PH7_PRIVATE ph7_value* PH7_ClassInstanceFetchAttr(ph7_class_instance *pThis,const SyString *pName)
 {
   SyHashEntry *pEntry;
   VmClassAttr *pAttr;
