@@ -279,7 +279,7 @@ struct SyMemMethods
   unsigned int (*xChunkSize)(void *);        /* [Optional:] Return chunk size */
   int (*xInit)(void *);                      /* [Optional:] Initialization callback */
   void (*xRelease)(void *);                  /* [Optional:] Release callback */
-  void  *pUserData;                          /* [Optional:] First argument to xInit() and xRelease() */
+  void *pUserData;                           /* [Optional:] First argument to xInit() and xRelease() */
 };
 /* Out of memory callback signature. */
 typedef int (*ProcMemError)(void *);

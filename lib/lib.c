@@ -1668,7 +1668,7 @@ PH7_PRIVATE SyHashEntry * SyHashLastEntry(SyHash *pHash)
   return (SyHashEntry *)pHash->pList;
 }
 /* SyRunTimeApi:sxutils.c */
-PH7_PRIVATE sxi32 SyStrIsNumeric(const char *zSrc,sxu32 nLen,sxu8 *pReal,const char  **pzTail)
+PH7_PRIVATE sxi32 SyStrIsNumeric(const char *zSrc,sxu32 nLen,sxu8 *pReal,const char **pzTail)
 {
   const char *zCur,*zEnd;
 #ifdef UNTRUST
@@ -2998,7 +2998,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer,void *pUserData,const char *zFo
       bufpt = buf;
       break;
     case SXFMT_STRING:
-      bufpt = va_arg(ap,char*);
+      bufpt = va_arg(ap,char *);
       if( bufpt == 0 ){
         bufpt = " ";
         length = (int)sizeof(" ") - 1;
@@ -3595,7 +3595,7 @@ static sxi32 XMLProcessNamesSpace(SyXMLParser *pParse,SyXMLRawStrNS *pTag,SyToke
   (void)SySetPop(pAttr);
   return SXRET_OK;
 }
-static sxi32 XMLProcessStartTag(SyXMLParser *pParse,SyToken *pToken,SyXMLRawStrNS *pTag,SySet  *pAttrSet,SySet *pTagStack)
+static sxi32 XMLProcessStartTag(SyXMLParser *pParse,SyToken *pToken,SyXMLRawStrNS *pTag,SySet *pAttrSet,SySet *pTagStack)
 {
   SyString *pIn = &pToken->sData;
   const char *zIn,*zCur,*zEnd;
@@ -4973,7 +4973,7 @@ static void byteReverse (unsigned char *buf, unsigned longs)
   do {
     t = (sxu32)((unsigned)buf[3] << 8 | buf[2]) << 16 |
         ((unsigned)buf[1] << 8 | buf[0]);
-    *(sxu32*)buf = t;
+    *(sxu32 *)buf = t;
     buf += 4;
   } while (--longs);
 }
@@ -5114,7 +5114,7 @@ PH7_PRIVATE void MD5Update(MD5Context *ctx, const unsigned char *buf, unsigned i
     }
     SyMemcpy(buf,p,t);
     byteReverse(ctx->in, 16);
-    MD5Transform(ctx->buf, (sxu32*)ctx->in);
+    MD5Transform(ctx->buf, (sxu32 *)ctx->in);
     buf += t;
     len -= t;
   }
@@ -5122,7 +5122,7 @@ PH7_PRIVATE void MD5Update(MD5Context *ctx, const unsigned char *buf, unsigned i
   while (len >= 64) {
     SyMemcpy(buf,ctx->in,64);
     byteReverse(ctx->in, 16);
-    MD5Transform(ctx->buf, (sxu32*)ctx->in);
+    MD5Transform(ctx->buf, (sxu32 *)ctx->in);
     buf += 64;
     len -= 64;
   }
@@ -5153,7 +5153,7 @@ PH7_PRIVATE void MD5Final(unsigned char digest[16], MD5Context *ctx){
     /* Two lots of padding:  Pad the first block to 64 bytes */
     SyZero(p,count);
     byteReverse(ctx->in, 16);
-    MD5Transform(ctx->buf, (sxu32*)ctx->in);
+    MD5Transform(ctx->buf, (sxu32 *)ctx->in);
 
     /* Now fill the next block with 56 bytes */
     SyZero(ctx->in,56);
@@ -5164,10 +5164,10 @@ PH7_PRIVATE void MD5Final(unsigned char digest[16], MD5Context *ctx){
   byteReverse(ctx->in, 14);
 
   /* Append length in bits and transform */
-  ((sxu32*)ctx->in)[ 14 ] = ctx->bits[0];
-  ((sxu32*)ctx->in)[ 15 ] = ctx->bits[1];
+  ((sxu32 *)ctx->in)[ 14 ] = ctx->bits[0];
+  ((sxu32 *)ctx->in)[ 15 ] = ctx->bits[1];
 
-  MD5Transform(ctx->buf, (sxu32*)ctx->in);
+  MD5Transform(ctx->buf, (sxu32 *)ctx->in);
   byteReverse((unsigned char *)ctx->buf, 4);
   SyMemcpy(ctx->buf,digest,0x10);
   SyZero(ctx,sizeof(ctx));          /* In case it's sensitive */
@@ -5276,7 +5276,7 @@ static void SHA1Transform(unsigned int state[5], const unsigned char buffer[64])
    */
 
   /* 4 rounds of 20 operations each. Loop unrolled. */
-  if( 1 == *(unsigned char*)&one ){
+  if( 1 == *(unsigned char *)&one ){
     Rl0(a,b,c,d,e, 0); Rl0(e,a,b,c,d, 1); Rl0(d,e,a,b,c, 2); Rl0(c,d,e,a,b, 3);
     Rl0(b,c,d,e,a, 4); Rl0(a,b,c,d,e, 5); Rl0(e,a,b,c,d, 6); Rl0(d,e,a,b,c, 7);
     Rl0(c,d,e,a,b, 8); Rl0(b,c,d,e,a, 9); Rl0(a,b,c,d,e,10); Rl0(e,a,b,c,d,11);

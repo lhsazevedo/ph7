@@ -589,7 +589,7 @@ static void VmLeaveFrame(ph7_vm *pVm)
     /* Unlink from the list of active VM frame */
     pVm->pFrame = pFrame->pParent;
     if( pFrame->pParent && (pFrame->iFlags & VM_FRAME_EXCEPTION) == 0 ){
-      VmSlot  *aSlot;
+      VmSlot *aSlot;
       sxu32 n;
       /* Restore local variable to the free pool so that they can be reused again */
       aSlot = (VmSlot *)SySetBasePtr(&pFrame->sLocal);

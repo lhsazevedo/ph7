@@ -95,13 +95,13 @@ typedef double sxreal;
  * integers to pointers.
  */
 #if defined(__PTRDIFF_TYPE__)
-# define SX_INT_TO_PTR(X)  ((void*)(__PTRDIFF_TYPE__)(X))
+# define SX_INT_TO_PTR(X)  ((void *)(__PTRDIFF_TYPE__)(X))
 # define SX_PTR_TO_INT(X)  ((int)(__PTRDIFF_TYPE__)(X))
 #elif !defined(__GNUC__)
-# define SX_INT_TO_PTR(X)  ((void*)&((char*)0)[X])
-# define SX_PTR_TO_INT(X)  ((int)(((char*)X) - (char*)0))
+# define SX_INT_TO_PTR(X)  ((void *)&((char *)0)[X])
+# define SX_PTR_TO_INT(X)  ((int)(((char *)X) - (char *)0))
 #else
-# define SX_INT_TO_PTR(X)  ((void*)(X))
+# define SX_INT_TO_PTR(X)  ((void *)(X))
 # define SX_PTR_TO_INT(X)  ((int)(X))
 #endif
 #define SXMIN(a,b)  ((a < b) ? (a) : (b))
@@ -208,7 +208,7 @@ struct SySet
 struct SyBlob
 {
   SyMemBackend *pAllocator;   /* Memory backend */
-  void   *pBlob;              /* Base pointer */
+  void *pBlob;                /* Base pointer */
   sxu32 nByte;                /* Total number of used bytes */
   sxu32 mByte;                /* Total number of available bytes */
   sxu32 nFlags;               /* Blob internal flags,see below */
@@ -220,7 +220,7 @@ struct SyBlob
 #define SyBlobFreeSpace(BLOB)    ((BLOB)->mByte - (BLOB)->nByte)
 #define SyBlobLength(BLOB)       ((BLOB)->nByte)
 #define SyBlobData(BLOB)         ((BLOB)->pBlob)
-#define SyBlobCurData(BLOB)      ((void*)(&((char*)(BLOB)->pBlob)[(BLOB)->nByte]))
+#define SyBlobCurData(BLOB)      ((void *)(&((char *)(BLOB)->pBlob)[(BLOB)->nByte]))
 #define SyBlobDataAt(BLOB,OFFT)  ((void *)(&((char *)(BLOB)->pBlob)[OFFT]))
 #define SyBlobGetAllocator(BLOB) ((BLOB)->pAllocator)
 
@@ -642,7 +642,7 @@ typedef struct SyArchiveEntry SyArchiveEntry;
 typedef struct SyArchive SyArchive;
 struct SyArchive
 {
-  SyMemBackend    *pAllocator;   /* Memory backend */
+  SyMemBackend *pAllocator;      /* Memory backend */
   SyArchiveEntry *pCursor;       /* Cursor for linear traversal of archive entries */
   SyArchiveEntry *pList;         /* Pointer to the List of the loaded archive */
   SyArchiveEntry **apHash;       /* Hashtable for archive entry */
@@ -1021,7 +1021,7 @@ struct ph7_gen_state
   sxu32 nErr;            /* Total number of compilation error */
   SyToken *pRawIn;       /* Current processed raw token */
   SyToken *pRawEnd;      /* Last raw token in the stream */
-  SySet   *pTokenSet;    /* Token containers */
+  SySet *pTokenSet;      /* Token containers */
 };
 /* Forward references */
 typedef struct ph7_vm_func_closure_env ph7_vm_func_closure_env;
@@ -1858,7 +1858,7 @@ PH7_PRIVATE ph7_class_attr * PH7_NewClassAttr(ph7_vm *pVm,const SyString *pName,
 PH7_PRIVATE ph7_class_method * PH7_NewClassMethod(ph7_vm *pVm,ph7_class *pClass,const SyString *pName,sxu32 nLine,
                                                   sxi32 iProtection,sxi32 iFlags,sxi32 iFuncFlags);
 PH7_PRIVATE ph7_class_method * PH7_ClassExtractMethod(ph7_class *pClass,const char *zName,sxu32 nByte);
-PH7_PRIVATE ph7_class_attr   * PH7_ClassExtractAttribute(ph7_class *pClass,const char *zName,sxu32 nByte);
+PH7_PRIVATE ph7_class_attr * PH7_ClassExtractAttribute(ph7_class *pClass,const char *zName,sxu32 nByte);
 PH7_PRIVATE sxi32 PH7_ClassInstallAttr(ph7_class *pClass,ph7_class_attr *pAttr);
 PH7_PRIVATE sxi32 PH7_ClassInstallMethod(ph7_class *pClass,ph7_class_method *pMeth);
 PH7_PRIVATE sxi32 PH7_ClassInherit(ph7_gen_state *pGen,ph7_class *pSub,ph7_class *pBase);
