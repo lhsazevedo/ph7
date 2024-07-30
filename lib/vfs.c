@@ -6665,7 +6665,6 @@ static void WinVfs_Username(ph7_context *pCtx)
       HeapFree(GetProcessHeap(), 0, zName);
     }
   }
-
 }
 
 /* Export the windows vfs */

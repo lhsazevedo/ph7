@@ -573,7 +573,6 @@ PH7_PRIVATE sxi32 SyStrnicmp(const char *zLeft, const char *zRight, sxu32 SLen)
     p++;
     q++;
     --SLen;
-
   }
   return (sxi32) (SyCharToLower(p[0]) - SyCharToLower(q[0]));
 }
@@ -2669,7 +2668,6 @@ PH7_PRIVATE sxi32 SyBase64Encode(const char *zSrc, sxu32 nLen, ProcConsumer xCon
     rc = xConsumer((const void *) z64, sizeof(z64), pUserData);
     if (rc != SXRET_OK)
       return SXERR_ABORT;
-
   }
   if (i + 1 < nLen) {
     z64[0] = zBase64[(zIn[i] >> 2) & 0x3F];
@@ -2680,7 +2678,6 @@ PH7_PRIVATE sxi32 SyBase64Encode(const char *zSrc, sxu32 nLen, ProcConsumer xCon
     rc = xConsumer((const void *) z64, sizeof(z64), pUserData);
     if (rc != SXRET_OK)
       return SXERR_ABORT;
-
   } else if (i < nLen) {
     z64[0] = zBase64[(zIn[i] >> 2) & 0x3F];
     z64[1] = zBase64[(zIn[i] & 0x03) << 4];
@@ -2991,7 +2988,6 @@ PH7_PRIVATE sxi32 SyUriDecode(const char *zSrc, sxu32 nLen, ProcConsumer xConsum
           SX_WRITE_UTF8(zOutPtr, c);
         }
       }
-
     }
     /* Consume the decoded characters */
     rc = xConsumer((const void *) zOut, (unsigned int) (zOutPtr - zOut), pUserData);

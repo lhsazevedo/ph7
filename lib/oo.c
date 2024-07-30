@@ -274,7 +274,6 @@ PH7_PRIVATE sxi32 PH7_ClassInherit(ph7_gen_state *pGen, ph7_class *pSub, ph7_cla
         PH7_GenCompileError(&(*pGen), E_WARNING, ((ph7_class_attr *) pEntry->pUserData)->nLine,
                             "Private attribute '%z::%z' redeclared inside child class '%z'",
                             &pBase->sName, pName, &pSub->sName);
-
       }
       continue;
     }

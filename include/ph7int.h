@@ -668,7 +668,6 @@ struct SyArchive {
   sxu32 nCentralSize;   /* Central directory size(ZIP only. Otherwise Zero) */
   void *pUserData;      /* Upper layer private data */
   sxu32 nMagic;         /* Sanity check */
-
 };
 #define SXARCH_MAGIC    0xDEAD635A
 #define SXARCH_INVALID(ARCH)            (ARCH == 0 || ARCH->nMagic != SXARCH_MAGIC)

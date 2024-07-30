@@ -3049,7 +3049,6 @@ static sxi32 PH7_CompileIf(ph7_gen_state *pGen)
     pGen->pIn++;
     rc = PH7_CompileBlock(&(*pGen), PH7_TKWRD_ENDIF);
     if (rc == SXERR_ABORT) {
-
       return SXERR_ABORT;
     }
   }

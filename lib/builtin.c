@@ -307,7 +307,6 @@ static int PH7_builtin_empty(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   ph7_result_bool(pCtx, res);
   return PH7_OK;
-
 }
 
 #ifndef PH7_DISABLE_BUILTIN_FUNC
@@ -6525,7 +6524,6 @@ static int PH7_builtin_strtr(ph7_context *pCtx, int nArg, ph7_value **apArg)
         }
       }
       ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
-
     }
   }
   return PH7_OK;

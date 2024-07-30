@@ -302,7 +302,6 @@ PH7_PRIVATE const ph7_expr_op* PH7_ExprExtractOperator(SyString *pStr, SyToken *
           /* Unary opertors have prcedence here over binary operators */
           return &aOpTable[n];
         }
-
       }
     }
     ++n;     /* Next operator in the table */
@@ -468,7 +467,6 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
           apNode[j]->pStart->nType &= ~PH7_TK_CCB /*'}'*/;
           apNode[j]->pStart->nType |= PH7_TK_CSB /*']'*/;
         }
-
       }
     } else if (apNode[i]->pStart->nType & PH7_TK_CCB /*'}'*/ ) {
       if (iBraces <= 0) {

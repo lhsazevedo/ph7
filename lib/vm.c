@@ -5879,7 +5879,6 @@ static sxi32 VmByteCodeExec(
         pTos = &pCur[-1];
         break;
       }
-
     }     /* Switch() */
     pc++;     /* Next instruction in the stream */
   }   /* For(;;) */
@@ -11548,7 +11547,6 @@ static const char* VmFindLongOpt(const char *zLong, int nByte, const char *zIn, 
         /* Got one,return it's value */
         return zIn;
       }
-
     } else {
       zIn++;
     }
@@ -15241,7 +15239,6 @@ static sxi32 VmHttpSplitEncodedQuery(
         SyUriDecode(zIn, (sxu32) (zPtr - zIn), PH7_VmBlobConsumer, pWorker, TRUE);
         sValue.zString = (const char *) SyBlobDataAt(pWorker, nBlobOfft);
         sValue.nByte = SyBlobLength(pWorker) - nBlobOfft;
-
       }
       /* Synchronize pointers */
       zIn = zPtr;
