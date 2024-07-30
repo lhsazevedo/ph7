@@ -34,12 +34,15 @@ static sxi32 LexExtractHeredoc(SyStream *pStream, SyToken *pToken);
  * Get a single low-level token from the input file. Update the stream pointer so that
  * it points to the first character beyond the extracted token.
  */
-static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, void *pCtxData)
+static sxi32
+TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, void *pCtxData)
 {
   SyString *pStr;
   sxi32 rc;
   /* Ignore leading white spaces */
-  while (pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0 && SyisSpace(pStream->zText[0])) {
+  while (pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0
+         && SyisSpace(pStream->zText[0]))
+  {
     /* Advance the stream cursor */
     if (pStream->zText[0] == '\n') {
       /* Update line counter */
@@ -56,7 +59,9 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
   pToken->pUserData = 0;
   pStr = &pToken->sData;
   SyStringInitFromBuf(pStr, pStream->zText, 0);
-  if (pStream->zText[0] >= 0xc0 || SyisAlpha(pStream->zText[0]) || pStream->zText[0] == '_') {
+  if (pStream->zText[0] >= 0xc0 || SyisAlpha(pStream->zText[0])
+      || pStream->zText[0] == '_')
+  {
     /* The following code fragment is taken verbatim from the xPP source tree.
      * xPP is a modern embeddable macro processor with advanced features useful for
      * application seeking for a production quality,ready to use macro processor.
@@ -80,7 +85,9 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         }
       }
       /* Skip alphanumeric stream */
-      while (zIn < pStream->zEnd && zIn[0] < 0xc0 && (SyisAlphaNum(zIn[0]) || zIn[0] == '_')) {
+      while (zIn < pStream->zEnd && zIn[0] < 0xc0
+             && (SyisAlphaNum(zIn[0]) || zIn[0] == '_'))
+      {
         zIn++;
       }
       if (zIn == pStream->zText) {
@@ -95,7 +102,9 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
     nKeyword = KeywordCode(pStr->zString, (int) pStr->nByte);
     if (nKeyword != PH7_TK_ID) {
       if (nKeyword
-          & (PH7_TKWRD_NEW | PH7_TKWRD_CLONE | PH7_TKWRD_AND | PH7_TKWRD_XOR | PH7_TKWRD_OR | PH7_TKWRD_INSTANCEOF | PH7_TKWRD_SEQ | PH7_TKWRD_SNE))
+          & (PH7_TKWRD_NEW | PH7_TKWRD_CLONE | PH7_TKWRD_AND | PH7_TKWRD_XOR
+             | PH7_TKWRD_OR | PH7_TKWRD_INSTANCEOF | PH7_TKWRD_SEQ
+             | PH7_TKWRD_SNE))
       {
         /* Alpha stream operators [i.e: new,clone,and,instanceof,eq,ne,or,xor],save the operator instance for later processing */
         pToken->pUserData = (void *) PH7_ExprExtractOperator(pStr, 0);
@@ -114,7 +123,8 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
     sxi32 c;
     /* Non-alpha stream */
     if (pStream->zText[0] == '#'
-        || (pStream->zText[0] == '/' && &pStream->zText[1] < pStream->zEnd && pStream->zText[1] == '/'))
+        || (pStream->zText[0] == '/' && &pStream->zText[1] < pStream->zEnd
+            && pStream->zText[1] == '/'))
     {
       pStream->zText++;
       /* Inline comments */
@@ -123,7 +133,9 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
       }
       /* Tell the upper-layer to ignore this token */
       return SXERR_CONTINUE;
-    } else if (pStream->zText[0] == '/' && &pStream->zText[1] < pStream->zEnd && pStream->zText[1] == '*') {
+    } else if (pStream->zText[0] == '/' && &pStream->zText[1] < pStream->zEnd
+               && pStream->zText[1] == '*')
+    {
       pStream->zText += 2;
       /* Block comment */
       while (pStream->zText < pStream->zEnd) {
@@ -143,7 +155,9 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
     } else if (SyisDigit(pStream->zText[0])) {
       pStream->zText++;
       /* Decimal digit stream */
-      while (pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0 && SyisDigit(pStream->zText[0])) {
+      while (pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0
+             && SyisDigit(pStream->zText[0]))
+      {
         pStream->zText++;
       }
       /* Mark the token as integer until we encounter a real number */
@@ -153,7 +167,9 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         if (c == '.') {
           /* Real number */
           pStream->zText++;
-          while (pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0 && SyisDigit(pStream->zText[0])) {
+          while (pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0
+                 && SyisDigit(pStream->zText[0]))
+          {
             pStream->zText++;
           }
           if (pStream->zText < pStream->zEnd) {
@@ -167,7 +183,10 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
                 {
                   pStream->zText++;
                 }
-                while (pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0 && SyisDigit(pStream->zText[0])) {
+                while (pStream->zText < pStream->zEnd
+                       && pStream->zText[0] < 0xc0
+                       && SyisDigit(pStream->zText[0]))
+                {
                   pStream->zText++;
                 }
               }
@@ -185,7 +204,9 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
             {
               pStream->zText++;
             }
-            while (pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0 && SyisDigit(pStream->zText[0])) {
+            while (pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0
+                   && SyisDigit(pStream->zText[0]))
+            {
               pStream->zText++;
             }
           }
@@ -193,13 +214,17 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         } else if (c == 'x' || c == 'X') {
           /* Hex digit stream */
           pStream->zText++;
-          while (pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0 && SyisHex(pStream->zText[0])) {
+          while (pStream->zText < pStream->zEnd && pStream->zText[0] < 0xc0
+                 && SyisHex(pStream->zText[0]))
+          {
             pStream->zText++;
           }
         } else if (c == 'b' || c == 'B') {
           /* Binary digit stream */
           pStream->zText++;
-          while (pStream->zText < pStream->zEnd && (pStream->zText[0] == '0' || pStream->zText[0] == '1')) {
+          while (pStream->zText < pStream->zEnd
+                 && (pStream->zText[0] == '0' || pStream->zText[0] == '1'))
+          {
             pStream->zText++;
           }
         }
@@ -247,7 +272,11 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
           pTmp = (SyToken *) SySetPeek(pTokSet);
           if (pTmp->nType & PH7_TK_KEYWORD) {
             sxi32 nID = SX_PTR_TO_INT(pTmp->pUserData);
-            if ((sxu32) nID & (PH7_TKWRD_ARRAY | PH7_TKWRD_INT | PH7_TKWRD_FLOAT | PH7_TKWRD_STRING | PH7_TKWRD_OBJECT | PH7_TKWRD_BOOL | PH7_TKWRD_UNSET)) {
+            if ((sxu32) nID
+                & (PH7_TKWRD_ARRAY | PH7_TKWRD_INT | PH7_TKWRD_FLOAT
+                   | PH7_TKWRD_STRING | PH7_TKWRD_OBJECT | PH7_TKWRD_BOOL
+                   | PH7_TKWRD_UNSET))
+            {
               pTmp = (SyToken *) SySetAt(pTokSet, pTokSet->nUsed - 2);
               if (pTmp->nType & PH7_TK_LPAREN) {
                 /* Merge the three tokens '(' 'TYPE' ')' into a single one */
@@ -267,9 +296,16 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
                 }
                 /* Reflect the change */
                 pToken->nType = PH7_TK_OP;
-                SyStringInitFromBuf(&pToken->sData, zTypeCast, SyStrlen(zTypeCast));
+                SyStringInitFromBuf(
+                  &pToken->sData, zTypeCast,
+                  SyStrlen(zTypeCast)
+                );
                 /* Save the instance associated with the type cast operator */
-                pToken->pUserData = (void *) PH7_ExprExtractOperator(&pToken->sData, 0);
+                pToken->pUserData =
+                  (void *) PH7_ExprExtractOperator(
+                    &pToken->sData,
+                    0
+                  );
                 /* Remove the two previous tokens */
                 pTokSet->nUsed -= 2;
                 return SXRET_OK;
@@ -318,7 +354,9 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
         /* Double quoted string */
         pStr->zString++;
         while (pStream->zText < pStream->zEnd) {
-          if (pStream->zText[0] == '{' && &pStream->zText[1] < pStream->zEnd && pStream->zText[1] == '$') {
+          if (pStream->zText[0] == '{' && &pStream->zText[1] < pStream->zEnd
+              && pStream->zText[1] == '$')
+          {
             iNest = 1;
             pStream->zText++;
             /* TICKET 1433-40: Hnadle braces'{}' in double quoted string where everything is allowed */
@@ -429,7 +467,9 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
             /* TICKET 1433-0010: Reference operator '=&' */
             const unsigned char *zCur = pStream->zText;
             sxu32 nLine = 0;
-            while (zCur < pStream->zEnd && zCur[0] < 0xc0 && SyisSpace(zCur[0])) {
+            while (zCur < pStream->zEnd && zCur[0] < 0xc0
+                   && SyisSpace(zCur[0]))
+            {
               if (zCur[0] == '\n') {
                 nLine++;
               }
@@ -636,7 +676,8 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
 ** on platforms with limited memory.
 */
 /* Hash score: 103 */
-static sxu32 KeywordCode(const char *z, int n)
+static sxu32
+KeywordCode(const char *z, int n)
 {
   /* zText[] encodes 532 bytes of keywords in 333 bytes */
   /*   extendswitchprintegerequire_oncenddeclareturnamespacechobject      */
@@ -646,24 +687,42 @@ static sxu32 KeywordCode(const char *z, int n)
   /*   interfacendforeachissetparentprivateprotectedpublicatchunset       */
   /*   xorARRAYASArrayEXITUNSETXORbreak                                   */
   static const char zText[332] = {
-    'e', 'x', 't', 'e', 'n', 'd', 's', 'w', 'i', 't', 'c', 'h', 'p', 'r', 'i', 'n', 't', 'e',
-    'g', 'e', 'r', 'e', 'q', 'u', 'i', 'r', 'e', '_', 'o', 'n', 'c', 'e', 'n', 'd', 'd', 'e',
-    'c', 'l', 'a', 'r', 'e', 't', 'u', 'r', 'n', 'a', 'm', 'e', 's', 'p', 'a', 'c', 'e', 'c',
-    'h', 'o', 'b', 'j', 'e', 'c', 't', 'h', 'r', 'o', 'w', 'b', 'o', 'o', 'l', 'e', 'a', 'n',
-    'd', 'e', 'f', 'a', 'u', 'l', 't', 'r', 'y', 'c', 'a', 's', 'e', 'l', 'f', 'i', 'n', 'a',
-    'l', 'i', 's', 't', 'a', 't', 'i', 'c', 'l', 'o', 'n', 'e', 'w', 'c', 'o', 'n', 's', 't',
-    'r', 'i', 'n', 'g', 'l', 'o', 'b', 'a', 'l', 'u', 's', 'e', 'l', 's', 'e', 'i', 'f', 'l',
-    'o', 'a', 't', 'v', 'a', 'r', 'r', 'a', 'y', 'A', 'N', 'D', 'I', 'E', 'c', 'h', 'o', 'U',
-    'S', 'E', 'C', 'H', 'O', 'a', 'b', 's', 't', 'r', 'a', 'c', 't', 'c', 'l', 'a', 's', 's',
-    'c', 'o', 'n', 't', 'i', 'n', 'u', 'e', 'n', 'd', 'i', 'f', 'u', 'n', 'c', 't', 'i', 'o',
-    'n', 'd', 'i', 'e', 'n', 'd', 'w', 'h', 'i', 'l', 'e', 'v', 'a', 'l', 'd', 'o', 'e', 'x',
-    'i', 't', 'g', 'o', 't', 'o', 'i', 'm', 'p', 'l', 'e', 'm', 'e', 'n', 't', 's', 'i', 'n',
-    'c', 'l', 'u', 'd', 'e', '_', 'o', 'n', 'c', 'e', 'm', 'p', 't', 'y', 'i', 'n', 's', 't',
-    'a', 'n', 'c', 'e', 'o', 'f', 'i', 'n', 't', 'e', 'r', 'f', 'a', 'c', 'e', 'n', 'd', 'f',
-    'o', 'r', 'e', 'a', 'c', 'h', 'i', 's', 's', 'e', 't', 'p', 'a', 'r', 'e', 'n', 't', 'p',
-    'r', 'i', 'v', 'a', 't', 'e', 'p', 'r', 'o', 't', 'e', 'c', 't', 'e', 'd', 'p', 'u', 'b',
-    'l', 'i', 'c', 'a', 't', 'c', 'h', 'u', 'n', 's', 'e', 't', 'x', 'o', 'r', 'A', 'R', 'R',
-    'A', 'Y', 'A', 'S', 'A', 'r', 'r', 'a', 'y', 'E', 'X', 'I', 'T', 'U', 'N', 'S', 'E', 'T',
+    'e', 'x', 't', 'e', 'n', 'd', 's', 'w', 'i', 't', 'c', 'h', 'p', 'r', 'i',
+    'n', 't', 'e',
+    'g', 'e', 'r', 'e', 'q', 'u', 'i', 'r', 'e', '_', 'o', 'n', 'c', 'e', 'n',
+    'd', 'd', 'e',
+    'c', 'l', 'a', 'r', 'e', 't', 'u', 'r', 'n', 'a', 'm', 'e', 's', 'p', 'a',
+    'c', 'e', 'c',
+    'h', 'o', 'b', 'j', 'e', 'c', 't', 'h', 'r', 'o', 'w', 'b', 'o', 'o', 'l',
+    'e', 'a', 'n',
+    'd', 'e', 'f', 'a', 'u', 'l', 't', 'r', 'y', 'c', 'a', 's', 'e', 'l', 'f',
+    'i', 'n', 'a',
+    'l', 'i', 's', 't', 'a', 't', 'i', 'c', 'l', 'o', 'n', 'e', 'w', 'c', 'o',
+    'n', 's', 't',
+    'r', 'i', 'n', 'g', 'l', 'o', 'b', 'a', 'l', 'u', 's', 'e', 'l', 's', 'e',
+    'i', 'f', 'l',
+    'o', 'a', 't', 'v', 'a', 'r', 'r', 'a', 'y', 'A', 'N', 'D', 'I', 'E', 'c',
+    'h', 'o', 'U',
+    'S', 'E', 'C', 'H', 'O', 'a', 'b', 's', 't', 'r', 'a', 'c', 't', 'c', 'l',
+    'a', 's', 's',
+    'c', 'o', 'n', 't', 'i', 'n', 'u', 'e', 'n', 'd', 'i', 'f', 'u', 'n', 'c',
+    't', 'i', 'o',
+    'n', 'd', 'i', 'e', 'n', 'd', 'w', 'h', 'i', 'l', 'e', 'v', 'a', 'l', 'd',
+    'o', 'e', 'x',
+    'i', 't', 'g', 'o', 't', 'o', 'i', 'm', 'p', 'l', 'e', 'm', 'e', 'n', 't',
+    's', 'i', 'n',
+    'c', 'l', 'u', 'd', 'e', '_', 'o', 'n', 'c', 'e', 'm', 'p', 't', 'y', 'i',
+    'n', 's', 't',
+    'a', 'n', 'c', 'e', 'o', 'f', 'i', 'n', 't', 'e', 'r', 'f', 'a', 'c', 'e',
+    'n', 'd', 'f',
+    'o', 'r', 'e', 'a', 'c', 'h', 'i', 's', 's', 'e', 't', 'p', 'a', 'r', 'e',
+    'n', 't', 'p',
+    'r', 'i', 'v', 'a', 't', 'e', 'p', 'r', 'o', 't', 'e', 'c', 't', 'e', 'd',
+    'p', 'u', 'b',
+    'l', 'i', 'c', 'a', 't', 'c', 'h', 'u', 'n', 's', 'e', 't', 'x', 'o', 'r',
+    'A', 'R', 'R',
+    'A', 'Y', 'A', 'S', 'A', 'r', 'r', 'a', 'y', 'E', 'X', 'I', 'T', 'U', 'N',
+    'S', 'E', 'T',
     'X', 'O', 'R', 'b', 'r', 'e', 'a', 'k'
   };
   static const unsigned char aHash[151] = {
@@ -708,23 +767,40 @@ static sxu32 KeywordCode(const char *z, int n)
     310, 315, 319, 324, 325, 327
   };
   static const sxu32 aCode[84] = {
-    PH7_TKWRD_EXTENDS,   PH7_TKWRD_ENDSWITCH,   PH7_TKWRD_SWITCH,    PH7_TKWRD_PRINT,   PH7_TKWRD_INT,
-    PH7_TKWRD_REQONCE,   PH7_TKWRD_REQUIRE,     PH7_TKWRD_SEQ,       PH7_TKWRD_ENDDEC,    PH7_TKWRD_DECLARE,
-    PH7_TKWRD_RETURN,    PH7_TKWRD_NAMESPACE,   PH7_TKWRD_ECHO,      PH7_TKWRD_OBJECT,    PH7_TKWRD_THROW,
-    PH7_TKWRD_BOOL,      PH7_TKWRD_BOOL,        PH7_TKWRD_AND,       PH7_TKWRD_DEFAULT,   PH7_TKWRD_TRY,
-    PH7_TKWRD_CASE,      PH7_TKWRD_SELF,        PH7_TKWRD_FINAL,     PH7_TKWRD_LIST,      PH7_TKWRD_STATIC,
-    PH7_TKWRD_CLONE,     PH7_TKWRD_SNE,         PH7_TKWRD_NEW,       PH7_TKWRD_CONST,     PH7_TKWRD_STRING,
-    PH7_TKWRD_GLOBAL,    PH7_TKWRD_USE,         PH7_TKWRD_ELIF,      PH7_TKWRD_ELSE,      PH7_TKWRD_IF,
-    PH7_TKWRD_FLOAT,     PH7_TKWRD_VAR,         PH7_TKWRD_ARRAY,     PH7_TKWRD_AND,       PH7_TKWRD_DIE,
-    PH7_TKWRD_ECHO,      PH7_TKWRD_USE,         PH7_TKWRD_ECHO,      PH7_TKWRD_ABSTRACT,  PH7_TKWRD_CLASS,
-    PH7_TKWRD_AS,        PH7_TKWRD_CONTINUE,    PH7_TKWRD_ENDIF,     PH7_TKWRD_FUNCTION,  PH7_TKWRD_DIE,
-    PH7_TKWRD_ENDWHILE,  PH7_TKWRD_WHILE,       PH7_TKWRD_EVAL,      PH7_TKWRD_DO,        PH7_TKWRD_EXIT,
-    PH7_TKWRD_GOTO,      PH7_TKWRD_IMPLEMENTS,  PH7_TKWRD_INCONCE,   PH7_TKWRD_INCLUDE,   PH7_TKWRD_EMPTY,
-    PH7_TKWRD_INSTANCEOF, PH7_TKWRD_INTERFACE,   PH7_TKWRD_INT,       PH7_TKWRD_ENDFOR,    PH7_TKWRD_END4EACH,
-    PH7_TKWRD_FOR,       PH7_TKWRD_FOREACH,     PH7_TKWRD_OR,        PH7_TKWRD_ISSET,     PH7_TKWRD_PARENT,
-    PH7_TKWRD_PRIVATE,   PH7_TKWRD_PROTECTED,   PH7_TKWRD_PUBLIC,    PH7_TKWRD_CATCH,     PH7_TKWRD_UNSET,
-    PH7_TKWRD_XOR,       PH7_TKWRD_ARRAY,       PH7_TKWRD_AS,        PH7_TKWRD_ARRAY,     PH7_TKWRD_EXIT,
-    PH7_TKWRD_UNSET,     PH7_TKWRD_XOR,         PH7_TKWRD_OR,        PH7_TKWRD_BREAK
+    PH7_TKWRD_EXTENDS,   PH7_TKWRD_ENDSWITCH,   PH7_TKWRD_SWITCH,
+    PH7_TKWRD_PRINT,   PH7_TKWRD_INT,
+    PH7_TKWRD_REQONCE,   PH7_TKWRD_REQUIRE,     PH7_TKWRD_SEQ,
+    PH7_TKWRD_ENDDEC,    PH7_TKWRD_DECLARE,
+    PH7_TKWRD_RETURN,    PH7_TKWRD_NAMESPACE,   PH7_TKWRD_ECHO,
+    PH7_TKWRD_OBJECT,    PH7_TKWRD_THROW,
+    PH7_TKWRD_BOOL,      PH7_TKWRD_BOOL,        PH7_TKWRD_AND,
+    PH7_TKWRD_DEFAULT,   PH7_TKWRD_TRY,
+    PH7_TKWRD_CASE,      PH7_TKWRD_SELF,        PH7_TKWRD_FINAL,
+    PH7_TKWRD_LIST,      PH7_TKWRD_STATIC,
+    PH7_TKWRD_CLONE,     PH7_TKWRD_SNE,         PH7_TKWRD_NEW,
+    PH7_TKWRD_CONST,     PH7_TKWRD_STRING,
+    PH7_TKWRD_GLOBAL,    PH7_TKWRD_USE,         PH7_TKWRD_ELIF,
+    PH7_TKWRD_ELSE,      PH7_TKWRD_IF,
+    PH7_TKWRD_FLOAT,     PH7_TKWRD_VAR,         PH7_TKWRD_ARRAY,
+    PH7_TKWRD_AND,       PH7_TKWRD_DIE,
+    PH7_TKWRD_ECHO,      PH7_TKWRD_USE,         PH7_TKWRD_ECHO,
+    PH7_TKWRD_ABSTRACT,  PH7_TKWRD_CLASS,
+    PH7_TKWRD_AS,        PH7_TKWRD_CONTINUE,    PH7_TKWRD_ENDIF,
+    PH7_TKWRD_FUNCTION,  PH7_TKWRD_DIE,
+    PH7_TKWRD_ENDWHILE,  PH7_TKWRD_WHILE,       PH7_TKWRD_EVAL,
+    PH7_TKWRD_DO,        PH7_TKWRD_EXIT,
+    PH7_TKWRD_GOTO,      PH7_TKWRD_IMPLEMENTS,  PH7_TKWRD_INCONCE,
+    PH7_TKWRD_INCLUDE,   PH7_TKWRD_EMPTY,
+    PH7_TKWRD_INSTANCEOF, PH7_TKWRD_INTERFACE,   PH7_TKWRD_INT,
+    PH7_TKWRD_ENDFOR,    PH7_TKWRD_END4EACH,
+    PH7_TKWRD_FOR,       PH7_TKWRD_FOREACH,     PH7_TKWRD_OR,
+    PH7_TKWRD_ISSET,     PH7_TKWRD_PARENT,
+    PH7_TKWRD_PRIVATE,   PH7_TKWRD_PROTECTED,   PH7_TKWRD_PUBLIC,
+    PH7_TKWRD_CATCH,     PH7_TKWRD_UNSET,
+    PH7_TKWRD_XOR,       PH7_TKWRD_ARRAY,       PH7_TKWRD_AS,
+    PH7_TKWRD_ARRAY,     PH7_TKWRD_EXIT,
+    PH7_TKWRD_UNSET,     PH7_TKWRD_XOR,         PH7_TKWRD_OR,
+    PH7_TKWRD_BREAK
   };
   int h, i;
   if (n < 2) return PH7_TK_ID;
@@ -855,7 +931,8 @@ static sxu32 KeywordCode(const char *z, int n)
  *   HEREDOC Here
  *  ___
  */
-static sxi32 LexExtractHeredoc(SyStream *pStream, SyToken *pToken)
+static sxi32
+LexExtractHeredoc(SyStream *pStream, SyToken *pToken)
 {
   const unsigned char *zIn = pStream->zText;
   const unsigned char *zEnd = pStream->zEnd;
@@ -885,7 +962,9 @@ static sxi32 LexExtractHeredoc(SyStream *pStream, SyToken *pToken)
   for (;;) {
     zPtr = zIn;
     /* Skip alphanumeric stream */
-    while (zPtr < zEnd && zPtr[0] < 0xc0 && (SyisAlphaNum(zPtr[0]) || zPtr[0] == '_')) {
+    while (zPtr < zEnd && zPtr[0] < 0xc0
+           && (SyisAlphaNum(zPtr[0]) || zPtr[0] == '_'))
+    {
       zPtr++;
     }
     if (zPtr < zEnd && zPtr[0] >= 0xc0) {
@@ -933,9 +1012,16 @@ static sxi32 LexExtractHeredoc(SyStream *pStream, SyToken *pToken)
     }
     pStream->nLine++;     /* Increment line counter */
     zIn++;
-    if ((sxu32) (zEnd - zIn) >= sDelim.nByte && SyMemcmp((const void *) sDelim.zString, (const void *) zIn, sDelim.nByte) == 0) {
+    if ((sxu32) (zEnd - zIn) >= sDelim.nByte
+        && SyMemcmp(
+          (const void *) sDelim.zString, (const void *) zIn,
+          sDelim.nByte
+        ) == 0)
+    {
       zPtr = &zIn[sDelim.nByte];
-      while (zPtr < zEnd && zPtr[0] < 0xc0 && SyisSpace(zPtr[0]) && zPtr[0] != '\n') {
+      while (zPtr < zEnd && zPtr[0] < 0xc0 && SyisSpace(zPtr[0])
+             && zPtr[0] != '\n')
+      {
         zPtr++;
       }
       if (zPtr >= zEnd) {
@@ -946,7 +1032,9 @@ static sxi32 LexExtractHeredoc(SyStream *pStream, SyToken *pToken)
       if (zPtr[0] == ';') {
         const unsigned char *zCur = zPtr;
         zPtr++;
-        while (zPtr < zEnd && zPtr[0] < 0xc0 && SyisSpace(zPtr[0]) && zPtr[0] != '\n') {
+        while (zPtr < zEnd && zPtr[0] < 0xc0 && SyisSpace(zPtr[0])
+               && zPtr[0] != '\n')
+        {
           zPtr++;
         }
         if (zPtr >= zEnd || zPtr[0] == '\n') {
@@ -978,7 +1066,8 @@ static sxi32 LexExtractHeredoc(SyStream *pStream, SyToken *pToken)
  * Tokenize a raw PHP input.
  * This is the public tokenizer called by most code generator routines.
  */
-PH7_PRIVATE sxi32 PH7_TokenizePHP(const char *zInput, sxu32 nLen, sxu32 nLineStart, SySet *pOut)
+PH7_PRIVATE sxi32
+PH7_TokenizePHP(const char *zInput, sxu32 nLen, sxu32 nLineStart, SySet *pOut)
 {
   SyLex sLexer;
   sxi32 rc;
@@ -1041,7 +1130,8 @@ PH7_PRIVATE sxi32 PH7_TokenizePHP(const char *zInput, sxu32 nLen, sxu32 nLineSta
  * 3.  <? echo 'this is the simplest, an SGML processing instruction'; ?>
  *   <?= expression ?> This is a shortcut for "<? echo expression ?>"
  */
-PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput, sxu32 nLen, SySet *pOut)
+PH7_PRIVATE sxi32
+PH7_TokenizeRawText(const char *zInput, sxu32 nLen, SySet *pOut)
 {
   const char *zEnd = &zInput[nLen];
   const char *zIn = zInput;
@@ -1074,7 +1164,11 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput, sxu32 nLen, SySet *pOu
         if (zIn < zEnd) {
           if (zIn[0] == '?') {
             zIn++;
-            if ((sxu32) (zEnd - zIn) >= sizeof("php") - 1 && SyStrnicmp(zIn, "php", sizeof("php") - 1) == 0) {
+            if ((sxu32) (zEnd - zIn) >= sizeof("php") - 1 && SyStrnicmp(
+              zIn,
+              "php", sizeof("php") - 1
+                ) == 0)
+            {
               /* opening tag: <?php */
               zIn += sizeof("php") - 1;
             }
@@ -1120,7 +1214,9 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput, sxu32 nLen, SySet *pOu
         break;
       }
       for (;;) {
-        if (zIn[0] != '/' || (zIn[1] != '*' && zIn[1] != '/') /* && sCtag.nByte >= 2 */ ) {
+        if (zIn[0] != '/'
+            || (zIn[1] != '*' && zIn[1] != '/') /* && sCtag.nByte >= 2 */ )
+        {
           break;
         }
         zIn += 2;
@@ -1150,7 +1246,9 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput, sxu32 nLen, SySet *pOu
         nLine++;
         if (iNest > 0) {
           zIn++;
-          while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && SyisSpace(zIn[0]) && zIn[0] != '\n') {
+          while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0
+                 && SyisSpace(zIn[0]) && zIn[0] != '\n')
+          {
             zIn++;
           }
           zPtr = zIn;
@@ -1165,14 +1263,22 @@ PH7_PRIVATE sxi32 PH7_TokenizeRawText(const char *zInput, sxu32 nLen, SySet *pOu
               zIn++;
             }
           }
-          if ((sxu32) (zIn - zPtr) == sDoc.nByte && SyMemcmp(sDoc.zString, zPtr, sDoc.nByte) == 0) {
+          if ((sxu32) (zIn - zPtr) == sDoc.nByte && SyMemcmp(
+            sDoc.zString, zPtr,
+            sDoc.nByte
+              ) == 0)
+          {
             iNest = 0;
           }
           continue;
         }
-      } else if ((sxu32) (zEnd - zIn) >= sizeof("<<<") && zIn[0] == '<' && zIn[1] == '<' && zIn[2] == '<' && iNest < 1) {
+      } else if ((sxu32) (zEnd - zIn) >= sizeof("<<<") && zIn[0] == '<'
+                 && zIn[1] == '<' && zIn[2] == '<' && iNest < 1)
+      {
         zIn += sizeof("<<<") - 1;
-        while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && SyisSpace(zIn[0]) && zIn[0] != '\n') {
+        while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0
+               && SyisSpace(zIn[0]) && zIn[0] != '\n')
+        {
           zIn++;
         }
         if (zIn[0] == '"' || zIn[0] == '\'') {

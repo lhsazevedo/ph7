@@ -106,7 +106,8 @@
  *   licensing@symisc.net
  *   contact@symisc.net
  */
-#define PH7_COPYRIGHT "Copyright (C) Symisc Systems 2011-2012, http://ph7.symisc.net/"
+#define PH7_COPYRIGHT \
+        "Copyright (C) Symisc Systems 2011-2012, http://ph7.symisc.net/"
 /* Make sure we can call this stuff from C++ */
 /* @uncrustify off */
 #ifdef __cplusplus
@@ -184,7 +185,8 @@ typedef struct ph7 ph7;
 /* Symisc public definitions */
 #if !defined(SYMISC_STANDARD_DEFS)
 #define SYMISC_STANDARD_DEFS
-#if defined (_WIN32) || defined (WIN32) || defined(__MINGW32__) || defined (_MSC_VER) || defined (_WIN32_WCE)
+#if defined (_WIN32) || defined (WIN32) || defined(__MINGW32__) \
+  || defined (_MSC_VER) || defined (_WIN32_WCE)
 /* Windows Systems */
 #if !defined(__WINNT__)
 #define __WINNT__
@@ -297,7 +299,8 @@ struct SyMutexMethods {
   int (*xTryEnter)(SyMutex *);      /* [Optional:] Try to enter a mutex */
   void (*xLeave)(SyMutex *);        /* [Required:] Leave a locked mutex */
 };
-#if defined (_MSC_VER) || defined (__MINGW32__) || defined (__GNUC__) && defined (__declspec)
+#if defined (_MSC_VER) || defined (__MINGW32__) || defined (__GNUC__) \
+  && defined (__declspec)
 #define SX_APIIMPORT    __declspec(dllimport)
 #define SX_APIEXPORT    __declspec(dllexport)
 #else
@@ -631,21 +634,53 @@ PH7_APIEXPORT int ph7_config(ph7 *pEngine, int nConfigOp, ...);
 PH7_APIEXPORT int ph7_release(ph7 *pEngine);
 
 /* Compile Interfaces */
-PH7_APIEXPORT int ph7_compile(ph7 *pEngine, const char *zSource, int nLen, ph7_vm **ppOutVm);
-PH7_APIEXPORT int ph7_compile_v2(ph7 *pEngine, const char *zSource, int nLen, ph7_vm **ppOutVm, int iFlags);
-PH7_APIEXPORT int ph7_compile_file(ph7 *pEngine, const char *zFilePath, ph7_vm **ppOutVm, int iFlags);
+PH7_APIEXPORT int ph7_compile(
+  ph7 *pEngine,
+  const char *zSource,
+  int nLen,
+  ph7_vm **ppOutVm
+);
+PH7_APIEXPORT int ph7_compile_v2(
+  ph7 *pEngine,
+  const char *zSource,
+  int nLen,
+  ph7_vm **ppOutVm,
+  int iFlags
+);
+PH7_APIEXPORT int ph7_compile_file(
+  ph7 *pEngine,
+  const char *zFilePath,
+  ph7_vm **ppOutVm,
+  int iFlags
+);
 
 /* Virtual Machine Handling Interfaces */
 PH7_APIEXPORT int ph7_vm_config(ph7_vm *pVm, int iConfigOp, ...);
 PH7_APIEXPORT int ph7_vm_exec(ph7_vm *pVm, int *pExitStatus);
 PH7_APIEXPORT int ph7_vm_reset(ph7_vm *pVm);
 PH7_APIEXPORT int ph7_vm_release(ph7_vm *pVm);
-PH7_APIEXPORT int ph7_vm_dump_v2(ph7_vm *pVm, int (*xConsumer)(const void *, unsigned int, void *), void *pUserData);
+PH7_APIEXPORT int ph7_vm_dump_v2(
+  ph7_vm *pVm, int (*xConsumer)(
+    const void *,
+    unsigned int,
+    void *
+  ), void *pUserData
+);
 
 /* In-process Extending Interfaces */
-PH7_APIEXPORT int ph7_create_function(ph7_vm *pVm, const char *zName, int (*xFunc)(ph7_context *, int, ph7_value **), void *pUserData);
+PH7_APIEXPORT int ph7_create_function(
+  ph7_vm *pVm, const char *zName,
+  int (*xFunc)(
+    ph7_context *,
+    int,
+    ph7_value **
+  ), void *pUserData
+);
 PH7_APIEXPORT int ph7_delete_function(ph7_vm *pVm, const char *zName);
-PH7_APIEXPORT int ph7_create_constant(ph7_vm *pVm, const char *zName, void (*xExpand)(ph7_value *, void *), void *pUserData);
+PH7_APIEXPORT int ph7_create_constant(
+  ph7_vm *pVm, const char *zName,
+  void (*xExpand)(ph7_value *, void *), void *pUserData
+);
 PH7_APIEXPORT int ph7_delete_constant(ph7_vm *pVm, const char *zName);
 
 /* Foreign Function Parameter Values */
@@ -655,7 +690,11 @@ PH7_APIEXPORT ph7_int64 ph7_value_to_int64(ph7_value *pValue);
 PH7_APIEXPORT double ph7_value_to_double(ph7_value *pValue);
 PH7_APIEXPORT const char* ph7_value_to_string(ph7_value *pValue, int *pLen);
 PH7_APIEXPORT void* ph7_value_to_resource(ph7_value *pValue);
-PH7_APIEXPORT int ph7_value_compare(ph7_value *pLeft, ph7_value *pRight, int bStrict);
+PH7_APIEXPORT int ph7_value_compare(
+  ph7_value *pLeft,
+  ph7_value *pRight,
+  int bStrict
+);
 
 /* Setting The Result Of A Foreign Function */
 PH7_APIEXPORT int ph7_result_int(ph7_context *pCtx, int iValue);
@@ -663,18 +702,47 @@ PH7_APIEXPORT int ph7_result_int64(ph7_context *pCtx, ph7_int64 iValue);
 PH7_APIEXPORT int ph7_result_bool(ph7_context *pCtx, int iBool);
 PH7_APIEXPORT int ph7_result_double(ph7_context *pCtx, double Value);
 PH7_APIEXPORT int ph7_result_null(ph7_context *pCtx);
-PH7_APIEXPORT int ph7_result_string(ph7_context *pCtx, const char *zString, int nLen);
-PH7_APIEXPORT int ph7_result_string_format(ph7_context *pCtx, const char *zFormat, ...);
+PH7_APIEXPORT int ph7_result_string(
+  ph7_context *pCtx,
+  const char *zString,
+  int nLen
+);
+PH7_APIEXPORT int ph7_result_string_format(
+  ph7_context *pCtx,
+  const char *zFormat,
+  ...
+);
 PH7_APIEXPORT int ph7_result_value(ph7_context *pCtx, ph7_value *pValue);
 PH7_APIEXPORT int ph7_result_resource(ph7_context *pCtx, void *pUserData);
 
 /* Call Context Handling Interfaces */
-PH7_APIEXPORT int ph7_context_output(ph7_context *pCtx, const char *zString, int nLen);
-PH7_APIEXPORT int ph7_context_output_format(ph7_context *pCtx, const char *zFormat, ...);
-PH7_APIEXPORT int ph7_context_throw_error(ph7_context *pCtx, int iErr, const char *zErr);
-PH7_APIEXPORT int ph7_context_throw_error_format(ph7_context *pCtx, int iErr, const char *zFormat, ...);
+PH7_APIEXPORT int ph7_context_output(
+  ph7_context *pCtx,
+  const char *zString,
+  int nLen
+);
+PH7_APIEXPORT int ph7_context_output_format(
+  ph7_context *pCtx,
+  const char *zFormat,
+  ...
+);
+PH7_APIEXPORT int ph7_context_throw_error(
+  ph7_context *pCtx,
+  int iErr,
+  const char *zErr
+);
+PH7_APIEXPORT int ph7_context_throw_error_format(
+  ph7_context *pCtx,
+  int iErr,
+  const char *zFormat,
+  ...
+);
 PH7_APIEXPORT unsigned int ph7_context_random_num(ph7_context *pCtx);
-PH7_APIEXPORT int ph7_context_random_string(ph7_context *pCtx, char *zBuf, int nBuflen);
+PH7_APIEXPORT int ph7_context_random_string(
+  ph7_context *pCtx,
+  char *zBuf,
+  int nBuflen
+);
 PH7_APIEXPORT void* ph7_context_user_data(ph7_context *pCtx);
 PH7_APIEXPORT int ph7_context_push_aux_data(ph7_context *pCtx, void *pUserData);
 PH7_APIEXPORT void* ph7_context_peek_aux_data(ph7_context *pCtx);
@@ -683,8 +751,17 @@ PH7_APIEXPORT unsigned int ph7_context_result_buf_length(ph7_context *pCtx);
 PH7_APIEXPORT const char* ph7_function_name(ph7_context *pCtx);
 
 /* Call Context Memory Management Interfaces */
-PH7_APIEXPORT void* ph7_context_alloc_chunk(ph7_context *pCtx, unsigned int nByte, int ZeroChunk, int AutoRelease);
-PH7_APIEXPORT void* ph7_context_realloc_chunk(ph7_context *pCtx, void *pChunk, unsigned int nByte);
+PH7_APIEXPORT void* ph7_context_alloc_chunk(
+  ph7_context *pCtx,
+  unsigned int nByte,
+  int ZeroChunk,
+  int AutoRelease
+);
+PH7_APIEXPORT void* ph7_context_realloc_chunk(
+  ph7_context *pCtx,
+  void *pChunk,
+  unsigned int nByte
+);
 PH7_APIEXPORT void ph7_context_free_chunk(ph7_context *pCtx, void *pChunk);
 
 /* On Demand Dynamically Typed Value Object allocation interfaces */
@@ -693,7 +770,10 @@ PH7_APIEXPORT ph7_value* ph7_new_array(ph7_vm *pVm);
 PH7_APIEXPORT int ph7_release_value(ph7_vm *pVm, ph7_value *pValue);
 PH7_APIEXPORT ph7_value* ph7_context_new_scalar(ph7_context *pCtx);
 PH7_APIEXPORT ph7_value* ph7_context_new_array(ph7_context *pCtx);
-PH7_APIEXPORT void ph7_context_release_value(ph7_context *pCtx, ph7_value *pValue);
+PH7_APIEXPORT void ph7_context_release_value(
+  ph7_context *pCtx,
+  ph7_value *pValue
+);
 
 /* Dynamically Typed Value Object Management Interfaces */
 PH7_APIEXPORT int ph7_value_int(ph7_value *pVal, int iValue);
@@ -701,20 +781,62 @@ PH7_APIEXPORT int ph7_value_int64(ph7_value *pVal, ph7_int64 iValue);
 PH7_APIEXPORT int ph7_value_bool(ph7_value *pVal, int iBool);
 PH7_APIEXPORT int ph7_value_null(ph7_value *pVal);
 PH7_APIEXPORT int ph7_value_double(ph7_value *pVal, double Value);
-PH7_APIEXPORT int ph7_value_string(ph7_value *pVal, const char *zString, int nLen);
-PH7_APIEXPORT int ph7_value_string_format(ph7_value *pVal, const char *zFormat, ...);
+PH7_APIEXPORT int ph7_value_string(
+  ph7_value *pVal,
+  const char *zString,
+  int nLen
+);
+PH7_APIEXPORT int ph7_value_string_format(
+  ph7_value *pVal,
+  const char *zFormat,
+  ...
+);
 PH7_APIEXPORT int ph7_value_reset_string_cursor(ph7_value *pVal);
 PH7_APIEXPORT int ph7_value_resource(ph7_value *pVal, void *pUserData);
 PH7_APIEXPORT int ph7_value_release(ph7_value *pVal);
-PH7_APIEXPORT ph7_value* ph7_array_fetch(ph7_value *pArray, const char *zKey, int nByte);
-PH7_APIEXPORT int ph7_array_walk(ph7_value *pArray, int (*xWalk)(ph7_value *, ph7_value *, void *), void *pUserData);
-PH7_APIEXPORT int ph7_array_add_elem(ph7_value *pArray, ph7_value *pKey, ph7_value *pValue);
-PH7_APIEXPORT int ph7_array_add_strkey_elem(ph7_value *pArray, const char *zKey, ph7_value *pValue);
-PH7_APIEXPORT int ph7_array_add_intkey_elem(ph7_value *pArray, int iKey, ph7_value *pValue);
+PH7_APIEXPORT ph7_value* ph7_array_fetch(
+  ph7_value *pArray,
+  const char *zKey,
+  int nByte
+);
+PH7_APIEXPORT int ph7_array_walk(
+  ph7_value *pArray, int (*xWalk)(
+    ph7_value *,
+    ph7_value *,
+    void *
+  ), void *pUserData
+);
+PH7_APIEXPORT int ph7_array_add_elem(
+  ph7_value *pArray,
+  ph7_value *pKey,
+  ph7_value *pValue
+);
+PH7_APIEXPORT int ph7_array_add_strkey_elem(
+  ph7_value *pArray,
+  const char *zKey,
+  ph7_value *pValue
+);
+PH7_APIEXPORT int ph7_array_add_intkey_elem(
+  ph7_value *pArray,
+  int iKey,
+  ph7_value *pValue
+);
 PH7_APIEXPORT unsigned int ph7_array_count(ph7_value *pArray);
-PH7_APIEXPORT int ph7_object_walk(ph7_value *pObject, int (*xWalk)(const char *, ph7_value *, void *), void *pUserData);
-PH7_APIEXPORT ph7_value* ph7_object_fetch_attr(ph7_value *pObject, const char *zAttr);
-PH7_APIEXPORT const char* ph7_object_get_class_name(ph7_value *pObject, int *pLength);
+PH7_APIEXPORT int ph7_object_walk(
+  ph7_value *pObject, int (*xWalk)(
+    const char *,
+    ph7_value *,
+    void *
+  ), void *pUserData
+);
+PH7_APIEXPORT ph7_value* ph7_object_fetch_attr(
+  ph7_value *pObject,
+  const char *zAttr
+);
+PH7_APIEXPORT const char* ph7_object_get_class_name(
+  ph7_value *pObject,
+  int *pLength
+);
 PH7_APIEXPORT int ph7_value_is_int(ph7_value *pVal);
 PH7_APIEXPORT int ph7_value_is_float(ph7_value *pVal);
 PH7_APIEXPORT int ph7_value_is_bool(ph7_value *pVal);

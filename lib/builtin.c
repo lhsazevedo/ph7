@@ -39,7 +39,8 @@
  * Return
  *  TRUE if var is a boolean. False otherwise.
  */
-static int PH7_builtin_is_bool(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_is_bool(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int res = 0;   /* Assume false by default */
   if (nArg > 0) {
@@ -60,7 +61,8 @@ static int PH7_builtin_is_bool(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  TRUE if var is a float. False otherwise.
  */
-static int PH7_builtin_is_float(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_is_float(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int res = 0;   /* Assume false by default */
   if (nArg > 0) {
@@ -81,7 +83,8 @@ static int PH7_builtin_is_float(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  TRUE if var is an integer. False otherwise.
  */
-static int PH7_builtin_is_int(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_is_int(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int res = 0;   /* Assume false by default */
   if (nArg > 0) {
@@ -100,7 +103,8 @@ static int PH7_builtin_is_int(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  TRUE if var is string. False otherwise.
  */
-static int PH7_builtin_is_string(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_is_string(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int res = 0;   /* Assume false by default */
   if (nArg > 0) {
@@ -119,7 +123,8 @@ static int PH7_builtin_is_string(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  TRUE if var is NULL. False otherwise.
  */
-static int PH7_builtin_is_null(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_is_null(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int res = 0;   /* Assume false by default */
   if (nArg > 0) {
@@ -138,7 +143,8 @@ static int PH7_builtin_is_null(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  True if var is numeric. False otherwise.
  */
-static int PH7_builtin_is_numeric(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_is_numeric(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int res = 0;   /* Assume false by default */
   if (nArg > 0) {
@@ -157,7 +163,8 @@ static int PH7_builtin_is_numeric(ph7_context *pCtx, int nArg, ph7_value **apArg
  * Return
  *  True if var is scalar. False otherwise.
  */
-static int PH7_builtin_is_scalar(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_is_scalar(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int res = 0;   /* Assume false by default */
   if (nArg > 0) {
@@ -176,7 +183,8 @@ static int PH7_builtin_is_scalar(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  True if var is an array. False otherwise.
  */
-static int PH7_builtin_is_array(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_is_array(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int res = 0;   /* Assume false by default */
   if (nArg > 0) {
@@ -195,7 +203,8 @@ static int PH7_builtin_is_array(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  True if var is an object. False otherwise.
  */
-static int PH7_builtin_is_object(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_is_object(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int res = 0;   /* Assume false by default */
   if (nArg > 0) {
@@ -214,7 +223,8 @@ static int PH7_builtin_is_object(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  True if a resource. False otherwise.
  */
-static int PH7_builtin_is_resource(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_is_resource(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int res = 0;   /* Assume false by default */
   if (nArg > 0) {
@@ -232,7 +242,8 @@ static int PH7_builtin_is_resource(ph7_context *pCtx, int nArg, ph7_value **apAr
  * Return
  *  the float value of a variable.
  */
-static int PH7_builtin_floatval(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_floatval(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   if (nArg < 1) {
     /* return 0.0 */
@@ -254,7 +265,8 @@ static int PH7_builtin_floatval(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  the int value of a variable.
  */
-static int PH7_builtin_intval(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_intval(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   if (nArg < 1) {
     /* return 0 */
@@ -276,7 +288,8 @@ static int PH7_builtin_intval(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  the string value of a variable.
  */
-static int PH7_builtin_strval(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strval(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   if (nArg < 1) {
     /* return NULL */
@@ -299,7 +312,8 @@ static int PH7_builtin_strval(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  0 if var has a non-empty and non-zero value.1 otherwise.
  */
-static int PH7_builtin_empty(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_empty(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int res = 1;   /* Assume empty by default */
   if (nArg > 0) {
@@ -332,7 +346,8 @@ static int PH7_builtin_empty(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The square root of arg or the special value Nan of failure.
  */
-static int PH7_builtin_sqrt(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_sqrt(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -356,7 +371,8 @@ static int PH7_builtin_sqrt(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  'e' raised to the power of arg.
  */
-static int PH7_builtin_exp(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_exp(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -380,7 +396,8 @@ static int PH7_builtin_exp(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Returns the next lowest integer value by rounding down value if necessary.
  */
-static int PH7_builtin_floor(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_floor(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -404,7 +421,8 @@ static int PH7_builtin_floor(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The cosine of arg.
  */
-static int PH7_builtin_cos(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_cos(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -428,7 +446,8 @@ static int PH7_builtin_cos(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The arc cosine of arg.
  */
-static int PH7_builtin_acos(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_acos(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -452,7 +471,8 @@ static int PH7_builtin_acos(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The hyperbolic cosine of arg.
  */
-static int PH7_builtin_cosh(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_cosh(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -476,7 +496,8 @@ static int PH7_builtin_cosh(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The sine of arg.
  */
-static int PH7_builtin_sin(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_sin(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -500,7 +521,8 @@ static int PH7_builtin_sin(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The arc sine of arg.
  */
-static int PH7_builtin_asin(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_asin(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -524,7 +546,8 @@ static int PH7_builtin_asin(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The hyperbolic sine of arg.
  */
-static int PH7_builtin_sinh(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_sinh(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -548,7 +571,8 @@ static int PH7_builtin_sinh(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The next highest integer value by rounding up value if necessary.
  */
-static int PH7_builtin_ceil(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ceil(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -572,7 +596,8 @@ static int PH7_builtin_ceil(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The tangent of arg.
  */
-static int PH7_builtin_tan(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_tan(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -596,7 +621,8 @@ static int PH7_builtin_tan(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The arc tangent of arg.
  */
-static int PH7_builtin_atan(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_atan(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -620,7 +646,8 @@ static int PH7_builtin_atan(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The Hyperbolic tangent of arg.
  */
-static int PH7_builtin_tanh(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_tanh(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -645,7 +672,8 @@ static int PH7_builtin_tanh(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The arc tangent of y/x in radian.
  */
-static int PH7_builtin_atan2(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_atan2(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x, y;
   if (nArg < 2) {
@@ -670,7 +698,8 @@ static int PH7_builtin_atan2(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The absolute value of number.
  */
-static int PH7_builtin_abs(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_abs(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int is_float;
   if (nArg < 1) {
@@ -706,7 +735,8 @@ static int PH7_builtin_abs(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Note:
  *  only Natural log and base-10 log are supported.
  */
-static int PH7_builtin_log(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_log(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -716,7 +746,9 @@ static int PH7_builtin_log(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   x = ph7_value_to_double(apArg[0]);
   /* Perform the requested operation */
-  if (nArg == 2 && ph7_value_is_numeric(apArg[1]) && ph7_value_to_int(apArg[1]) == 10) {
+  if (nArg == 2 && ph7_value_is_numeric(apArg[1])
+      && ph7_value_to_int(apArg[1]) == 10)
+  {
     /* Base-10 log */
     r = log10(x);
   } else {
@@ -735,7 +767,8 @@ static int PH7_builtin_log(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The Base-10 logarithm of the given number.
  */
-static int PH7_builtin_log10(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_log10(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x;
   if (nArg < 1) {
@@ -764,7 +797,8 @@ static int PH7_builtin_log10(ph7_context *pCtx, int nArg, ph7_value **apArg)
  *  If the result can be represented as integer it will be returned
  *  as type integer, else it will be returned as type float.
  */
-static int PH7_builtin_pow(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_pow(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double r, x, y;
   if (nArg < 1) {
@@ -788,7 +822,8 @@ static int PH7_builtin_pow(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The value of pi as float.
  */
-static int PH7_builtin_pi(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_pi(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   SXUNUSED(nArg);   /* cc warning */
   SXUNUSED(apArg);
@@ -807,7 +842,8 @@ static int PH7_builtin_pi(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The floating point remainder of x/y.
  */
-static int PH7_builtin_fmod(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_fmod(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double x, y, r;
   if (nArg < 2) {
@@ -836,7 +872,8 @@ static int PH7_builtin_fmod(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Calculated length of the hypotenuse.
  */
-static int PH7_builtin_hypot(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_hypot(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   double x, y, r;
   if (nArg < 2) {
@@ -870,7 +907,8 @@ static int PH7_builtin_hypot(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The rounded value.
  */
-static int PH7_builtin_round(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_round(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int n = 0;
   double r;
@@ -920,7 +958,8 @@ static int PH7_builtin_round(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Hexadecimal string representation of number
  */
-static int PH7_builtin_dechex(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_dechex(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int iVal;
   if (nArg < 1) {
@@ -944,7 +983,8 @@ static int PH7_builtin_dechex(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Octal string representation of number
  */
-static int PH7_builtin_decoct(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_decoct(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int iVal;
   if (nArg < 1) {
@@ -968,7 +1008,8 @@ static int PH7_builtin_decoct(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Binary string representation of number
  */
-static int PH7_builtin_decbin(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_decbin(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int iVal;
   if (nArg < 1) {
@@ -992,7 +1033,8 @@ static int PH7_builtin_decbin(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The decimal representation of hex_string
  */
-static int PH7_builtin_hexdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_hexdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString, *zEnd;
   ph7_int64 iVal;
@@ -1013,7 +1055,9 @@ static int PH7_builtin_hexdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if ((unsigned char) zString[0] >= 0xc0) {
         /* UTF-8 stream */
         zString++;
-        while (zString < zEnd && (((unsigned char) zString[0] & 0xc0) == 0x80)) {
+        while (zString < zEnd
+               && (((unsigned char) zString[0] & 0xc0) == 0x80))
+        {
           zString++;
         }
       } else {
@@ -1046,7 +1090,8 @@ static int PH7_builtin_hexdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Returns the decimal equivalent of the binary number represented by the binary_string argument.
  */
-static int PH7_builtin_bindec(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_bindec(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString;
   ph7_int64 iVal;
@@ -1082,7 +1127,8 @@ static int PH7_builtin_bindec(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Returns the decimal equivalent of the octal number represented by the octal_string argument.
  */
-static int PH7_builtin_octdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_octdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString;
   ph7_int64 iVal;
@@ -1122,7 +1168,8 @@ static int PH7_builtin_octdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
  *  THIS FUNCTION IS A NO-OP.
  *  THE PH7 PRNG IS AUTOMATICALLY SEEDED WHEN THE VM IS CREATED.
  */
-static int PH7_builtin_srand(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_srand(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   SXUNUSED(nArg);
   SXUNUSED(apArg);
@@ -1143,7 +1190,8 @@ static int PH7_builtin_srand(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Number converted to base tobase
  */
-static int PH7_builtin_base_convert(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_base_convert(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int nLen, iFbase, iTobase;
   const char *zNum;
@@ -1247,7 +1295,8 @@ static int PH7_builtin_base_convert(ph7_context *pCtx, int nArg, ph7_value **apA
  * Return
  *  Returns the extracted part of string, or FALSE on failure or an empty string.
  */
-static int PH7_builtin_substr(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_substr(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zSource, *zOfft;
   int nOfft, nLen, nSrcLen;
@@ -1328,7 +1377,8 @@ static int PH7_builtin_substr(ph7_context *pCtx, int nArg, ph7_value **apArg)
  *  str, and 0 if they are equal. If offset is equal to or greater than the length of main_str
  *  or length is set and is less than 1, substr_compare() prints a warning and returns FALSE.
  */
-static int PH7_builtin_substr_compare(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_substr_compare(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zSource, *zOfft, *zSub;
   int nOfft, nLen, nSrcLen, nSublen;
@@ -1416,7 +1466,8 @@ static int PH7_builtin_substr_compare(ph7_context *pCtx, int nArg, ph7_value **a
  * Return
  *  Toral number of substring occurrences.
  */
-static int PH7_builtin_substr_count(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_substr_count(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zText, *zPattern, *zEnd;
   int nTextlen, nPatlen;
@@ -1459,7 +1510,10 @@ static int PH7_builtin_substr_count(ph7_context *pCtx, int nArg, ph7_value **apA
     nLen = ph7_value_to_int(apArg[3]);
     if (nLen < 0 || nLen > nTextlen) {
       /* Invalid length,return 0 */
-      ph7_result_int(pCtx, 0);
+      ph7_result_int(
+        pCtx,
+        0
+      );
       return PH7_OK;
     }
     /* Adjust pointer */
@@ -1468,7 +1522,10 @@ static int PH7_builtin_substr_count(ph7_context *pCtx, int nArg, ph7_value **apA
   }
   /* Perform the search */
   for (;;) {
-    rc = SyBlobSearch((const void *) zText, (sxu32) (zEnd - zText), (const void *) zPattern, nPatlen, &nOfft);
+    rc = SyBlobSearch(
+      (const void *) zText, (sxu32) (zEnd - zText),
+      (const void *) zPattern, nPatlen, &nOfft
+    );
     if (rc != SXRET_OK) {
       /* Pattern not found,break immediately */
       break;
@@ -1498,7 +1555,8 @@ static int PH7_builtin_substr_count(ph7_context *pCtx, int nArg, ph7_value **apA
  * Return
  *  The chunked string or NULL on failure.
  */
-static int PH7_builtin_chunk_split(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_chunk_split(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zIn, *zEnd, *zSep = "\r\n";
   int nSepLen, nChunkLen, nLen;
@@ -1558,7 +1616,8 @@ static int PH7_builtin_chunk_split(ph7_context *pCtx, int nArg, ph7_value **apAr
  * Return
  *  Returns the escaped string
  */
-static int PH7_builtin_addslashes(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_addslashes(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zCur, *zIn, *zEnd;
   int nLen;
@@ -1602,7 +1661,8 @@ static int PH7_builtin_addslashes(ph7_context *pCtx, int nArg, ph7_value **apArg
  * Check if the given character is present in the given mask.
  * Return TRUE if present. FALSE otherwise.
  */
-static int cSlashCheckMask(int c, const char *zMask, int nLen)
+static int
+cSlashCheckMask(int c, const char *zMask, int nLen)
 {
   const char *zEnd = &zMask[nLen];
   while (zMask < zEnd) {
@@ -1632,7 +1692,8 @@ static int cSlashCheckMask(int c, const char *zMask, int nLen)
  * Note:
  *  Range characters [i.e: 'A..Z'] is not implemented in the current release.
  */
-static int PH7_builtin_addcslashes(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_addcslashes(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zCur, *zIn, *zEnd, *zMask;
   int nLen, nMask;
@@ -1667,7 +1728,9 @@ static int PH7_builtin_addcslashes(ph7_context *pCtx, int nArg, ph7_value **apAr
     }
     if (zIn < zEnd) {
       int c = zIn[0];
-      if (c > 126 || (c < 32 && (!SyisAlphaNum(c) /*EBCDIC*/ && !SyisSpace(c)))) {
+      if (c > 126
+          || (c < 32 && (!SyisAlphaNum(c) /*EBCDIC*/ && !SyisSpace(c))))
+      {
         /* Convert to octal */
         ph7_result_string_format(pCtx, "\\%o", c);
       } else {
@@ -1688,7 +1751,8 @@ static int PH7_builtin_addcslashes(ph7_context *pCtx, int nArg, ph7_value **apAr
  * Return
  *  Returns the escaped string.
  */
-static int PH7_builtin_quotemeta(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_quotemeta(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zCur, *zIn, *zEnd;
   int nLen;
@@ -1712,7 +1776,11 @@ static int PH7_builtin_quotemeta(ph7_context *pCtx, int nArg, ph7_value **apArg)
       break;
     }
     zCur = zIn;
-    while (zIn < zEnd && !cSlashCheckMask(zIn[0], ".\\+*?[^]($)", (int) sizeof(".\\+*?[^]($)") - 1)) {
+    while (zIn < zEnd && !cSlashCheckMask(
+      zIn[0], ".\\+*?[^]($)",
+      (int) sizeof(".\\+*?[^]($)") - 1
+    ))
+    {
       zIn++;
     }
     if (zIn > zCur) {
@@ -1740,7 +1808,8 @@ static int PH7_builtin_quotemeta(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Returns a string with backslashes stripped off.
  */
-static int PH7_builtin_stripslashes(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_stripslashes(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zCur, *zIn, *zEnd;
   int nLen;
@@ -1808,7 +1877,8 @@ static int PH7_builtin_stripslashes(ph7_context *pCtx, int nArg, ph7_value **apA
  * Return
  *  The escaped string or NULL on failure.
  */
-static int PH7_builtin_htmlspecialchars(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_htmlspecialchars(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zCur, *zIn, *zEnd;
   int iFlags = 0x01 | 0x40;   /* ENT_COMPAT | ENT_HTML401 */
@@ -1834,7 +1904,9 @@ static int PH7_builtin_htmlspecialchars(ph7_context *pCtx, int nArg, ph7_value *
       break;
     }
     zCur = zIn;
-    while (zIn < zEnd && zIn[0] != '&' && zIn[0] != '\'' && zIn[0] != '"' && zIn[0] != '<' && zIn[0] != '>') {
+    while (zIn < zEnd && zIn[0] != '&' && zIn[0] != '\'' && zIn[0] != '"'
+           && zIn[0] != '<' && zIn[0] != '>')
+    {
       zIn++;
     }
     if (zCur < zIn) {
@@ -1891,7 +1963,12 @@ static int PH7_builtin_htmlspecialchars(ph7_context *pCtx, int nArg, ph7_value *
  * Return
  *  The unescaped string or NULL on failure.
  */
-static int PH7_builtin_htmlspecialchars_decode(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_htmlspecialchars_decode(
+  ph7_context *pCtx,
+  int nArg,
+  ph7_value **apArg
+)
 {
   const char *zCur, *zIn, *zEnd;
   int iFlags = 0x01;   /* ENT_COMPAT */
@@ -1926,19 +2003,35 @@ static int PH7_builtin_htmlspecialchars_decode(ph7_context *pCtx, int nArg, ph7_
     }
     nLen = (int) (zEnd - zIn);
     nJump = (int) sizeof(char);
-    if (nLen >= (int) sizeof("&amp;") - 1 && SyStrnicmp(zIn, "&amp;", sizeof("&amp;") - 1) == 0) {
+    if (nLen >= (int) sizeof("&amp;") - 1 && SyStrnicmp(
+      zIn, "&amp;",
+      sizeof("&amp;") - 1
+        ) == 0)
+    {
       /* &amp; ==> '&' */
       ph7_result_string(pCtx, "&", (int) sizeof(char));
       nJump = (int) sizeof("&amp;") - 1;
-    } else if (nLen >= (int) sizeof("&lt;") - 1 && SyStrnicmp(zIn, "&lt;", sizeof("&lt;") - 1) == 0) {
+    } else if (nLen >= (int) sizeof("&lt;") - 1 && SyStrnicmp(
+      zIn, "&lt;",
+      sizeof("&lt;") - 1
+               ) == 0)
+    {
       /* &lt; ==> < */
       ph7_result_string(pCtx, "<", (int) sizeof(char));
       nJump = (int) sizeof("&lt;") - 1;
-    } else if (nLen >= (int) sizeof("&gt;") - 1 && SyStrnicmp(zIn, "&gt;", sizeof("&gt;") - 1) == 0) {
+    } else if (nLen >= (int) sizeof("&gt;") - 1 && SyStrnicmp(
+      zIn, "&gt;",
+      sizeof("&gt;") - 1
+               ) == 0)
+    {
       /* &gt; ==> '>' */
       ph7_result_string(pCtx, ">", (int) sizeof(char));
       nJump = (int) sizeof("&gt;") - 1;
-    } else if (nLen >= (int) sizeof("&quot;") - 1 && SyStrnicmp(zIn, "&quot;", sizeof("&quot;") - 1) == 0) {
+    } else if (nLen >= (int) sizeof("&quot;") - 1 && SyStrnicmp(
+      zIn, "&quot;",
+      sizeof("&quot;") - 1
+               ) == 0)
+    {
       /* &quot; ==> '"' */
       if ((iFlags & 0x04) == 0 /*ENT_NOQUOTES*/ ) {
         ph7_result_string(pCtx, "\"", (int) sizeof(char));
@@ -1947,7 +2040,11 @@ static int PH7_builtin_htmlspecialchars_decode(ph7_context *pCtx, int nArg, ph7_
         ph7_result_string(pCtx, "&quot;", (int) sizeof("&quot;") - 1);
       }
       nJump = (int) sizeof("&quot;") - 1;
-    } else if (nLen >= (int) sizeof("&#039;") - 1 && SyStrnicmp(zIn, "&#039;", sizeof("&#039;") - 1) == 0) {
+    } else if (nLen >= (int) sizeof("&#039;") - 1 && SyStrnicmp(
+      zIn, "&#039;",
+      sizeof("&#039;") - 1
+               ) == 0)
+    {
       /* &#039; ==> ''' */
       if (iFlags & 0x02 /*ENT_QUOTES*/ ) {
         /* Expand ''' */
@@ -1987,7 +2084,12 @@ static const char *azHtmlEscape[] = {
  * Return
  *  The translation table as an array or NULL on failure.
  */
-static int PH7_builtin_get_html_translation_table(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_get_html_translation_table(
+  ph7_context *pCtx,
+  int nArg,
+  ph7_value **apArg
+)
 {
   ph7_value *pArray, *pValue;
   sxu32 n;
@@ -2010,7 +2112,10 @@ static int PH7_builtin_get_html_translation_table(ph7_context *pCtx, int nArg, p
   /* Make the table */
   for (n = 0 ; n < SX_ARRAYSIZE(azHtmlEscape) ; n += 2) {
     /* Prepare the value */
-    ph7_value_string(pValue, azHtmlEscape[n], -1 /* Compute length automatically */ );
+    ph7_value_string(
+      pValue, azHtmlEscape[n],
+      -1 /* Compute length automatically */
+    );
     /* Insert the value */
     ph7_array_add_strkey_elem(pArray, azHtmlEscape[n + 1], pValue);
     /* Reset the string cursor */
@@ -2037,7 +2142,8 @@ static int PH7_builtin_get_html_translation_table(ph7_context *pCtx, int nArg, p
  * Return
  * The encoded string.
  */
-static int PH7_builtin_htmlentities(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_htmlentities(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int iFlags = 0x01;   /* ENT_COMPAT */
   const char *zIn, *zEnd;
@@ -2077,11 +2183,17 @@ static int PH7_builtin_htmlentities(ph7_context *pCtx, int nArg, ph7_value **apA
       if (c == '"' && (iFlags & 0x04) /*ENT_NOQUOTES*/ ) {
         /* Expand the double quote verbatim */
         ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
-      } else if (c == '\'' && ((iFlags & 0x02 /*ENT_QUOTES*/ ) == 0 || (iFlags & 0x04) /*ENT_NOQUOTES*/ )) {
+      } else if (c == '\''
+                 && ((iFlags & 0x02 /*ENT_QUOTES*/ ) == 0
+                     || (iFlags & 0x04) /*ENT_NOQUOTES*/ ))
+      {
         /* expand single quote verbatim */
         ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
       } else {
-        ph7_result_string(pCtx, azHtmlEscape[n], -1 /*Compute length automatically */ );
+        ph7_result_string(
+          pCtx, azHtmlEscape[n],
+          -1 /*Compute length automatically */
+        );
       }
     } else {
       /* Output character verbatim */
@@ -2103,7 +2215,8 @@ static int PH7_builtin_htmlentities(ph7_context *pCtx, int nArg, ph7_value **apA
  * Return
  * The decoded string.
  */
-static int PH7_builtin_html_entity_decode(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_html_entity_decode(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zCur, *zIn, *zEnd;
   int iFlags = 0x01;   /* ENT_COMPAT  */
@@ -2154,7 +2267,10 @@ static int PH7_builtin_html_entity_decode(ph7_context *pCtx, int nArg, ph7_value
     if (n < SX_ARRAYSIZE(azHtmlEscape)) {
       int c = azHtmlEscape[n + 1][0];
       /* Output the decoded character */
-      if (c == '\'' && ((iFlags & 0x02) == 0 /*ENT_QUOTES*/ || (iFlags & 0x04) /*ENT_NOQUOTES*/ )) {
+      if (c == '\''
+          && ((iFlags & 0x02) == 0 /*ENT_QUOTES*/
+              || (iFlags & 0x04) /*ENT_NOQUOTES*/ ))
+      {
         /* Do not process single quotes */
         ph7_result_string(pCtx, azHtmlEscape[n], -1);
       } else if (c == '"' && (iFlags & 0x04) /*ENT_NOQUOTES*/ ) {
@@ -2180,7 +2296,8 @@ static int PH7_builtin_html_entity_decode(ph7_context *pCtx, int nArg, ph7_value
  * Return
  *  length of the given string.
  */
-static int PH7_builtin_strlen(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strlen(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int iLen = 0;
   if (nArg > 0) {
@@ -2201,7 +2318,8 @@ static int PH7_builtin_strlen(ph7_context *pCtx, int nArg, ph7_value **apArg)
  *  Returns < 0 if str1 is less than str2; > 0 if str1 is greater
  *  than str2, and 0 if they are equal.
  */
-static int PH7_builtin_strcmp(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strcmp(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *z1, *z2;
   int n1, n2;
@@ -2230,7 +2348,8 @@ static int PH7_builtin_strcmp(ph7_context *pCtx, int nArg, ph7_value **apArg)
  *  Returns < 0 if str1 is less than str2; > 0 if str1 is greater
  *  than str2, and 0 if they are equal.
  */
-static int PH7_builtin_strncmp(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strncmp(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *z1, *z2;
   int res;
@@ -2265,7 +2384,8 @@ static int PH7_builtin_strncmp(ph7_context *pCtx, int nArg, ph7_value **apArg)
  *  Returns < 0 if str1 is less than str2; > 0 if str1 is greater
  *  than str2, and 0 if they are equal.
  */
-static int PH7_builtin_strcasecmp(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strcasecmp(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *z1, *z2;
   int n1, n2;
@@ -2295,7 +2415,8 @@ static int PH7_builtin_strcasecmp(ph7_context *pCtx, int nArg, ph7_value **apArg
  *  Returns < 0 if str1 is less than str2; > 0 if str1 is greater
  *  than str2, and 0 if they are equal.
  */
-static int PH7_builtin_strncasecmp(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strncasecmp(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *z1, *z2;
   int res;
@@ -2339,12 +2460,15 @@ struct implode_data {
  * The following routine is invoked for each array entry passed
  * to the implode() function.
  */
-static int implode_callback(ph7_value *pKey, ph7_value *pValue, void *pUserData)
+static int
+implode_callback(ph7_value *pKey, ph7_value *pValue, void *pUserData)
 {
   struct implode_data *pData = (struct implode_data *) pUserData;
   const char *zData;
   int nLen;
-  if (pData->bRecursive && ph7_value_is_array(pValue) && pData->nRecCount < 32) {
+  if (pData->bRecursive && ph7_value_is_array(pValue)
+      && pData->nRecCount < 32)
+  {
     if (pData->nSeplen > 0) {
       if (!pData->bFirst) {
         /* append the separator first */
@@ -2391,7 +2515,8 @@ static int implode_callback(ph7_value *pKey, ph7_value *pValue, void *pUserData)
  *  Returns a string containing a string representation of all the array elements in the same
  *  order, with the glue string between each element.
  */
-static int PH7_builtin_implode(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_implode(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   struct implode_data imp_data;
   int i = 1;
@@ -2457,7 +2582,8 @@ static int PH7_builtin_implode(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Refer to implode().
  */
-static int PH7_builtin_implode_recursive(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_implode_recursive(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   struct implode_data imp_data;
   int i = 1;
@@ -2530,7 +2656,8 @@ static int PH7_builtin_implode_recursive(ph7_context *pCtx, int nArg, ph7_value 
  * NOTE:
  *  Negative limit is not supported.
  */
-static int PH7_builtin_explode(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_explode(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zDelim, *zString, *zCur, *zEnd;
   int nDelim, nStrlen, iLimit;
@@ -2585,7 +2712,10 @@ static int PH7_builtin_explode(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* No more entry to process */
       break;
     }
-    rc = SyBlobSearch(zString, (sxu32) (zEnd - zString), zDelim, nDelim, &nOfft);
+    rc = SyBlobSearch(
+      zString, (sxu32) (zEnd - zString), zDelim, nDelim,
+      &nOfft
+    );
     if (rc != SXRET_OK || iLimit <= (int) ph7_array_count(pArray)) {
       /* Limit reached,insert the rest of the string and break */
       if (zEnd > zString) {
@@ -2630,7 +2760,8 @@ static int PH7_builtin_explode(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * NOTE:
  *   RANGE CHARACTERS [I.E: 'a'..'z'] are not supported.
  */
-static int PH7_builtin_trim(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_trim(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString;
   int nLen;
@@ -2725,7 +2856,8 @@ static int PH7_builtin_trim(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * NOTE:
  *   RANGE CHARACTERS [I.E: 'a'..'z'] are not supported.
  */
-static int PH7_builtin_rtrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_rtrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString;
   int nLen;
@@ -2803,7 +2935,8 @@ static int PH7_builtin_rtrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * NOTE:
  *   RANGE CHARACTERS [I.E: 'a'..'z'] are not supported.
  */
-static int PH7_builtin_ltrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ltrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString;
   int nLen;
@@ -2875,7 +3008,8 @@ static int PH7_builtin_ltrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Returns.
  *  The lowercased string.
  */
-static int PH7_builtin_strtolower(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strtolower(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString, *zCur, *zEnd;
   int nLen;
@@ -2930,7 +3064,8 @@ static int PH7_builtin_strtolower(ph7_context *pCtx, int nArg, ph7_value **apArg
  * Returns.
  *  The uppercased string.
  */
-static int PH7_builtin_strtoupper(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strtoupper(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString, *zCur, *zEnd;
   int nLen;
@@ -2986,7 +3121,8 @@ static int PH7_builtin_strtoupper(ph7_context *pCtx, int nArg, ph7_value **apArg
  * Returns.
  *  The processed string.
  */
-static int PH7_builtin_ucfirst(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ucfirst(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString, *zEnd;
   int nLen, c;
@@ -3027,7 +3163,8 @@ static int PH7_builtin_ucfirst(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Returns.
  *  The processed string.
  */
-static int PH7_builtin_lcfirst(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_lcfirst(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString, *zEnd;
   int nLen, c;
@@ -3068,7 +3205,8 @@ static int PH7_builtin_lcfirst(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Returns.
  *  The ASCII value as an integer.
  */
-static int PH7_builtin_ord(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ord(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString;
   int nLen, c;
@@ -3100,7 +3238,8 @@ static int PH7_builtin_ord(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Returns.
  *  The specified character.
  */
-static int PH7_builtin_chr(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_chr(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int c;
   if (nArg < 1) {
@@ -3120,10 +3259,14 @@ static int PH7_builtin_chr(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * This callback is the default consumer used by the hash functions
  * [i.e: bin2hex(),md5(),sha1(),md5_file() ... ] defined below.
  */
-static int HashConsumer(const void *pData, unsigned int nLen, void *pUserData)
+static int
+HashConsumer(const void *pData, unsigned int nLen, void *pUserData)
 {
   /* Append hex chunk verbatim */
-  ph7_result_string((ph7_context *) pUserData, (const char *) pData, (int) nLen);
+  ph7_result_string(
+    (ph7_context *) pUserData, (const char *) pData,
+    (int) nLen
+  );
   return SXRET_OK;
 }
 
@@ -3136,7 +3279,8 @@ static int HashConsumer(const void *pData, unsigned int nLen, void *pUserData)
  * Returns.
  *  Returns the hexadecimal representation of the given string.
  */
-static int PH7_builtin_bin2hex(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_bin2hex(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString;
   int nLen;
@@ -3158,7 +3302,13 @@ static int PH7_builtin_bin2hex(ph7_context *pCtx, int nArg, ph7_value **apArg)
 }
 
 /* Search callback signature */
-typedef sxi32 (*ProcStringMatch)(const void *, sxu32, const void *, sxu32, sxu32 *);
+typedef sxi32 (*ProcStringMatch)(
+  const void *,
+  sxu32,
+  const void *,
+  sxu32,
+  sxu32 *
+);
 
 /*
  * Case-insensitive pattern match.
@@ -3166,7 +3316,14 @@ typedef sxi32 (*ProcStringMatch)(const void *, sxu32, const void *, sxu32, sxu32
  * This is due to the fact that brute-forcing works quite
  * well for short/medium texts on modern hardware.
  */
-static sxi32 iPatternMatch(const void *pText, sxu32 nLen, const void *pPattern, sxu32 iPatLen, sxu32 *pOfft)
+static sxi32
+iPatternMatch(
+  const void *pText,
+  sxu32 nLen,
+  const void *pPattern,
+  sxu32 iPatLen,
+  sxu32 *pOfft
+)
 {
   const char *zpIn = (const char *) pPattern;
   const char *zIn = (const char *) pText;
@@ -3227,7 +3384,8 @@ static sxi32 iPatternMatch(const void *pText, sxu32 nLen, const void *pPattern, 
  * Return
  *  Returns the portion of string, or FALSE if needle is not found.
  */
-static int PH7_builtin_strstr(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strstr(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   ProcStringMatch xPatternMatch = SyBlobSearch;   /* Case-sensitive pattern match */
   const char *zBlob, *zPattern;
@@ -3259,7 +3417,11 @@ static int PH7_builtin_strstr(ph7_context *pCtx, int nArg, ph7_value **apArg)
     if (before) {
       ph7_result_string(pCtx, zBlob, (int) (&zBlob[nOfft] - zBlob));
     } else {
-      ph7_result_string(pCtx, &zBlob[nOfft], (int) (&zBlob[nLen] - &zBlob[nOfft]));
+      ph7_result_string(
+        pCtx,
+        &zBlob[nOfft],
+        (int) (&zBlob[nLen] - &zBlob[nOfft])
+      );
     }
   } else {
     ph7_result_bool(pCtx, 0);
@@ -3281,7 +3443,8 @@ static int PH7_builtin_strstr(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Returns the portion of string, or FALSE if needle is not found.
  */
-static int PH7_builtin_stristr(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_stristr(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   ProcStringMatch xPatternMatch = iPatternMatch;   /* Case-insensitive pattern match */
   const char *zBlob, *zPattern;
@@ -3313,7 +3476,11 @@ static int PH7_builtin_stristr(ph7_context *pCtx, int nArg, ph7_value **apArg)
     if (before) {
       ph7_result_string(pCtx, zBlob, (int) (&zBlob[nOfft] - zBlob));
     } else {
-      ph7_result_string(pCtx, &zBlob[nOfft], (int) (&zBlob[nLen] - &zBlob[nOfft]));
+      ph7_result_string(
+        pCtx,
+        &zBlob[nOfft],
+        (int) (&zBlob[nLen] - &zBlob[nOfft])
+      );
     }
   } else {
     ph7_result_bool(pCtx, 0);
@@ -3336,7 +3503,8 @@ static int PH7_builtin_stristr(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Returns the position as an integer.If needle is not found, strpos() will return FALSE.
  */
-static int PH7_builtin_strpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   ProcStringMatch xPatternMatch = SyBlobSearch;   /* Case-sensitive pattern match */
   const char *zBlob, *zPattern;
@@ -3398,7 +3566,8 @@ static int PH7_builtin_strpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Returns the position as an integer.If needle is not found, strpos() will return FALSE.
  */
-static int PH7_builtin_stripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_stripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   ProcStringMatch xPatternMatch = iPatternMatch;   /* Case-insensitive pattern match */
   const char *zBlob, *zPattern;
@@ -3460,7 +3629,8 @@ static int PH7_builtin_stripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Returns the position as an integer.If needle is not found, strrpos() will return FALSE.
  */
-static int PH7_builtin_strrpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strrpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zStart, *zBlob, *zPattern, *zPtr, *zEnd;
   ProcStringMatch xPatternMatch = SyBlobSearch;   /* Case-sensitive pattern match */
@@ -3499,7 +3669,10 @@ static int PH7_builtin_strrpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
     } else {
       if (nStart >= nLen) {
         /* Invalid offset */
-        ph7_result_bool(pCtx, 0);
+        ph7_result_bool(
+          pCtx,
+          0
+        );
         return PH7_OK;
       } else {
         zBlob += nStart;
@@ -3513,7 +3686,10 @@ static int PH7_builtin_strrpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (zBlob >= zPtr) {
         break;
       }
-      rc = xPatternMatch((const void *) zPtr, (sxu32) (zEnd - zPtr), (const void *) zPattern, (sxu32) nPatLen, &nOfft);
+      rc = xPatternMatch(
+        (const void *) zPtr, (sxu32) (zEnd - zPtr),
+        (const void *) zPattern, (sxu32) nPatLen, &nOfft
+      );
       if (rc == SXRET_OK) {
         /* Pattern found,return it's position */
         ph7_result_int64(pCtx, (ph7_int64) (&zPtr[nOfft] - zStart));
@@ -3544,7 +3720,8 @@ static int PH7_builtin_strrpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Returns the position as an integer.If needle is not found, strrpos() will return FALSE.
  */
-static int PH7_builtin_strripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zStart, *zBlob, *zPattern, *zPtr, *zEnd;
   ProcStringMatch xPatternMatch = iPatternMatch;   /* Case-insensitive pattern match */
@@ -3583,7 +3760,10 @@ static int PH7_builtin_strripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
     } else {
       if (nStart >= nLen) {
         /* Invalid offset */
-        ph7_result_bool(pCtx, 0);
+        ph7_result_bool(
+          pCtx,
+          0
+        );
         return PH7_OK;
       } else {
         zBlob += nStart;
@@ -3597,7 +3777,10 @@ static int PH7_builtin_strripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
       if (zBlob >= zPtr) {
         break;
       }
-      rc = xPatternMatch((const void *) zPtr, (sxu32) (zEnd - zPtr), (const void *) zPattern, (sxu32) nPatLen, &nOfft);
+      rc = xPatternMatch(
+        (const void *) zPtr, (sxu32) (zEnd - zPtr),
+        (const void *) zPattern, (sxu32) nPatLen, &nOfft
+      );
       if (rc == SXRET_OK) {
         /* Pattern found,return it's position */
         ph7_result_int64(pCtx, (ph7_int64) (&zPtr[nOfft] - zStart));
@@ -3627,7 +3810,8 @@ static int PH7_builtin_strripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  This function returns the portion of string, or FALSE if needle is not found.
  */
-static int PH7_builtin_strrchr(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strrchr(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zBlob;
   int nLen, c;
@@ -3660,7 +3844,10 @@ static int PH7_builtin_strrchr(ph7_context *pCtx, int nArg, ph7_value **apArg)
       return PH7_OK;
     }
     /* Return the string portion */
-    ph7_result_string(pCtx, &zBlob[nOfft], (int) (&zBlob[nLen] - &zBlob[nOfft]));
+    ph7_result_string(
+      pCtx, &zBlob[nOfft],
+      (int) (&zBlob[nLen] - &zBlob[nOfft])
+    );
   } else {
     ph7_result_bool(pCtx, 0);
   }
@@ -3676,7 +3863,8 @@ static int PH7_builtin_strrchr(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The reversed string.
  */
-static int PH7_builtin_strrev(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strrev(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zIn, *zEnd;
   int nLen, c;
@@ -3718,7 +3906,8 @@ static int PH7_builtin_strrev(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The modified string..
  */
-static int PH7_builtin_ucwords(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ucwords(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zIn, *zCur, *zEnd;
   int nLen, c;
@@ -3790,7 +3979,8 @@ static int PH7_builtin_ucwords(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The repeated string.
  */
-static int PH7_builtin_str_repeat(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_str_repeat(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zIn;
   int nLen, nMul;
@@ -3841,7 +4031,8 @@ static int PH7_builtin_str_repeat(ph7_context *pCtx, int nArg, ph7_value **apArg
  * Return
  *  The processed string.
  */
-static int PH7_builtin_nl2br(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_nl2br(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zIn, *zCur, *zEnd;
   int is_xhtml = 0;
@@ -3991,7 +4182,8 @@ struct ph7_fmt_info {
 ** 16 (the number of significant digits in a 64-bit float) '0' is
 ** always returned.
 */
-static int vxGetdigit(sxlongreal *val, int *cnt)
+static int
+vxGetdigit(sxlongreal *val, int *cnt)
 {
   sxlongreal d;
   int digit;
@@ -4043,7 +4235,8 @@ static const ph7_fmt_info aFmt[] = {
  *   zIn       This is the format string, as in the usual print.
  *   apArg     This is a pointer to a list of arguments.
  */
-PH7_PRIVATE sxi32 PH7_InputFormat(
+PH7_PRIVATE sxi32
+PH7_InputFormat(
   int (*xConsumer)(ph7_context *, const char *, int, void *),   /* Format consumer */
   ph7_context *pCtx,    /* call context */
   const char *zIn,      /* Format string */
@@ -4052,7 +4245,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
   ph7_value **apArg,    /* User arguments */
   void *pUserData,      /* Last argument to xConsumer() */
   int vf                /* TRUE if called from vfprintf,vsprintf context */
-  )
+)
 {
   char spaces[] = "                                                  ";
 #define etSPACESIZE ((int) sizeof(spaces) - 1)
@@ -4369,7 +4562,9 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         rounder = 0.0;
 #if 0
         /* Rounding works like BSD when the constant 0.4999 is used.Wierd! */
-        for (idx = precision, rounder = 0.4999 ; idx > 0 ; idx--, rounder *= 0.1);
+        for (idx = precision, rounder = 0.4999 ; idx > 0 ;
+             idx--, rounder *= 0.1)
+          ;
 #else
         /* It makes more sense to use 0.5 */
         for (idx = precision, rounder = 0.5 ; idx > 0 ; idx--, rounder *= 0.1);
@@ -4435,12 +4630,20 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           flag_dp = (precision > 0 || flag_alternateform);
           if (prefix) *(zBuf++) = (char) prefix; /* Sign */
           if (exp < 0) *(zBuf++) = '0'; /* Digits before "." */
-          else for (; exp >= 0 ; exp--) *(zBuf++) = (char) vxGetdigit(&realvalue, &nsd);
+          else for (; exp >= 0 ;
+                    exp--)
+              *(zBuf++) = (char) vxGetdigit(
+                &realvalue,
+                &nsd
+              );
           if (flag_dp) *(zBuf++) = '.'; /* The decimal point */
           for (exp++ ; exp < 0 && precision > 0 ; precision--, exp++) {
             *(zBuf++) = '0';
           }
-          while ((precision--) > 0) *(zBuf++) = (char) vxGetdigit(&realvalue, &nsd);
+          while ((precision--) > 0) *(zBuf++) = (char) vxGetdigit(
+            &realvalue,
+            &nsd
+          );
           *(zBuf--) = 0;                           /* Null terminate */
           if (flag_rtz && flag_dp) {         /* Remove trailing zeros and "." */
             while (zBuf >= zWorker && *zBuf == '0') *(zBuf--) = 0;
@@ -4452,7 +4655,10 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           if (prefix) *(zBuf++) = (char) prefix; /* Sign */
           *(zBuf++) = (char) vxGetdigit(&realvalue, &nsd);       /* First digit */
           if (flag_dp) *(zBuf++) = '.'; /* Decimal point */
-          while ((precision--) > 0) *(zBuf++) = (char) vxGetdigit(&realvalue, &nsd);
+          while ((precision--) > 0) *(zBuf++) = (char) vxGetdigit(
+            &realvalue,
+            &nsd
+          );
           zBuf--;                            /* point to last digit */
           if (flag_rtz && flag_dp) {            /* Remove tail zeros */
             while (zBuf >= zWorker && *zBuf == '0') *(zBuf--) = 0;
@@ -4565,7 +4771,11 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
 /*
  * Callback [i.e: Formatted input consumer] of the sprintf function.
  */
-static int sprintfConsumer(ph7_context *pCtx, const char *zInput, int nLen, void *pUserData)
+static int
+sprintfConsumer(
+  ph7_context *pCtx, const char *zInput, int nLen,
+  void *pUserData
+)
 {
   /* Consume directly */
   ph7_result_string(pCtx, zInput, nLen);
@@ -4582,7 +4792,8 @@ static int sprintfConsumer(ph7_context *pCtx, const char *zInput, int nLen, void
  * Return
  *  A string produced according to the formatting string format.
  */
-static int PH7_builtin_sprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_sprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zFormat;
   int nLen;
@@ -4606,7 +4817,8 @@ static int PH7_builtin_sprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
 /*
  * Callback [i.e: Formatted input consumer] of the printf function.
  */
-static int printfConsumer(ph7_context *pCtx, const char *zInput, int nLen, void *pUserData)
+static int
+printfConsumer(ph7_context *pCtx, const char *zInput, int nLen, void *pUserData)
 {
   ph7_int64 *pCounter = (ph7_int64 *) pUserData;
   /* Call the VM output consumer directly */
@@ -4625,7 +4837,8 @@ static int printfConsumer(ph7_context *pCtx, const char *zInput, int nLen, void 
  * Return
  *  The length of the outputted string.
  */
-static int PH7_builtin_printf(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_printf(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   ph7_int64 nCounter = 0;
   const char *zFormat;
@@ -4643,9 +4856,21 @@ static int PH7_builtin_printf(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Format the string */
-  PH7_InputFormat(printfConsumer, pCtx, zFormat, nLen, nArg, apArg, (void *) &nCounter, FALSE);
+  PH7_InputFormat(
+    printfConsumer,
+    pCtx,
+    zFormat,
+    nLen,
+    nArg,
+    apArg,
+    (void *) &nCounter,
+    FALSE
+  );
   /* Return the length of the outputted string */
-  ph7_result_int64(pCtx, nCounter);
+  ph7_result_int64(
+    pCtx,
+    nCounter
+  );
   return PH7_OK;
 }
 
@@ -4658,14 +4883,17 @@ static int PH7_builtin_printf(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The length of the outputted string.
  */
-static int PH7_builtin_vprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_vprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   ph7_int64 nCounter = 0;
   const char *zFormat;
   ph7_hashmap *pMap;
   SySet sArg;
   int nLen, n;
-  if (nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_array(apArg[1])) {
+  if (nArg < 2 || !ph7_value_is_string(apArg[0])
+      || !ph7_value_is_array(apArg[1]))
+  {
     /* Missing/Invalid arguments,return 0 */
     ph7_result_int(pCtx, 0);
     return PH7_OK;
@@ -4682,7 +4910,16 @@ static int PH7_builtin_vprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Extract arguments from the hashmap */
   n = PH7_HashmapValuesToSet(pMap, &sArg);
   /* Format the string */
-  PH7_InputFormat(printfConsumer, pCtx, zFormat, nLen, n, (ph7_value **) SySetBasePtr(&sArg), (void *) &nCounter, TRUE);
+  PH7_InputFormat(
+    printfConsumer,
+    pCtx,
+    zFormat,
+    nLen,
+    n,
+    (ph7_value **) SySetBasePtr(&sArg),
+    (void *) &nCounter,
+    TRUE
+  );
   /* Return the length of the outputted string */
   ph7_result_int64(pCtx, nCounter);
   /* Release the container */
@@ -4699,13 +4936,16 @@ static int PH7_builtin_vprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  A string produced according to the formatting string format.
  */
-static int PH7_builtin_vsprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_vsprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zFormat;
   ph7_hashmap *pMap;
   SySet sArg;
   int nLen, n;
-  if (nArg < 2 || !ph7_value_is_string(apArg[0]) || !ph7_value_is_array(apArg[1])) {
+  if (nArg < 2 || !ph7_value_is_string(apArg[0])
+      || !ph7_value_is_array(apArg[1]))
+  {
     /* Missing/Invalid arguments,return the empty string */
     ph7_result_string(pCtx, "", 0);
     return PH7_OK;
@@ -4722,7 +4962,16 @@ static int PH7_builtin_vsprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Extract arguments from the hashmap */
   n = PH7_HashmapValuesToSet(pMap, &sArg);
   /* Format the string */
-  PH7_InputFormat(sprintfConsumer, pCtx, zFormat, nLen, n, (ph7_value **) SySetBasePtr(&sArg), 0, TRUE);
+  PH7_InputFormat(
+    sprintfConsumer,
+    pCtx,
+    zFormat,
+    nLen,
+    n,
+    (ph7_value **) SySetBasePtr(&sArg),
+    0,
+    TRUE
+  );
   /* Release the container */
   SySetRelease(&sArg);
   return PH7_OK;
@@ -4742,7 +4991,8 @@ static int PH7_builtin_vsprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *   Formatted string representation of the given size.
  */
-static int PH7_builtin_size_format(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_size_format(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   /*Kilo*/ /*Mega*/ /*Giga*/ /*Tera*/ /*Peta*/ /*Exa*/ /*Zeta*/
   static const char zUnit[] = { "KMGTPEZ" };
@@ -4799,7 +5049,8 @@ static int PH7_builtin_size_format(ph7_context *pCtx, int nArg, ph7_value **apAr
  * Return
  *  MD5 Hash as a 32-character hexadecimal string.
  */
-static int PH7_builtin_md5(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_md5(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   unsigned char zDigest[16];
   int raw_output = FALSE;
@@ -4827,7 +5078,12 @@ static int PH7_builtin_md5(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_string(pCtx, (const char *) zDigest, (int) sizeof(zDigest));
   } else {
     /* Perform a binary to hex conversion */
-    SyBinToHexConsumer((const void *) zDigest, sizeof(zDigest), HashConsumer, pCtx);
+    SyBinToHexConsumer(
+      (const void *) zDigest,
+      sizeof(zDigest),
+      HashConsumer,
+      pCtx
+    );
   }
   return PH7_OK;
 }
@@ -4844,7 +5100,8 @@ static int PH7_builtin_md5(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  SHA1 Hash as a 40-character hexadecimal string.
  */
-static int PH7_builtin_sha1(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_sha1(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   unsigned char zDigest[20];
   int raw_output = FALSE;
@@ -4872,7 +5129,12 @@ static int PH7_builtin_sha1(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_string(pCtx, (const char *) zDigest, (int) sizeof(zDigest));
   } else {
     /* Perform a binary to hex conversion */
-    SyBinToHexConsumer((const void *) zDigest, sizeof(zDigest), HashConsumer, pCtx);
+    SyBinToHexConsumer(
+      (const void *) zDigest,
+      sizeof(zDigest),
+      HashConsumer,
+      pCtx
+    );
   }
   return PH7_OK;
 }
@@ -4886,7 +5148,8 @@ static int PH7_builtin_sha1(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  CRC32 checksum of the given input (64-bit integer).
  */
-static int PH7_builtin_crc32(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_crc32(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const void *pIn;
   sxu32 nCRC;
@@ -4915,7 +5178,8 @@ static int PH7_builtin_crc32(ph7_context *pCtx, int nArg, ph7_value **apArg)
 /*
  * Parse a CSV string and invoke the supplied callback for each processed xhunk.
  */
-PH7_PRIVATE sxi32 PH7_ProcessCsv(
+PH7_PRIVATE sxi32
+PH7_ProcessCsv(
   const char *zInput,   /* Raw input */
   int nByte,    /* Input length */
   int delim,    /* Delimiter */
@@ -4923,7 +5187,7 @@ PH7_PRIVATE sxi32 PH7_ProcessCsv(
   int escape,    /* Escape character */
   sxi32 (*xConsumer)(const char *, int, void *),   /* User callback */
   void *pUserData   /* Last argument to xConsumer() */
-  )
+)
 {
   const char *zEnd = &zInput[nByte];
   const char *zIn = zInput;
@@ -4981,7 +5245,8 @@ PH7_PRIVATE sxi32 PH7_ProcessCsv(
  * All the processed input is insereted into an array passed as the last
  * argument to this callback.
  */
-PH7_PRIVATE sxi32 PH7_CsvConsumer(const char *zToken, int nTokenLen, void *pUserData)
+PH7_PRIVATE sxi32
+PH7_CsvConsumer(const char *zToken, int nTokenLen, void *pUserData)
 {
   ph7_value *pArray = (ph7_value *) pUserData;
   ph7_value sEntry;
@@ -5014,7 +5279,8 @@ PH7_PRIVATE sxi32 PH7_CsvConsumer(const char *zToken, int nTokenLen, void *pUser
  * Return
  *  An indexed array containing the CSV fields or NULL on failure.
  */
-static int PH7_builtin_str_getcsv(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_str_getcsv(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zInput, *zPtr;
   ph7_value *pArray;
@@ -5076,7 +5342,8 @@ static int PH7_builtin_str_getcsv(ph7_context *pCtx, int nArg, ph7_value **apArg
  * container.
  * Refer to [strip_tags()].
  */
-static sxi32 AddTag(SySet *pSet, const char *zTag, int nByte)
+static sxi32
+AddTag(SySet *pSet, const char *zTag, int nByte)
 {
   const char *zEnd = &zTag[nByte];
   const char *zPtr;
@@ -5084,7 +5351,9 @@ static sxi32 AddTag(SySet *pSet, const char *zTag, int nByte)
   /* Strip tags */
   for (;;) {
     while (zTag < zEnd && (zTag[0] == '<' || zTag[0] == '/' || zTag[0] == '?'
-                           || zTag[0] == '!' || zTag[0] == '-' || ((unsigned char) zTag[0] < 0xc0 && SyisSpace(zTag[0]))))
+                           || zTag[0] == '!' || zTag[0] == '-'
+                           || ((unsigned char) zTag[0] < 0xc0
+                               && SyisSpace(zTag[0]))))
     {
       zTag++;
     }
@@ -5121,13 +5390,15 @@ static sxi32 AddTag(SySet *pSet, const char *zTag, int nByte)
  * Return SXRET_OK if present.SXERR_NOTFOUND otherwise.
  * Refer to [strip_tags()].
  */
-static sxi32 FindTag(SySet *pSet, const char *zTag, int nByte)
+static sxi32
+FindTag(SySet *pSet, const char *zTag, int nByte)
 {
   if (SySetUsed(pSet) > 0) {
     const char *zCur, *zEnd = &zTag[nByte];
     SyString sTag;
     while (zTag < zEnd && (zTag[0] == '<' || zTag[0] == '/' || zTag[0] == '?'
-                           || ((unsigned char) zTag[0] < 0xc0 && SyisSpace(zTag[0]))))
+                           || ((unsigned char) zTag[0] < 0xc0
+                               && SyisSpace(zTag[0]))))
     {
       zTag++;
     }
@@ -5172,7 +5443,14 @@ static sxi32 FindTag(SySet *pSet, const char *zTag, int nByte)
  * with all NUL bytes,HTML and PHP tags stripped from a given string.
  * Refer to [strip_tags()].
  */
-PH7_PRIVATE sxi32 PH7_StripTagsFromString(ph7_context *pCtx, const char *zIn, int nByte, const char *zTaglist, int nTaglen)
+PH7_PRIVATE sxi32
+PH7_StripTagsFromString(
+  ph7_context *pCtx,
+  const char *zIn,
+  int nByte,
+  const char *zTaglist,
+  int nTaglen
+)
 {
   const char *zEnd = &zIn[nByte];
   const char *zPtr, *zTag;
@@ -5242,7 +5520,8 @@ PH7_PRIVATE sxi32 PH7_StripTagsFromString(ph7_context *pCtx, const char *zIn, in
  * Return
  *  Returns the stripped string.
  */
-static int PH7_builtin_strip_tags(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strip_tags(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zTaglist = 0;
   const char *zString;
@@ -5273,7 +5552,8 @@ static int PH7_builtin_strip_tags(ph7_context *pCtx, int nArg, ph7_value **apArg
  * Return
  *  Returns the shuffled string.
  */
-static int PH7_builtin_str_shuffle(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_str_shuffle(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString;
   int nLen, i, c;
@@ -5317,7 +5597,8 @@ static int PH7_builtin_str_shuffle(ph7_context *pCtx, int nArg, ph7_value **apAr
  *  If the split_length length exceeds the length of string, the entire string is returned
  *  as the first (and only) array element.
  */
-static int PH7_builtin_str_split(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_str_split(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString, *zEnd;
   ph7_value *pArray, *pValue;
@@ -5393,7 +5674,8 @@ static int PH7_builtin_str_split(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Tokenize a raw string and extract the first non-space token.
  * Refer to [strspn()].
  */
-static sxi32 ExtractNonSpaceToken(const char **pzIn, const char *zEnd, SyString *pOut)
+static sxi32
+ExtractNonSpaceToken(const char **pzIn, const char *zEnd, SyString *pOut)
 {
   const char *zIn = *pzIn;
   const char *zPtr;
@@ -5422,7 +5704,11 @@ static sxi32 ExtractNonSpaceToken(const char **pzIn, const char *zEnd, SyString 
  * return the longest match.
  * Refer to [strspn()].
  */
-static int LongestStringMask(const char *zString, int nLen, const char *zMask, int nMaskLen)
+static int
+LongestStringMask(
+  const char *zString, int nLen, const char *zMask,
+  int nMaskLen
+)
 {
   const char *zEnd = &zString[nLen];
   const char *zIn = zString;
@@ -5455,7 +5741,13 @@ static int LongestStringMask(const char *zString, int nLen, const char *zMask, i
  * Do the reverse operation of the previous function [i.e: LongestStringMask()].
  * Refer to [strcspn()].
  */
-static int LongestStringMask2(const char *zString, int nLen, const char *zMask, int nMaskLen)
+static int
+LongestStringMask2(
+  const char *zString,
+  int nLen,
+  const char *zMask,
+  int nMaskLen
+)
 {
   const char *zEnd = &zString[nLen];
   const char *zIn = zString;
@@ -5509,7 +5801,8 @@ static int LongestStringMask2(const char *zString, int nLen, const char *zMask, 
  * Returns the length of the initial segment of subject which consists entirely of characters
  * in mask.
  */
-static int PH7_builtin_strspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString, *zMask, *zEnd;
   int iMasklen, iLen;
@@ -5570,7 +5863,12 @@ static int PH7_builtin_strspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
   rc = ExtractNonSpaceToken(&zString, zEnd, &sToken);
   if (rc == SXRET_OK && sToken.nByte > 0) {
     /* Compare against the current mask */
-    iCount = LongestStringMask(sToken.zString, (int) sToken.nByte, zMask, iMasklen);
+    iCount = LongestStringMask(
+      sToken.zString,
+      (int) sToken.nByte,
+      zMask,
+      iMasklen
+    );
   }
   /* Longest match */
   ph7_result_int(pCtx, iCount);
@@ -5601,7 +5899,8 @@ static int PH7_builtin_strspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Returns the length of the segment as an integer.
  */
-static int PH7_builtin_strcspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strcspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString, *zMask, *zEnd;
   int iMasklen, iLen;
@@ -5667,7 +5966,12 @@ static int PH7_builtin_strcspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
   rc = ExtractNonSpaceToken(&zString, zEnd, &sToken);
   if (rc == SXRET_OK && sToken.nByte > 0) {
     /* Compare against the current mask */
-    iCount = LongestStringMask2(sToken.zString, (int) sToken.nByte, zMask, iMasklen);
+    iCount = LongestStringMask2(
+      sToken.zString,
+      (int) sToken.nByte,
+      zMask,
+      iMasklen
+    );
   }
   /* Longest match */
   ph7_result_int(pCtx, iCount);
@@ -5685,7 +5989,8 @@ static int PH7_builtin_strcspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Returns a string starting from the character found, or FALSE if it is not found.
  */
-static int PH7_builtin_strpbrk(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strpbrk(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zString, *zList, *zEnd;
   int iLen, iListLen, i, c;
@@ -5739,7 +6044,8 @@ static int PH7_builtin_strpbrk(ph7_context *pCtx, int nArg, ph7_value **apArg)
  *  This implementation is based on the one found in the SQLite3
  * source tree.
  */
-static int PH7_builtin_soundex(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_soundex(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const unsigned char *zIn;
   char zResult[8];
@@ -5798,7 +6104,8 @@ static int PH7_builtin_soundex(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Returns the given string wrapped at the specified column.
  */
-static int PH7_builtin_wordwrap(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_wordwrap(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zIn, *zEnd, *zBreak;
   int iLen, iBreaklen, iChunk;
@@ -5866,7 +6173,8 @@ static int PH7_builtin_wordwrap(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return TRUE on success. FALSE otherwise.
  * Refer to [strtok()].
  */
-static int CheckMask(int c, const char *zMask, int nMasklen, int *pOfft)
+static int
+CheckMask(int c, const char *zMask, int nMasklen, int *pOfft)
 {
   int i;
   for (i = 0 ; i < nMasklen ; ++i) {
@@ -5884,12 +6192,25 @@ static int CheckMask(int c, const char *zMask, int nMasklen, int *pOfft)
  * Extract a single token from the input stream.
  * Refer to [strtok()].
  */
-static sxi32 ExtractToken(const char **pzIn, const char *zEnd, const char *zMask, int nMasklen, SyString *pOut)
+static sxi32
+ExtractToken(
+  const char **pzIn,
+  const char *zEnd,
+  const char *zMask,
+  int nMasklen,
+  SyString *pOut
+)
 {
   const char *zIn = *pzIn;
   const char *zPtr;
   /* Ignore leading delimiter */
-  while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && CheckMask(zIn[0], zMask, nMasklen, 0)) {
+  while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && CheckMask(
+    zIn[0],
+    zMask,
+    nMasklen,
+    0
+  ))
+  {
     zIn++;
   }
   if (zIn >= zEnd) {
@@ -5946,7 +6267,8 @@ struct strtok_aux_data {
  * Return
  *   Current token or FALSE on EOF.
  */
-static int PH7_builtin_strtok(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strtok(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   strtok_aux_data *pAux;
   const char *zMask;
@@ -6015,10 +6337,17 @@ static int PH7_builtin_strtok(ph7_context *pCtx, int nArg, ph7_value **apArg)
       return PH7_OK;
     } else {
       /* Return the extracted token */
-      ph7_result_string(pCtx, sToken.zString, (int) sToken.nByte);
+      ph7_result_string(
+        pCtx,
+        sToken.zString,
+        (int) sToken.nByte
+      );
     }
     /* Create our auxilliary data and copy the input */
-    pAux = (strtok_aux_data *) ph7_context_alloc_chunk(pCtx, sizeof(strtok_aux_data), TRUE, FALSE);
+    pAux = (strtok_aux_data *) ph7_context_alloc_chunk(
+      pCtx,
+      sizeof(strtok_aux_data), TRUE, FALSE
+    );
     if (pAux) {
       nLen -= (int) (zInput - zCur);
       if (nLen < 1) {
@@ -6026,7 +6355,12 @@ static int PH7_builtin_strtok(ph7_context *pCtx, int nArg, ph7_value **apArg)
         return PH7_OK;
       }
       /* Duplicate input */
-      zDup = (char *) ph7_context_alloc_chunk(pCtx, (unsigned int) (nLen + 1), TRUE, FALSE);
+      zDup = (char *) ph7_context_alloc_chunk(
+        pCtx,
+        (unsigned int) (nLen + 1),
+        TRUE,
+        FALSE
+      );
       if (zDup) {
         SyMemcpy(zInput, zDup, (sxu32) nLen);
         /* Register the aux data */
@@ -6058,7 +6392,8 @@ static int PH7_builtin_strtok(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  The padded string.
  */
-static int PH7_builtin_str_pad(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_str_pad(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int iLen, iPadlen, iType, i, iDiv, iStrpad, iRealPad, jPad;
   const char *zIn, *zPad;
@@ -6170,7 +6505,8 @@ struct str_replace_data {
 #define STRDEL(SRC, SLEN, OFFT, ILEN) \
         { \
           for (;;) { \
-            if (OFFT + ILEN >= SLEN) break; SRC[OFFT] = SRC[OFFT + ILEN]; ++OFFT; \
+            if (OFFT + ILEN >= SLEN) break; SRC[OFFT] = SRC[OFFT + ILEN]; \
+            ++OFFT; \
           } \
         }
 
@@ -6181,7 +6517,8 @@ struct str_replace_data {
         { \
           sxu32 INLEN = LEN - OFFT; \
           for (;;) { \
-            if (LEN > 0) { LEN--; } if (INLEN < 1) break; SRC[LEN + ELEN] = SRC[LEN]; --INLEN; \
+            if (LEN > 0) { LEN--; } if (INLEN < 1) break; \
+            SRC[LEN + ELEN] = SRC[LEN]; --INLEN; \
           } \
           for (;;) { \
             if (ELEN < 1) break; SRC[OFFT] = ENTRY[0]; OFFT++; ENTRY++; --ELEN; \
@@ -6192,7 +6529,14 @@ struct str_replace_data {
  * Replace all occurrences of the search string at offset (nOfft) with the given
  * replacement string [i.e: zReplace].
  */
-static int StringReplace(SyBlob *pWorker, sxu32 nOfft, int nLen, const char *zReplace, int nReplen)
+static int
+StringReplace(
+  SyBlob *pWorker,
+  sxu32 nOfft,
+  int nLen,
+  const char *zReplace,
+  int nReplen
+)
 {
   char *zInput = (char *) SyBlobData(pWorker);
   sxu32 n, m;
@@ -6209,7 +6553,11 @@ static int StringReplace(SyBlob *pWorker, sxu32 nOfft, int nLen, const char *zRe
      * Make sure the working buffer is big enough to hold the replacement
      * string.
      */
-    rc = SyBlobAppend(pWorker, 0 /* Grow without an append operation*/, (sxu32) nReplen);
+    rc = SyBlobAppend(
+      pWorker,
+      0 /* Grow without an append operation*/,
+      (sxu32) nReplen
+    );
     if (rc != SXRET_OK) {
       /* Simply ignore any memory failure problem */
       return SXRET_OK;
@@ -6229,7 +6577,8 @@ static int StringReplace(SyBlob *pWorker, sxu32 nOfft, int nLen, const char *zRe
  * the replace string.
  * Refer to the strtr() implementation for more information.
  */
-static int StringReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserData)
+static int
+StringReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserData)
 {
   str_replace_data *pRepData = (str_replace_data *) pUserData;
   const char *zTarget, *zReplace;
@@ -6250,7 +6599,10 @@ static int StringReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserDat
     return PH7_OK;
   }
   /* Perform a pattern search */
-  rc = pRepData->xMatch(SyBlobData(pWorker), SyBlobLength(pWorker), (const void *) zTarget, (sxu32) tLen, &nOfft);
+  rc = pRepData->xMatch(
+    SyBlobData(pWorker), SyBlobLength(pWorker),
+    (const void *) zTarget, (sxu32) tLen, &nOfft
+  );
   if (rc != SXRET_OK) {
     /* Pattern not found */
     return PH7_OK;
@@ -6268,7 +6620,8 @@ static int StringReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserDat
  * to collect search/replace string.
  * This callback is invoked only if the given argument is of type array.
  */
-static int StrReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserData)
+static int
+StrReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserData)
 {
   str_replace_data *pRep = (str_replace_data *) pUserData;
   SyString sWorker;
@@ -6280,12 +6633,17 @@ static int StrReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserData)
   if (nByte > 0) {
     char *zDup;
     /* Duplicate the chunk */
-    zDup = (char *) ph7_context_alloc_chunk(pRep->pCtx, (unsigned int) nByte, FALSE,
-                                            TRUE    /* Release the chunk automatically,upon this context is destroyd */
-                                            );
+    zDup = (char *) ph7_context_alloc_chunk(
+      pRep->pCtx, (unsigned int) nByte, FALSE,
+      TRUE                                          /* Release the chunk automatically,upon this context is destroyd */
+    );
     if (zDup == 0) {
       /* Ignore any memory failure problem */
-      ph7_context_throw_error(pRep->pCtx, PH7_CTX_ERR, "PH7 is running out of memory");
+      ph7_context_throw_error(
+        pRep->pCtx,
+        PH7_CTX_ERR,
+        "PH7 is running out of memory"
+      );
       return PH7_OK;
     }
     SyMemcpy(zIn, zDup, (sxu32) nByte);
@@ -6325,7 +6683,8 @@ static int StrReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserData)
  * Return
  * This function returns a string or an array with the replaced values.
  */
-static int PH7_builtin_str_replace(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_str_replace(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   SyString sTemp, *pSearch, *pReplace;
   ProcStringMatch xMatch;
@@ -6429,20 +6788,33 @@ static int PH7_builtin_str_replace(ph7_context *pCtx, int nArg, ph7_value **apAr
         break;
       }
       /* Perform a pattern lookup */
-      rc = xMatch(SyBlobDataAt(&sWorker, nCount), SyBlobLength(&sWorker) - nCount, (const void *) pSearch->zString,
-                  pSearch->nByte, &nOfft);
+      rc = xMatch(
+        SyBlobDataAt(&sWorker, nCount), SyBlobLength(&sWorker) - nCount,
+        (const void *) pSearch->zString,
+        pSearch->nByte, &nOfft
+      );
       if (rc != SXRET_OK) {
         /* Pattern not found */
         break;
       }
       /* Perform the replace operation */
-      StringReplace(&sWorker, nCount + nOfft, (int) pSearch->nByte, pReplace->zString, (int) pReplace->nByte);
+      StringReplace(
+        &sWorker,
+        nCount + nOfft,
+        (int) pSearch->nByte,
+        pReplace->zString,
+        (int) pReplace->nByte
+      );
       /* Increment offset counter */
       nCount += nOfft + pReplace->nByte;
     }
   }
   /* All done,clean-up the mess left behind */
-  ph7_result_string(pCtx, (const char *) SyBlobData(&sWorker), (int) SyBlobLength(&sWorker));
+  ph7_result_string(
+    pCtx,
+    (const char *) SyBlobData(&sWorker),
+    (int) SyBlobLength(&sWorker)
+  );
   SySetRelease(&sSearch);
   SySetRelease(&sReplace);
   SyBlobRelease(&sWorker);
@@ -6467,7 +6839,8 @@ static int PH7_builtin_str_replace(ph7_context *pCtx, int nArg, ph7_value **apAr
  *  The translated string.
  *  If replace_pairs contains a key which is an empty string (""), FALSE will be returned.
  */
-static int PH7_builtin_strtr(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strtr(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zIn;
   int nLen;
@@ -6495,8 +6868,10 @@ static int PH7_builtin_strtr(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Iterate throw array entries and perform the replace operation.*/
     ph7_array_walk(apArg[1], StringReplaceWalker, &sRepData);
     /* All done, return the result string */
-    ph7_result_string(pCtx, (const char *) SyBlobData(&sWorker),
-                      (int) SyBlobLength(&sWorker));     /* Will make it's own copy */
+    ph7_result_string(
+      pCtx, (const char *) SyBlobData(&sWorker),
+      (int) SyBlobLength(&sWorker)
+    );                                                   /* Will make it's own copy */
     /* Clean-up */
     SyBlobRelease(&sWorker);
   } else {
@@ -6551,7 +6926,13 @@ static int PH7_builtin_strtr(ph7_context *pCtx, int nArg, ph7_value **apArg)
  *    Semicolons (;) at the beginning of the line indicate a comment. Comment lines are ignored.
  * This function return an array holding parsed values on success.FALSE otherwise.
  */
-PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 nByte, int bProcessSection)
+PH7_PRIVATE sxi32
+PH7_ParseIniString(
+  ph7_context *pCtx,
+  const char *zIn,
+  sxu32 nByte,
+  int bProcessSection
+)
 {
   ph7_value *pCur, *pArray, *pSection, *pWorker, *pValue;
   const char *zCur, *zEnd = &zIn[nByte];
@@ -6633,7 +7014,11 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
             /* Query the hashtable */
             SyStringInitFromBuf(&sEntry, zCur, iLen);
             SyStringFullTrim(&sEntry);
-            pEntry = SyHashGet(&sHash, (const void *) sEntry.zString, sEntry.nByte);
+            pEntry = SyHashGet(
+              &sHash,
+              (const void *) sEntry.zString,
+              sEntry.nByte
+            );
             if (pEntry) {
               pvArr = (ph7_value *) SyHashEntryGetUserData(pEntry);
             } else {
@@ -6641,7 +7026,12 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
               pvArr = ph7_context_new_array(pCtx);
               if (pvArr) {
                 /* Save the entry */
-                SyHashInsert(&sHash, (const void *) sEntry.zString, sEntry.nByte, pvArr);
+                SyHashInsert(
+                  &sHash,
+                  (const void *) sEntry.zString,
+                  sEntry.nByte,
+                  pvArr
+                );
                 /* Insert the entry */
                 ph7_value_reset_string_cursor(pWorker);
                 ph7_value_string(pWorker, sEntry.zString, (int) sEntry.nByte);
@@ -6673,7 +7063,9 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
         /* extract key value */
         ph7_value_reset_string_cursor(pValue);
         zIn++;         /* '=' */
-        while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && SyisSpace(zIn[0])) {
+        while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0
+               && SyisSpace(zIn[0]))
+        {
           zIn++;
         }
         if (zIn < zEnd) {
@@ -6715,10 +7107,16 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
             ph7_value_string(pValue, sEntry.zString, (int) sEntry.nByte);
           }
           /* Insert the key and it's value */
-          ph7_array_add_elem(pCur, is_array ? 0 /*Automatic index assign */ : pWorker, pValue);
+          ph7_array_add_elem(
+            pCur,
+            is_array ? 0 /*Automatic index assign */ : pWorker,
+          pValue
+          );
         }
       } else {
-        while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0 && (SyisSpace(zIn[0]) || zIn[0] == '=')) {
+        while (zIn < zEnd && (unsigned char) zIn[0] < 0xc0
+               && (SyisSpace(zIn[0]) || zIn[0] == '='))
+        {
           zIn++;
         }
       }
@@ -6746,7 +7144,8 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
  * Return
  *  The settings are returned as an associative array on success, and FALSE on failure.
  */
-static int PH7_builtin_parse_ini_string(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_parse_ini_string(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zIni;
   int nByte;
@@ -6758,7 +7157,10 @@ static int PH7_builtin_parse_ini_string(ph7_context *pCtx, int nArg, ph7_value *
   /* Extract the raw INI buffer */
   zIni = ph7_value_to_string(apArg[0], &nByte);
   /* Process the INI buffer*/
-  PH7_ParseIniString(pCtx, zIni, (sxu32) nByte, (nArg > 1) ? ph7_value_to_bool(apArg[1]) : 0);
+  PH7_ParseIniString(
+    pCtx, zIni, (sxu32) nByte,
+    (nArg > 1) ? ph7_value_to_bool(apArg[1]) : 0
+  );
   return PH7_OK;
 }
 
@@ -6779,7 +7181,8 @@ static int PH7_builtin_parse_ini_string(ph7_context *pCtx, int nArg, ph7_value *
  * Return
  *   TRUE if every character in text is either a letter or a digit, FALSE otherwise.
  */
-static int PH7_builtin_ctype_alnum(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ctype_alnum(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const unsigned char *zIn, *zEnd;
   int nLen;
@@ -6823,7 +7226,8 @@ static int PH7_builtin_ctype_alnum(ph7_context *pCtx, int nArg, ph7_value **apAr
  * Return
  *  TRUE if every character in text is a letter from the current locale, FALSE otherwise.
  */
-static int PH7_builtin_ctype_alpha(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ctype_alpha(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const unsigned char *zIn, *zEnd;
   int nLen;
@@ -6867,7 +7271,8 @@ static int PH7_builtin_ctype_alpha(ph7_context *pCtx, int nArg, ph7_value **apAr
  * Return
  *  TRUE if every character in text is a control characters,FALSE otherwise.
  */
-static int PH7_builtin_ctype_cntrl(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ctype_cntrl(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const unsigned char *zIn, *zEnd;
   int nLen;
@@ -6915,7 +7320,8 @@ static int PH7_builtin_ctype_cntrl(ph7_context *pCtx, int nArg, ph7_value **apAr
  * Return
  *  TRUE if every character in the string text is a decimal digit, FALSE otherwise.
  */
-static int PH7_builtin_ctype_digit(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ctype_digit(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const unsigned char *zIn, *zEnd;
   int nLen;
@@ -6964,7 +7370,8 @@ static int PH7_builtin_ctype_digit(ph7_context *pCtx, int nArg, ph7_value **apAr
  *  Returns TRUE if every character in text is a hexadecimal 'digit', that is
  * a decimal digit or a character from [A-Fa-f] , FALSE otherwise.
  */
-static int PH7_builtin_ctype_xdigit(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ctype_xdigit(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const unsigned char *zIn, *zEnd;
   int nLen;
@@ -7013,7 +7420,8 @@ static int PH7_builtin_ctype_xdigit(ph7_context *pCtx, int nArg, ph7_value **apA
  *  Returns TRUE if every character in text is printable and actually creates visible output
  * (no white space), FALSE otherwise.
  */
-static int PH7_builtin_ctype_graph(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ctype_graph(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const unsigned char *zIn, *zEnd;
   int nLen;
@@ -7063,7 +7471,8 @@ static int PH7_builtin_ctype_graph(ph7_context *pCtx, int nArg, ph7_value **apAr
  *  Returns FALSE if text contains control characters or characters that do not have any output
  *  or control function at all.
  */
-static int PH7_builtin_ctype_print(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ctype_print(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const unsigned char *zIn, *zEnd;
   int nLen;
@@ -7112,7 +7521,8 @@ static int PH7_builtin_ctype_print(ph7_context *pCtx, int nArg, ph7_value **apAr
  *  Returns TRUE if every character in text is printable, but neither letter
  *  digit or blank, FALSE otherwise.
  */
-static int PH7_builtin_ctype_punct(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ctype_punct(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const unsigned char *zIn, *zEnd;
   int nLen;
@@ -7162,7 +7572,8 @@ static int PH7_builtin_ctype_punct(ph7_context *pCtx, int nArg, ph7_value **apAr
  *  Besides the blank character this also includes tab, vertical tab, line feed, carriage return
  *  and form feed characters.
  */
-static int PH7_builtin_ctype_space(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ctype_space(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const unsigned char *zIn, *zEnd;
   int nLen;
@@ -7210,7 +7621,8 @@ static int PH7_builtin_ctype_space(ph7_context *pCtx, int nArg, ph7_value **apAr
  * Return
  *  Returns TRUE if every character in text is a lowercase letter in the current locale.
  */
-static int PH7_builtin_ctype_lower(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ctype_lower(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const unsigned char *zIn, *zEnd;
   int nLen;
@@ -7254,7 +7666,8 @@ static int PH7_builtin_ctype_lower(ph7_context *pCtx, int nArg, ph7_value **apAr
  * Return
  *  Returns TRUE if every character in text is a uppercase letter in the current locale.
  */
-static int PH7_builtin_ctype_upper(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_ctype_upper(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const unsigned char *zIn, *zEnd;
   int nLen;
@@ -7309,7 +7722,8 @@ static int PH7_builtin_ctype_upper(ph7_context *pCtx, int nArg, ph7_value **apAr
 ** Taken from the SQLite3 source tree.
 ** Status: Public domain
 */
-struct tm * __cdecl localtime(const time_t *t)
+struct tm * __cdecl
+localtime(const time_t *t)
 {
   static struct tm y;
   FILETIME uTm, lTm;
@@ -7345,7 +7759,8 @@ struct tm * __cdecl localtime(const time_t *t)
  *  Returns the current time measured in the number of seconds
  *  since the Unix Epoch (January 1 1970 00:00:00 GMT).
  */
-static int PH7_builtin_time(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_time(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   time_t tt;
   SXUNUSED(nArg);   /* cc warning */
@@ -7372,7 +7787,8 @@ static int PH7_builtin_time(ph7_context *pCtx, int nArg, ph7_value **apArg)
  *  If get_as_float is set to TRUE, then microtime() returns a float, which represents
  *  the current time in seconds since the Unix epoch accurate to the nearest microsecond.
  */
-static int PH7_builtin_microtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_microtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int bFloat = 0;
   sytime sTime;
@@ -7426,7 +7842,8 @@ static int PH7_builtin_microtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * NOTE:
  *   NULL is returned on failure.
  */
-static int PH7_builtin_getdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_getdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   ph7_value *pValue, *pArray;
   Sytm sTm;
@@ -7529,7 +7946,8 @@ static int PH7_builtin_getdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
  *   By default an array is returned. If return_float is set, then
  *   a float is returned.
  */
-static int PH7_builtin_gettimeofday(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_gettimeofday(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   int bFloat = 0;
   sytime sTime;
@@ -7570,13 +7988,18 @@ static int PH7_builtin_gettimeofday(ph7_context *pCtx, int nArg, ph7_value **apA
     ph7_value_int64(pValue, sTime.tm_usec);
     ph7_array_add_strkey_elem(pArray, "usec", pValue);
     /* Return the array */
-    ph7_result_value(pCtx, pArray);
+    ph7_result_value(
+      pCtx,
+      pArray
+    );
   }
   return PH7_OK;
 }
 
 /* Check if the given year is leap or not */
-#define IS_LEAP_YEAR(YEAR)  (YEAR % 400 ? (YEAR % 100 ? (YEAR % 4 ? 0 : 1) : 0) : 1)
+#define IS_LEAP_YEAR(YEAR) \
+        (YEAR \
+         % 400 ? (YEAR % 100 ? (YEAR % 4 ? 0 : 1) : 0) : 1)
 /* ISO-8601 numeric representation of the day of the week */
 static const int aISO8601[] = { 7 /* Sunday */, 1 /* Monday */, 2, 3, 4, 5, 6 };
 
@@ -7620,7 +8043,8 @@ static const int aISO8601[] = { 7 /* Sunday */, 1 /* Monday */, 2, 3, 4, 5, 6 };
  *            east of UTC is always positive.
  * c         ISO 8601 date
  */
-static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
+static sxi32
+DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
 {
   const char *zEnd = &zIn[nLen];
   const char *zCur;
@@ -7692,7 +8116,9 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
         break;
 
       case 't': {
-        static const int aMonDays[] = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+        static const int aMonDays[] = {
+          31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+        };
         int nDays = aMonDays[pTm->tm_mon % 12 ];
         if (pTm->tm_mon == 1 /* 'February' */ && !IS_LEAP_YEAR(pTm->tm_year)) {
           nDays = 28;
@@ -7773,7 +8199,11 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
         /* English ordinal suffix for the day of the month, 2 characters */
         static const char zSuffix[] = "thstndrdthththththth";
         int v = pTm->tm_mday;
-        ph7_result_string(pCtx, &zSuffix[2 * (int) (v / 10 % 10 != 1 ? v % 10 : 0)], (int) sizeof(char) * 2);
+        ph7_result_string(
+          pCtx,
+          &zSuffix[2 * (int) (v / 10 % 10 != 1 ? v % 10 : 0)],
+          (int) sizeof(char) * 2
+        );
         break;
       }
 
@@ -7801,15 +8231,16 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
 
       case 'r':
         /* RFC 2822 formatted date      Example: Thu, 21 Dec 2000 16:01:07 */
-        ph7_result_string_format(pCtx, "%.3s, %02d %.3s %4d %02d:%02d:%02d",
-                                 SyTimeGetDay(pTm->tm_wday),
-                                 pTm->tm_mday,
-                                 SyTimeGetMonth(pTm->tm_mon),
-                                 pTm->tm_year,
-                                 pTm->tm_hour,
-                                 pTm->tm_min,
-                                 pTm->tm_sec
-                                 );
+        ph7_result_string_format(
+          pCtx, "%.3s, %02d %.3s %4d %02d:%02d:%02d",
+          SyTimeGetDay(pTm->tm_wday),
+          pTm->tm_mday,
+          SyTimeGetMonth(pTm->tm_mon),
+          pTm->tm_year,
+          pTm->tm_hour,
+          pTm->tm_min,
+          pTm->tm_sec
+        );
         break;
 
       case 'U': {
@@ -7835,15 +8266,16 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
 
       case 'c':
         /*      ISO 8601 date */
-        ph7_result_string_format(pCtx, "%4d-%02d-%02dT%02d:%02d:%02d%+05d",
-                                 pTm->tm_year,
-                                 pTm->tm_mon + 1,
-                                 pTm->tm_mday,
-                                 pTm->tm_hour,
-                                 pTm->tm_min,
-                                 pTm->tm_sec,
-                                 pTm->tm_gmtoff
-                                 );
+        ph7_result_string_format(
+          pCtx, "%4d-%02d-%02dT%02d:%02d:%02d%+05d",
+          pTm->tm_year,
+          pTm->tm_mon + 1,
+          pTm->tm_mday,
+          pTm->tm_hour,
+          pTm->tm_min,
+          pTm->tm_sec,
+          pTm->tm_gmtoff
+        );
         break;
 
       case '\\':
@@ -7910,12 +8342,13 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
  * %t   A Tab character ("\t")
  * %%   A literal percentage character ("%")
  */
-static int PH7_Strftime(
+static int
+PH7_Strftime(
   ph7_context *pCtx,    /* Call context */
   const char *zIn,      /* Input string */
   int nLen,             /* Input length */
   Sytm *pTm             /* Parse of the given time */
-  )
+)
 {
   const char *zCur, *zEnd = &zIn[nLen];
   int c;
@@ -7954,12 +8387,19 @@ static int PH7_Strftime(
 
       case 'a':
         /* An abbreviated textual representation of the day */
-        ph7_result_string(pCtx, SyTimeGetDay(pTm->tm_wday), (int) sizeof(char) * 3);
+        ph7_result_string(
+          pCtx,
+          SyTimeGetDay(pTm->tm_wday),
+          (int) sizeof(char) * 3
+        );
         break;
 
       case 'A':
         /* A full textual representation of the day */
-        ph7_result_string(pCtx, SyTimeGetDay(pTm->tm_wday), -1 /*Compute length automatically*/ );
+        ph7_result_string(
+          pCtx, SyTimeGetDay(pTm->tm_wday),
+          -1 /*Compute length automatically*/
+        );
         break;
 
       case 'e':
@@ -7990,12 +8430,19 @@ static int PH7_Strftime(
       case 'b':
       case 'h':
         /*A short textual representation of a month, three letters (Not based on locale)*/
-        ph7_result_string(pCtx, SyTimeGetMonth(pTm->tm_mon), (int) sizeof(char) * 3);
+        ph7_result_string(
+          pCtx,
+          SyTimeGetMonth(pTm->tm_mon),
+          (int) sizeof(char) * 3
+        );
         break;
 
       case 'B':
         /* Full month name (Not based on locale) */
-        ph7_result_string(pCtx, SyTimeGetMonth(pTm->tm_mon), -1 /*Compute length automatically*/ );
+        ph7_result_string(
+          pCtx, SyTimeGetMonth(pTm->tm_mon),
+          -1 /*Compute length automatically*/
+        );
         break;
 
       case 'm':
@@ -8059,7 +8506,13 @@ static int PH7_Strftime(
       case 'T':
       case 'X':
         /* Same as "%H:%M:%S" */
-        ph7_result_string_format(pCtx, "%02d:%02d:%02d", pTm->tm_hour, pTm->tm_min, pTm->tm_sec);
+        ph7_result_string_format(
+          pCtx,
+          "%02d:%02d:%02d",
+          pTm->tm_hour,
+          pTm->tm_min,
+          pTm->tm_sec
+        );
         break;
 
       case 'R':
@@ -8069,52 +8522,62 @@ static int PH7_Strftime(
 
       case 'P':
         /*	Lowercase Ante meridiem and Post meridiem */
-        ph7_result_string(pCtx, pTm->tm_hour > 12 ? "pm" : "am", (int) sizeof(char) * 2);
+        ph7_result_string(
+          pCtx, pTm->tm_hour > 12 ? "pm" : "am",
+          (int) sizeof(char) * 2
+        );
         break;
 
       case 'p':
         /*	Uppercase Ante meridiem and Post meridiem */
-        ph7_result_string(pCtx, pTm->tm_hour > 12 ? "PM" : "AM", (int) sizeof(char) * 2);
+        ph7_result_string(
+          pCtx, pTm->tm_hour > 12 ? "PM" : "AM",
+          (int) sizeof(char) * 2
+        );
         break;
 
       case 'r':
         /* Same as "%I:%M:%S %p" */
-        ph7_result_string_format(pCtx, "%02d:%02d:%02d %s",
-                                 1 + (pTm->tm_hour % 12),
-                                 pTm->tm_min,
-                                 pTm->tm_sec,
-                                 pTm->tm_hour > 12 ? "PM" : "AM"
-                                 );
+        ph7_result_string_format(
+          pCtx, "%02d:%02d:%02d %s",
+          1 + (pTm->tm_hour % 12),
+          pTm->tm_min,
+          pTm->tm_sec,
+          pTm->tm_hour > 12 ? "PM" : "AM"
+        );
         break;
 
       case 'D':
       case 'x':
         /* Same as "%m/%d/%y" */
-        ph7_result_string_format(pCtx, "%02d/%02d/%02d",
-                                 pTm->tm_mon + 1,
-                                 pTm->tm_mday,
-                                 pTm->tm_year % 100
-                                 );
+        ph7_result_string_format(
+          pCtx, "%02d/%02d/%02d",
+          pTm->tm_mon + 1,
+          pTm->tm_mday,
+          pTm->tm_year % 100
+        );
         break;
 
       case 'F':
         /* Same as "%Y-%m-%d" */
-        ph7_result_string_format(pCtx, "%d-%02d-%02d",
-                                 pTm->tm_year,
-                                 pTm->tm_mon + 1,
-                                 pTm->tm_mday
-                                 );
+        ph7_result_string_format(
+          pCtx, "%d-%02d-%02d",
+          pTm->tm_year,
+          pTm->tm_mon + 1,
+          pTm->tm_mday
+        );
         break;
 
       case 'c':
-        ph7_result_string_format(pCtx, "%d-%02d-%02d %02d:%02d:%02d",
-                                 pTm->tm_year,
-                                 pTm->tm_mon + 1,
-                                 pTm->tm_mday,
-                                 pTm->tm_hour,
-                                 pTm->tm_min,
-                                 pTm->tm_sec
-                                 );
+        ph7_result_string_format(
+          pCtx, "%d-%02d-%02d %02d:%02d:%02d",
+          pTm->tm_year,
+          pTm->tm_mon + 1,
+          pTm->tm_mday,
+          pTm->tm_hour,
+          pTm->tm_min,
+          pTm->tm_sec
+        );
         break;
 
       case 's': {
@@ -8150,7 +8613,8 @@ static int PH7_Strftime(
  * Return
  *  A formatted date string. If a non-numeric value is used for timestamp, FALSE is returned.
  */
-static int PH7_builtin_date(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_date(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zFormat;
   int nLen;
@@ -8212,7 +8676,8 @@ static int PH7_builtin_date(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Returns a string formatted according format using the given timestamp
  * or the current local time if no timestamp is given.
  */
-static int PH7_builtin_strftime(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_strftime(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zFormat;
   int nLen;
@@ -8278,7 +8743,8 @@ static int PH7_builtin_strftime(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  A formatted date string. If a non-numeric value is used for timestamp, FALSE is returned.
  */
-static int PH7_builtin_gmdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_gmdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zFormat;
   int nLen;
@@ -8350,7 +8816,8 @@ static int PH7_builtin_gmdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Returns
  *  An associative array of information related to the timestamp.
  */
-static int PH7_builtin_localtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_localtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   ph7_value *pValue, *pArray;
   int isAssoc = 0;
@@ -8509,7 +8976,8 @@ static int PH7_builtin_localtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  An integer.
  */
-static int PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zFormat;
   ph7_int64 iVal = 0;
@@ -8520,7 +8988,10 @@ static int PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_int(pCtx, -1);
     return PH7_OK;
   }
-  zFormat = ph7_value_to_string(apArg[0], &nLen);
+  zFormat = ph7_value_to_string(
+    apArg[0],
+    &nLen
+  );
   if (nLen < 1) {
     /* Don't bother processing return -1*/
     ph7_result_int(pCtx, -1);
@@ -8604,7 +9075,9 @@ static int PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
 
     case 't': {
       /*Days in current month*/
-      static const int aMonDays[] = { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+      static const int aMonDays[] = {
+        31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+      };
       int nDays = aMonDays[sTm.tm_mon % 12 ];
       if (sTm.tm_mon == 1 /* 'February' */ && !IS_LEAP_YEAR(sTm.tm_year)) {
         nDays = 28;
@@ -8625,7 +9098,9 @@ static int PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
 
     case 'W': {
       /* ISO-8601 week number of year, weeks starting on Monday */
-      static const int aISO8601[] = { 7 /* Sunday */, 1 /* Monday */, 2, 3, 4, 5, 6 };
+      static const int aISO8601[] = {
+        7 /* Sunday */, 1 /* Monday */, 2, 3, 4, 5, 6
+      };
       iVal = aISO8601[sTm.tm_wday % 7 ];
       break;
     }
@@ -8652,7 +9127,10 @@ static int PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
 
     default:
       /* unknown format,throw a warning */
-      ph7_context_throw_error(pCtx, PH7_CTX_WARNING, "Unknown date format token");
+      ph7_context_throw_error(
+        pCtx, PH7_CTX_WARNING,
+        "Unknown date format token"
+      );
       break;
   }
   /* Return the time value */
@@ -8702,7 +9180,8 @@ static int PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
  *   mktime() returns the Unix timestamp of the arguments given.
  *   If the arguments are invalid, the function returns FALSE
  */
-static int PH7_builtin_mktime(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_mktime(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zFunction;
   ph7_int64 iVal = 0;
@@ -8777,10 +9256,14 @@ static int PH7_builtin_mktime(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Output consumer callback for the standard Symisc routines.
  * [i.e: SyBase64Encode(),SyBase64Decode(),SyUriEncode(),...].
  */
-static int Consumer(const void *pData, unsigned int nLen, void *pUserData)
+static int
+Consumer(const void *pData, unsigned int nLen, void *pUserData)
 {
   /* Store in the call context result buffer */
-  ph7_result_string((ph7_context *) pUserData, (const char *) pData, (int) nLen);
+  ph7_result_string(
+    (ph7_context *) pUserData, (const char *) pData,
+    (int) nLen
+  );
   return SXRET_OK;
 }
 
@@ -8794,7 +9277,8 @@ static int Consumer(const void *pData, unsigned int nLen, void *pUserData)
  * Return
  *  Encoded data or FALSE on failure.
  */
-static int PH7_builtin_base64_encode(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_base64_encode(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zIn;
   int nLen;
@@ -8825,7 +9309,8 @@ static int PH7_builtin_base64_encode(ph7_context *pCtx, int nArg, ph7_value **ap
  * Return
  *  Returns the original data or FALSE on failure.
  */
-static int PH7_builtin_base64_decode(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_base64_decode(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zIn;
   int nLen;
@@ -8857,7 +9342,8 @@ static int PH7_builtin_base64_decode(ph7_context *pCtx, int nArg, ph7_value **ap
  *  been replaced with a percent (%) sign followed by two hex digits and spaces
  *  encoded as plus (+) signs.
  */
-static int PH7_builtin_urlencode(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_urlencode(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zIn;
   int nLen;
@@ -8888,7 +9374,8 @@ static int PH7_builtin_urlencode(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Return
  *  Decoded URL or FALSE on failure.
  */
-static int PH7_builtin_urldecode(ph7_context *pCtx, int nArg, ph7_value **apArg)
+static int
+PH7_builtin_urldecode(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   const char *zIn;
   int nLen;
@@ -8905,7 +9392,13 @@ static int PH7_builtin_urldecode(ph7_context *pCtx, int nArg, ph7_value **apArg)
     return PH7_OK;
   }
   /* Perform the URL decoding */
-  SyUriDecode(zIn, (sxu32) nLen, Consumer, pCtx, TRUE);
+  SyUriDecode(
+    zIn,
+    (sxu32) nLen,
+    Consumer,
+    pCtx,
+    TRUE
+  );
   return PH7_OK;
 }
 
@@ -9082,11 +9575,15 @@ static const ph7_builtin_func aBuiltInFunc[] = {
  * Register the built-in functions defined above,the array functions
  * defined in hashmap.c and the IO functions defined in vfs.c.
  */
-PH7_PRIVATE void PH7_RegisterBuiltInFunction(ph7_vm *pVm)
+PH7_PRIVATE void
+PH7_RegisterBuiltInFunction(ph7_vm *pVm)
 {
   sxu32 n;
   for (n = 0 ; n < SX_ARRAYSIZE(aBuiltInFunc) ; ++n) {
-    ph7_create_function(&(*pVm), aBuiltInFunc[n].zName, aBuiltInFunc[n].xFunc, 0);
+    ph7_create_function(
+      &(*pVm), aBuiltInFunc[n].zName, aBuiltInFunc[n].xFunc,
+      0
+    );
   }
   /* Register hashmap functions [i.e: array_merge(),sort(),count(),array_diff(),...] */
   PH7_RegisterHashmapFunctions(&(*pVm));

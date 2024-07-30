@@ -26,7 +26,9 @@
  * accessed by users of the library.
  */
 #define PH7_ENGINE_MAGIC 0xF874BCD7
-#define PH7_ENGINE_MISUSE(ENGINE) (ENGINE == 0 || ENGINE->nMagic != PH7_ENGINE_MAGIC)
+#define PH7_ENGINE_MISUSE(ENGINE) \
+        (ENGINE == 0 \
+         || ENGINE->nMagic != PH7_ENGINE_MAGIC)
 #define PH7_VM_MISUSE(VM) (VM == 0 || VM->nMagic == PH7_VM_STALE)
 
 /* If another thread have released a working instance,the following macros
@@ -95,7 +97,8 @@ static struct Global_Data {
  * value indicates failure.
  * Refer to [ph7_config()].
  */
-static sxi32 EngineConfig(ph7 *pEngine, sxi32 nOp, va_list ap)
+static sxi32
+EngineConfig(ph7 *pEngine, sxi32 nOp, va_list ap)
 {
   ph7_conf *pConf = &pEngine->xConf;
   int rc = PH7_OK;
@@ -128,7 +131,9 @@ static sxi32 EngineConfig(ph7 *pEngine, sxi32 nOp, va_list ap)
       /* Point to the error-log buffer */
       *pzPtr = (const char *) SyBlobData(&pConf->sErrConsumer);
       if (pLen) {
-        if (SyBlobLength(&pConf->sErrConsumer) > 1 /* NULL '\0' terminator */ ) {
+        if (SyBlobLength(&pConf->sErrConsumer)
+            > 1 /* NULL '\0' terminator */ )
+        {
           *pLen = (int) SyBlobLength(&pConf->sErrConsumer);
         } else {
           *pLen = 0;
@@ -155,7 +160,8 @@ static sxi32 EngineConfig(ph7 *pEngine, sxi32 nOp, va_list ap)
  * indicates failure.
  * Refer to [ph7_lib_config()].
  */
-static sxi32 PH7CoreConfigure(sxi32 nOp, va_list ap)
+static sxi32
+PH7CoreConfigure(sxi32 nOp, va_list ap)
 {
   int rc = PH7_OK;
   switch (nOp) {
@@ -176,7 +182,12 @@ static sxi32 PH7CoreConfigure(sxi32 nOp, va_list ap)
         /* Use the built-in memory allocation subsystem */
         rc = SyMemBackendInit(&sMPGlobal.sAllocator, xMemErr, pMemErr);
       } else {
-        rc = SyMemBackendInitFromOthers(&sMPGlobal.sAllocator, pMethods, xMemErr, pMemErr);
+        rc = SyMemBackendInitFromOthers(
+          &sMPGlobal.sAllocator,
+          pMethods,
+          xMemErr,
+          pMemErr
+        );
       }
       break;
     }
@@ -200,7 +211,9 @@ static sxi32 PH7CoreConfigure(sxi32 nOp, va_list ap)
       }
 #endif
       /* Sanity check */
-      if (pMethods->xEnter == 0 || pMethods->xLeave == 0 || pMethods->xNew == 0) {
+      if (pMethods->xEnter == 0 || pMethods->xLeave == 0
+          || pMethods->xNew == 0)
+      {
         /* At least three criticial callbacks xEnter(),xLeave() and xNew() must be supplied */
         rc = PH7_CORRUPT;
         break;
@@ -271,7 +284,8 @@ static sxi32 PH7CoreConfigure(sxi32 nOp, va_list ap)
  * [CAPIREF: ph7_lib_config()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_lib_config(int nConfigOp, ...)
+int
+ph7_lib_config(int nConfigOp, ...)
 {
   va_list ap;
   int rc;
@@ -296,7 +310,8 @@ int ph7_lib_config(int nConfigOp, ...)
  * thread have finished the initialization process, then the subsequent threads must block
  * until the initialization process is done.
  */
-static sxi32 PH7CoreInitialize(void)
+static sxi32
+PH7CoreInitialize(void)
 {
   const ph7_vfs *pVfs;   /* Built-in vfs */
 #if defined(PH7_ENABLE_THREADS)
@@ -353,7 +368,10 @@ static sxi32 PH7CoreInitialize(void)
 #if defined(PH7_ENABLE_THREADS)
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE) {
     /* Protect the memory allocation subsystem */
-    rc = SyMemBackendMakeThreadSafe(&sMPGlobal.sAllocator, sMPGlobal.pMutexMethods);
+    rc = SyMemBackendMakeThreadSafe(
+      &sMPGlobal.sAllocator,
+      sMPGlobal.pMutexMethods
+    );
     if (rc != PH7_OK) {
       goto End;
     }
@@ -378,7 +396,8 @@ End:
  * [CAPIREF: ph7_lib_init()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_lib_init(void)
+int
+ph7_lib_init(void)
 {
   int rc;
   rc = PH7CoreInitialize();
@@ -388,7 +407,8 @@ int ph7_lib_init(void)
 /*
  * Release an active PH7 engine and it's associated active virtual machines.
  */
-static sxi32 EngineRelease(ph7 *pEngine)
+static sxi32
+EngineRelease(ph7 *pEngine)
 {
   ph7_vm *pVm, *pNext;
   /* Release all active VM */
@@ -416,7 +436,8 @@ static sxi32 EngineRelease(ph7 *pEngine)
  * Note: This call is not thread safe.
  * Refer to [ph7_lib_shutdown()].
  */
-static void PH7CoreShutdown(void)
+static void
+PH7CoreShutdown(void)
 {
   ph7 *pEngine, *pNext;
   /* Release all active engines first */
@@ -455,7 +476,8 @@ static void PH7CoreShutdown(void)
  * [CAPIREF: ph7_lib_shutdown()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_lib_shutdown(void)
+int
+ph7_lib_shutdown(void)
 {
   if (sMPGlobal.nMagic != PH7_LIB_MAGIC) {
     /* Already shut */
@@ -469,7 +491,8 @@ int ph7_lib_shutdown(void)
  * [CAPIREF: ph7_lib_is_threadsafe()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_lib_is_threadsafe(void)
+int
+ph7_lib_is_threadsafe(void)
 {
   if (sMPGlobal.nMagic != PH7_LIB_MAGIC) {
     return 0;
@@ -491,7 +514,8 @@ int ph7_lib_is_threadsafe(void)
  * [CAPIREF: ph7_lib_version()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-const char* ph7_lib_version(void)
+const char *
+ph7_lib_version(void)
 {
   return PH7_VERSION;
 }
@@ -500,7 +524,8 @@ const char* ph7_lib_version(void)
  * [CAPIREF: ph7_lib_signature()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-const char* ph7_lib_signature(void)
+const char *
+ph7_lib_signature(void)
 {
   return PH7_SIG;
 }
@@ -509,7 +534,8 @@ const char* ph7_lib_signature(void)
  * [CAPIREF: ph7_lib_ident()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-const char* ph7_lib_ident(void)
+const char *
+ph7_lib_ident(void)
 {
   return PH7_IDENT;
 }
@@ -518,7 +544,8 @@ const char* ph7_lib_ident(void)
  * [CAPIREF: ph7_lib_copyright()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-const char* ph7_lib_copyright(void)
+const char *
+ph7_lib_copyright(void)
 {
   return PH7_COPYRIGHT;
 }
@@ -527,7 +554,8 @@ const char* ph7_lib_copyright(void)
  * [CAPIREF: ph7_config()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_config(ph7 *pEngine, int nConfigOp, ...)
+int
+ph7_config(ph7 *pEngine, int nConfigOp, ...)
 {
   va_list ap;
   int rc;
@@ -557,7 +585,8 @@ int ph7_config(ph7 *pEngine, int nConfigOp, ...)
  * [CAPIREF: ph7_init()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_init(ph7 **ppEngine)
+int
+ph7_init(ph7 **ppEngine)
 {
   ph7 *pEngine;
   int rc;
@@ -591,13 +620,21 @@ int ph7_init(ph7 **ppEngine)
   /* Default configuration */
   SyBlobInit(&pEngine->xConf.sErrConsumer, &pEngine->sAllocator);
   /* Install a default compile-time error consumer routine */
-  ph7_config(pEngine, PH7_CONFIG_ERR_OUTPUT, PH7_VmBlobConsumer, &pEngine->xConf.sErrConsumer);
+  ph7_config(
+    pEngine,
+    PH7_CONFIG_ERR_OUTPUT,
+    PH7_VmBlobConsumer,
+    &pEngine->xConf.sErrConsumer
+  );
   /* Built-in vfs */
   pEngine->pVfs = sMPGlobal.pVfs;
 #if defined(PH7_ENABLE_THREADS)
   if (sMPGlobal.nThreadingLevel > PH7_THREAD_LEVEL_SINGLE) {
     /* Associate a recursive mutex with this instance */
-    pEngine->pMutex = SyMutexNew(sMPGlobal.pMutexMethods, SXMUTEX_TYPE_RECURSIVE);
+    pEngine->pMutex = SyMutexNew(
+      sMPGlobal.pMutexMethods,
+      SXMUTEX_TYPE_RECURSIVE
+    );
     if (pEngine->pMutex == 0) {
       rc = PH7_NOMEM;
       goto Release;
@@ -628,7 +665,8 @@ Release:
  * [CAPIREF: ph7_release()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_release(ph7 *pEngine)
+int
+ph7_release(ph7 *pEngine)
 {
   int rc;
   if (PH7_ENGINE_MISUSE(pEngine)) {
@@ -677,13 +715,14 @@ int ph7_release(ph7 *pEngine)
  * This API does not actually evaluate the PHP code. It merely compile and prepares the PHP script
  * for evaluation.
  */
-static sxi32 ProcessScript(
+static sxi32
+ProcessScript(
   ph7 *pEngine,            /* Running PH7 engine */
   ph7_vm **ppVm,           /* OUT: A pointer to the virtual machine */
   SyString *pScript,       /* Raw PHP script to compile */
   sxi32 iFlags,            /* Compile-time flags */
   const char *zFilePath    /* File path if script come from a file. NULL otherwise */
-  )
+)
 {
   ph7_vm *pVm;
   int rc;
@@ -762,7 +801,8 @@ Release:
  * [CAPIREF: ph7_compile()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_compile(ph7 *pEngine, const char *zSource, int nLen, ph7_vm **ppOutVm)
+int
+ph7_compile(ph7 *pEngine, const char *zSource, int nLen, ph7_vm **ppOutVm)
 {
   SyString sScript;
   int rc;
@@ -797,7 +837,14 @@ int ph7_compile(ph7 *pEngine, const char *zSource, int nLen, ph7_vm **ppOutVm)
  * [CAPIREF: ph7_compile_v2()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_compile_v2(ph7 *pEngine, const char *zSource, int nLen, ph7_vm **ppOutVm, int iFlags)
+int
+ph7_compile_v2(
+  ph7 *pEngine,
+  const char *zSource,
+  int nLen,
+  ph7_vm **ppOutVm,
+  int iFlags
+)
 {
   SyString sScript;
   int rc;
@@ -832,7 +879,13 @@ int ph7_compile_v2(ph7 *pEngine, const char *zSource, int nLen, ph7_vm **ppOutVm
  * [CAPIREF: ph7_compile_file()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_compile_file(ph7 *pEngine, const char *zFilePath, ph7_vm **ppOutVm, int iFlags)
+int
+ph7_compile_file(
+  ph7 *pEngine,
+  const char *zFilePath,
+  ph7_vm **ppOutVm,
+  int iFlags
+)
 {
   const ph7_vfs *pVfs;
   int rc;
@@ -892,7 +945,12 @@ int ph7_compile_file(ph7 *pEngine, const char *zFilePath, ph7_vm **ppOutVm, int 
  * [CAPIREF: ph7_vm_dump_v2()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_vm_dump_v2(ph7_vm *pVm, int (*xConsumer)(const void *, unsigned int, void *), void *pUserData)
+int
+ph7_vm_dump_v2(
+  ph7_vm *pVm,
+  int (*xConsumer)(const void *, unsigned int, void *),
+  void *pUserData
+)
 {
   int rc;
   /* Ticket 1433-002: NULL VM is harmless operation */
@@ -913,7 +971,8 @@ int ph7_vm_dump_v2(ph7_vm *pVm, int (*xConsumer)(const void *, unsigned int, voi
  * [CAPIREF: ph7_vm_config()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_vm_config(ph7_vm *pVm, int iConfigOp, ...)
+int
+ph7_vm_config(ph7_vm *pVm, int iConfigOp, ...)
 {
   va_list ap;
   int rc;
@@ -945,7 +1004,8 @@ int ph7_vm_config(ph7_vm *pVm, int iConfigOp, ...)
  * [CAPIREF: ph7_vm_exec()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_vm_exec(ph7_vm *pVm, int *pExitStatus)
+int
+ph7_vm_exec(ph7_vm *pVm, int *pExitStatus)
 {
   int rc;
   /* Ticket 1433-002: NULL VM is harmless operation */
@@ -979,7 +1039,8 @@ int ph7_vm_exec(ph7_vm *pVm, int *pExitStatus)
  * [CAPIREF: ph7_vm_reset()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_vm_reset(ph7_vm *pVm)
+int
+ph7_vm_reset(ph7_vm *pVm)
 {
   int rc;
   /* Ticket 1433-002: NULL VM is harmless operation */
@@ -1007,7 +1068,8 @@ int ph7_vm_reset(ph7_vm *pVm)
  * [CAPIREF: ph7_vm_release()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_vm_release(ph7_vm *pVm)
+int
+ph7_vm_release(ph7_vm *pVm)
 {
   ph7 *pEngine;
   int rc;
@@ -1057,7 +1119,14 @@ int ph7_vm_release(ph7_vm *pVm)
  * [CAPIREF: ph7_create_function()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_create_function(ph7_vm *pVm, const char *zName, int (*xFunc)(ph7_context *, int, ph7_value **), void *pUserData)
+int
+ph7_create_function(
+  ph7_vm *pVm, const char *zName, int (*xFunc)(
+    ph7_context *,
+    int,
+    ph7_value **
+  ), void *pUserData
+)
 {
   SyString sName;
   int rc;
@@ -1094,7 +1163,8 @@ int ph7_create_function(ph7_vm *pVm, const char *zName, int (*xFunc)(ph7_context
  * [CAPIREF: ph7_delete_function()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_delete_function(ph7_vm *pVm, const char *zName)
+int
+ph7_delete_function(ph7_vm *pVm, const char *zName)
 {
   ph7_user_func *pFunc = 0;
   int rc;
@@ -1112,7 +1182,10 @@ int ph7_delete_function(ph7_vm *pVm, const char *zName)
   }
 #endif
   /* Perform the deletion */
-  rc = SyHashDeleteEntry(&pVm->hHostFunction, (const void *) zName, SyStrlen(zName), (void **) &pFunc);
+  rc = SyHashDeleteEntry(
+    &pVm->hHostFunction, (const void *) zName,
+    SyStrlen(zName), (void **) &pFunc
+  );
   if (rc == PH7_OK) {
     /* Release internal fields */
     SySetRelease(&pFunc->aAux);
@@ -1130,7 +1203,13 @@ int ph7_delete_function(ph7_vm *pVm, const char *zName)
  * [CAPIREF: ph7_create_constant()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_create_constant(ph7_vm *pVm, const char *zName, void (*xExpand)(ph7_value *, void *), void *pUserData)
+int
+ph7_create_constant(
+  ph7_vm *pVm, const char *zName, void (*xExpand)(
+    ph7_value *,
+    void *
+  ), void *pUserData
+)
 {
   SyString sName;
   int rc;
@@ -1171,7 +1250,8 @@ int ph7_create_constant(ph7_vm *pVm, const char *zName, void (*xExpand)(ph7_valu
  * [CAPIREF: ph7_delete_constant()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_delete_constant(ph7_vm *pVm, const char *zName)
+int
+ph7_delete_constant(ph7_vm *pVm, const char *zName)
 {
   ph7_constant *pCons;
   int rc;
@@ -1189,7 +1269,12 @@ int ph7_delete_constant(ph7_vm *pVm, const char *zName)
   }
 #endif
   /* Query the constant hashtable */
-  rc = SyHashDeleteEntry(&pVm->hConstant, (const void *) zName, SyStrlen(zName), (void **) &pCons);
+  rc = SyHashDeleteEntry(
+    &pVm->hConstant,
+    (const void *) zName,
+    SyStrlen(zName),
+    (void **) &pCons
+  );
   if (rc == PH7_OK) {
     /* Perform the deletion */
     SyMemBackendFree(&pVm->sAllocator, (void *) SyStringData(&pCons->sName));
@@ -1206,7 +1291,8 @@ int ph7_delete_constant(ph7_vm *pVm, const char *zName)
  * [CAPIREF: ph7_new_scalar()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-ph7_value* ph7_new_scalar(ph7_vm *pVm)
+ph7_value *
+ph7_new_scalar(ph7_vm *pVm)
 {
   ph7_value *pObj;
   /* Ticket 1433-002: NULL VM is harmless operation */
@@ -1214,7 +1300,10 @@ ph7_value* ph7_new_scalar(ph7_vm *pVm)
     return 0;
   }
   /* Allocate a new scalar variable */
-  pObj = (ph7_value *) SyMemBackendPoolAlloc(&pVm->sAllocator, sizeof(ph7_value));
+  pObj = (ph7_value *) SyMemBackendPoolAlloc(
+    &pVm->sAllocator,
+    sizeof(ph7_value)
+  );
   if (pObj == 0) {
     return 0;
   }
@@ -1227,7 +1316,8 @@ ph7_value* ph7_new_scalar(ph7_vm *pVm)
  * [CAPIREF: ph7_new_array()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-ph7_value* ph7_new_array(ph7_vm *pVm)
+ph7_value *
+ph7_new_array(ph7_vm *pVm)
 {
   ph7_hashmap *pMap;
   ph7_value *pObj;
@@ -1241,7 +1331,10 @@ ph7_value* ph7_new_array(ph7_vm *pVm)
     return 0;
   }
   /* Associate a new ph7_value with this hashmap */
-  pObj = (ph7_value *) SyMemBackendPoolAlloc(&pVm->sAllocator, sizeof(ph7_value));
+  pObj = (ph7_value *) SyMemBackendPoolAlloc(
+    &pVm->sAllocator,
+    sizeof(ph7_value)
+  );
   if (pObj == 0) {
     PH7_HashmapRelease(pMap, TRUE);
     return 0;
@@ -1254,7 +1347,8 @@ ph7_value* ph7_new_array(ph7_vm *pVm)
  * [CAPIREF: ph7_release_value()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_release_value(ph7_vm *pVm, ph7_value *pValue)
+int
+ph7_release_value(ph7_vm *pVm, ph7_value *pValue)
 {
   /* Ticket 1433-002: NULL VM is harmless operation */
   if (PH7_VM_MISUSE(pVm)) {
@@ -1272,7 +1366,8 @@ int ph7_release_value(ph7_vm *pVm, ph7_value *pValue)
  * [CAPIREF: ph7_value_to_int()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_to_int(ph7_value *pValue)
+int
+ph7_value_to_int(ph7_value *pValue)
 {
   int rc;
   rc = PH7_MemObjToInteger(pValue);
@@ -1286,7 +1381,8 @@ int ph7_value_to_int(ph7_value *pValue)
  * [CAPIREF: ph7_value_to_bool()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_to_bool(ph7_value *pValue)
+int
+ph7_value_to_bool(ph7_value *pValue)
 {
   int rc;
   rc = PH7_MemObjToBool(pValue);
@@ -1300,7 +1396,8 @@ int ph7_value_to_bool(ph7_value *pValue)
  * [CAPIREF: ph7_value_to_int64()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-ph7_int64 ph7_value_to_int64(ph7_value *pValue)
+ph7_int64
+ph7_value_to_int64(ph7_value *pValue)
 {
   int rc;
   rc = PH7_MemObjToInteger(pValue);
@@ -1314,7 +1411,8 @@ ph7_int64 ph7_value_to_int64(ph7_value *pValue)
  * [CAPIREF: ph7_value_to_double()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-double ph7_value_to_double(ph7_value *pValue)
+double
+ph7_value_to_double(ph7_value *pValue)
 {
   int rc;
   rc = PH7_MemObjToReal(pValue);
@@ -1328,7 +1426,8 @@ double ph7_value_to_double(ph7_value *pValue)
  * [CAPIREF: ph7_value_to_string()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-const char* ph7_value_to_string(ph7_value *pValue, int *pLen)
+const char *
+ph7_value_to_string(ph7_value *pValue, int *pLen)
 {
   PH7_MemObjToString(pValue);
   if (SyBlobLength(&pValue->sBlob) > 0) {
@@ -1350,7 +1449,8 @@ const char* ph7_value_to_string(ph7_value *pValue, int *pLen)
  * [CAPIREF: ph7_value_to_resource()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-void* ph7_value_to_resource(ph7_value *pValue)
+void *
+ph7_value_to_resource(ph7_value *pValue)
 {
   if ((pValue->iFlags & MEMOBJ_RES) == 0) {
     /* Not a resource,return NULL */
@@ -1363,7 +1463,8 @@ void* ph7_value_to_resource(ph7_value *pValue)
  * [CAPIREF: ph7_value_compare()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_compare(ph7_value *pLeft, ph7_value *pRight, int bStrict)
+int
+ph7_value_compare(ph7_value *pLeft, ph7_value *pRight, int bStrict)
 {
   int rc;
   if (pLeft == 0 || pRight == 0) {
@@ -1380,7 +1481,8 @@ int ph7_value_compare(ph7_value *pLeft, ph7_value *pRight, int bStrict)
  * [CAPIREF: ph7_result_int()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_int(ph7_context *pCtx, int iValue)
+int
+ph7_result_int(ph7_context *pCtx, int iValue)
 {
   return ph7_value_int(pCtx->pRet, iValue);
 }
@@ -1389,7 +1491,8 @@ int ph7_result_int(ph7_context *pCtx, int iValue)
  * [CAPIREF: ph7_result_int64()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_int64(ph7_context *pCtx, ph7_int64 iValue)
+int
+ph7_result_int64(ph7_context *pCtx, ph7_int64 iValue)
 {
   return ph7_value_int64(pCtx->pRet, iValue);
 }
@@ -1398,7 +1501,8 @@ int ph7_result_int64(ph7_context *pCtx, ph7_int64 iValue)
  * [CAPIREF: ph7_result_bool()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_bool(ph7_context *pCtx, int iBool)
+int
+ph7_result_bool(ph7_context *pCtx, int iBool)
 {
   return ph7_value_bool(pCtx->pRet, iBool);
 }
@@ -1407,7 +1511,8 @@ int ph7_result_bool(ph7_context *pCtx, int iBool)
  * [CAPIREF: ph7_result_double()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_double(ph7_context *pCtx, double Value)
+int
+ph7_result_double(ph7_context *pCtx, double Value)
 {
   return ph7_value_double(pCtx->pRet, Value);
 }
@@ -1416,7 +1521,8 @@ int ph7_result_double(ph7_context *pCtx, double Value)
  * [CAPIREF: ph7_result_null()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_null(ph7_context *pCtx)
+int
+ph7_result_null(ph7_context *pCtx)
 {
   /* Invalidate any prior representation and set the NULL flag */
   PH7_MemObjRelease(pCtx->pRet);
@@ -1427,7 +1533,8 @@ int ph7_result_null(ph7_context *pCtx)
  * [CAPIREF: ph7_result_string()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_string(ph7_context *pCtx, const char *zString, int nLen)
+int
+ph7_result_string(ph7_context *pCtx, const char *zString, int nLen)
 {
   return ph7_value_string(pCtx->pRet, zString, nLen);
 }
@@ -1436,7 +1543,8 @@ int ph7_result_string(ph7_context *pCtx, const char *zString, int nLen)
  * [CAPIREF: ph7_result_string_format()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_string_format(ph7_context *pCtx, const char *zFormat, ...)
+int
+ph7_result_string_format(ph7_context *pCtx, const char *zFormat, ...)
 {
   ph7_value *p;
   va_list ap;
@@ -1458,7 +1566,8 @@ int ph7_result_string_format(ph7_context *pCtx, const char *zFormat, ...)
  * [CAPIREF: ph7_result_value()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_value(ph7_context *pCtx, ph7_value *pValue)
+int
+ph7_result_value(ph7_context *pCtx, ph7_value *pValue)
 {
   int rc = PH7_OK;
   if (pValue == 0) {
@@ -1473,7 +1582,8 @@ int ph7_result_value(ph7_context *pCtx, ph7_value *pValue)
  * [CAPIREF: ph7_result_resource()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_result_resource(ph7_context *pCtx, void *pUserData)
+int
+ph7_result_resource(ph7_context *pCtx, void *pUserData)
 {
   return ph7_value_resource(pCtx->pRet, pUserData);
 }
@@ -1482,7 +1592,8 @@ int ph7_result_resource(ph7_context *pCtx, void *pUserData)
  * [CAPIREF: ph7_context_new_scalar()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-ph7_value* ph7_context_new_scalar(ph7_context *pCtx)
+ph7_value *
+ph7_context_new_scalar(ph7_context *pCtx)
 {
   ph7_value *pVal;
   pVal = ph7_new_scalar(pCtx->pVm);
@@ -1499,7 +1610,8 @@ ph7_value* ph7_context_new_scalar(ph7_context *pCtx)
  * [CAPIREF: ph7_context_new_array()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-ph7_value* ph7_context_new_array(ph7_context *pCtx)
+ph7_value *
+ph7_context_new_array(ph7_context *pCtx)
 {
   ph7_value *pVal;
   pVal = ph7_new_array(pCtx->pVm);
@@ -1516,7 +1628,8 @@ ph7_value* ph7_context_new_array(ph7_context *pCtx)
  * [CAPIREF: ph7_context_release_value()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-void ph7_context_release_value(ph7_context *pCtx, ph7_value *pValue)
+void
+ph7_context_release_value(ph7_context *pCtx, ph7_value *pValue)
 {
   PH7_VmReleaseContextValue(&(*pCtx), pValue);
 }
@@ -1525,7 +1638,13 @@ void ph7_context_release_value(ph7_context *pCtx, ph7_value *pValue)
  * [CAPIREF: ph7_context_alloc_chunk()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-void* ph7_context_alloc_chunk(ph7_context *pCtx, unsigned int nByte, int ZeroChunk, int AutoRelease)
+void *
+ph7_context_alloc_chunk(
+  ph7_context *pCtx,
+  unsigned int nByte,
+  int ZeroChunk,
+  int AutoRelease
+)
 {
   void *pChunk;
   pChunk = SyMemBackendAlloc(&pCtx->pVm->sAllocator, nByte);
@@ -1553,7 +1672,8 @@ void* ph7_context_alloc_chunk(ph7_context *pCtx, unsigned int nByte, int ZeroChu
  * Return TRUE if registered.FALSE otherwise.
  * Refer to [ph7_context_realloc_chunk(),ph7_context_free_chunk()].
  */
-static ph7_aux_data* ContextFindChunk(ph7_context *pCtx, void *pChunk)
+static ph7_aux_data *
+ContextFindChunk(ph7_context *pCtx, void *pChunk)
 {
   ph7_aux_data *aAux, *pAux;
   sxu32 n;
@@ -1578,7 +1698,8 @@ static ph7_aux_data* ContextFindChunk(ph7_context *pCtx, void *pChunk)
  * [CAPIREF: ph7_context_realloc_chunk()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-void* ph7_context_realloc_chunk(ph7_context *pCtx, void *pChunk, unsigned int nByte)
+void *
+ph7_context_realloc_chunk(ph7_context *pCtx, void *pChunk, unsigned int nByte)
 {
   ph7_aux_data *pAux;
   void *pNew;
@@ -1596,7 +1717,8 @@ void* ph7_context_realloc_chunk(ph7_context *pCtx, void *pChunk, unsigned int nB
  * [CAPIREF: ph7_context_free_chunk()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-void ph7_context_free_chunk(ph7_context *pCtx, void *pChunk)
+void
+ph7_context_free_chunk(ph7_context *pCtx, void *pChunk)
 {
   ph7_aux_data *pAux;
   if (pChunk == 0) {
@@ -1615,7 +1737,8 @@ void ph7_context_free_chunk(ph7_context *pCtx, void *pChunk)
  * [CAPIREF: ph7_array_fetch()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-ph7_value* ph7_array_fetch(ph7_value *pArray, const char *zKey, int nByte)
+ph7_value *
+ph7_array_fetch(ph7_value *pArray, const char *zKey, int nByte)
 {
   ph7_hashmap_node *pNode;
   ph7_value *pValue;
@@ -1647,7 +1770,14 @@ ph7_value* ph7_array_fetch(ph7_value *pArray, const char *zKey, int nByte)
  * [CAPIREF: ph7_array_walk()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_array_walk(ph7_value *pArray, int (*xWalk)(ph7_value *pValue, ph7_value *, void *), void *pUserData)
+int
+ph7_array_walk(
+  ph7_value *pArray, int (*xWalk)(
+    ph7_value *pValue,
+    ph7_value *,
+    void *
+  ), void *pUserData
+)
 {
   int rc;
   if (xWalk == 0) {
@@ -1659,14 +1789,17 @@ int ph7_array_walk(ph7_value *pArray, int (*xWalk)(ph7_value *pValue, ph7_value 
   }
   /* Start the walk process */
   rc = PH7_HashmapWalk((ph7_hashmap *) pArray->x.pOther, xWalk, pUserData);
-  return rc != PH7_OK ? PH7_ABORT /* User callback request an operation abort*/ : PH7_OK;
+  return rc
+         != PH7_OK ? PH7_ABORT /* User callback request an operation abort*/ :
+  PH7_OK;
 }
 
 /*
  * [CAPIREF: ph7_array_add_elem()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_array_add_elem(ph7_value *pArray, ph7_value *pKey, ph7_value *pValue)
+int
+ph7_array_add_elem(ph7_value *pArray, ph7_value *pKey, ph7_value *pValue)
 {
   int rc;
   /* Make sure we are dealing with a valid hashmap */
@@ -1674,7 +1807,10 @@ int ph7_array_add_elem(ph7_value *pArray, ph7_value *pKey, ph7_value *pValue)
     return PH7_CORRUPT;
   }
   /* Perform the insertion */
-  rc = PH7_HashmapInsert((ph7_hashmap *) pArray->x.pOther, &(*pKey), &(*pValue));
+  rc = PH7_HashmapInsert(
+    (ph7_hashmap *) pArray->x.pOther, &(*pKey),
+    &(*pValue)
+  );
   return rc;
 }
 
@@ -1682,7 +1818,11 @@ int ph7_array_add_elem(ph7_value *pArray, ph7_value *pKey, ph7_value *pValue)
  * [CAPIREF: ph7_array_add_strkey_elem()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_array_add_strkey_elem(ph7_value *pArray, const char *zKey, ph7_value *pValue)
+int
+ph7_array_add_strkey_elem(
+  ph7_value *pArray, const char *zKey,
+  ph7_value *pValue
+)
 {
   int rc;
   /* Make sure we are dealing with a valid hashmap */
@@ -1707,7 +1847,8 @@ int ph7_array_add_strkey_elem(ph7_value *pArray, const char *zKey, ph7_value *pV
  * [CAPIREF: ph7_array_add_intkey_elem()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_array_add_intkey_elem(ph7_value *pArray, int iKey, ph7_value *pValue)
+int
+ph7_array_add_intkey_elem(ph7_value *pArray, int iKey, ph7_value *pValue)
 {
   ph7_value sKey;
   int rc;
@@ -1726,7 +1867,8 @@ int ph7_array_add_intkey_elem(ph7_value *pArray, int iKey, ph7_value *pValue)
  * [CAPIREF: ph7_array_count()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-unsigned int ph7_array_count(ph7_value *pArray)
+unsigned int
+ph7_array_count(ph7_value *pArray)
 {
   ph7_hashmap *pMap;
   /* Make sure we are dealing with a valid hashmap */
@@ -1742,7 +1884,14 @@ unsigned int ph7_array_count(ph7_value *pArray)
  * [CAPIREF: ph7_object_walk()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_object_walk(ph7_value *pObject, int (*xWalk)(const char *, ph7_value *, void *), void *pUserData)
+int
+ph7_object_walk(
+  ph7_value *pObject, int (*xWalk)(
+    const char *,
+    ph7_value *,
+    void *
+  ), void *pUserData
+)
 {
   int rc;
   if (xWalk == 0) {
@@ -1753,15 +1902,22 @@ int ph7_object_walk(ph7_value *pObject, int (*xWalk)(const char *, ph7_value *, 
     return PH7_CORRUPT;
   }
   /* Start the walk process */
-  rc = PH7_ClassInstanceWalk((ph7_class_instance *) pObject->x.pOther, xWalk, pUserData);
-  return rc != PH7_OK ? PH7_ABORT /* User callback request an operation abort*/ : PH7_OK;
+  rc = PH7_ClassInstanceWalk(
+    (ph7_class_instance *) pObject->x.pOther,
+    xWalk,
+    pUserData
+  );
+  return rc
+         != PH7_OK ? PH7_ABORT /* User callback request an operation abort*/ :
+  PH7_OK;
 }
 
 /*
  * [CAPIREF: ph7_object_fetch_attr()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-ph7_value* ph7_object_fetch_attr(ph7_value *pObject, const char *zAttr)
+ph7_value *
+ph7_object_fetch_attr(ph7_value *pObject, const char *zAttr)
 {
   ph7_value *pValue;
   SyString sAttr;
@@ -1773,7 +1929,10 @@ ph7_value* ph7_object_fetch_attr(ph7_value *pObject, const char *zAttr)
 
   /* Extract the attribute value if available.
    */
-  pValue = PH7_ClassInstanceFetchAttr((ph7_class_instance *) pObject->x.pOther, &sAttr);
+  pValue = PH7_ClassInstanceFetchAttr(
+    (ph7_class_instance *) pObject->x.pOther,
+    &sAttr
+  );
   return pValue;
 }
 
@@ -1781,7 +1940,8 @@ ph7_value* ph7_object_fetch_attr(ph7_value *pObject, const char *zAttr)
  * [CAPIREF: ph7_object_get_class_name()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-const char* ph7_object_get_class_name(ph7_value *pObject, int *pLength)
+const char *
+ph7_object_get_class_name(ph7_value *pObject, int *pLength)
 {
   ph7_class *pClass;
   if (pLength) {
@@ -1804,7 +1964,8 @@ const char* ph7_object_get_class_name(ph7_value *pObject, int *pLength)
  * [CAPIREF: ph7_context_output()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_context_output(ph7_context *pCtx, const char *zString, int nLen)
+int
+ph7_context_output(ph7_context *pCtx, const char *zString, int nLen)
 {
   SyString sData;
   int rc;
@@ -1820,7 +1981,8 @@ int ph7_context_output(ph7_context *pCtx, const char *zString, int nLen)
  * [CAPIREF: ph7_context_output_format()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_context_output_format(ph7_context *pCtx, const char *zFormat, ...)
+int
+ph7_context_output_format(ph7_context *pCtx, const char *zFormat, ...)
 {
   va_list ap;
   int rc;
@@ -1834,7 +1996,8 @@ int ph7_context_output_format(ph7_context *pCtx, const char *zFormat, ...)
  * [CAPIREF: ph7_context_throw_error()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_context_throw_error(ph7_context *pCtx, int iErr, const char *zErr)
+int
+ph7_context_throw_error(ph7_context *pCtx, int iErr, const char *zErr)
 {
   int rc = PH7_OK;
   if (zErr) {
@@ -1847,7 +2010,13 @@ int ph7_context_throw_error(ph7_context *pCtx, int iErr, const char *zErr)
  * [CAPIREF: ph7_context_throw_error_format()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_context_throw_error_format(ph7_context *pCtx, int iErr, const char *zFormat, ...)
+int
+ph7_context_throw_error_format(
+  ph7_context *pCtx,
+  int iErr,
+  const char *zFormat,
+  ...
+)
 {
   va_list ap;
   int rc;
@@ -1864,7 +2033,8 @@ int ph7_context_throw_error_format(ph7_context *pCtx, int iErr, const char *zFor
  * [CAPIREF: ph7_context_random_num()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-unsigned int ph7_context_random_num(ph7_context *pCtx)
+unsigned int
+ph7_context_random_num(ph7_context *pCtx)
 {
   sxu32 n;
   n = PH7_VmRandomNum(pCtx->pVm);
@@ -1875,7 +2045,8 @@ unsigned int ph7_context_random_num(ph7_context *pCtx)
  * [CAPIREF: ph7_context_random_string()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_context_random_string(ph7_context *pCtx, char *zBuf, int nBuflen)
+int
+ph7_context_random_string(ph7_context *pCtx, char *zBuf, int nBuflen)
 {
   if (nBuflen < 3) {
     return PH7_CORRUPT;
@@ -1896,7 +2067,8 @@ int ph7_context_random_string(ph7_context *pCtx, char *zBuf, int nBuflen)
  * [CAPIREF: ph7_context_user_data()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-void* ph7_context_user_data(ph7_context *pCtx)
+void *
+ph7_context_user_data(ph7_context *pCtx)
 {
   return pCtx->pFunc->pUserData;
 }
@@ -1905,7 +2077,8 @@ void* ph7_context_user_data(ph7_context *pCtx)
  * [CAPIREF: ph7_context_push_aux_data()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_context_push_aux_data(ph7_context *pCtx, void *pUserData)
+int
+ph7_context_push_aux_data(ph7_context *pCtx, void *pUserData)
 {
   ph7_aux_data sAux;
   int rc;
@@ -1918,7 +2091,8 @@ int ph7_context_push_aux_data(ph7_context *pCtx, void *pUserData)
  * [CAPIREF: ph7_context_peek_aux_data()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-void* ph7_context_peek_aux_data(ph7_context *pCtx)
+void *
+ph7_context_peek_aux_data(ph7_context *pCtx)
 {
   ph7_aux_data *pAux;
   pAux = (ph7_aux_data *) SySetPeek(&pCtx->pFunc->aAux);
@@ -1929,7 +2103,8 @@ void* ph7_context_peek_aux_data(ph7_context *pCtx)
  * [CAPIREF: ph7_context_pop_aux_data()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-void* ph7_context_pop_aux_data(ph7_context *pCtx)
+void *
+ph7_context_pop_aux_data(ph7_context *pCtx)
 {
   ph7_aux_data *pAux;
   pAux = (ph7_aux_data *) SySetPop(&pCtx->pFunc->aAux);
@@ -1940,7 +2115,8 @@ void* ph7_context_pop_aux_data(ph7_context *pCtx)
  * [CAPIREF: ph7_context_result_buf_length()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-unsigned int ph7_context_result_buf_length(ph7_context *pCtx)
+unsigned int
+ph7_context_result_buf_length(ph7_context *pCtx)
 {
   return SyBlobLength(&pCtx->pRet->sBlob);
 }
@@ -1949,7 +2125,8 @@ unsigned int ph7_context_result_buf_length(ph7_context *pCtx)
  * [CAPIREF: ph7_function_name()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-const char* ph7_function_name(ph7_context *pCtx)
+const char *
+ph7_function_name(ph7_context *pCtx)
 {
   SyString *pName;
   pName = &pCtx->pFunc->sName;
@@ -1960,7 +2137,8 @@ const char* ph7_function_name(ph7_context *pCtx)
  * [CAPIREF: ph7_value_int()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_int(ph7_value *pVal, int iValue)
+int
+ph7_value_int(ph7_value *pVal, int iValue)
 {
   /* Invalidate any prior representation */
   PH7_MemObjRelease(pVal);
@@ -1973,7 +2151,8 @@ int ph7_value_int(ph7_value *pVal, int iValue)
  * [CAPIREF: ph7_value_int64()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_int64(ph7_value *pVal, ph7_int64 iValue)
+int
+ph7_value_int64(ph7_value *pVal, ph7_int64 iValue)
 {
   /* Invalidate any prior representation */
   PH7_MemObjRelease(pVal);
@@ -1986,7 +2165,8 @@ int ph7_value_int64(ph7_value *pVal, ph7_int64 iValue)
  * [CAPIREF: ph7_value_bool()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_bool(ph7_value *pVal, int iBool)
+int
+ph7_value_bool(ph7_value *pVal, int iBool)
 {
   /* Invalidate any prior representation */
   PH7_MemObjRelease(pVal);
@@ -1999,7 +2179,8 @@ int ph7_value_bool(ph7_value *pVal, int iBool)
  * [CAPIREF: ph7_value_null()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_null(ph7_value *pVal)
+int
+ph7_value_null(ph7_value *pVal)
 {
   /* Invalidate any prior representation and set the NULL flag */
   PH7_MemObjRelease(pVal);
@@ -2010,7 +2191,8 @@ int ph7_value_null(ph7_value *pVal)
  * [CAPIREF: ph7_value_double()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_double(ph7_value *pVal, double Value)
+int
+ph7_value_double(ph7_value *pVal, double Value)
 {
   /* Invalidate any prior representation */
   PH7_MemObjRelease(pVal);
@@ -2025,7 +2207,8 @@ int ph7_value_double(ph7_value *pVal, double Value)
  * [CAPIREF: ph7_value_string()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_string(ph7_value *pVal, const char *zString, int nLen)
+int
+ph7_value_string(ph7_value *pVal, const char *zString, int nLen)
 {
   if ((pVal->iFlags & MEMOBJ_STRING) == 0) {
     /* Invalidate any prior representation */
@@ -2046,7 +2229,8 @@ int ph7_value_string(ph7_value *pVal, const char *zString, int nLen)
  * [CAPIREF: ph7_value_string_format()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_string_format(ph7_value *pVal, const char *zFormat, ...)
+int
+ph7_value_string_format(ph7_value *pVal, const char *zFormat, ...)
 {
   va_list ap;
   int rc;
@@ -2065,7 +2249,8 @@ int ph7_value_string_format(ph7_value *pVal, const char *zFormat, ...)
  * [CAPIREF: ph7_value_reset_string_cursor()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_reset_string_cursor(ph7_value *pVal)
+int
+ph7_value_reset_string_cursor(ph7_value *pVal)
 {
   /* Reset the string cursor */
   SyBlobReset(&pVal->sBlob);
@@ -2076,7 +2261,8 @@ int ph7_value_reset_string_cursor(ph7_value *pVal)
  * [CAPIREF: ph7_value_resource()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_resource(ph7_value *pVal, void *pUserData)
+int
+ph7_value_resource(ph7_value *pVal, void *pUserData)
 {
   /* Invalidate any prior representation */
   PH7_MemObjRelease(pVal);
@@ -2090,7 +2276,8 @@ int ph7_value_resource(ph7_value *pVal, void *pUserData)
  * [CAPIREF: ph7_value_release()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_release(ph7_value *pVal)
+int
+ph7_value_release(ph7_value *pVal)
 {
   PH7_MemObjRelease(pVal);
   return PH7_OK;
@@ -2100,7 +2287,8 @@ int ph7_value_release(ph7_value *pVal)
  * [CAPIREF: ph7_value_is_int()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_is_int(ph7_value *pVal)
+int
+ph7_value_is_int(ph7_value *pVal)
 {
   return (pVal->iFlags & MEMOBJ_INT) ? TRUE : FALSE;
 }
@@ -2109,7 +2297,8 @@ int ph7_value_is_int(ph7_value *pVal)
  * [CAPIREF: ph7_value_is_float()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_is_float(ph7_value *pVal)
+int
+ph7_value_is_float(ph7_value *pVal)
 {
   return (pVal->iFlags & MEMOBJ_REAL) ? TRUE : FALSE;
 }
@@ -2118,7 +2307,8 @@ int ph7_value_is_float(ph7_value *pVal)
  * [CAPIREF: ph7_value_is_bool()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_is_bool(ph7_value *pVal)
+int
+ph7_value_is_bool(ph7_value *pVal)
 {
   return (pVal->iFlags & MEMOBJ_BOOL) ? TRUE : FALSE;
 }
@@ -2127,7 +2317,8 @@ int ph7_value_is_bool(ph7_value *pVal)
  * [CAPIREF: ph7_value_is_string()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_is_string(ph7_value *pVal)
+int
+ph7_value_is_string(ph7_value *pVal)
 {
   return (pVal->iFlags & MEMOBJ_STRING) ? TRUE : FALSE;
 }
@@ -2136,7 +2327,8 @@ int ph7_value_is_string(ph7_value *pVal)
  * [CAPIREF: ph7_value_is_null()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_is_null(ph7_value *pVal)
+int
+ph7_value_is_null(ph7_value *pVal)
 {
   return (pVal->iFlags & MEMOBJ_NULL) ? TRUE : FALSE;
 }
@@ -2145,7 +2337,8 @@ int ph7_value_is_null(ph7_value *pVal)
  * [CAPIREF: ph7_value_is_numeric()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_is_numeric(ph7_value *pVal)
+int
+ph7_value_is_numeric(ph7_value *pVal)
 {
   int rc;
   rc = PH7_MemObjIsNumeric(pVal);
@@ -2156,7 +2349,8 @@ int ph7_value_is_numeric(ph7_value *pVal)
  * [CAPIREF: ph7_value_is_callable()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_is_callable(ph7_value *pVal)
+int
+ph7_value_is_callable(ph7_value *pVal)
 {
   int rc;
   rc = PH7_VmIsCallable(pVal->pVm, pVal, FALSE);
@@ -2167,7 +2361,8 @@ int ph7_value_is_callable(ph7_value *pVal)
  * [CAPIREF: ph7_value_is_scalar()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_is_scalar(ph7_value *pVal)
+int
+ph7_value_is_scalar(ph7_value *pVal)
 {
   return (pVal->iFlags & MEMOBJ_SCALAR) ? TRUE : FALSE;
 }
@@ -2176,7 +2371,8 @@ int ph7_value_is_scalar(ph7_value *pVal)
  * [CAPIREF: ph7_value_is_array()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_is_array(ph7_value *pVal)
+int
+ph7_value_is_array(ph7_value *pVal)
 {
   return (pVal->iFlags & MEMOBJ_HASHMAP) ? TRUE : FALSE;
 }
@@ -2185,7 +2381,8 @@ int ph7_value_is_array(ph7_value *pVal)
  * [CAPIREF: ph7_value_is_object()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_is_object(ph7_value *pVal)
+int
+ph7_value_is_object(ph7_value *pVal)
 {
   return (pVal->iFlags & MEMOBJ_OBJ) ? TRUE : FALSE;
 }
@@ -2194,7 +2391,8 @@ int ph7_value_is_object(ph7_value *pVal)
  * [CAPIREF: ph7_value_is_resource()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_is_resource(ph7_value *pVal)
+int
+ph7_value_is_resource(ph7_value *pVal)
 {
   return (pVal->iFlags & MEMOBJ_RES) ? TRUE : FALSE;
 }
@@ -2203,7 +2401,8 @@ int ph7_value_is_resource(ph7_value *pVal)
  * [CAPIREF: ph7_value_is_empty()]
  * Please refer to the official documentation for function purpose and expected parameters.
  */
-int ph7_value_is_empty(ph7_value *pVal)
+int
+ph7_value_is_empty(ph7_value *pVal)
 {
   int rc;
   rc = PH7_MemObjIsEmpty(pVal);

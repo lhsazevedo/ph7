@@ -36,7 +36,8 @@
 /*
  * Display an error message and exit.
  */
-static void Fatal(const char *zMsg)
+static void
+Fatal(const char *zMsg)
 {
   puts(zMsg);
   /* Shutdown the library */
@@ -58,7 +59,8 @@ static const char zBanner[] = {
 /*
  * Display the banner,a help message and exit.
  */
-static void Help(void)
+static void
+Help(void)
 {
   puts(zBanner);
   puts("ph7 [-h|-r|-d] path/to/php_file [script args]");
@@ -93,11 +95,21 @@ static void Help(void)
  * This function is registered later via a call to ph7_vm_config()
  * with a configuration verb set to: PH7_VM_CONFIG_OUTPUT.
  */
-static int Output_Consumer(const void *pOutput, unsigned int nOutputLen, void *pUserData /* Unused */ )
+static int
+Output_Consumer(
+  const void *pOutput, unsigned int nOutputLen,
+  void *pUserData /* Unused */
+)
 {
 #ifdef __WINNT__
   BOOL rc;
-  rc = WriteFile(GetStdHandle(STD_OUTPUT_HANDLE), pOutput, (DWORD) nOutputLen, 0, 0);
+  rc = WriteFile(
+    GetStdHandle(STD_OUTPUT_HANDLE),
+    pOutput,
+    (DWORD) nOutputLen,
+    0,
+    0
+  );
   if (!rc) {
     /* Abort processing */
     return PH7_ABORT;
@@ -117,7 +129,8 @@ static int Output_Consumer(const void *pOutput, unsigned int nOutputLen, void *p
 /*
  * Main program: Compile and execute the PHP file.
  */
-int main(int argc, char **argv)
+int
+main(int argc, char **argv)
 {
   ph7 *pEngine;   /* PH7 engine */
   ph7_vm *pVm;    /* Compiled PHP program */
@@ -161,17 +174,18 @@ int main(int argc, char **argv)
   /* Set an error log consumer callback. This callback [Output_Consumer()] will
    * redirect all compile-time error messages to STDOUT.
    */
-  ph7_config(pEngine, PH7_CONFIG_ERR_OUTPUT,
-             Output_Consumer,   /* Error log consumer */
-             0   /* NULL: Callback Private data */
-             );
+  ph7_config(
+    pEngine, PH7_CONFIG_ERR_OUTPUT,
+    Output_Consumer,            /* Error log consumer */
+    0            /* NULL: Callback Private data */
+  );
   /* Now,it's time to compile our PHP file */
   rc = ph7_compile_file(
     pEngine,     /* PH7 Engine */
     argv[n],     /* Path to the PHP file to compile */
     &pVm,        /* OUT: Compiled PHP program */
     0            /* IN: Compile flags */
-    );
+  );
   if (rc != PH7_OK) {     /* Compile error */
     if (rc == PH7_IO_ERR) {
       Fatal("IO error while opening the target file");
@@ -188,11 +202,12 @@ int main(int argc, char **argv)
    * We will install the VM output consumer callback defined above
    * so that we can consume the VM output and redirect it to STDOUT.
    */
-  rc = ph7_vm_config(pVm,
-                     PH7_VM_CONFIG_OUTPUT,
-                     Output_Consumer,   /* Output Consumer callback */
-                     0      /* Callback private data */
-                     );
+  rc = ph7_vm_config(
+    pVm,
+    PH7_VM_CONFIG_OUTPUT,
+    Output_Consumer,                    /* Output Consumer callback */
+    0                       /* Callback private data */
+  );
   if (rc != PH7_OK) {
     Fatal("Error while installing the VM output consumer callback");
   }
@@ -209,10 +224,11 @@ int main(int argc, char **argv)
   }
   if (dump_vm) {
     /* Dump PH7 byte-code instructions */
-    ph7_vm_dump_v2(pVm,
-                   Output_Consumer,     /* Dump consumer callback */
-                   0
-                   );
+    ph7_vm_dump_v2(
+      pVm,
+      Output_Consumer,                  /* Dump consumer callback */
+      0
+    );
   }
 
   /*

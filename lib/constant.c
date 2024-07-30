@@ -27,10 +27,17 @@
  * __PH7__
  *   Expand the current version of the PH7 engine.
  */
-static void PH7_VER_Const(ph7_value *pVal, void *pUnused)
+static void
+PH7_VER_Const(
+  ph7_value *pVal,
+  void *pUnused
+)
 {
   SXUNUSED(pUnused);
-  ph7_value_string(pVal, ph7_lib_signature(), -1 /*Compute length automatically*/ );
+  ph7_value_string(
+    pVal, ph7_lib_signature(),
+    -1 /*Compute length automatically*/
+  );
 }
 
 #ifdef __WINNT__
@@ -43,7 +50,8 @@ static void PH7_VER_Const(ph7_value *pVal, void *pUnused)
  * PHP_OS
  *  Expand the name of the host Operating System.
  */
-static void PH7_OS_Const(ph7_value *pVal, void *pUnused)
+static void
+PH7_OS_Const(ph7_value *pVal, void *pUnused)
 {
 #if defined(__WINNT__)
   ph7_value_string(pVal, "WINNT", (int) sizeof("WINNT") - 1);
@@ -64,7 +72,8 @@ static void PH7_OS_Const(ph7_value *pVal, void *pUnused)
  * PHP_EOL
  *  Expand the correct 'End Of Line' symbol for this platform.
  */
-static void PH7_EOL_Const(ph7_value *pVal, void *pUnused)
+static void
+PH7_EOL_Const(ph7_value *pVal, void *pUnused)
 {
   SXUNUSED(pUnused);
 #ifdef __WINNT__
@@ -79,7 +88,8 @@ static void PH7_EOL_Const(ph7_value *pVal, void *pUnused)
  * Expand the largest integer supported.
  * Note that PH7 deals with 64-bit integer for all platforms.
  */
-static void PH7_INTMAX_Const(ph7_value *pVal, void *pUnused)
+static void
+PH7_INTMAX_Const(ph7_value *pVal, void *pUnused)
 {
   SXUNUSED(pUnused);
   ph7_value_int64(pVal, SXI64_HIGH);
@@ -89,7 +99,8 @@ static void PH7_INTMAX_Const(ph7_value *pVal, void *pUnused)
  * PHP_INT_SIZE
  * Expand the size in bytes of a 64-bit integer.
  */
-static void PH7_INTSIZE_Const(ph7_value *pVal, void *pUnused)
+static void
+PH7_INTSIZE_Const(ph7_value *pVal, void *pUnused)
 {
   SXUNUSED(pUnused);
   ph7_value_int64(pVal, sizeof(sxi64));
@@ -99,7 +110,8 @@ static void PH7_INTSIZE_Const(ph7_value *pVal, void *pUnused)
  * DIRECTORY_SEPARATOR.
  * Expand the directory separator character.
  */
-static void PH7_DIRSEP_Const(ph7_value *pVal, void *pUnused)
+static void
+PH7_DIRSEP_Const(ph7_value *pVal, void *pUnused)
 {
   SXUNUSED(pUnused);
 #ifdef __WINNT__
@@ -113,7 +125,8 @@ static void PH7_DIRSEP_Const(ph7_value *pVal, void *pUnused)
  * PATH_SEPARATOR.
  * Expand the path separator character.
  */
-static void PH7_PATHSEP_Const(ph7_value *pVal, void *pUnused)
+static void
+PH7_PATHSEP_Const(ph7_value *pVal, void *pUnused)
 {
   SXUNUSED(pUnused);
 #ifdef __WINNT__
@@ -131,7 +144,8 @@ static void PH7_PATHSEP_Const(ph7_value *pVal, void *pUnused)
  * __TIME__
  *  Expand the current time (GMT).
  */
-static void PH7_TIME_Const(ph7_value *pVal, void *pUnused)
+static void
+PH7_TIME_Const(ph7_value *pVal, void *pUnused)
 {
   Sytm sTm;
 #ifdef __WINNT__
@@ -147,14 +161,21 @@ static void PH7_TIME_Const(ph7_value *pVal, void *pUnused)
 #endif
   SXUNUSED(pUnused);   /* cc warning */
   /* Expand */
-  ph7_value_string_format(pVal, "%02d:%02d:%02d", sTm.tm_hour, sTm.tm_min, sTm.tm_sec);
+  ph7_value_string_format(
+    pVal,
+    "%02d:%02d:%02d",
+    sTm.tm_hour,
+    sTm.tm_min,
+    sTm.tm_sec
+  );
 }
 
 /*
  * __DATE__
  *  Expand the current date in the ISO-8601 format.
  */
-static void PH7_DATE_Const(ph7_value *pVal, void *pUnused)
+static void
+PH7_DATE_Const(ph7_value *pVal, void *pUnused)
 {
   Sytm sTm;
 #ifdef __WINNT__
@@ -170,14 +191,21 @@ static void PH7_DATE_Const(ph7_value *pVal, void *pUnused)
 #endif
   SXUNUSED(pUnused);   /* cc warning */
   /* Expand */
-  ph7_value_string_format(pVal, "%04d-%02d-%02d", sTm.tm_year, sTm.tm_mon + 1, sTm.tm_mday);
+  ph7_value_string_format(
+    pVal,
+    "%04d-%02d-%02d",
+    sTm.tm_year,
+    sTm.tm_mon + 1,
+    sTm.tm_mday
+  );
 }
 
 /*
  * __FILE__
  *  Path of the processed script.
  */
-static void PH7_FILE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_FILE_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_vm *pVm = (ph7_vm *) pUserData;
   SyString *pFile;
@@ -195,7 +223,8 @@ static void PH7_FILE_Const(ph7_value *pVal, void *pUserData)
  * __DIR__
  *  Directory holding the processed script.
  */
-static void PH7_DIR_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_DIR_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_vm *pVm = (ph7_vm *) pUserData;
   SyString *pFile;
@@ -221,7 +250,8 @@ static void PH7_DIR_Const(ph7_value *pVal, void *pUserData)
  * PHP_SHLIB_SUFFIX
  *  Expand shared library suffix.
  */
-static void PH7_PHP_SHLIB_SUFFIX_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_SHLIB_SUFFIX_Const(ph7_value *pVal, void *pUserData)
 {
 #ifdef __WINNT__
   ph7_value_string(pVal, "dll", (int) sizeof("dll") - 1);
@@ -235,7 +265,8 @@ static void PH7_PHP_SHLIB_SUFFIX_Const(ph7_value *pVal, void *pUserData)
  * E_ERROR
  *  Expands 1
  */
-static void PH7_E_ERROR_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_ERROR_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 1);
   SXUNUSED(pUserData);
@@ -245,7 +276,8 @@ static void PH7_E_ERROR_Const(ph7_value *pVal, void *pUserData)
  * E_WARNING
  *  Expands 2
  */
-static void PH7_E_WARNING_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_WARNING_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 2);
   SXUNUSED(pUserData);
@@ -255,7 +287,8 @@ static void PH7_E_WARNING_Const(ph7_value *pVal, void *pUserData)
  * E_PARSE
  *  Expands 4
  */
-static void PH7_E_PARSE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_PARSE_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 4);
   SXUNUSED(pUserData);
@@ -265,7 +298,8 @@ static void PH7_E_PARSE_Const(ph7_value *pVal, void *pUserData)
  * E_NOTICE
  * Expands 8
  */
-static void PH7_E_NOTICE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_NOTICE_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 8);
   SXUNUSED(pUserData);
@@ -275,7 +309,8 @@ static void PH7_E_NOTICE_Const(ph7_value *pVal, void *pUserData)
  * E_CORE_ERROR
  * Expands 16
  */
-static void PH7_E_CORE_ERROR_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_CORE_ERROR_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 16);
   SXUNUSED(pUserData);
@@ -285,7 +320,8 @@ static void PH7_E_CORE_ERROR_Const(ph7_value *pVal, void *pUserData)
  * E_CORE_WARNING
  * Expands 32
  */
-static void PH7_E_CORE_WARNING_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_CORE_WARNING_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 32);
   SXUNUSED(pUserData);
@@ -295,7 +331,8 @@ static void PH7_E_CORE_WARNING_Const(ph7_value *pVal, void *pUserData)
  * E_COMPILE_ERROR
  * Expands 64
  */
-static void PH7_E_COMPILE_ERROR_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_COMPILE_ERROR_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 64);
   SXUNUSED(pUserData);
@@ -305,7 +342,8 @@ static void PH7_E_COMPILE_ERROR_Const(ph7_value *pVal, void *pUserData)
  * E_COMPILE_WARNING
  * Expands 128
  */
-static void PH7_E_COMPILE_WARNING_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_COMPILE_WARNING_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 128);
   SXUNUSED(pUserData);
@@ -315,7 +353,8 @@ static void PH7_E_COMPILE_WARNING_Const(ph7_value *pVal, void *pUserData)
  * E_USER_ERROR
  * Expands 256
  */
-static void PH7_E_USER_ERROR_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_USER_ERROR_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 256);
   SXUNUSED(pUserData);
@@ -325,7 +364,8 @@ static void PH7_E_USER_ERROR_Const(ph7_value *pVal, void *pUserData)
  * E_USER_WARNING
  * Expands 512
  */
-static void PH7_E_USER_WARNING_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_USER_WARNING_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 512);
   SXUNUSED(pUserData);
@@ -335,7 +375,8 @@ static void PH7_E_USER_WARNING_Const(ph7_value *pVal, void *pUserData)
  * E_USER_NOTICE
  * Expands 1024
  */
-static void PH7_E_USER_NOTICE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_USER_NOTICE_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 1024);
   SXUNUSED(pUserData);
@@ -345,7 +386,8 @@ static void PH7_E_USER_NOTICE_Const(ph7_value *pVal, void *pUserData)
  * E_STRICT
  * Expands 2048
  */
-static void PH7_E_STRICT_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_STRICT_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 2048);
   SXUNUSED(pUserData);
@@ -355,7 +397,8 @@ static void PH7_E_STRICT_Const(ph7_value *pVal, void *pUserData)
  * E_RECOVERABLE_ERROR
  * Expands 4096
  */
-static void PH7_E_RECOVERABLE_ERROR_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_RECOVERABLE_ERROR_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 4096);
   SXUNUSED(pUserData);
@@ -365,7 +408,8 @@ static void PH7_E_RECOVERABLE_ERROR_Const(ph7_value *pVal, void *pUserData)
  * E_DEPRECATED
  * Expands 8192
  */
-static void PH7_E_DEPRECATED_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_DEPRECATED_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 8192);
   SXUNUSED(pUserData);
@@ -375,7 +419,8 @@ static void PH7_E_DEPRECATED_Const(ph7_value *pVal, void *pUserData)
  * E_USER_DEPRECATED
  *   Expands 16384.
  */
-static void PH7_E_USER_DEPRECATED_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_USER_DEPRECATED_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 16384);
   SXUNUSED(pUserData);
@@ -385,7 +430,8 @@ static void PH7_E_USER_DEPRECATED_Const(ph7_value *pVal, void *pUserData)
  * E_ALL
  *  Expands 32767
  */
-static void PH7_E_ALL_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_E_ALL_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 32767);
   SXUNUSED(pUserData);
@@ -395,7 +441,8 @@ static void PH7_E_ALL_Const(ph7_value *pVal, void *pUserData)
  * CASE_LOWER
  *  Expands 0.
  */
-static void PH7_CASE_LOWER_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_CASE_LOWER_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 0);
   SXUNUSED(pUserData);
@@ -405,7 +452,8 @@ static void PH7_CASE_LOWER_Const(ph7_value *pVal, void *pUserData)
  * CASE_UPPER
  *  Expands 1.
  */
-static void PH7_CASE_UPPER_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_CASE_UPPER_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 1);
   SXUNUSED(pUserData);
@@ -415,7 +463,8 @@ static void PH7_CASE_UPPER_Const(ph7_value *pVal, void *pUserData)
  * STR_PAD_LEFT
  *  Expands 0.
  */
-static void PH7_STR_PAD_LEFT_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_STR_PAD_LEFT_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 0);
   SXUNUSED(pUserData);
@@ -425,7 +474,8 @@ static void PH7_STR_PAD_LEFT_Const(ph7_value *pVal, void *pUserData)
  * STR_PAD_RIGHT
  *  Expands 1.
  */
-static void PH7_STR_PAD_RIGHT_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_STR_PAD_RIGHT_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 1);
   SXUNUSED(pUserData);
@@ -435,7 +485,8 @@ static void PH7_STR_PAD_RIGHT_Const(ph7_value *pVal, void *pUserData)
  * STR_PAD_BOTH
  *  Expands 2.
  */
-static void PH7_STR_PAD_BOTH_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_STR_PAD_BOTH_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 2);
   SXUNUSED(pUserData);
@@ -445,7 +496,8 @@ static void PH7_STR_PAD_BOTH_Const(ph7_value *pVal, void *pUserData)
  * COUNT_NORMAL
  *  Expands 0
  */
-static void PH7_COUNT_NORMAL_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_COUNT_NORMAL_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 0);
   SXUNUSED(pUserData);
@@ -455,7 +507,8 @@ static void PH7_COUNT_NORMAL_Const(ph7_value *pVal, void *pUserData)
  * COUNT_RECURSIVE
  *  Expands 1.
  */
-static void PH7_COUNT_RECURSIVE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_COUNT_RECURSIVE_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 1);
   SXUNUSED(pUserData);
@@ -465,7 +518,8 @@ static void PH7_COUNT_RECURSIVE_Const(ph7_value *pVal, void *pUserData)
  * SORT_ASC
  *  Expands 1.
  */
-static void PH7_SORT_ASC_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_SORT_ASC_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 1);
   SXUNUSED(pUserData);
@@ -475,7 +529,8 @@ static void PH7_SORT_ASC_Const(ph7_value *pVal, void *pUserData)
  * SORT_DESC
  *  Expands 2.
  */
-static void PH7_SORT_DESC_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_SORT_DESC_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 2);
   SXUNUSED(pUserData);
@@ -485,7 +540,8 @@ static void PH7_SORT_DESC_Const(ph7_value *pVal, void *pUserData)
  * SORT_REGULAR
  *  Expands 3.
  */
-static void PH7_SORT_REG_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_SORT_REG_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 3);
   SXUNUSED(pUserData);
@@ -495,7 +551,8 @@ static void PH7_SORT_REG_Const(ph7_value *pVal, void *pUserData)
  * SORT_NUMERIC
  *  Expands 4.
  */
-static void PH7_SORT_NUMERIC_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_SORT_NUMERIC_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 4);
   SXUNUSED(pUserData);
@@ -505,7 +562,8 @@ static void PH7_SORT_NUMERIC_Const(ph7_value *pVal, void *pUserData)
  * SORT_STRING
  *  Expands 5.
  */
-static void PH7_SORT_STRING_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_SORT_STRING_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 5);
   SXUNUSED(pUserData);
@@ -515,7 +573,8 @@ static void PH7_SORT_STRING_Const(ph7_value *pVal, void *pUserData)
  * PHP_ROUND_HALF_UP
  *  Expands 1.
  */
-static void PH7_PHP_ROUND_HALF_UP_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_ROUND_HALF_UP_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 1);
   SXUNUSED(pUserData);
@@ -525,7 +584,8 @@ static void PH7_PHP_ROUND_HALF_UP_Const(ph7_value *pVal, void *pUserData)
  * SPHP_ROUND_HALF_DOWN
  *  Expands 2.
  */
-static void PH7_PHP_ROUND_HALF_DOWN_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_ROUND_HALF_DOWN_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 2);
   SXUNUSED(pUserData);
@@ -535,7 +595,8 @@ static void PH7_PHP_ROUND_HALF_DOWN_Const(ph7_value *pVal, void *pUserData)
  * PHP_ROUND_HALF_EVEN
  *  Expands 3.
  */
-static void PH7_PHP_ROUND_HALF_EVEN_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_ROUND_HALF_EVEN_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 3);
   SXUNUSED(pUserData);
@@ -545,7 +606,8 @@ static void PH7_PHP_ROUND_HALF_EVEN_Const(ph7_value *pVal, void *pUserData)
  * PHP_ROUND_HALF_ODD
  *  Expands 4.
  */
-static void PH7_PHP_ROUND_HALF_ODD_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_ROUND_HALF_ODD_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 4);
   SXUNUSED(pUserData);
@@ -557,7 +619,8 @@ static void PH7_PHP_ROUND_HALF_ODD_Const(ph7_value *pVal, void *pUserData)
  * NOTE:
  *  The expanded value must be a power of two.
  */
-static void PH7_DBPO_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_DBPO_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 0x01);   /* MUST BE A POWER OF TWO */
   SXUNUSED(pUserData);
@@ -569,7 +632,8 @@ static void PH7_DBPO_Const(ph7_value *pVal, void *pUserData)
  * NOTE:
  *  The expanded value must be a power of two.
  */
-static void PH7_DBIA_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_DBIA_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_value_int(pVal, 0x02);   /* MUST BE A POWER OF TWO */
   SXUNUSED(pUserData);
@@ -581,7 +645,8 @@ static void PH7_DBIA_Const(ph7_value *pVal, void *pUserData)
  * M_PI
  *  Expand the value of pi.
  */
-static void PH7_M_PI_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_PI_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, PH7_PI);
@@ -591,7 +656,8 @@ static void PH7_M_PI_Const(ph7_value *pVal, void *pUserData)
  * M_E
  *  Expand 2.7182818284590452354
  */
-static void PH7_M_E_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_E_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 2.7182818284590452354);
@@ -601,7 +667,8 @@ static void PH7_M_E_Const(ph7_value *pVal, void *pUserData)
  * M_LOG2E
  *  Expand 2.7182818284590452354
  */
-static void PH7_M_LOG2E_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_LOG2E_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 1.4426950408889634074);
@@ -611,7 +678,8 @@ static void PH7_M_LOG2E_Const(ph7_value *pVal, void *pUserData)
  * M_LOG10E
  *  Expand 0.4342944819032518276
  */
-static void PH7_M_LOG10E_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_LOG10E_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 0.4342944819032518276);
@@ -621,7 +689,8 @@ static void PH7_M_LOG10E_Const(ph7_value *pVal, void *pUserData)
  * M_LN2
  *  Expand      0.69314718055994530942
  */
-static void PH7_M_LN2_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_LN2_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 0.69314718055994530942);
@@ -631,7 +700,8 @@ static void PH7_M_LN2_Const(ph7_value *pVal, void *pUserData)
  * M_LN10
  *  Expand      2.30258509299404568402
  */
-static void PH7_M_LN10_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_LN10_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 2.30258509299404568402);
@@ -641,7 +711,8 @@ static void PH7_M_LN10_Const(ph7_value *pVal, void *pUserData)
  * M_PI_2
  *  Expand      1.57079632679489661923
  */
-static void PH7_M_PI_2_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_PI_2_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 1.57079632679489661923);
@@ -651,7 +722,8 @@ static void PH7_M_PI_2_Const(ph7_value *pVal, void *pUserData)
  * M_PI_4
  *  Expand      0.78539816339744830962
  */
-static void PH7_M_PI_4_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_PI_4_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 0.78539816339744830962);
@@ -661,7 +733,8 @@ static void PH7_M_PI_4_Const(ph7_value *pVal, void *pUserData)
  * M_1_PI
  *  Expand      0.31830988618379067154
  */
-static void PH7_M_1_PI_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_1_PI_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 0.31830988618379067154);
@@ -671,7 +744,8 @@ static void PH7_M_1_PI_Const(ph7_value *pVal, void *pUserData)
  * M_2_PI
  *  Expand 0.63661977236758134308
  */
-static void PH7_M_2_PI_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_2_PI_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 0.63661977236758134308);
@@ -681,7 +755,8 @@ static void PH7_M_2_PI_Const(ph7_value *pVal, void *pUserData)
  * M_SQRTPI
  *  Expand 1.77245385090551602729
  */
-static void PH7_M_SQRTPI_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_SQRTPI_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 1.77245385090551602729);
@@ -691,7 +766,8 @@ static void PH7_M_SQRTPI_Const(ph7_value *pVal, void *pUserData)
  * M_2_SQRTPI
  *  Expand      1.12837916709551257390
  */
-static void PH7_M_2_SQRTPI_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_2_SQRTPI_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 1.12837916709551257390);
@@ -701,7 +777,8 @@ static void PH7_M_2_SQRTPI_Const(ph7_value *pVal, void *pUserData)
  * M_SQRT2
  *  Expand      1.41421356237309504880
  */
-static void PH7_M_SQRT2_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_SQRT2_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 1.41421356237309504880);
@@ -711,7 +788,8 @@ static void PH7_M_SQRT2_Const(ph7_value *pVal, void *pUserData)
  * M_SQRT3
  *  Expand      1.73205080756887729352
  */
-static void PH7_M_SQRT3_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_SQRT3_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 1.73205080756887729352);
@@ -721,7 +799,8 @@ static void PH7_M_SQRT3_Const(ph7_value *pVal, void *pUserData)
  * M_SQRT1_2
  *  Expand      0.70710678118654752440
  */
-static void PH7_M_SQRT1_2_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_SQRT1_2_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 0.70710678118654752440);
@@ -731,7 +810,8 @@ static void PH7_M_SQRT1_2_Const(ph7_value *pVal, void *pUserData)
  * M_LNPI
  *  Expand      1.14472988584940017414
  */
-static void PH7_M_LNPI_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_LNPI_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 1.14472988584940017414);
@@ -741,7 +821,8 @@ static void PH7_M_LNPI_Const(ph7_value *pVal, void *pUserData)
  * M_EULER
  *  Expand  0.57721566490153286061
  */
-static void PH7_M_EULER_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_M_EULER_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_double(pVal, 0.57721566490153286061);
@@ -753,107 +834,169 @@ static void PH7_M_EULER_Const(ph7_value *pVal, void *pUserData)
  * DATE_ATOM
  *  Expand Atom (example: 2005-08-15T15:52:01+00:00)
  */
-static void PH7_DATE_ATOM_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_DATE_ATOM_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
-  ph7_value_string(pVal, "Y-m-d\\TH:i:sP", -1 /*Compute length automatically*/ );
+  ph7_value_string(
+    pVal, "Y-m-d\\TH:i:sP",
+    -1 /*Compute length automatically*/
+  );
 }
 
 /*
  * DATE_COOKIE
  *  HTTP Cookies (example: Monday, 15-Aug-05 15:52:01 UTC)
  */
-static void PH7_DATE_COOKIE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_DATE_COOKIE_Const(
+  ph7_value *pVal,
+  void *pUserData
+)
 {
   SXUNUSED(pUserData);   /* cc warning */
-  ph7_value_string(pVal, "l, d-M-y H:i:s T", -1 /*Compute length automatically*/ );
+  ph7_value_string(
+    pVal, "l, d-M-y H:i:s T",
+    -1 /*Compute length automatically*/
+  );
 }
 
 /*
  * DATE_ISO8601
  *  ISO-8601 (example: 2005-08-15T15:52:01+0000)
  */
-static void PH7_DATE_ISO8601_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_DATE_ISO8601_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
-  ph7_value_string(pVal, "Y-m-d\\TH:i:sO", -1 /*Compute length automatically*/ );
+  ph7_value_string(
+    pVal, "Y-m-d\\TH:i:sO",
+    -1 /*Compute length automatically*/
+  );
 }
 
 /*
  * DATE_RFC822
  *  RFC 822 (example: Mon, 15 Aug 05 15:52:01 +0000)
  */
-static void PH7_DATE_RFC822_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_DATE_RFC822_Const(
+  ph7_value *pVal,
+  void *pUserData
+)
 {
   SXUNUSED(pUserData);   /* cc warning */
-  ph7_value_string(pVal, "D, d M y H:i:s O", -1 /*Compute length automatically*/ );
+  ph7_value_string(
+    pVal, "D, d M y H:i:s O",
+    -1 /*Compute length automatically*/
+  );
 }
 
 /*
  * DATE_RFC850
  *  RFC 850 (example: Monday, 15-Aug-05 15:52:01 UTC)
  */
-static void PH7_DATE_RFC850_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_DATE_RFC850_Const(
+  ph7_value *pVal,
+  void *pUserData
+)
 {
   SXUNUSED(pUserData);   /* cc warning */
-  ph7_value_string(pVal, "l, d-M-y H:i:s T", -1 /*Compute length automatically*/ );
+  ph7_value_string(
+    pVal, "l, d-M-y H:i:s T",
+    -1 /*Compute length automatically*/
+  );
 }
 
 /*
  * DATE_RFC1036
  *  RFC 1123 (example: Mon, 15 Aug 2005 15:52:01 +0000)
  */
-static void PH7_DATE_RFC1036_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_DATE_RFC1036_Const(
+  ph7_value *pVal,
+  void *pUserData
+)
 {
   SXUNUSED(pUserData);   /* cc warning */
-  ph7_value_string(pVal, "D, d M y H:i:s O", -1 /*Compute length automatically*/ );
+  ph7_value_string(
+    pVal, "D, d M y H:i:s O",
+    -1 /*Compute length automatically*/
+  );
 }
 
 /*
  * DATE_RFC1123
  *  RFC 1123 (example: Mon, 15 Aug 2005 15:52:01 +0000)
  */
-static void PH7_DATE_RFC1123_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_DATE_RFC1123_Const(
+  ph7_value *pVal,
+  void *pUserData
+)
 {
   SXUNUSED(pUserData);   /* cc warning */
-  ph7_value_string(pVal, "D, d M Y H:i:s O", -1 /*Compute length automatically*/ );
+  ph7_value_string(
+    pVal, "D, d M Y H:i:s O",
+    -1 /*Compute length automatically*/
+  );
 }
 
 /*
  * DATE_RFC2822
  *  RFC 2822 (Mon, 15 Aug 2005 15:52:01 +0000)
  */
-static void PH7_DATE_RFC2822_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_DATE_RFC2822_Const(
+  ph7_value *pVal,
+  void *pUserData
+)
 {
   SXUNUSED(pUserData);   /* cc warning */
-  ph7_value_string(pVal, "D, d M Y H:i:s O", -1 /*Compute length automatically*/ );
+  ph7_value_string(
+    pVal, "D, d M Y H:i:s O",
+    -1 /*Compute length automatically*/
+  );
 }
 
 /*
  * DATE_RSS
  *  RSS (Mon, 15 Aug 2005 15:52:01 +0000)
  */
-static void PH7_DATE_RSS_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_DATE_RSS_Const(
+  ph7_value *pVal,
+  void *pUserData
+)
 {
   SXUNUSED(pUserData);   /* cc warning */
-  ph7_value_string(pVal, "D, d M Y H:i:s O", -1 /*Compute length automatically*/ );
+  ph7_value_string(
+    pVal, "D, d M Y H:i:s O",
+    -1 /*Compute length automatically*/
+  );
 }
 
 /*
  * DATE_W3C
  *  World Wide Web Consortium (example: 2005-08-15T15:52:01+00:00)
  */
-static void PH7_DATE_W3C_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_DATE_W3C_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
-  ph7_value_string(pVal, "Y-m-d\\TH:i:sP", -1 /*Compute length automatically*/ );
+  ph7_value_string(
+    pVal, "Y-m-d\\TH:i:sP",
+    -1 /*Compute length automatically*/
+  );
 }
 
 /*
  * ENT_COMPAT
  *  Expand 0x01 (Must be a power of two)
  */
-static void PH7_ENT_COMPAT_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ENT_COMPAT_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x01);
@@ -863,7 +1006,8 @@ static void PH7_ENT_COMPAT_Const(ph7_value *pVal, void *pUserData)
  * ENT_QUOTES
  *  Expand 0x02 (Must be a power of two)
  */
-static void PH7_ENT_QUOTES_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ENT_QUOTES_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x02);
@@ -873,7 +1017,8 @@ static void PH7_ENT_QUOTES_Const(ph7_value *pVal, void *pUserData)
  * ENT_NOQUOTES
  *  Expand 0x04 (Must be a power of two)
  */
-static void PH7_ENT_NOQUOTES_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ENT_NOQUOTES_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x04);
@@ -883,7 +1028,8 @@ static void PH7_ENT_NOQUOTES_Const(ph7_value *pVal, void *pUserData)
  * ENT_IGNORE
  *  Expand 0x08 (Must be a power of two)
  */
-static void PH7_ENT_IGNORE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ENT_IGNORE_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x08);
@@ -893,7 +1039,8 @@ static void PH7_ENT_IGNORE_Const(ph7_value *pVal, void *pUserData)
  * ENT_SUBSTITUTE
  *  Expand 0x10 (Must be a power of two)
  */
-static void PH7_ENT_SUBSTITUTE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ENT_SUBSTITUTE_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x10);
@@ -903,7 +1050,8 @@ static void PH7_ENT_SUBSTITUTE_Const(ph7_value *pVal, void *pUserData)
  * ENT_DISALLOWED
  *  Expand 0x20 (Must be a power of two)
  */
-static void PH7_ENT_DISALLOWED_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ENT_DISALLOWED_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x20);
@@ -913,7 +1061,8 @@ static void PH7_ENT_DISALLOWED_Const(ph7_value *pVal, void *pUserData)
  * ENT_HTML401
  *  Expand 0x40 (Must be a power of two)
  */
-static void PH7_ENT_HTML401_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ENT_HTML401_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x40);
@@ -923,7 +1072,8 @@ static void PH7_ENT_HTML401_Const(ph7_value *pVal, void *pUserData)
  * ENT_XML1
  *  Expand 0x80 (Must be a power of two)
  */
-static void PH7_ENT_XML1_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ENT_XML1_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x80);
@@ -933,7 +1083,8 @@ static void PH7_ENT_XML1_Const(ph7_value *pVal, void *pUserData)
  * ENT_XHTML
  *  Expand 0x100 (Must be a power of two)
  */
-static void PH7_ENT_XHTML_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ENT_XHTML_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x100);
@@ -943,7 +1094,8 @@ static void PH7_ENT_XHTML_Const(ph7_value *pVal, void *pUserData)
  * ENT_HTML5
  *  Expand 0x200 (Must be a power of two)
  */
-static void PH7_ENT_HTML5_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ENT_HTML5_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x200);
@@ -954,7 +1106,8 @@ static void PH7_ENT_HTML5_Const(ph7_value *pVal, void *pUserData)
  * ISO_8859_1
  *   Expand 1
  */
-static void PH7_ISO88591_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ISO88591_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 1);
@@ -965,7 +1118,8 @@ static void PH7_ISO88591_Const(ph7_value *pVal, void *pUserData)
  * UTF8
  *  Expand 2
  */
-static void PH7_UTF8_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_UTF8_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 1);
@@ -975,7 +1129,8 @@ static void PH7_UTF8_Const(ph7_value *pVal, void *pUserData)
  * HTML_ENTITIES
  *  Expand 1
  */
-static void PH7_HTML_ENTITIES_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_HTML_ENTITIES_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 1);
@@ -985,7 +1140,8 @@ static void PH7_HTML_ENTITIES_Const(ph7_value *pVal, void *pUserData)
  * HTML_SPECIALCHARS
  *  Expand 2
  */
-static void PH7_HTML_SPECIALCHARS_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_HTML_SPECIALCHARS_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 2);
@@ -995,7 +1151,8 @@ static void PH7_HTML_SPECIALCHARS_Const(ph7_value *pVal, void *pUserData)
  * PHP_URL_SCHEME.
  * Expand 1
  */
-static void PH7_PHP_URL_SCHEME_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_URL_SCHEME_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 1);
@@ -1005,7 +1162,8 @@ static void PH7_PHP_URL_SCHEME_Const(ph7_value *pVal, void *pUserData)
  * PHP_URL_HOST.
  * Expand 2
  */
-static void PH7_PHP_URL_HOST_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_URL_HOST_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 2);
@@ -1015,7 +1173,8 @@ static void PH7_PHP_URL_HOST_Const(ph7_value *pVal, void *pUserData)
  * PHP_URL_PORT.
  * Expand 3
  */
-static void PH7_PHP_URL_PORT_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_URL_PORT_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 3);
@@ -1025,7 +1184,8 @@ static void PH7_PHP_URL_PORT_Const(ph7_value *pVal, void *pUserData)
  * PHP_URL_USER.
  * Expand 4
  */
-static void PH7_PHP_URL_USER_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_URL_USER_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 4);
@@ -1035,7 +1195,8 @@ static void PH7_PHP_URL_USER_Const(ph7_value *pVal, void *pUserData)
  * PHP_URL_PASS.
  * Expand 5
  */
-static void PH7_PHP_URL_PASS_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_URL_PASS_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 5);
@@ -1045,7 +1206,8 @@ static void PH7_PHP_URL_PASS_Const(ph7_value *pVal, void *pUserData)
  * PHP_URL_PATH.
  * Expand 6
  */
-static void PH7_PHP_URL_PATH_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_URL_PATH_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 6);
@@ -1055,7 +1217,8 @@ static void PH7_PHP_URL_PATH_Const(ph7_value *pVal, void *pUserData)
  * PHP_URL_QUERY.
  * Expand 7
  */
-static void PH7_PHP_URL_QUERY_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_URL_QUERY_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 7);
@@ -1065,7 +1228,8 @@ static void PH7_PHP_URL_QUERY_Const(ph7_value *pVal, void *pUserData)
  * PHP_URL_FRAGMENT.
  * Expand 8
  */
-static void PH7_PHP_URL_FRAGMENT_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_URL_FRAGMENT_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 8);
@@ -1075,7 +1239,8 @@ static void PH7_PHP_URL_FRAGMENT_Const(ph7_value *pVal, void *pUserData)
  * PHP_QUERY_RFC1738
  * Expand 1
  */
-static void PH7_PHP_QUERY_RFC1738_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_QUERY_RFC1738_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 1);
@@ -1085,7 +1250,8 @@ static void PH7_PHP_QUERY_RFC1738_Const(ph7_value *pVal, void *pUserData)
  * PHP_QUERY_RFC3986
  * Expand 1
  */
-static void PH7_PHP_QUERY_RFC3986_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PHP_QUERY_RFC3986_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 2);
@@ -1095,7 +1261,8 @@ static void PH7_PHP_QUERY_RFC3986_Const(ph7_value *pVal, void *pUserData)
  * FNM_NOESCAPE
  *  Expand 0x01 (Must be a power of two)
  */
-static void PH7_FNM_NOESCAPE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_FNM_NOESCAPE_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x01);
@@ -1105,7 +1272,8 @@ static void PH7_FNM_NOESCAPE_Const(ph7_value *pVal, void *pUserData)
  * FNM_PATHNAME
  *  Expand 0x02 (Must be a power of two)
  */
-static void PH7_FNM_PATHNAME_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_FNM_PATHNAME_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x02);
@@ -1115,7 +1283,8 @@ static void PH7_FNM_PATHNAME_Const(ph7_value *pVal, void *pUserData)
  * FNM_PERIOD
  *  Expand 0x04 (Must be a power of two)
  */
-static void PH7_FNM_PERIOD_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_FNM_PERIOD_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x04);
@@ -1125,7 +1294,8 @@ static void PH7_FNM_PERIOD_Const(ph7_value *pVal, void *pUserData)
  * FNM_CASEFOLD
  *  Expand 0x08 (Must be a power of two)
  */
-static void PH7_FNM_CASEFOLD_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_FNM_CASEFOLD_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x08);
@@ -1135,7 +1305,8 @@ static void PH7_FNM_CASEFOLD_Const(ph7_value *pVal, void *pUserData)
  * PATHINFO_DIRNAME
  *  Expand 1.
  */
-static void PH7_PATHINFO_DIRNAME_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PATHINFO_DIRNAME_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 1);
@@ -1145,7 +1316,8 @@ static void PH7_PATHINFO_DIRNAME_Const(ph7_value *pVal, void *pUserData)
  * PATHINFO_BASENAME
  *  Expand 2.
  */
-static void PH7_PATHINFO_BASENAME_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PATHINFO_BASENAME_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 2);
@@ -1155,7 +1327,8 @@ static void PH7_PATHINFO_BASENAME_Const(ph7_value *pVal, void *pUserData)
  * PATHINFO_EXTENSION
  *  Expand 3.
  */
-static void PH7_PATHINFO_EXTENSION_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PATHINFO_EXTENSION_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 3);
@@ -1165,7 +1338,8 @@ static void PH7_PATHINFO_EXTENSION_Const(ph7_value *pVal, void *pUserData)
  * PATHINFO_FILENAME
  *  Expand 4.
  */
-static void PH7_PATHINFO_FILENAME_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_PATHINFO_FILENAME_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 4);
@@ -1175,7 +1349,8 @@ static void PH7_PATHINFO_FILENAME_Const(ph7_value *pVal, void *pUserData)
  * ASSERT_ACTIVE.
  *  Expand the value of PH7_ASSERT_ACTIVE defined in ph7Int.h
  */
-static void PH7_ASSERT_ACTIVE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ASSERT_ACTIVE_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, PH7_ASSERT_DISABLE);
@@ -1185,7 +1360,8 @@ static void PH7_ASSERT_ACTIVE_Const(ph7_value *pVal, void *pUserData)
  * ASSERT_WARNING.
  *  Expand the value of PH7_ASSERT_WARNING defined in ph7Int.h
  */
-static void PH7_ASSERT_WARNING_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ASSERT_WARNING_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, PH7_ASSERT_WARNING);
@@ -1195,7 +1371,8 @@ static void PH7_ASSERT_WARNING_Const(ph7_value *pVal, void *pUserData)
  * ASSERT_BAIL.
  *  Expand the value of PH7_ASSERT_BAIL defined in ph7Int.h
  */
-static void PH7_ASSERT_BAIL_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ASSERT_BAIL_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, PH7_ASSERT_BAIL);
@@ -1205,7 +1382,8 @@ static void PH7_ASSERT_BAIL_Const(ph7_value *pVal, void *pUserData)
  * ASSERT_QUIET_EVAL.
  *  Expand the value of PH7_ASSERT_QUIET_EVAL defined in ph7Int.h
  */
-static void PH7_ASSERT_QUIET_EVAL_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ASSERT_QUIET_EVAL_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, PH7_ASSERT_QUIET_EVAL);
@@ -1215,7 +1393,8 @@ static void PH7_ASSERT_QUIET_EVAL_Const(ph7_value *pVal, void *pUserData)
  * ASSERT_CALLBACK.
  *  Expand the value of PH7_ASSERT_CALLBACK defined in ph7Int.h
  */
-static void PH7_ASSERT_CALLBACK_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_ASSERT_CALLBACK_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, PH7_ASSERT_CALLBACK);
@@ -1225,7 +1404,8 @@ static void PH7_ASSERT_CALLBACK_Const(ph7_value *pVal, void *pUserData)
  * SEEK_SET.
  *  Expand 0
  */
-static void PH7_SEEK_SET_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_SEEK_SET_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0);
@@ -1235,7 +1415,8 @@ static void PH7_SEEK_SET_Const(ph7_value *pVal, void *pUserData)
  * SEEK_CUR.
  *  Expand 1
  */
-static void PH7_SEEK_CUR_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_SEEK_CUR_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 1);
@@ -1245,7 +1426,8 @@ static void PH7_SEEK_CUR_Const(ph7_value *pVal, void *pUserData)
  * SEEK_END.
  *  Expand 2
  */
-static void PH7_SEEK_END_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_SEEK_END_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 2);
@@ -1255,7 +1437,8 @@ static void PH7_SEEK_END_Const(ph7_value *pVal, void *pUserData)
  * LOCK_SH.
  *  Expand 2
  */
-static void PH7_LOCK_SH_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_LOCK_SH_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 1);
@@ -1265,7 +1448,8 @@ static void PH7_LOCK_SH_Const(ph7_value *pVal, void *pUserData)
  * LOCK_NB.
  *  Expand 5
  */
-static void PH7_LOCK_NB_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_LOCK_NB_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 5);
@@ -1275,7 +1459,8 @@ static void PH7_LOCK_NB_Const(ph7_value *pVal, void *pUserData)
  * LOCK_EX.
  *  Expand 0x01 (MUST BE A POWER OF TWO)
  */
-static void PH7_LOCK_EX_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_LOCK_EX_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x01);
@@ -1285,7 +1470,8 @@ static void PH7_LOCK_EX_Const(ph7_value *pVal, void *pUserData)
  * LOCK_UN.
  *  Expand 0
  */
-static void PH7_LOCK_UN_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_LOCK_UN_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0);
@@ -1295,7 +1481,8 @@ static void PH7_LOCK_UN_Const(ph7_value *pVal, void *pUserData)
  * FILE_USE_INCLUDE_PATH
  *  Expand 0x01 (Must be a power of two)
  */
-static void PH7_FILE_USE_INCLUDE_PATH_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_FILE_USE_INCLUDE_PATH_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x1);
@@ -1305,7 +1492,8 @@ static void PH7_FILE_USE_INCLUDE_PATH_Const(ph7_value *pVal, void *pUserData)
  * FILE_IGNORE_NEW_LINES
  *  Expand 0x02 (Must be a power of two)
  */
-static void PH7_FILE_IGNORE_NEW_LINES_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_FILE_IGNORE_NEW_LINES_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x2);
@@ -1315,7 +1503,8 @@ static void PH7_FILE_IGNORE_NEW_LINES_Const(ph7_value *pVal, void *pUserData)
  * FILE_SKIP_EMPTY_LINES
  *  Expand 0x04 (Must be a power of two)
  */
-static void PH7_FILE_SKIP_EMPTY_LINES_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_FILE_SKIP_EMPTY_LINES_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x4);
@@ -1325,7 +1514,8 @@ static void PH7_FILE_SKIP_EMPTY_LINES_Const(ph7_value *pVal, void *pUserData)
  * FILE_APPEND
  *  Expand 0x08 (Must be a power of two)
  */
-static void PH7_FILE_APPEND_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_FILE_APPEND_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x08);
@@ -1335,7 +1525,8 @@ static void PH7_FILE_APPEND_Const(ph7_value *pVal, void *pUserData)
  * SCANDIR_SORT_ASCENDING
  *  Expand 0
  */
-static void PH7_SCANDIR_SORT_ASCENDING_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_SCANDIR_SORT_ASCENDING_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0);
@@ -1345,7 +1536,8 @@ static void PH7_SCANDIR_SORT_ASCENDING_Const(ph7_value *pVal, void *pUserData)
  * SCANDIR_SORT_DESCENDING
  *  Expand 1
  */
-static void PH7_SCANDIR_SORT_DESCENDING_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_SCANDIR_SORT_DESCENDING_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 1);
@@ -1355,7 +1547,8 @@ static void PH7_SCANDIR_SORT_DESCENDING_Const(ph7_value *pVal, void *pUserData)
  * SCANDIR_SORT_NONE
  *  Expand 2
  */
-static void PH7_SCANDIR_SORT_NONE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_SCANDIR_SORT_NONE_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 2);
@@ -1365,7 +1558,8 @@ static void PH7_SCANDIR_SORT_NONE_Const(ph7_value *pVal, void *pUserData)
  * GLOB_MARK
  *  Expand 0x01 (must be a power of two)
  */
-static void PH7_GLOB_MARK_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_GLOB_MARK_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x01);
@@ -1375,7 +1569,8 @@ static void PH7_GLOB_MARK_Const(ph7_value *pVal, void *pUserData)
  * GLOB_NOSORT
  *  Expand 0x02 (must be a power of two)
  */
-static void PH7_GLOB_NOSORT_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_GLOB_NOSORT_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x02);
@@ -1385,7 +1580,8 @@ static void PH7_GLOB_NOSORT_Const(ph7_value *pVal, void *pUserData)
  * GLOB_NOCHECK
  *  Expand 0x04 (must be a power of two)
  */
-static void PH7_GLOB_NOCHECK_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_GLOB_NOCHECK_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x04);
@@ -1395,7 +1591,8 @@ static void PH7_GLOB_NOCHECK_Const(ph7_value *pVal, void *pUserData)
  * GLOB_NOESCAPE
  *  Expand 0x08 (must be a power of two)
  */
-static void PH7_GLOB_NOESCAPE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_GLOB_NOESCAPE_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x08);
@@ -1405,7 +1602,8 @@ static void PH7_GLOB_NOESCAPE_Const(ph7_value *pVal, void *pUserData)
  * GLOB_BRACE
  *  Expand 0x10 (must be a power of two)
  */
-static void PH7_GLOB_BRACE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_GLOB_BRACE_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x10);
@@ -1415,7 +1613,8 @@ static void PH7_GLOB_BRACE_Const(ph7_value *pVal, void *pUserData)
  * GLOB_ONLYDIR
  *  Expand 0x20 (must be a power of two)
  */
-static void PH7_GLOB_ONLYDIR_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_GLOB_ONLYDIR_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x20);
@@ -1425,7 +1624,8 @@ static void PH7_GLOB_ONLYDIR_Const(ph7_value *pVal, void *pUserData)
  * GLOB_ERR
  *  Expand 0x40 (must be a power of two)
  */
-static void PH7_GLOB_ERR_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_GLOB_ERR_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x40);
@@ -1435,7 +1635,8 @@ static void PH7_GLOB_ERR_Const(ph7_value *pVal, void *pUserData)
  * STDIN
  *  Expand the STDIN handle as a resource.
  */
-static void PH7_STDIN_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_STDIN_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_vm *pVm = (ph7_vm *) pUserData;
   void *pResource;
@@ -1447,7 +1648,8 @@ static void PH7_STDIN_Const(ph7_value *pVal, void *pUserData)
  * STDOUT
  *   Expand the STDOUT handle as a resource.
  */
-static void PH7_STDOUT_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_STDOUT_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_vm *pVm = (ph7_vm *) pUserData;
   void *pResource;
@@ -1459,7 +1661,8 @@ static void PH7_STDOUT_Const(ph7_value *pVal, void *pUserData)
  * STDERR
  *  Expand the STDERR handle as a resource.
  */
-static void PH7_STDERR_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_STDERR_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_vm *pVm = (ph7_vm *) pUserData;
   void *pResource;
@@ -1471,7 +1674,8 @@ static void PH7_STDERR_Const(ph7_value *pVal, void *pUserData)
  * INI_SCANNER_NORMAL
  *   Expand 1
  */
-static void PH7_INI_SCANNER_NORMAL_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_INI_SCANNER_NORMAL_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 1);
@@ -1481,7 +1685,8 @@ static void PH7_INI_SCANNER_NORMAL_Const(ph7_value *pVal, void *pUserData)
  * INI_SCANNER_RAW
  *   Expand 2
  */
-static void PH7_INI_SCANNER_RAW_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_INI_SCANNER_RAW_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 2);
@@ -1491,7 +1696,8 @@ static void PH7_INI_SCANNER_RAW_Const(ph7_value *pVal, void *pUserData)
  * EXTR_OVERWRITE
  *   Expand 0x01 (Must be a power of two)
  */
-static void PH7_EXTR_OVERWRITE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_EXTR_OVERWRITE_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x1);
@@ -1501,7 +1707,8 @@ static void PH7_EXTR_OVERWRITE_Const(ph7_value *pVal, void *pUserData)
  * EXTR_SKIP
  *   Expand 0x02 (Must be a power of two)
  */
-static void PH7_EXTR_SKIP_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_EXTR_SKIP_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x2);
@@ -1511,7 +1718,8 @@ static void PH7_EXTR_SKIP_Const(ph7_value *pVal, void *pUserData)
  * EXTR_PREFIX_SAME
  *   Expand 0x04 (Must be a power of two)
  */
-static void PH7_EXTR_PREFIX_SAME_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_EXTR_PREFIX_SAME_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x4);
@@ -1521,7 +1729,8 @@ static void PH7_EXTR_PREFIX_SAME_Const(ph7_value *pVal, void *pUserData)
  * EXTR_PREFIX_ALL
  *   Expand 0x08 (Must be a power of two)
  */
-static void PH7_EXTR_PREFIX_ALL_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_EXTR_PREFIX_ALL_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x8);
@@ -1531,7 +1740,8 @@ static void PH7_EXTR_PREFIX_ALL_Const(ph7_value *pVal, void *pUserData)
  * EXTR_PREFIX_INVALID
  *   Expand 0x10 (Must be a power of two)
  */
-static void PH7_EXTR_PREFIX_INVALID_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_EXTR_PREFIX_INVALID_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x10);
@@ -1541,7 +1751,8 @@ static void PH7_EXTR_PREFIX_INVALID_Const(ph7_value *pVal, void *pUserData)
  * EXTR_IF_EXISTS
  *   Expand 0x20 (Must be a power of two)
  */
-static void PH7_EXTR_IF_EXISTS_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_EXTR_IF_EXISTS_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x20);
@@ -1551,7 +1762,8 @@ static void PH7_EXTR_IF_EXISTS_Const(ph7_value *pVal, void *pUserData)
  * EXTR_PREFIX_IF_EXISTS
  *   Expand 0x40 (Must be a power of two)
  */
-static void PH7_EXTR_PREFIX_IF_EXISTS_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_EXTR_PREFIX_IF_EXISTS_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, 0x40);
@@ -1563,7 +1775,8 @@ static void PH7_EXTR_PREFIX_IF_EXISTS_Const(ph7_value *pVal, void *pUserData)
  * XML_ERROR_NONE
  *   Expand the value of SXML_ERROR_NO_MEMORY defined in ph7Int.h
  */
-static void PH7_XML_ERROR_NONE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_NONE_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_NO_MEMORY);
@@ -1573,7 +1786,8 @@ static void PH7_XML_ERROR_NONE_Const(ph7_value *pVal, void *pUserData)
  * XML_ERROR_NO_MEMORY
  *   Expand the value of SXML_ERROR_NONE defined in ph7Int.h
  */
-static void PH7_XML_ERROR_NO_MEMORY_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_NO_MEMORY_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_NO_MEMORY);
@@ -1583,7 +1797,8 @@ static void PH7_XML_ERROR_NO_MEMORY_Const(ph7_value *pVal, void *pUserData)
  * XML_ERROR_SYNTAX
  *   Expand the value of SXML_ERROR_SYNTAX defined in ph7Int.h
  */
-static void PH7_XML_ERROR_SYNTAX_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_SYNTAX_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_SYNTAX);
@@ -1593,7 +1808,8 @@ static void PH7_XML_ERROR_SYNTAX_Const(ph7_value *pVal, void *pUserData)
  * XML_ERROR_NO_ELEMENTS
  *   Expand the value of SXML_ERROR_NO_ELEMENTS defined in ph7Int.h
  */
-static void PH7_XML_ERROR_NO_ELEMENTS_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_NO_ELEMENTS_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_NO_ELEMENTS);
@@ -1603,7 +1819,8 @@ static void PH7_XML_ERROR_NO_ELEMENTS_Const(ph7_value *pVal, void *pUserData)
  * XML_ERROR_INVALID_TOKEN
  *   Expand the value of SXML_ERROR_INVALID_TOKEN defined in ph7Int.h
  */
-static void PH7_XML_ERROR_INVALID_TOKEN_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_INVALID_TOKEN_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_INVALID_TOKEN);
@@ -1613,7 +1830,8 @@ static void PH7_XML_ERROR_INVALID_TOKEN_Const(ph7_value *pVal, void *pUserData)
  * XML_ERROR_UNCLOSED_TOKEN
  *   Expand the value of SXML_ERROR_UNCLOSED_TOKEN defined in ph7Int.h
  */
-static void PH7_XML_ERROR_UNCLOSED_TOKEN_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_UNCLOSED_TOKEN_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_UNCLOSED_TOKEN);
@@ -1623,7 +1841,8 @@ static void PH7_XML_ERROR_UNCLOSED_TOKEN_Const(ph7_value *pVal, void *pUserData)
  * XML_ERROR_PARTIAL_CHAR
  *   Expand the value of SXML_ERROR_PARTIAL_CHAR defined in ph7Int.h
  */
-static void PH7_XML_ERROR_PARTIAL_CHAR_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_PARTIAL_CHAR_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_PARTIAL_CHAR);
@@ -1633,7 +1852,8 @@ static void PH7_XML_ERROR_PARTIAL_CHAR_Const(ph7_value *pVal, void *pUserData)
  * XML_ERROR_TAG_MISMATCH
  *   Expand the value of SXML_ERROR_TAG_MISMATCH defined in ph7Int.h
  */
-static void PH7_XML_ERROR_TAG_MISMATCH_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_TAG_MISMATCH_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_TAG_MISMATCH);
@@ -1643,7 +1863,8 @@ static void PH7_XML_ERROR_TAG_MISMATCH_Const(ph7_value *pVal, void *pUserData)
  * XML_ERROR_DUPLICATE_ATTRIBUTE
  *   Expand the value of SXML_ERROR_DUPLICATE_ATTRIBUTE defined in ph7Int.h
  */
-static void PH7_XML_ERROR_DUPLICATE_ATTRIBUTE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_DUPLICATE_ATTRIBUTE_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_DUPLICATE_ATTRIBUTE);
@@ -1653,7 +1874,8 @@ static void PH7_XML_ERROR_DUPLICATE_ATTRIBUTE_Const(ph7_value *pVal, void *pUser
  * XML_ERROR_JUNK_AFTER_DOC_ELEMENT
  *   Expand the value of SXML_ERROR_JUNK_AFTER_DOC_ELEMENT defined in ph7Int.h
  */
-static void PH7_XML_ERROR_JUNK_AFTER_DOC_ELEMENT_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_JUNK_AFTER_DOC_ELEMENT_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_JUNK_AFTER_DOC_ELEMENT);
@@ -1663,7 +1885,8 @@ static void PH7_XML_ERROR_JUNK_AFTER_DOC_ELEMENT_Const(ph7_value *pVal, void *pU
  * XML_ERROR_PARAM_ENTITY_REF
  *   Expand the value of SXML_ERROR_PARAM_ENTITY_REF defined in ph7Int.h
  */
-static void PH7_XML_ERROR_PARAM_ENTITY_REF_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_PARAM_ENTITY_REF_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_PARAM_ENTITY_REF);
@@ -1673,7 +1896,8 @@ static void PH7_XML_ERROR_PARAM_ENTITY_REF_Const(ph7_value *pVal, void *pUserDat
  * XML_ERROR_UNDEFINED_ENTITY
  *   Expand the value of SXML_ERROR_UNDEFINED_ENTITY defined in ph7Int.h
  */
-static void PH7_XML_ERROR_UNDEFINED_ENTITY_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_UNDEFINED_ENTITY_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_UNDEFINED_ENTITY);
@@ -1683,7 +1907,8 @@ static void PH7_XML_ERROR_UNDEFINED_ENTITY_Const(ph7_value *pVal, void *pUserDat
  * XML_ERROR_RECURSIVE_ENTITY_REF
  *   Expand the value of SXML_ERROR_RECURSIVE_ENTITY_REF defined in ph7Int.h
  */
-static void PH7_XML_ERROR_RECURSIVE_ENTITY_REF_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_RECURSIVE_ENTITY_REF_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_RECURSIVE_ENTITY_REF);
@@ -1693,7 +1918,8 @@ static void PH7_XML_ERROR_RECURSIVE_ENTITY_REF_Const(ph7_value *pVal, void *pUse
  * XML_ERROR_ASYNC_ENTITY
  *   Expand the value of SXML_ERROR_ASYNC_ENTITY defined in ph7Int.h
  */
-static void PH7_XML_ERROR_ASYNC_ENTITY_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_ASYNC_ENTITY_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_ASYNC_ENTITY);
@@ -1703,7 +1929,8 @@ static void PH7_XML_ERROR_ASYNC_ENTITY_Const(ph7_value *pVal, void *pUserData)
  * XML_ERROR_BAD_CHAR_REF
  *   Expand the value of SXML_ERROR_BAD_CHAR_REF defined in ph7Int.h
  */
-static void PH7_XML_ERROR_BAD_CHAR_REF_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_BAD_CHAR_REF_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_BAD_CHAR_REF);
@@ -1713,7 +1940,8 @@ static void PH7_XML_ERROR_BAD_CHAR_REF_Const(ph7_value *pVal, void *pUserData)
  * XML_ERROR_BINARY_ENTITY_REF
  *   Expand the value of SXML_ERROR_BINARY_ENTITY_REF defined in ph7Int.h
  */
-static void PH7_XML_ERROR_BINARY_ENTITY_REF_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_BINARY_ENTITY_REF_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_BINARY_ENTITY_REF);
@@ -1723,7 +1951,11 @@ static void PH7_XML_ERROR_BINARY_ENTITY_REF_Const(ph7_value *pVal, void *pUserDa
  * XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF
  *   Expand the value of SXML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF defined in ph7Int.h
  */
-static void PH7_XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF_Const(
+  ph7_value *pVal,
+  void *pUserData
+)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF);
@@ -1733,7 +1965,8 @@ static void PH7_XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF_Const(ph7_value *pVal, v
  * XML_ERROR_MISPLACED_XML_PI
  *   Expand the value of SXML_ERROR_MISPLACED_XML_PI defined in ph7Int.h
  */
-static void PH7_XML_ERROR_MISPLACED_XML_PI_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_MISPLACED_XML_PI_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_MISPLACED_XML_PI);
@@ -1743,7 +1976,8 @@ static void PH7_XML_ERROR_MISPLACED_XML_PI_Const(ph7_value *pVal, void *pUserDat
  * XML_ERROR_UNKNOWN_ENCODING
  *   Expand the value of SXML_ERROR_UNKNOWN_ENCODING defined in ph7Int.h
  */
-static void PH7_XML_ERROR_UNKNOWN_ENCODING_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_UNKNOWN_ENCODING_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_UNKNOWN_ENCODING);
@@ -1753,7 +1987,8 @@ static void PH7_XML_ERROR_UNKNOWN_ENCODING_Const(ph7_value *pVal, void *pUserDat
  * XML_ERROR_INCORRECT_ENCODING
  *   Expand the value of SXML_ERROR_INCORRECT_ENCODING defined in ph7Int.h
  */
-static void PH7_XML_ERROR_INCORRECT_ENCODING_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_INCORRECT_ENCODING_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_INCORRECT_ENCODING);
@@ -1763,7 +1998,8 @@ static void PH7_XML_ERROR_INCORRECT_ENCODING_Const(ph7_value *pVal, void *pUserD
  * XML_ERROR_UNCLOSED_CDATA_SECTION
  *   Expand the value of SXML_ERROR_UNCLOSED_CDATA_SECTION defined in ph7Int.h
  */
-static void PH7_XML_ERROR_UNCLOSED_CDATA_SECTION_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_UNCLOSED_CDATA_SECTION_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_UNCLOSED_CDATA_SECTION);
@@ -1773,7 +2009,8 @@ static void PH7_XML_ERROR_UNCLOSED_CDATA_SECTION_Const(ph7_value *pVal, void *pU
  * XML_ERROR_EXTERNAL_ENTITY_HANDLING
  *   Expand the value of SXML_ERROR_EXTERNAL_ENTITY_HANDLING defined in ph7Int.h
  */
-static void PH7_XML_ERROR_EXTERNAL_ENTITY_HANDLING_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_ERROR_EXTERNAL_ENTITY_HANDLING_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_ERROR_EXTERNAL_ENTITY_HANDLING);
@@ -1783,7 +2020,8 @@ static void PH7_XML_ERROR_EXTERNAL_ENTITY_HANDLING_Const(ph7_value *pVal, void *
  * XML_OPTION_CASE_FOLDING
  *   Expand the value of SXML_OPTION_CASE_FOLDING defined in ph7Int.h.
  */
-static void PH7_XML_OPTION_CASE_FOLDING_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_OPTION_CASE_FOLDING_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_OPTION_CASE_FOLDING);
@@ -1793,7 +2031,8 @@ static void PH7_XML_OPTION_CASE_FOLDING_Const(ph7_value *pVal, void *pUserData)
  * XML_OPTION_TARGET_ENCODING
  *   Expand the value of SXML_OPTION_TARGET_ENCODING defined in ph7Int.h.
  */
-static void PH7_XML_OPTION_TARGET_ENCODING_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_OPTION_TARGET_ENCODING_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_OPTION_TARGET_ENCODING);
@@ -1803,7 +2042,8 @@ static void PH7_XML_OPTION_TARGET_ENCODING_Const(ph7_value *pVal, void *pUserDat
  * XML_OPTION_SKIP_TAGSTART
  *   Expand the value of SXML_OPTION_SKIP_TAGSTART defined in ph7Int.h.
  */
-static void PH7_XML_OPTION_SKIP_TAGSTART_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_OPTION_SKIP_TAGSTART_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_OPTION_SKIP_TAGSTART);
@@ -1813,7 +2053,8 @@ static void PH7_XML_OPTION_SKIP_TAGSTART_Const(ph7_value *pVal, void *pUserData)
  * XML_OPTION_SKIP_WHITE
  *   Expand the value of SXML_OPTION_SKIP_TAGSTART defined in ph7Int.h.
  */
-static void PH7_XML_OPTION_SKIP_WHITE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_OPTION_SKIP_WHITE_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, SXML_OPTION_SKIP_WHITE);
@@ -1823,10 +2064,15 @@ static void PH7_XML_OPTION_SKIP_WHITE_Const(ph7_value *pVal, void *pUserData)
  * XML_SAX_IMPL.
  *   Expand the name of the underlying XML engine.
  */
-static void PH7_XML_SAX_IMP_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_XML_SAX_IMP_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
-  ph7_value_string(pVal, "Symisc XML engine", (int) sizeof("Symisc XML engine") - 1);
+  ph7_value_string(
+    pVal,
+    "Symisc XML engine",
+    (int) sizeof("Symisc XML engine") - 1
+  );
 }
 
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
@@ -1835,7 +2081,8 @@ static void PH7_XML_SAX_IMP_Const(ph7_value *pVal, void *pUserData)
  * JSON_HEX_TAG.
  *   Expand the value of JSON_HEX_TAG defined in ph7Int.h.
  */
-static void PH7_JSON_HEX_TAG_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_HEX_TAG_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_HEX_TAG);
@@ -1845,7 +2092,8 @@ static void PH7_JSON_HEX_TAG_Const(ph7_value *pVal, void *pUserData)
  * JSON_HEX_AMP.
  *   Expand the value of JSON_HEX_AMP defined in ph7Int.h.
  */
-static void PH7_JSON_HEX_AMP_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_HEX_AMP_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_HEX_AMP);
@@ -1855,7 +2103,8 @@ static void PH7_JSON_HEX_AMP_Const(ph7_value *pVal, void *pUserData)
  * JSON_HEX_APOS.
  *   Expand the value of JSON_HEX_APOS defined in ph7Int.h.
  */
-static void PH7_JSON_HEX_APOS_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_HEX_APOS_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_HEX_APOS);
@@ -1865,7 +2114,8 @@ static void PH7_JSON_HEX_APOS_Const(ph7_value *pVal, void *pUserData)
  * JSON_HEX_QUOT.
  *   Expand the value of JSON_HEX_QUOT defined in ph7Int.h.
  */
-static void PH7_JSON_HEX_QUOT_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_HEX_QUOT_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_HEX_QUOT);
@@ -1875,7 +2125,8 @@ static void PH7_JSON_HEX_QUOT_Const(ph7_value *pVal, void *pUserData)
  * JSON_FORCE_OBJECT.
  *   Expand the value of JSON_FORCE_OBJECT defined in ph7Int.h.
  */
-static void PH7_JSON_FORCE_OBJECT_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_FORCE_OBJECT_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_FORCE_OBJECT);
@@ -1885,7 +2136,8 @@ static void PH7_JSON_FORCE_OBJECT_Const(ph7_value *pVal, void *pUserData)
  * JSON_NUMERIC_CHECK.
  *   Expand the value of JSON_NUMERIC_CHECK defined in ph7Int.h.
  */
-static void PH7_JSON_NUMERIC_CHECK_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_NUMERIC_CHECK_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_NUMERIC_CHECK);
@@ -1895,7 +2147,8 @@ static void PH7_JSON_NUMERIC_CHECK_Const(ph7_value *pVal, void *pUserData)
  * JSON_BIGINT_AS_STRING.
  *   Expand the value of JSON_BIGINT_AS_STRING defined in ph7Int.h.
  */
-static void PH7_JSON_BIGINT_AS_STRING_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_BIGINT_AS_STRING_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_BIGINT_AS_STRING);
@@ -1905,7 +2158,8 @@ static void PH7_JSON_BIGINT_AS_STRING_Const(ph7_value *pVal, void *pUserData)
  * JSON_PRETTY_PRINT.
  *   Expand the value of JSON_PRETTY_PRINT defined in ph7Int.h.
  */
-static void PH7_JSON_PRETTY_PRINT_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_PRETTY_PRINT_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_PRETTY_PRINT);
@@ -1915,7 +2169,8 @@ static void PH7_JSON_PRETTY_PRINT_Const(ph7_value *pVal, void *pUserData)
  * JSON_UNESCAPED_SLASHES.
  *   Expand the value of JSON_UNESCAPED_SLASHES defined in ph7Int.h.
  */
-static void PH7_JSON_UNESCAPED_SLASHES_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_UNESCAPED_SLASHES_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_UNESCAPED_SLASHES);
@@ -1925,7 +2180,8 @@ static void PH7_JSON_UNESCAPED_SLASHES_Const(ph7_value *pVal, void *pUserData)
  * JSON_UNESCAPED_UNICODE.
  *   Expand the value of JSON_UNESCAPED_UNICODE defined in ph7Int.h.
  */
-static void PH7_JSON_UNESCAPED_UNICODE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_UNESCAPED_UNICODE_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_UNESCAPED_UNICODE);
@@ -1935,7 +2191,8 @@ static void PH7_JSON_UNESCAPED_UNICODE_Const(ph7_value *pVal, void *pUserData)
  * JSON_ERROR_NONE.
  *   Expand the value of JSON_ERROR_NONE defined in ph7Int.h.
  */
-static void PH7_JSON_ERROR_NONE_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_ERROR_NONE_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_ERROR_NONE);
@@ -1945,7 +2202,8 @@ static void PH7_JSON_ERROR_NONE_Const(ph7_value *pVal, void *pUserData)
  * JSON_ERROR_DEPTH.
  *   Expand the value of JSON_ERROR_DEPTH defined in ph7Int.h.
  */
-static void PH7_JSON_ERROR_DEPTH_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_ERROR_DEPTH_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_ERROR_DEPTH);
@@ -1955,7 +2213,8 @@ static void PH7_JSON_ERROR_DEPTH_Const(ph7_value *pVal, void *pUserData)
  * JSON_ERROR_STATE_MISMATCH.
  *   Expand the value of JSON_ERROR_STATE_MISMATCH defined in ph7Int.h.
  */
-static void PH7_JSON_ERROR_STATE_MISMATCH_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_ERROR_STATE_MISMATCH_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_ERROR_STATE_MISMATCH);
@@ -1965,7 +2224,8 @@ static void PH7_JSON_ERROR_STATE_MISMATCH_Const(ph7_value *pVal, void *pUserData
  * JSON_ERROR_CTRL_CHAR.
  *   Expand the value of JSON_ERROR_CTRL_CHAR defined in ph7Int.h.
  */
-static void PH7_JSON_ERROR_CTRL_CHAR_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_ERROR_CTRL_CHAR_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_ERROR_CTRL_CHAR);
@@ -1975,7 +2235,8 @@ static void PH7_JSON_ERROR_CTRL_CHAR_Const(ph7_value *pVal, void *pUserData)
  * JSON_ERROR_SYNTAX.
  *   Expand the value of JSON_ERROR_SYNTAX defined in ph7Int.h.
  */
-static void PH7_JSON_ERROR_SYNTAX_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_ERROR_SYNTAX_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_ERROR_SYNTAX);
@@ -1985,7 +2246,8 @@ static void PH7_JSON_ERROR_SYNTAX_Const(ph7_value *pVal, void *pUserData)
  * JSON_ERROR_UTF8.
  *   Expand the value of JSON_ERROR_UTF8 defined in ph7Int.h.
  */
-static void PH7_JSON_ERROR_UTF8_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_JSON_ERROR_UTF8_Const(ph7_value *pVal, void *pUserData)
 {
   SXUNUSED(pUserData);   /* cc warning */
   ph7_value_int(pVal, JSON_ERROR_UTF8);
@@ -1995,7 +2257,8 @@ static void PH7_JSON_ERROR_UTF8_Const(ph7_value *pVal, void *pUserData)
  * static
  *  Expand the name of the current class. 'static' otherwise.
  */
-static void PH7_static_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_static_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_vm *pVm = (ph7_vm *) pUserData;
   ph7_class *pClass;
@@ -2016,7 +2279,8 @@ static void PH7_static_Const(ph7_value *pVal, void *pUserData)
  * __CLASS__
  *  Expand the name of the current class. NULL otherwise.
  */
-static void PH7_self_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_self_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_vm *pVm = (ph7_vm *) pUserData;
   ph7_class *pClass;
@@ -2035,7 +2299,8 @@ static void PH7_self_Const(ph7_value *pVal, void *pUserData)
 /* parent
  *  Expand the name of the parent class. NULL otherwise.
  */
-static void PH7_parent_Const(ph7_value *pVal, void *pUserData)
+static void
+PH7_parent_Const(ph7_value *pVal, void *pUserData)
 {
   ph7_vm *pVm = (ph7_vm *) pUserData;
   ph7_class *pClass;
@@ -2219,20 +2484,37 @@ static const ph7_builtin_constant aBuiltIn[] = {
   { "XML_ERROR_UNCLOSED_TOKEN", PH7_XML_ERROR_UNCLOSED_TOKEN_Const },
   { "XML_ERROR_PARTIAL_CHAR",  PH7_XML_ERROR_PARTIAL_CHAR_Const },
   { "XML_ERROR_TAG_MISMATCH",  PH7_XML_ERROR_TAG_MISMATCH_Const },
-  { "XML_ERROR_DUPLICATE_ATTRIBUTE",   PH7_XML_ERROR_DUPLICATE_ATTRIBUTE_Const },
-  { "XML_ERROR_JUNK_AFTER_DOC_ELEMENT", PH7_XML_ERROR_JUNK_AFTER_DOC_ELEMENT_Const },
+  {
+    "XML_ERROR_DUPLICATE_ATTRIBUTE",
+    PH7_XML_ERROR_DUPLICATE_ATTRIBUTE_Const
+  },
+  {
+    "XML_ERROR_JUNK_AFTER_DOC_ELEMENT",
+    PH7_XML_ERROR_JUNK_AFTER_DOC_ELEMENT_Const
+  },
   { "XML_ERROR_PARAM_ENTITY_REF",      PH7_XML_ERROR_PARAM_ENTITY_REF_Const },
   { "XML_ERROR_UNDEFINED_ENTITY",      PH7_XML_ERROR_UNDEFINED_ENTITY_Const },
-  { "XML_ERROR_RECURSIVE_ENTITY_REF",  PH7_XML_ERROR_RECURSIVE_ENTITY_REF_Const },
+  {
+    "XML_ERROR_RECURSIVE_ENTITY_REF",  PH7_XML_ERROR_RECURSIVE_ENTITY_REF_Const
+  },
   { "XML_ERROR_ASYNC_ENTITY",          PH7_XML_ERROR_ASYNC_ENTITY_Const },
   { "XML_ERROR_BAD_CHAR_REF",          PH7_XML_ERROR_BAD_CHAR_REF_Const },
   { "XML_ERROR_BINARY_ENTITY_REF",     PH7_XML_ERROR_BINARY_ENTITY_REF_Const },
-  { "XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF", PH7_XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF_Const },
+  {
+    "XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF",
+    PH7_XML_ERROR_ATTRIBUTE_EXTERNAL_ENTITY_REF_Const
+  },
   { "XML_ERROR_MISPLACED_XML_PI",     PH7_XML_ERROR_MISPLACED_XML_PI_Const },
   { "XML_ERROR_UNKNOWN_ENCODING",     PH7_XML_ERROR_UNKNOWN_ENCODING_Const },
   { "XML_ERROR_INCORRECT_ENCODING",   PH7_XML_ERROR_INCORRECT_ENCODING_Const },
-  { "XML_ERROR_UNCLOSED_CDATA_SECTION",  PH7_XML_ERROR_UNCLOSED_CDATA_SECTION_Const },
-  { "XML_ERROR_EXTERNAL_ENTITY_HANDLING", PH7_XML_ERROR_EXTERNAL_ENTITY_HANDLING_Const },
+  {
+    "XML_ERROR_UNCLOSED_CDATA_SECTION",
+    PH7_XML_ERROR_UNCLOSED_CDATA_SECTION_Const
+  },
+  {
+    "XML_ERROR_EXTERNAL_ENTITY_HANDLING",
+    PH7_XML_ERROR_EXTERNAL_ENTITY_HANDLING_Const
+  },
   { "XML_OPTION_CASE_FOLDING",           PH7_XML_OPTION_CASE_FOLDING_Const },
   { "XML_OPTION_TARGET_ENCODING",        PH7_XML_OPTION_TARGET_ENCODING_Const },
   { "XML_OPTION_SKIP_TAGSTART",          PH7_XML_OPTION_SKIP_TAGSTART_Const },
@@ -2264,7 +2546,8 @@ static const ph7_builtin_constant aBuiltIn[] = {
 /*
  * Register the built-in constants defined above.
  */
-PH7_PRIVATE void PH7_RegisterBuiltInConstant(ph7_vm *pVm)
+PH7_PRIVATE void
+PH7_RegisterBuiltInConstant(ph7_vm *pVm)
 {
   sxu32 n;
 
@@ -2273,6 +2556,9 @@ PH7_PRIVATE void PH7_RegisterBuiltInConstant(ph7_vm *pVm)
    * that trigger the constant invocation as their private data.
    */
   for (n = 0 ; n < SX_ARRAYSIZE(aBuiltIn) ; ++n) {
-    ph7_create_constant(&(*pVm), aBuiltIn[n].zName, aBuiltIn[n].xExpand, &(*pVm));
+    ph7_create_constant(
+      &(*pVm), aBuiltIn[n].zName, aBuiltIn[n].xExpand,
+      &(*pVm)
+    );
   }
 }

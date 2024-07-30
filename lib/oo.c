@@ -28,12 +28,16 @@
  * Create an empty class.
  * Return a pointer to a raw class (ph7_class instance) on success. NULL otherwise.
  */
-PH7_PRIVATE ph7_class* PH7_NewRawClass(ph7_vm *pVm, const SyString *pName, sxu32 nLine)
+PH7_PRIVATE ph7_class *
+PH7_NewRawClass(ph7_vm *pVm, const SyString *pName, sxu32 nLine)
 {
   ph7_class *pClass;
   char *zName;
   /* Allocate a new instance */
-  pClass = (ph7_class *) SyMemBackendPoolAlloc(&pVm->sAllocator, sizeof(ph7_class));
+  pClass = (ph7_class *) SyMemBackendPoolAlloc(
+    &pVm->sAllocator,
+    sizeof(ph7_class)
+  );
   if (pClass == 0) {
     return 0;
   }
@@ -42,7 +46,10 @@ PH7_PRIVATE ph7_class* PH7_NewRawClass(ph7_vm *pVm, const SyString *pName, sxu32
   /* Duplicate class name */
   zName = SyMemBackendStrDup(&pVm->sAllocator, pName->zString, pName->nByte);
   if (zName == 0) {
-    SyMemBackendPoolFree(&pVm->sAllocator, pClass);
+    SyMemBackendPoolFree(
+      &pVm->sAllocator,
+      pClass
+    );
     return 0;
   }
   /* Initialize fields */
@@ -60,11 +67,21 @@ PH7_PRIVATE ph7_class* PH7_NewRawClass(ph7_vm *pVm, const SyString *pName, sxu32
  * Allocate and initialize a new class attribute.
  * Return a pointer to the class attribute on success. NULL otherwise.
  */
-PH7_PRIVATE ph7_class_attr* PH7_NewClassAttr(ph7_vm *pVm, const SyString *pName, sxu32 nLine, sxi32 iProtection, sxi32 iFlags)
+PH7_PRIVATE ph7_class_attr *
+PH7_NewClassAttr(
+  ph7_vm *pVm,
+  const SyString *pName,
+  sxu32 nLine,
+  sxi32 iProtection,
+  sxi32 iFlags
+)
 {
   ph7_class_attr *pAttr;
   char *zName;
-  pAttr = (ph7_class_attr *) SyMemBackendPoolAlloc(&pVm->sAllocator, sizeof(ph7_class_attr));
+  pAttr = (ph7_class_attr *) SyMemBackendPoolAlloc(
+    &pVm->sAllocator,
+    sizeof(ph7_class_attr)
+  );
   if (pAttr == 0) {
     return 0;
   }
@@ -73,7 +90,10 @@ PH7_PRIVATE ph7_class_attr* PH7_NewClassAttr(ph7_vm *pVm, const SyString *pName,
   /* Duplicate attribute name */
   zName = SyMemBackendStrDup(&pVm->sAllocator, pName->zString, pName->nByte);
   if (zName == 0) {
-    SyMemBackendPoolFree(&pVm->sAllocator, pAttr);
+    SyMemBackendPoolFree(
+      &pVm->sAllocator,
+      pAttr
+    );
     return 0;
   }
   /* Initialize fields */
@@ -92,8 +112,11 @@ PH7_PRIVATE ph7_class_attr* PH7_NewClassAttr(ph7_vm *pVm, const SyString *pName,
  * This function associate with the newly created method an automatically generated
  * random unique name.
  */
-PH7_PRIVATE ph7_class_method* PH7_NewClassMethod(ph7_vm *pVm, ph7_class *pClass, const SyString *pName, sxu32 nLine,
-                                                 sxi32 iProtection, sxi32 iFlags, sxi32 iFuncFlags)
+PH7_PRIVATE ph7_class_method *
+PH7_NewClassMethod(
+  ph7_vm *pVm, ph7_class *pClass, const SyString *pName, sxu32 nLine,
+  sxi32 iProtection, sxi32 iFlags, sxi32 iFuncFlags
+)
 {
   ph7_class_method *pMeth;
   SyHashEntry *pEntry;
@@ -102,17 +125,25 @@ PH7_PRIVATE ph7_class_method* PH7_NewClassMethod(ph7_vm *pVm, ph7_class *pClass,
   char *zName;
   sxu32 nByte;
   /* Allocate a new class method instance */
-  pMeth = (ph7_class_method *) SyMemBackendPoolAlloc(&pVm->sAllocator, sizeof(ph7_class_method));
+  pMeth = (ph7_class_method *) SyMemBackendPoolAlloc(
+    &pVm->sAllocator,
+    sizeof(ph7_class_method)
+  );
   if (pMeth == 0) {
     return 0;
   }
   /* Zero the structure */
   SyZero(pMeth, sizeof(ph7_class_method));
   /* Check for an already installed method with the same name */
-  pEntry = SyHashGet(&pClass->hMethod, (const void *) pName->zString, pName->nByte);
+  pEntry = SyHashGet(
+    &pClass->hMethod,
+    (const void *) pName->zString,
+    pName->nByte
+  );
   if (pEntry == 0) {
     /* Associate an unique VM name to this method */
-    nByte = sizeof(zSalt) + pName->nByte + SyStringLength(&pClass->sName) + sizeof(char) * 7 /*[[__'\0'*/;
+    nByte = sizeof(zSalt) + pName->nByte + SyStringLength(&pClass->sName)
+            + sizeof(char) * 7 /*[[__'\0'*/;
     zName = (char *) SyMemBackendAlloc(&pVm->sAllocator, nByte);
     if (zName == 0) {
       SyMemBackendPoolFree(&pVm->sAllocator, pMeth);
@@ -121,7 +152,15 @@ PH7_PRIVATE ph7_class_method* PH7_NewClassMethod(ph7_vm *pVm, ph7_class *pClass,
     pNamePtr = &pMeth->sVmName;
     /* Generate a random string */
     PH7_VmRandomString(&(*pVm), zSalt, sizeof(zSalt));
-    pNamePtr->nByte = SyBufferFormat(zName, nByte, "[__%z@%z_%.*s]", &pClass->sName, pName, sizeof(zSalt), zSalt);
+    pNamePtr->nByte = SyBufferFormat(
+      zName,
+      nByte,
+      "[__%z@%z_%.*s]",
+      &pClass->sName,
+      pName,
+      sizeof(zSalt),
+      zSalt
+    );
     pNamePtr->zString = zName;
   } else {
     /* Method is condidate for 'overloading' */
@@ -132,8 +171,16 @@ PH7_PRIVATE ph7_class_method* PH7_NewClassMethod(ph7_vm *pVm, ph7_class *pClass,
     zName = (char *) pNamePtr->zString;
   }
   if (iProtection != PH7_CLASS_PROT_PUBLIC) {
-    if ((pName->nByte == sizeof("__construct") - 1 && SyMemcmp(pName->zString, "__construct", sizeof("__construct") - 1) == 0)
-        || (pName->nByte == sizeof("__destruct") - 1 && SyMemcmp(pName->zString, "__destruct", sizeof("__destruct") - 1) == 0)
+    if ((pName->nByte == sizeof("__construct") - 1 && SyMemcmp(
+      pName->zString,
+      "__construct",
+      sizeof("__construct") - 1
+         ) == 0)
+        || (pName->nByte == sizeof("__destruct") - 1 && SyMemcmp(
+          pName->zString,
+          "__destruct",
+          sizeof("__destruct") - 1
+            ) == 0)
         || SyStringCmp(pName, &pClass->sName, SyMemcmp) == 0)
     {
       /* Switch to public visibility when dealing with constructor/destructor */
@@ -144,8 +191,11 @@ PH7_PRIVATE ph7_class_method* PH7_NewClassMethod(ph7_vm *pVm, ph7_class *pClass,
   pMeth->iProtection = iProtection;
   pMeth->iFlags = iFlags;
   pMeth->nLine = nLine;
-  PH7_VmInitFuncState(&(*pVm), &pMeth->sFunc, &zName[sizeof(char) * 4 /*[__@*/ + SyStringLength(&pClass->sName)],
-                      pName->nByte, iFuncFlags | VM_FUNC_CLASS_METHOD, pClass);
+  PH7_VmInitFuncState(
+    &(*pVm), &pMeth->sFunc,
+    &zName[sizeof(char) * 4 /*[__@*/ + SyStringLength(&pClass->sName)],
+    pName->nByte, iFuncFlags | VM_FUNC_CLASS_METHOD, pClass
+  );
   return pMeth;
 }
 
@@ -153,7 +203,8 @@ PH7_PRIVATE ph7_class_method* PH7_NewClassMethod(ph7_vm *pVm, ph7_class *pClass,
  * Check if the given name have a class method associated with it.
  * Return the desired method [i.e: ph7_class_method instance] on success. NULL otherwise.
  */
-PH7_PRIVATE ph7_class_method* PH7_ClassExtractMethod(ph7_class *pClass, const char *zName, sxu32 nByte)
+PH7_PRIVATE ph7_class_method *
+PH7_ClassExtractMethod(ph7_class *pClass, const char *zName, sxu32 nByte)
 {
   SyHashEntry *pEntry;
   /* Perform a hash lookup */
@@ -170,7 +221,8 @@ PH7_PRIVATE ph7_class_method* PH7_ClassExtractMethod(ph7_class *pClass, const ch
  * Check if the given name is a class attribute.
  * Return the desired attribute [i.e: ph7_class_attr instance] on success.NULL otherwise.
  */
-PH7_PRIVATE ph7_class_attr* PH7_ClassExtractAttribute(ph7_class *pClass, const char *zName, sxu32 nByte)
+PH7_PRIVATE ph7_class_attr *
+PH7_ClassExtractAttribute(ph7_class *pClass, const char *zName, sxu32 nByte)
 {
   SyHashEntry *pEntry;
   /* Perform a hash lookup */
@@ -187,11 +239,17 @@ PH7_PRIVATE ph7_class_attr* PH7_ClassExtractAttribute(ph7_class *pClass, const c
  * Install a class attribute in the corresponding container.
  * Return SXRET_OK on success. Any other return value indicates failure.
  */
-PH7_PRIVATE sxi32 PH7_ClassInstallAttr(ph7_class *pClass, ph7_class_attr *pAttr)
+PH7_PRIVATE sxi32
+PH7_ClassInstallAttr(ph7_class *pClass, ph7_class_attr *pAttr)
 {
   SyString *pName = &pAttr->sName;
   sxi32 rc;
-  rc = SyHashInsert(&pClass->hAttr, (const void *) pName->zString, pName->nByte, pAttr);
+  rc = SyHashInsert(
+    &pClass->hAttr,
+    (const void *) pName->zString,
+    pName->nByte,
+    pAttr
+  );
   return rc;
 }
 
@@ -199,11 +257,17 @@ PH7_PRIVATE sxi32 PH7_ClassInstallAttr(ph7_class *pClass, ph7_class_attr *pAttr)
  * Install a class method in the corresponding container.
  * Return SXRET_OK on success. Any other return value indicates failure.
  */
-PH7_PRIVATE sxi32 PH7_ClassInstallMethod(ph7_class *pClass, ph7_class_method *pMeth)
+PH7_PRIVATE sxi32
+PH7_ClassInstallMethod(ph7_class *pClass, ph7_class_method *pMeth)
 {
   SyString *pName = &pMeth->sFunc.sName;
   sxi32 rc;
-  rc = SyHashInsert(&pClass->hMethod, (const void *) pName->zString, pName->nByte, pMeth);
+  rc = SyHashInsert(
+    &pClass->hMethod,
+    (const void *) pName->zString,
+    pName->nByte,
+    pMeth
+  );
   return rc;
 }
 
@@ -248,7 +312,8 @@ PH7_PRIVATE sxi32 PH7_ClassInstallMethod(ph7_class *pClass, ph7_class_method *pM
  * Any other return value indicates failure and the upper layer must generate an appropriate
  * error message.
  */
-PH7_PRIVATE sxi32 PH7_ClassInherit(ph7_gen_state *pGen, ph7_class *pSub, ph7_class *pBase)
+PH7_PRIVATE sxi32
+PH7_ClassInherit(ph7_gen_state *pGen, ph7_class *pSub, ph7_class *pBase)
 {
   ph7_class_method *pMeth;
   ph7_class_attr *pAttr;
@@ -256,7 +321,12 @@ PH7_PRIVATE sxi32 PH7_ClassInherit(ph7_gen_state *pGen, ph7_class *pSub, ph7_cla
   SyString *pName;
   sxi32 rc;
   /* Install in the derived hashtable */
-  rc = SyHashInsert(&pBase->hDerived, (const void *) SyStringData(&pSub->sName), SyStringLength(&pSub->sName), pSub);
+  rc = SyHashInsert(
+    &pBase->hDerived,
+    (const void *) SyStringData(&pSub->sName),
+    SyStringLength(&pSub->sName),
+    pSub
+  );
   if (rc != SXRET_OK) {
     return rc;
   }
@@ -266,20 +336,33 @@ PH7_PRIVATE sxi32 PH7_ClassInherit(ph7_gen_state *pGen, ph7_class *pSub, ph7_cla
     /* Make sure the private attributes are not redeclared in the subclass */
     pAttr = (ph7_class_attr *) pEntry->pUserData;
     pName = &pAttr->sName;
-    if ((pEntry = SyHashGet(&pSub->hAttr, (const void *) pName->zString, pName->nByte)) != 0) {
+    if ((pEntry = SyHashGet(
+      &pSub->hAttr,
+      (const void *) pName->zString,
+      pName->nByte
+                  )) != 0)
+    {
       if (pAttr->iProtection == PH7_CLASS_PROT_PRIVATE
-          && ((ph7_class_attr *) pEntry->pUserData)->iProtection != PH7_CLASS_PROT_PUBLIC)
+          && ((ph7_class_attr *) pEntry->pUserData)->iProtection
+          != PH7_CLASS_PROT_PUBLIC)
       {
         /* Cannot redeclare private attribute */
-        PH7_GenCompileError(&(*pGen), E_WARNING, ((ph7_class_attr *) pEntry->pUserData)->nLine,
-                            "Private attribute '%z::%z' redeclared inside child class '%z'",
-                            &pBase->sName, pName, &pSub->sName);
+        PH7_GenCompileError(
+          &(*pGen), E_WARNING, ((ph7_class_attr *) pEntry->pUserData)->nLine,
+          "Private attribute '%z::%z' redeclared inside child class '%z'",
+          &pBase->sName, pName, &pSub->sName
+        );
       }
       continue;
     }
     /* Install the attribute */
     if (pAttr->iProtection != PH7_CLASS_PROT_PRIVATE) {
-      rc = SyHashInsert(&pSub->hAttr, (const void *) pName->zString, pName->nByte, pAttr);
+      rc = SyHashInsert(
+        &pSub->hAttr,
+        (const void *) pName->zString,
+        pName->nByte,
+        pAttr
+      );
       if (rc != SXRET_OK) {
         return rc;
       }
@@ -290,12 +373,19 @@ PH7_PRIVATE sxi32 PH7_ClassInherit(ph7_gen_state *pGen, ph7_class *pSub, ph7_cla
     /* Make sure the private/final methods are not redeclared in the subclass */
     pMeth = (ph7_class_method *) pEntry->pUserData;
     pName = &pMeth->sFunc.sName;
-    if ((pEntry = SyHashGet(&pSub->hMethod, (const void *) pName->zString, pName->nByte)) != 0) {
+    if ((pEntry = SyHashGet(
+      &pSub->hMethod,
+      (const void *) pName->zString,
+      pName->nByte
+                  )) != 0)
+    {
       if (pMeth->iFlags & PH7_CLASS_ATTR_FINAL) {
         /* Cannot Overwrite final method */
-        rc = PH7_GenCompileError(&(*pGen), E_ERROR, ((ph7_class_method *) pEntry->pUserData)->nLine,
-                                 "Cannot Overwrite final method '%z:%z' inside child class '%z'",
-                                 &pBase->sName, pName, &pSub->sName);
+        rc = PH7_GenCompileError(
+          &(*pGen), E_ERROR, ((ph7_class_method *) pEntry->pUserData)->nLine,
+          "Cannot Overwrite final method '%z:%z' inside child class '%z'",
+          &pBase->sName, pName, &pSub->sName
+        );
         if (rc == SXERR_ABORT) {
           return SXERR_ABORT;
         }
@@ -304,15 +394,22 @@ PH7_PRIVATE sxi32 PH7_ClassInherit(ph7_gen_state *pGen, ph7_class *pSub, ph7_cla
     } else {
       if (pMeth->iFlags & PH7_CLASS_ATTR_ABSTRACT) {
         /* Abstract method must be defined in the child class */
-        PH7_GenCompileError(&(*pGen), E_WARNING, pMeth->nLine,
-                            "Abstract method '%z:%z' must be defined inside child class '%z'",
-                            &pBase->sName, pName, &pSub->sName);
+        PH7_GenCompileError(
+          &(*pGen), E_WARNING, pMeth->nLine,
+          "Abstract method '%z:%z' must be defined inside child class '%z'",
+          &pBase->sName, pName, &pSub->sName
+        );
         continue;
       }
     }
     /* Install the method */
     if (pMeth->iProtection != PH7_CLASS_PROT_PRIVATE) {
-      rc = SyHashInsert(&pSub->hMethod, (const void *) pName->zString, pName->nByte, pMeth);
+      rc = SyHashInsert(
+        &pSub->hMethod,
+        (const void *) pName->zString,
+        pName->nByte,
+        pMeth
+      );
       if (rc != SXRET_OK) {
         return rc;
       }
@@ -337,7 +434,8 @@ PH7_PRIVATE sxi32 PH7_ClassInherit(ph7_gen_state *pGen, ph7_class *pSub, ph7_cla
  * Any other return value indicates failure and the upper layer must generate an appropriate
  * error message.
  */
-PH7_PRIVATE sxi32 PH7_ClassInterfaceInherit(ph7_class *pSub, ph7_class *pBase)
+PH7_PRIVATE sxi32
+PH7_ClassInterfaceInherit(ph7_class *pSub, ph7_class *pBase)
 {
   ph7_class_method *pMeth;
   ph7_class_attr *pAttr;
@@ -345,16 +443,30 @@ PH7_PRIVATE sxi32 PH7_ClassInterfaceInherit(ph7_class *pSub, ph7_class *pBase)
   SyString *pName;
   sxi32 rc;
   /* Install in the derived hashtable */
-  SyHashInsert(&pBase->hDerived, (const void *) SyStringData(&pSub->sName), SyStringLength(&pSub->sName), pSub);
+  SyHashInsert(
+    &pBase->hDerived,
+    (const void *) SyStringData(&pSub->sName),
+    SyStringLength(&pSub->sName),
+    pSub
+  );
   SyHashResetLoopCursor(&pBase->hAttr);
   /* Copy constants */
   while ((pEntry = SyHashGetNextEntry(&pBase->hAttr)) != 0) {
     /* Make sure the constants are not redeclared in the subclass */
     pAttr = (ph7_class_attr *) pEntry->pUserData;
     pName = &pAttr->sName;
-    if (SyHashGet(&pSub->hAttr, (const void *) pName->zString, pName->nByte) == 0) {
+    if (SyHashGet(
+      &pSub->hAttr, (const void *) pName->zString,
+      pName->nByte
+        ) == 0)
+    {
       /* Install the constant in the subclass */
-      rc = SyHashInsert(&pSub->hAttr, (const void *) pName->zString, pName->nByte, pAttr);
+      rc = SyHashInsert(
+        &pSub->hAttr,
+        (const void *) pName->zString,
+        pName->nByte,
+        pAttr
+      );
       if (rc != SXRET_OK) {
         return rc;
       }
@@ -366,9 +478,18 @@ PH7_PRIVATE sxi32 PH7_ClassInterfaceInherit(ph7_class *pSub, ph7_class *pBase)
     /* Make sure the method are not redeclared in the subclass */
     pMeth = (ph7_class_method *) pEntry->pUserData;
     pName = &pMeth->sFunc.sName;
-    if (SyHashGet(&pSub->hMethod, (const void *) pName->zString, pName->nByte) == 0) {
+    if (SyHashGet(
+      &pSub->hMethod, (const void *) pName->zString,
+      pName->nByte
+        ) == 0)
+    {
       /* Install the method */
-      rc = SyHashInsert(&pSub->hMethod, (const void *) pName->zString, pName->nByte, pMeth);
+      rc = SyHashInsert(
+        &pSub->hMethod,
+        (const void *) pName->zString,
+        pName->nByte,
+        pMeth
+      );
       if (rc != SXRET_OK) {
         return rc;
       }
@@ -393,7 +514,8 @@ PH7_PRIVATE sxi32 PH7_ClassInterfaceInherit(ph7_class *pSub, ph7_class *pBase)
  * Any other return value indicates failure and the upper layer must generate an appropriate
  * error message.
  */
-PH7_PRIVATE sxi32 PH7_ClassImplement(ph7_class *pMain, ph7_class *pInterface)
+PH7_PRIVATE sxi32
+PH7_ClassImplement(ph7_class *pMain, ph7_class *pInterface)
 {
   ph7_class_attr *pAttr;
   SyHashEntry *pEntry;
@@ -503,11 +625,15 @@ PH7_PRIVATE sxi32 PH7_ClassImplement(ph7_class *pMain, ph7_class *pInterface)
  *  };
  * Refer to the official documentation for more information.
  */
-static ph7_class_instance* NewClassInstance(ph7_vm *pVm, ph7_class *pClass)
+static ph7_class_instance *
+NewClassInstance(ph7_vm *pVm, ph7_class *pClass)
 {
   ph7_class_instance *pThis;
   /* Allocate a new instance */
-  pThis = (ph7_class_instance *) SyMemBackendPoolAlloc(&pVm->sAllocator, sizeof(ph7_class_instance));
+  pThis = (ph7_class_instance *) SyMemBackendPoolAlloc(
+    &pVm->sAllocator,
+    sizeof(ph7_class_instance)
+  );
   if (pThis == 0) {
     return 0;
   }
@@ -525,7 +651,8 @@ static ph7_class_instance* NewClassInstance(ph7_vm *pVm, ph7_class *pClass)
  * Wrapper around the NewClassInstance() function defined above.
  * See the block comment above for more information.
  */
-PH7_PRIVATE ph7_class_instance* PH7_NewClassInstance(ph7_vm *pVm, ph7_class *pClass)
+PH7_PRIVATE ph7_class_instance *
+PH7_NewClassInstance(ph7_vm *pVm, ph7_class *pClass)
 {
   ph7_class_instance *pNew;
   sxi32 rc;
@@ -546,7 +673,8 @@ PH7_PRIVATE ph7_class_instance* PH7_NewClassInstance(ph7_vm *pVm, ph7_class *pCl
  * Extract the value of a class instance [i.e: Object in the PHP jargon] attribute.
  * This function never fail.
  */
-static ph7_value* ExtractClassAttrValue(ph7_vm *pVm, VmClassAttr *pAttr)
+static ph7_value *
+ExtractClassAttrValue(ph7_vm *pVm, VmClassAttr *pAttr)
 {
   /* Extract the value */
   ph7_value *pValue;
@@ -638,7 +766,8 @@ static ph7_value* ExtractClassAttrValue(ph7_vm *pVm, VmClassAttr *pAttr)
  *       )
  * )
  */
-PH7_PRIVATE ph7_class_instance* PH7_CloneClassInstance(ph7_class_instance *pSrc)
+PH7_PRIVATE ph7_class_instance *
+PH7_CloneClassInstance(ph7_class_instance *pSrc)
 {
   ph7_class_instance *pClone;
   ph7_class_method *pMethod;
@@ -661,11 +790,15 @@ PH7_PRIVATE ph7_class_instance* PH7_CloneClassInstance(ph7_class_instance *pSrc)
   /* Duplicate object values */
   SyHashResetLoopCursor(&pSrc->hAttr);
   SyHashResetLoopCursor(&pClone->hAttr);
-  while ((pEntry = SyHashGetNextEntry(&pSrc->hAttr)) != 0 && (pEntry2 = SyHashGetNextEntry(&pClone->hAttr)) != 0) {
+  while ((pEntry = SyHashGetNextEntry(&pSrc->hAttr)) != 0
+         && (pEntry2 = SyHashGetNextEntry(&pClone->hAttr)) != 0)
+  {
     VmClassAttr *pSrcAttr = (VmClassAttr *) pEntry->pUserData;
     VmClassAttr *pDestAttr = (VmClassAttr *) pEntry2->pUserData;
     /* Duplicate non-static attribute */
-    if ((pSrcAttr->pAttr->iFlags & (PH7_CLASS_ATTR_STATIC | PH7_CLASS_ATTR_CONSTANT)) == 0) {
+    if ((pSrcAttr->pAttr->iFlags
+         & (PH7_CLASS_ATTR_STATIC | PH7_CLASS_ATTR_CONSTANT)) == 0)
+    {
       ph7_value *pvSrc, *pvDest;
       pvSrc = ExtractClassAttrValue(pVm, pSrcAttr);
       pvDest = ExtractClassAttrValue(pVm, pDestAttr);
@@ -675,14 +808,23 @@ PH7_PRIVATE ph7_class_instance* PH7_CloneClassInstance(ph7_class_instance *pSrc)
     }
   }
   /* call the __clone method on the cloned object if available */
-  pMethod = PH7_ClassExtractMethod(pClone->pClass, "__clone", sizeof("__clone") - 1);
+  pMethod = PH7_ClassExtractMethod(
+    pClone->pClass,
+    "__clone",
+    sizeof("__clone") - 1
+  );
   if (pMethod) {
     if (pMethod->iCloneDepth < 16) {
       pMethod->iCloneDepth++;
       PH7_VmCallClassMethod(pVm, pClone, pMethod, 0, 0, 0);
     } else {
       /* Nesting limit reached */
-      PH7_VmThrowError(pVm, 0, PH7_CTX_ERR, "Object clone limit reached,no more call to __clone()");
+      PH7_VmThrowError(
+        pVm,
+        0,
+        PH7_CTX_ERR,
+        "Object clone limit reached,no more call to __clone()"
+      );
     }
     /* Reset the cursor */
     pMethod->iCloneDepth = 0;
@@ -698,7 +840,8 @@ PH7_PRIVATE ph7_class_instance* PH7_CloneClassInstance(ph7_class_instance *pSrc)
  * This routine is invoked as soon as there are no other references to a particular
  * class instance.
  */
-static void PH7_ClassInstanceRelease(ph7_class_instance *pThis)
+static void
+PH7_ClassInstanceRelease(ph7_class_instance *pThis)
 {
   ph7_class_method *pDestr;
   SyHashEntry *pEntry;
@@ -716,7 +859,10 @@ static void PH7_ClassInstanceRelease(ph7_class_instance *pThis)
   /* Invoke any defined destructor if available */
   pVm = pThis->pVm;
   pClass = pThis->pClass;
-  pDestr = PH7_ClassExtractMethod(pClass, "__destruct", sizeof("__destruct") - 1);
+  pDestr = PH7_ClassExtractMethod(
+    pClass, "__destruct",
+    sizeof("__destruct") - 1
+  );
   if (pDestr) {
     /* Invoke the destructor */
     pThis->iRef = 2;     /* Prevent garbage collection */
@@ -726,7 +872,9 @@ static void PH7_ClassInstanceRelease(ph7_class_instance *pThis)
   SyHashResetLoopCursor(&pThis->hAttr);
   while ((pEntry = SyHashGetNextEntry(&pThis->hAttr)) != 0) {
     VmClassAttr *pVmAttr = (VmClassAttr *) pEntry->pUserData;
-    if ((pVmAttr->pAttr->iFlags & (PH7_CLASS_ATTR_STATIC | PH7_CLASS_ATTR_CONSTANT)) == 0) {
+    if ((pVmAttr->pAttr->iFlags
+         & (PH7_CLASS_ATTR_STATIC | PH7_CLASS_ATTR_CONSTANT)) == 0)
+    {
       PH7_VmUnsetMemObj(pVm, pVmAttr->nIdx, TRUE);
     }
     SyMemBackendPoolFree(&pVm->sAllocator, pVmAttr);
@@ -740,7 +888,8 @@ static void PH7_ClassInstanceRelease(ph7_class_instance *pThis)
  * Decrement the reference count of a class instance [i.e Object in the PHP jargon].
  * If the reference count reaches zero,release the whole instance.
  */
-PH7_PRIVATE void PH7_ClassInstanceUnref(ph7_class_instance *pThis)
+PH7_PRIVATE void
+PH7_ClassInstanceUnref(ph7_class_instance *pThis)
 {
   pThis->iRef--;
   if (pThis->iRef < 1) {
@@ -826,14 +975,25 @@ PH7_PRIVATE void PH7_ClassInstanceUnref(ph7_class_instance *pThis)
  * This function return 0 if the objects are equals according to the comprison rules defined above.
  * Any other return values indicates difference.
  */
-PH7_PRIVATE sxi32 PH7_ClassInstanceCmp(ph7_class_instance *pLeft, ph7_class_instance *pRight, int bStrict, int iNest)
+PH7_PRIVATE sxi32
+PH7_ClassInstanceCmp(
+  ph7_class_instance *pLeft,
+  ph7_class_instance *pRight,
+  int bStrict,
+  int iNest
+)
 {
   SyHashEntry *pEntry, *pEntry2;
   ph7_value sV1, sV2;
   sxi32 rc;
   if (iNest > 31) {
     /* Nesting limit reached */
-    PH7_VmThrowError(pLeft->pVm, 0, PH7_CTX_ERR, "Nesting limit reached: Infinite recursion?");
+    PH7_VmThrowError(
+      pLeft->pVm,
+      0,
+      PH7_CTX_ERR,
+      "Nesting limit reached: Infinite recursion?"
+    );
     return 1;
   }
   /* Comparison is performed only if the objects are instance of the same class */
@@ -866,11 +1026,15 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceCmp(ph7_class_instance *pLeft, ph7_class_inst
   PH7_MemObjInit(pLeft->pVm, &sV1);
   PH7_MemObjInit(pLeft->pVm, &sV2);
   sV1.nIdx = sV2.nIdx = SXU32_HIGH;
-  while ((pEntry = SyHashGetNextEntry(&pLeft->hAttr)) != 0 && (pEntry2 = SyHashGetNextEntry(&pRight->hAttr)) != 0) {
+  while ((pEntry = SyHashGetNextEntry(&pLeft->hAttr)) != 0
+         && (pEntry2 = SyHashGetNextEntry(&pRight->hAttr)) != 0)
+  {
     VmClassAttr *p1 = (VmClassAttr *) pEntry->pUserData;
     VmClassAttr *p2 = (VmClassAttr *) pEntry2->pUserData;
     /* Compare only non-static attribute */
-    if ((p1->pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC)) == 0) {
+    if ((p1->pAttr->iFlags
+         & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC)) == 0)
+    {
       ph7_value *pL, *pR;
       pL = ExtractClassAttrValue(pLeft->pVm, p1);
       pR = ExtractClassAttrValue(pRight->pVm, p2);
@@ -901,14 +1065,22 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceCmp(ph7_class_instance *pLeft, ph7_class_inst
  * This function SXRET_OK on success. Any other return value including
  * SXERR_LIMIT(infinite recursion) indicates failure.
  */
-PH7_PRIVATE sxi32 PH7_ClassInstanceDump(SyBlob *pOut, ph7_class_instance *pThis, int ShowType, int nTab, int nDepth)
+PH7_PRIVATE sxi32
+PH7_ClassInstanceDump(
+  SyBlob *pOut,
+  ph7_class_instance *pThis,
+  int ShowType,
+  int nTab,
+  int nDepth
+)
 {
   SyHashEntry *pEntry;
   ph7_value *pValue;
   sxi32 rc;
   int i;
   if (nDepth > 31) {
-    static const char zInfinite[] = "Nesting limit reached: Infinite recursion?";
+    static const char zInfinite[] =
+      "Nesting limit reached: Infinite recursion?";
     /* Nesting limit reached..halt immediately*/
     SyBlobAppend(&(*pOut), zInfinite, sizeof(zInfinite) - 1);
     if (ShowType) {
@@ -931,7 +1103,9 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceDump(SyBlob *pOut, ph7_class_instance *pThis,
   SyHashResetLoopCursor(&pThis->hAttr);
   while ((pEntry = SyHashGetNextEntry(&pThis->hAttr)) != 0) {
     VmClassAttr *pVmAttr = (VmClassAttr *) pEntry->pUserData;
-    if ((pVmAttr->pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC)) == 0) {
+    if ((pVmAttr->pAttr->iFlags
+         & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC)) == 0)
+    {
       /* Dump non-static/constant attribute only */
       for (i = 0 ; i < nTab ; i++) {
         SyBlobAppend(&(*pOut), " ", sizeof(char));
@@ -999,14 +1173,15 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceDump(SyBlob *pOut, ph7_class_instance *pThis,
  * respectively.
  * Refer to the official documentation for more information.
  */
-PH7_PRIVATE sxi32 PH7_ClassInstanceCallMagicMethod(
+PH7_PRIVATE sxi32
+PH7_ClassInstanceCallMagicMethod(
   ph7_vm *pVm,                 /* VM that own all this stuff */
   ph7_class *pClass,           /* Target class */
   ph7_class_instance *pThis,   /* Target object */
   const char *zMethod,         /* Magic method name [i.e: __toString()]*/
   sxu32 nByte,                 /* zMethod length*/
   const SyString *pAttrName    /* Attribute name */
-  )
+)
 {
   ph7_value *apArg[2] = { 0, 0 };
   ph7_class_method *pMeth;
@@ -1040,7 +1215,8 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceCallMagicMethod(
  * Extract the value of a class instance [i.e: Object in the PHP jargon].
  * This function is simply a wrapper on ExtractClassAttrValue().
  */
-PH7_PRIVATE ph7_value* PH7_ClassInstanceExtractAttrValue(ph7_class_instance *pThis, VmClassAttr *pAttr)
+PH7_PRIVATE ph7_value *
+PH7_ClassInstanceExtractAttrValue(ph7_class_instance *pThis, VmClassAttr *pAttr)
 {
   /* Extract the attribute value */
   ph7_value *pValue;
@@ -1077,7 +1253,8 @@ PH7_PRIVATE ph7_value* PH7_ClassInstanceExtractAttrValue(ph7_class_instance *pTh
  * value unlike the standard PHP engine.
  * This is a very powerful feature that you have to look at.
  */
-PH7_PRIVATE sxi32 PH7_ClassInstanceToHashmap(ph7_class_instance *pThis, ph7_hashmap *pMap)
+PH7_PRIVATE sxi32
+PH7_ClassInstanceToHashmap(ph7_class_instance *pThis, ph7_hashmap *pMap)
 {
   SyHashEntry *pEntry;
   SyString *pAttrName;
@@ -1115,11 +1292,12 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceToHashmap(ph7_class_instance *pThis, ph7_hash
  * a value different from PH7_OK.
  * Refer to [ph7_object_walk()] for more information.
  */
-PH7_PRIVATE sxi32 PH7_ClassInstanceWalk(
+PH7_PRIVATE sxi32
+PH7_ClassInstanceWalk(
   ph7_class_instance *pThis,   /* Target object */
   int (*xWalk)(const char *, ph7_value *, void *),   /* Walker callback */
   void *pUserData   /* Last argument to xWalk() */
-  )
+)
 {
   SyHashEntry *pEntry;   /* Hash entry */
   VmClassAttr *pAttr;    /* Pointer to the attribute */
@@ -1158,12 +1336,16 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceWalk(
  *  will return NULL in case someone (host-application code) try to extract
  *  a static/constant attribute.
  */
-PH7_PRIVATE ph7_value* PH7_ClassInstanceFetchAttr(ph7_class_instance *pThis, const SyString *pName)
+PH7_PRIVATE ph7_value *
+PH7_ClassInstanceFetchAttr(ph7_class_instance *pThis, const SyString *pName)
 {
   SyHashEntry *pEntry;
   VmClassAttr *pAttr;
   /* Query the attribute hashtable */
-  pEntry = SyHashGet(&pThis->hAttr, (const void *) pName->zString, pName->nByte);
+  pEntry = SyHashGet(
+    &pThis->hAttr, (const void *) pName->zString,
+    pName->nByte
+  );
   if (pEntry == 0) {
     /* No such attribute */
     return 0;
@@ -1171,7 +1353,9 @@ PH7_PRIVATE ph7_value* PH7_ClassInstanceFetchAttr(ph7_class_instance *pThis, con
   /* Point to the class atrribute */
   pAttr = (VmClassAttr *) pEntry->pUserData;
   /* Check if we are dealing with a static/constant attribute */
-  if (pAttr->pAttr->iFlags & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC)) {
+  if (pAttr->pAttr->iFlags
+      & (PH7_CLASS_ATTR_CONSTANT | PH7_CLASS_ATTR_STATIC))
+  {
     /* Access is forbidden */
     return 0;
   }
