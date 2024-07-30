@@ -803,8 +803,8 @@ static void* MemBackendRealloc(SyMemBackend *pBackend, void *pOld, sxu32 nByte)
   pNext = pBlock->pNext;
   for (;;) {
     pNew = (SyMemBlock *) pBackend->pMethods->xRealloc(pBlock, nByte);
-    if (pNew != 0 || pBackend->xMemError == 0 || nRetry > SXMEM_BACKEND_RETRY ||
-        SXERR_RETRY != pBackend->xMemError(pBackend->pUserData))
+    if (pNew != 0 || pBackend->xMemError == 0 || nRetry > SXMEM_BACKEND_RETRY
+        || SXERR_RETRY != pBackend->xMemError(pBackend->pUserData))
     {
       break;
     }
@@ -1748,8 +1748,8 @@ static SyHashEntry_Pr* HashGetEntry(SyHash *pHash, const void *pKey, sxu32 nKeyL
   for (;;) {
     if (pEntry == 0)
       break;
-    if (pEntry->nHash == nHash && pEntry->nKeyLen == nKeyLen &&
-        pHash->xCmp(pEntry->pKey, pKey, nKeyLen) == 0)
+    if (pEntry->nHash == nHash && pEntry->nKeyLen == nKeyLen
+        && pHash->xCmp(pEntry->pKey, pKey, nKeyLen) == 0)
     {
       return pEntry;
     }
@@ -3867,8 +3867,8 @@ static sxi32 XML_Tokenize(SyStream *pStream, SyToken *pToken, void *pUserData, v
       pStream->zText++;
       pStr->zString++;
       pToken->nType = SXML_TOK_PI;
-      while (XLEX_IN_LEN(pStream) >= sizeof("?>") - 1 &&
-             SyMemcmp((const void *) pStream->zText, "?>", sizeof("?>") - 1) != 0)
+      while (XLEX_IN_LEN(pStream) >= sizeof("?>") - 1
+             && SyMemcmp((const void *) pStream->zText, "?>", sizeof("?>") - 1) != 0)
       {
         if (pStream->zText[0] == '\n') {
           /* Increment line counter */
@@ -3893,8 +3893,8 @@ static sxi32 XML_Tokenize(SyStream *pStream, SyToken *pToken, void *pUserData, v
       if (XLEX_IN_LEN(pStream) >= sizeof("--") - 1 && pStream->zText[0] == '-' && pStream->zText[1] == '-') {
         /* Comment */
         pStream->zText += sizeof("--") - 1;
-        while (XLEX_IN_LEN(pStream) >= sizeof("-->") - 1 &&
-               SyMemcmp((const void *) pStream->zText, "-->", sizeof("-->") - 1) != 0)
+        while (XLEX_IN_LEN(pStream) >= sizeof("-->") - 1
+               && SyMemcmp((const void *) pStream->zText, "-->", sizeof("-->") - 1) != 0)
         {
           if (pStream->zText[0] == '\n') {
             /* Increment line counter */
@@ -3910,8 +3910,8 @@ static sxi32 XML_Tokenize(SyStream *pStream, SyToken *pToken, void *pUserData, v
         /* CDATA */
         pStream->zText += sizeof("[CDATA[") - 1;
         pStr->zString = (const char *) pStream->zText;
-        while (XLEX_IN_LEN(pStream) >= sizeof("]]>") - 1 &&
-               SyMemcmp((const void *) pStream->zText, "]]>", sizeof("]]>") - 1) != 0)
+        while (XLEX_IN_LEN(pStream) >= sizeof("]]>") - 1
+               && SyMemcmp((const void *) pStream->zText, "]]>", sizeof("]]>") - 1) != 0)
         {
           if (pStream->zText[0] == '\n') {
             /* Increment line counter */
@@ -3955,8 +3955,8 @@ static sxi32 XML_Tokenize(SyStream *pStream, SyToken *pToken, void *pUserData, v
           SyStringInitFromBuf(&sDelim, "]>", sizeof("]>") - 1);
         }
         if (c != '>') {
-          while (XLEX_IN_LEN(pStream) >= sDelim.nByte &&
-                 SyMemcmp((const void *) pStream->zText, sDelim.zString, sDelim.nByte) != 0)
+          while (XLEX_IN_LEN(pStream) >= sDelim.nByte
+                 && SyMemcmp((const void *) pStream->zText, sDelim.zString, sDelim.nByte) != 0)
           {
             if (pStream->zText[0] == '\n') {
               /* Increment line counter */
@@ -4266,8 +4266,8 @@ static sxi32 XMLProcessStartTag(SyXMLParser *pParse, SyToken *pToken, SyXMLRawSt
     /* Store attribute name */
     sEntry.zString = zCur;
     sEntry.nByte = (sxu32) (zIn - zCur);
-    if ((pParse->nFlags & SXML_ENABLE_NAMESPACE) && sEntry.nByte >= sizeof("xmlns") - 1 &&
-        SyMemcmp(sEntry.zString, "xmlns", sizeof("xmlns") - 1) == 0)
+    if ((pParse->nFlags & SXML_ENABLE_NAMESPACE) && sEntry.nByte >= sizeof("xmlns") - 1
+        && SyMemcmp(sEntry.zString, "xmlns", sizeof("xmlns") - 1) == 0)
     {
       is_ns = 1;
     }
@@ -4661,8 +4661,8 @@ static sxi32 ProcessXML(SyXMLParser *pParse, SySet *pTagStack, SySet *pWorker)
         if (rc == SXRET_OK) {
           /* Extract the last inserted entry */
           pLast = (SyXMLRawStrNS *) SySetPeek(pTagStack);
-          if (pLast == 0 || pLast->nByte != sEntry.nByte ||
-              SyMemcmp(pLast->zString, sEntry.zString, sEntry.nByte) != 0)
+          if (pLast == 0 || pLast->nByte != sEntry.nByte
+              || SyMemcmp(pLast->zString, sEntry.zString, sEntry.nByte) != 0)
           {
             if (pParse->xError) {
               rc = pParse->xError("Unexpected closing tag", SXML_ERROR_TAG_MISMATCH, pToken, pParse->pUserData);
@@ -5315,8 +5315,8 @@ PH7_PRIVATE sxi32 SyZipExtractFromBuf(SyArchive *pArch, const char *zBuf, sxu32 
 
   zEnd = (unsigned char *) &zBuf[nLen - SXZIP_END_CENTRAL_HDRSZ];
   /* Find the end of central directory */
-  while (((sxu32) ((unsigned char *) &zBuf[nLen] - zEnd) < (SXZIP_END_CENTRAL_HDRSZ + SXI16_HIGH)) &&
-         zEnd > (unsigned char *) zBuf && SyMemcmp(zEnd, "PK\005\006", sizeof(sxu32)) != 0)
+  while (((sxu32) ((unsigned char *) &zBuf[nLen] - zEnd) < (SXZIP_END_CENTRAL_HDRSZ + SXI16_HIGH))
+         && zEnd > (unsigned char *) zBuf && SyMemcmp(zEnd, "PK\005\006", sizeof(sxu32)) != 0)
   {
     zEnd--;
   }
@@ -5620,8 +5620,8 @@ static void byteReverse(unsigned char *buf, unsigned longs)
 {
   sxu32 t;
   do {
-    t = (sxu32) ((unsigned) buf[3] << 8 | buf[2]) << 16 |
-        ((unsigned) buf[1] << 8 | buf[0]);
+    t = (sxu32) ((unsigned) buf[3] << 8 | buf[2]) << 16
+        | ((unsigned) buf[1] << 8 | buf[0]);
     *(sxu32 *) buf = t;
     buf += 4;
   } while (--longs);

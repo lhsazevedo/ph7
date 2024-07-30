@@ -94,8 +94,8 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
     pStr->nByte = (sxu32) ((const char *) pStream->zText - pStr->zString);
     nKeyword = KeywordCode(pStr->zString, (int) pStr->nByte);
     if (nKeyword != PH7_TK_ID) {
-      if (nKeyword &
-          (PH7_TKWRD_NEW | PH7_TKWRD_CLONE | PH7_TKWRD_AND | PH7_TKWRD_XOR | PH7_TKWRD_OR | PH7_TKWRD_INSTANCEOF | PH7_TKWRD_SEQ | PH7_TKWRD_SNE))
+      if (nKeyword
+          & (PH7_TKWRD_NEW | PH7_TKWRD_CLONE | PH7_TKWRD_AND | PH7_TKWRD_XOR | PH7_TKWRD_OR | PH7_TKWRD_INSTANCEOF | PH7_TKWRD_SEQ | PH7_TKWRD_SNE))
       {
         /* Alpha stream operators [i.e: new,clone,and,instanceof,eq,ne,or,xor],save the operator instance for later processing */
         pToken->pUserData = (void *) PH7_ExprExtractOperator(pStr, 0);
@@ -113,8 +113,8 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
   } else {
     sxi32 c;
     /* Non-alpha stream */
-    if (pStream->zText[0] == '#' ||
-        (pStream->zText[0] == '/' && &pStream->zText[1] < pStream->zEnd && pStream->zText[1] == '/'))
+    if (pStream->zText[0] == '#'
+        || (pStream->zText[0] == '/' && &pStream->zText[1] < pStream->zEnd && pStream->zText[1] == '/'))
     {
       pStream->zText++;
       /* Inline comments */
@@ -162,8 +162,8 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
               pStream->zText++;
               if (pStream->zText < pStream->zEnd) {
                 c = pStream->zText[0];
-                if ((c == '+' || c == '-') && &pStream->zText[1] < pStream->zEnd &&
-                    pStream->zText[1] < 0xc0 && SyisDigit(pStream->zText[1]))
+                if ((c == '+' || c == '-') && &pStream->zText[1] < pStream->zEnd
+                    && pStream->zText[1] < 0xc0 && SyisDigit(pStream->zText[1]))
                 {
                   pStream->zText++;
                 }
@@ -180,8 +180,8 @@ static sxi32 TokenizePHP(SyStream *pStream, SyToken *pToken, void *pUserData, vo
           pStream->zText++;
           if (pStream->zText < pStream->zEnd) {
             c = pStream->zText[0];
-            if ((c == '+' || c == '-') && &pStream->zText[1] < pStream->zEnd &&
-                pStream->zText[1] < 0xc0 && SyisDigit(pStream->zText[1]))
+            if ((c == '+' || c == '-') && &pStream->zText[1] < pStream->zEnd
+                && pStream->zText[1] < 0xc0 && SyisDigit(pStream->zText[1]))
             {
               pStream->zText++;
             }

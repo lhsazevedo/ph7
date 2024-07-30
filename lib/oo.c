@@ -267,8 +267,8 @@ PH7_PRIVATE sxi32 PH7_ClassInherit(ph7_gen_state *pGen, ph7_class *pSub, ph7_cla
     pAttr = (ph7_class_attr *) pEntry->pUserData;
     pName = &pAttr->sName;
     if ((pEntry = SyHashGet(&pSub->hAttr, (const void *) pName->zString, pName->nByte)) != 0) {
-      if (pAttr->iProtection == PH7_CLASS_PROT_PRIVATE &&
-          ((ph7_class_attr *) pEntry->pUserData)->iProtection != PH7_CLASS_PROT_PUBLIC)
+      if (pAttr->iProtection == PH7_CLASS_PROT_PRIVATE
+          && ((ph7_class_attr *) pEntry->pUserData)->iProtection != PH7_CLASS_PROT_PUBLIC)
       {
         /* Cannot redeclare private attribute */
         PH7_GenCompileError(&(*pGen), E_WARNING, ((ph7_class_attr *) pEntry->pUserData)->nLine,

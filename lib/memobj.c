@@ -335,9 +335,9 @@ static sxi32 MemObjBooleanValue(ph7_value *pObj)
     if (sString.nByte == 0) {
       /* Empty string */
       return 0;
-    } else if ((sString.nByte == sizeof("true") - 1 && SyStrnicmp(sString.zString, "true", sizeof("true") - 1) == 0) ||
-               (sString.nByte == sizeof("on") - 1 && SyStrnicmp(sString.zString, "on", sizeof("on") - 1) == 0) ||
-               (sString.nByte == sizeof("yes") - 1 && SyStrnicmp(sString.zString, "yes", sizeof("yes") - 1) == 0))
+    } else if ((sString.nByte == sizeof("true") - 1 && SyStrnicmp(sString.zString, "true", sizeof("true") - 1) == 0)
+               || (sString.nByte == sizeof("on") - 1 && SyStrnicmp(sString.zString, "on", sizeof("on") - 1) == 0)
+               || (sString.nByte == sizeof("yes") - 1 && SyStrnicmp(sString.zString, "yes", sizeof("yes") - 1) == 0))
     {
       return 1;
     } else if (sString.nByte == sizeof("false") - 1 && SyStrnicmp(sString.zString, "false", sizeof("false") - 1) == 0) {

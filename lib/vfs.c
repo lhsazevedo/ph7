@@ -3023,8 +3023,8 @@ PH7_PRIVATE void* PH7_StreamOpenHandle(ph7_vm *pVm, const ph7_io_stream *pStream
 #ifdef __WINNT__
         (sFile.nByte > 2 && sFile.zString[1] == ':' && (sFile.zString[2] == '\\' || sFile.zString[2] == '/')) ||
 #endif
-        (sFile.nByte > 1 && sFile.zString[0] == '.' && sFile.zString[1] == '/') ||
-        (sFile.nByte > 2 && sFile.zString[0] == '.' && sFile.zString[1] == '.' && sFile.zString[2] == '/'))
+        (sFile.nByte > 1 && sFile.zString[0] == '.' && sFile.zString[1] == '/')
+        || (sFile.nByte > 2 && sFile.zString[0] == '.' && sFile.zString[1] == '.' && sFile.zString[2] == '/'))
     {
       /*  Open the file directly */
       rc = pStream->xOpen(zFile, iFlags, pResource, &pHandle);
@@ -4473,8 +4473,8 @@ static int csv_write_callback(ph7_value *pKey, ph7_value *pValue, void *pUserDat
   }
   n = 1;
   c2 = 0;
-  if (SyByteFind(zData, (sxu32) nLen, pData->delimiter, 0) == SXRET_OK ||
-      SyByteFind(zData, (sxu32) nLen, pData->enclosure, &n) == SXRET_OK)
+  if (SyByteFind(zData, (sxu32) nLen, pData->delimiter, 0) == SXRET_OK
+      || SyByteFind(zData, (sxu32) nLen, pData->enclosure, &n) == SXRET_OK)
   {
     c2 = 1;
     if (n == 0) {

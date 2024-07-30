@@ -745,8 +745,8 @@ static sxi32 GenStateCompileString(ph7_gen_state *pGen)
     while (zIn < zEnd && zIn[0] != '\\') {
       if (zIn[0] == '{' && &zIn[1] < zEnd && zIn[1] == '$') {
         break;
-      } else if (zIn[0] == '$' && &zIn[1] < zEnd &&
-                 (((unsigned char) zIn[1] >= 0xc0 || SyisAlpha(zIn[1]) || zIn[1] == '{' || zIn[1] == '_')))
+      } else if (zIn[0] == '$' && &zIn[1] < zEnd
+                 && (((unsigned char) zIn[1] >= 0xc0 || SyisAlpha(zIn[1]) || zIn[1] == '{' || zIn[1] == '_')))
       {
         break;
       }
@@ -1087,8 +1087,8 @@ static sxi32 GenStateArrayNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pRoo
 {
   sxi32 rc = SXRET_OK;
   if (pRoot->pOp) {
-    if (pRoot->pOp->iOp != EXPR_OP_SUBSCRIPT /* $a[] */ &&
-        pRoot->pOp->iOp != EXPR_OP_FUNC_CALL     /* function() [Symisc extension: i.e: array(&foo())] */
+    if (pRoot->pOp->iOp != EXPR_OP_SUBSCRIPT /* $a[] */
+        && pRoot->pOp->iOp != EXPR_OP_FUNC_CALL  /* function() [Symisc extension: i.e: array(&foo())] */
         && pRoot->pOp->iOp != EXPR_OP_ARROW /* -> */ && pRoot->pOp->iOp != EXPR_OP_DC /* :: */ )
     {
       /* Unexpected expression */
@@ -1595,14 +1595,14 @@ static sxi32 GenStateLoadLiteral(ph7_gen_state *pGen)
       PH7_VmEmitInstr(pGen->pVm, PH7_OP_LOADC, 0, 1, 0, 0);
       return SXRET_OK;
     }
-  } else if (pStr->nByte == sizeof("FALSE") - 1 &&
-             SyStrnicmp(pStr->zString, "false", sizeof("FALSE") - 1) == 0)
+  } else if (pStr->nByte == sizeof("FALSE") - 1
+             && SyStrnicmp(pStr->zString, "false", sizeof("FALSE") - 1) == 0)
   {
     /* FALSE constant are always indexed at 2 */
     PH7_VmEmitInstr(pGen->pVm, PH7_OP_LOADC, 0, 2, 0, 0);
     return SXRET_OK;
-  } else if (pStr->nByte == sizeof("__LINE__") - 1 &&
-             SyMemcmp(pStr->zString, "__LINE__", sizeof("__LINE__") - 1) == 0)
+  } else if (pStr->nByte == sizeof("__LINE__") - 1
+             && SyMemcmp(pStr->zString, "__LINE__", sizeof("__LINE__") - 1) == 0)
   {
     /* TICKET 1433-004: __LINE__ constant must be resolved at compile time,not run time */
     pObj = PH7_ReserveConstObj(pGen->pVm, &nIdx);
@@ -1614,10 +1614,10 @@ static sxi32 GenStateLoadLiteral(ph7_gen_state *pGen)
     /* Emit the load constant instruction */
     PH7_VmEmitInstr(pGen->pVm, PH7_OP_LOADC, 0, nIdx, 0, 0);
     return SXRET_OK;
-  } else if ((pStr->nByte == sizeof("__FUNCTION__") - 1 &&
-              SyMemcmp(pStr->zString, "__FUNCTION__", sizeof("__FUNCTION__") - 1) == 0) ||
-             (pStr->nByte == sizeof("__METHOD__") - 1 &&
-              SyMemcmp(pStr->zString, "__METHOD__", sizeof("__METHOD__") - 1) == 0))
+  } else if ((pStr->nByte == sizeof("__FUNCTION__") - 1
+              && SyMemcmp(pStr->zString, "__FUNCTION__", sizeof("__FUNCTION__") - 1) == 0)
+             || (pStr->nByte == sizeof("__METHOD__") - 1
+                 && SyMemcmp(pStr->zString, "__METHOD__", sizeof("__METHOD__") - 1) == 0))
   {
     GenBlock *pBlock = pGen->pCurrent;
     /* TICKET 1433-004: __FUNCTION__/__METHOD__ constants must be resolved at compile time,not run time */
@@ -2241,8 +2241,8 @@ static sxi32 PH7_CompileBlock(
         sxi32 nKwrd;
         /* Keyword found */
         nKwrd = SX_PTR_TO_INT(pGen->pIn->pUserData);
-        if (nKwrd == nKeywordEnd ||
-            (nKeywordEnd == PH7_TKWRD_ENDIF && (nKwrd == PH7_TKWRD_ELSE || nKwrd == PH7_TKWRD_ELIF)))
+        if (nKwrd == nKeywordEnd
+            || (nKeywordEnd == PH7_TKWRD_ENDIF && (nKwrd == PH7_TKWRD_ELSE || nKwrd == PH7_TKWRD_ELIF)))
         {
           /* Delimiter keyword found,break */
           if (nKwrd != PH7_TKWRD_ELSE && nKwrd != PH7_TKWRD_ELIF) {
@@ -2416,8 +2416,8 @@ static sxi32 PH7_CompileDoWhile(ph7_gen_state *pGen)
   if (pGen->pIn < pGen->pEnd) {
     nLine = pGen->pIn->nLine;
   }
-  if (pGen->pIn >= pGen->pEnd || pGen->pIn->nType != PH7_TK_KEYWORD ||
-      SX_PTR_TO_INT(pGen->pIn->pUserData) != PH7_TKWRD_WHILE)
+  if (pGen->pIn >= pGen->pEnd || pGen->pIn->nType != PH7_TK_KEYWORD
+      || SX_PTR_TO_INT(pGen->pIn->pUserData) != PH7_TKWRD_WHILE)
   {
     /* Missing 'while' statement */
     rc = PH7_GenCompileError(pGen, E_ERROR, nLine, "Missing 'while' statement after 'do' block");
@@ -3027,8 +3027,8 @@ static sxi32 PH7_CompileIf(ph7_gen_state *pGen)
     GenStateNewJumpFixup(pCondBlock, PH7_OP_JMP, nJumpIdx);
     if (nKeyID & PH7_TKWRD_ELSE) {
       pToken = &pGen->pIn[1];
-      if (pToken >= pGen->pEnd || (pToken->nType & PH7_TK_KEYWORD) == 0 ||
-          SX_PTR_TO_INT(pToken->pUserData) != PH7_TKWRD_IF)
+      if (pToken >= pGen->pEnd || (pToken->nType & PH7_TK_KEYWORD) == 0
+          || SX_PTR_TO_INT(pToken->pUserData) != PH7_TKWRD_IF)
       {
         break;
       }
@@ -3042,8 +3042,8 @@ static sxi32 PH7_CompileIf(ph7_gen_state *pGen)
   }   /* For(;;) */
   /* Fix the false jump */
   GenStateFixJumps(pCondBlock, PH7_OP_JZ, PH7_VmInstrLength(pGen->pVm));
-  if (pGen->pIn < pGen->pEnd && (pGen->pIn->nType & PH7_TK_KEYWORD) &&
-      (SX_PTR_TO_INT(pGen->pIn->pUserData) & PH7_TKWRD_ELSE))
+  if (pGen->pIn < pGen->pEnd && (pGen->pIn->nType & PH7_TK_KEYWORD)
+      && (SX_PTR_TO_INT(pGen->pIn->pUserData) & PH7_TKWRD_ELSE))
   {
     /* Compile the else block */
     pGen->pIn++;
@@ -3292,8 +3292,8 @@ static sxi32 PH7_CompileStatic(ph7_gen_state *pGen)
   }
   pFunc = (ph7_vm_func *) pBlock->pUserData;
   /* Make sure we are dealing with a valid statement */
-  if (pGen->pIn >= pGen->pEnd || (pGen->pIn->nType & PH7_TK_DOLLAR) == 0 || &pGen->pIn[1] >= pGen->pEnd ||
-      (pGen->pIn[1].nType & (PH7_TK_ID | PH7_TK_KEYWORD)) == 0)
+  if (pGen->pIn >= pGen->pEnd || (pGen->pIn->nType & PH7_TK_DOLLAR) == 0 || &pGen->pIn[1] >= pGen->pEnd
+      || (pGen->pIn[1].nType & (PH7_TK_ID | PH7_TK_KEYWORD)) == 0)
   {
     rc = PH7_GenCompileError(&(*pGen), E_ERROR, nLine, "Expected variable after 'static' keyword");
     if (rc == SXERR_ABORT) {
@@ -3424,8 +3424,8 @@ static sxi32 PH7_CompileNamespace(ph7_gen_state *pGen)
   sxu32 nLine = pGen->pIn->nLine;
   sxi32 rc;
   pGen->pIn++;   /* Jump the 'namespace' keyword */
-  if (pGen->pIn >= pGen->pEnd ||
-      (pGen->pIn->nType & (PH7_TK_NSSEP | PH7_TK_ID | PH7_TK_KEYWORD | PH7_TK_SEMI /*';'*/ | PH7_TK_OCB /*'{'*/ )) == 0)
+  if (pGen->pIn >= pGen->pEnd
+      || (pGen->pIn->nType & (PH7_TK_NSSEP | PH7_TK_ID | PH7_TK_KEYWORD | PH7_TK_SEMI /*';'*/ | PH7_TK_OCB /*'{'*/ )) == 0)
   {
     SyToken *pTok = pGen->pIn;
     if (pTok >= pGen->pEnd) {
@@ -4049,8 +4049,8 @@ static sxi32 GenStateCompileFunc(
             sEnv.iFlags = iFlags;
             PH7_MemObjInit(pGen->pVm, &sEnv.sValue);
             SyStringInitFromBuf(&sEnv.sName, zDup, pName->nByte);
-            if (!got_this && pName->nByte == sizeof("this") - 1 &&
-                SyMemcmp((const void *) zDup, (const void *) "this", sizeof("this") - 1) == 0)
+            if (!got_this && pName->nByte == sizeof("this") - 1
+                && SyMemcmp((const void *) zDup, (const void *) "this", sizeof("this") - 1) == 0)
             {
               got_this = 1;
             }
@@ -5067,15 +5067,15 @@ static sxi32 GenStateCompileClass(ph7_gen_state *pGen, sxi32 iFlags)
               pGen->pIn++;               /* Jump the visibility token */
             }
           }
-          if (pGen->pIn < pGen->pEnd && (pGen->pIn->nType & PH7_TK_KEYWORD) &&
-              SX_PTR_TO_INT(pGen->pIn->pUserData) == PH7_TKWRD_STATIC)
+          if (pGen->pIn < pGen->pEnd && (pGen->pIn->nType & PH7_TK_KEYWORD)
+              && SX_PTR_TO_INT(pGen->pIn->pUserData) == PH7_TKWRD_STATIC)
           {
             /* Static method */
             iAttrflags |= PH7_CLASS_ATTR_STATIC;
             pGen->pIn++;                 /* Jump the static keyword */
           }
-          if (pGen->pIn >= pGen->pEnd || (pGen->pIn->nType & PH7_TK_KEYWORD) == 0 ||
-              SX_PTR_TO_INT(pGen->pIn->pUserData) != PH7_TKWRD_FUNCTION)
+          if (pGen->pIn >= pGen->pEnd || (pGen->pIn->nType & PH7_TK_KEYWORD) == 0
+              || SX_PTR_TO_INT(pGen->pIn->pUserData) != PH7_TKWRD_FUNCTION)
           {
             rc = PH7_GenCompileError(pGen, E_ERROR, pGen->pIn->nLine,
                                      "Unexpected token '%z',Expecting method declaration after 'abstract' keyword inside class '%z'",
@@ -5099,15 +5099,15 @@ static sxi32 GenStateCompileClass(ph7_gen_state *pGen, sxi32 iFlags)
               pGen->pIn++;               /* Jump the visibility token */
             }
           }
-          if (pGen->pIn < pGen->pEnd && (pGen->pIn->nType & PH7_TK_KEYWORD) &&
-              SX_PTR_TO_INT(pGen->pIn->pUserData) == PH7_TKWRD_STATIC)
+          if (pGen->pIn < pGen->pEnd && (pGen->pIn->nType & PH7_TK_KEYWORD)
+              && SX_PTR_TO_INT(pGen->pIn->pUserData) == PH7_TKWRD_STATIC)
           {
             /* Static method */
             iAttrflags |= PH7_CLASS_ATTR_STATIC;
             pGen->pIn++;                 /* Jump the static keyword */
           }
-          if (pGen->pIn >= pGen->pEnd || (pGen->pIn->nType & PH7_TK_KEYWORD) == 0 ||
-              SX_PTR_TO_INT(pGen->pIn->pUserData) != PH7_TKWRD_FUNCTION)
+          if (pGen->pIn >= pGen->pEnd || (pGen->pIn->nType & PH7_TK_KEYWORD) == 0
+              || SX_PTR_TO_INT(pGen->pIn->pUserData) != PH7_TKWRD_FUNCTION)
           {
             rc = PH7_GenCompileError(pGen, E_ERROR, pGen->pIn->nLine,
                                      "Unexpected token '%z',Expecting method declaration after 'final' keyword inside class '%z'",
@@ -5354,8 +5354,8 @@ static sxi32 PH7_CompileCatch(ph7_gen_state *pGen, ph7_exception *pException)
   SyZero(&sCatch, sizeof(ph7_exception_block));
   /* Initialize fields */
   SySetInit(&sCatch.sByteCode, &pException->pVm->sAllocator, sizeof(VmInstr));
-  if (pGen->pIn >= pGen->pEnd || (pGen->pIn->nType & PH7_TK_LPAREN) == 0 /*(*/ ||
-      &pGen->pIn[1] >= pGen->pEnd || (pGen->pIn[1].nType & (PH7_TK_ID | PH7_TK_KEYWORD)) == 0)
+  if (pGen->pIn >= pGen->pEnd || (pGen->pIn->nType & PH7_TK_LPAREN) == 0 /*(*/
+      || &pGen->pIn[1] >= pGen->pEnd || (pGen->pIn[1].nType & (PH7_TK_ID | PH7_TK_KEYWORD)) == 0)
   {
     /* Unexpected token,break immediately */
     pToken = pGen->pIn;
@@ -5379,8 +5379,8 @@ static sxi32 PH7_CompileCatch(ph7_gen_state *pGen, ph7_exception *pException)
   }
   SyStringInitFromBuf(&sCatch.sClass, zDup, pName->nByte);
   pGen->pIn++;
-  if (pGen->pIn >= pGen->pEnd || (pGen->pIn->nType & PH7_TK_DOLLAR) == 0 /*$*/ ||
-      &pGen->pIn[1] >= pGen->pEnd || (pGen->pIn[1].nType & (PH7_TK_ID | PH7_TK_KEYWORD)) == 0)
+  if (pGen->pIn >= pGen->pEnd || (pGen->pIn->nType & PH7_TK_DOLLAR) == 0 /*$*/
+      || &pGen->pIn[1] >= pGen->pEnd || (pGen->pIn[1].nType & (PH7_TK_ID | PH7_TK_KEYWORD)) == 0)
   {
     /* Unexpected token,break immediately */
     pToken = pGen->pIn;
@@ -5494,8 +5494,8 @@ static sxi32 PH7_CompileTry(ph7_gen_state *pGen)
   /* Leave the block */
   GenStateLeaveBlock(&(*pGen), 0);
   /* Compile the catch block */
-  if (pGen->pIn >= pGen->pEnd || (pGen->pIn->nType & PH7_TK_KEYWORD) == 0 ||
-      SX_PTR_TO_INT(pGen->pIn->pUserData) != PH7_TKWRD_CATCH)
+  if (pGen->pIn >= pGen->pEnd || (pGen->pIn->nType & PH7_TK_KEYWORD) == 0
+      || SX_PTR_TO_INT(pGen->pIn->pUserData) != PH7_TKWRD_CATCH)
   {
     SyToken *pTok = pGen->pIn;
     if (pTok >= pGen->pEnd) {
@@ -5730,8 +5730,8 @@ static sxi32 PH7_CompileSwitch(ph7_gen_state *pGen)
   }
   pGen->pIn = &pEnd[1];
   pGen->pEnd = pTmp;
-  if (pGen->pIn >= pGen->pEnd || &pGen->pIn[1] >= pGen->pEnd ||
-      (pGen->pIn->nType & (PH7_TK_OCB /*'{'*/ | PH7_TK_COLON /*:*/ )) == 0)
+  if (pGen->pIn >= pGen->pEnd || &pGen->pIn[1] >= pGen->pEnd
+      || (pGen->pIn->nType & (PH7_TK_OCB /*'{'*/ | PH7_TK_COLON /*:*/ )) == 0)
   {
     pTmp = pGen->pIn;
     if (pTmp >= pGen->pEnd) {

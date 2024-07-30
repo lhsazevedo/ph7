@@ -5126,8 +5126,8 @@ static sxi32 FindTag(SySet *pSet, const char *zTag, int nByte)
   if (SySetUsed(pSet) > 0) {
     const char *zCur, *zEnd = &zTag[nByte];
     SyString sTag;
-    while (zTag < zEnd && (zTag[0] == '<' || zTag[0] == '/' || zTag[0] == '?' ||
-                           ((unsigned char) zTag[0] < 0xc0 && SyisSpace(zTag[0]))))
+    while (zTag < zEnd && (zTag[0] == '<' || zTag[0] == '/' || zTag[0] == '?'
+                           || ((unsigned char) zTag[0] < 0xc0 && SyisSpace(zTag[0]))))
     {
       zTag++;
     }

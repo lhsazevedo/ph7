@@ -387,8 +387,8 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
   iParen = iSquare = iQuesty = iBraces = 0;
   for (i = 0 ; i < nNode ; ++i) {
     if (apNode[i]->pStart->nType & PH7_TK_LPAREN /*'('*/ ) {
-      if (i > 0 && (apNode[i - 1]->xCode == PH7_CompileVariable || apNode[i - 1]->xCode == PH7_CompileLiteral ||
-                    (apNode[i - 1]->pStart->nType & (PH7_TK_ID | PH7_TK_KEYWORD | PH7_TK_SSTR | PH7_TK_DSTR | PH7_TK_RPAREN /*')'*/ | PH7_TK_CSB /*']'*/ | PH7_TK_CCB /*'}'*/ ))))
+      if (i > 0 && (apNode[i - 1]->xCode == PH7_CompileVariable || apNode[i - 1]->xCode == PH7_CompileLiteral
+                    || (apNode[i - 1]->pStart->nType & (PH7_TK_ID | PH7_TK_KEYWORD | PH7_TK_SSTR | PH7_TK_DSTR | PH7_TK_RPAREN /*')'*/ | PH7_TK_CSB /*']'*/ | PH7_TK_CCB /*'}'*/ ))))
       {
         /* Ticket 1433-033: Take care to ignore alpha-stream [i.e: or,xor] operators followed by an opening parenthesis */
         if ((apNode[i - 1]->pStart->nType & PH7_TK_OP) == 0) {
@@ -1159,9 +1159,9 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
         /* Subscripting */
         sxi32 iArrTok = iCur + 1;
         sxi32 iNest = 1;
-        if (iLeft < 0 || apNode[iLeft] == 0 || (apNode[iLeft]->pOp == 0 && (apNode[iLeft]->xCode != PH7_CompileVariable &&
-                                                                            apNode[iLeft]->xCode != PH7_CompileSimpleString && apNode[iLeft]->xCode != PH7_CompileString)) ||
-            (apNode[iLeft]->pOp && apNode[iLeft]->pOp->iPrec != 2 /* postfix */ ))
+        if (iLeft < 0 || apNode[iLeft] == 0 || (apNode[iLeft]->pOp == 0 && (apNode[iLeft]->xCode != PH7_CompileVariable
+                                                                            && apNode[iLeft]->xCode != PH7_CompileSimpleString && apNode[iLeft]->xCode != PH7_CompileString))
+            || (apNode[iLeft]->pOp && apNode[iLeft]->pOp->iPrec != 2 /* postfix */ ))
         {
           /* Syntax error */
           rc = PH7_GenCompileError(pGen, E_ERROR, pNode->pStart->nLine, "Invalid array name");
@@ -1218,8 +1218,8 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
         }
         /* Link the node to the tree */
         pNode->pLeft = apNode[iLeft];
-        if (pNode->pOp->iOp == EXPR_OP_ARROW /*'->'*/ && pNode->pLeft->pOp == 0 &&
-            pNode->pLeft->xCode != PH7_CompileVariable)
+        if (pNode->pOp->iOp == EXPR_OP_ARROW /*'->'*/ && pNode->pLeft->pOp == 0
+            && pNode->pLeft->xCode != PH7_CompileVariable)
         {
           /* Syntax error */
           rc = PH7_GenCompileError(pGen, E_ERROR, pNode->pStart->nLine,

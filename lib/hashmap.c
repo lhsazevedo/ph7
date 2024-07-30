@@ -1289,8 +1289,8 @@ PH7_PRIVATE sxi32 PH7_HashmapUnion(ph7_hashmap *pLeft, ph7_hashmap *pRight)
     /* Make sure the given key does not exists in the left array */
     if (pEntry->iType == HASHMAP_BLOB_NODE) {
       /* BLOB key */
-      if (SXRET_OK !=
-          HashmapLookupBlobKey(&(*pLeft), SyBlobData(&pEntry->xKey.sKey), SyBlobLength(&pEntry->xKey.sKey), 0))
+      if (SXRET_OK
+          != HashmapLookupBlobKey(&(*pLeft), SyBlobData(&pEntry->xKey.sKey), SyBlobLength(&pEntry->xKey.sKey), 0))
       {
         pObj = HashmapExtractNodeValue(pEntry);
         if (pObj) {
