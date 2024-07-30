@@ -12,7 +12,7 @@ PH7 is a fast, embeddable PHP engine written in C, supporting PHP 5.3 features a
 ## Features
 
 - **Embeddable**: Integrate PHP into C/C++ applications.
-- **PHP 5.3 Support**: Includes modern PHP constructs and syntax.
+- **PHP 5.3 Support**: Includes PHP 5.3 constructs and syntax.
 - **Thread-Safe**: ANSI C compliant, suitable for various platforms.
 - **Rich Functionality**: Over 470 built-in functions.
 
