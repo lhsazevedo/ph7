@@ -17,6 +17,7 @@
  *      http://ph7.symisc.net/
  */
 /* $SymiscID: lib.c v5.1 Win7 2012-08-08 04:19 stable <chm@symisc.net> $ */
+
 /*
  * Symisc Run-Time API: A modern thread safe replacement of the standard libc
  * Copyright (C) Symisc Systems 2007-2012, http://www.symisc.net/
@@ -234,6 +235,7 @@ PH7_PRIVATE const SyMutexMethods* SyMutexExportMethods(void)
 }
 
 #else
+
 /* Host application must register their own mutex subsystem if the target
  * platform is not an UNIX-like or windows systems.
  */
@@ -927,6 +929,7 @@ PH7_PRIVATE sxi32 SyMemBackendDisbaleMutexing(SyMemBackend *pBackend)
 }
 
 #endif
+
 /*
  * Memory pool allocator
  */
@@ -3033,6 +3036,7 @@ PH7_PRIVATE const char* SyTimeGetMonth(sxi32 iMonth)
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
 /* SyRunTimeApi: sxfmt.c */
 #define SXFMT_BUFSIZ 1024 /* Conversion buffer size */
+
 /*
 ** Conversion types fall into various categories as defined by the
 ** following enumeration.
@@ -3049,6 +3053,7 @@ PH7_PRIVATE const char* SyTimeGetMonth(sxi32 iMonth)
 /* Extension by Symisc Systems */
 #define SXFMT_RAWSTR     13 /* %z Pointer to raw string (SyString *) */
 #define SXFMT_UNUSED     15
+
 /*
 ** Allowed values for SyFmtInfo.flags
 */
@@ -3059,6 +3064,7 @@ PH7_PRIVATE const char* SyTimeGetMonth(sxi32 iMonth)
 #define SXFMT_CONS_STR      2   /* Consumer is a managed string */
 #define SXFMT_CONS_FILE     5   /* Consumer is an open File */
 #define SXFMT_CONS_BLOB     6   /* Consumer is a BLOB */
+
 /*
 ** Each builtin conversion character (ex: the 'd' in "%d") is described
 ** by an instance of the following structure
@@ -3101,6 +3107,7 @@ static int getdigit(sxlongreal *val, int *cnt)
 }
 
 #endif /* SX_OMIT_FLOATINGPOINT */
+
 /*
  * The following routine was taken from the SQLITE2 source tree and was
  * extended by Symisc Systems to fit its need.
@@ -3319,10 +3326,12 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
         /* Limit the precision to prevent overflowing buf[] during conversion */
         if (precision > SXFMT_BUFSIZ - 40) precision = SXFMT_BUFSIZ - 40;
 #if 1
+
         /* For the format %#x, the value zero is printed "0" not "0x0".
         ** I think this is stupid.*/
         if (longvalue == 0) flag_alternateform = 0;
 #else
+
         /* More sensible: turn off the prefix for octal (to prevent "00"),
         ** but leave the prefix for hex.*/
         if (longvalue == 0 && infop->base == 8) flag_alternateform = 0;
@@ -3434,6 +3443,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
           }
         }
         bufpt = buf;
+
         /*
         ** If the field type is etGENERIC, then convert to either etEXP
         ** or etFLOAT, as appropriate.
@@ -3457,6 +3467,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
         } else {
           flag_rtz = 0;
         }
+
         /*
         ** The "exp+precision" test causes output to be of type etEXP if
         ** the precision is too large to fit in buf[].
@@ -3507,6 +3518,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
             *(bufpt++) = (char) (exp % 10 + '0');                     /* 1's digit */
           }
         }
+
         /* The converted number is in buf[] and zero terminated.Output it.
         ** Note that the number is in the usual order, not reversed as with
         ** integer conversions.*/
@@ -3593,6 +3605,7 @@ static sxi32 InternFormat(ProcConsumer xConsumer, void *pUserData, const char *z
         if (c == 0) zFormat--;
         break;
     }    /* End switch over the format type */
+
     /*
     ** The text of the conversion is pointed to by "bufpt" and is
     ** "length" characters long.The field width is "width".Do
@@ -3771,6 +3784,7 @@ PH7_PRIVATE sxu32 SyBufferFormat(char *zBuf, sxu32 nLen, const char *zFormat, ..
 }
 
 #ifndef PH7_DISABLE_BUILTIN_FUNC
+
 /*
  * Symisc XML Parser Engine (UTF-8) SAX(Event Driven) API
  * @author Mrad Chems Eddine <chm@symisc.net>
@@ -3790,6 +3804,7 @@ struct SyXMLRawStrNS {
   /* Private fields */
   SySet sNSset;   /* Namespace entries */
 };
+
 /*
  * Lexer token codes
  * The following set of constants are the token value recognized
@@ -5130,6 +5145,7 @@ static sxi32 GetCentralDirectoryEntry(SyArchive *pArch, SyArchiveEntry *pEntry, 
   rc = SyLittleEndianUnpack32(&nMagic, zCentral, sizeof(sxu32));
   if (/* rc != SXRET_OK || */ nMagic != SXZIP_CENTRAL_MAGIC) {
     rc = SXERR_CORRUPT;
+
     /*
      * Try to recover by examing the next central directory record.
      * Dont worry here,there is no risk of an infinite loop since
@@ -5139,6 +5155,7 @@ static sxi32 GetCentralDirectoryEntry(SyArchive *pArch, SyArchiveEntry *pEntry, 
     /* pName->nByte = 0; nComment = 0; pName->nExtra = 0 */
     goto update;
   }
+
   /*
    * entry name length
    */
@@ -5167,6 +5184,7 @@ static sxi32 GetCentralDirectoryEntry(SyArchive *pArch, SyArchiveEntry *pEntry, 
     rc = SXERR_BIG;
     goto update;
   }
+
   /*
    * Content size after compression.
    * Note that if the file is stored pEntry->nByte should be equal to pEntry->nByteCompr
@@ -5290,6 +5308,7 @@ PH7_PRIVATE sxi32 SyZipExtractFromBuf(SyArchive *pArch, const char *zBuf, sxu32 
     return SXERR_INVALID;
   }
 #endif
+
   /* The miminal size of a zip archive:
    * LOCAL_HDR_SZ + CENTRAL_HDR_SZ + END_OF_CENTRAL_HDR_SZ
    *          30				46				22
@@ -5426,6 +5445,7 @@ PH7_PRIVATE sxi32 SyArchiveGetNextEntry(SyArchive *pArch, SyArchiveEntry **ppEnt
 }
 
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
+
 /*
  * Psuedo Random Number Generator (PRNG)
  * @authors: SQLite authors <http://www.sqlite.org/>
@@ -5496,6 +5516,7 @@ PH7_PRIVATE sxi32 SyRandomnessInit(SyPRNGCtx *pCtx, ProcRandomSeed xSeed, void *
   if (pCtx->nMagic == SXPRNG_MAGIC) {
     return SXRET_OK;     /* Already initialized */
   }
+
   /* Initialize the state of the random number generator once,
   ** the first time this routine is called.The seed value does
   ** not need to contain a lot of randomness since we are not
@@ -5576,6 +5597,7 @@ PH7_PRIVATE sxi32 SyRandomness(SyPRNGCtx *pCtx, void *pBuf, sxu32 nLen)
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 #ifndef PH7_DISABLE_HASH_FUNC
 /* SyRunTimeApi: sxhash.c */
+
 /*
  * This code implements the MD5 message-digest algorithm.
  * The algorithm is due to Ron Rivest.This code was
@@ -5594,6 +5616,7 @@ PH7_PRIVATE sxi32 SyRandomness(SyPRNGCtx *pCtx, void *pBuf, sxu32 nLen)
  */
 #define SX_MD5_BINSZ    16
 #define SX_MD5_HEXSZ    32
+
 /*
  * Note: this code is harmless on little-endian machines.
  */
@@ -5844,6 +5867,7 @@ PH7_PRIVATE sxi32 SyMD5Compute(const void *pIn, sxu32 nLen, unsigned char zDiges
  * blk0le() for little-endian and blk0be() for big-endian.
  */
 #if __GNUC__ && (defined(__i386__) || defined(__x86_64__))
+
 /*
  * GCC by itself only generates left rotates.  Use right rotates if
  * possible to be kinder to dinky implementations with iterative rotate
@@ -5906,6 +5930,7 @@ static void SHA1Transform(unsigned int state[5], const unsigned char buffer[64])
   SyMemcpy(state, qq, 5 * sizeof(unsigned int));
 
   /* Copy context->state[] to working vars */
+
   /*
      a = state[0];
      b = state[1];
@@ -6028,6 +6053,7 @@ static void SHA1Transform(unsigned int state[5], const unsigned char buffer[64])
 #undef c
 #undef d
 #undef e
+
 /*
  * SHA1Init - Initialize new context
  */

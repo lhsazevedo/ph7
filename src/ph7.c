@@ -23,6 +23,7 @@
  * more. These scripts are available in the scripts directory from the zip archive.
  */
 /* $SymiscID: ph7_interp.c v1.7.4 Win7 2012-10-06 03:22 stable <devel@symisc.net> $ */
+
 /* Make sure you have the latest release of the PH7 engine
  * from:
  *  http://ph7.symisc.net/downloads.html
@@ -31,6 +32,7 @@
 #include <stdlib.h>
 /* Make sure this header file is available.*/
 #include "ph7.h"
+
 /*
  * Display an error message and exit.
  */
@@ -52,6 +54,7 @@ static const char zBanner[] = {
   "                                      http://ph7.symisc.net/\n"
   "============================================================\n"
 };
+
 /*
  * Display the banner,a help message and exit.
  */
@@ -72,6 +75,7 @@ static void Help(void)
 /* Assume UNIX */
 #include <unistd.h>
 #endif
+
 /*
  * The following define is used by the UNIX built and have
  * no particular meaning on windows.
@@ -79,6 +83,7 @@ static void Help(void)
 #ifndef STDOUT_FILENO
 #define STDOUT_FILENO   1
 #endif
+
 /*
  * VM output consumer callback.
  * Each time the virtual machine generates some outputs,the following
@@ -152,6 +157,7 @@ int main(int argc, char **argv)
      */
     Fatal("Error while allocating a new PH7 engine instance");
   }
+
   /* Set an error log consumer callback. This callback [Output_Consumer()] will
    * redirect all compile-time error messages to STDOUT.
    */
@@ -176,6 +182,7 @@ int main(int argc, char **argv)
       Fatal("Compile error");
     }
   }
+
   /*
    * Now we have our script compiled,it's time to configure our VM.
    * We will install the VM output consumer callback defined above
@@ -189,6 +196,7 @@ int main(int argc, char **argv)
   if (rc != PH7_OK) {
     Fatal("Error while installing the VM output consumer callback");
   }
+
   /* Register script agruments so we can access them later using the $argv[]
    * array from the compiled PHP program.
    */
@@ -206,11 +214,13 @@ int main(int argc, char **argv)
                    0
                    );
   }
+
   /*
    * And finally, execute our program. Note that your output (STDOUT in our case)
    * should display the result.
    */
   ph7_vm_exec(pVm, 0);
+
   /* All done, cleanup the mess left behind.
    */
   ph7_vm_release(pVm);

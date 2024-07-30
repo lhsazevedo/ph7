@@ -20,6 +20,7 @@
 #ifndef PH7_AMALGAMATION
 #include "ph7int.h"
 #endif
+
 /*
  * This file implement a virtual file systems (VFS) for the PH7 engine.
  */
@@ -65,6 +66,7 @@ PH7_PRIVATE const char* PH7_ExtractDirName(const char *zPath, int nByte, int *pL
  * Omit the vfs layer implementation from the built if the PH7_DISABLE_BUILTIN_FUNC directive is defined.
  */
 #ifndef PH7_DISABLE_BUILTIN_FUNC
+
 /*
  * bool chdir(string $directory)
  *  Change the current directory.
@@ -1227,6 +1229,7 @@ static int PH7_vfs_stat(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Return the associative array */
     ph7_result_value(pCtx, pArray);
   }
+
   /* Don't worry about freeing memory here,everything will be released
    * automatically as soon we return from this function. */
   return PH7_OK;
@@ -1297,6 +1300,7 @@ static int PH7_vfs_lstat(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Return the associative array */
     ph7_result_value(pCtx, pArray);
   }
+
   /* Don't worry about freeing memory here,everything will be released
    * automatically as soon we return from this function. */
   return PH7_OK;
@@ -1594,6 +1598,7 @@ struct path_info {
   SyString sExtension;   /* File extension [i.e xml,pdf..] */
   SyString sFilename;    /* Filename */
 };
+
 /*
  * Extract path fields.
  */
@@ -1784,6 +1789,7 @@ static int PH7_builtin_pathinfo(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     /* Return the created array */
     ph7_result_value(pCtx, pArray);
+
     /* Don't worry about freeing memory, everything will be released
      * automatically as soon we return from this foreign function.
      */
@@ -1797,6 +1803,7 @@ static int PH7_builtin_pathinfo(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * Status: Public Domain
  */
 typedef unsigned char u8;
+
 /* An array to map all upper-case characters into their corresponding
 ** lower-case character.
 **
@@ -1822,6 +1829,7 @@ static const unsigned char sqlite3UpperToLower[] = {
   252, 253, 254, 255
 };
 #define GlogUpperToLower(A)     if (A < 0x80) { A = sqlite3UpperToLower[A]; }
+
 /*
 ** Assuming zIn points to the first byte of a UTF-8 character,
 ** advance zIn to point to the first byte of the next UTF-8 character.
@@ -1832,6 +1840,7 @@ static const unsigned char sqlite3UpperToLower[] = {
             while ((*zIn & 0xc0) == 0x80) { zIn++; }             \
           }                                                    \
         }
+
 /*
 ** Compare two UTF-8 strings for equality where the first string can
 ** potentially be a "glob" expression.  Return true (1) if they
@@ -2344,6 +2353,7 @@ static int PH7_vfs_getmygid(ph7_context *pCtx, int nArg, ph7_value **apArg)
 #elif defined(__UNIXES__)
 #include <sys/utsname.h>
 #endif
+
 /*
  * string php_uname([ string $mode = "a" ])
  *  Returns information about the host operating system.
@@ -2936,6 +2946,7 @@ static ph7_int64 StreamReadLine(io_private *pDev, const char **pzData, ph7_int64
       return n;
     }
   }
+
   /* Perform the read operation until a new line is extracted or length
    * limit is reached.
    */
@@ -4035,6 +4046,7 @@ static int PH7_builtin_file(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (pDev->pHandle == 0) {
     ph7_context_throw_error_format(pCtx, PH7_CTX_ERR, "IO error while opening '%s'", zFile);
     ph7_result_bool(pCtx, 0);
+
     /* Don't worry about freeing memory, everything will be released automatically
      * as soon we return from this function.
      */
@@ -4234,6 +4246,7 @@ static int PH7_builtin_fstat(ph7_context *pCtx, int nArg, ph7_value **apArg)
   pStream->xStat(pDev->pHandle, pArray, pValue);
   /* Return the freshly created array */
   ph7_result_value(pCtx, pArray);
+
   /* Don't worry about freeing memory here,everything will be
    * released automatically as soon we return from this function.
    */
@@ -4436,6 +4449,7 @@ struct csv_data {
   io_private *pDev;   /* Open stream handle */
   int iCount;         /* Counter */
 };
+
 /*
  * The following callback is used by the fputcsv() function inorder to iterate
  * throw array entries and output CSV data based on the current key and it's
@@ -4578,6 +4592,7 @@ struct fprintf_data {
   io_private *pIO;          /* IO stream */
   ph7_int64 nCount;         /* Total number of bytes written */
 };
+
 /*
  * Callback [i.e: Formatted input consumer] for the fprintf function.
  */
@@ -5021,6 +5036,7 @@ static int PH7_builtin_fclose(ph7_context *pCtx, int nArg, ph7_value **apArg)
 }
 
 #if !defined(PH7_DISABLE_HASH_FUNC)
+
 /*
  * MD5/SHA1 digest consumer.
  */
@@ -5176,6 +5192,7 @@ static int PH7_builtin_sha1_file(ph7_context *pCtx, int nArg, ph7_value **apArg)
 }
 
 #endif /* PH7_DISABLE_HASH_FUNC */
+
 /*
  * array parse_ini_file(string $filename[, bool $process_sections = false [, int $scanner_mode = INI_SCANNER_NORMAL ]] )
  *  Parse a configuration file.
@@ -5312,6 +5329,7 @@ static int PH7_builtin_zip_open(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Extract the default stream */
   if (pStream == pCtx->pVm->pDefStream /* file:// stream*/ ) {
     const ph7_vfs *pVfs;
+
     /* Try to get a memory view of the whole file since ZIP files
      * tends to be very big this days,this is a huge performance win.
      */
@@ -5856,6 +5874,7 @@ static const ph7_vfs null_vfs = {
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 #ifndef PH7_DISABLE_DISK_IO
 #ifdef __WINNT__
+
 /*
  * Windows VFS implementation for the PH7 engine.
  * Authors:
@@ -5866,6 +5885,7 @@ static const ph7_vfs null_vfs = {
  */
 /* What follows here is code that is specific to windows systems. */
 #include <Windows.h>
+
 /*
 ** Convert a UTF-8 string to microsoft unicode (UTF-16?).
 **
@@ -6525,6 +6545,7 @@ static int WinVfs_Getenv(const char *zVar, ph7_context *pCtx)
 {
   char zValue[1024];
   DWORD n;
+
   /*
    * According to MSDN
    * If lpBuffer is not large enough to hold the data, the return
@@ -6583,6 +6604,7 @@ static int WinVfs_Mmap(const char *zPath, void **ppMap, ph7_int64 *pSize)
     /* Let the upper layer point to the view */
     *ppMap = pView;
   }
+
   /* Close the handle
    * According to MSDN it's OK the close the HANDLES.
    */
@@ -7081,6 +7103,7 @@ static const ph7_io_stream sWinFileStream = {
   WinFile_Stat     /* xStat */
 };
 #elif defined(__UNIXES__)
+
 /*
  * UNIX VFS implementation for the PH7 engine.
  * Authors:
@@ -7987,6 +8010,7 @@ static const ph7_io_stream sUnixFileStream = {
 #endif /* __WINNT__/__UNIXES__ */
 #endif /* PH7_DISABLE_DISK_IO */
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
+
 /*
  * Export the builtin vfs.
  * Return a pointer to the builtin vfs if available.
@@ -8018,6 +8042,7 @@ PH7_PRIVATE const ph7_vfs* PH7_ExportBuiltinVfs(void)
 
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 #ifndef PH7_DISABLE_DISK_IO
+
 /*
  * The following defines are mostly used by the UNIX built and have
  * no particular meaning on windows.
@@ -8031,6 +8056,7 @@ PH7_PRIVATE const ph7_vfs* PH7_ExportBuiltinVfs(void)
 #ifndef STDERR_FILENO
 #define STDERR_FILENO   2
 #endif
+
 /*
  * php:// Accessing various I/O streams
  * According to the PHP langage reference manual
@@ -8060,6 +8086,7 @@ struct ph7_stream_data {
     ph7_output_consumer sConsumer;     /* VM output consumer */
   } x;
 };
+
 /*
  * Allocate a new instance of the ph7_stream_data structure.
  */
@@ -8277,6 +8304,7 @@ static const ph7_io_stream sPHP_Stream = {
   0     /* xStat */
 };
 #endif /* PH7_DISABLE_DISK_IO */
+
 /*
  * Return TRUE if we are dealing with the php:// stream.
  * FALSE otherwise.
@@ -8292,6 +8320,7 @@ static int is_php_stream(const ph7_io_stream *pStream)
 }
 
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
+
 /*
  * Export the IO routines defined above and the built-in IO streams
  * [i.e: file://,php://].

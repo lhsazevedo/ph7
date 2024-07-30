@@ -20,6 +20,7 @@
 #ifndef PH7_AMALGAMATION
 #include "ph7int.h"
 #endif
+
 /* This file implement the public interfaces presented to host-applications.
  * Routines in other files are for internal use by PH7 and should not be
  * accessed by users of the library.
@@ -27,6 +28,7 @@
 #define PH7_ENGINE_MAGIC 0xF874BCD7
 #define PH7_ENGINE_MISUSE(ENGINE) (ENGINE == 0 || ENGINE->nMagic != PH7_ENGINE_MAGIC)
 #define PH7_VM_MISUSE(VM) (VM == 0 || VM->nMagic == PH7_VM_STALE)
+
 /* If another thread have released a working instance,the following macros
  * evaluates to true. These macros are only used when the library
  * is built with threading support enabled which is not the case in
@@ -35,6 +37,7 @@
 #define PH7_THRD_ENGINE_RELEASE(ENGINE) (ENGINE->nMagic != PH7_ENGINE_MAGIC)
 #define PH7_THRD_VM_RELEASE(VM) (VM->nMagic == PH7_VM_STALE)
 /* IMPLEMENTATION: ph7@embedded@symisc 311-12-32 */
+
 /*
  * All global variables are collected in the structure named "sMPGlobal".
  * That way it is clear in the code when we are using static variable because
@@ -70,6 +73,7 @@ static struct Global_Data {
 };
 #define PH7_LIB_MAGIC  0xEA1495BA
 #define PH7_LIB_MISUSE (sMPGlobal.nMagic != PH7_LIB_MAGIC)
+
 /*
  * Supported threading level.
  * These options have meaning only when the library is compiled with multi-threading
@@ -84,6 +88,7 @@ static struct Global_Data {
  */
 #define PH7_THREAD_LEVEL_SINGLE 1
 #define PH7_THREAD_LEVEL_MULTI  2
+
 /*
  * Configure a running PH7 engine instance.
  * return PH7_OK on success.Any other return
@@ -246,6 +251,7 @@ static sxi32 PH7CoreConfigure(sxi32 nOp, va_list ap)
 
     case PH7_LIB_CONFIG_THREAD_LEVEL_MULTI:
 #if defined(PH7_ENABLE_THREADS)
+
       /* Multi-threading mode (library is thread safe and PH7 engines and virtual machines
        * may be shared between multiple threads).
        */
@@ -298,6 +304,7 @@ static sxi32 PH7CoreInitialize(void)
   SyMutex *pMaster = 0;
 #endif
   int rc;
+
   /*
    * If the library is already initialized,then a call to this routine
    * is a no-op.
@@ -366,6 +373,7 @@ End:
 #endif
   return rc;
 }
+
 /*
  * [CAPIREF: ph7_lib_init()]
  * Please refer to the official documentation for function purpose and expected parameters.
@@ -844,6 +852,7 @@ int ph7_compile_file(ph7 *pEngine, const char *zFilePath, ph7_vm **ppOutVm, int 
     return PH7_ABORT;          /* Another thread have released this instance */
   }
 #endif
+
   /*
    * Check if the underlying vfs implement the memory map
    * [i.e: mmap() under UNIX/MapViewOfFile() under windows] function.
@@ -1527,6 +1536,7 @@ void* ph7_context_alloc_chunk(ph7_context *pCtx, unsigned int nByte, int ZeroChu
     }
     if (AutoRelease) {
       ph7_aux_data sAux;
+
       /* Track the chunk so that it can be released automatically
        * upon this context is destroyed.
        */
@@ -1760,6 +1770,7 @@ ph7_value* ph7_object_fetch_attr(ph7_value *pObject, const char *zAttr)
     return 0;
   }
   SyStringInitFromBuf(&sAttr, zAttr, SyStrlen(zAttr));
+
   /* Extract the attribute value if available.
    */
   pValue = PH7_ClassInstanceFetchAttr((ph7_class_instance *) pObject->x.pOther, &sAttr);
@@ -2200,6 +2211,7 @@ int ph7_value_is_empty(ph7_value *pVal)
 }
 
 /* END-OF-IMPLEMENTATION: ph7@embedded@symisc 345-09-46 */
+
 /*
  * Symisc PH7: An embeddable bytecode compiler and a virtual machine for the PHP(5) programming language.
  * Copyright (C) 2011-2012,Symisc Systems http://ph7.symisc.net/

@@ -233,6 +233,7 @@ PH7_PRIVATE void PH7_HashmapUnlinkNode(ph7_hashmap_node *pNode, int bRestore)
 }
 
 #define HASHMAP_FILL_FACTOR 3
+
 /*
  * Grow the hash-table and rehash all entries.
  */
@@ -1423,6 +1424,7 @@ PH7_PRIVATE sxi32 PH7_HashmapCreateSuper(ph7_vm *pVm)
   }
   /* Set some $_SERVER entries */
   pFile = (SyString *) SySetPeek(&pVm->aFiles);
+
   /*
    * 'SCRIPT_FILENAME'
    * The absolute pathname of the currently executing script.
@@ -1658,6 +1660,7 @@ PH7_PRIVATE void PH7_HashmapExtractNodeKey(ph7_hashmap_node *pNode, ph7_value *p
 }
 
 #ifndef PH7_DISABLE_BUILTIN_FUNC
+
 /*
  * Store the address of nodes value in the given container.
  * Refer to the [vfprintf(),vprintf(),vsprintf()] implementations
@@ -1684,6 +1687,7 @@ PH7_PRIVATE int PH7_HashmapValuesToSet(ph7_hashmap *pMap, SySet *pOut)
 }
 
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
+
 /*
  * Merge sort.
  * The merge sort implementation is based on the one found in the SQLite3 source tree.
@@ -1691,6 +1695,7 @@ PH7_PRIVATE int PH7_HashmapValuesToSet(ph7_hashmap *pMap, SySet *pOut)
  */
 /* Node comparison callback signature */
 typedef sxi32 (*ProcNodeCmp)(ph7_hashmap_node *, ph7_hashmap_node *, void *);
+
 /*
 ** Inputs:
 **   a:       A sorted, null-terminated linked list.  (May be null).
@@ -2044,6 +2049,7 @@ static sxi32 HashmapCmpCallback7(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
   SXUNUSED(pCmpData);
   /* Grab a random number */
   n = PH7_VmRandomNum(pA->pMap->pVm);
+
   /* if the random number is odd then the first node 'pA' is greater then
    * the second node 'pB'. Otherwise the reverse is assumed.
    */
@@ -3114,6 +3120,7 @@ static int ph7_hashmap_range(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   /* Return the new array */
   ph7_result_value(pCtx, pArray);
+
   /* Dont'worry about freeing 'pValue',it will be released automatically
    * by the virtual machine as soon we return from this foreign function.
    */
@@ -4851,6 +4858,7 @@ static int ph7_hashmap_flip(ph7_context *pCtx, int nArg, ph7_value **apArg)
       }
       /* Perform the insertion */
       ph7_array_add_elem(pArray, pKey, &sVal);
+
       /* Safely release the value because each inserted entry
        * have it's own private copy of the value.
        */
@@ -4954,6 +4962,7 @@ static int ph7_hashmap_sum(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_int(pCtx, 0);
     return PH7_OK;
   }
+
   /* If the first element is of type float,then perform floating
    * point computaion.Otherwise switch to int64 computaion.
    */
@@ -5062,6 +5071,7 @@ static int ph7_hashmap_product(ph7_context *pCtx, int nArg, ph7_value **apArg)
     ph7_result_int(pCtx, 0);
     return PH7_OK;
   }
+
   /* If the first element is of type float,then perform floating
    * point computaion.Otherwise switch to int64 computaion.
    */
@@ -5120,6 +5130,7 @@ static int ph7_hashmap_rand(ph7_context *pCtx, int nArg, ph7_value **apArg)
     sxu32 nEntry;
     /* Select a random number */
     nEntry = PH7_VmRandomNum(pMap->pVm) % pMap->nEntry;
+
     /* Extract the desired entry.
      * Note that we perform a linear lookup here (later version must change this)
      */
@@ -5788,6 +5799,7 @@ static const ph7_builtin_func aHashmapFunc[] = {
   { "reset",             ph7_hashmap_reset },
   { "key",               ph7_hashmap_simple_key }
 };
+
 /*
  * Register the built-in hashmap functions defined above.
  */

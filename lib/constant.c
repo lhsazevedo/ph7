@@ -21,6 +21,7 @@
 #include "ph7int.h"
 #endif
 /* This file implement built-in constants for the PH7 engine. */
+
 /*
  * PH7_VERSION
  * __PH7__
@@ -37,6 +38,7 @@ static void PH7_VER_Const(ph7_value *pVal, void *pUnused)
 #elif defined(__UNIXES__)
 #include <sys/utsname.h>
 #endif
+
 /*
  * PHP_OS
  *  Expand the name of the host Operating System.
@@ -124,6 +126,7 @@ static void PH7_PATHSEP_Const(ph7_value *pVal, void *pUnused)
 #ifndef __WINNT__
 #include <time.h>
 #endif
+
 /*
  * __TIME__
  *  Expand the current time (GMT).
@@ -573,6 +576,7 @@ static void PH7_DBIA_Const(ph7_value *pVal, void *pUserData)
 }
 
 #ifdef PH7_ENABLE_MATH_FUNC
+
 /*
  * M_PI
  *  Expand the value of pi.
@@ -744,6 +748,7 @@ static void PH7_M_EULER_Const(ph7_value *pVal, void *pUserData)
 }
 
 #endif /* PH7_DISABLE_BUILTIN_MATH */
+
 /*
  * DATE_ATOM
  *  Expand Atom (example: 2005-08-15T15:52:01+00:00)
@@ -1553,6 +1558,7 @@ static void PH7_EXTR_PREFIX_IF_EXISTS_Const(ph7_value *pVal, void *pUserData)
 }
 
 #ifndef PH7_DISABLE_BUILTIN_FUNC
+
 /*
  * XML_ERROR_NONE
  *   Expand the value of SXML_ERROR_NO_MEMORY defined in ph7Int.h
@@ -1824,6 +1830,7 @@ static void PH7_XML_SAX_IMP_Const(ph7_value *pVal, void *pUserData)
 }
 
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
+
 /*
  * JSON_HEX_TAG.
  *   Expand the value of JSON_HEX_TAG defined in ph7Int.h.
@@ -2253,12 +2260,14 @@ static const ph7_builtin_constant aBuiltIn[] = {
   { "__CLASS__",            PH7_self_Const },
   { "parent",               PH7_parent_Const }
 };
+
 /*
  * Register the built-in constants defined above.
  */
 PH7_PRIVATE void PH7_RegisterBuiltInConstant(ph7_vm *pVm)
 {
   sxu32 n;
+
   /*
    * Note that all built-in constants have access to the ph7 virtual machine
    * that trigger the constant invocation as their private data.

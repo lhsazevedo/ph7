@@ -21,6 +21,7 @@
 #include "ph7int.h"
 #endif
 /* This file handle low-level stuff related to indexed memory objects [i.e: ph7_value] */
+
 /*
  * Notes on memory objects [i.e: ph7_value].
  * Internally, the PH7 virtual machine manipulates nearly all PHP values
@@ -40,11 +41,13 @@
 static sxi64 MemObjRealToInt(ph7_value *pObj)
 {
 #ifdef PH7_OMIT_FLOATING_POINT
+
   /* Real and 64bit integer are the same when floating point arithmetic
    * is omitted from the build.
    */
   return pObj->rVal;
 #else
+
   /*
   ** Many compilers we encounter do not define constants for the
   ** minimum and maximum 64-bit integers, or they define them
@@ -383,6 +386,7 @@ static sxi32 MemObjBooleanValue(ph7_value *pObj)
 static sxi32 MemObjTryIntger(ph7_value *pObj)
 {
   pObj->x.iVal = MemObjRealToInt(&(*pObj));
+
   /* Only mark the value as an integer if
   **
   **    (1) the round-trip conversion real->int->real is a no-op, and
@@ -789,6 +793,7 @@ PH7_PRIVATE sxi32 PH7_MemObjInitFromBool(ph7_vm *pVm, ph7_value *pObj, sxi32 iVa
 }
 
 #if 0
+
 /*
  * Initialize a ph7_value to the real type.
  */
@@ -806,6 +811,7 @@ PH7_PRIVATE sxi32 PH7_MemObjInitFromReal(ph7_vm *pVm, ph7_value *pObj, ph7_real 
 }
 
 #endif
+
 /*
  * Initialize a ph7_value to the array type.
  */
@@ -861,6 +867,7 @@ PH7_PRIVATE sxi32 PH7_MemObjStringAppend(ph7_value *pObj, const char *zData, sxu
 }
 
 #if 0
+
 /*
  * Format and append some contents to the internal buffer of a given ph7_value.
  * If the given ph7_value is not of type string,this function invalidate
@@ -881,6 +888,7 @@ PH7_PRIVATE sxi32 PH7_MemObjStringFormat(ph7_value *pObj, const char *zFormat, v
 }
 
 #endif
+
 /*
  * Duplicate the contents of a ph7_value.
  */
@@ -1095,6 +1103,7 @@ PH7_PRIVATE sxi32 PH7_MemObjCmp(ph7_value *pObj1, ph7_value *pObj2, int bStrict,
     }
     SyStringInitFromBuf(&s1, SyBlobData(&pObj1->sBlob), SyBlobLength(&pObj1->sBlob));
     SyStringInitFromBuf(&s2, SyBlobData(&pObj2->sBlob), SyBlobLength(&pObj2->sBlob));
+
     /*
      * Strings are compared using memcmp(). If one value is an exact prefix of the
      * other, then the shorter value is less than the longer value.

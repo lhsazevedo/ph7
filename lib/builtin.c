@@ -21,6 +21,7 @@
 #include "ph7int.h"
 #endif
 /* This file implement built-in 'foreign' functions for the PH7 engine */
+
 /*
  * Section:
  *    Variable handling Functions.
@@ -311,6 +312,7 @@ static int PH7_builtin_empty(ph7_context *pCtx, int nArg, ph7_value **apArg)
 
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 #ifdef PH7_ENABLE_MATH_FUNC
+
 /*
  * Section:
  *    Math Functions.
@@ -322,6 +324,7 @@ static int PH7_builtin_empty(ph7_context *pCtx, int nArg, ph7_value **apArg)
  */
 #include <stdlib.h> /* abs */
 #include <math.h>
+
 /*
  * float sqrt(float $arg )
  *  Square root of the given number.
@@ -853,6 +856,7 @@ static int PH7_builtin_hypot(ph7_context *pCtx, int nArg, ph7_value **apArg)
 }
 
 #endif /* PH7_ENABLE_MATH_FUNC */
+
 /*
  * float round ( float $val [, int $precision = 0 [, int $mode = PHP_ROUND_HALF_UP ]] )
  *  Exponential expression.
@@ -887,6 +891,7 @@ static int PH7_builtin_round(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
   }
   r = ph7_value_to_double(apArg[0]);
+
   /* If Y==0 and X will fit in a 64-bit int,
    * handle the rounding directly.Otherwise
    * use our own cutsom printf [i.e:SyBufferFormat()].
@@ -1974,6 +1979,7 @@ static const char *azHtmlEscape[] = {
   "&#41;", ")", "&#123;", "{", "&#125;", "}", "&#61;", "=", "&#43;", "+",
   "&#63;", "?", "&#91;", "[", "&#93;", "]", "&#64;", "@", "&#44;", ","
 };
+
 /*
  * array get_html_translation_table(void)
  *  Returns the translation table used by htmlspecialchars() and htmlentities().
@@ -2011,6 +2017,7 @@ static int PH7_builtin_get_html_translation_table(ph7_context *pCtx, int nArg, p
     /* Reset the string cursor */
     ph7_value_reset_string_cursor(pValue);
   }
+
   /*
    * Return the array.
    * Don't worry about freeing memory, everything will be automatically
@@ -2327,6 +2334,7 @@ struct implode_data {
   int bFirst;             /* TRUE if first call */
   int nRecCount;          /* Recursion count to avoid infinite loop */
 };
+
 /*
  * Implode walker callback for the [ph7_array_walk()] interface.
  * The following routine is invoked for each array entry passed
@@ -2601,6 +2609,7 @@ static int PH7_builtin_explode(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   /* Return the freshly created array */
   ph7_result_value(pCtx, pArray);
+
   /* NOTE that every allocated ph7_value will be automatically
    * released as soon we return from this foregin function.
    */
@@ -3151,6 +3160,7 @@ static int PH7_builtin_bin2hex(ph7_context *pCtx, int nArg, ph7_value **apArg)
 
 /* Search callback signature */
 typedef sxi32 (*ProcStringMatch)(const void *, sxu32, const void *, sxu32, sxu32 *);
+
 /*
  * Case-insensitive pattern match.
  * Brute force is the default search method used here.
@@ -3933,6 +3943,7 @@ static int PH7_builtin_nl2br(ph7_context *pCtx, int nArg, ph7_value **apArg)
  * This implementation is based on the one found in the SQLite3 source tree.
  */
 #define PH7_FMT_BUFSIZ 1024 /* Conversion buffer size */
+
 /*
 ** Conversion types fall into various categories as defined by the
 ** following enumeration.
@@ -3946,11 +3957,13 @@ static int PH7_builtin_nl2br(ph7_context *pCtx, int nArg, ph7_value **apArg)
 #define PH7_FMT_PERCENT     7 /* Percent symbol.%% */
 #define PH7_FMT_CHARX       8 /* Characters.%c */
 #define PH7_FMT_ERROR       9 /* Used to indicate no such conversion type */
+
 /*
 ** Allowed values for ph7_fmt_info.flags
 */
 #define PH7_FMT_FLAG_SIGNED   0x01
 #define PH7_FMT_FLAG_UNSIGNED 0x02
+
 /*
 ** Each builtin conversion character (ex: the 'd' in "%d") is described
 ** by an instance of the following structure
@@ -3965,6 +3978,7 @@ struct ph7_fmt_info {
   char *prefix;   /* Prefix on non-zero values in alt format */
 };
 #ifndef PH7_OMIT_FLOATING_POINT
+
 /*
 ** "*val" is a double such that 0.1 <= *val < 10.0
 ** Return the ascii code for the leading digit of *val, then
@@ -3993,6 +4007,7 @@ static int vxGetdigit(sxlongreal *val, int *cnt)
 }
 
 #endif /* PH7_OMIT_FLOATING_POINT */
+
 /*
  * The following table is searched linearly, so it is good to put the most frequently
  * used conversion types first.
@@ -4014,6 +4029,7 @@ static const ph7_fmt_info aFmt[] = {
   { 'G',  0, PH7_FMT_FLAG_SIGNED, PH7_FMT_GENERIC,    "E",    0 },
   { '%',  0, 0, PH7_FMT_PERCENT,    0,                  0 }
 };
+
 /*
  * Format a given string.
  * The root program.  All variations call this core.
@@ -4184,6 +4200,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
     zBuf = zWorker;     /* Point to the working buffer */
     length = 0;
     zExtra = 0;
+
     /*
     ** At this point, variables are initialized as follows:
     **
@@ -4256,10 +4273,12 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           precision = PH7_FMT_BUFSIZ - 40;
         }
 #if 1
+
         /* For the format %#x, the value zero is printed "0" not "0x0".
         ** I think this is stupid.*/
         if (iVal == 0) flag_alternateform = 0;
 #else
+
         /* More sensible: turn off the prefix for octal (to prevent "00"),
         ** but leave the prefix for hex.*/
         if (iVal == 0 && pInfo->base == 8) flag_alternateform = 0;
@@ -4383,6 +4402,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
           }
         }
         zBuf = zWorker;
+
         /*
         ** If the field type is etGENERIC, then convert to either etEXP
         ** or etFLOAT, as appropriate.
@@ -4406,6 +4426,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         } else {
           flag_rtz = 0;
         }
+
         /*
         ** The "exp+precision" test causes output to be of type etEXP if
         ** the precision is too large to fit in buf[].
@@ -4456,11 +4477,13 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
             *(zBuf++) = (char) (exp % 10 + '0');                     /* 1's digit */
           }
         }
+
         /* The converted number is in buf[] and zero terminated.Output it.
         ** Note that the number is in the usual order, not reversed as with
         ** integer conversions.*/
         length = (int) (zBuf - zWorker);
         zBuf = zWorker;
+
         /* Special case:  Add leading zeros if the flag_zeropad flag is
         ** set and we are not left justified */
         if (flag_zeropad && !flag_leftjustify && length < width) {
@@ -4486,6 +4509,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
         length = (int) sizeof(char);
         break;
     }
+
     /*
     ** The text of the conversion is pointed to by "zBuf" and is
     ** "length" characters long.The field width is "width".Do
@@ -4763,6 +4787,7 @@ static int PH7_builtin_size_format(ph7_context *pCtx, int nArg, ph7_value **apAr
 }
 
 #if !defined(PH7_DISABLE_HASH_FUNC)
+
 /*
  * string md5(string $str[,bool $raw_output = false])
  *   Calculate the md5 hash of a string.
@@ -4887,6 +4912,7 @@ static int PH7_builtin_crc32(ph7_context *pCtx, int nArg, ph7_value **apArg)
 }
 
 #endif /* PH7_DISABLE_HASH_FUNC */
+
 /*
  * Parse a CSV string and invoke the supplied callback for each processed xhunk.
  */
@@ -5354,6 +5380,7 @@ static int PH7_builtin_str_split(ph7_context *pCtx, int nArg, ph7_value **apArg)
     /* Update position */
     zString += split_len;
   }
+
   /*
    * Return the array.
    * Don't worry about freeing memory, everything will be automatically released
@@ -5898,6 +5925,7 @@ struct strtok_aux_data {
   const char *zIn;     /* Current input stream */
   const char *zEnd;    /* End of input */
 };
+
 /*
  * string strtok(string $str,string $token)
  * string strtok(string $token)
@@ -6136,6 +6164,7 @@ struct str_replace_data {
   SySet *pCollector;    /* Argument collector*/
   ph7_context *pCtx;    /* Call context */
 };
+
 /*
  * Remove a substring.
  */
@@ -6145,6 +6174,7 @@ struct str_replace_data {
             if (OFFT + ILEN >= SLEN) break; SRC[OFFT] = SRC[OFFT + ILEN]; ++OFFT; \
           } \
         }
+
 /*
  * Shift right and insert algorithm.
  */
@@ -6158,6 +6188,7 @@ struct str_replace_data {
             if (ELEN < 1) break; SRC[OFFT] = ENTRY[0]; OFFT++; ENTRY++; --ELEN; \
           } \
         }
+
 /*
  * Replace all occurrences of the search string at offset (nOfft) with the given
  * replacement string [i.e: zReplace].
@@ -6174,6 +6205,7 @@ static int StringReplace(SyBlob *pWorker, sxu32 nOfft, int nLen, const char *zRe
   if (nReplen > 0) {
     sxi32 iRep = nReplen;
     sxi32 rc;
+
     /*
      * Make sure the working buffer is big enough to hold the replacement
      * string.
@@ -7272,6 +7304,7 @@ static int PH7_builtin_ctype_upper(ph7_context *pCtx, int nArg, ph7_value **apAr
 /* GetSystemTime() */
 #include <Windows.h>
 #ifdef _WIN32_WCE
+
 /*
 ** WindowsCE does not have a localtime() function.  So create a
 ** substitute.
@@ -7304,6 +7337,7 @@ struct tm * __cdecl localtime(const time_t *t)
 #elif defined(__UNIXES__)
 #include <sys/time.h>
 #endif /* __WINNT__*/
+
 /*
  * int64 time(void)
  *  Current Unix timestamp
@@ -7547,6 +7581,7 @@ static int PH7_builtin_gettimeofday(ph7_context *pCtx, int nArg, ph7_value **apA
 #define IS_LEAP_YEAR(YEAR)  (YEAR % 400 ? (YEAR % 100 ? (YEAR % 4 ? 0 : 1) : 0) : 1)
 /* ISO-8601 numeric representation of the day of the week */
 static const int aISO8601[] = { 7 /* Sunday */, 1 /* Monday */, 2, 3, 4, 5, 6 };
+
 /*
  * Format a given date string.
  * Supported format: (Taken from PHP online docs)
@@ -9044,6 +9079,7 @@ static const ph7_builtin_func aBuiltInFunc[] = {
   { "rawurldecode", PH7_builtin_urldecode },
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
 };
+
 /*
  * Register the built-in functions defined above,the array functions
  * defined in hashmap.c and the IO functions defined in vfs.c.

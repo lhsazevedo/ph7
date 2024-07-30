@@ -20,6 +20,7 @@
 #ifndef PH7_AMALGAMATION
 #include "ph7int.h"
 #endif
+
 /*
  * This file implement a hand-coded, thread-safe, full-reentrant and highly-efficient
  * expression parser for the PH7 engine.
@@ -153,6 +154,7 @@
 #define EXPR_OP_ASSOC_LEFT   0x01 /* Left associative operator */
 #define EXPR_OP_ASSOC_RIGHT  0x02 /* Right associative operator */
 #define EXPR_OP_NON_ASSOC    0x04 /* Non-associative operator */
+
 /*
  * Operators table
  * This table is sorted by operators priority (highest to lowest) according
@@ -258,6 +260,7 @@ static const ph7_expr_op aOpTable[] = {
 };
 /* Function call operator need special handling */
 static const ph7_expr_op sFCallOp = { { "(", sizeof(char) }, EXPR_OP_FUNC_CALL, 2, EXPR_OP_ASSOC_LEFT, PH7_OP_CALL };
+
 /*
  * Check if the given token is a potential operator or not.
  * This function is called by the lexer each time it extract a token that may
@@ -425,6 +428,7 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
         const ph7_expr_op *pOp, *pEnd;
         int iNest = 1;
         sxi32 j = i + 1;
+
         /*
          * Dirty Hack: $a{'x'} == > $a['x']
          */
@@ -495,6 +499,7 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
           if (pOp->iOp == EXPR_OP_UPLUS) {
             iExprOp = EXPR_OP_ADD;             /* Binary plus */
           }
+
           /*
            * TICKET 1433-013: This is a fix around an obscure bug when the user uses
            * a variable name which is an alpha-stream operator [i.e: $and,$xor,$eq..].
@@ -925,6 +930,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
 
 /* Macro to check if the given node is a terminal */
 #define NODE_ISTERM(NODE) (apNode[NODE] && (!apNode[NODE]->pOp || apNode[NODE]->pLeft))
+
 /*
  * Buid an expression tree for each given function argument.
  * When errors,PH7 take care of generating the appropriate error message.
@@ -1016,6 +1022,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
   /* Process expressions enclosed in parenthesis first */
   for (iCur = 0 ; iCur < nToken ; ++iCur) {
     sxi32 iNest;
+
     /* Note that, we use strict comparison here '!=' instead of the bitwise and '&' operator
      * since the LPAREN token can also be an operator [i.e: Function call].
      */
@@ -1057,6 +1064,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
   /* Process expressions enclosed in braces */
   for (iCur = 0 ; iCur < nToken ; ++iCur) {
     sxi32 iNest;
+
     /* Note that, we use strict comparison here '!=' instead of the bitwise and '&' operator
      * since the OCB '{' token can also be an operator [i.e: subscripting].
      */
@@ -1433,6 +1441,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
       iLeft = iCur;
     }
   }
+
   /* Handle the ternary operator. (expr1) ? (expr2) : (expr3)
    * Note that we do not need a precedence loop here since
    * we are dealing with a single operator.
@@ -1509,6 +1518,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
     }
     iLeft = iCur;
   }
+
   /* Process right associative binary operators [i.e: '=','+=','/=']
    * Note: All right associative binary operators have precedence 18
    * so there is no need for a precedence loop here.

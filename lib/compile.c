@@ -20,6 +20,7 @@
 #ifndef PH7_AMALGAMATION
 #include "ph7int.h"
 #endif
+
 /*
  * This file implement a thread-safe and full-reentrant compiler for the PH7 engine.
  * That is, routines defined in this file takes a stream of tokens and output
@@ -40,6 +41,7 @@ typedef struct Label Label;
 #define GEN_BLOCK_STD         0x080    /* Standard block */
 #define GEN_BLOCK_EXCEPTION   0x100    /* Exception block [i.e: try{ } }*/
 #define GEN_BLOCK_SWITCH      0x200    /* Switch statement */
+
 /*
  * Each label seen in the input is recorded in an instance
  * of the following structure.
@@ -56,6 +58,7 @@ struct Label {
   sxu32 nLine;           /* Line number this label occurs */
   sxu8 bRef;             /* True if the label was referenced */
 };
+
 /*
  * Compilation of some PHP constructs such as if, for, while, the logical or
  * (||) and logical and (&&) operators in expressions requires the
@@ -72,6 +75,7 @@ struct JumpFixup {
   ph7_vm_func *pFunc;   /* Compiled function inside which the goto was emitted. NULL otherwise */
   sxu32 nLine;          /* Track line number */
 };
+
 /*
  * Each language construct is represented by an instance
  * of the following structure.
@@ -422,6 +426,7 @@ static ph7_value* GenStateInstallNumLiteral(ph7_gen_state *pGen, sxu32 *pIdx)
     return 0;
   }
   *pIdx = nIdx;
+
   /* TODO(chems): Create a numeric table (64bit int keys) same as
    * the constant string iterals table [optimization purposes].
    */
@@ -1121,6 +1126,7 @@ PH7_PRIVATE sxi32 PH7_CompileArray(ph7_gen_state *pGen, sxi32 iCompileFlag)
   sxi32 nPair = 0;
   sxi32 iNest;
   sxi32 rc;
+
   /* Jump the 'array' keyword,the leading left parenthesis and the trailing parenthesis.
    */
   pGen->pIn += 2;
@@ -1405,6 +1411,7 @@ PH7_PRIVATE sxi32 PH7_CompileLangConstruct(ph7_gen_state *pGen, sxi32 iCompileFl
     SyToken *pTmp, *pNext = 0;
     /* Compile arguments one after one */
     pTmp = pGen->pEnd;
+
     /* Symisc eXtension to the PHP programming language:
      * 'echo' can be used in the context of a function which
      *  mean that the following expression is valid:
@@ -2104,6 +2111,7 @@ static sxi32 GenStateNextChunk(ph7_gen_state *pGen)
   ph7_value *pRawObj;   /* Raw chunk [i.e: HTML,XML...] */
   sxu32 nRawObj;
   sxu32 nObjIdx;
+
   /* Consume raw chunks verbatim without any processing until we get
    * a PHP block.
    */
@@ -2357,6 +2365,7 @@ static sxi32 PH7_CompileWhile(ph7_gen_state *pGen)
   /* Statement successfully compiled */
   return SXRET_OK;
 Synchronize:
+
   /* Synchronize with the first semi-colon ';' so we can avoid
    * compiling this erroneous block.
    */
@@ -2486,6 +2495,7 @@ static sxi32 PH7_CompileDoWhile(ph7_gen_state *pGen)
   /* Statement successfully compiled */
   return SXRET_OK;
 Synchronize:
+
   /* Synchronize with the first semi-colon ';' so we can avoid
    * compiling this erroneous block.
    */
@@ -2892,6 +2902,7 @@ static sxi32 PH7_CompileForeach(ph7_gen_state *pGen)
   /* Statement successfully compiled */
   return SXRET_OK;
 Synchronize:
+
   /* Synchronize with the first semi-colon ';' so we can avoid
    * compiling this erroneous block.
    */
@@ -3050,6 +3061,7 @@ static sxi32 PH7_CompileIf(ph7_gen_state *pGen)
   /* Statement successfully compiled */
   return SXRET_OK;
 Synchronize:
+
   /* Synchronize with the first semi-colon ';' so we can avoid compiling this erroneous block.
    */
   while (pGen->pIn < pGen->pEnd && (pGen->pIn->nType & (PH7_TK_SEMI | PH7_TK_OCB)) == 0) {
@@ -3311,6 +3323,7 @@ static sxi32 PH7_CompileStatic(ph7_gen_state *pGen)
   /* Check if we have an expression to compile */
   if (pGen->pIn < pGen->pEnd && (pGen->pIn->nType & PH7_TK_EQUAL)) {
     SySet *pInstrContainer;
+
     /* TICKET 1433-014: Symisc extension to the PHP programming language
      * Static variable can take any complex expression including function
      * call as their initialization value.
@@ -3332,6 +3345,7 @@ static sxi32 PH7_CompileStatic(ph7_gen_state *pGen)
   SySetPut(&pFunc->aStatic, (const void *) &sStatic);
   return SXRET_OK;
 Synchronize:
+
   /* Synchronize with the first semi-colon ';',so we can avoid compiling this erroneous
    * statement.
    */
@@ -4088,6 +4102,7 @@ static sxi32 GenStateCompileFunc(
   }
   /* Fall through if something goes wrong */
 OutOfMem:
+
   /* If the supplied memory subsystem is so sick that we are unable to allocate
    * a tiny chunk of memory, there is no much we can do here.
    */
@@ -4247,6 +4262,7 @@ loop:
   /* Swap bytecode container */
   pInstrContainer = PH7_VmGetByteCodeContainer(pGen->pVm);
   PH7_VmSetByteCodeContainer(pGen->pVm, &pCons->aByteCode);
+
   /* Compile constant value.
    */
   rc = PH7_CompileExpr(&(*pGen), EXPR_FLAG_COMMA_STATEMENT, 0);
@@ -4364,6 +4380,7 @@ loop:
     /* Swap bytecode container */
     pInstrContainer = PH7_VmGetByteCodeContainer(pGen->pVm);
     PH7_VmSetByteCodeContainer(pGen->pVm, &pAttr->aByteCode);
+
     /* Compile attribute value.
      */
     rc = PH7_CompileExpr(&(*pGen), EXPR_FLAG_COMMA_STATEMENT, 0);
@@ -4647,6 +4664,7 @@ static sxi32 PH7_CompileClassInterface(ph7_gen_state *pGen)
   /* Swap token stream */
   pTmp = pGen->pEnd;
   pGen->pEnd = pEnd;
+
   /* Start the parse process
    * Note (According to the PHP reference manual):
    *  Only constants and function signatures(without body) are allowed.
@@ -5527,6 +5545,7 @@ static sxi32 GenStateCompileSwitchBlock(ph7_gen_state *pGen, sxu32 iTokenDelim, 
   pGen->pIn++;
   /* First instruction to execute in this block. */
   *pBlockStart = PH7_VmInstrLength(pGen->pVm);
+
   /* Compile the block until we hit a case/default/endswitch keyword
    * or the '}' token */
   for (;;) {
@@ -6232,6 +6251,7 @@ static const LangConstruct aLangConstruct[] = {
   { PH7_TKWRD_USE,      PH7_CompileUse },           /* use statement */
   { PH7_TKWRD_DECLARE,  PH7_CompileDeclare }        /* declare statement */
 };
+
 /*
  * Return a pointer to the statement handler routine associated
  * with a given PHP keyword [i.e: if,for,while,...].
@@ -6254,6 +6274,7 @@ static ProcLangConstruct GenStateGetStatementHandler(
           return 0;
         }
       }
+
       /* Return a pointer to the handler.
        */
       return aLangConstruct[n].xConstruct;
@@ -6289,6 +6310,7 @@ static int GenStateisLangConstruct(sxu32 nKeyword)
   rc = PH7_IsLangConstruct(nKeyword, TRUE);
   if (rc == FALSE) {
     if (nKeyword == PH7_TKWRD_SELF || nKeyword == PH7_TKWRD_PARENT || nKeyword == PH7_TKWRD_STATIC
+
         /*|| nKeyword == PH7_TKWRD_CLASS || nKeyword == PH7_TKWRD_FINAL || nKeyword == PH7_TKWRD_EXTENDS
         || nKeyword == PH7_TKWRD_ABSTRACT || nKeyword == PH7_TKWRD_INTERFACE
         || nKeyword == PH7_TKWRD_PUBLIC || nKeyword == PH7_TKWRD_PROTECTED
@@ -6339,6 +6361,7 @@ static sxi32 GenStateCompileChunk(
           if (rc == SXERR_ABORT) {
             break;
           }
+
           /* Synchronize with the first semi-colon and avoid compiling
            * this erroneous statement.
            */
@@ -6419,6 +6442,7 @@ static sxi32 PH7_CompilePHP(
   }
   if (pGen->pIn < pGen->pEnd && (pGen->pIn->nType & PH7_TK_EQUAL)) {
     static const sxu32 nKeyID = PH7_TKWRD_ECHO;
+
     /*
      * Shortcut syntax for the 'echo' language construct.
      * According to the PHP reference manual:

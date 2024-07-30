@@ -20,6 +20,7 @@
 #ifndef PH7_AMALGAMATION
 #include "ph7int.h"
 #endif
+
 /*
  * This file implement an efficient hand-coded,thread-safe and full-reentrant
  * lexical analyzer/Tokenizer for the PH7 engine.
@@ -821,6 +822,7 @@ static sxu32 KeywordCode(const char *z, int n)
 }
 
 /* --- End of Automatically generated code --- */
+
 /*
  * Extract a heredoc/nowdoc text from a raw PHP input.
  * According to the PHP language reference manual:

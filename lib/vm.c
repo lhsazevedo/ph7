@@ -20,6 +20,7 @@
 #ifndef PH7_AMALGAMATION
 #include "ph7int.h"
 #endif
+
 /*
  * The code in this file implements execution method of the PH7 Virtual Machine.
  * The PH7 compiler (implemented in 'compiler.c' and 'parse.c') generates a bytecode program
@@ -65,6 +66,7 @@ struct VmFrame {
 #define VM_FRAME_EXCEPTION  0x01 /* Special Exception frame */
 #define VM_FRAME_THROW      0x02 /* An exception was thrown */
 #define VM_FRAME_CATCH      0x04 /* Catch frame */
+
 /*
  * When a user defined variable is released (via manual unset($x) or garbage collected)
  * memory object index is stored in an instance of the following structure and put
@@ -76,6 +78,7 @@ struct VmSlot {
   sxu32 nIdx;        /* Index in pVm->aMemObj[] */
   void *pUserData;   /* Upper-layer private data */
 };
+
 /*
  * An entry in the reference table is represented by an instance of the
  * follwoing table.
@@ -95,6 +98,7 @@ struct VmRefObj {
   VmRefObj *pNext, *pPrev;                 /* List of all referenced objects */
 };
 #define VM_REF_IDX_KEEP  0x001 /* Do not restore the memory object to the free list */
+
 /*
  * Output control buffer entry.
  * Refer to the implementation of [ob_start()] for more information.
@@ -104,6 +108,7 @@ struct VmObEntry {
   ph7_value sCallback;   /* User defined callback */
   SyBlob sOB;            /* Output buffer consumer */
 };
+
 /*
  * Each installed shutdown callback (registered using [register_shutdown_function()] )
  * is stored in an instance of the following structure.
@@ -117,6 +122,7 @@ struct VmShutdownCB {
 };
 /* Uncaught exception code value */
 #define PH7_EXCEPTION -255
+
 /*
  * Each parsed URI is recorded and stored in an instance of the following structure.
  * This structure and it's related routines are taken verbatim from the xHT project
@@ -135,6 +141,7 @@ struct SyhttpUri {
   SyString sPass;       /* Password */
   SyString sRaw;        /* Raw URI */
 };
+
 /*
  * An instance of the following structure is used to record all MIME headers seen
  * during a HTTP interaction.
@@ -147,6 +154,7 @@ struct SyhttpHeader {
   SyString sName;      /* Header name [i.e:"Content-Type","Host","User-Agent"]. NOT NUL TERMINATED */
   SyString sValue;     /* Header values [i.e: "text/html"]. NOT NUL TERMINATED */
 };
+
 /*
  * Supported HTTP methods.
  */
@@ -155,11 +163,13 @@ struct SyhttpHeader {
 #define HTTP_METHOD_POST 3 /* POST */
 #define HTTP_METHOD_PUT  4 /* PUT */
 #define HTTP_METHOD_OTHR 5 /* Other HTTP methods [i.e: DELETE,TRACE,OPTIONS...]*/
+
 /*
  * Supported HTTP protocol version.
  */
 #define HTTP_PROTO_10 1 /* HTTP/1.0 */
 #define HTTP_PROTO_11 2 /* HTTP/1.1 */
+
 /*
  * Register a constant and it's associated expansion callback so that
  * it can be expanded from the target PHP program.
@@ -879,6 +889,7 @@ static sxi32 VmRefObjUnlink(ph7_vm *pVm, VmRefObj *pRef);
  * Dummy read-only buffer used for slot reservation.
  */
 static const char zDummy[sizeof(ph7_value)] = { 0 };   /* Must be >= sizeof(ph7_value) */
+
 /*
  * Reserve a constant memory object.
  * Return a pointer to the raw ph7_value on success. NULL on failure.
@@ -1390,6 +1401,7 @@ PH7_PRIVATE sxi32 PH7_VmBlobConsumer(
 }
 
 #define VM_STACK_GUARD 16
+
 /*
  * Allocate a new operand stack so that we can start executing
  * our compiled PHP program.
@@ -1402,6 +1414,7 @@ static ph7_value* VmNewOperandStack(
   )
 {
   ph7_value *pStack;
+
   /* No instruction ever pushes more than a single element onto the
   ** stack and the stack never grows on successive executions of the
   ** same loop. So the total number of instructions is an upper bound
@@ -1459,6 +1472,7 @@ PH7_PRIVATE sxi32 PH7_VmMakeReady(
   if (pVm->aOps == 0) {
     return SXERR_MEM;
   }
+
   /* Set the default VM output consumer callback and it's
    * private data. */
   pVm->sVmConsumer.xConsumer = PH7_VmBlobConsumer;
@@ -1582,6 +1596,7 @@ static void VmReleaseCallContext(ph7_context *pCtx)
   if (SySetUsed(&pCtx->sChunk) > 0) {
     ph7_aux_data *aAux;
     void *pChunk;
+
     /* Automatic release of dynamically allocated chunk
      * using [ph7_context_alloc_chunk()].
      */
@@ -1736,6 +1751,7 @@ static ph7_value* VmExtractMemObj(
         /* Do not create the variable,return NULL instead */
         return 0;
       }
+
       /* No such variable,automatically create a new one and install
        * it in the current frame.
        */
@@ -2431,6 +2447,7 @@ static sxi32 VmByteCodeExec(
     /* Fetch the instruction to execute */
     pInstr = &aInstr[pc];
     rc = SXRET_OK;
+
 /*
  * What follows here is a massive switch statement where each case implements a
  * separate instruction in the virtual machine.  If we follow the usual
@@ -4703,6 +4720,7 @@ static sxi32 VmByteCodeExec(
         if (pTos->iFlags & MEMOBJ_OBJ) {
           ph7_class_instance *pThis = (ph7_class_instance *) pTos->x.pOther;
           ph7_class *pException;
+
           /* Make sure the loaded object is an instance of the 'Exception' base class.
            */
           pException = PH7_VmExtractClass(&(*pVm), "Exception", sizeof("Exception") - 1, TRUE, 0);
@@ -5008,6 +5026,7 @@ static sxi32 VmByteCodeExec(
                 PH7_ClassInstanceCallMagicMethod(&(*pVm), pClass, pThis, "__get", sizeof("__get") - 1, &sName);
               }
               VmPopOperand(&pTos, 1);
+
               /* TICKET 1433-49: Deffer garbage collection until attribute loading.
                * This is due to the following case:
                *     (new TestClass())->foo;
@@ -5457,6 +5476,7 @@ static sxi32 VmByteCodeExec(
               PH7_MemObjRelease(pTos);
               /* Synchronize pointers */
               pArg = &pTos[-pInstr->iP1];
+
               /* TICKET 1433-50: This is a very very unlikely scenario that occurs when the 'genius'
                * user have already computed the random generated unique class method name
                * and tries to call it outside it's context [i.e: global scope]. In that
@@ -5690,6 +5710,7 @@ static sxi32 VmByteCodeExec(
             }
             ++n;
           }
+
           /* Pop arguments,function name from the operand stack and assume the function
            * does not return anything.
            */
@@ -5935,6 +5956,7 @@ static void VmInvokeShutdownCallbacks(ph7_vm *pVm)
       }
       /* Invoke the callback */
       PH7_VmCallUserFunction(&(*pVm), &pEntry->sCallback, pEntry->nArg, apArg, 0);
+
       /*
        * TICKET 1433-56: Try re-access the same entry since the invoked
        * callback may call [register_shutdown_function()] in it's body.
@@ -5968,6 +5990,7 @@ PH7_PRIVATE sxi32 PH7_VmByteCodeExec(ph7_vm *pVm)
   VmByteCodeExec(&(*pVm), (VmInstr *) SySetBasePtr(pVm->pByteContainer), pVm->aOps, -1, &pVm->sExec, 0, FALSE);
   /* Invoke any shutdown callbacks */
   VmInvokeShutdownCallbacks(&(*pVm));
+
   /*
    * TICKET 1433-100: Do not remove the PH7_VM_EXEC magic number
    * so that any following call to [ph7_vm_exec()] without calling
@@ -6772,6 +6795,7 @@ static int VmHashFuncStep(SyHashEntry *pEntry, void *pUserData)
 static int vm_builtin_get_defined_func(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   ph7_value *pArray, *pEntry;
+
   /* NOTE:
    * Don't worry about freeing memory here,every allocated resource will be released
    * automatically by the engine as soon we return from this foreign function.
@@ -7360,6 +7384,7 @@ static int vm_builtin_get_class_methods(ph7_context *pCtx, int nArg, ph7_value *
   }
   /* Return the created array */
   ph7_result_value(pCtx, pArray);
+
   /*
    * Don't worry about freeing memory here,everything will be relased
    * automatically as soon we return from this foreign function.
@@ -7481,6 +7506,7 @@ static int vm_builtin_get_class_vars(ph7_context *pCtx, int nArg, ph7_value **ap
   PH7_MemObjRelease(&sValue);
   /* Return the created array */
   ph7_result_value(pCtx, pArray);
+
   /*
    * Don't worry about freeing memory here,everything will be relased
    * automatically as soon we return from this foreign function.
@@ -7549,6 +7575,7 @@ static int vm_builtin_get_object_vars(ph7_context *pCtx, int nArg, ph7_value **a
   }
   /* Return the created array */
   ph7_result_value(pCtx, pArray);
+
   /*
    * Don't worry about freeing memory here,everything will be relased
    * automatically as soon we return from this foreign function.
@@ -7733,6 +7760,7 @@ PH7_PRIVATE sxi32 PH7_VmCallClassMethod(
   /* Fill the operand stack with the given arguments */
   for (i = 0 ; i < nArg ; i++) {
     PH7_MemObjLoad(apArg[i], &aStack[i]);
+
     /*
      * Symisc eXtension:
      *  Parameters to [call_user_func()] can be passed by reference.
@@ -7863,6 +7891,7 @@ PH7_PRIVATE sxi32 PH7_VmCallUserFunction(
   /* Fill the operand stack with the given arguments */
   for (i = 0 ; i < nArg ; i++) {
     PH7_MemObjLoad(apArg[i], &aStack[i]);
+
     /*
      * Symisc eXtension:
      *  Parameters to [call_user_func()] can be passed by reference.
@@ -8812,6 +8841,7 @@ struct unique_id_data {
   ph7_context *pCtx;   /* Call context */
   int entropy;         /* TRUE if the more_entropy flag is set */
 };
+
 /*
  * Binary to hex consumer callback.
  * This callback is the default consumer used by [uniqid()] function
@@ -8897,6 +8927,7 @@ static int vm_builtin_uniqid(ph7_context *pCtx, int nArg, ph7_value **apArg)
 
 #endif /* PH7_DISABLE_HASH_FUNC */
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
+
 /*
  * Section:
  *  Language construct implementation as foreign functions.
@@ -9869,6 +9900,7 @@ static int vm_builtin_debug_backtrace(ph7_context *pCtx, int nArg, ph7_value **a
     }
   }
   ph7_value_int(pValue, 1);
+
   /* Append the current line (which is always 1 since PH7 does not track
    * line numbers at run-time. )
    */
@@ -9889,6 +9921,7 @@ static int vm_builtin_debug_backtrace(ph7_context *pCtx, int nArg, ph7_value **a
   }
   /* Return the freshly created array */
   ph7_result_value(pCtx, pArray);
+
   /*
    * Don't worry about freeing memory, everything will be released automatically
    * as soon we return from this function.
@@ -10140,6 +10173,7 @@ static sxi32 VmThrowException(
       VmLeaveFrame(&(*pVm));
     }
   }
+
   /* TICKET 1433-60: Do not release the 'pException' pointer since it may
    * be used again if a 'goto' statement is executed.
    */
@@ -10301,6 +10335,7 @@ static int vm_builtin_ph7_version(ph7_context *pCtx, int nArg, ph7_value **apArg
         "</span></small></small></p>" \
         "<p style=\"text-align: right;\"><small><small>Copyright (C) <a href=\"http://www.symisc.net/\">Symisc Systems</a></small></small><big>" \
         "</big></p></div></body></html>"
+
 /*
  * bool ph7credits(void)
  * bool ph7info(void)
@@ -10571,6 +10606,7 @@ static int vm_builtin_parse_url(ph7_context *pCtx, int nArg, ph7_value **apArg)
     }
     /* Return the created array */
     ph7_result_value(pCtx, pArray);
+
     /* NOTE:
      * Don't worry about freeing 'pValue',everything will be released
      * automatically as soon we return from this function.
@@ -10600,6 +10636,7 @@ struct compact_data {
   ph7_value *pArray;    /* Target array */
   int nRecCount;        /* Recursion count */
 };
+
 /*
  * Walker callback for the [compact()] function defined below.
  */
@@ -10615,6 +10652,7 @@ static int VmCompactCallback(ph7_value *pKey, ph7_value *pValue, void *pUserData
     if (sVar.nByte > 0) {
       /* Query the current frame */
       pKey = VmExtractMemObj(pVm, &sVar, FALSE, FALSE);
+
       /* ^
        * | Avoid wasting variable and use 'pKey' instead
        */
@@ -11093,6 +11131,7 @@ PH7_PRIVATE sxi32 PH7_VmPushFilePath(ph7_vm *pVm, const char *zPath, int nLen, s
     return SXERR_MEM;
   }
 #ifdef __WINNT__
+
   /* Normalize path on windows
    * Example:
    *    Path/To/File.php
@@ -11161,6 +11200,7 @@ static sxi32 VmExecIncludedFile(
   isNew = 0;
   /* Extract the associated stream */
   pStream = PH7_VmGetStreamDevice(pVm, &pPath->zString, pPath->nByte);
+
   /*
    * Open the file or the URL [i.e: http://ph7.symisc.net/example/hello.php"]
    * in a read-only mode.
@@ -11288,6 +11328,7 @@ static int vm_builtin_get_included_files(ph7_context *pCtx, int nArg, ph7_value 
   }
   /* All done,return the created array */
   ph7_result_value(pCtx, pArray);
+
   /* Note that 'pWorker' will be automatically destroyed
    * by the engine as soon we return from this foreign
    * function.
@@ -11591,6 +11632,7 @@ static void VmExtractOptArgValue(
       /* Save the value */
       ph7_value_string(pWorker, zCur, (int) (zArg - zCur));
     }
+
     /*
      * Check if we are dealing with multiple values.
      * If so,create an array to hold them,rather than a scalar variable.
@@ -11690,6 +11732,7 @@ static int vm_builtin_getopt(ph7_context *pCtx, int nArg, ph7_value **apArg)
   if (SyBlobLength(pArg) < 1) {
     /* Empty command line,return the empty array*/
     ph7_result_value(pCtx, pArray);
+
     /* Everything will be released automatically when we return
      * from this function.
      */
@@ -11735,6 +11778,7 @@ static int vm_builtin_getopt(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   /* Return the option array */
   ph7_result_value(pCtx, pArray);
+
   /*
    * Don't worry about freeing memory, everything will be released
    * automatically as soon we return from this foreign function.
@@ -11815,6 +11859,7 @@ struct json_private_data {
   int iFlags;          /* JSON encoding flags */
   int nRecCount;       /* Recursion count */
 };
+
 /*
  * Returns the JSON representation of a value.In other word perform a JSON encoding operation.
  * According to wikipedia
@@ -12078,6 +12123,7 @@ static int vm_builtin_json_last_error(ph7_context *pCtx, int nArg, ph7_value **a
 #define JSON_TK_COLON   0x200 /* Single colon ':' */
 #define JSON_TK_COMMA   0x400 /* Single comma ',' */
 #define JSON_TK_INVALID 0x800 /* Unexpected token */
+
 /*
  * Tokenize an entire JSON input.
  * Get a single low-level token from the input file.
@@ -12254,6 +12300,7 @@ static sxi32 VmJsonTokenize(SyStream *pStream, SyToken *pToken, void *pUserData,
  * JSON decoded input consumer callback signature.
  */
 typedef int (*ProcJsonConsumer)(ph7_context *, ph7_value *, ph7_value *, void *);
+
 /*
  * JSON decoder state is kept in the following structure.
  */
@@ -12380,6 +12427,7 @@ static sxi32 VmJsonDecode(
       ph7_value_bool(pWorker, (pDecoder->pIn->nType & JSON_TK_TRUE) ? 1 : 0);
     } else if (pDecoder->pIn->nType & JSON_TK_NUM) {
       SyString *pStr = &pDecoder->pIn->sData;
+
       /*
        * Numeric value.
        * Get a string representation first then try to get a numeric
@@ -12650,6 +12698,7 @@ static int vm_builtin_json_decode(ph7_context *pCtx, int nArg, ph7_value **apArg
 }
 
 #ifndef PH7_DISABLE_BUILTIN_FUNC
+
 /*
  * XML processing Functions.
  * Authors:
@@ -12671,6 +12720,7 @@ enum ph7_xml_handler_id {
   PH7_XML_NS_END           /* End namespace declaration handler */
 };
 #define XML_TOTAL_HANDLER (PH7_XML_NS_END + 1)
+
 /* An instance of the following structure describe a working
  * XML engine instance.
  */
@@ -12692,6 +12742,7 @@ struct ph7_xml_engine {
 };
 #define XML_ENGINE_MAGIC 0x851EFC52
 #define IS_INVALID_XML_ENGINE(XML) (XML == 0 || (XML)->nMagic != XML_ENGINE_MAGIC)
+
 /*
  * Allocate and initialize an XML engine.
  */
@@ -14010,6 +14061,7 @@ static int vm_builtin_xml_error_string(ph7_context *pCtx, int nArg, ph7_value **
 }
 
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
+
 /*
  * int utf8_encode(string $input)
  *  UTF-8 encoding.
@@ -14106,6 +14158,7 @@ static const unsigned char UtfTrans1[] = {
   0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
   0x00, 0x01, 0x02, 0x03, 0x00, 0x01, 0x00, 0x00,
 };
+
 /*
 ** Translate a single UTF-8 character.  Return the unicode value.
 **
@@ -14343,6 +14396,7 @@ static const ph7_builtin_func aVmFunc[] = {
   { "require",      vm_builtin_require },
   { "require_once", vm_builtin_require_once },
 };
+
 /*
  * Register the built-in VM functions defined above.
  */
@@ -14626,6 +14680,7 @@ PH7_PRIVATE sxi32 PH7_VmRefObjInstall(
   }
   if (pFrame->pParent != 0 && pEntry) {
     VmSlot sRef;
+
     /* Local frame,record referenced entry so that it can
      * be deleted when we leave this frame.
      */
@@ -14678,6 +14733,7 @@ PH7_PRIVATE sxi32 PH7_VmRefObjRemove(
       if (apEntry[n] == pEntry) {
         /* Nullify the entry */
         apEntry[n] = 0;
+
         /*
          * NOTE:
          * In future releases,think to add a free pool of entries,so that
@@ -14700,6 +14756,7 @@ PH7_PRIVATE sxi32 PH7_VmRefObjRemove(
 }
 
 #ifndef PH7_DISABLE_BUILTIN_FUNC
+
 /*
  * Extract the IO stream device associated with a given scheme.
  * Return a pointer to an instance of ph7_io_stream when the scheme
@@ -14757,6 +14814,7 @@ PH7_PRIVATE const ph7_io_stream* PH7_VmGetStreamDevice(
 }
 
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
+
 /*
  * Section:
  *    HTTP/URI related routines.
@@ -14817,6 +14875,7 @@ static sxi32 VmHttpSplitURI(SyhttpUri *pOut, const char *zUri, sxu32 nLen)
       /* No authority */
       goto PathSplit;
     }
+
     /* There is something here , we will assume its an authority
      * and someone has forgot the two prefix slashes "//",
      * sooner or later we will detect if we are dealing with a malicious
@@ -15021,6 +15080,7 @@ static sxi32 VmHttpExtractHeaders(SyString *pRequest, SySet *pOut)
       if (SXRET_OK != SySetPut(pOut, (const void *) &sHdr)) {
         break;
       }
+
       /* Retrieve the last parsed header so we can handle multi-line header
        * in case we face one of them.
        */
@@ -15322,6 +15382,7 @@ static sxi32 VmHttpProcessRequest(ph7_vm *pVm, const char *zRequest, int nByte)
   }
   /* Process MIME headers */
   VmHttpExtractHeaders(&sRequest, &sHeader);
+
   /*
    * Setup $_SERVER environments
    */
@@ -15362,6 +15423,7 @@ static sxi32 VmHttpProcessRequest(ph7_vm *pVm, const char *zRequest, int nByte)
                 pValue->zString,
                 pValue->nByte
                 );
+
   /*
    * 'PATH_INFO'
    * 'ORIG_PATH_INFO'
@@ -15463,6 +15525,7 @@ static sxi32 VmHttpProcessRequest(ph7_vm *pVm, const char *zRequest, int nByte)
                   pValue->nByte
                   );
   }
+
   /* 'PHP_AUTH_DIGEST': When doing Digest HTTP authentication this variable is set to the 'Authorization'
    * header sent by the client (which you should then use to make the appropriate validation).
    */

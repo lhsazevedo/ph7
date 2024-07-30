@@ -7,6 +7,7 @@
 /* This file was automatically generated.  Do not edit (except for compile time directive)! */
 #ifndef _PH7_H_
 #define _PH7_H_
+
 /*
  * Symisc PH7: An embeddable bytecode compiler and a virtual machine for the PHP(5) programming language.
  * Copyright (C) 2011-2012, Symisc Systems http://ph7.symisc.net/
@@ -55,6 +56,7 @@
  */
 /* $SymiscID: ph7.h v2.1 UNIX|WIN32/64 2012-09-15 09:43 stable <chm@symisc.net> $ */
 #include <stdarg.h> /* needed for the definition of va_list */
+
 /*
  * Compile time engine version, signature, identification in the symisc source tree
  * and copyright notice.
@@ -70,12 +72,14 @@
  * number.
  */
 #define PH7_VERSION "2.1.4"
+
 /*
  * The PH7_VERSION_NUMBER C preprocessor macro resolves to an integer
  * with the value (X*1000000 + Y*1000 + Z) where X, Y, and Z are the same
  * numbers used in [PH7_VERSION].
  */
 #define PH7_VERSION_NUMBER 2001004
+
 /*
  * The PH7_SIG C preprocessor macro evaluates to a string
  * literal which is the public signature of the ph7 engine.
@@ -84,6 +88,7 @@
  *   Server: YourWebServer/x.x PH7/x.x.x \r\n
  */
 #define PH7_SIG "PH7/2.1.4"
+
 /*
  * PH7 identification in the Symisc source tree:
  * Each particular check-in of a particular software released
@@ -91,6 +96,7 @@
  * This macro hold the one associated with ph7.
  */
 #define PH7_IDENT "ph7:c193f4d8a6b90ee60f9afad11840f1010054fdf9"
+
 /*
  * Copyright notice.
  * If you have any questions about the licensing situation,please
@@ -114,6 +120,7 @@ typedef struct ph7_value ph7_value;
 typedef struct ph7_vfs ph7_vfs;
 typedef struct ph7_vm ph7_vm;
 typedef struct ph7 ph7;
+
 /*
  * ------------------------------
  * Compile time directives
@@ -183,6 +190,7 @@ typedef struct ph7 ph7;
 #define __WINNT__
 #endif
 #else
+
 /*
  * By default we will assume that we are compiling on a UNIX systems.
  * Otherwise the OS_OTHER directive must be defined.
@@ -344,6 +352,7 @@ struct SyMutexMethods {
 #define PH7_COMPILE_ERR (-70)     /* Compilation error */
 #define PH7_VM_ERR      (-71)     /* Virtual machine error */
 /* end-of-error-codes */
+
 /*
  * If compiling for a processor that lacks floating point
  * support, substitute integer for floating-point.
@@ -355,6 +364,7 @@ typedef double ph7_real;
 #endif
 typedef sxi64 ph7_int64;
 #define PH7_APIEXPORT SX_APIEXPORT
+
 /*
  * Engine Configuration Commands.
  *
@@ -372,6 +382,7 @@ typedef sxi64 ph7_int64;
 #define PH7_CONFIG_ERR_OUTPUT    1  /* TWO ARGUMENTS: int (*xConsumer)(const void *pOut,unsigned int nLen,void *pUserData),void *pUserData */
 #define PH7_CONFIG_ERR_ABORT     2  /* RESERVED FOR FUTURE USE */
 #define PH7_CONFIG_ERR_LOG       3  /* TWO ARGUMENTS: const char **pzBuf,int *pLen */
+
 /*
  * Virtual Machine Configuration Commands.
  *
@@ -409,6 +420,7 @@ typedef sxi64 ph7_int64;
 #define PH7_VM_CONFIG_ARGV_ENTRY      19  /* ONE ARGUMENT: const char *zValue */
 #define PH7_VM_CONFIG_EXTRACT_OUTPUT  20  /* TWO ARGUMENTS: const void **ppOut,unsigned int *pOutputLen */
 #define PH7_VM_CONFIG_ERR_LOG_HANDLER 21  /* ONE ARGUMENT: void (*xErrLog)(const char *,int,const char *,const char *) */
+
 /*
  * Global Library Configuration Commands.
  *
@@ -441,6 +453,7 @@ typedef sxi64 ph7_int64;
 #define PH7_LIB_CONFIG_THREAD_LEVEL_SINGLE    4 /* NO ARGUMENTS */
 #define PH7_LIB_CONFIG_THREAD_LEVEL_MULTI     5 /* NO ARGUMENTS */
 #define PH7_LIB_CONFIG_VFS                    6 /* ONE ARGUMENT: const ph7_vfs *pVfs */
+
 /*
  * Compile-time flags.
  * The new compile interfaces [ph7_compile_v2()] and [ph7_compile_file()] takes
@@ -455,6 +468,7 @@ typedef sxi64 ph7_int64;
                            * Everything will pass through the PH7 compiler.
                            */
 #define PH7_PHP_EXPR 0x02 /* This flag is reserved for future use. */
+
 /*
  * Call Context Error Message Serverity Level.
  *
@@ -468,6 +482,7 @@ typedef sxi64 ph7_int64;
 #define PH7_CTX_NOTICE   3 /* Call context Notice */
 /* Current VFS structure version*/
 #define PH7_VFS_VERSION 2
+
 /*
  * PH7 Virtual File System (VFS).
  *
@@ -540,6 +555,7 @@ struct ph7_vfs {
 };
 /* Current PH7 IO stream structure version. */
 #define PH7_IO_STREAM_VERSION 1
+
 /*
  * Possible open mode flags that can be passed to the xOpen() routine
  * of the underlying IO stream device .
@@ -556,6 +572,7 @@ struct ph7_vfs {
 #define PH7_IO_OPEN_BINARY   0x080  /* Simple hint: Data is binary */
 #define PH7_IO_OPEN_TEMP     0x100  /* Simple hint: Temporary file */
 #define PH7_IO_OPEN_TEXT     0x200  /* Simple hint: Data is textual */
+
 /*
  * PH7 IO Stream Device.
  *
@@ -603,6 +620,7 @@ struct ph7_io_stream {
   int (*xSync)(void *);                                    /* Flush open stream data */
   int (*xStat)(void *, ph7_value *, ph7_value *);            /* Stat an open stream handle */
 };
+
 /*
  * C-API-REF: Please refer to the official documentation for interfaces
  * purpose and expected parameters.

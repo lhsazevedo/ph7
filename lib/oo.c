@@ -20,6 +20,7 @@
 #ifndef PH7_AMALGAMATION
 #include "ph7int.h"
 #endif
+
 /*
  * This file implement an Object Oriented (OO) subsystem for the PH7 engine.
  */
@@ -416,6 +417,7 @@ PH7_PRIVATE sxi32 PH7_ClassImplement(ph7_class *pMain, ph7_class *pInterface)
   }
   /* Install in the interface container */
   SySetPut(&pMain->aInterface, (const void *) &pInterface);
+
   /* TICKET 1433-49/1: Symisc eXtension
    *  A class may not implemnt all declared interface methods,so there
    *  is no need for a method installer loop here.
@@ -691,6 +693,7 @@ PH7_PRIVATE ph7_class_instance* PH7_CloneClassInstance(ph7_class_instance *pSrc)
 }
 
 #define CLASS_INSTANCE_DESTROYED 0x001 /* Instance is released */
+
 /*
  * Release a class instance [i.e: Object in the PHP jargon] and invoke any defined destructor.
  * This routine is invoked as soon as there are no other references to a particular
@@ -847,6 +850,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceCmp(ph7_class_instance *pLeft, ph7_class_inst
      */
     return !(pLeft == pRight);
   }
+
   /*
    * Attribute comparison.
    * According to the PHP reference manual:
