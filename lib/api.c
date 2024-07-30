@@ -27,7 +27,7 @@
  */
 #define PH7_ENGINE_MAGIC 0xF874BCD7
 #define PH7_ENGINE_MISUSE(ENGINE) \
-        (ENGINE == 0 \
+        (ENGINE == 0              \
          || ENGINE->nMagic != PH7_ENGINE_MAGIC)
 #define PH7_VM_MISUSE(VM) (VM == 0 || VM->nMagic == PH7_VM_STALE)
 

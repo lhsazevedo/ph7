@@ -1057,328 +1057,328 @@ static sxi32 VmEvalChunk(
  * Built-in classes/interfaces and some functions that cannot be implemented
  * directly as foreign functions.
  */
-#define PH7_BUILTIN_LIB \
-        "class Exception { " \
-        "protected $message = 'Unknown exception';" \
-        "protected $code = 0;" \
-        "protected $file;" \
-        "protected $line;" \
-        "protected $trace;" \
-        "protected $previous;" \
-        "public function __construct($message = null, $code = 0, Exception $previous = null){" \
-        "   if( isset($message) ){" \
-        "	  $this->message = $message;" \
-        "   }" \
-        "   $this->code = $code;" \
-        "   $this->file = __FILE__;" \
-        "   $this->line = __LINE__;" \
-        "   $this->trace = debug_backtrace();" \
-        "   if( isset($previous) ){" \
-        "     $this->previous = $previous;" \
-        "   }" \
-        "}" \
-        "public function getMessage(){" \
-        "   return $this->message;" \
-        "}" \
-        " public function getCode(){" \
-        "  return $this->code;" \
-        "}" \
-        "public function getFile(){" \
-        "  return $this->file;" \
-        "}" \
-        "public function getLine(){" \
-        "  return $this->line;" \
-        "}" \
-        "public function getTrace(){" \
-        "   return $this->trace;" \
-        "}" \
-        "public function getTraceAsString(){" \
-        "  return debug_string_backtrace();" \
-        "}" \
-        "public function getPrevious(){" \
-        "    return $this->previous;" \
-        "}" \
-        "public function __toString(){" \
-        "   return $this->file.' '.$this->line.' '.$this->code.' '.$this->message;" \
-        "}" \
-        "}" \
-        "class ErrorException extends Exception { " \
-        "protected $severity;" \
-        "public function __construct(string $message = null," \
+#define PH7_BUILTIN_LIB                                                                                                     \
+        "class Exception { "                                                                                                \
+        "protected $message = 'Unknown exception';"                                                                         \
+        "protected $code = 0;"                                                                                              \
+        "protected $file;"                                                                                                  \
+        "protected $line;"                                                                                                  \
+        "protected $trace;"                                                                                                 \
+        "protected $previous;"                                                                                              \
+        "public function __construct($message = null, $code = 0, Exception $previous = null){"                              \
+        "   if( isset($message) ){"                                                                                         \
+        "	  $this->message = $message;"                                                                               \
+        "   }"                                                                                                              \
+        "   $this->code = $code;"                                                                                           \
+        "   $this->file = __FILE__;"                                                                                        \
+        "   $this->line = __LINE__;"                                                                                        \
+        "   $this->trace = debug_backtrace();"                                                                              \
+        "   if( isset($previous) ){"                                                                                        \
+        "     $this->previous = $previous;"                                                                                 \
+        "   }"                                                                                                              \
+        "}"                                                                                                                 \
+        "public function getMessage(){"                                                                                     \
+        "   return $this->message;"                                                                                         \
+        "}"                                                                                                                 \
+        " public function getCode(){"                                                                                       \
+        "  return $this->code;"                                                                                             \
+        "}"                                                                                                                 \
+        "public function getFile(){"                                                                                        \
+        "  return $this->file;"                                                                                             \
+        "}"                                                                                                                 \
+        "public function getLine(){"                                                                                        \
+        "  return $this->line;"                                                                                             \
+        "}"                                                                                                                 \
+        "public function getTrace(){"                                                                                       \
+        "   return $this->trace;"                                                                                           \
+        "}"                                                                                                                 \
+        "public function getTraceAsString(){"                                                                               \
+        "  return debug_string_backtrace();"                                                                                \
+        "}"                                                                                                                 \
+        "public function getPrevious(){"                                                                                    \
+        "    return $this->previous;"                                                                                       \
+        "}"                                                                                                                 \
+        "public function __toString(){"                                                                                     \
+        "   return $this->file.' '.$this->line.' '.$this->code.' '.$this->message;"                                         \
+        "}"                                                                                                                 \
+        "}"                                                                                                                 \
+        "class ErrorException extends Exception { "                                                                         \
+        "protected $severity;"                                                                                              \
+        "public function __construct(string $message = null,"                                                               \
         "int $code = 0,int $severity = 1,string $filename = __FILE__ ,int $lineno = __LINE__ ,Exception $previous = null){" \
-        "   if( isset($message) ){" \
-        "	  $this->message = $message;" \
-        "   }" \
-        "   $this->severity = $severity;" \
-        "   $this->code = $code;" \
-        "   $this->file = $filename;" \
-        "   $this->line = $lineno;" \
-        "   $this->trace = debug_backtrace();" \
-        "   if( isset($previous) ){" \
-        "     $this->previous = $previous;" \
-        "   }" \
-        "}" \
-        "public function getSeverity(){" \
-        "   return $this->severity;" \
-        "}" \
-        "}" \
-        "interface Iterator {" \
-        "public function current();" \
-        "public function key();" \
-        "public function next();" \
-        "public function rewind();" \
-        "public function valid();" \
-        "}" \
-        "interface IteratorAggregate {" \
-        "public function getIterator();" \
-        "}" \
-        "interface Serializable {" \
-        "public function serialize();" \
-        "public function unserialize(string $serialized);" \
-        "}" \
-        "/* Directory releated IO */" \
-        "class Directory {" \
-        "public $handle = null;" \
-        "public $path  = null;" \
-        "public function __construct(string $path)" \
-        "{" \
-        "   $this->handle = opendir($path);" \
-        "   if( $this->handle !== FALSE ){" \
-        "      $this->path = $path;" \
-        "   }" \
-        "}" \
-        "public function __destruct()" \
-        "{" \
-        "  if( $this->handle != null ){" \
-        "       closedir($this->handle);" \
-        "  }" \
-        "}" \
-        "public function read()" \
-        "{" \
-        "    return readdir($this->handle);" \
-        "}" \
-        "public function rewind()" \
-        "{" \
-        "    rewinddir($this->handle);" \
-        "}" \
-        "public function close()" \
-        "{" \
-        "    closedir($this->handle);" \
-        "    $this->handle = null;" \
-        "}" \
-        "}" \
-        "class stdClass{" \
-        "  public $value;" \
-        " /* Magic methods */" \
-        " public function __toInt(){ return (int)$this->value; }" \
-        " public function __toBool(){ return (bool)$this->value; }" \
-        " public function __toFloat(){ return (float)$this->value; }" \
-        " public function __toString(){ return (string)$this->value; }" \
-        " function __construct($v){ $this->value = $v; }" \
-        "}" \
-        "function dir(string $path){" \
-        "   return new Directory($path);" \
-        "}" \
-        "function Dir(string $path){" \
-        "   return new Directory($path);" \
-        "}" \
-        "function scandir(string $directory,int $sort_order = SCANDIR_SORT_ASCENDING)" \
-        "{" \
-        "  if( func_num_args() < 1 ){ return FALSE; }" \
-        "  $aDir = array();" \
-        "  $pHandle = opendir($directory);" \
-        "  if( $pHandle == FALSE ){ return FALSE; }" \
-        "  while(FALSE !== ($pEntry = readdir($pHandle)) ){" \
-        "      $aDir[] = $pEntry;" \
-        "   }" \
-        "  closedir($pHandle);" \
-        "  if( $sort_order == SCANDIR_SORT_DESCENDING ){" \
-        "      rsort($aDir);" \
-        "  }else if( $sort_order == SCANDIR_SORT_ASCENDING ){" \
-        "      sort($aDir);" \
-        "  }" \
-        "  return $aDir;" \
-        "}" \
-        "function glob(string $pattern,int $iFlags = 0){" \
-        "/* Open the target directory */" \
-        "$zDir = dirname($pattern);" \
-        "if(!is_string($zDir) ){ $zDir = './'; }" \
-        "$pHandle = opendir($zDir);" \
-        "if( $pHandle == FALSE ){" \
-        "   /* IO error while opening the current directory,return FALSE */" \
-        "	return FALSE;" \
-        "}" \
-        "$pattern = basename($pattern);" \
-        "$pArray = array(); /* Empty array */" \
-        "/* Loop throw available entries */" \
-        "while( FALSE !== ($pEntry = readdir($pHandle)) ){" \
-        " /* Use the built-in strglob function which is a Symisc eXtension for wildcard comparison*/" \
-        "	$rc = strglob($pattern,$pEntry);" \
-        "	if( $rc ){" \
-        "	   if( is_dir($pEntry) ){" \
-        "	      if( $iFlags & GLOB_MARK ){" \
-        "		     /* Adds a slash to each directory returned */" \
-        "			 $pEntry .= DIRECTORY_SEPARATOR;" \
-        "		  }" \
-        "	   }else if( $iFlags & GLOB_ONLYDIR ){" \
-        "	     /* Not a directory,ignore */" \
-        "		 continue;" \
-        "	   }" \
-        "	   /* Add the entry */" \
-        "	   $pArray[] = $pEntry;" \
-        "	}" \
-        " }" \
-        "/* Close the handle */" \
-        "closedir($pHandle);" \
-        "if( ($iFlags & GLOB_NOSORT) == 0 ){" \
-        "  /* Sort the array */" \
-        "  sort($pArray);" \
-        "}" \
-        "if( ($iFlags & GLOB_NOCHECK) && sizeof($pArray) < 1 ){" \
-        "  /* Return the search pattern if no files matching were found */" \
-        "  $pArray[] = $pattern;" \
-        "}" \
-        "/* Return the created array */" \
-        "return $pArray;" \
-        "}" \
-        "/* Creates a temporary file */" \
-        "function tmpfile(){" \
-        "  /* Extract the temp directory */" \
-        "  $zTempDir = sys_get_temp_dir();" \
-        "  if( strlen($zTempDir) < 1 ){" \
-        "    /* Use the current dir */" \
-        "    $zTempDir = '.';" \
-        "  }" \
-        "  /* Create the file */" \
-        "  $pHandle = fopen($zTempDir.DIRECTORY_SEPARATOR.'PH7'.rand_str(12),'w+');" \
-        "  return $pHandle;" \
-        "}" \
-        "/* Creates a temporary filename */" \
-        "function tempnam(string $zDir = sys_get_temp_dir() /* Symisc eXtension */,string $zPrefix = 'PH7')" \
-        "{" \
-        "   return $zDir.DIRECTORY_SEPARATOR.$zPrefix.rand_str(12);" \
-        "}" \
-        "function array_unshift(&$pArray ){" \
-        " if( func_num_args() < 1 || !is_array($pArray) ){  return 0; }" \
-        "/* Copy arguments */" \
-        "$nArgs = func_num_args();" \
-        "$pNew = array();" \
-        "for( $i = 1 ; $i < $nArgs ; ++$i ){" \
-        " $pNew[] = func_get_arg($i);" \
-        "}" \
-        "/* Make a copy of the old entries */" \
-        "$pOld = array_copy($pArray);" \
-        "/* Erase */" \
-        "array_erase($pArray);" \
-        "/* Unshift */" \
-        "$pArray = array_merge($pNew,$pOld);" \
-        "return sizeof($pArray);" \
-        "}" \
-        "function array_merge_recursive($array1, $array2){" \
-        "if( func_num_args() < 1 ){ return NULL; }" \
-        "$arrays = func_get_args();" \
-        "$narrays = count($arrays);" \
-        "$ret = $arrays[0];" \
-        "for ($i = 1; $i < $narrays; $i++) {" \
-        " if( array_same($ret,$arrays[$i]) ){ /* Same instance */continue;}" \
-        " foreach ($arrays[$i] as $key => $value) {" \
-        "  if (((string) $key) === ((string) intval($key))) {" \
-        "   $ret[] = $value;" \
-        "  }else{" \
-        "  if (is_array($value) && isset($ret[$key]) ) {" \
-        "   $ret[$key] = array_merge_recursive($ret[$key], $value);" \
-        " }else {" \
-        "   $ret[$key] = $value;" \
-        "  }" \
-        " }" \
-        " }" \
-        "}" \
-        " return $ret;" \
-        "}" \
-        "function max(){" \
-        "  $pArgs = func_get_args();" \
-        " if( sizeof($pArgs) < 1 ){" \
-        "  return null;" \
-        " }" \
-        " if( sizeof($pArgs) < 2 ){" \
-        " $pArg = $pArgs[0];" \
-        " if( !is_array($pArg) ){" \
-        "   return $pArg; " \
-        " }" \
-        " if( sizeof($pArg) < 1 ){" \
-        "   return null;" \
-        " }" \
-        " $pArg = array_copy($pArgs[0]);" \
-        " reset($pArg);" \
-        " $max = current($pArg);" \
-        " while( FALSE !== ($val = next($pArg)) ){" \
-        "   if( $val > $max ){" \
-        "     $max = $val;" \
-        " }" \
-        " }" \
-        " return $max;" \
-        " }" \
-        " $max = $pArgs[0];" \
-        " for( $i = 1; $i < sizeof($pArgs) ; ++$i ){" \
-        " $val = $pArgs[$i];" \
-        "if( $val > $max ){" \
-        " $max = $val;" \
-        "}" \
-        " }" \
-        " return $max;" \
-        "}" \
-        "function min(){" \
-        "  $pArgs = func_get_args();" \
-        " if( sizeof($pArgs) < 1 ){" \
-        "  return null;" \
-        " }" \
-        " if( sizeof($pArgs) < 2 ){" \
-        " $pArg = $pArgs[0];" \
-        " if( !is_array($pArg) ){" \
-        "   return $pArg; " \
-        " }" \
-        " if( sizeof($pArg) < 1 ){" \
-        "   return null;" \
-        " }" \
-        " $pArg = array_copy($pArgs[0]);" \
-        " reset($pArg);" \
-        " $min = current($pArg);" \
-        " while( FALSE !== ($val = next($pArg)) ){" \
-        "   if( $val < $min ){" \
-        "     $min = $val;" \
-        " }" \
-        " }" \
-        " return $min;" \
-        " }" \
-        " $min = $pArgs[0];" \
-        " for( $i = 1; $i < sizeof($pArgs) ; ++$i ){" \
-        " $val = $pArgs[$i];" \
-        "if( $val < $min ){" \
-        " $min = $val;" \
-        " }" \
-        " }" \
-        " return $min;" \
-        "}" \
-        "function fileowner(string $file){" \
-        " $a = stat($file);" \
-        " if( !is_array($a) ){" \
-        "	return false;" \
-        " }" \
-        " return $a['uid'];" \
-        "}" \
-        "function filegroup(string $file){" \
-        " $a = stat($file);" \
-        " if( !is_array($a) ){" \
-        "	return false;" \
-        " }" \
-        " return $a['gid'];" \
-        "}" \
-        "function fileinode(string $file){" \
-        " $a = stat($file);" \
-        " if( !is_array($a) ){" \
-        "	return false;" \
-        " }" \
-        " return $a['ino'];" \
+        "   if( isset($message) ){"                                                                                         \
+        "	  $this->message = $message;"                                                                               \
+        "   }"                                                                                                              \
+        "   $this->severity = $severity;"                                                                                   \
+        "   $this->code = $code;"                                                                                           \
+        "   $this->file = $filename;"                                                                                       \
+        "   $this->line = $lineno;"                                                                                         \
+        "   $this->trace = debug_backtrace();"                                                                              \
+        "   if( isset($previous) ){"                                                                                        \
+        "     $this->previous = $previous;"                                                                                 \
+        "   }"                                                                                                              \
+        "}"                                                                                                                 \
+        "public function getSeverity(){"                                                                                    \
+        "   return $this->severity;"                                                                                        \
+        "}"                                                                                                                 \
+        "}"                                                                                                                 \
+        "interface Iterator {"                                                                                              \
+        "public function current();"                                                                                        \
+        "public function key();"                                                                                            \
+        "public function next();"                                                                                           \
+        "public function rewind();"                                                                                         \
+        "public function valid();"                                                                                          \
+        "}"                                                                                                                 \
+        "interface IteratorAggregate {"                                                                                     \
+        "public function getIterator();"                                                                                    \
+        "}"                                                                                                                 \
+        "interface Serializable {"                                                                                          \
+        "public function serialize();"                                                                                      \
+        "public function unserialize(string $serialized);"                                                                  \
+        "}"                                                                                                                 \
+        "/* Directory releated IO */"                                                                                       \
+        "class Directory {"                                                                                                 \
+        "public $handle = null;"                                                                                            \
+        "public $path  = null;"                                                                                             \
+        "public function __construct(string $path)"                                                                         \
+        "{"                                                                                                                 \
+        "   $this->handle = opendir($path);"                                                                                \
+        "   if( $this->handle !== FALSE ){"                                                                                 \
+        "      $this->path = $path;"                                                                                        \
+        "   }"                                                                                                              \
+        "}"                                                                                                                 \
+        "public function __destruct()"                                                                                      \
+        "{"                                                                                                                 \
+        "  if( $this->handle != null ){"                                                                                    \
+        "       closedir($this->handle);"                                                                                   \
+        "  }"                                                                                                               \
+        "}"                                                                                                                 \
+        "public function read()"                                                                                            \
+        "{"                                                                                                                 \
+        "    return readdir($this->handle);"                                                                                \
+        "}"                                                                                                                 \
+        "public function rewind()"                                                                                          \
+        "{"                                                                                                                 \
+        "    rewinddir($this->handle);"                                                                                     \
+        "}"                                                                                                                 \
+        "public function close()"                                                                                           \
+        "{"                                                                                                                 \
+        "    closedir($this->handle);"                                                                                      \
+        "    $this->handle = null;"                                                                                         \
+        "}"                                                                                                                 \
+        "}"                                                                                                                 \
+        "class stdClass{"                                                                                                   \
+        "  public $value;"                                                                                                  \
+        " /* Magic methods */"                                                                                              \
+        " public function __toInt(){ return (int)$this->value; }"                                                           \
+        " public function __toBool(){ return (bool)$this->value; }"                                                         \
+        " public function __toFloat(){ return (float)$this->value; }"                                                       \
+        " public function __toString(){ return (string)$this->value; }"                                                     \
+        " function __construct($v){ $this->value = $v; }"                                                                   \
+        "}"                                                                                                                 \
+        "function dir(string $path){"                                                                                       \
+        "   return new Directory($path);"                                                                                   \
+        "}"                                                                                                                 \
+        "function Dir(string $path){"                                                                                       \
+        "   return new Directory($path);"                                                                                   \
+        "}"                                                                                                                 \
+        "function scandir(string $directory,int $sort_order = SCANDIR_SORT_ASCENDING)"                                      \
+        "{"                                                                                                                 \
+        "  if( func_num_args() < 1 ){ return FALSE; }"                                                                      \
+        "  $aDir = array();"                                                                                                \
+        "  $pHandle = opendir($directory);"                                                                                 \
+        "  if( $pHandle == FALSE ){ return FALSE; }"                                                                        \
+        "  while(FALSE !== ($pEntry = readdir($pHandle)) ){"                                                                \
+        "      $aDir[] = $pEntry;"                                                                                          \
+        "   }"                                                                                                              \
+        "  closedir($pHandle);"                                                                                             \
+        "  if( $sort_order == SCANDIR_SORT_DESCENDING ){"                                                                   \
+        "      rsort($aDir);"                                                                                               \
+        "  }else if( $sort_order == SCANDIR_SORT_ASCENDING ){"                                                              \
+        "      sort($aDir);"                                                                                                \
+        "  }"                                                                                                               \
+        "  return $aDir;"                                                                                                   \
+        "}"                                                                                                                 \
+        "function glob(string $pattern,int $iFlags = 0){"                                                                   \
+        "/* Open the target directory */"                                                                                   \
+        "$zDir = dirname($pattern);"                                                                                        \
+        "if(!is_string($zDir) ){ $zDir = './'; }"                                                                           \
+        "$pHandle = opendir($zDir);"                                                                                        \
+        "if( $pHandle == FALSE ){"                                                                                          \
+        "   /* IO error while opening the current directory,return FALSE */"                                                \
+        "	return FALSE;"                                                                                              \
+        "}"                                                                                                                 \
+        "$pattern = basename($pattern);"                                                                                    \
+        "$pArray = array(); /* Empty array */"                                                                              \
+        "/* Loop throw available entries */"                                                                                \
+        "while( FALSE !== ($pEntry = readdir($pHandle)) ){"                                                                 \
+        " /* Use the built-in strglob function which is a Symisc eXtension for wildcard comparison*/"                       \
+        "	$rc = strglob($pattern,$pEntry);"                                                                           \
+        "	if( $rc ){"                                                                                                 \
+        "	   if( is_dir($pEntry) ){"                                                                                  \
+        "	      if( $iFlags & GLOB_MARK ){"                                                                           \
+        "		     /* Adds a slash to each directory returned */"                                                 \
+        "			 $pEntry .= DIRECTORY_SEPARATOR;"                                                           \
+        "		  }"                                                                                                \
+        "	   }else if( $iFlags & GLOB_ONLYDIR ){"                                                                     \
+        "	     /* Not a directory,ignore */"                                                                          \
+        "		 continue;"                                                                                         \
+        "	   }"                                                                                                       \
+        "	   /* Add the entry */"                                                                                     \
+        "	   $pArray[] = $pEntry;"                                                                                    \
+        "	}"                                                                                                          \
+        " }"                                                                                                                \
+        "/* Close the handle */"                                                                                            \
+        "closedir($pHandle);"                                                                                               \
+        "if( ($iFlags & GLOB_NOSORT) == 0 ){"                                                                               \
+        "  /* Sort the array */"                                                                                            \
+        "  sort($pArray);"                                                                                                  \
+        "}"                                                                                                                 \
+        "if( ($iFlags & GLOB_NOCHECK) && sizeof($pArray) < 1 ){"                                                            \
+        "  /* Return the search pattern if no files matching were found */"                                                 \
+        "  $pArray[] = $pattern;"                                                                                           \
+        "}"                                                                                                                 \
+        "/* Return the created array */"                                                                                    \
+        "return $pArray;"                                                                                                   \
+        "}"                                                                                                                 \
+        "/* Creates a temporary file */"                                                                                    \
+        "function tmpfile(){"                                                                                               \
+        "  /* Extract the temp directory */"                                                                                \
+        "  $zTempDir = sys_get_temp_dir();"                                                                                 \
+        "  if( strlen($zTempDir) < 1 ){"                                                                                    \
+        "    /* Use the current dir */"                                                                                     \
+        "    $zTempDir = '.';"                                                                                              \
+        "  }"                                                                                                               \
+        "  /* Create the file */"                                                                                           \
+        "  $pHandle = fopen($zTempDir.DIRECTORY_SEPARATOR.'PH7'.rand_str(12),'w+');"                                        \
+        "  return $pHandle;"                                                                                                \
+        "}"                                                                                                                 \
+        "/* Creates a temporary filename */"                                                                                \
+        "function tempnam(string $zDir = sys_get_temp_dir() /* Symisc eXtension */,string $zPrefix = 'PH7')"                \
+        "{"                                                                                                                 \
+        "   return $zDir.DIRECTORY_SEPARATOR.$zPrefix.rand_str(12);"                                                        \
+        "}"                                                                                                                 \
+        "function array_unshift(&$pArray ){"                                                                                \
+        " if( func_num_args() < 1 || !is_array($pArray) ){  return 0; }"                                                    \
+        "/* Copy arguments */"                                                                                              \
+        "$nArgs = func_num_args();"                                                                                         \
+        "$pNew = array();"                                                                                                  \
+        "for( $i = 1 ; $i < $nArgs ; ++$i ){"                                                                               \
+        " $pNew[] = func_get_arg($i);"                                                                                      \
+        "}"                                                                                                                 \
+        "/* Make a copy of the old entries */"                                                                              \
+        "$pOld = array_copy($pArray);"                                                                                      \
+        "/* Erase */"                                                                                                       \
+        "array_erase($pArray);"                                                                                             \
+        "/* Unshift */"                                                                                                     \
+        "$pArray = array_merge($pNew,$pOld);"                                                                               \
+        "return sizeof($pArray);"                                                                                           \
+        "}"                                                                                                                 \
+        "function array_merge_recursive($array1, $array2){"                                                                 \
+        "if( func_num_args() < 1 ){ return NULL; }"                                                                         \
+        "$arrays = func_get_args();"                                                                                        \
+        "$narrays = count($arrays);"                                                                                        \
+        "$ret = $arrays[0];"                                                                                                \
+        "for ($i = 1; $i < $narrays; $i++) {"                                                                               \
+        " if( array_same($ret,$arrays[$i]) ){ /* Same instance */continue;}"                                                \
+        " foreach ($arrays[$i] as $key => $value) {"                                                                        \
+        "  if (((string) $key) === ((string) intval($key))) {"                                                              \
+        "   $ret[] = $value;"                                                                                               \
+        "  }else{"                                                                                                          \
+        "  if (is_array($value) && isset($ret[$key]) ) {"                                                                   \
+        "   $ret[$key] = array_merge_recursive($ret[$key], $value);"                                                        \
+        " }else {"                                                                                                          \
+        "   $ret[$key] = $value;"                                                                                           \
+        "  }"                                                                                                               \
+        " }"                                                                                                                \
+        " }"                                                                                                                \
+        "}"                                                                                                                 \
+        " return $ret;"                                                                                                     \
+        "}"                                                                                                                 \
+        "function max(){"                                                                                                   \
+        "  $pArgs = func_get_args();"                                                                                       \
+        " if( sizeof($pArgs) < 1 ){"                                                                                        \
+        "  return null;"                                                                                                    \
+        " }"                                                                                                                \
+        " if( sizeof($pArgs) < 2 ){"                                                                                        \
+        " $pArg = $pArgs[0];"                                                                                               \
+        " if( !is_array($pArg) ){"                                                                                          \
+        "   return $pArg; "                                                                                                 \
+        " }"                                                                                                                \
+        " if( sizeof($pArg) < 1 ){"                                                                                         \
+        "   return null;"                                                                                                   \
+        " }"                                                                                                                \
+        " $pArg = array_copy($pArgs[0]);"                                                                                   \
+        " reset($pArg);"                                                                                                    \
+        " $max = current($pArg);"                                                                                           \
+        " while( FALSE !== ($val = next($pArg)) ){"                                                                         \
+        "   if( $val > $max ){"                                                                                             \
+        "     $max = $val;"                                                                                                 \
+        " }"                                                                                                                \
+        " }"                                                                                                                \
+        " return $max;"                                                                                                     \
+        " }"                                                                                                                \
+        " $max = $pArgs[0];"                                                                                                \
+        " for( $i = 1; $i < sizeof($pArgs) ; ++$i ){"                                                                       \
+        " $val = $pArgs[$i];"                                                                                               \
+        "if( $val > $max ){"                                                                                                \
+        " $max = $val;"                                                                                                     \
+        "}"                                                                                                                 \
+        " }"                                                                                                                \
+        " return $max;"                                                                                                     \
+        "}"                                                                                                                 \
+        "function min(){"                                                                                                   \
+        "  $pArgs = func_get_args();"                                                                                       \
+        " if( sizeof($pArgs) < 1 ){"                                                                                        \
+        "  return null;"                                                                                                    \
+        " }"                                                                                                                \
+        " if( sizeof($pArgs) < 2 ){"                                                                                        \
+        " $pArg = $pArgs[0];"                                                                                               \
+        " if( !is_array($pArg) ){"                                                                                          \
+        "   return $pArg; "                                                                                                 \
+        " }"                                                                                                                \
+        " if( sizeof($pArg) < 1 ){"                                                                                         \
+        "   return null;"                                                                                                   \
+        " }"                                                                                                                \
+        " $pArg = array_copy($pArgs[0]);"                                                                                   \
+        " reset($pArg);"                                                                                                    \
+        " $min = current($pArg);"                                                                                           \
+        " while( FALSE !== ($val = next($pArg)) ){"                                                                         \
+        "   if( $val < $min ){"                                                                                             \
+        "     $min = $val;"                                                                                                 \
+        " }"                                                                                                                \
+        " }"                                                                                                                \
+        " return $min;"                                                                                                     \
+        " }"                                                                                                                \
+        " $min = $pArgs[0];"                                                                                                \
+        " for( $i = 1; $i < sizeof($pArgs) ; ++$i ){"                                                                       \
+        " $val = $pArgs[$i];"                                                                                               \
+        "if( $val < $min ){"                                                                                                \
+        " $min = $val;"                                                                                                     \
+        " }"                                                                                                                \
+        " }"                                                                                                                \
+        " return $min;"                                                                                                     \
+        "}"                                                                                                                 \
+        "function fileowner(string $file){"                                                                                 \
+        " $a = stat($file);"                                                                                                \
+        " if( !is_array($a) ){"                                                                                             \
+        "	return false;"                                                                                              \
+        " }"                                                                                                                \
+        " return $a['uid'];"                                                                                                \
+        "}"                                                                                                                 \
+        "function filegroup(string $file){"                                                                                 \
+        " $a = stat($file);"                                                                                                \
+        " if( !is_array($a) ){"                                                                                             \
+        "	return false;"                                                                                              \
+        " }"                                                                                                                \
+        " return $a['gid'];"                                                                                                \
+        "}"                                                                                                                 \
+        "function fileinode(string $file){"                                                                                 \
+        " $a = stat($file);"                                                                                                \
+        " if( !is_array($a) ){"                                                                                             \
+        "	return false;"                                                                                              \
+        " }"                                                                                                                \
+        " return $a['ino'];"                                                                                                \
         "}"
 
 /*
@@ -11452,130 +11452,130 @@ vm_builtin_ph7_version(ph7_context *pCtx, int nArg, ph7_value **apArg)
 /*
  * PH7 release information HTML page used by the ph7info() and ph7credits() functions.
  */
- #define PH7_HTML_PAGE_HEADER \
-         "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">" \
-         "<html><head>" \
-         "<!-- Copyright (C) 2011-2012 Symisc Systems,http://www.symisc.net contact@symisc.net -->" \
-         "<meta content=\"text/html; charset=UTF-8\" http-equiv=\"content-type\"><title>PH7 engine credits</title>" \
-         "<style type=\"text/css\">" \
-         "div {" \
-         "border: 1px solid #cccccc;" \
-         "-moz-border-radius-topleft: 10px;" \
-         "-moz-border-radius-bottomright: 10px;" \
-         "-moz-border-radius-bottomleft: 10px;" \
-         "-moz-border-radius-topright: 10px;" \
-         "-webkit-border-radius: 10px;" \
-         "-o-border-radius: 10px;" \
-         "border-radius: 10px;" \
-         "padding-left: 2em;" \
-         "background-color: white;" \
-         "margin-left: auto;" \
-         "font-family: verdana;" \
-         "padding-right: 2em;" \
-         "margin-right: auto;" \
-         "}" \
-         "body {" \
-         "padding: 0.2em;" \
-         "font-style: normal;" \
-         "font-size: medium;" \
-         "background-color: #f2f2f2;" \
-         "}" \
-         "hr {" \
-         "border-style: solid none none;" \
-         "border-width: 1px medium medium;" \
-         "border-top: 1px solid #cccccc;" \
-         "height: 1px;" \
-         "}" \
-         "a {" \
-         "color: #3366cc;" \
-         "text-decoration: none;" \
-         "}" \
-         "a:hover {" \
-         "color: #999999;" \
-         "}" \
-         "a:active {" \
-         "color: #663399;" \
-         "}" \
-         "h1 {" \
-         "margin: 0;" \
-         "padding: 0;" \
-         "font-family: Verdana;" \
-         "font-weight: bold;" \
-         "font-style: normal;" \
-         "font-size: medium;" \
-         "text-transform: capitalize;" \
-         "color: #0a328c;" \
-         "}" \
-         "p {" \
-         "margin: 0 auto;" \
-         "font-size: medium;" \
-         "font-style: normal;" \
-         "font-family: verdana;" \
-         "}" \
-         "</style></head><body>" \
-         "<div style=\"background-color: white; width: 699px;\">" \
-         "<h1 style=\"font-family: Verdana; text-align: right;\"><small><small>PH7 Engine Credits</small></small></h1>" \
-         "<hr style=\"margin-left: auto; margin-right: auto;\">" \
-         "<p><small><a href=\"http://ph7.symisc.net/\"><small><span style=\"font-weight: bold;\">" \
-         "Symisc PH7</span></small></a><small>&nbsp;</small></small></p>" \
-         "<p style=\"text-align: left;\"><small><small>" \
+ #define PH7_HTML_PAGE_HEADER                                                                                                             \
+         "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">"                                 \
+         "<html><head>"                                                                                                                   \
+         "<!-- Copyright (C) 2011-2012 Symisc Systems,http://www.symisc.net contact@symisc.net -->"                                       \
+         "<meta content=\"text/html; charset=UTF-8\" http-equiv=\"content-type\"><title>PH7 engine credits</title>"                       \
+         "<style type=\"text/css\">"                                                                                                      \
+         "div {"                                                                                                                          \
+         "border: 1px solid #cccccc;"                                                                                                     \
+         "-moz-border-radius-topleft: 10px;"                                                                                              \
+         "-moz-border-radius-bottomright: 10px;"                                                                                          \
+         "-moz-border-radius-bottomleft: 10px;"                                                                                           \
+         "-moz-border-radius-topright: 10px;"                                                                                             \
+         "-webkit-border-radius: 10px;"                                                                                                   \
+         "-o-border-radius: 10px;"                                                                                                        \
+         "border-radius: 10px;"                                                                                                           \
+         "padding-left: 2em;"                                                                                                             \
+         "background-color: white;"                                                                                                       \
+         "margin-left: auto;"                                                                                                             \
+         "font-family: verdana;"                                                                                                          \
+         "padding-right: 2em;"                                                                                                            \
+         "margin-right: auto;"                                                                                                            \
+         "}"                                                                                                                              \
+         "body {"                                                                                                                         \
+         "padding: 0.2em;"                                                                                                                \
+         "font-style: normal;"                                                                                                            \
+         "font-size: medium;"                                                                                                             \
+         "background-color: #f2f2f2;"                                                                                                     \
+         "}"                                                                                                                              \
+         "hr {"                                                                                                                           \
+         "border-style: solid none none;"                                                                                                 \
+         "border-width: 1px medium medium;"                                                                                               \
+         "border-top: 1px solid #cccccc;"                                                                                                 \
+         "height: 1px;"                                                                                                                   \
+         "}"                                                                                                                              \
+         "a {"                                                                                                                            \
+         "color: #3366cc;"                                                                                                                \
+         "text-decoration: none;"                                                                                                         \
+         "}"                                                                                                                              \
+         "a:hover {"                                                                                                                      \
+         "color: #999999;"                                                                                                                \
+         "}"                                                                                                                              \
+         "a:active {"                                                                                                                     \
+         "color: #663399;"                                                                                                                \
+         "}"                                                                                                                              \
+         "h1 {"                                                                                                                           \
+         "margin: 0;"                                                                                                                     \
+         "padding: 0;"                                                                                                                    \
+         "font-family: Verdana;"                                                                                                          \
+         "font-weight: bold;"                                                                                                             \
+         "font-style: normal;"                                                                                                            \
+         "font-size: medium;"                                                                                                             \
+         "text-transform: capitalize;"                                                                                                    \
+         "color: #0a328c;"                                                                                                                \
+         "}"                                                                                                                              \
+         "p {"                                                                                                                            \
+         "margin: 0 auto;"                                                                                                                \
+         "font-size: medium;"                                                                                                             \
+         "font-style: normal;"                                                                                                            \
+         "font-family: verdana;"                                                                                                          \
+         "}"                                                                                                                              \
+         "</style></head><body>"                                                                                                          \
+         "<div style=\"background-color: white; width: 699px;\">"                                                                         \
+         "<h1 style=\"font-family: Verdana; text-align: right;\"><small><small>PH7 Engine Credits</small></small></h1>"                   \
+         "<hr style=\"margin-left: auto; margin-right: auto;\">"                                                                          \
+         "<p><small><a href=\"http://ph7.symisc.net/\"><small><span style=\"font-weight: bold;\">"                                        \
+         "Symisc PH7</span></small></a><small>&nbsp;</small></small></p>"                                                                 \
+         "<p style=\"text-align: left;\"><small><small>"                                                                                  \
          "A highly efficient embeddable bytecode compiler and a Virtual Machine for the PHP(5) Programming Language.</small></small></p>" \
-         "<p style=\"text-align: left;\"><small><small>Copyright (C) Symisc Systems.<br></small></small></p>" \
-         "<p style=\"text-align: left; font-weight: bold;\"><small><small>Engine Version:</small></small></p>" \
+         "<p style=\"text-align: left;\"><small><small>Copyright (C) Symisc Systems.<br></small></small></p>"                             \
+         "<p style=\"text-align: left; font-weight: bold;\"><small><small>Engine Version:</small></small></p>"                            \
          "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\">"
 
-#define PH7_HTML_PAGE_FORMAT \
-        "<small><small><span style=\"font-weight: normal;\">%s</span></small></small></p>" \
-        "<p style=\"text-align: left; font-weight: bold;\"><small><small>Engine ID:</small></small></p>" \
+#define PH7_HTML_PAGE_FORMAT                                                                                                                                       \
+        "<small><small><span style=\"font-weight: normal;\">%s</span></small></small></p>"                                                                         \
+        "<p style=\"text-align: left; font-weight: bold;\"><small><small>Engine ID:</small></small></p>"                                                           \
         "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\"><small><small><span style=\"font-weight: normal;\">%s %s</span></small></small></p>" \
-        "<p style=\"text-align: left; font-weight: bold;\"><small><small>Underlying VFS:</small></small></p>" \
-        "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\"><small><small><span style=\"font-weight: normal;\">%s</span></small></small></p>" \
-        "<p style=\"text-align: left; font-weight: bold;\"><small><small>Total Built-in Functions:</small></small></p>" \
-        "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\"><small><small><span style=\"font-weight: normal;\">%d</span></small></small></p>" \
-        "<p style=\"text-align: left; font-weight: bold;\"><small><small>Total Built-in Classes:</small></small></p>" \
-        "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\"><small><small><span style=\"font-weight: normal;\">%d</span></small></small></p>" \
-        "<p style=\"text-align: left; font-weight: bold;\"><small><small>Host Operating System:</small></small></p>" \
-        "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\"><small><small><span style=\"font-weight: normal;\">%s</span></small></small></p>" \
-        "<p style=\"text-align: left; font-weight: bold;\"><small style=\"font-weight: bold;\"><small><small></small></small></small></p>" \
-        "<p style=\"text-align: left; font-weight: bold;\"><small><small>Licensed To: &lt;Public Release Under The <a href=\"http://www.symisc.net/spl.txt\">" \
+        "<p style=\"text-align: left; font-weight: bold;\"><small><small>Underlying VFS:</small></small></p>"                                                      \
+        "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\"><small><small><span style=\"font-weight: normal;\">%s</span></small></small></p>"    \
+        "<p style=\"text-align: left; font-weight: bold;\"><small><small>Total Built-in Functions:</small></small></p>"                                            \
+        "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\"><small><small><span style=\"font-weight: normal;\">%d</span></small></small></p>"    \
+        "<p style=\"text-align: left; font-weight: bold;\"><small><small>Total Built-in Classes:</small></small></p>"                                              \
+        "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\"><small><small><span style=\"font-weight: normal;\">%d</span></small></small></p>"    \
+        "<p style=\"text-align: left; font-weight: bold;\"><small><small>Host Operating System:</small></small></p>"                                               \
+        "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\"><small><small><span style=\"font-weight: normal;\">%s</span></small></small></p>"    \
+        "<p style=\"text-align: left; font-weight: bold;\"><small style=\"font-weight: bold;\"><small><small></small></small></small></p>"                         \
+        "<p style=\"text-align: left; font-weight: bold;\"><small><small>Licensed To: &lt;Public Release Under The <a href=\"http://www.symisc.net/spl.txt\">"     \
         "Symisc Public License (SPL)</a>&gt;</small></small></p>"
 
-#define PH7_HTML_PAGE_FOOTER \
-        "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\"><small><small><span style=\"font-weight: normal;\">/*<br>" \
-        "&nbsp;* Copyright (C) 2011, 2012 Symisc Systems. All rights reserved.<br>" \
-        "&nbsp;*<br>" \
-        "&nbsp;* Redistribution and use in source and binary forms, with or without<br>" \
-        "&nbsp;* modification, are permitted provided that the following conditions<br>" \
-        "&nbsp;* are met:<br>" \
-        "&nbsp;* 1. Redistributions of source code must retain the above copyright<br>" \
-        "&nbsp;*&nbsp;&nbsp;&nbsp; notice, this list of conditions and the following disclaimer.<br>" \
-        "&nbsp;* 2. Redistributions in binary form must reproduce the above copyright<br>" \
-        "&nbsp;*&nbsp;&nbsp;&nbsp; notice, this list of conditions and the following disclaimer in the<br>" \
-        "&nbsp;*&nbsp;&nbsp;&nbsp; documentation and/or other materials provided with the distribution.<br>" \
-        "&nbsp;* 3. Redistributions in any form must be accompanied by information on<br>" \
-        "&nbsp;*&nbsp;&nbsp;&nbsp; how to obtain complete source code for the PH7 engine and any <br>" \
-        "&nbsp;*&nbsp;&nbsp;&nbsp; accompanying software that uses the PH7 engine software.<br>" \
-        "&nbsp;*&nbsp;&nbsp;&nbsp; The source code must either be included in the distribution<br>" \
-        "&nbsp;*&nbsp;&nbsp;&nbsp; or be available for no more than the cost of distribution plus<br>" \
-        "&nbsp;*&nbsp;&nbsp;&nbsp; a nominal fee, and must be freely redistributable under reasonable<br>" \
-        "&nbsp;*&nbsp;&nbsp;&nbsp; conditions. For an executable file, complete source code means<br>" \
-        "&nbsp;*&nbsp;&nbsp;&nbsp; the source code for all modules it contains.It does not include<br>" \
-        "&nbsp;*&nbsp;&nbsp;&nbsp; source code for modules or files that typically accompany the major<br>" \
-        "&nbsp;*&nbsp;&nbsp;&nbsp; components of the operating system on which the executable file runs.<br>" \
-        "&nbsp;*<br>" \
-        "&nbsp;* THIS SOFTWARE IS PROVIDED BY SYMISC SYSTEMS ``AS IS'' AND ANY EXPRESS<br>" \
-        "&nbsp;* OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED<br>" \
-        "&nbsp;* WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR<br>" \
-        "&nbsp;* NON-INFRINGEMENT, ARE DISCLAIMED.&nbsp; IN NO EVENT SHALL SYMISC SYSTEMS<br>" \
-        "&nbsp;* BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR<br>" \
-        "&nbsp;* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF<br>" \
-        "&nbsp;* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR<br>" \
-        "&nbsp;* BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,<br>" \
-        "&nbsp;* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE<br>" \
-        "&nbsp;* OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN<br>" \
-        "&nbsp;* IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<br>" \
-        "&nbsp;*/<br>" \
-        "</span></small></small></p>" \
+#define PH7_HTML_PAGE_FOOTER                                                                                                                     \
+        "<p style=\"text-align: left; font-weight: bold; margin-left: 40px;\"><small><small><span style=\"font-weight: normal;\">/*<br>"         \
+        "&nbsp;* Copyright (C) 2011, 2012 Symisc Systems. All rights reserved.<br>"                                                              \
+        "&nbsp;*<br>"                                                                                                                            \
+        "&nbsp;* Redistribution and use in source and binary forms, with or without<br>"                                                         \
+        "&nbsp;* modification, are permitted provided that the following conditions<br>"                                                         \
+        "&nbsp;* are met:<br>"                                                                                                                   \
+        "&nbsp;* 1. Redistributions of source code must retain the above copyright<br>"                                                          \
+        "&nbsp;*&nbsp;&nbsp;&nbsp; notice, this list of conditions and the following disclaimer.<br>"                                            \
+        "&nbsp;* 2. Redistributions in binary form must reproduce the above copyright<br>"                                                       \
+        "&nbsp;*&nbsp;&nbsp;&nbsp; notice, this list of conditions and the following disclaimer in the<br>"                                      \
+        "&nbsp;*&nbsp;&nbsp;&nbsp; documentation and/or other materials provided with the distribution.<br>"                                     \
+        "&nbsp;* 3. Redistributions in any form must be accompanied by information on<br>"                                                       \
+        "&nbsp;*&nbsp;&nbsp;&nbsp; how to obtain complete source code for the PH7 engine and any <br>"                                           \
+        "&nbsp;*&nbsp;&nbsp;&nbsp; accompanying software that uses the PH7 engine software.<br>"                                                 \
+        "&nbsp;*&nbsp;&nbsp;&nbsp; The source code must either be included in the distribution<br>"                                              \
+        "&nbsp;*&nbsp;&nbsp;&nbsp; or be available for no more than the cost of distribution plus<br>"                                           \
+        "&nbsp;*&nbsp;&nbsp;&nbsp; a nominal fee, and must be freely redistributable under reasonable<br>"                                       \
+        "&nbsp;*&nbsp;&nbsp;&nbsp; conditions. For an executable file, complete source code means<br>"                                           \
+        "&nbsp;*&nbsp;&nbsp;&nbsp; the source code for all modules it contains.It does not include<br>"                                          \
+        "&nbsp;*&nbsp;&nbsp;&nbsp; source code for modules or files that typically accompany the major<br>"                                      \
+        "&nbsp;*&nbsp;&nbsp;&nbsp; components of the operating system on which the executable file runs.<br>"                                    \
+        "&nbsp;*<br>"                                                                                                                            \
+        "&nbsp;* THIS SOFTWARE IS PROVIDED BY SYMISC SYSTEMS ``AS IS'' AND ANY EXPRESS<br>"                                                      \
+        "&nbsp;* OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED<br>"                                                          \
+        "&nbsp;* WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR<br>"                                                        \
+        "&nbsp;* NON-INFRINGEMENT, ARE DISCLAIMED.&nbsp; IN NO EVENT SHALL SYMISC SYSTEMS<br>"                                                   \
+        "&nbsp;* BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR<br>"                                                     \
+        "&nbsp;* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF<br>"                                                       \
+        "&nbsp;* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR<br>"                                                            \
+        "&nbsp;* BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,<br>"                                                      \
+        "&nbsp;* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE<br>"                                                       \
+        "&nbsp;* OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN<br>"                                                     \
+        "&nbsp;* IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.<br>"                                                                              \
+        "&nbsp;*/<br>"                                                                                                                           \
+        "</span></small></small></p>"                                                                                                            \
         "<p style=\"text-align: right;\"><small><small>Copyright (C) <a href=\"http://www.symisc.net/\">Symisc Systems</a></small></small><big>" \
         "</big></p></div></body></html>"
 
@@ -14235,7 +14235,7 @@ struct ph7_xml_engine {
 };
 #define XML_ENGINE_MAGIC 0x851EFC52
 #define IS_INVALID_XML_ENGINE(XML) \
-        (XML == 0 \
+        (XML == 0                  \
          || (XML)->nMagic != XML_ENGINE_MAGIC)
 
 /*
@@ -15880,16 +15880,16 @@ static const unsigned char UtfTrans1[] = {
 **     for unicode values 0x80 and greater.  It do not change over-length
 **     encodings to 0xfffd as some systems recommend.
 */
-#define READ_UTF8(zIn, zTerm, c)                           \
-        c = *(zIn++);                                            \
-        if (c >= 0xc0) {                                           \
-          c = UtfTrans1[c - 0xc0];                                 \
-          while (zIn != zTerm && (*zIn & 0xc0) == 0x80) {            \
-            c = (c << 6) + (0x3f & *(zIn++));                      \
-          }                                                      \
-          if (c < 0x80                                             \
-              || (c & 0xFFFFF800) == 0xD800                          \
-              || (c & 0xFFFFFFFE) == 0xFFFE) { c = 0xFFFD; }        \
+#define READ_UTF8(zIn, zTerm, c)                             \
+        c = *(zIn++);                                        \
+        if (c >= 0xc0) {                                     \
+          c = UtfTrans1[c - 0xc0];                           \
+          while (zIn != zTerm && (*zIn & 0xc0) == 0x80) {    \
+            c = (c << 6) + (0x3f & *(zIn++));                \
+          }                                                  \
+          if (c < 0x80                                       \
+              || (c & 0xFFFFF800) == 0xD800                  \
+              || (c & 0xFFFFFFFE) == 0xFFFE) { c = 0xFFFD; } \
         }
 PH7_PRIVATE int
 PH7_Utf8Read(

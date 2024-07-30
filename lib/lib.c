@@ -3077,7 +3077,7 @@ SyLexRelease(SyLex *pLex)
 }
 
 #ifndef PH7_DISABLE_BUILTIN_FUNC
-#define SAFE_HTTP(C) \
+#define SAFE_HTTP(C)                                         \
         (SyisAlphaNum(c) || c == '_' || c == '-' || c == '$' \
          || c == '.')
 PH7_PRIVATE sxi32
@@ -4108,11 +4108,11 @@ struct SyXMLRawStrNS {
 #define SXML_TOK_END_TAG    0x40   /* Ending tag */
 #define SXML_TOK_START_END  0x80   /* Tag */
 #define SXML_TOK_SPACE      0x100  /* Spaces (including new lines) */
-#define IS_XML_DIRTY(c) \
-        (c == '<' || c == '$' || c == '"' || c == '\'' || c == '&' \
-         || c == '(' || c == ')' || c == '*' || \
+#define IS_XML_DIRTY(c)                                                       \
+        (c == '<' || c == '$' || c == '"' || c == '\'' || c == '&'            \
+         || c == '(' || c == ')' || c == '*' ||                               \
          c == '%' || c == '#' || c == '|' || c == '/' || c == '~' || c == '{' \
-         || c == '}' || \
+         || c == '}' ||                                                       \
          c == '[' || c == ']' || c == '\\' || c == ';' || c == '^' || c == '`')
 /* Tokenize an entire XML input */
 static sxi32
@@ -6532,7 +6532,7 @@ SyMD5Compute(
  * possible to be kinder to dinky implementations with iterative rotate
  * instructions.
  */
-#define SHA_ROT(op, x, k) \
+#define SHA_ROT(op, x, k)                                                      \
         ({ unsigned int y; asm (op " %1,%0" : "=r" (y) : "I" (k), "0" (x)); y; \
          })
 #define rol(x, k) SHA_ROT("roll", x, k)
@@ -6545,14 +6545,14 @@ SyMD5Compute(
 #define ror(x, k) SHA_ROT(x, 32 - (k), k)
 #endif
 
-#define blk0le(i) \
+#define blk0le(i)                                   \
         (block[i] = (ror(block[i], 8) & 0xFF00FF00) \
                     | (rol(block[i], 8) & 0x00FF00FF))
 #define blk0be(i) block[i]
-#define blk(i) \
-        (block[i & 15] = rol( \
+#define blk(i)                               \
+        (block[i & 15] = rol(                \
   block[(i + 13) & 15] ^ block[(i + 8) & 15] \
-  ^ block[(i + 2) & 15] ^ block[i & 15], 1 \
+  ^ block[(i + 2) & 15] ^ block[i & 15], 1   \
                          ))
 
 /*
@@ -6561,28 +6561,28 @@ SyMD5Compute(
  * Rl0() for little-endian and Rb0() for big-endian.  Endianness is
  * determined at run-time.
  */
-#define Rl0(v, w, x, y, z, i) \
+#define Rl0(v, w, x, y, z, i)                                          \
         z += ((w & (x ^ y)) ^ y) + blk0le(i) + 0x5A827999 + rol(v, 5); \
-        w = ror( \
-  w, \
-  2 \
+        w = ror(                                                       \
+  w,                                                                   \
+  2                                                                    \
             );
-#define Rb0(v, w, x, y, z, i) \
+#define Rb0(v, w, x, y, z, i)                                          \
         z += ((w & (x ^ y)) ^ y) + blk0be(i) + 0x5A827999 + rol(v, 5); \
-        w = ror( \
-  w, \
-  2 \
+        w = ror(                                                       \
+  w,                                                                   \
+  2                                                                    \
             );
-#define R1(v, w, x, y, z, i) \
+#define R1(v, w, x, y, z, i)                                        \
         z += ((w & (x ^ y)) ^ y) + blk(i) + 0x5A827999 + rol(v, 5); \
         w = ror(w, 2);
 #define R2(v, w, x, y, z, i) \
         z += (w ^ x ^ y) + blk(i) + 0x6ED9EBA1 + rol(v, 5); w = ror(w, 2);
-#define R3(v, w, x, y, z, i) \
+#define R3(v, w, x, y, z, i)                                            \
         z += (((w | x)&y) | (w & x)) + blk(i) + 0x8F1BBCDC + rol(v, 5); \
-        w = ror( \
-  w, \
-  2 \
+        w = ror(                                                        \
+  w,                                                                    \
+  2                                                                     \
             );
 #define R4(v, w, x, y, z, i) \
         z += (w ^ x ^ y) + blk(i) + 0xCA62C1D6 + rol(v, 5); w = ror(w, 2);

@@ -250,31 +250,31 @@ struct Sytm {
   long tm_gmtoff; /* offset from UTC in seconds */
 };
 /* Convert a tm structure (struct tm *) found in <time.h> to a Sytm structure */
-#define STRUCT_TM_TO_SYTM(pTM, pSYTM) \
-        (pSYTM)->tm_hour = (pTM)->tm_hour; \
-        (pSYTM)->tm_min = (pTM)->tm_min; \
-        (pSYTM)->tm_sec = (pTM)->tm_sec; \
-        (pSYTM)->tm_mon = (pTM)->tm_mon; \
-        (pSYTM)->tm_mday = (pTM)->tm_mday; \
+#define STRUCT_TM_TO_SYTM(pTM, pSYTM)             \
+        (pSYTM)->tm_hour = (pTM)->tm_hour;        \
+        (pSYTM)->tm_min = (pTM)->tm_min;          \
+        (pSYTM)->tm_sec = (pTM)->tm_sec;          \
+        (pSYTM)->tm_mon = (pTM)->tm_mon;          \
+        (pSYTM)->tm_mday = (pTM)->tm_mday;        \
         (pSYTM)->tm_year = (pTM)->tm_year + 1900; \
-        (pSYTM)->tm_yday = (pTM)->tm_yday; \
-        (pSYTM)->tm_wday = (pTM)->tm_wday; \
-        (pSYTM)->tm_isdst = (pTM)->tm_isdst; \
-        (pSYTM)->tm_gmtoff = 0; \
+        (pSYTM)->tm_yday = (pTM)->tm_yday;        \
+        (pSYTM)->tm_wday = (pTM)->tm_wday;        \
+        (pSYTM)->tm_isdst = (pTM)->tm_isdst;      \
+        (pSYTM)->tm_gmtoff = 0;                   \
         (pSYTM)->tm_zone = 0;
 
 /* Convert a SYSTEMTIME structure (LPSYSTEMTIME: Windows Systems only ) to a Sytm structure */
-#define SYSTEMTIME_TO_SYTM(pSYSTIME, pSYTM) \
-        (pSYTM)->tm_hour = (pSYSTIME)->wHour; \
-        (pSYTM)->tm_min = (pSYSTIME)->wMinute; \
-        (pSYTM)->tm_sec = (pSYSTIME)->wSecond; \
-        (pSYTM)->tm_mon = (pSYSTIME)->wMonth - 1; \
-        (pSYTM)->tm_mday = (pSYSTIME)->wDay; \
-        (pSYTM)->tm_year = (pSYSTIME)->wYear; \
-        (pSYTM)->tm_yday = 0; \
+#define SYSTEMTIME_TO_SYTM(pSYSTIME, pSYTM)        \
+        (pSYTM)->tm_hour = (pSYSTIME)->wHour;      \
+        (pSYTM)->tm_min = (pSYSTIME)->wMinute;     \
+        (pSYTM)->tm_sec = (pSYSTIME)->wSecond;     \
+        (pSYTM)->tm_mon = (pSYSTIME)->wMonth - 1;  \
+        (pSYTM)->tm_mday = (pSYSTIME)->wDay;       \
+        (pSYTM)->tm_year = (pSYSTIME)->wYear;      \
+        (pSYTM)->tm_yday = 0;                      \
         (pSYTM)->tm_wday = (pSYSTIME)->wDayOfWeek; \
-        (pSYTM)->tm_gmtoff = 0; \
-        (pSYTM)->tm_isdst = -1; \
+        (pSYTM)->tm_gmtoff = 0;                    \
+        (pSYTM)->tm_isdst = -1;                    \
         (pSYTM)->tm_zone = 0;
 
 /* Dynamic memory allocation methods. */
@@ -692,7 +692,7 @@ PH7_APIEXPORT const char* ph7_value_to_string(ph7_value *pValue, int *pLen);
 PH7_APIEXPORT void*       ph7_value_to_resource(ph7_value *pValue);
 PH7_APIEXPORT int         ph7_value_compare(
   ph7_value *pLeft, ph7_value *pRight, int bStrict
-  );
+);
 
 /* Setting The Result Of A Foreign Function */
 PH7_APIEXPORT int ph7_result_int(ph7_context *pCtx, int iValue);

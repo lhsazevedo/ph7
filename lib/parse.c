@@ -1218,7 +1218,7 @@ static sxi32 ExprMakeTree(
 
 /* Macro to check if the given node is a terminal */
 #define NODE_ISTERM(NODE) \
-        (apNode[NODE] \
+        (apNode[NODE]     \
          && (!apNode[NODE]->pOp || apNode[NODE]->pLeft))
 
 /*

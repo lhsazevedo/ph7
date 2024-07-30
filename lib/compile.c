@@ -88,21 +88,21 @@ struct LangConstruct {
 #define PH7_COMPILE_SINGLE_STMT 0x001 /* Compile a single statement */
 /* Token stream synchronization macros */
 #define SWAP_TOKEN_STREAM(GEN, START, END) \
-        pTmp = GEN->pEnd; \
-        pGen->pIn = START; \
+        pTmp = GEN->pEnd;                  \
+        pGen->pIn = START;                 \
         pGen->pEnd = END
 #define UPDATE_TOKEN_STREAM(GEN) \
-        if (GEN->pIn < pTmp) { \
-          GEN->pIn++; \
-        } \
+        if (GEN->pIn < pTmp) {   \
+          GEN->pIn++;            \
+        }                        \
         GEN->pEnd = pTmp
 #define SWAP_DELIMITER(GEN, START, END) \
-        pTmpIn = GEN->pIn; \
-        pTmpEnd = GEN->pEnd; \
-        GEN->pIn = START; \
+        pTmpIn = GEN->pIn;              \
+        pTmpEnd = GEN->pEnd;            \
+        GEN->pIn = START;               \
         GEN->pEnd = END
 #define RE_SWAP_DELIMITER(GEN) \
-        GEN->pIn = pTmpIn; \
+        GEN->pIn = pTmpIn;     \
         GEN->pEnd = pTmpEnd
 /* Flags related to expression compilation */
 #define EXPR_FLAG_LOAD_IDX_STORE    0x001 /* Set the iP2 flag when dealing with the LOAD_IDX instruction */

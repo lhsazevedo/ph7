@@ -6502,27 +6502,27 @@ struct str_replace_data {
 /*
  * Remove a substring.
  */
-#define STRDEL(SRC, SLEN, OFFT, ILEN) \
-        { \
-          for (;;) { \
+#define STRDEL(SRC, SLEN, OFFT, ILEN)                                     \
+        {                                                                 \
+          for (;;) {                                                      \
             if (OFFT + ILEN >= SLEN) break; SRC[OFFT] = SRC[OFFT + ILEN]; \
-            ++OFFT; \
-          } \
+            ++OFFT;                                                       \
+          }                                                               \
         }
 
 /*
  * Shift right and insert algorithm.
  */
-#define SHIFTRANDINSERT(SRC, LEN, OFFT, ENTRY, ELEN) \
-        { \
-          sxu32 INLEN = LEN - OFFT; \
-          for (;;) { \
-            if (LEN > 0) { LEN--; } if (INLEN < 1) break; \
-            SRC[LEN + ELEN] = SRC[LEN]; --INLEN; \
-          } \
-          for (;;) { \
+#define SHIFTRANDINSERT(SRC, LEN, OFFT, ENTRY, ELEN)                            \
+        {                                                                       \
+          sxu32 INLEN = LEN - OFFT;                                             \
+          for (;;) {                                                            \
+            if (LEN > 0) { LEN--; } if (INLEN < 1) break;                       \
+            SRC[LEN + ELEN] = SRC[LEN]; --INLEN;                                \
+          }                                                                     \
+          for (;;) {                                                            \
             if (ELEN < 1) break; SRC[OFFT] = ENTRY[0]; OFFT++; ENTRY++; --ELEN; \
-          } \
+          }                                                                     \
         }
 
 /*
@@ -7998,7 +7998,7 @@ PH7_builtin_gettimeofday(ph7_context *pCtx, int nArg, ph7_value **apArg)
 
 /* Check if the given year is leap or not */
 #define IS_LEAP_YEAR(YEAR) \
-        (YEAR \
+        (YEAR              \
          % 400 ? (YEAR % 100 ? (YEAR % 4 ? 0 : 1) : 0) : 1)
 /* ISO-8601 numeric representation of the day of the week */
 static const int aISO8601[] = { 7 /* Sunday */, 1 /* Monday */, 2, 3, 4, 5, 6 };
