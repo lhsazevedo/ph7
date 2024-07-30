@@ -46,7 +46,7 @@
  * its name start with sMPGlobal.
  */
 static struct Global_Data {
-  SyMemBackend sAllocator;                  /* Global low level memory allocator */
+  SyMemBackend sAllocator;                 /* Global low level memory allocator */
 #if defined(PH7_ENABLE_THREADS)
   const SyMutexMethods *pMutexMethods;     /* Mutex methods */
   SyMutex *pMutex;                         /* Global mutex */
@@ -57,10 +57,10 @@ static struct Global_Data {
                                             * PH7_LIB_CONFIG_THREAD_LEVEL_MULTI
                                             */
 #endif
-  const ph7_vfs *pVfs;                      /* Underlying virtual file system */
-  sxi32 nEngine;                            /* Total number of active engines */
-  ph7 *pEngines;                            /* List of active engine */
-  sxu32 nMagic;                             /* Sanity check against library misuse */
+  const ph7_vfs *pVfs;                     /* Underlying virtual file system */
+  sxi32 nEngine;                           /* Total number of active engines */
+  ph7 *pEngines;                           /* List of active engine */
+  sxu32 nMagic;                            /* Sanity check against library misuse */
 } sMPGlobal = {
   { 0, 0, 0, 0, 0, 0, 0, 0, { 0 } },
 #if defined(PH7_ENABLE_THREADS)
@@ -687,7 +687,7 @@ ph7_release(ph7 *pEngine)
   /* Leave engine mutex */
   SyMutexLeave(sMPGlobal.pMutexMethods, pEngine->pMutex);    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
   /* Release engine mutex */
-  SyMutexRelease(sMPGlobal.pMutexMethods, pEngine->pMutex)    /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
+  SyMutexRelease(sMPGlobal.pMutexMethods, pEngine->pMutex)   /* NO-OP if sMPGlobal.nThreadingLevel != PH7_THREAD_LEVEL_MULTI */
 #endif
 #if defined(PH7_ENABLE_THREADS)
   /* Enter the global mutex */
@@ -916,7 +916,7 @@ ph7_compile_file(
     rc = PH7_IO_ERR;
   } else {
     void *pMapView = 0;      /* cc warning */
-    ph7_int64 nSize = 0;      /* cc warning */
+    ph7_int64 nSize = 0;     /* cc warning */
     SyString sScript;
     /* Try to get a memory view of the whole file */
     rc = pVfs->xMmap(zFilePath, &pMapView, &nSize);

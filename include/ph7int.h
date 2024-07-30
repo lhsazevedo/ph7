@@ -63,8 +63,8 @@ typedef struct ph7_class ph7_class;
 #pragma warn -spa /* Suspicious pointer arithmetic */
 #endif
 #endif
-typedef signed char sxi8;        /* signed char */
-typedef unsigned char sxu8;      /* unsigned char */
+typedef signed char sxi8;         /* signed char */
+typedef unsigned char sxu8;       /* unsigned char */
 typedef signed short int sxi16;   /* 16 bits(2 bytes) signed integer */
 typedef unsigned short int sxu16; /* 16 bits(2 bytes) unsigned integer */
 typedef int sxi32;                /* 32 bits(4 bytes) integer */
@@ -241,9 +241,9 @@ struct SyBlob {
   sxu32 mByte;                /* Total number of available bytes */
   sxu32 nFlags;               /* Blob internal flags,see below */
 };
-#define SXBLOB_LOCKED   0x01    /* Blob is locked [i.e: Cannot auto grow] */
-#define SXBLOB_STATIC   0x02    /* Not allocated from heap   */
-#define SXBLOB_RDONLY   0x04    /* Read-Only data */
+#define SXBLOB_LOCKED   0x01  /* Blob is locked [i.e: Cannot auto grow] */
+#define SXBLOB_STATIC   0x02  /* Not allocated from heap   */
+#define SXBLOB_RDONLY   0x04  /* Read-Only data */
 
 #define SyBlobFreeSpace(BLOB)    ((BLOB)->mByte - (BLOB)->nByte)
 #define SyBlobLength(BLOB)       ((BLOB)->nByte)
@@ -265,7 +265,7 @@ struct SyBlob {
 typedef union SyMemHeader SyMemHeader;
 typedef struct SyMemBlock SyMemBlock;
 struct SyMemBlock {
-  SyMemBlock *pNext, *pPrev;   /* Chain of allocated memory blocks */
+  SyMemBlock *pNext, *pPrev;  /* Chain of allocated memory blocks */
 #ifdef UNTRUST
   sxu32 nGuard;               /* magic number associated with each valid block,so we
                                * can detect misuse.
@@ -281,15 +281,15 @@ union SyMemHeader {
   sxu32 nBucket;        /* Bucket index in aPool[] */
 };
 struct SyMemBackend {
-  const SyMutexMethods *pMutexMethods;   /* Mutex methods */
-  const SyMemMethods *pMethods;    /* Memory allocation methods */
-  SyMemBlock *pBlocks;             /* List of valid memory blocks */
-  sxu32 nBlock;                    /* Total number of memory blocks allocated so far */
-  ProcMemError xMemError;          /* Out-of memory callback */
-  void *pUserData;                 /* First arg to xMemError() */
-  SyMutex *pMutex;                 /* Per instance mutex */
-  sxu32 nMagic;                    /* Sanity check against misuse */
-  SyMemHeader *apPool[SXMEM_POOL_NBUCKETS + SXMEM_POOL_INCR];   /* Pool of memory chunks */
+  const SyMutexMethods *pMutexMethods;                        /* Mutex methods */
+  const SyMemMethods *pMethods;                               /* Memory allocation methods */
+  SyMemBlock *pBlocks;                                        /* List of valid memory blocks */
+  sxu32 nBlock;                                               /* Total number of memory blocks allocated so far */
+  ProcMemError xMemError;                                     /* Out-of memory callback */
+  void *pUserData;                                            /* First arg to xMemError() */
+  SyMutex *pMutex;                                            /* Per instance mutex */
+  sxu32 nMagic;                                               /* Sanity check against misuse */
+  SyMemHeader *apPool[SXMEM_POOL_NBUCKETS + SXMEM_POOL_INCR]; /* Pool of memory chunks */
 };
 /* Mutex types */
 #define SXMUTEX_TYPE_FAST   1
@@ -410,15 +410,15 @@ struct SyHashEntry {
 #define SyHashEntryGetKey(ENTRY)      ((ENTRY)->pKey)
 /* Each active hashtable is identified by an instance of the following structure */
 struct SyHash {
-  SyMemBackend *pAllocator;           /* Memory backend */
-  ProcHash xHash;                     /* Hash function */
-  ProcCmp xCmp;                       /* Comparison function */
-  SyHashEntry_Pr *pList, *pCurrent;    /* Linked list of hash entries user for linear traversal */
-  sxu32 nEntry;                       /* Total number of entries */
-  SyHashEntry_Pr **apBucket;          /* Hash buckets */
-  sxu32 nBucketSize;                  /* Current bucket size */
+  SyMemBackend *pAllocator;         /* Memory backend */
+  ProcHash xHash;                   /* Hash function */
+  ProcCmp xCmp;                     /* Comparison function */
+  SyHashEntry_Pr *pList, *pCurrent; /* Linked list of hash entries user for linear traversal */
+  sxu32 nEntry;                     /* Total number of entries */
+  SyHashEntry_Pr **apBucket;        /* Hash buckets */
+  sxu32 nBucketSize;                /* Current bucket size */
 };
-#define SXHASH_BUCKET_SIZE 16 /* Initial bucket size: must be a power of two */
+#define SXHASH_BUCKET_SIZE 16       /* Initial bucket size: must be a power of two */
 #define SXHASH_FILL_FACTOR 3
 /* Hash access macro */
 #define SyHashFunc(HASH)        ((HASH)->xHash)
@@ -437,7 +437,7 @@ struct SyHash {
  */
 typedef struct SyPRNGCtx SyPRNGCtx;
 struct SyPRNGCtx {
-  sxu8 i, j;                 /* State variables */
+  sxu8 i, j;                /* State variables */
   unsigned char s[256];     /* State variables */
   sxu16 nMagic;             /* Sanity check */
 };
@@ -474,12 +474,12 @@ struct SyToken {
  * stream is held in an instance of the following structure.
  */
 struct SyStream {
-  const unsigned char *zInput;   /* Complete text of the input */
-  const unsigned char *zText;   /* Current input we are processing */
+  const unsigned char *zInput; /* Complete text of the input */
+  const unsigned char *zText;  /* Current input we are processing */
   const unsigned char *zEnd;   /* End of input marker */
-  sxu32 nLine;    /* Total number of processed lines */
-  sxu32 nIgn;    /* Total number of ignored tokens */
-  SySet *pSet;   /* Token containers */
+  sxu32 nLine;                 /* Total number of processed lines */
+  sxu32 nIgn;                  /* Total number of ignored tokens */
+  SySet *pSet;                 /* Token containers */
 };
 
 /*
@@ -612,9 +612,9 @@ struct SyLex {
  */
 typedef struct SyXMLRawStr SyXMLRawStr;
 struct SyXMLRawStr {
-  const char *zString;   /* Raw text [UTF-8 ENCODED EXCEPT CDATA] [NOT NULL TERMINATED] */
-  sxu32 nByte;   /* Text length */
-  sxu32 nLine;   /* Line number this text occurs */
+  const char *zString; /* Raw text [UTF-8 ENCODED EXCEPT CDATA] [NOT NULL TERMINATED] */
+  sxu32 nByte;         /* Text length */
+  sxu32 nLine;         /* Line number this text occurs */
 };
 
 /*
@@ -677,25 +677,25 @@ enum xml_err_code {
  */
 typedef struct SyXMLParser SyXMLParser;
 struct SyXMLParser {
-  SyMemBackend *pAllocator;   /* Memory backend */
-  void *pUserData;            /* User private data forwarded varbatim by the XML parser
-                               * as the last argument to the users callbacks.
-                               */
-  SyHash hns;                 /* Namespace hashtable */
-  SySet sToken;               /* XML tokens */
-  SyLex sLex;                 /* Lexical analyzer */
-  sxi32 nFlags;               /* Control flags */
+  SyMemBackend *pAllocator;          /* Memory backend */
+  void *pUserData;                   /* User private data forwarded varbatim by the XML parser
+                                      * as the last argument to the users callbacks.
+                                      */
+  SyHash hns;                        /* Namespace hashtable */
+  SySet sToken;                      /* XML tokens */
+  SyLex sLex;                        /* Lexical analyzer */
+  sxi32 nFlags;                      /* Control flags */
   /* User callbacks */
-  ProcXMLStartTagHandler xStartTag;          /* Start element handler */
-  ProcXMLEndTagHandler xEndTag;              /* End element handler */
-  ProcXMLTextHandler xRaw;                   /* Raw text/CDATA handler   */
-  ProcXMLDoctypeHandler xDoctype;            /* DOCTYPE handler */
-  ProcXMLPIHandler xPi;                      /* Processing instruction (PI) handler*/
-  ProcXMLSyntaxErrorHandler xError;          /* Error handler */
-  ProcXMLStartDocument xStartDoc;            /* StartDoc handler */
-  ProcXMLEndDocument xEndDoc;                /* EndDoc handler */
-  ProcXMLNameSpaceStart xNameSpace;        /* Namespace declaration handler  */
-  ProcXMLNameSpaceEnd xNameSpaceEnd;         /* End namespace declaration handler */
+  ProcXMLStartTagHandler xStartTag;  /* Start element handler */
+  ProcXMLEndTagHandler xEndTag;      /* End element handler */
+  ProcXMLTextHandler xRaw;           /* Raw text/CDATA handler   */
+  ProcXMLDoctypeHandler xDoctype;    /* DOCTYPE handler */
+  ProcXMLPIHandler xPi;              /* Processing instruction (PI) handler*/
+  ProcXMLSyntaxErrorHandler xError;  /* Error handler */
+  ProcXMLStartDocument xStartDoc;    /* StartDoc handler */
+  ProcXMLEndDocument xEndDoc;        /* EndDoc handler */
+  ProcXMLNameSpaceStart xNameSpace;  /* Namespace declaration handler  */
+  ProcXMLNameSpaceEnd xNameSpaceEnd; /* End namespace declaration handler */
 };
 
 /*
@@ -711,19 +711,19 @@ struct SyXMLParser {
 typedef struct SyArchiveEntry SyArchiveEntry;
 typedef struct SyArchive SyArchive;
 struct SyArchive {
-  SyMemBackend *pAllocator;      /* Memory backend */
-  SyArchiveEntry *pCursor;       /* Cursor for linear traversal of archive entries */
-  SyArchiveEntry *pList;         /* Pointer to the List of the loaded archive */
-  SyArchiveEntry **apHash;       /* Hashtable for archive entry */
-  ProcRawStrCmp xCmp;            /* Hash comparison function */
-  ProcHash xHash;                /* Hash Function */
-  sxu32 nSize;          /* Hashtable size */
-  sxu32 nEntry;         /* Total number of entries in the zip/tar archive */
-  sxu32 nLoaded;        /* Total number of entries loaded in memory */
-  sxu32 nCentralOfft;   /* Central directory offset(ZIP only. Otherwise Zero) */
-  sxu32 nCentralSize;   /* Central directory size(ZIP only. Otherwise Zero) */
-  void *pUserData;      /* Upper layer private data */
-  sxu32 nMagic;         /* Sanity check */
+  SyMemBackend *pAllocator; /* Memory backend */
+  SyArchiveEntry *pCursor;  /* Cursor for linear traversal of archive entries */
+  SyArchiveEntry *pList;    /* Pointer to the List of the loaded archive */
+  SyArchiveEntry **apHash;  /* Hashtable for archive entry */
+  ProcRawStrCmp xCmp;       /* Hash comparison function */
+  ProcHash xHash;           /* Hash Function */
+  sxu32 nSize;              /* Hashtable size */
+  sxu32 nEntry;             /* Total number of entries in the zip/tar archive */
+  sxu32 nLoaded;            /* Total number of entries loaded in memory */
+  sxu32 nCentralOfft;       /* Central directory offset(ZIP only. Otherwise Zero) */
+  sxu32 nCentralSize;       /* Central directory size(ZIP only. Otherwise Zero) */
+  void *pUserData;          /* Upper layer private data */
+  sxu32 nMagic;             /* Sanity check */
 };
 #define SXARCH_MAGIC    0xDEAD635A
 #define SXARCH_INVALID(ARCH) \
@@ -742,22 +742,22 @@ struct SyArchive {
  * of the following structure.
  */
 struct SyArchiveEntry {
-  sxu32 nByte;           /* Contents size before compression */
-  sxu32 nByteCompr;      /* Contents size after compression */
-  sxu32 nReadCount;      /* Read counter */
-  sxu32 nCrc;            /* Contents CRC32  */
-  Sytm sFmt;             /* Last-modification time */
-  sxu32 nOfft;           /* Data offset. */
-  sxu16 nComprMeth;      /* Compression method 0 == stored/8 == deflated and so on (see appnote.txt)*/
-  sxu16 nExtra;          /* Extra size if any */
-  SyString sFileName;    /* entry name & length */
-  sxu32 nDup;   /* Total number of entries with the same name */
-  SyArchiveEntry *pNextHash, *pPrevHash;   /* Hash collision chains */
-  SyArchiveEntry *pNextName;      /* Next entry with the same name */
-  SyArchiveEntry *pNext, *pPrev;   /* Next and previous entry in the list */
-  sxu32 nHash;       /* Hash of the entry name */
-  void *pUserData;   /* User data */
-  sxu32 nMagic;      /* Sanity check */
+  sxu32 nByte;                           /* Contents size before compression */
+  sxu32 nByteCompr;                      /* Contents size after compression */
+  sxu32 nReadCount;                      /* Read counter */
+  sxu32 nCrc;                            /* Contents CRC32  */
+  Sytm sFmt;                             /* Last-modification time */
+  sxu32 nOfft;                           /* Data offset. */
+  sxu16 nComprMeth;                      /* Compression method 0 == stored/8 == deflated and so on (see appnote.txt)*/
+  sxu16 nExtra;                          /* Extra size if any */
+  SyString sFileName;                    /* entry name & length */
+  sxu32 nDup;                            /* Total number of entries with the same name */
+  SyArchiveEntry *pNextHash, *pPrevHash; /* Hash collision chains */
+  SyArchiveEntry *pNextName;             /* Next entry with the same name */
+  SyArchiveEntry *pNext, *pPrev;         /* Next and previous entry in the list */
+  sxu32 nHash;                           /* Hash of the entry name */
+  void *pUserData;                       /* User data */
+  sxu32 nMagic;                          /* Sanity check */
 };
 
 /*
@@ -937,17 +937,17 @@ struct ph7_context {
  * of the following structure.
  */
 struct ph7_hashmap_node {
-  ph7_hashmap *pMap;       /* Hashmap that own this instance */
-  sxi32 iType;             /* Node type */
+  ph7_hashmap *pMap;                             /* Hashmap that own this instance */
+  sxi32 iType;                                   /* Node type */
   union {
-    sxi64 iKey;            /* Int key */
-    SyBlob sKey;           /* Blob key */
+    sxi64 iKey;                                  /* Int key */
+    SyBlob sKey;                                 /* Blob key */
   } xKey;
-  sxi32 iFlags;            /* Control flags */
-  sxu32 nHash;             /* Key hash value */
-  sxu32 nValIdx;           /* Value stored in this node */
-  ph7_hashmap_node *pNext, *pPrev;                 /* Link to other entries [i.e: linear traversal] */
-  ph7_hashmap_node *pNextCollide, *pPrevCollide;   /* Collision chain */
+  sxi32 iFlags;                                  /* Control flags */
+  sxu32 nHash;                                   /* Key hash value */
+  sxu32 nValIdx;                                 /* Value stored in this node */
+  ph7_hashmap_node *pNext, *pPrev;               /* Link to other entries [i.e: linear traversal] */
+  ph7_hashmap_node *pNextCollide, *pPrevCollide; /* Collision chain */
 };
 
 /*
@@ -955,17 +955,17 @@ struct ph7_hashmap_node {
  * by an instance of the following structure.
  */
 struct ph7_hashmap {
-  ph7_vm *pVm;                    /* VM that own this instance */
-  ph7_hashmap_node **apBucket;    /* Hash bucket */
-  ph7_hashmap_node *pFirst;       /* First inserted entry */
-  ph7_hashmap_node *pLast;        /* Last inserted entry */
-  ph7_hashmap_node *pCur;         /* Current entry */
-  sxu32 nSize;                    /* Bucket size */
-  sxu32 nEntry;                   /* Total number of inserted entries */
-  sxu32 (*xIntHash)(sxi64);       /* Hash function for int_keys */
-  sxu32 (*xBlobHash)(const void *, sxu32);   /* Hash function for blob_keys */
-  sxi64 iNextIdx;                 /* Next available automatically assigned index */
-  sxi32 iRef;                     /* Reference count */
+  ph7_vm *pVm;                             /* VM that own this instance */
+  ph7_hashmap_node **apBucket;             /* Hash bucket */
+  ph7_hashmap_node *pFirst;                /* First inserted entry */
+  ph7_hashmap_node *pLast;                 /* Last inserted entry */
+  ph7_hashmap_node *pCur;                  /* Current entry */
+  sxu32 nSize;                             /* Bucket size */
+  sxu32 nEntry;                            /* Total number of inserted entries */
+  sxu32 (*xIntHash)(sxi64);                /* Hash function for int_keys */
+  sxu32 (*xBlobHash)(const void *, sxu32); /* Hash function for blob_keys */
+  sxi64 iNextIdx;                          /* Next available automatically assigned index */
+  sxi32 iRef;                              /* Reference count */
 };
 
 /* An instance of the following structure is the context
@@ -1003,17 +1003,17 @@ struct ph7_foreach_step {
  * on how to configure your PH7 engine instance.
  */
 struct ph7 {
-  SyMemBackend sAllocator;       /* Low level memory allocation subsystem */
-  const ph7_vfs *pVfs;           /* Underlying Virtual File System */
-  ph7_conf xConf;                /* Configuration */
+  SyMemBackend sAllocator;        /* Low level memory allocation subsystem */
+  const ph7_vfs *pVfs;            /* Underlying Virtual File System */
+  ph7_conf xConf;                 /* Configuration */
 #if defined(PH7_ENABLE_THREADS)
-  const SyMutexMethods *pMethods;    /* Mutex methods */
-  SyMutex *pMutex;                   /* Per-engine mutex */
+  const SyMutexMethods *pMethods; /* Mutex methods */
+  SyMutex *pMutex;                /* Per-engine mutex */
 #endif
-  ph7_vm *pVms;        /* List of active VM */
-  sxi32 iVm;           /* Total number of active VM */
-  ph7 *pNext, *pPrev;   /* List of active engines */
-  sxu32 nMagic;        /* Sanity check against misuse */
+  ph7_vm *pVms;                   /* List of active VM */
+  sxi32 iVm;                      /* Total number of active VM */
+  ph7 *pNext, *pPrev;             /* List of active engines */
+  sxu32 nMagic;                   /* Sanity check against misuse */
 };
 /* Code generation data structures */
 typedef sxi32 (*ProcErrorGen)(void *, sxi32, sxu32, const char *, ...);
@@ -1193,18 +1193,18 @@ struct ph7_vm_func_closure_env {
  * Please refer to the official documentation for more information.
  */
 struct ph7_vm_func {
-  SySet aArgs;           /* Expected arguments (ph7_vm_func_arg instance) */
-  SySet aStatic;         /* Static variable (ph7_vm_func_static_var instance) */
-  SyString sName;        /* Function name */
-  SySet aByteCode;       /* Compiled function body */
-  SySet aClosureEnv;     /* Closure environment (ph7_vm_func_closure_env instace) */
-  sxi32 iFlags;          /* VM function configuration */
-  SyString sSignature;   /* Function signature used to implement function overloading
-                          * (Refer to the official docuemntation for more information
-                          *  on this powerfull feature)
-                          */
-  void *pUserData;       /* Upper layer private data associated with this instance */
-  ph7_vm_func *pNextName;   /* Next VM function with the same name as this one */
+  SySet aArgs;            /* Expected arguments (ph7_vm_func_arg instance) */
+  SySet aStatic;          /* Static variable (ph7_vm_func_static_var instance) */
+  SyString sName;         /* Function name */
+  SySet aByteCode;        /* Compiled function body */
+  SySet aClosureEnv;      /* Closure environment (ph7_vm_func_closure_env instace) */
+  sxi32 iFlags;           /* VM function configuration */
+  SyString sSignature;    /* Function signature used to implement function overloading
+                           * (Refer to the official docuemntation for more information
+                           *  on this powerfull feature)
+                           */
+  void *pUserData;        /* Upper layer private data associated with this instance */
+  ph7_vm_func *pNextName; /* Next VM function with the same name as this one */
 };
 /* Forward reference */
 typedef struct ph7_builtin_constant ph7_builtin_constant;
@@ -1354,7 +1354,7 @@ struct ph7_exception {
   SySet sEntry;     /* Compiled 'catch' blocks (ph7_exception_block instance)
                      * container.
                      */
-  VmFrame *pFrame;   /* Frame that trigger the exception */
+  VmFrame *pFrame;  /* Frame that trigger the exception */
 };
 /* Forward reference */
 typedef struct ph7_case_expr ph7_case_expr;
@@ -1398,66 +1398,66 @@ typedef void (*ProcErrLog)(const char *, int, const char *, const char *);
  * This structure contains the complete state of the virtual machine.
  */
 struct ph7_vm {
-  SyMemBackend sAllocator;      /* Memory backend */
+  SyMemBackend sAllocator;         /* Memory backend */
 #if defined(PH7_ENABLE_THREADS)
-  SyMutex *pMutex;             /* Recursive mutex associated with VM. */
+  SyMutex *pMutex;                 /* Recursive mutex associated with VM. */
 #endif
-  ph7 *pEngine;                 /* Interpreter that own this VM */
-  SySet aByteCode;              /* Default bytecode container */
-  SySet *pByteContainer;        /* Current bytecode container */
-  VmFrame *pFrame;              /* Stack of active frames */
-  SyPRNGCtx sPrng;              /* PRNG context */
-  SySet aMemObj;                /* Object allocation table */
-  SySet aLitObj;                /* Literals allocation table */
-  ph7_value *aOps;              /* Operand stack */
-  SySet aFreeObj;               /* Stack of free memory objects */
-  SyHash hClass;                /* Compiled classes container */
-  SyHash hConstant;             /* Host-application and user defined constants container */
-  SyHash hHostFunction;         /* Host-application installable functions */
-  SyHash hFunction;             /* Compiled functions */
-  SyHash hSuper;                /* Superglobals hashtable */
-  SyHash hPDO;                  /* PDO installed drivers */
-  SyBlob sConsumer;             /* Default VM consumer [i.e Redirect all VM output to this blob] */
-  SyBlob sWorker;               /* General purpose working buffer */
-  SyBlob sArgv;                 /* $argv[] collector [refer to the [getopt()] implementation for more information] */
-  SySet aFiles;                 /* Stack of processed files */
-  SySet aPaths;                 /* Set of import paths */
-  SySet aIncluded;              /* Set of included files */
-  SySet aOB;                    /* Stackable output buffers */
-  SySet aShutdown;              /* Stack of shutdown user callbacks */
-  SySet aException;             /* Stack of loaded exception */
-  SySet aIOstream;              /* Installed IO stream container */
-  const ph7_io_stream *pDefStream;   /* Default IO stream [i.e: typically this is the 'file://' stream] */
-  ph7_value sExec;             /* Compiled script return value [Can be extracted via the PH7_VM_CONFIG_EXEC_VALUE directive]*/
-  ph7_value aExceptionCB[2];   /* Installed exception handler callbacks via [set_exception_handler()] */
-  ph7_value aErrCB[2];         /* Installed error handler callback via [set_error_handler()] */
-  void *pStdin;                /* STDIN IO stream */
-  void *pStdout;               /* STDOUT IO stream */
-  void *pStderr;               /* STDERR IO stream */
-  int bErrReport;              /* TRUE to report all runtime Error/Warning/Notice */
-  int nRecursionDepth;         /* Current recursion depth */
-  int nMaxDepth;               /* Maximum allowed recusion depth */
-  int nObDepth;                /* OB depth */
-  int nExceptDepth;            /* Exception depth */
-  int closure_cnt;             /* Loaded closures counter */
-  int json_rc;                 /* JSON return status [refer to json_encode()/json_decode()]*/
-  sxu32 unique_id;             /* Random number used to generate unique ID [refer to uniqid() for more info]*/
-  ProcErrLog xErrLog;          /* error_log() consumer [refer to PH7_VM_CONFIG_ERR_LOG_HANDLER] */
-  sxu32 nOutputLen;            /* Total number of generated output */
-  ph7_output_consumer sVmConsumer;   /* Registered output consumer callback */
-  int iAssertFlags;            /* Assertion flags */
-  ph7_value sAssertCallback;   /* Callback to call on failed assertions */
-  VmRefObj **apRefObj;         /* Hashtable of referenced object */
-  VmRefObj *pRefList;          /* List of referenced memory objects */
-  sxu32 nRefSize;              /* apRefObj[] size */
-  sxu32 nRefUsed;              /* Total entries in apRefObj[] */
-  SySet aSelf;                 /* 'self' stack used for static member access [i.e: self::MyConstant] */
-  ph7_hashmap *pGlobal;        /* $GLOBALS hashmap */
-  sxu32 nGlobalIdx;            /* $GLOBALS index */
-  sxi32 iExitStatus;           /* Script exit status */
-  ph7_gen_state sCodeGen;      /* Code generator module */
-  ph7_vm *pNext, *pPrev;        /* List of active VM's */
-  sxu32 nMagic;                /* Sanity check against misuse */
+  ph7 *pEngine;                    /* Interpreter that own this VM */
+  SySet aByteCode;                 /* Default bytecode container */
+  SySet *pByteContainer;           /* Current bytecode container */
+  VmFrame *pFrame;                 /* Stack of active frames */
+  SyPRNGCtx sPrng;                 /* PRNG context */
+  SySet aMemObj;                   /* Object allocation table */
+  SySet aLitObj;                   /* Literals allocation table */
+  ph7_value *aOps;                 /* Operand stack */
+  SySet aFreeObj;                  /* Stack of free memory objects */
+  SyHash hClass;                   /* Compiled classes container */
+  SyHash hConstant;                /* Host-application and user defined constants container */
+  SyHash hHostFunction;            /* Host-application installable functions */
+  SyHash hFunction;                /* Compiled functions */
+  SyHash hSuper;                   /* Superglobals hashtable */
+  SyHash hPDO;                     /* PDO installed drivers */
+  SyBlob sConsumer;                /* Default VM consumer [i.e Redirect all VM output to this blob] */
+  SyBlob sWorker;                  /* General purpose working buffer */
+  SyBlob sArgv;                    /* $argv[] collector [refer to the [getopt()] implementation for more information] */
+  SySet aFiles;                    /* Stack of processed files */
+  SySet aPaths;                    /* Set of import paths */
+  SySet aIncluded;                 /* Set of included files */
+  SySet aOB;                       /* Stackable output buffers */
+  SySet aShutdown;                 /* Stack of shutdown user callbacks */
+  SySet aException;                /* Stack of loaded exception */
+  SySet aIOstream;                 /* Installed IO stream container */
+  const ph7_io_stream *pDefStream; /* Default IO stream [i.e: typically this is the 'file://' stream] */
+  ph7_value sExec;                 /* Compiled script return value [Can be extracted via the PH7_VM_CONFIG_EXEC_VALUE directive]*/
+  ph7_value aExceptionCB[2];       /* Installed exception handler callbacks via [set_exception_handler()] */
+  ph7_value aErrCB[2];             /* Installed error handler callback via [set_error_handler()] */
+  void *pStdin;                    /* STDIN IO stream */
+  void *pStdout;                   /* STDOUT IO stream */
+  void *pStderr;                   /* STDERR IO stream */
+  int bErrReport;                  /* TRUE to report all runtime Error/Warning/Notice */
+  int nRecursionDepth;             /* Current recursion depth */
+  int nMaxDepth;                   /* Maximum allowed recusion depth */
+  int nObDepth;                    /* OB depth */
+  int nExceptDepth;                /* Exception depth */
+  int closure_cnt;                 /* Loaded closures counter */
+  int json_rc;                     /* JSON return status [refer to json_encode()/json_decode()]*/
+  sxu32 unique_id;                 /* Random number used to generate unique ID [refer to uniqid() for more info]*/
+  ProcErrLog xErrLog;              /* error_log() consumer [refer to PH7_VM_CONFIG_ERR_LOG_HANDLER] */
+  sxu32 nOutputLen;                /* Total number of generated output */
+  ph7_output_consumer sVmConsumer; /* Registered output consumer callback */
+  int iAssertFlags;                /* Assertion flags */
+  ph7_value sAssertCallback;       /* Callback to call on failed assertions */
+  VmRefObj **apRefObj;             /* Hashtable of referenced object */
+  VmRefObj *pRefList;              /* List of referenced memory objects */
+  sxu32 nRefSize;                  /* apRefObj[] size */
+  sxu32 nRefUsed;                  /* Total entries in apRefObj[] */
+  SySet aSelf;                     /* 'self' stack used for static member access [i.e: self::MyConstant] */
+  ph7_hashmap *pGlobal;            /* $GLOBALS hashmap */
+  sxu32 nGlobalIdx;                /* $GLOBALS index */
+  sxi32 iExitStatus;               /* Script exit status */
+  ph7_gen_state sCodeGen;          /* Code generator module */
+  ph7_vm *pNext, *pPrev;           /* List of active VM's */
+  sxu32 nMagic;                    /* Sanity check against misuse */
 };
 
 /*
@@ -1486,21 +1486,21 @@ enum iErrCode {
   E_CORE_WARNING      = 16,    /* Fatal errors that occur during PHP's initial startup. This is like an E_ERROR
                                 * except it is generated by the core of PHP.
                                 */
-  E_USER_ERROR        = 256,    /* User-generated error message.*/
-  E_USER_WARNING      = 512,    /* User-generated warning message.*/
-  E_USER_NOTICE       = 1024,   /* User-generated notice message.*/
-  E_STRICT            = 2048,   /* Enable to have PHP suggest changes to your code which will ensure the best interoperability
-                                 * and forward compatibility of your code.
-                                 */
-  E_RECOVERABLE_ERROR = 4096,   /* Catchable fatal error. It indicates that a probably dangerous error occured, but did not
-                                 * leave the Engine in an unstable state. If the error is not caught by a user defined handle
-                                 * the application aborts as it was an E_ERROR.
-                                 */
-  E_DEPRECATED        = 8192,   /* Run-time notices. Enable this to receive warnings about code that will not
-                                 * work in future versions.
-                                 */
-  E_USER_DEPRECATED   = 16384,   /* User-generated warning message. */
-  E_ALL               = 32767    /* All errors and warnings */
+  E_USER_ERROR        = 256,   /* User-generated error message.*/
+  E_USER_WARNING      = 512,   /* User-generated warning message.*/
+  E_USER_NOTICE       = 1024,  /* User-generated notice message.*/
+  E_STRICT            = 2048,  /* Enable to have PHP suggest changes to your code which will ensure the best interoperability
+                                * and forward compatibility of your code.
+                                */
+  E_RECOVERABLE_ERROR = 4096,  /* Catchable fatal error. It indicates that a probably dangerous error occured, but did not
+                                * leave the Engine in an unstable state. If the error is not caught by a user defined handle
+                                * the application aborts as it was an E_ERROR.
+                                */
+  E_DEPRECATED        = 8192,  /* Run-time notices. Enable this to receive warnings about code that will not
+                                * work in future versions.
+                                */
+  E_USER_DEPRECATED   = 16384, /* User-generated warning message. */
+  E_ALL               = 32767  /* All errors and warnings */
 };
 
 /*
@@ -1512,90 +1512,90 @@ enum iErrCode {
  * Few opcodes use all 3 operands.
  */
 enum ph7_vm_op {
-  PH7_OP_DONE =   1,   /* Done */
-  PH7_OP_HALT,         /* Halt */
-  PH7_OP_LOAD,         /* Load memory object */
-  PH7_OP_LOADC,        /* Load constant */
-  PH7_OP_LOAD_IDX,     /* Load array entry */
-  PH7_OP_LOAD_MAP,     /* Load hashmap('array') */
-  PH7_OP_LOAD_LIST,    /* Load list */
+  PH7_OP_DONE =   1,     /* Done */
+  PH7_OP_HALT,           /* Halt */
+  PH7_OP_LOAD,           /* Load memory object */
+  PH7_OP_LOADC,          /* Load constant */
+  PH7_OP_LOAD_IDX,       /* Load array entry */
+  PH7_OP_LOAD_MAP,       /* Load hashmap('array') */
+  PH7_OP_LOAD_LIST,      /* Load list */
   PH7_OP_LOAD_CLOSURE,   /* Load closure */
-  PH7_OP_NOOP,         /* NOOP */
-  PH7_OP_JMP,          /* Unconditional jump */
-  PH7_OP_JZ,           /* Jump on zero (FALSE jump) */
-  PH7_OP_JNZ,          /* Jump on non-zero (TRUE jump) */
-  PH7_OP_POP,          /* Stack POP */
-  PH7_OP_CAT,          /* Concatenation */
-  PH7_OP_CVT_INT,      /* Integer cast */
-  PH7_OP_CVT_STR,      /* String cast */
-  PH7_OP_CVT_REAL,     /* Float cast */
-  PH7_OP_CALL,         /* Function call */
-  PH7_OP_UMINUS,       /* Unary minus '-'*/
-  PH7_OP_UPLUS,        /* Unary plus '+'*/
-  PH7_OP_BITNOT,       /* Bitwise not '~' */
-  PH7_OP_LNOT,         /* Logical not '!' */
-  PH7_OP_MUL,          /* Multiplication '*' */
-  PH7_OP_DIV,          /* Division '/' */
-  PH7_OP_MOD,          /* Modulus '%' */
-  PH7_OP_ADD,          /* Add '+' */
-  PH7_OP_SUB,          /* Sub '-' */
-  PH7_OP_SHL,          /* Left shift '<<' */
-  PH7_OP_SHR,          /* Right shift '>>' */
-  PH7_OP_LT,           /* Less than '<' */
-  PH7_OP_LE,           /* Less or equal '<=' */
-  PH7_OP_GT,           /* Greater than '>' */
-  PH7_OP_GE,           /* Greater or equal '>=' */
-  PH7_OP_EQ,           /* Equal '==' */
-  PH7_OP_NEQ,          /* Not equal '!=' */
-  PH7_OP_TEQ,          /* Type equal '===' */
-  PH7_OP_TNE,          /* Type not equal '!==' */
-  PH7_OP_BAND,         /* Bitwise and '&' */
-  PH7_OP_BXOR,         /* Bitwise xor '^' */
-  PH7_OP_BOR,          /* Bitwise or '|' */
-  PH7_OP_LAND,         /* Logical and '&&','and' */
-  PH7_OP_LOR,          /* Logical or  '||','or' */
-  PH7_OP_LXOR,         /* Logical xor 'xor' */
-  PH7_OP_STORE,        /* Store Object */
-  PH7_OP_STORE_IDX,    /* Store indexed object */
+  PH7_OP_NOOP,           /* NOOP */
+  PH7_OP_JMP,            /* Unconditional jump */
+  PH7_OP_JZ,             /* Jump on zero (FALSE jump) */
+  PH7_OP_JNZ,            /* Jump on non-zero (TRUE jump) */
+  PH7_OP_POP,            /* Stack POP */
+  PH7_OP_CAT,            /* Concatenation */
+  PH7_OP_CVT_INT,        /* Integer cast */
+  PH7_OP_CVT_STR,        /* String cast */
+  PH7_OP_CVT_REAL,       /* Float cast */
+  PH7_OP_CALL,           /* Function call */
+  PH7_OP_UMINUS,         /* Unary minus '-'*/
+  PH7_OP_UPLUS,          /* Unary plus '+'*/
+  PH7_OP_BITNOT,         /* Bitwise not '~' */
+  PH7_OP_LNOT,           /* Logical not '!' */
+  PH7_OP_MUL,            /* Multiplication '*' */
+  PH7_OP_DIV,            /* Division '/' */
+  PH7_OP_MOD,            /* Modulus '%' */
+  PH7_OP_ADD,            /* Add '+' */
+  PH7_OP_SUB,            /* Sub '-' */
+  PH7_OP_SHL,            /* Left shift '<<' */
+  PH7_OP_SHR,            /* Right shift '>>' */
+  PH7_OP_LT,             /* Less than '<' */
+  PH7_OP_LE,             /* Less or equal '<=' */
+  PH7_OP_GT,             /* Greater than '>' */
+  PH7_OP_GE,             /* Greater or equal '>=' */
+  PH7_OP_EQ,             /* Equal '==' */
+  PH7_OP_NEQ,            /* Not equal '!=' */
+  PH7_OP_TEQ,            /* Type equal '===' */
+  PH7_OP_TNE,            /* Type not equal '!==' */
+  PH7_OP_BAND,           /* Bitwise and '&' */
+  PH7_OP_BXOR,           /* Bitwise xor '^' */
+  PH7_OP_BOR,            /* Bitwise or '|' */
+  PH7_OP_LAND,           /* Logical and '&&','and' */
+  PH7_OP_LOR,            /* Logical or  '||','or' */
+  PH7_OP_LXOR,           /* Logical xor 'xor' */
+  PH7_OP_STORE,          /* Store Object */
+  PH7_OP_STORE_IDX,      /* Store indexed object */
   PH7_OP_STORE_IDX_REF,  /* Store indexed object by reference */
-  PH7_OP_PULL,         /* Stack pull */
-  PH7_OP_SWAP,         /* Stack swap */
-  PH7_OP_YIELD,        /* Stack yield */
-  PH7_OP_CVT_BOOL,     /* Boolean cast */
-  PH7_OP_CVT_NUMC,     /* Numeric (integer,real or both) type cast */
-  PH7_OP_INCR,         /* Increment ++ */
-  PH7_OP_DECR,         /* Decrement -- */
-  PH7_OP_SEQ,          /* 'eq' String equal: Strict string comparison */
-  PH7_OP_SNE,          /* 'ne' String not equal: Strict string comparison */
-  PH7_OP_NEW,          /* new */
-  PH7_OP_CLONE,        /* clone */
-  PH7_OP_ADD_STORE,    /* Add and store '+=' */
-  PH7_OP_SUB_STORE,    /* Sub and store '-=' */
-  PH7_OP_MUL_STORE,    /* Mul and store '*=' */
-  PH7_OP_DIV_STORE,    /* Div and store '/=' */
-  PH7_OP_MOD_STORE,    /* Mod and store '%=' */
-  PH7_OP_CAT_STORE,    /* Cat and store '.=' */
-  PH7_OP_SHL_STORE,    /* Shift left and store '>>=' */
-  PH7_OP_SHR_STORE,    /* Shift right and store '<<=' */
-  PH7_OP_BAND_STORE,   /* Bitand and store '&=' */
-  PH7_OP_BOR_STORE,    /* Bitor and store '|=' */
-  PH7_OP_BXOR_STORE,   /* Bitxor and store '^=' */
-  PH7_OP_CONSUME,      /* Consume VM output */
-  PH7_OP_LOAD_REF,     /* Load reference */
-  PH7_OP_STORE_REF,    /* Store a reference to a variable*/
-  PH7_OP_MEMBER,       /* Class member run-time access */
-  PH7_OP_UPLINK,       /* Run-Time frame link */
-  PH7_OP_CVT_NULL,     /* NULL cast */
-  PH7_OP_CVT_ARRAY,    /* Array cast */
-  PH7_OP_CVT_OBJ,      /* Object cast */
+  PH7_OP_PULL,           /* Stack pull */
+  PH7_OP_SWAP,           /* Stack swap */
+  PH7_OP_YIELD,          /* Stack yield */
+  PH7_OP_CVT_BOOL,       /* Boolean cast */
+  PH7_OP_CVT_NUMC,       /* Numeric (integer,real or both) type cast */
+  PH7_OP_INCR,           /* Increment ++ */
+  PH7_OP_DECR,           /* Decrement -- */
+  PH7_OP_SEQ,            /* 'eq' String equal: Strict string comparison */
+  PH7_OP_SNE,            /* 'ne' String not equal: Strict string comparison */
+  PH7_OP_NEW,            /* new */
+  PH7_OP_CLONE,          /* clone */
+  PH7_OP_ADD_STORE,      /* Add and store '+=' */
+  PH7_OP_SUB_STORE,      /* Sub and store '-=' */
+  PH7_OP_MUL_STORE,      /* Mul and store '*=' */
+  PH7_OP_DIV_STORE,      /* Div and store '/=' */
+  PH7_OP_MOD_STORE,      /* Mod and store '%=' */
+  PH7_OP_CAT_STORE,      /* Cat and store '.=' */
+  PH7_OP_SHL_STORE,      /* Shift left and store '>>=' */
+  PH7_OP_SHR_STORE,      /* Shift right and store '<<=' */
+  PH7_OP_BAND_STORE,     /* Bitand and store '&=' */
+  PH7_OP_BOR_STORE,      /* Bitor and store '|=' */
+  PH7_OP_BXOR_STORE,     /* Bitxor and store '^=' */
+  PH7_OP_CONSUME,        /* Consume VM output */
+  PH7_OP_LOAD_REF,       /* Load reference */
+  PH7_OP_STORE_REF,      /* Store a reference to a variable*/
+  PH7_OP_MEMBER,         /* Class member run-time access */
+  PH7_OP_UPLINK,         /* Run-Time frame link */
+  PH7_OP_CVT_NULL,       /* NULL cast */
+  PH7_OP_CVT_ARRAY,      /* Array cast */
+  PH7_OP_CVT_OBJ,        /* Object cast */
   PH7_OP_FOREACH_INIT,   /* For each init */
   PH7_OP_FOREACH_STEP,   /* For each step */
-  PH7_OP_IS_A,         /* Instanceof */
-  PH7_OP_LOAD_EXCEPTION,  /* Load an exception */
-  PH7_OP_POP_EXCEPTION,   /* POP an exception */
-  PH7_OP_THROW,         /* Throw exception */
-  PH7_OP_SWITCH,        /* Switch operation */
-  PH7_OP_ERR_CTRL      /* Error control */
+  PH7_OP_IS_A,           /* Instanceof */
+  PH7_OP_LOAD_EXCEPTION, /* Load an exception */
+  PH7_OP_POP_EXCEPTION,  /* POP an exception */
+  PH7_OP_THROW,          /* Throw exception */
+  PH7_OP_SWITCH,         /* Switch operation */
+  PH7_OP_ERR_CTRL        /* Error control */
 };
 /* -- END-OF INSTRUCTIONS -- */
 
@@ -1645,18 +1645,18 @@ enum ph7_expr_id {
   EXPR_OP_LXOR,        /* Logical xor 'xor' */
   EXPR_OP_QUESTY,      /* Ternary operator '?' */
   EXPR_OP_ASSIGN,      /* Assignment '=' */
-  EXPR_OP_ADD_ASSIGN,   /* Combined operator: += */
-  EXPR_OP_SUB_ASSIGN,   /* Combined operator: -= */
-  EXPR_OP_MUL_ASSIGN,   /* Combined operator: *= */
-  EXPR_OP_DIV_ASSIGN,   /* Combined operator: /= */
-  EXPR_OP_MOD_ASSIGN,   /* Combined operator: %= */
-  EXPR_OP_DOT_ASSIGN,   /* Combined operator: .= */
-  EXPR_OP_AND_ASSIGN,   /* Combined operator: &= */
-  EXPR_OP_OR_ASSIGN,    /* Combined operator: |= */
-  EXPR_OP_XOR_ASSIGN,   /* Combined operator: ^= */
-  EXPR_OP_SHL_ASSIGN,   /* Combined operator: <<= */
-  EXPR_OP_SHR_ASSIGN,   /* Combined operator: >>= */
-  EXPR_OP_COMMA         /* Comma expression */
+  EXPR_OP_ADD_ASSIGN,  /* Combined operator: += */
+  EXPR_OP_SUB_ASSIGN,  /* Combined operator: -= */
+  EXPR_OP_MUL_ASSIGN,  /* Combined operator: *= */
+  EXPR_OP_DIV_ASSIGN,  /* Combined operator: /= */
+  EXPR_OP_MOD_ASSIGN,  /* Combined operator: %= */
+  EXPR_OP_DOT_ASSIGN,  /* Combined operator: .= */
+  EXPR_OP_AND_ASSIGN,  /* Combined operator: &= */
+  EXPR_OP_OR_ASSIGN,   /* Combined operator: |= */
+  EXPR_OP_XOR_ASSIGN,  /* Combined operator: ^= */
+  EXPR_OP_SHL_ASSIGN,  /* Combined operator: <<= */
+  EXPR_OP_SHR_ASSIGN,  /* Combined operator: >>= */
+  EXPR_OP_COMMA        /* Comma expression */
 };
 
 /*
@@ -1671,32 +1671,32 @@ enum ph7_expr_id {
  * by the lexer when processing PHP input.
  * Important: Token values MUST BE A POWER OF TWO.
  */
-#define PH7_TK_INTEGER   0x0000001  /* Integer */
-#define PH7_TK_REAL      0x0000002  /* Real number */
+#define PH7_TK_INTEGER   0x0000001                      /* Integer */
+#define PH7_TK_REAL      0x0000002                      /* Real number */
 #define PH7_TK_NUM       (PH7_TK_INTEGER | PH7_TK_REAL) /* Numeric token,either integer or real */
-#define PH7_TK_KEYWORD   0x0000004 /* Keyword [i.e: while,for,if,foreach...] */
-#define PH7_TK_ID        0x0000008 /* Alphanumeric or UTF-8 stream */
-#define PH7_TK_DOLLAR    0x0000010 /* '$' Dollar sign */
-#define PH7_TK_OP        0x0000020 /* Operator [i.e: +,*,/...] */
-#define PH7_TK_OCB       0x0000040 /* Open curly brace'{' */
-#define PH7_TK_CCB       0x0000080 /* Closing curly brace'}' */
-#define PH7_TK_NSSEP     0x0000100 /* Namespace separator '\' */
-#define PH7_TK_LPAREN    0x0000200 /* Left parenthesis '(' */
-#define PH7_TK_RPAREN    0x0000400 /* Right parenthesis ')' */
-#define PH7_TK_OSB       0x0000800 /* Open square bracket '[' */
-#define PH7_TK_CSB       0x0001000 /* Closing square bracket ']' */
-#define PH7_TK_DSTR      0x0002000 /* Double quoted string "$str" */
-#define PH7_TK_SSTR      0x0004000 /* Single quoted string 'str' */
-#define PH7_TK_HEREDOC   0x0008000 /* Heredoc <<< */
-#define PH7_TK_NOWDOC    0x0010000 /* Nowdoc <<< */
-#define PH7_TK_COMMA     0x0020000 /* Comma ',' */
-#define PH7_TK_SEMI      0x0040000 /* Semi-colon ";" */
-#define PH7_TK_BSTR      0x0080000 /* Backtick quoted string [i.e: Shell command `date`] */
-#define PH7_TK_COLON     0x0100000 /* single Colon ':' */
-#define PH7_TK_AMPER     0x0200000 /* Ampersand '&' */
-#define PH7_TK_EQUAL     0x0400000 /* Equal '=' */
-#define PH7_TK_ARRAY_OP  0x0800000 /* Array operator '=>' */
-#define PH7_TK_OTHER     0x1000000 /* Other symbols */
+#define PH7_TK_KEYWORD   0x0000004                      /* Keyword [i.e: while,for,if,foreach...] */
+#define PH7_TK_ID        0x0000008                      /* Alphanumeric or UTF-8 stream */
+#define PH7_TK_DOLLAR    0x0000010                      /* '$' Dollar sign */
+#define PH7_TK_OP        0x0000020                      /* Operator [i.e: +,*,/...] */
+#define PH7_TK_OCB       0x0000040                      /* Open curly brace'{' */
+#define PH7_TK_CCB       0x0000080                      /* Closing curly brace'}' */
+#define PH7_TK_NSSEP     0x0000100                      /* Namespace separator '\' */
+#define PH7_TK_LPAREN    0x0000200                      /* Left parenthesis '(' */
+#define PH7_TK_RPAREN    0x0000400                      /* Right parenthesis ')' */
+#define PH7_TK_OSB       0x0000800                      /* Open square bracket '[' */
+#define PH7_TK_CSB       0x0001000                      /* Closing square bracket ']' */
+#define PH7_TK_DSTR      0x0002000                      /* Double quoted string "$str" */
+#define PH7_TK_SSTR      0x0004000                      /* Single quoted string 'str' */
+#define PH7_TK_HEREDOC   0x0008000                      /* Heredoc <<< */
+#define PH7_TK_NOWDOC    0x0010000                      /* Nowdoc <<< */
+#define PH7_TK_COMMA     0x0020000                      /* Comma ',' */
+#define PH7_TK_SEMI      0x0040000                      /* Semi-colon ";" */
+#define PH7_TK_BSTR      0x0080000                      /* Backtick quoted string [i.e: Shell command `date`] */
+#define PH7_TK_COLON     0x0100000                      /* single Colon ':' */
+#define PH7_TK_AMPER     0x0200000                      /* Ampersand '&' */
+#define PH7_TK_EQUAL     0x0400000                      /* Equal '=' */
+#define PH7_TK_ARRAY_OP  0x0800000                      /* Array operator '=>' */
+#define PH7_TK_OTHER     0x1000000                      /* Other symbols */
 
 /*
  * PHP keyword.
@@ -1705,85 +1705,85 @@ enum ph7_expr_id {
  * You cannot use any of the following words as constants, class names, function or method names.
  * Using them as variable names is generally OK, but could lead to confusion.
  */
-#define PH7_TKWRD_EXTENDS      1 /* extends */
-#define PH7_TKWRD_ENDSWITCH    2 /* endswitch */
-#define PH7_TKWRD_SWITCH       3 /* switch */
-#define PH7_TKWRD_PRINT        4 /* print */
-#define PH7_TKWRD_INTERFACE    5 /* interface */
-#define PH7_TKWRD_ENDDEC       6 /* enddeclare */
-#define PH7_TKWRD_DECLARE      7 /* declare */
+#define PH7_TKWRD_EXTENDS      1         /* extends */
+#define PH7_TKWRD_ENDSWITCH    2         /* endswitch */
+#define PH7_TKWRD_SWITCH       3         /* switch */
+#define PH7_TKWRD_PRINT        4         /* print */
+#define PH7_TKWRD_INTERFACE    5         /* interface */
+#define PH7_TKWRD_ENDDEC       6         /* enddeclare */
+#define PH7_TKWRD_DECLARE      7         /* declare */
 /* The number '8' is reserved for PH7_TK_ID */
-#define PH7_TKWRD_REQONCE      9 /* require_once */
-#define PH7_TKWRD_REQUIRE      10 /* require */
+#define PH7_TKWRD_REQONCE      9         /* require_once */
+#define PH7_TKWRD_REQUIRE      10        /* require */
 #define PH7_TKWRD_ELIF         0x4000000 /* elseif: MUST BE A POWER OF TWO */
 #define PH7_TKWRD_ELSE         0x8000000 /* else:  MUST BE A POWER OF TWO */
-#define PH7_TKWRD_IF           13 /* if */
-#define PH7_TKWRD_FINAL        14 /* final */
-#define PH7_TKWRD_LIST         15 /* list */
-#define PH7_TKWRD_STATIC       16 /* static */
-#define PH7_TKWRD_CASE         17 /* case */
-#define PH7_TKWRD_SELF         18 /* self */
-#define PH7_TKWRD_FUNCTION     19 /* function */
-#define PH7_TKWRD_NAMESPACE    20 /* namespace */
-#define PH7_TKWRD_ENDIF        0x400000 /* endif: MUST BE A POWER OF TWO */
-#define PH7_TKWRD_CLONE        0x80 /* clone: MUST BE A POWER OF TWO  */
-#define PH7_TKWRD_NEW          0x100 /* new: MUST BE A POWER OF TWO  */
-#define PH7_TKWRD_CONST        22 /* const */
-#define PH7_TKWRD_THROW        23 /* throw */
-#define PH7_TKWRD_USE          24 /* use */
-#define PH7_TKWRD_ENDWHILE     0x800000 /* endwhile: MUST BE A POWER OF TWO */
-#define PH7_TKWRD_WHILE        26 /* while */
-#define PH7_TKWRD_EVAL         27 /* eval */
-#define PH7_TKWRD_VAR          28 /* var */
-#define PH7_TKWRD_ARRAY        0x200 /* array: MUST BE A POWER OF TWO */
-#define PH7_TKWRD_ABSTRACT     29 /* abstract */
-#define PH7_TKWRD_TRY          30 /* try */
-#define PH7_TKWRD_AND          0x400 /* and: MUST BE A POWER OF TWO  */
-#define PH7_TKWRD_DEFAULT      31 /* default */
-#define PH7_TKWRD_CLASS        32 /* class */
-#define PH7_TKWRD_AS           33 /* as */
-#define PH7_TKWRD_CONTINUE     34 /* continue */
-#define PH7_TKWRD_EXIT         35 /* exit */
-#define PH7_TKWRD_DIE          36 /* die */
-#define PH7_TKWRD_ECHO         37 /* echo */
-#define PH7_TKWRD_GLOBAL       38 /* global */
-#define PH7_TKWRD_IMPLEMENTS   39 /* implements */
-#define PH7_TKWRD_INCONCE      40 /* include_once */
-#define PH7_TKWRD_INCLUDE      41 /* include */
-#define PH7_TKWRD_EMPTY        42 /* empty */
-#define PH7_TKWRD_INSTANCEOF   0x800 /* instanceof: MUST BE A POWER OF TWO  */
-#define PH7_TKWRD_ISSET        43 /* isset */
-#define PH7_TKWRD_PARENT       44 /* parent */
-#define PH7_TKWRD_PRIVATE      45 /* private */
+#define PH7_TKWRD_IF           13        /* if */
+#define PH7_TKWRD_FINAL        14        /* final */
+#define PH7_TKWRD_LIST         15        /* list */
+#define PH7_TKWRD_STATIC       16        /* static */
+#define PH7_TKWRD_CASE         17        /* case */
+#define PH7_TKWRD_SELF         18        /* self */
+#define PH7_TKWRD_FUNCTION     19        /* function */
+#define PH7_TKWRD_NAMESPACE    20        /* namespace */
+#define PH7_TKWRD_ENDIF        0x400000  /* endif: MUST BE A POWER OF TWO */
+#define PH7_TKWRD_CLONE        0x80      /* clone: MUST BE A POWER OF TWO  */
+#define PH7_TKWRD_NEW          0x100     /* new: MUST BE A POWER OF TWO  */
+#define PH7_TKWRD_CONST        22        /* const */
+#define PH7_TKWRD_THROW        23        /* throw */
+#define PH7_TKWRD_USE          24        /* use */
+#define PH7_TKWRD_ENDWHILE     0x800000  /* endwhile: MUST BE A POWER OF TWO */
+#define PH7_TKWRD_WHILE        26        /* while */
+#define PH7_TKWRD_EVAL         27        /* eval */
+#define PH7_TKWRD_VAR          28        /* var */
+#define PH7_TKWRD_ARRAY        0x200     /* array: MUST BE A POWER OF TWO */
+#define PH7_TKWRD_ABSTRACT     29        /* abstract */
+#define PH7_TKWRD_TRY          30        /* try */
+#define PH7_TKWRD_AND          0x400     /* and: MUST BE A POWER OF TWO  */
+#define PH7_TKWRD_DEFAULT      31        /* default */
+#define PH7_TKWRD_CLASS        32        /* class */
+#define PH7_TKWRD_AS           33        /* as */
+#define PH7_TKWRD_CONTINUE     34        /* continue */
+#define PH7_TKWRD_EXIT         35        /* exit */
+#define PH7_TKWRD_DIE          36        /* die */
+#define PH7_TKWRD_ECHO         37        /* echo */
+#define PH7_TKWRD_GLOBAL       38        /* global */
+#define PH7_TKWRD_IMPLEMENTS   39        /* implements */
+#define PH7_TKWRD_INCONCE      40        /* include_once */
+#define PH7_TKWRD_INCLUDE      41        /* include */
+#define PH7_TKWRD_EMPTY        42        /* empty */
+#define PH7_TKWRD_INSTANCEOF   0x800     /* instanceof: MUST BE A POWER OF TWO  */
+#define PH7_TKWRD_ISSET        43        /* isset */
+#define PH7_TKWRD_PARENT       44        /* parent */
+#define PH7_TKWRD_PRIVATE      45        /* private */
 #define PH7_TKWRD_ENDFOR       0x1000000 /* endfor: MUST BE A POWER OF TWO */
 #define PH7_TKWRD_END4EACH     0x2000000 /* endforeach: MUST BE A POWER OF TWO */
-#define PH7_TKWRD_FOR          48 /* for */
-#define PH7_TKWRD_FOREACH      49 /* foreach */
-#define PH7_TKWRD_OR           0x1000 /* or: MUST BE A POWER OF TWO  */
-#define PH7_TKWRD_PROTECTED    50 /* protected */
-#define PH7_TKWRD_DO           51 /* do */
-#define PH7_TKWRD_PUBLIC       52 /* public */
-#define PH7_TKWRD_CATCH        53 /* catch */
-#define PH7_TKWRD_RETURN       54 /* return */
-#define PH7_TKWRD_UNSET        0x2000 /* unset: MUST BE A POWER OF TWO  */
-#define PH7_TKWRD_XOR          0x4000 /* xor: MUST BE A POWER OF TWO  */
-#define PH7_TKWRD_BREAK        55 /* break */
-#define PH7_TKWRD_GOTO         56 /* goto */
-#define PH7_TKWRD_BOOL         0x8000  /* bool:  MUST BE A POWER OF TWO */
-#define PH7_TKWRD_INT          0x10000  /* int:   MUST BE A POWER OF TWO */
-#define PH7_TKWRD_FLOAT        0x20000  /* float:  MUST BE A POWER OF TWO */
-#define PH7_TKWRD_STRING       0x40000  /* string: MUST BE A POWER OF TWO */
-#define PH7_TKWRD_OBJECT       0x80000 /* object: MUST BE A POWER OF TWO */
-#define PH7_TKWRD_SEQ          0x100000 /* String string comparison operator: 'eq' equal MUST BE A POWER OF TWO */
-#define PH7_TKWRD_SNE          0x200000 /* String string comparison operator: 'ne' not equal MUST BE A POWER OF TWO */
+#define PH7_TKWRD_FOR          48        /* for */
+#define PH7_TKWRD_FOREACH      49        /* foreach */
+#define PH7_TKWRD_OR           0x1000    /* or: MUST BE A POWER OF TWO  */
+#define PH7_TKWRD_PROTECTED    50        /* protected */
+#define PH7_TKWRD_DO           51        /* do */
+#define PH7_TKWRD_PUBLIC       52        /* public */
+#define PH7_TKWRD_CATCH        53        /* catch */
+#define PH7_TKWRD_RETURN       54        /* return */
+#define PH7_TKWRD_UNSET        0x2000    /* unset: MUST BE A POWER OF TWO  */
+#define PH7_TKWRD_XOR          0x4000    /* xor: MUST BE A POWER OF TWO  */
+#define PH7_TKWRD_BREAK        55        /* break */
+#define PH7_TKWRD_GOTO         56        /* goto */
+#define PH7_TKWRD_BOOL         0x8000    /* bool:  MUST BE A POWER OF TWO */
+#define PH7_TKWRD_INT          0x10000   /* int:   MUST BE A POWER OF TWO */
+#define PH7_TKWRD_FLOAT        0x20000   /* float:  MUST BE A POWER OF TWO */
+#define PH7_TKWRD_STRING       0x40000   /* string: MUST BE A POWER OF TWO */
+#define PH7_TKWRD_OBJECT       0x80000   /* object: MUST BE A POWER OF TWO */
+#define PH7_TKWRD_SEQ          0x100000  /* String string comparison operator: 'eq' equal MUST BE A POWER OF TWO */
+#define PH7_TKWRD_SNE          0x200000  /* String string comparison operator: 'ne' not equal MUST BE A POWER OF TWO */
 /* JSON encoding/decoding related definition */
 enum json_err_code {
-  JSON_ERROR_NONE = 0,    /* No error has occurred. */
-  JSON_ERROR_DEPTH,       /* The maximum stack depth has been exceeded.  */
-  JSON_ERROR_STATE_MISMATCH,   /* Occurs with underflow or with the modes mismatch.  */
-  JSON_ERROR_CTRL_CHAR,   /* Control character error, possibly incorrectly encoded.  */
-  JSON_ERROR_SYNTAX,      /* Syntax error. */
-  JSON_ERROR_UTF8         /* Malformed UTF-8 characters */
+  JSON_ERROR_NONE = 0,       /* No error has occurred. */
+  JSON_ERROR_DEPTH,          /* The maximum stack depth has been exceeded.  */
+  JSON_ERROR_STATE_MISMATCH, /* Occurs with underflow or with the modes mismatch.  */
+  JSON_ERROR_CTRL_CHAR,      /* Control character error, possibly incorrectly encoded.  */
+  JSON_ERROR_SYNTAX,         /* Syntax error. */
+  JSON_ERROR_UTF8            /* Malformed UTF-8 characters */
 };
 /* The following constants can be combined to form options for json_encode(). */
 #define JSON_HEX_TAG           0x01  /* All < and > are converted to \u003C and \u003E. */
@@ -1806,7 +1806,7 @@ PH7_PRIVATE sxi32 PH7_MemObjDump(
   int isRef
 );
 PH7_PRIVATE const char* PH7_MemObjTypeDump(ph7_value *pVal);
-PH7_PRIVATE sxi32 PH7_MemObjAdd(
+PH7_PRIVATE sxi32       PH7_MemObjAdd(
   ph7_value *pObj1,
   ph7_value *pObj2,
   int bAddStore
@@ -1957,8 +1957,8 @@ PH7_PRIVATE sxi32 PH7_VmBlobConsumer(
 );
 PH7_PRIVATE ph7_value* PH7_ReserveMemObj(ph7_vm *pVm);
 PH7_PRIVATE ph7_value* PH7_ReserveConstObj(ph7_vm *pVm, sxu32 *pIndex);
-PH7_PRIVATE sxi32 PH7_VmOutputConsume(ph7_vm *pVm, SyString *pString);
-PH7_PRIVATE sxi32 PH7_VmOutputConsumeAp(
+PH7_PRIVATE sxi32      PH7_VmOutputConsume(ph7_vm *pVm, SyString *pString);
+PH7_PRIVATE sxi32      PH7_VmOutputConsumeAp(
   ph7_vm *pVm,
   const char *zFormat,
   va_list ap
@@ -1976,26 +1976,26 @@ PH7_PRIVATE sxi32 PH7_VmThrowError(
   sxi32 iErr,
   const char *zMessage
 );
-PH7_PRIVATE void PH7_VmExpandConstantValue(ph7_value *pVal, void *pUserData);
+PH7_PRIVATE void  PH7_VmExpandConstantValue(ph7_value *pVal, void *pUserData);
 PH7_PRIVATE sxi32 PH7_VmDump(
   ph7_vm *pVm,
   ProcConsumer xConsumer,
   void *pUserData
 );
-PH7_PRIVATE sxi32 PH7_VmInit(ph7_vm *pVm, ph7 *pEngine);
-PH7_PRIVATE sxi32 PH7_VmConfigure(ph7_vm *pVm, sxi32 nOp, va_list ap);
-PH7_PRIVATE sxi32 PH7_VmByteCodeExec(ph7_vm *pVm);
-PH7_PRIVATE sxi32 PH7_VmRelease(ph7_vm *pVm);
-PH7_PRIVATE sxi32 PH7_VmReset(ph7_vm *pVm);
-PH7_PRIVATE sxi32 PH7_VmMakeReady(ph7_vm *pVm);
-PH7_PRIVATE sxu32 PH7_VmInstrLength(ph7_vm *pVm);
+PH7_PRIVATE sxi32    PH7_VmInit(ph7_vm *pVm, ph7 *pEngine);
+PH7_PRIVATE sxi32    PH7_VmConfigure(ph7_vm *pVm, sxi32 nOp, va_list ap);
+PH7_PRIVATE sxi32    PH7_VmByteCodeExec(ph7_vm *pVm);
+PH7_PRIVATE sxi32    PH7_VmRelease(ph7_vm *pVm);
+PH7_PRIVATE sxi32    PH7_VmReset(ph7_vm *pVm);
+PH7_PRIVATE sxi32    PH7_VmMakeReady(ph7_vm *pVm);
+PH7_PRIVATE sxu32    PH7_VmInstrLength(ph7_vm *pVm);
 PH7_PRIVATE VmInstr* PH7_VmPopInstr(ph7_vm *pVm);
 PH7_PRIVATE VmInstr* PH7_VmPeekInstr(ph7_vm *pVm);
 PH7_PRIVATE VmInstr* PH7_VmPeekNextInstr(ph7_vm *pVm);
 PH7_PRIVATE VmInstr* PH7_VmGetInstr(ph7_vm *pVm, sxu32 nIndex);
-PH7_PRIVATE SySet* PH7_VmGetByteCodeContainer(ph7_vm *pVm);
-PH7_PRIVATE sxi32 PH7_VmSetByteCodeContainer(ph7_vm *pVm, SySet *pContainer);
-PH7_PRIVATE sxi32 PH7_VmEmitInstr(
+PH7_PRIVATE SySet*   PH7_VmGetByteCodeContainer(ph7_vm *pVm);
+PH7_PRIVATE sxi32    PH7_VmSetByteCodeContainer(ph7_vm *pVm, SySet *pContainer);
+PH7_PRIVATE sxi32    PH7_VmEmitInstr(
   ph7_vm *pVm,
   sxi32 iOp,
   sxi32 iP1,
@@ -2021,8 +2021,11 @@ PH7_PRIVATE sxi32 PH7_VmCallUserFunctionAp(
   ph7_value *pResult,
   ...
 );
-PH7_PRIVATE sxi32 PH7_VmUnsetMemObj(ph7_vm *pVm, sxu32 nObjIdx, int bForce);
-PH7_PRIVATE void PH7_VmRandomString(ph7_vm *pVm, char *zBuf, int nLen);
+PH7_PRIVATE sxi32 PH7_VmUnsetMemObj(
+  ph7_vm *pVm, sxu32 nObjIdx,
+  int bForce
+);
+PH7_PRIVATE void       PH7_VmRandomString(ph7_vm *pVm, char *zBuf, int nLen);
 PH7_PRIVATE ph7_class* PH7_VmPeekTopClass(ph7_vm *pVm);
 PH7_PRIVATE int PH7_VmIsCallable(
   ph7_vm *pVm, ph7_value *pValue,
@@ -2044,7 +2047,7 @@ PH7_PRIVATE int PH7_Utf8Read(
 );
 
 /* parse.c function prototypes */
-PH7_PRIVATE int PH7_IsLangConstruct(sxu32 nKeyID, sxu8 bCheckFunc);
+PH7_PRIVATE int   PH7_IsLangConstruct(sxu32 nKeyID, sxu8 bCheckFunc);
 PH7_PRIVATE sxi32 PH7_ExprMakeTree(
   ph7_gen_state *pGen,
   SySet *pExprNode,
@@ -2123,7 +2126,7 @@ PH7_PRIVATE ph7_hashmap* PH7_NewHashmap(
 );
 PH7_PRIVATE sxi32 PH7_HashmapCreateSuper(ph7_vm *pVm);
 PH7_PRIVATE sxi32 PH7_HashmapRelease(ph7_hashmap *pMap, int FreeDS);
-PH7_PRIVATE void PH7_HashmapUnref(ph7_hashmap *pMap);
+PH7_PRIVATE void  PH7_HashmapUnref(ph7_hashmap *pMap);
 PH7_PRIVATE sxi32 PH7_HashmapLookup(
   ph7_hashmap *pMap,
   ph7_value *pKey,
@@ -2140,7 +2143,7 @@ PH7_PRIVATE sxi32 PH7_HashmapInsertByRef(
   sxu32 nRefIdx
 );
 PH7_PRIVATE sxi32 PH7_HashmapUnion(ph7_hashmap *pLeft, ph7_hashmap *pRight);
-PH7_PRIVATE void PH7_HashmapUnlinkNode(ph7_hashmap_node *pNode, int bRestore);
+PH7_PRIVATE void  PH7_HashmapUnlinkNode(ph7_hashmap_node *pNode, int bRestore);
 PH7_PRIVATE sxi32 PH7_HashmapDup(ph7_hashmap *pSrc, ph7_hashmap *pDest);
 PH7_PRIVATE sxi32 PH7_HashmapCmp(
   ph7_hashmap *pLeft,
@@ -2158,7 +2161,7 @@ PH7_PRIVATE void PH7_HashmapExtractNodeKey(
   ph7_hashmap_node *pNode,
   ph7_value *pKey
 );
-PH7_PRIVATE void PH7_RegisterHashmapFunctions(ph7_vm *pVm);
+PH7_PRIVATE void  PH7_RegisterHashmapFunctions(ph7_vm *pVm);
 PH7_PRIVATE sxi32 PH7_HashmapDump(
   SyBlob *pOut,
   ph7_hashmap *pMap,
@@ -2261,15 +2264,14 @@ PH7_PRIVATE ph7_class_instance* PH7_NewClassInstance(
   ph7_class *pClass
 );
 PH7_PRIVATE ph7_class_instance* PH7_CloneClassInstance(
-  ph7_class_instance *pSrc
-);
+  ph7_class_instance *pSrc);
 PH7_PRIVATE sxi32 PH7_ClassInstanceCmp(
   ph7_class_instance *pLeft,
   ph7_class_instance *pRight,
   int bStrict,
   int iNest
 );
-PH7_PRIVATE void PH7_ClassInstanceUnref(ph7_class_instance *pThis);
+PH7_PRIVATE void  PH7_ClassInstanceUnref(ph7_class_instance *pThis);
 PH7_PRIVATE sxi32 PH7_ClassInstanceDump(
   SyBlob *pOut,
   ph7_class_instance *pThis,
@@ -2388,7 +2390,7 @@ PH7_PRIVATE sxi32 SyBinToHexConsumer(
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 #ifndef PH7_DISABLE_HASH_FUNC
 PH7_PRIVATE sxu32 SyCrc32(const void *pSrc, sxu32 nLen);
-PH7_PRIVATE void MD5Update(
+PH7_PRIVATE void  MD5Update(
   MD5Context *ctx,
   const unsigned char *buf,
   unsigned int len
@@ -2664,7 +2666,7 @@ PH7_PRIVATE sxi32 SyMemBackendDisbaleMutexing(SyMemBackend *pBackend);
 #endif
 PH7_PRIVATE sxu32 SyMemcpy(const void *pSrc, void *pDest, sxu32 nLen);
 PH7_PRIVATE sxi32 SyMemcmp(const void *pB1, const void *pB2, sxu32 nSize);
-PH7_PRIVATE void SyZero(void *pSrc, sxu32 nSize);
+PH7_PRIVATE void  SyZero(void *pSrc, sxu32 nSize);
 PH7_PRIVATE sxi32 SyStrnicmp(const char *zLeft, const char *zRight, sxu32 SLen);
 PH7_PRIVATE sxi32 SyStrnmicmp(
   const void *pLeft, const void *pRight,

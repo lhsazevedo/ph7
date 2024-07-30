@@ -52,16 +52,16 @@
  * VM Frame hold local variables and other stuff related to function call.
  */
 struct VmFrame {
-  VmFrame *pParent;   /* Parent frame or NULL if global scope */
-  void *pUserData;    /* Upper layer private data associated with this frame */
-  ph7_class_instance *pThis;   /* Current class instance [i.e: the '$this' variable].NULL otherwise */
-  SySet sLocal;       /* Local variables container (VmSlot instance) */
-  ph7_vm *pVm;        /* VM that own this frame */
-  SyHash hVar;        /* Variable hashtable for fast lookup */
-  SySet sArg;         /* Function arguments container */
-  SySet sRef;         /* Local reference table (VmSlot instance) */
-  sxi32 iFlags;       /* Frame configuration flags (See below)*/
-  sxu32 iExceptionJump;   /* Exception jump destination */
+  VmFrame *pParent;              /* Parent frame or NULL if global scope */
+  void *pUserData;               /* Upper layer private data associated with this frame */
+  ph7_class_instance *pThis;     /* Current class instance [i.e: the '$this' variable].NULL otherwise */
+  SySet sLocal;                  /* Local variables container (VmSlot instance) */
+  ph7_vm *pVm;                   /* VM that own this frame */
+  SyHash hVar;                   /* Variable hashtable for fast lookup */
+  SySet sArg;                    /* Function arguments container */
+  SySet sRef;                    /* Local reference table (VmSlot instance) */
+  sxi32 iFlags;                  /* Frame configuration flags (See below)*/
+  sxu32 iExceptionJump;          /* Exception jump destination */
 };
 #define VM_FRAME_EXCEPTION  0x01 /* Special Exception frame */
 #define VM_FRAME_THROW      0x02 /* An exception was thrown */
@@ -90,14 +90,14 @@ struct VmSlot {
  * extension.
  */
 struct VmRefObj {
-  SySet aReference;    /* Table of references to this memory object */
-  SySet aArrEntries;   /* Foreign hashmap entries [i.e: array(&$a) ] */
-  sxu32 nIdx;          /* Referenced object index */
-  sxi32 iFlags;        /* Configuration flags */
-  VmRefObj *pNextCollide, *pPrevCollide;   /* Collision link */
-  VmRefObj *pNext, *pPrev;                 /* List of all referenced objects */
+  SySet aReference;                      /* Table of references to this memory object */
+  SySet aArrEntries;                     /* Foreign hashmap entries [i.e: array(&$a) ] */
+  sxu32 nIdx;                            /* Referenced object index */
+  sxi32 iFlags;                          /* Configuration flags */
+  VmRefObj *pNextCollide, *pPrevCollide; /* Collision link */
+  VmRefObj *pNext, *pPrev;               /* List of all referenced objects */
 };
-#define VM_REF_IDX_KEEP  0x001 /* Do not restore the memory object to the free list */
+#define VM_REF_IDX_KEEP  0x001           /* Do not restore the memory object to the free list */
 
 /*
  * Output control buffer entry.
@@ -117,8 +117,8 @@ struct VmObEntry {
 typedef struct VmShutdownCB VmShutdownCB;
 struct VmShutdownCB {
   ph7_value sCallback;   /* Shutdown callback */
-  ph7_value aArg[10];     /* Callback arguments (10 maximum arguments) */
-  int nArg;               /* Total number of given arguments */
+  ph7_value aArg[10];    /* Callback arguments (10 maximum arguments) */
+  int nArg;              /* Total number of given arguments */
 };
 /* Uncaught exception code value */
 #define PH7_EXCEPTION -255
@@ -913,8 +913,8 @@ VmMountUserClass(
  */
 PH7_PRIVATE sxi32
 PH7_VmCreateClassInstanceFrame(
-  ph7_vm *pVm,   /* Target VM */
-  ph7_class_instance *pObj   /* Class instance */
+  ph7_vm *pVm,             /* Target VM */
+  ph7_class_instance *pObj /* Class instance */
 )
 {
   ph7_class *pClass = pObj->pClass;
@@ -987,7 +987,7 @@ PH7_VmCreateClassInstanceFrame(
 
 /* Forward declaration */
 static VmRefObj* VmRefObjExtract(ph7_vm *pVm, sxu32 nObjIdx);
-static sxi32 VmRefObjUnlink(ph7_vm *pVm, VmRefObj *pRef);
+static sxi32     VmRefObjUnlink(ph7_vm *pVm, VmRefObj *pRef);
 
 /*
  * Dummy read-only buffer used for slot reservation.
@@ -1556,8 +1556,8 @@ VmNewOperandStack(
 
 /* Forward declaration */
 static sxi32 VmRegisterSpecialFunction(ph7_vm *pVm);
-static int VmInstanceOf(ph7_class *pThis, ph7_class *pClass);
-static int VmClassMemberAccess(
+static int   VmInstanceOf(ph7_class *pThis, ph7_class *pClass);
+static int   VmClassMemberAccess(
   ph7_vm *pVm,
   ph7_class *pClass,
   const SyString *pAttrName,
@@ -5606,7 +5606,7 @@ VmByteCodeExec(
               PH7_MemObjRelease(pTos);
               pTos->nIdx = SXU32_HIGH;           /* Assume we are loading a constant */
               if (pObjAttr) {
-                ph7_value *pValue = 0;             /* cc warning */
+                ph7_value *pValue = 0;           /* cc warning */
                 /* Check attribute access */
                 if (VmClassMemberAccess(
                   &(*pVm), pClass,
@@ -6729,8 +6729,8 @@ VmByteCodeExec(
         break;
       }
     }     /* Switch() */
-    pc++;     /* Next instruction in the stream */
-  }   /* For(;;) */
+    pc++; /* Next instruction in the stream */
+  }       /* For(;;) */
 Done:
   SySetRelease(&aArg);
   return SXRET_OK;
@@ -9052,7 +9052,7 @@ static int
 vm_builtin_call_user_func_array(ph7_context *pCtx, int nArg, ph7_value **apArg)
 {
   ph7_hashmap_node *pEntry;   /* Current hashmap entry */
-  ph7_value *pValue, sResult;  /* Store callback return value here */
+  ph7_value *pValue, sResult; /* Store callback return value here */
   ph7_hashmap *pMap;          /* Target hashmap */
   SySet aArg;                 /* Arguments containers */
   sxi32 rc;
@@ -10734,18 +10734,18 @@ vm_builtin_trigger_error(ph7_context *pCtx, int nArg, ph7_value **apArg)
       /* Extract the error type */
       nErr = ph7_value_to_int(apArg[1]);
       switch (nErr) {
-        case 1:         /* E_ERROR */
-        case 16:         /* E_CORE_ERROR */
-        case 64:         /* E_COMPILE_ERROR */
+        case 1:           /* E_ERROR */
+        case 16:          /* E_CORE_ERROR */
+        case 64:          /* E_COMPILE_ERROR */
         case 256:         /* E_USER_ERROR */
           nErr = PH7_CTX_ERR;
-          rc = PH7_ABORT;           /* Abort processing immediately */
+          rc = PH7_ABORT; /* Abort processing immediately */
           break;
 
         case 2:         /* E_WARNING */
-        case 32:         /* E_CORE_WARNING */
-        case 123:         /* E_COMPILE_WARNING */
-        case 512:         /* E_USER_WARNING */
+        case 32:        /* E_CORE_WARNING */
+        case 123:       /* E_COMPILE_WARNING */
+        case 512:       /* E_USER_WARNING */
           nErr = PH7_CTX_WARNING;
           break;
 
@@ -11256,8 +11256,8 @@ vm_builtin_debug_string_backtrace(
  */
 static sxi32
 VmUncaughtException(
-  ph7_vm *pVm,   /* Target VM */
-  ph7_class_instance *pThis   /* Exception class instance [i.e: Exception $e] */
+  ph7_vm *pVm,              /* Target VM */
+  ph7_class_instance *pThis /* Exception class instance [i.e: Exception $e] */
 )
 {
   ph7_value *apArg[2], sArg;
@@ -11601,11 +11601,11 @@ vm_builtin_ph7_credits(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_context_output_format(
     pCtx,
     PH7_HTML_PAGE_FORMAT,
-    ph7_lib_version(),       /* Engine version */
-    ph7_lib_signature(),     /* Engine signature */
-    ph7_lib_ident(),         /* Engine ID */
+    ph7_lib_version(),                                                         /* Engine version */
+    ph7_lib_signature(),                                                       /* Engine signature */
+    ph7_lib_ident(),                                                           /* Engine ID */
     pVm->pEngine->pVfs ? pVm->pEngine->pVfs->zName : "null_vfs",
-    SyHashTotalEntry(&pVm->hFunction) + SyHashTotalEntry(&pVm->hHostFunction),    /* # built-in functions */
+    SyHashTotalEntry(&pVm->hFunction) + SyHashTotalEntry(&pVm->hHostFunction), /* # built-in functions */
     SyHashTotalEntry(&pVm->hClass),
 #ifdef __WINNT__
     "Windows NT"
@@ -12919,10 +12919,10 @@ VmFindLongOpt(const char *zLong, int nByte, const char *zIn, const char *zEnd)
  * Long option [i.e: --opt] arguments private data structure.
  */
 struct getopt_long_opt {
-  const char *zArgIn, *zArgEnd;   /* Command line arguments */
-  ph7_value *pWorker;    /* Worker variable*/
-  ph7_value *pArray;     /* getopt() return value */
-  ph7_context *pCtx;     /* Call Context */
+  const char *zArgIn, *zArgEnd; /* Command line arguments */
+  ph7_value *pWorker;           /* Worker variable*/
+  ph7_value *pArray;            /* getopt() return value */
+  ph7_context *pCtx;            /* Call Context */
 };
 /* Forward declaration */
 static int VmProcessLongOpt(
@@ -12935,13 +12935,13 @@ static int VmProcessLongOpt(
  */
 static void
 VmExtractOptArgValue(
-  ph7_value *pArray,    /* getopt() return value */
-  ph7_value *pWorker,   /* Worker variable */
-  const char *zArg,     /* Argument stream */
-  const char *zArgEnd,  /* End of the argument stream  */
-  int need_val,         /* TRUE to fetch option argument */
-  ph7_context *pCtx,    /* Call Context */
-  const char *zName /* Option name */
+  ph7_value *pArray,   /* getopt() return value */
+  ph7_value *pWorker,  /* Worker variable */
+  const char *zArg,    /* Argument stream */
+  const char *zArgEnd, /* End of the argument stream  */
+  int need_val,        /* TRUE to fetch option argument */
+  ph7_context *pCtx,   /* Call Context */
+  const char *zName    /* Option name */
 )
 {
   ph7_value_bool(pWorker, 0);
@@ -13748,15 +13748,15 @@ typedef int (*ProcJsonConsumer)(
  */
 typedef struct json_decoder json_decoder;
 struct json_decoder {
-  ph7_context *pCtx;   /* Call context */
-  ProcJsonConsumer xConsumer;   /* Consumer callback */
-  void *pUserData;     /* Last argument to xConsumer() */
-  int iFlags;          /* Configuration flags */
-  SyToken *pIn;        /* Token stream */
-  SyToken *pEnd;       /* End of the token stream */
-  int rec_depth;       /* Recursion limit */
-  int rec_count;       /* Current nesting level */
-  int *pErr;           /* JSON decoding error if any */
+  ph7_context *pCtx;           /* Call context */
+  ProcJsonConsumer xConsumer;  /* Consumer callback */
+  void *pUserData;             /* Last argument to xConsumer() */
+  int iFlags;                  /* Configuration flags */
+  SyToken *pIn;                /* Token stream */
+  SyToken *pEnd;               /* End of the token stream */
+  int rec_depth;               /* Recursion limit */
+  int rec_count;               /* Current nesting level */
+  int *pErr;                   /* JSON decoding error if any */
 };
 #define JSON_DECODE_ASSOC 0x01 /* Decode a JSON object as an associative array */
 /* Forward declaration */
@@ -14075,8 +14075,8 @@ VmJsonArrayDecoder(
 {
   ph7_value *pArray = (ph7_value *) pUserData;
   /* Insert the entry */
-  ph7_array_add_elem(pArray, pKey, pWorker);   /* Will make it's own copy */
-  SXUNUSED(pCtx);   /* cc warning */
+  ph7_array_add_elem(pArray, pKey, pWorker); /* Will make it's own copy */
+  SXUNUSED(pCtx);                            /* cc warning */
   /* All done */
   return SXRET_OK;
 }
@@ -14093,8 +14093,8 @@ VmJsonDefaultDecoder(
 )
 {
   /* Return the value directly */
-  ph7_result_value(pCtx, pWorker);   /* Will make it's own copy */
-  SXUNUSED(pKey);   /* cc warning */
+  ph7_result_value(pCtx, pWorker); /* Will make it's own copy */
+  SXUNUSED(pKey);                  /* cc warning */
   SXUNUSED(pUserData);
   /* All done */
   return SXRET_OK;
@@ -14219,19 +14219,19 @@ enum ph7_xml_handler_id {
  */
 typedef struct ph7_xml_engine ph7_xml_engine;
 struct ph7_xml_engine {
-  ph7_vm *pVm;           /* VM that own this instance */
-  ph7_context *pCtx;     /* Call context */
-  SyXMLParser sParser;   /* Underlying XML parser */
-  ph7_value aCB[XML_TOTAL_HANDLER];   /* User-defined callbacks */
-  ph7_value sParserValue;   /* ph7_value holding this instance which is forwarded
-                             * as the first argument to the user callbacks.
-                             */
-  int ns_sep;        /* Namespace separator */
-  SyBlob sErr;       /* Error message consumer */
-  sxi32 iErrCode;    /* Last error code */
-  sxi32 iNest;       /* Nesting level */
-  sxu32 nLine;       /* Last processed line */
-  sxu32 nMagic;      /* Magic number so that we avoid misuse  */
+  ph7_vm *pVm;                      /* VM that own this instance */
+  ph7_context *pCtx;                /* Call context */
+  SyXMLParser sParser;              /* Underlying XML parser */
+  ph7_value aCB[XML_TOTAL_HANDLER]; /* User-defined callbacks */
+  ph7_value sParserValue;           /* ph7_value holding this instance which is forwarded
+                                     * as the first argument to the user callbacks.
+                                     */
+  int ns_sep;                       /* Namespace separator */
+  SyBlob sErr;                      /* Error message consumer */
+  sxi32 iErrCode;                   /* Last error code */
+  sxi32 iNest;                      /* Nesting level */
+  sxu32 nLine;                      /* Last processed line */
+  sxu32 nMagic;                     /* Magic number so that we avoid misuse  */
 };
 #define XML_ENGINE_MAGIC 0x851EFC52
 #define IS_INVALID_XML_ENGINE(XML) \
@@ -15190,10 +15190,10 @@ VmXMLAttrValue(ph7_xml_engine *pEngine, SyXMLRawStr *aAttr, sxu32 nAttr)
       ph7_value_reset_string_cursor(pKey);
       ph7_value_reset_string_cursor(pValue);
       /* Copy attribute name and it's associated value */
-      ph7_value_string(pKey, aAttr[n].zString, (int) aAttr[n].nByte);       /* Attribute name */
-      ph7_value_string(pValue, aAttr[n + 1].zString, (int) aAttr[n + 1].nByte);       /* Attribute value */
+      ph7_value_string(pKey, aAttr[n].zString, (int) aAttr[n].nByte);           /* Attribute name */
+      ph7_value_string(pValue, aAttr[n + 1].zString, (int) aAttr[n + 1].nByte); /* Attribute value */
       /* Insert in the array */
-      ph7_array_add_elem(pArray, pKey, pValue);       /* Will make it's own copy */
+      ph7_array_add_elem(pArray, pKey, pValue);                                 /* Will make it's own copy */
     }
     /* Release the worker variables */
     ph7_context_release_value(pEngine->pCtx, pKey);
@@ -17153,14 +17153,14 @@ VmHttpPorcessCookie(ph7_vm *pVm, SyBlob *pWorker, const char *zIn, sxu32 nByte)
 static sxi32
 VmHttpProcessRequest(ph7_vm *pVm, const char *zRequest, int nByte)
 {
-  SyString *pName, *pValue, sRequest;    /* Raw HTTP request */
-  ph7_value *pHeaderArray;             /* $_HEADER superglobal (Symisc eXtension to the PHP specification)*/
-  SyhttpHeader *pHeader;               /* MIME header */
-  SyhttpUri sUri;        /* Parse of the raw URI*/
-  SyBlob sWorker;        /* General purpose working buffer */
-  SySet sHeader;         /* MIME headers set */
-  sxi32 iMethod;         /* HTTP method [i.e: GET,POST,HEAD...]*/
-  sxi32 iVer;            /* HTTP protocol version */
+  SyString *pName, *pValue, sRequest; /* Raw HTTP request */
+  ph7_value *pHeaderArray;            /* $_HEADER superglobal (Symisc eXtension to the PHP specification)*/
+  SyhttpHeader *pHeader;              /* MIME header */
+  SyhttpUri sUri;                     /* Parse of the raw URI*/
+  SyBlob sWorker;                     /* General purpose working buffer */
+  SySet sHeader;                      /* MIME headers set */
+  sxi32 iMethod;                      /* HTTP method [i.e: GET,POST,HEAD...]*/
+  sxi32 iVer;                         /* HTTP protocol version */
   sxi32 rc;
   SyStringInitFromBuf(&sRequest, zRequest, nByte);
   SySetInit(&sHeader, &pVm->sAllocator, sizeof(SyhttpHeader));

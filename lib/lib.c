@@ -153,13 +153,13 @@ WinMutexLeave(SyMutex *pMutex)
 
 /* Export Windows mutex interfaces */
 static const SyMutexMethods sWinMutexMethods = {
-  WinMutexGlobaInit,    /* xGlobalInit() */
-  WinMutexGlobalRelease,   /* xGlobalRelease() */
-  WinMutexNew,       /* xNew() */
-  WinMutexRelease,   /* xRelease() */
-  WinMutexEnter,     /* xEnter() */
-  WinMutexTryEnter,   /* xTryEnter() */
-  WinMutexLeave       /* xLeave() */
+  WinMutexGlobaInit,     /* xGlobalInit() */
+  WinMutexGlobalRelease, /* xGlobalRelease() */
+  WinMutexNew,           /* xNew() */
+  WinMutexRelease,       /* xRelease() */
+  WinMutexEnter,         /* xEnter() */
+  WinMutexTryEnter,      /* xTryEnter() */
+  WinMutexLeave          /* xLeave() */
 };
 PH7_PRIVATE const SyMutexMethods *
 SyMutexExportMethods(void)
@@ -240,13 +240,13 @@ UnixMutexLeave(SyMutex *pMutex)
 
 /* Export pthread mutex interfaces */
 static const SyMutexMethods sPthreadMutexMethods = {
-  0,   /* xGlobalInit() */
-  0,   /* xGlobalRelease() */
-  UnixMutexNew,        /* xNew() */
-  UnixMutexRelease,    /* xRelease() */
-  UnixMutexEnter,      /* xEnter() */
-  0,                   /* xTryEnter() */
-  UnixMutexLeave       /* xLeave() */
+  0,                /* xGlobalInit() */
+  0,                /* xGlobalRelease() */
+  UnixMutexNew,     /* xNew() */
+  UnixMutexRelease, /* xRelease() */
+  UnixMutexEnter,   /* xEnter() */
+  0,                /* xTryEnter() */
+  UnixMutexLeave    /* xLeave() */
 };
 PH7_PRIVATE const SyMutexMethods *
 SyMutexExportMethods(void)
@@ -290,13 +290,13 @@ DummyMutexLeave(SyMutex *pMutex)
 
 /* Export the dummy mutex interfaces */
 static const SyMutexMethods sDummyMutexMethods = {
-  0,   /* xGlobalInit() */
-  0,   /* xGlobalRelease() */
-  DummyMutexNew,        /* xNew() */
-  DummyMutexRelease,    /* xRelease() */
-  DummyMutexEnter,      /* xEnter() */
-  0,                    /* xTryEnter() */
-  DummyMutexLeave       /* xLeave() */
+  0,                 /* xGlobalInit() */
+  0,                 /* xGlobalRelease() */
+  DummyMutexNew,     /* xNew() */
+  DummyMutexRelease, /* xRelease() */
+  DummyMutexEnter,   /* xEnter() */
+  0,                 /* xTryEnter() */
+  DummyMutexLeave    /* xLeave() */
 };
 PH7_PRIVATE const SyMutexMethods *
 SyMutexExportMethods(void)
@@ -1800,8 +1800,8 @@ struct SyHashEntry_Pr {
   /* Private fields */
   sxu32 nHash;
   SyHash *pHash;
-  SyHashEntry_Pr *pNext, *pPrev;   /* Next and previous entry in the list */
-  SyHashEntry_Pr *pNextCollide, *pPrevCollide;   /* Collision list */
+  SyHashEntry_Pr *pNext, *pPrev;               /* Next and previous entry in the list */
+  SyHashEntry_Pr *pNextCollide, *pPrevCollide; /* Collision list */
 };
 #define INVALID_HASH(H) ((H)->apBucket == 0)
 /* Forward declarartion */
@@ -3321,17 +3321,17 @@ SyTimeGetMonth(sxi32 iMonth)
 */
 typedef struct SyFmtInfo SyFmtInfo;
 struct SyFmtInfo {
-  char fmttype;   /* The format field code letter [i.e: 'd','s','x'] */
+  char fmttype;  /* The format field code letter [i.e: 'd','s','x'] */
   sxu8 base;     /* The base for radix conversion */
-  int flags;    /* One or more of SXFLAG_ constants below */
+  int flags;     /* One or more of SXFLAG_ constants below */
   sxu8 type;     /* Conversion paradigm */
-  char *charset;   /* The character set for conversion */
-  char *prefix;   /* Prefix on non-zero values in alt format */
+  char *charset; /* The character set for conversion */
+  char *prefix;  /* Prefix on non-zero values in alt format */
 };
 typedef struct SyFmtConsumer SyFmtConsumer;
 struct SyFmtConsumer {
   sxu32 nLen;   /* Total output length */
-  sxi32 nType;   /* Type of the consumer see below */
+  sxi32 nType;  /* Type of the consumer see below */
   sxi32 rc;     /* Consumer return value;Abort processing if rc != SXRET_OK */
   union {
     struct {
@@ -3400,21 +3400,21 @@ InternFormat(
     { '%',  0, 0, SXFMT_PERCENT,    0,                  0 },
     { 'p', 10, 0, SXFMT_RADIX,      "0123456789",       0 }
   };
-  int c;                     /* Next character in the format string */
-  char *bufpt;               /* Pointer to the conversion buffer */
-  int precision;             /* Precision of the current field */
-  int length;                /* Length of the field */
-  int idx;                   /* A general purpose loop counter */
-  int width;                 /* Width of the current field */
+  int c;                   /* Next character in the format string */
+  char *bufpt;             /* Pointer to the conversion buffer */
+  int precision;           /* Precision of the current field */
+  int length;              /* Length of the field */
+  int idx;                 /* A general purpose loop counter */
+  int width;               /* Width of the current field */
   sxu8 flag_leftjustify;   /* True if "-" flag is present */
   sxu8 flag_plussign;      /* True if "+" flag is present */
   sxu8 flag_blanksign;     /* True if " " flag is present */
-  sxu8 flag_alternateform;   /* True if "#" flag is present */
+  sxu8 flag_alternateform; /* True if "#" flag is present */
   sxu8 flag_zeropad;       /* True if field width constant starts with zero */
   sxu8 flag_long;          /* True if "l" flag is present */
   sxi64 longvalue;         /* Value for integer types */
-  const SyFmtInfo *infop;   /* Pointer to the appropriate info structure */
-  char buf[SXFMT_BUFSIZ];   /* Conversion buffer */
+  const SyFmtInfo *infop;  /* Pointer to the appropriate info structure */
+  char buf[SXFMT_BUFSIZ];  /* Conversion buffer */
   char prefix;             /* Prefix character."+" or "-" or " " or '\0'.*/
   sxu8 errorflag = 0;      /* True if an error is encountered */
   sxu8 xtype;              /* Conversion paradigm */
@@ -3636,10 +3636,10 @@ InternFormat(
         }
         length = &buf[SXFMT_BUFSIZ - 1] - bufpt;
         for (idx = precision - length ; idx > 0 ; idx--) {
-          *(--bufpt) = '0';                             /* Zero pad */
+          *(--bufpt) = '0';                        /* Zero pad */
         }
-        if (prefix) *(--bufpt) = prefix; /* Add sign */
-        if (flag_alternateform && infop->prefix) {        /* Add "0" or "0x" */
+        if (prefix) *(--bufpt) = prefix;           /* Add sign */
+        if (flag_alternateform && infop->prefix) { /* Add "0" or "0x" */
           char *pre, x;
           pre = infop->prefix;
           if (*bufpt != pre[0]) {
@@ -3736,8 +3736,8 @@ InternFormat(
         nsd = 0;
         if (xtype == SXFMT_FLOAT && exp + precision < SXFMT_BUFSIZ - 30) {
           flag_dp = (precision > 0 || flag_alternateform);
-          if (prefix) *(bufpt++) = prefix; /* Sign */
-          if (exp < 0) *(bufpt++) = '0'; /* Digits before "." */
+          if (prefix) *(bufpt++) = prefix;  /* Sign */
+          if (exp < 0) *(bufpt++) = '0';    /* Digits before "." */
           else for (; exp >= 0 ; exp--) *(bufpt++) = (char) getdigit(
             &realvalue,
             &nsd
@@ -3750,23 +3750,23 @@ InternFormat(
             &realvalue,
             &nsd
           );
-          *(bufpt--) = 0;                           /* Null terminate */
+          *(bufpt--) = 0;                    /* Null terminate */
           if (flag_rtz && flag_dp) {         /* Remove trailing zeros and "." */
             while (bufpt >= buf && *bufpt == '0') *(bufpt--) = 0;
             if (bufpt >= buf && *bufpt == '.') *(bufpt--) = 0;
           }
-          bufpt++;                            /* point to next free slot */
-        } else {     /* etEXP or etGENERIC */
+          bufpt++;                                        /* point to next free slot */
+        } else {                                          /* etEXP or etGENERIC */
           flag_dp = (precision > 0 || flag_alternateform);
-          if (prefix) *(bufpt++) = prefix; /* Sign */
-          *(bufpt++) = (char) getdigit(&realvalue, &nsd);       /* First digit */
-          if (flag_dp) *(bufpt++) = '.'; /* Decimal point */
+          if (prefix) *(bufpt++) = prefix;                /* Sign */
+          *(bufpt++) = (char) getdigit(&realvalue, &nsd); /* First digit */
+          if (flag_dp) *(bufpt++) = '.';                  /* Decimal point */
           while ((precision--) > 0) *(bufpt++) = (char) getdigit(
             &realvalue,
             &nsd
           );
           bufpt--;                            /* point to last digit */
-          if (flag_rtz && flag_dp) {            /* Remove tail zeros */
+          if (flag_rtz && flag_dp) {          /* Remove tail zeros */
             while (bufpt >= buf && *bufpt == '0') *(bufpt--) = 0;
             if (bufpt >= buf && *bufpt == '.') *(bufpt--) = 0;
           }
@@ -4086,11 +4086,11 @@ SyBufferFormat(char *zBuf, sxu32 nLen, const char *zFormat, ...)
 typedef struct SyXMLRawStrNS SyXMLRawStrNS;
 struct SyXMLRawStrNS {
   /* Public field [Must match the SyXMLRawStr fields ] */
-  const char *zString;   /* Raw text [UTF-8 ENCODED EXCEPT CDATA] [NOT NULL TERMINATED] */
-  sxu32 nByte;   /* Text length */
-  sxu32 nLine;   /* Line number this text occurs */
+  const char *zString; /* Raw text [UTF-8 ENCODED EXCEPT CDATA] [NOT NULL TERMINATED] */
+  sxu32 nByte;         /* Text length */
+  sxu32 nLine;         /* Line number this text occurs */
   /* Private fields */
-  SySet sNSset;   /* Namespace entries */
+  SySet sNSset;        /* Namespace entries */
 };
 
 /*
@@ -5389,8 +5389,8 @@ SyXMLProcess(SyXMLParser *pParser, const char *zInput, sxu32 nByte)
   SySet sWorker;
   sxi32 rc;
   /* Initialize working sets */
-  SySetInit(&sWorker, pParser->pAllocator, sizeof(SyXMLRawStr));   /* Tag container */
-  SySetInit(&sTagStack, pParser->pAllocator, sizeof(SyXMLRawStrNS));   /* Tag stack */
+  SySetInit(&sWorker, pParser->pAllocator, sizeof(SyXMLRawStr));     /* Tag container */
+  SySetInit(&sTagStack, pParser->pAllocator, sizeof(SyXMLRawStrNS)); /* Tag stack */
   /* Tokenize the entire input */
   rc = SyLexTokenizeInput(&pParser->sLex, zInput, nByte, 0, 0, 0);
   if (rc == SXERR_ABORT) {
@@ -5522,21 +5522,21 @@ SyXMLParserRelease(SyXMLParser *pParser)
  *          8 - The file is Deflated
  */
 
-#define SXMAKE_ZIP_WORKBUF  (SXU16_HIGH / 2)  /* 32KB Initial working buffer size */
-#define SXMAKE_ZIP_EXTRACT_VER  0x000a  /* Version needed to extract */
-#define SXMAKE_ZIP_VER  0x003   /* Version made by */
+#define SXMAKE_ZIP_WORKBUF  (SXU16_HIGH / 2) /* 32KB Initial working buffer size */
+#define SXMAKE_ZIP_EXTRACT_VER  0x000a       /* Version needed to extract */
+#define SXMAKE_ZIP_VER  0x003                /* Version made by */
 
 #define SXZIP_CENTRAL_MAGIC         0x02014b50
 #define SXZIP_END_CENTRAL_MAGIC     0x06054b50
 #define SXZIP_LOCAL_MAGIC           0x04034b50
 /*#define SXZIP_CRC32_START			0xdebb20e3*/
 
-#define SXZIP_LOCAL_HDRSZ       30  /* Local header size */
-#define SXZIP_LOCAL_EXT_HDRZ    16  /* Extended local header(footer) size */
-#define SXZIP_CENTRAL_HDRSZ     46  /* Central directory header size */
-#define SXZIP_END_CENTRAL_HDRSZ 22  /* End of central directory header size */
+#define SXZIP_LOCAL_HDRSZ       30 /* Local header size */
+#define SXZIP_LOCAL_EXT_HDRZ    16 /* Extended local header(footer) size */
+#define SXZIP_CENTRAL_HDRSZ     46 /* Central directory header size */
+#define SXZIP_END_CENTRAL_HDRSZ 22 /* End of central directory header size */
 
-#define SXARCHIVE_HASH_SIZE 64 /* Starting hash table size(MUST BE POWER OF 2)*/
+#define SXARCHIVE_HASH_SIZE 64     /* Starting hash table size(MUST BE POWER OF 2)*/
 static sxi32
 SyLittleEndianUnpack32(sxu32 *uNB, const unsigned char *buf, sxu32 Len)
 {
@@ -5731,9 +5731,9 @@ GetCentralDirectoryEntry(
   SyString *pName = &pEntry->sFileName;   /* File name */
   sxu16 nDosDate, nDosTime;
   sxu16 nComment = 0;
-  sxu32 nMagic = 0;   /* cc -O6 warning */
+  sxu32 nMagic = 0;        /* cc -O6 warning */
   sxi32 rc;
-  nDosDate = nDosTime = 0;   /* cc -O6 warning */
+  nDosDate = nDosTime = 0; /* cc -O6 warning */
   SXUNUSED(pArch);
   /* Sanity check */
   rc = SyLittleEndianUnpack32(&nMagic, zCentral, sizeof(sxu32));
@@ -5838,7 +5838,7 @@ ZipExtract(
 {
   SyArchiveEntry *pEntry, *pDup;
   const unsigned char *zEnd;    /* End of central directory */
-  sxu32 nIncr, nOfft;            /* Central Offset */
+  sxu32 nIncr, nOfft;           /* Central Offset */
   SyString *pName;              /* Entry name */
   char *zName;
   sxi32 rc;
@@ -6407,9 +6407,9 @@ MD5Update(MD5Context *ctx, const unsigned char *buf, unsigned int len)
   /* Update bitcount */
   t = ctx->bits[0];
   if ((ctx->bits[0] = t + ((sxu32) len << 3)) < t)
-    ctx->bits[1]++; /* Carry from low to high */
+    ctx->bits[1]++;    /* Carry from low to high */
   ctx->bits[1] += len >> 29;
-  t = (t >> 3) & 0x3f;          /* Bytes already in shsInfo->data */
+  t = (t >> 3) & 0x3f; /* Bytes already in shsInfo->data */
   /* Handle any leading odd-sized chunks */
   if (t) {
     unsigned char *p = (unsigned char *) ctx->in + t;

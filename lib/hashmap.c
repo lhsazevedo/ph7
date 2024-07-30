@@ -22,8 +22,8 @@
 #endif
 /* This file implement generic hashmaps known as 'array' in the PHP world */
 /* Allowed node types */
-#define HASHMAP_INT_NODE   1  /* Node with an int [i.e: 64-bit integer] key */
-#define HASHMAP_BLOB_NODE  2  /* Node with a string/BLOB key */
+#define HASHMAP_INT_NODE   1           /* Node with an int [i.e: 64-bit integer] key */
+#define HASHMAP_BLOB_NODE  2           /* Node with a string/BLOB key */
 /* Node control flags */
 #define HASHMAP_NODE_FOREIGN_OBJ 0x001 /* Node hold a reference to a foreign ph7_value
                                         * [i.e: array(&var)/$a[] =& $var ]
@@ -961,10 +961,10 @@ HashmapRehashIntNode(ph7_hashmap_node *pEntry)
  */
 static int
 HashmapFindValue(
-  ph7_hashmap *pMap,     /* Target hashmap */
-  ph7_value *pNeedle,    /* Lookup key */
-  ph7_hashmap_node **ppNode,   /* OUT: target node on success  */
-  int bStrict        /* TRUE for strict comparison */
+  ph7_hashmap *pMap,         /* Target hashmap */
+  ph7_value *pNeedle,        /* Lookup key */
+  ph7_hashmap_node **ppNode, /* OUT: target node on success  */
+  int bStrict                /* TRUE for strict comparison */
 )
 {
   ph7_hashmap_node *pEntry;
@@ -1028,10 +1028,10 @@ HashmapFindValue(
  */
 static int
 HashmapFindValueByCallback(
-  ph7_hashmap *pMap,       /* Target hashmap */
-  ph7_value *pNeedle,      /* Lookup key */
-  ph7_value *pCallback,    /* User defined callback */
-  ph7_hashmap_node **ppNode   /* OUT: target node on success */
+  ph7_hashmap *pMap,        /* Target hashmap */
+  ph7_value *pNeedle,       /* Lookup key */
+  ph7_value *pCallback,     /* User defined callback */
+  ph7_hashmap_node **ppNode /* OUT: target node on success */
 )
 {
   ph7_hashmap_node *pEntry;
@@ -1454,9 +1454,9 @@ PH7_HashmapUnion(ph7_hashmap *pLeft, ph7_hashmap *pRight)
  */
 PH7_PRIVATE ph7_hashmap *
 PH7_NewHashmap(
-  ph7_vm *pVm,                /* VM that trigger the hashmap creation */
-  sxu32 (*xIntHash)(sxi64),   /* Hash function for int keys.NULL otherwise*/
-  sxu32 (*xBlobHash)(const void *, sxu32)   /* Hash function for BLOB keys.NULL otherwise */
+  ph7_vm *pVm,                            /* VM that trigger the hashmap creation */
+  sxu32 (*xIntHash)(sxi64),               /* Hash function for int keys.NULL otherwise*/
+  sxu32 (*xBlobHash)(const void *, sxu32) /* Hash function for BLOB keys.NULL otherwise */
 )
 {
   ph7_hashmap *pMap;
@@ -5930,9 +5930,9 @@ ph7_hashmap_reduce(ph7_context *pCtx, int nArg, ph7_value **apArg)
       0
     );
     /* Point to the next entry */
-    pEntry = pEntry->pPrev;     /* Reverse link */
+    pEntry = pEntry->pPrev;         /* Reverse link */
   }
-  ph7_result_value(pCtx, &sResult);   /* Will make it's own copy */
+  ph7_result_value(pCtx, &sResult); /* Will make it's own copy */
   PH7_MemObjRelease(&sResult);
   return PH7_OK;
 }
@@ -6293,9 +6293,9 @@ PH7_HashmapDump(
  */
 PH7_PRIVATE sxi32
 PH7_HashmapWalk(
-  ph7_hashmap *pMap,   /* Target hashmap */
-  int (*xWalk)(ph7_value *, ph7_value *, void *),   /* Walker callback */
-  void *pUserData   /* Last argument to xWalk() */
+  ph7_hashmap *pMap,                              /* Target hashmap */
+  int (*xWalk)(ph7_value *, ph7_value *, void *), /* Walker callback */
+  void *pUserData                                 /* Last argument to xWalk() */
 )
 {
   ph7_hashmap_node *pEntry;

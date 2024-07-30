@@ -1294,9 +1294,9 @@ PH7_ClassInstanceToHashmap(ph7_class_instance *pThis, ph7_hashmap *pMap)
  */
 PH7_PRIVATE sxi32
 PH7_ClassInstanceWalk(
-  ph7_class_instance *pThis,   /* Target object */
-  int (*xWalk)(const char *, ph7_value *, void *),   /* Walker callback */
-  void *pUserData   /* Last argument to xWalk() */
+  ph7_class_instance *pThis,                       /* Target object */
+  int (*xWalk)(const char *, ph7_value *, void *), /* Walker callback */
+  void *pUserData                                  /* Last argument to xWalk() */
 )
 {
   SyHashEntry *pEntry;   /* Hash entry */

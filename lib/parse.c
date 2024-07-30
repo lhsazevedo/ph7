@@ -1192,7 +1192,7 @@ ExprIsModifiableValue(ph7_expr_node *pNode, sxu8 bFunc)
   if (iExprOp == EXPR_OP_SUBSCRIPT /*'[]'*/ ) {
     if (pNode->pLeft->pOp) {
       if (pNode->pLeft->pOp->iOp != EXPR_OP_SUBSCRIPT /*'['*/
-          && pNode->pLeft->pOp->iOp != EXPR_OP_ARROW                                                            /*'->'*/
+          && pNode->pLeft->pOp->iOp != EXPR_OP_ARROW  /*'->'*/
           && pNode->pLeft->pOp->iOp != EXPR_OP_DC /*'::'*/ )
       {
         return FALSE;

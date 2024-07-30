@@ -1704,10 +1704,10 @@ PH7_builtin_basename(ph7_context *pCtx, int nArg, ph7_value **apArg)
  */
 typedef struct path_info path_info;
 struct path_info {
-  SyString sDir;   /* Directory [i.e: /var/www] */
-  SyString sBasename;   /* Basename [i.e httpd.conf] */
-  SyString sExtension;   /* File extension [i.e xml,pdf..] */
-  SyString sFilename;    /* Filename */
+  SyString sDir;       /* Directory [i.e: /var/www] */
+  SyString sBasename;  /* Basename [i.e httpd.conf] */
+  SyString sExtension; /* File extension [i.e xml,pdf..] */
+  SyString sFilename;  /* Filename */
 };
 
 /*
@@ -1996,7 +1996,7 @@ static int
 patternCompare(
   const u8 *zPattern,              /* The glob pattern */
   const u8 *zString,               /* The string to compare against the glob */
-  const int esc,                    /* The escape character */
+  const int esc,                   /* The escape character */
   int noCase
 )
 {
@@ -2717,12 +2717,12 @@ PH7_vfs_ph7_uname(ph7_context *pCtx, int nArg, ph7_value **apArg)
  */
 typedef struct io_private io_private;
 struct io_private {
-  const ph7_io_stream *pStream;   /* Underlying IO device */
-  void *pHandle;   /* IO handle */
+  const ph7_io_stream *pStream; /* Underlying IO device */
+  void *pHandle;                /* IO handle */
   /* Unbuffered IO */
-  SyBlob sBuffer;   /* Working buffer */
-  sxu32 nOfft;      /* Current read offset */
-  sxu32 iMagic;     /* Sanity check to avoid misuse */
+  SyBlob sBuffer;               /* Working buffer */
+  sxu32 nOfft;                  /* Current read offset */
+  sxu32 iMagic;                 /* Sanity check to avoid misuse */
 };
 #define IO_PRIVATE_MAGIC 0xFEAC14
 /* Make sure we are dealing with a valid io_private instance */
@@ -5885,11 +5885,11 @@ struct zip_raw_data {
   int iType;           /* Where the raw data is stored */
   union raw_data {
     struct mmap_data {
-      void *pMap;                /* Memory mapped data */
-      ph7_int64 nSize;           /* Map size */
-      const ph7_vfs *pVfs;       /* Underlying vfs */
+      void *pMap;          /* Memory mapped data */
+      ph7_int64 nSize;     /* Map size */
+      const ph7_vfs *pVfs; /* Underlying vfs */
     } mmap;
-    SyBlob sBlob;      /* Memory buffer */
+    SyBlob sBlob;          /* Memory buffer */
   } raw;
 };
 #define ZIP_RAW_DATA_MMAPED 1 /* Memory mapped ZIP raw data */
@@ -7443,47 +7443,47 @@ WinVfs_Username(ph7_context *pCtx)
 static const ph7_vfs sWinVfs = {
   "Windows_vfs",
   PH7_VFS_VERSION,
-  WinVfs_chdir,      /* int (*xChdir)(const char *) */
-  0,                 /* int (*xChroot)(const char *); */
-  WinVfs_getcwd,     /* int (*xGetcwd)(ph7_context *) */
-  WinVfs_mkdir,      /* int (*xMkdir)(const char *,int,int) */
-  WinVfs_rmdir,      /* int (*xRmdir)(const char *) */
-  WinVfs_isdir,      /* int (*xIsdir)(const char *) */
-  WinVfs_Rename,     /* int (*xRename)(const char *,const char *) */
-  WinVfs_Realpath,   /*int (*xRealpath)(const char *,ph7_context *)*/
-  WinVfs_Sleep,                 /* int (*xSleep)(unsigned int) */
-  WinVfs_unlink,     /* int (*xUnlink)(const char *) */
-  WinVfs_FileExists,   /* int (*xFileExists)(const char *) */
-  0,   /*int (*xChmod)(const char *,int)*/
-  0,   /*int (*xChown)(const char *,const char *)*/
-  0,   /*int (*xChgrp)(const char *,const char *)*/
+  WinVfs_chdir,          /* int (*xChdir)(const char *) */
+  0,                     /* int (*xChroot)(const char *); */
+  WinVfs_getcwd,         /* int (*xGetcwd)(ph7_context *) */
+  WinVfs_mkdir,          /* int (*xMkdir)(const char *,int,int) */
+  WinVfs_rmdir,          /* int (*xRmdir)(const char *) */
+  WinVfs_isdir,          /* int (*xIsdir)(const char *) */
+  WinVfs_Rename,         /* int (*xRename)(const char *,const char *) */
+  WinVfs_Realpath,       /*int (*xRealpath)(const char *,ph7_context *)*/
+  WinVfs_Sleep,          /* int (*xSleep)(unsigned int) */
+  WinVfs_unlink,         /* int (*xUnlink)(const char *) */
+  WinVfs_FileExists,     /* int (*xFileExists)(const char *) */
+  0,                     /*int (*xChmod)(const char *,int)*/
+  0,                     /*int (*xChown)(const char *,const char *)*/
+  0,                     /*int (*xChgrp)(const char *,const char *)*/
   WinVfs_DiskFreeSpace,  /* ph7_int64 (*xFreeSpace)(const char *) */
-  WinVfs_DiskTotalSpace,  /* ph7_int64 (*xTotalSpace)(const char *) */
-  WinVfs_FileSize,   /* ph7_int64 (*xFileSize)(const char *) */
-  WinVfs_FileAtime,  /* ph7_int64 (*xFileAtime)(const char *) */
-  WinVfs_FileMtime,  /* ph7_int64 (*xFileMtime)(const char *) */
-  WinVfs_FileCtime,  /* ph7_int64 (*xFileCtime)(const char *) */
-  WinVfs_Stat,   /* int (*xStat)(const char *,ph7_value *,ph7_value *) */
-  WinVfs_Stat,   /* int (*xlStat)(const char *,ph7_value *,ph7_value *) */
-  WinVfs_isfile,       /* int (*xIsfile)(const char *) */
-  WinVfs_islink,       /* int (*xIslink)(const char *) */
-  WinVfs_isfile,       /* int (*xReadable)(const char *) */
-  WinVfs_iswritable,   /* int (*xWritable)(const char *) */
+  WinVfs_DiskTotalSpace, /* ph7_int64 (*xTotalSpace)(const char *) */
+  WinVfs_FileSize,       /* ph7_int64 (*xFileSize)(const char *) */
+  WinVfs_FileAtime,      /* ph7_int64 (*xFileAtime)(const char *) */
+  WinVfs_FileMtime,      /* ph7_int64 (*xFileMtime)(const char *) */
+  WinVfs_FileCtime,      /* ph7_int64 (*xFileCtime)(const char *) */
+  WinVfs_Stat,           /* int (*xStat)(const char *,ph7_value *,ph7_value *) */
+  WinVfs_Stat,           /* int (*xlStat)(const char *,ph7_value *,ph7_value *) */
+  WinVfs_isfile,         /* int (*xIsfile)(const char *) */
+  WinVfs_islink,         /* int (*xIslink)(const char *) */
+  WinVfs_isfile,         /* int (*xReadable)(const char *) */
+  WinVfs_iswritable,     /* int (*xWritable)(const char *) */
   WinVfs_isexecutable,   /* int (*xExecutable)(const char *) */
-  WinVfs_Filetype,     /* int (*xFiletype)(const char *,ph7_context *) */
-  WinVfs_Getenv,       /* int (*xGetenv)(const char *,ph7_context *) */
-  WinVfs_Setenv,       /* int (*xSetenv)(const char *,const char *) */
-  WinVfs_Touch,        /* int (*xTouch)(const char *,ph7_int64,ph7_int64) */
-  WinVfs_Mmap,         /* int (*xMmap)(const char *,void **,ph7_int64 *) */
-  WinVfs_Unmap,        /* void (*xUnmap)(void *,ph7_int64);  */
-  0,                   /* int (*xLink)(const char *,const char *,int) */
-  0,                   /* int (*xUmask)(int) */
-  WinVfs_TempDir,      /* void (*xTempDir)(ph7_context *) */
-  WinVfs_ProcessId,    /* unsigned int (*xProcessId)(void) */
-  0,   /* int (*xUid)(void) */
-  0,   /* int (*xGid)(void) */
-  WinVfs_Username,      /* void (*xUsername)(ph7_context *) */
-  0   /* int (*xExec)(const char *,ph7_context *) */
+  WinVfs_Filetype,       /* int (*xFiletype)(const char *,ph7_context *) */
+  WinVfs_Getenv,         /* int (*xGetenv)(const char *,ph7_context *) */
+  WinVfs_Setenv,         /* int (*xSetenv)(const char *,const char *) */
+  WinVfs_Touch,          /* int (*xTouch)(const char *,ph7_int64,ph7_int64) */
+  WinVfs_Mmap,           /* int (*xMmap)(const char *,void **,ph7_int64 *) */
+  WinVfs_Unmap,          /* void (*xUnmap)(void *,ph7_int64);  */
+  0,                     /* int (*xLink)(const char *,const char *,int) */
+  0,                     /* int (*xUmask)(int) */
+  WinVfs_TempDir,        /* void (*xTempDir)(ph7_context *) */
+  WinVfs_ProcessId,      /* unsigned int (*xProcessId)(void) */
+  0,                     /* int (*xUid)(void) */
+  0,                     /* int (*xGid)(void) */
+  WinVfs_Username,       /* void (*xUsername)(ph7_context *) */
+  0                      /* int (*xExec)(const char *,ph7_context *) */
 };
 /* Windows file IO */
 #ifndef INVALID_SET_FILE_POINTER
@@ -7914,22 +7914,22 @@ WinFile_Stat(
 
 /* Export the file:// stream */
 static const ph7_io_stream sWinFileStream = {
-  "file",   /* Stream name */
+  "file",           /* Stream name */
   PH7_IO_STREAM_VERSION,
-  WinFile_Open,    /* xOpen */
-  WinDir_Open,     /* xOpenDir */
-  WinFile_Close,   /* xClose */
-  WinDir_Close,    /* xCloseDir */
-  WinFile_Read,    /* xRead */
-  WinDir_Read,     /* xReadDir */
-  WinFile_Write,   /* xWrite */
-  WinFile_Seek,    /* xSeek */
-  WinFile_Lock,    /* xLock */
-  WinDir_RewindDir,   /* xRewindDir */
-  WinFile_Tell,    /* xTell */
-  WinFile_Trunc,   /* xTrunc */
-  WinFile_Sync,    /* xSeek */
-  WinFile_Stat     /* xStat */
+  WinFile_Open,     /* xOpen */
+  WinDir_Open,      /* xOpenDir */
+  WinFile_Close,    /* xClose */
+  WinDir_Close,     /* xCloseDir */
+  WinFile_Read,     /* xRead */
+  WinDir_Read,      /* xReadDir */
+  WinFile_Write,    /* xWrite */
+  WinFile_Seek,     /* xSeek */
+  WinFile_Lock,     /* xLock */
+  WinDir_RewindDir, /* xRewindDir */
+  WinFile_Tell,     /* xTell */
+  WinFile_Trunc,    /* xTrunc */
+  WinFile_Sync,     /* xSeek */
+  WinFile_Stat      /* xStat */
 };
 #elif defined(__UNIXES__)
 
@@ -8538,33 +8538,33 @@ UnixVfs_chroot(const char *zRootDir)
 static const ph7_vfs sUnixVfs = {
   "Unix_vfs",
   PH7_VFS_VERSION,
-  UnixVfs_chdir,      /* int (*xChdir)(const char *) */
-  UnixVfs_chroot,     /* int (*xChroot)(const char *); */
-  UnixVfs_getcwd,     /* int (*xGetcwd)(ph7_context *) */
-  UnixVfs_mkdir,      /* int (*xMkdir)(const char *,int,int) */
-  UnixVfs_rmdir,      /* int (*xRmdir)(const char *) */
-  UnixVfs_isdir,      /* int (*xIsdir)(const char *) */
-  UnixVfs_Rename,     /* int (*xRename)(const char *,const char *) */
-  UnixVfs_Realpath,   /*int (*xRealpath)(const char *,ph7_context *)*/
-  UnixVfs_Sleep,      /* int (*xSleep)(unsigned int) */
-  UnixVfs_unlink,     /* int (*xUnlink)(const char *) */
+  UnixVfs_chdir,        /* int (*xChdir)(const char *) */
+  UnixVfs_chroot,       /* int (*xChroot)(const char *); */
+  UnixVfs_getcwd,       /* int (*xGetcwd)(ph7_context *) */
+  UnixVfs_mkdir,        /* int (*xMkdir)(const char *,int,int) */
+  UnixVfs_rmdir,        /* int (*xRmdir)(const char *) */
+  UnixVfs_isdir,        /* int (*xIsdir)(const char *) */
+  UnixVfs_Rename,       /* int (*xRename)(const char *,const char *) */
+  UnixVfs_Realpath,     /*int (*xRealpath)(const char *,ph7_context *)*/
+  UnixVfs_Sleep,        /* int (*xSleep)(unsigned int) */
+  UnixVfs_unlink,       /* int (*xUnlink)(const char *) */
   UnixVfs_FileExists,   /* int (*xFileExists)(const char *) */
-  UnixVfs_Chmod,   /*int (*xChmod)(const char *,int)*/
-  UnixVfs_Chown,   /*int (*xChown)(const char *,const char *)*/
-  UnixVfs_Chgrp,   /*int (*xChgrp)(const char *,const char *)*/
-  0,               /* ph7_int64 (*xFreeSpace)(const char *) */
-  0,               /* ph7_int64 (*xTotalSpace)(const char *) */
-  UnixVfs_FileSize,   /* ph7_int64 (*xFileSize)(const char *) */
-  UnixVfs_FileAtime,  /* ph7_int64 (*xFileAtime)(const char *) */
-  UnixVfs_FileMtime,  /* ph7_int64 (*xFileMtime)(const char *) */
-  UnixVfs_FileCtime,  /* ph7_int64 (*xFileCtime)(const char *) */
-  UnixVfs_Stat,    /* int (*xStat)(const char *,ph7_value *,ph7_value *) */
-  UnixVfs_lStat,   /* int (*xlStat)(const char *,ph7_value *,ph7_value *) */
+  UnixVfs_Chmod,        /*int (*xChmod)(const char *,int)*/
+  UnixVfs_Chown,        /*int (*xChown)(const char *,const char *)*/
+  UnixVfs_Chgrp,        /*int (*xChgrp)(const char *,const char *)*/
+  0,                    /* ph7_int64 (*xFreeSpace)(const char *) */
+  0,                    /* ph7_int64 (*xTotalSpace)(const char *) */
+  UnixVfs_FileSize,     /* ph7_int64 (*xFileSize)(const char *) */
+  UnixVfs_FileAtime,    /* ph7_int64 (*xFileAtime)(const char *) */
+  UnixVfs_FileMtime,    /* ph7_int64 (*xFileMtime)(const char *) */
+  UnixVfs_FileCtime,    /* ph7_int64 (*xFileCtime)(const char *) */
+  UnixVfs_Stat,         /* int (*xStat)(const char *,ph7_value *,ph7_value *) */
+  UnixVfs_lStat,        /* int (*xlStat)(const char *,ph7_value *,ph7_value *) */
   UnixVfs_isfile,       /* int (*xIsfile)(const char *) */
   UnixVfs_islink,       /* int (*xIslink)(const char *) */
   UnixVfs_isreadable,   /* int (*xReadable)(const char *) */
   UnixVfs_iswritable,   /* int (*xWritable)(const char *) */
-  UnixVfs_isexecutable,  /* int (*xExecutable)(const char *) */
+  UnixVfs_isexecutable, /* int (*xExecutable)(const char *) */
   UnixVfs_Filetype,     /* int (*xFiletype)(const char *,ph7_context *) */
   UnixVfs_Getenv,       /* int (*xGetenv)(const char *,ph7_context *) */
   UnixVfs_Setenv,       /* int (*xSetenv)(const char *,const char *) */
@@ -8575,10 +8575,10 @@ static const ph7_vfs sUnixVfs = {
   UnixVfs_Umask,        /* int (*xUmask)(int) */
   UnixVfs_TempDir,      /* void (*xTempDir)(ph7_context *) */
   UnixVfs_ProcessId,    /* unsigned int (*xProcessId)(void) */
-  UnixVfs_uid,   /* int (*xUid)(void) */
-  UnixVfs_gid,   /* int (*xGid)(void) */
-  UnixVfs_Username,      /* void (*xUsername)(ph7_context *) */
-  0   /* int (*xExec)(const char *,ph7_context *) */
+  UnixVfs_uid,          /* int (*xUid)(void) */
+  UnixVfs_gid,          /* int (*xGid)(void) */
+  UnixVfs_Username,     /* void (*xUsername)(ph7_context *) */
+  0                     /* int (*xExec)(const char *,ph7_context *) */
 };
 /* UNIX File IO */
 #define PH7_UNIX_OPEN_MODE  0640 /* Default open mode */
@@ -8878,22 +8878,22 @@ UnixFile_Stat(void *pUserData, ph7_value *pArray, ph7_value *pWorker)
 
 /* Export the file:// stream */
 static const ph7_io_stream sUnixFileStream = {
-  "file",   /* Stream name */
+  "file",         /* Stream name */
   PH7_IO_STREAM_VERSION,
-  UnixFile_Open,    /* xOpen */
-  UnixDir_Open,     /* xOpenDir */
-  UnixFile_Close,   /* xClose */
-  UnixDir_Close,    /* xCloseDir */
-  UnixFile_Read,    /* xRead */
-  UnixDir_Read,     /* xReadDir */
-  UnixFile_Write,   /* xWrite */
-  UnixFile_Seek,    /* xSeek */
-  UnixFile_Lock,    /* xLock */
-  UnixDir_Rewind,   /* xRewindDir */
-  UnixFile_Tell,    /* xTell */
-  UnixFile_Trunc,   /* xTrunc */
-  UnixFile_Sync,    /* xSeek */
-  UnixFile_Stat     /* xStat */
+  UnixFile_Open,  /* xOpen */
+  UnixDir_Open,   /* xOpenDir */
+  UnixFile_Close, /* xClose */
+  UnixDir_Close,  /* xCloseDir */
+  UnixFile_Read,  /* xRead */
+  UnixDir_Read,   /* xReadDir */
+  UnixFile_Write, /* xWrite */
+  UnixFile_Seek,  /* xSeek */
+  UnixFile_Lock,  /* xLock */
+  UnixDir_Rewind, /* xRewindDir */
+  UnixFile_Tell,  /* xTell */
+  UnixFile_Trunc, /* xTrunc */
+  UnixFile_Sync,  /* xSeek */
+  UnixFile_Stat   /* xStat */
 };
 #endif /* __WINNT__/__UNIXES__ */
 #endif /* PH7_DISABLE_DISK_IO */
@@ -8968,11 +8968,11 @@ typedef struct ph7_stream_data ph7_stream_data;
 #define PH7_IO_STREAM_OUTPUT 4 /* php://output */
 /* The following structure is the private data associated with the php:// stream */
 struct ph7_stream_data {
-  ph7_vm *pVm;   /* VM that own this instance */
-  int iType;     /* Stream type */
+  ph7_vm *pVm;                     /* VM that own this instance */
+  int iType;                       /* Stream type */
   union {
-    void *pHandle;     /* Stream handle */
-    ph7_output_consumer sConsumer;     /* VM output consumer */
+    void *pHandle;                 /* Stream handle */
+    ph7_output_consumer sConsumer; /* VM output consumer */
   } x;
 };
 
@@ -9190,20 +9190,20 @@ PHPStreamData_Close(void *pHandle)
 static const ph7_io_stream sPHP_Stream = {
   "php",
   PH7_IO_STREAM_VERSION,
-  PHPStreamData_Open,    /* xOpen */
-  0,     /* xOpenDir */
-  PHPStreamData_Close,   /* xClose */
-  0,    /* xCloseDir */
-  PHPStreamData_Read,    /* xRead */
-  0,    /* xReadDir */
-  PHPStreamData_Write,   /* xWrite */
-  0,    /* xSeek */
-  0,    /* xLock */
-  0,    /* xRewindDir */
-  0,    /* xTell */
-  0,    /* xTrunc */
-  0,    /* xSeek */
-  0     /* xStat */
+  PHPStreamData_Open,  /* xOpen */
+  0,                   /* xOpenDir */
+  PHPStreamData_Close, /* xClose */
+  0,                   /* xCloseDir */
+  PHPStreamData_Read,  /* xRead */
+  0,                   /* xReadDir */
+  PHPStreamData_Write, /* xWrite */
+  0,                   /* xSeek */
+  0,                   /* xLock */
+  0,                   /* xRewindDir */
+  0,                   /* xTell */
+  0,                   /* xTrunc */
+  0,                   /* xSeek */
+  0                    /* xStat */
 };
 #endif /* PH7_DISABLE_DISK_IO */
 

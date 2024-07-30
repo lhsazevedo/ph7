@@ -132,11 +132,11 @@ Output_Consumer(
 int
 main(int argc, char **argv)
 {
-  ph7 *pEngine;   /* PH7 engine */
-  ph7_vm *pVm;    /* Compiled PHP program */
-  int dump_vm = 0;      /* Dump VM instructions if TRUE */
-  int err_report = 0;   /* Report run-time errors if TRUE */
-  int n;                /* Script arguments */
+  ph7 *pEngine;       /* PH7 engine */
+  ph7_vm *pVm;        /* Compiled PHP program */
+  int dump_vm = 0;    /* Dump VM instructions if TRUE */
+  int err_report = 0; /* Report run-time errors if TRUE */
+  int n;              /* Script arguments */
   int rc;
   /* Process interpreter arguments first*/
   for (n = 1 ; n < argc ; ++n) {
@@ -176,17 +176,17 @@ main(int argc, char **argv)
    */
   ph7_config(
     pEngine, PH7_CONFIG_ERR_OUTPUT,
-    Output_Consumer,            /* Error log consumer */
-    0            /* NULL: Callback Private data */
+    Output_Consumer, /* Error log consumer */
+    0                /* NULL: Callback Private data */
   );
   /* Now,it's time to compile our PHP file */
   rc = ph7_compile_file(
-    pEngine,     /* PH7 Engine */
-    argv[n],     /* Path to the PHP file to compile */
-    &pVm,        /* OUT: Compiled PHP program */
-    0            /* IN: Compile flags */
+    pEngine,          /* PH7 Engine */
+    argv[n],          /* Path to the PHP file to compile */
+    &pVm,             /* OUT: Compiled PHP program */
+    0                 /* IN: Compile flags */
   );
-  if (rc != PH7_OK) {     /* Compile error */
+  if (rc != PH7_OK) { /* Compile error */
     if (rc == PH7_IO_ERR) {
       Fatal("IO error while opening the target file");
     } else if (rc == PH7_VM_ERR) {
@@ -205,7 +205,7 @@ main(int argc, char **argv)
   rc = ph7_vm_config(
     pVm,
     PH7_VM_CONFIG_OUTPUT,
-    Output_Consumer,                    /* Output Consumer callback */
+    Output_Consumer,        /* Output Consumer callback */
     0                       /* Callback private data */
   );
   if (rc != PH7_OK) {

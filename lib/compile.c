@@ -68,8 +68,8 @@ struct Label {
  * structure. Those jumps are fixed later when the jump destination is resolved.
  */
 struct JumpFixup {
-  sxi32 nJumpType;       /* Jump type. Either TRUE jump, FALSE jump or Unconditional jump */
-  sxu32 nInstrIdx;       /* Instruction index to fix later when the jump destination is resolved. */
+  sxi32 nJumpType;      /* Jump type. Either TRUE jump, FALSE jump or Unconditional jump */
+  sxu32 nInstrIdx;      /* Instruction index to fix later when the jump destination is resolved. */
   /* The following fields are only used by the goto statement */
   SyString sLabel;      /* Label name */
   ph7_vm_func *pFunc;   /* Compiled function inside which the goto was emitted. NULL otherwise */
@@ -1155,11 +1155,11 @@ PH7_CompileHereDoc(ph7_gen_state *pGen, sxi32 iCompileFlag)
  */
 static sxi32
 GenStateCompileArrayEntry(
-  ph7_gen_state *pGen,   /* Code generator state */
-  SyToken *pIn,          /* Token stream */
-  SyToken *pEnd,         /* End of the token stream */
-  sxi32 iFlags,          /* Compilation flags */
-  sxi32 (*xValidator)(ph7_gen_state *, ph7_expr_node *)   /* Expression tree validator callback */
+  ph7_gen_state *pGen,                                  /* Code generator state */
+  SyToken *pIn,                                         /* Token stream */
+  SyToken *pEnd,                                        /* End of the token stream */
+  sxi32 iFlags,                                         /* Compilation flags */
+  sxi32 (*xValidator)(ph7_gen_state *, ph7_expr_node *) /* Expression tree validator callback */
 )
 {
   SyToken *pTmpIn, *pTmpEnd;
@@ -1186,9 +1186,9 @@ GenStateArrayNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pRoot)
 {
   sxi32 rc = SXRET_OK;
   if (pRoot->pOp) {
-    if (pRoot->pOp->iOp != EXPR_OP_SUBSCRIPT /* $a[] */
-        && pRoot->pOp->iOp != EXPR_OP_FUNC_CALL  /* function() [Symisc extension: i.e: array(&foo())] */
-        && pRoot->pOp->iOp != EXPR_OP_ARROW /* -> */
+    if (pRoot->pOp->iOp != EXPR_OP_SUBSCRIPT    /* $a[] */
+        && pRoot->pOp->iOp != EXPR_OP_FUNC_CALL /* function() [Symisc extension: i.e: array(&foo())] */
+        && pRoot->pOp->iOp != EXPR_OP_ARROW     /* -> */
         && pRoot->pOp->iOp != EXPR_OP_DC /* :: */ )
     {
       /* Unexpected expression */
@@ -1313,9 +1313,9 @@ PH7_CompileArray(ph7_gen_state *pGen, sxi32 iCompileFlag)
     }
     if (pCur->nType & PH7_TK_AMPER /*'&'*/ ) {
       /* Insertion by reference, [i.e: $a = array(&$x);] */
-      xValidator = GenStateArrayNodeValidator;       /* Only variable are allowed */
+      xValidator = GenStateArrayNodeValidator; /* Only variable are allowed */
       iEmitRef = 1;
-      pCur++;       /* Jump the '&' token */
+      pCur++;                                  /* Jump the '&' token */
       if (pCur >= pGen->pIn) {
         /* Missing value */
         rc = PH7_GenCompileError(
@@ -1369,7 +1369,7 @@ GenStateListNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pRoot)
   sxi32 rc = SXRET_OK;
   if (pRoot->pOp) {
     if (pRoot->pOp->iOp != EXPR_OP_SUBSCRIPT /* $a[] */
-        && pRoot->pOp->iOp != EXPR_OP_ARROW                                                      /* -> */
+        && pRoot->pOp->iOp != EXPR_OP_ARROW  /* -> */
         && pRoot->pOp->iOp != EXPR_OP_DC /* :: */ )
     {
       /* Unexpected expression */
@@ -3600,7 +3600,7 @@ PH7_CompileIf(ph7_gen_state *pGen)
       {
         break;
       }
-      pGen->pIn++;       /* Jump the 'else' keyword */
+      pGen->pIn++;   /* Jump the 'else' keyword */
     }
     pGen->pIn++;     /* Jump the 'elseif/if' keyword */
     /* Synchronize cursors */
@@ -4227,9 +4227,9 @@ static sxi32
 PH7_CompileDeclare(ph7_gen_state *pGen)
 {
   sxu32 nLine = pGen->pIn->nLine;
-  SyToken *pEnd = 0;   /* cc warning */
+  SyToken *pEnd = 0; /* cc warning */
   sxi32 rc;
-  pGen->pIn++;   /* Jump the 'declare' keyword */
+  pGen->pIn++;       /* Jump the 'declare' keyword */
   if (pGen->pIn >= pGen->pEnd
       || (pGen->pIn->nType & PH7_TK_LPAREN) == 0 /*'('*/ )
   {
@@ -4421,8 +4421,8 @@ GenStateProcessArgValue(
 static sxi32
 GenStateCollectFuncArgs(ph7_vm_func *pFunc, ph7_gen_state *pGen, SyToken *pEnd)
 {
-  ph7_vm_func_arg sArg;   /* Current processed argument */
-  SyToken *pCur, *pIn;    /* Token stream */
+  ph7_vm_func_arg sArg;  /* Current processed argument */
+  SyToken *pCur, *pIn;   /* Token stream */
   SyBlob sSig;           /* Function signature */
   char *zDup;            /* Copy of argument name */
   sxi32 rc;
@@ -5650,8 +5650,8 @@ PH7_CompileClassInterface(ph7_gen_state *pGen)
     }
     return SXRET_OK;
   }
-  pGen->pIn++;   /* Jump the leading curly brace */
-  pEnd = 0;   /* cc warning */
+  pGen->pIn++; /* Jump the leading curly brace */
+  pEnd = 0;    /* cc warning */
   /* Delimit the interface body */
   PH7_DelimitNestedTokens(
     pGen->pIn,
@@ -6048,8 +6048,8 @@ GenStateCompileClass(ph7_gen_state *pGen, sxi32 iFlags)
     }
     return SXRET_OK;
   }
-  pGen->pIn++;   /* Jump the leading curly brace */
-  pEnd = 0;   /* cc warning */
+  pGen->pIn++; /* Jump the leading curly brace */
+  pEnd = 0;    /* cc warning */
   /* Delimit the class body */
   PH7_DelimitNestedTokens(
     pGen->pIn,
@@ -6486,8 +6486,8 @@ GenStateThrowNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pRoot)
   sxi32 rc = SXRET_OK;
   if (pRoot->pOp) {
     if (pRoot->pOp->iOp != EXPR_OP_SUBSCRIPT /* $a[] */
-        && pRoot->pOp->iOp != EXPR_OP_NEW                                                      /* new Exception() */
-        && pRoot->pOp->iOp != EXPR_OP_ARROW /* -> */
+        && pRoot->pOp->iOp != EXPR_OP_NEW    /* new Exception() */
+        && pRoot->pOp->iOp != EXPR_OP_ARROW  /* -> */
         && pRoot->pOp->iOp != EXPR_OP_DC /* :: */ )
     {
       /* Unexpected expression */
@@ -7070,9 +7070,9 @@ PH7_CompileSwitch(ph7_gen_state *pGen)
     nToken = PH7_TK_KEYWORD;
     /* Stop compilation when the 'endswitch;' keyword is seen */
   } else {
-    nToken = PH7_TK_CCB;     /* '}' */
+    nToken = PH7_TK_CCB; /* '}' */
   }
-  pGen->pIn++;   /* Jump the leading curly braces/colons */
+  pGen->pIn++;           /* Jump the leading curly braces/colons */
   /* Create the switch blocks container */
   pSwitch = (ph7_switch *) SyMemBackendAlloc(
     &pGen->pVm->sAllocator,
@@ -7219,9 +7219,9 @@ Synchronize:
  */
 static sxi32
 GenStateEmitExprCode(
-  ph7_gen_state *pGen,    /* Code generator state */
-  ph7_expr_node *pNode,   /* Root of the expression tree */
-  sxi32 iFlags   /* Control flags */
+  ph7_gen_state *pGen,  /* Code generator state */
+  ph7_expr_node *pNode, /* Root of the expression tree */
+  sxi32 iFlags          /* Control flags */
 )
 {
   VmInstr *pInstr;
@@ -7479,9 +7479,9 @@ GenStateEmitExprCode(
  */
 static sxi32
 PH7_CompileExpr(
-  ph7_gen_state *pGen,   /* Code generator state */
-  sxi32 iFlags,          /* Control flags */
-  sxi32 (*xTreeValidator)(ph7_gen_state *, ph7_expr_node *)   /* Node validator callback.NULL otherwise */
+  ph7_gen_state *pGen,                                      /* Code generator state */
+  sxi32 iFlags,                                             /* Control flags */
+  sxi32 (*xTreeValidator)(ph7_gen_state *, ph7_expr_node *) /* Node validator callback.NULL otherwise */
 )
 {
   ph7_expr_node *pRoot;
@@ -7622,9 +7622,9 @@ static const LangConstruct aLangConstruct[] = {
   { PH7_TKWRD_GOTO,     PH7_CompileGoto },         /* goto statement */
   { PH7_TKWRD_CONST,    PH7_CompileConstant },     /* const statement */
   { PH7_TKWRD_VAR,      PH7_CompileVar },          /* var statement */
-  { PH7_TKWRD_NAMESPACE, PH7_CompileNamespace },     /* namespace statement */
-  { PH7_TKWRD_USE,      PH7_CompileUse },           /* use statement */
-  { PH7_TKWRD_DECLARE,  PH7_CompileDeclare }        /* declare statement */
+  { PH7_TKWRD_NAMESPACE, PH7_CompileNamespace },   /* namespace statement */
+  { PH7_TKWRD_USE,      PH7_CompileUse },          /* use statement */
+  { PH7_TKWRD_DECLARE,  PH7_CompileDeclare }       /* declare statement */
 };
 
 /*

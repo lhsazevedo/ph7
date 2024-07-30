@@ -4160,12 +4160,12 @@ PH7_builtin_nl2br(ph7_context *pCtx, int nArg, ph7_value **apArg)
 */
 typedef struct ph7_fmt_info ph7_fmt_info;
 struct ph7_fmt_info {
-  char fmttype;   /* The format field code letter [i.e: 'd','s','x'] */
+  char fmttype;  /* The format field code letter [i.e: 'd','s','x'] */
   sxu8 base;     /* The base for radix conversion */
-  int flags;    /* One or more of PH7_FMT_FLAG_ constants below */
+  int flags;     /* One or more of PH7_FMT_FLAG_ constants below */
   sxu8 type;     /* Conversion paradigm */
-  char *charset;   /* The character set for conversion */
-  char *prefix;   /* Prefix on non-zero values in alt format */
+  char *charset; /* The character set for conversion */
+  char *prefix;  /* Prefix on non-zero values in alt format */
 };
 #ifndef PH7_OMIT_FLOATING_POINT
 
@@ -4237,29 +4237,29 @@ static const ph7_fmt_info aFmt[] = {
  */
 PH7_PRIVATE sxi32
 PH7_InputFormat(
-  int (*xConsumer)(ph7_context *, const char *, int, void *),   /* Format consumer */
-  ph7_context *pCtx,    /* call context */
-  const char *zIn,      /* Format string */
-  int nByte,            /* Format string length */
-  int nArg,             /* Total argument of the given arguments */
-  ph7_value **apArg,    /* User arguments */
-  void *pUserData,      /* Last argument to xConsumer() */
-  int vf                /* TRUE if called from vfprintf,vsprintf context */
+  int (*xConsumer)(ph7_context *, const char *, int, void *), /* Format consumer */
+  ph7_context *pCtx,                                          /* call context */
+  const char *zIn,                                            /* Format string */
+  int nByte,                                                  /* Format string length */
+  int nArg,                                                   /* Total argument of the given arguments */
+  ph7_value **apArg,                                          /* User arguments */
+  void *pUserData,                                            /* Last argument to xConsumer() */
+  int vf                                                      /* TRUE if called from vfprintf,vsprintf context */
 )
 {
   char spaces[] = "                                                  ";
 #define etSPACESIZE ((int) sizeof(spaces) - 1)
   const char *zCur, *zEnd = &zIn[nByte];
-  char *zBuf, zWorker[PH7_FMT_BUFSIZ];         /* Working buffer */
-  const ph7_fmt_info *pInfo;    /* Pointer to the appropriate info structure */
-  int flag_alternateform;   /* True if "#" flag is present */
-  int flag_leftjustify;     /* True if "-" flag is present */
-  int flag_blanksign;       /* True if " " flag is present */
-  int flag_plussign;        /* True if "+" flag is present */
-  int flag_zeropad;         /* True if field width constant starts with zero */
-  ph7_value *pArg;           /* Current processed argument */
+  char *zBuf, zWorker[PH7_FMT_BUFSIZ]; /* Working buffer */
+  const ph7_fmt_info *pInfo;           /* Pointer to the appropriate info structure */
+  int flag_alternateform;              /* True if "#" flag is present */
+  int flag_leftjustify;                /* True if "-" flag is present */
+  int flag_blanksign;                  /* True if " " flag is present */
+  int flag_plussign;                   /* True if "+" flag is present */
+  int flag_zeropad;                    /* True if field width constant starts with zero */
+  ph7_value *pArg;                     /* Current processed argument */
   ph7_int64 iVal;
-  int precision;             /* Precision of the current field */
+  int precision;                       /* Precision of the current field */
   char *zExtra;
   int c, rc, n;
   int length;                /* Length of the field */
@@ -4518,10 +4518,10 @@ PH7_InputFormat(
         }
         length = &zWorker[PH7_FMT_BUFSIZ - 1] - zBuf;
         for (idx = precision - length ; idx > 0 ; idx--) {
-          *(--zBuf) = '0';                             /* Zero pad */
+          *(--zBuf) = '0';                         /* Zero pad */
         }
-        if (prefix) *(--zBuf) = (char) prefix; /* Add sign */
-        if (flag_alternateform && pInfo->prefix) {        /* Add "0" or "0x" */
+        if (prefix) *(--zBuf) = (char) prefix;     /* Add sign */
+        if (flag_alternateform && pInfo->prefix) { /* Add "0" or "0x" */
           char *pre, x;
           pre = pInfo->prefix;
           if (*zBuf != pre[0]) {
@@ -4536,12 +4536,12 @@ PH7_InputFormat(
       case PH7_FMT_GENERIC: {
 #ifndef PH7_OMIT_FLOATING_POINT
         long double realvalue;
-        int exp;                 /* exponent of real numbers */
-        double rounder;          /* Used for rounding floating point values */
+        int exp;                /* exponent of real numbers */
+        double rounder;         /* Used for rounding floating point values */
         int flag_dp;            /* True if decimal point should be shown */
         int flag_rtz;           /* True if trailing zeros should be removed */
         int flag_exp;           /* True to force display of the exponent */
-        int nsd;                 /* Number of significant digits returned */
+        int nsd;                /* Number of significant digits returned */
         pArg = NEXT_ARG;
         if (pArg == 0) {
           realvalue = 0;
@@ -4628,8 +4628,8 @@ PH7_InputFormat(
         nsd = 0;
         if (xtype == PH7_FMT_FLOAT && exp + precision < PH7_FMT_BUFSIZ - 30) {
           flag_dp = (precision > 0 || flag_alternateform);
-          if (prefix) *(zBuf++) = (char) prefix; /* Sign */
-          if (exp < 0) *(zBuf++) = '0'; /* Digits before "." */
+          if (prefix) *(zBuf++) = (char) prefix;  /* Sign */
+          if (exp < 0) *(zBuf++) = '0';           /* Digits before "." */
           else for (; exp >= 0 ;
                     exp--)
               *(zBuf++) = (char) vxGetdigit(
@@ -4644,23 +4644,23 @@ PH7_InputFormat(
             &realvalue,
             &nsd
           );
-          *(zBuf--) = 0;                           /* Null terminate */
+          *(zBuf--) = 0;                     /* Null terminate */
           if (flag_rtz && flag_dp) {         /* Remove trailing zeros and "." */
             while (zBuf >= zWorker && *zBuf == '0') *(zBuf--) = 0;
             if (zBuf >= zWorker && *zBuf == '.') *(zBuf--) = 0;
           }
-          zBuf++;                            /* point to next free slot */
-        } else {     /* etEXP or etGENERIC */
+          zBuf++;                                          /* point to next free slot */
+        } else {                                           /* etEXP or etGENERIC */
           flag_dp = (precision > 0 || flag_alternateform);
-          if (prefix) *(zBuf++) = (char) prefix; /* Sign */
-          *(zBuf++) = (char) vxGetdigit(&realvalue, &nsd);       /* First digit */
-          if (flag_dp) *(zBuf++) = '.'; /* Decimal point */
+          if (prefix) *(zBuf++) = (char) prefix;           /* Sign */
+          *(zBuf++) = (char) vxGetdigit(&realvalue, &nsd); /* First digit */
+          if (flag_dp) *(zBuf++) = '.';                    /* Decimal point */
           while ((precision--) > 0) *(zBuf++) = (char) vxGetdigit(
             &realvalue,
             &nsd
           );
           zBuf--;                            /* point to last digit */
-          if (flag_rtz && flag_dp) {            /* Remove tail zeros */
+          if (flag_rtz && flag_dp) {         /* Remove tail zeros */
             while (zBuf >= zWorker && *zBuf == '0') *(zBuf--) = 0;
             if (zBuf >= zWorker && *zBuf == '.') *(zBuf--) = 0;
           }
@@ -5180,13 +5180,13 @@ PH7_builtin_crc32(ph7_context *pCtx, int nArg, ph7_value **apArg)
  */
 PH7_PRIVATE sxi32
 PH7_ProcessCsv(
-  const char *zInput,   /* Raw input */
-  int nByte,    /* Input length */
-  int delim,    /* Delimiter */
-  int encl,     /* Enclosure */
-  int escape,    /* Escape character */
-  sxi32 (*xConsumer)(const char *, int, void *),   /* User callback */
-  void *pUserData   /* Last argument to xConsumer() */
+  const char *zInput,                            /* Raw input */
+  int nByte,                                     /* Input length */
+  int delim,                                     /* Delimiter */
+  int encl,                                      /* Enclosure */
+  int escape,                                    /* Escape character */
+  sxi32 (*xConsumer)(const char *, int, void *), /* User callback */
+  void *pUserData                                /* Last argument to xConsumer() */
 )
 {
   const char *zEnd = &zInput[nByte];
@@ -6492,11 +6492,11 @@ PH7_builtin_str_pad(ph7_context *pCtx, int nArg, ph7_value **apArg)
 typedef struct str_replace_data str_replace_data;
 struct str_replace_data {
   /* The following two fields are only used by the strtr function */
-  SyBlob *pWorker;           /* Working buffer */
-  ProcStringMatch xMatch;    /* Pattern match routine */
+  SyBlob *pWorker;        /* Working buffer */
+  ProcStringMatch xMatch; /* Pattern match routine */
   /* The following two fields are only used by the str_replace function */
-  SySet *pCollector;    /* Argument collector*/
-  ph7_context *pCtx;    /* Call context */
+  SySet *pCollector;      /* Argument collector*/
+  ph7_context *pCtx;      /* Call context */
 };
 
 /*
@@ -7865,7 +7865,7 @@ PH7_builtin_getdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
     struct tm *pTm;
 #ifdef __WINNT__
 #ifdef _MSC_VER
-#if _MSC_VER >= 1400 /* Visual Studio 2005 and up */
+#if _MSC_VER >= 1400          /* Visual Studio 2005 and up */
 #pragma warning(disable:4996) /* _CRT_SECURE...*/
 #endif
 #endif
