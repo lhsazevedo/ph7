@@ -216,6 +216,7 @@ PH7_PRIVATE sxi32 PH7_VmRegisterConstant(
   /* All done,constant can be invoked from PHP code */
   return SXRET_OK;
 }
+
 /*
  * Allocate a new foreign function instance.
  * This function return SXRET_OK on success. Any other
@@ -256,6 +257,7 @@ static sxi32 PH7_NewForeignFunction(
   *ppOut = pFunc;
   return SXRET_OK;
 }
+
 /*
  * Install a foreign function and it's associated callback so that
  * it can be invoked from the target PHP code.
@@ -298,6 +300,7 @@ PH7_PRIVATE sxi32 PH7_VmInstallForeignFunction(
   /* User function successfully installed */
   return SXRET_OK;
 }
+
 /*
  * Initialize a VM function.
  */
@@ -328,6 +331,7 @@ PH7_PRIVATE sxi32 PH7_VmInitFuncState(
   SyStringInitFromBuf(&pFunc->sName, zName, nByte);
   return SXRET_OK;
 }
+
 /*
  * Install a user defined function in the corresponding VM container.
  */
@@ -359,6 +363,7 @@ PH7_PRIVATE sxi32 PH7_VmInstallUserFunction(
   rc = SyHashInsert(&pVm->hFunction, pName->zString, pName->nByte, pFunc);
   return rc;
 }
+
 /*
  * Install a user defined class in the corresponding VM container.
  */
@@ -384,6 +389,7 @@ PH7_PRIVATE sxi32 PH7_VmInstallClass(
   rc = SyHashInsert(&pVm->hClass, (const void *) pName->zString, pName->nByte, pClass);
   return rc;
 }
+
 /*
  * Instruction builder interface.
  */
@@ -415,6 +421,7 @@ PH7_PRIVATE sxi32 PH7_VmEmitInstr(
   }
   return rc;
 }
+
 /*
  * Swap the current bytecode container with the given one.
  */
@@ -429,6 +436,7 @@ PH7_PRIVATE sxi32 PH7_VmSetByteCodeContainer(ph7_vm *pVm, SySet *pContainer)
   }
   return SXRET_OK;
 }
+
 /*
  * Return the current bytecode container.
  */
@@ -436,6 +444,7 @@ PH7_PRIVATE SySet* PH7_VmGetByteCodeContainer(ph7_vm *pVm)
 {
   return pVm->pByteContainer;
 }
+
 /*
  * Extract the VM instruction rooted at nIndex.
  */
@@ -445,6 +454,7 @@ PH7_PRIVATE VmInstr* PH7_VmGetInstr(ph7_vm *pVm, sxu32 nIndex)
   pInstr = (VmInstr *) SySetAt(pVm->pByteContainer, nIndex);
   return pInstr;
 }
+
 /*
  * Return the total number of VM instructions recorded so far.
  */
@@ -452,6 +462,7 @@ PH7_PRIVATE sxu32 PH7_VmInstrLength(ph7_vm *pVm)
 {
   return SySetUsed(pVm->pByteContainer);
 }
+
 /*
  * Pop the last VM instruction.
  */
@@ -459,6 +470,7 @@ PH7_PRIVATE VmInstr* PH7_VmPopInstr(ph7_vm *pVm)
 {
   return (VmInstr *) SySetPop(pVm->pByteContainer);
 }
+
 /*
  * Peek the last VM instruction.
  */
@@ -466,6 +478,7 @@ PH7_PRIVATE VmInstr* PH7_VmPeekInstr(ph7_vm *pVm)
 {
   return (VmInstr *) SySetPeek(pVm->pByteContainer);
 }
+
 PH7_PRIVATE VmInstr* PH7_VmPeekNextInstr(ph7_vm *pVm)
 {
   VmInstr *aInstr;
@@ -477,6 +490,7 @@ PH7_PRIVATE VmInstr* PH7_VmPeekNextInstr(ph7_vm *pVm)
   aInstr = (VmInstr *) SySetBasePtr(pVm->pByteContainer);
   return &aInstr[n - 2];
 }
+
 /*
  * Allocate a new virtual machine frame.
  */
@@ -504,6 +518,7 @@ static VmFrame* VmNewFrame(
   SySetInit(&pFrame->sRef, &pVm->sAllocator, sizeof(VmSlot));
   return pFrame;
 }
+
 /*
  * Enter a VM frame.
  */
@@ -529,6 +544,7 @@ static sxi32 VmEnterFrame(
   }
   return SXRET_OK;
 }
+
 /*
  * Link a foreign variable with the TOP most active frame.
  * Refer to the PH7_OP_UPLINK instruction implementation for more
@@ -572,6 +588,7 @@ static sxi32 VmFrameLink(ph7_vm *pVm, SyString *pName)
   }
   return rc;
 }
+
 /*
  * Leave the top-most active frame.
  */
@@ -605,6 +622,7 @@ static void VmLeaveFrame(ph7_vm *pVm)
     SyMemBackendPoolFree(&pVm->sAllocator, pFrame);
   }
 }
+
 /*
  * Compare two functions signature and return the comparison result.
  */
@@ -628,6 +646,7 @@ static int VmOverloadCompare(SyString *pFirst, SyString *pSecond)
   }
   return (int) (zFin - zPtr);
 }
+
 /*
  * Select the appropriate VM function for the current call context.
  * This is the implementation of the powerful 'function overloading' feature
@@ -715,9 +734,11 @@ static ph7_vm_func* VmOverload(
   /* Appropriate function for the current call context */
   return apSet[iTarget];
 }
+
 /* Forward declaration */
 static sxi32 VmLocalExec(ph7_vm *pVm, SySet *pByteCode, ph7_value *pResult);
 static sxi32 VmErrorFormat(ph7_vm *pVm, sxi32 iErr, const char *zFormat, ...);
+
 /*
  * Mount a compiled class into the freshly created vitual machine so that
  * it can be instanciated from the executed PHP script.
@@ -787,6 +808,7 @@ static sxi32 VmMountUserClass(
   }
   return SXRET_OK;
 }
+
 /*
  * Allocate a private frame for attributes of the given
  * class instance (Object in the PHP jargon).
@@ -848,9 +870,11 @@ PH7_PRIVATE sxi32 PH7_VmCreateClassInstanceFrame(
   }
   return SXRET_OK;
 }
+
 /* Forward declaration */
 static VmRefObj* VmRefObjExtract(ph7_vm *pVm, sxu32 nObjIdx);
 static sxi32 VmRefObjUnlink(ph7_vm *pVm, VmRefObj *pRef);
+
 /*
  * Dummy read-only buffer used for slot reservation.
  */
@@ -878,6 +902,7 @@ PH7_PRIVATE ph7_value* PH7_ReserveConstObj(ph7_vm *pVm, sxu32 *pIndex)
   pObj = (ph7_value *) SySetPeek(&pVm->aLitObj);
   return pObj;
 }
+
 /*
  * Reserve a memory object.
  * Return a pointer to the raw ph7_value on success. NULL on failure.
@@ -901,8 +926,10 @@ PH7_PRIVATE ph7_value* VmReserveMemObj(ph7_vm *pVm, sxu32 *pIndex)
   pObj = (ph7_value *) SySetPeek(&pVm->aMemObj);
   return pObj;
 }
+
 /* Forward declaration */
 static sxi32 VmEvalChunk(ph7_vm *pVm, ph7_context *pCtx, SyString *pChunk, int iFlags, int bTrueReturn);
+
 /*
  * Built-in classes/interfaces and some functions that cannot be implemented
  * directly as foreign functions.
@@ -1338,6 +1365,7 @@ Err:
   SyMemBackendRelease(&pVm->sAllocator);
   return rc;
 }
+
 /*
  * Default VM output consumer callback.That is,all VM output is redirected to this
  * routine which store the output in an internal blob.
@@ -1360,6 +1388,7 @@ PH7_PRIVATE sxi32 PH7_VmBlobConsumer(
   rc = SyBlobAppend((SyBlob *) pUserData, pOut, nLen);
   return rc;
 }
+
 #define VM_STACK_GUARD 16
 /*
  * Allocate a new operand stack so that we can start executing
@@ -1393,10 +1422,12 @@ static ph7_value* VmNewOperandStack(
   /* Ready for bytecode execution */
   return pStack;
 }
+
 /* Forward declaration */
 static sxi32 VmRegisterSpecialFunction(ph7_vm *pVm);
 static int VmInstanceOf(ph7_class *pThis, ph7_class *pClass);
 static int VmClassMemberAccess(ph7_vm *pVm, ph7_class *pClass, const SyString *pAttrName, sxi32 iProtection, int bLog);
+
 /*
  * Prepare the Virtual Machine for byte-code execution.
  * This routine gets called by the PH7 engine after
@@ -1470,6 +1501,7 @@ PH7_PRIVATE sxi32 PH7_VmMakeReady(
   /* VM is ready for bytecode execution */
   return SXRET_OK;
 }
+
 /*
  * Reset a Virtual Machine to it's initial state.
  */
@@ -1485,6 +1517,7 @@ PH7_PRIVATE sxi32 PH7_VmReset(ph7_vm *pVm)
   pVm->nMagic = PH7_VM_RUN;
   return SXRET_OK;
 }
+
 /*
  * Release a Virtual Machine.
  * Every virtual machine must be destroyed in order to avoid memory leaks.
@@ -1497,6 +1530,7 @@ PH7_PRIVATE sxi32 PH7_VmRelease(ph7_vm *pVm)
   SyMemBackendRelease(&pVm->sAllocator);
   return SXRET_OK;
 }
+
 /*
  * Initialize a foreign function call context.
  * The context in which a foreign function executes is stored in a ph7_context object.
@@ -1525,6 +1559,7 @@ static sxi32 VmInitCallContext(
   pOut->iFlags = iFlags;
   return SXRET_OK;
 }
+
 /*
  * Release a foreign function call context and cleanup the mess
  * left behind.
@@ -1561,6 +1596,7 @@ static void VmReleaseCallContext(ph7_context *pCtx)
     SySetRelease(&pCtx->sChunk);
   }
 }
+
 /*
  * Release a ph7_value allocated from the body of a foreign function.
  * Refer to [ph7_context_release_value()] for additional information.
@@ -1588,6 +1624,7 @@ PH7_PRIVATE void PH7_VmReleaseContextValue(
     }
   }
 }
+
 /*
  * Pop and release as many memory object from the operand stack.
  */
@@ -1605,6 +1642,7 @@ static void VmPopOperand(
   /* Top of the stack */
   *ppTos = pTos;
 }
+
 /*
  * Reserve a memory object.
  * Return a pointer to the raw ph7_value on success. NULL on failure.
@@ -1633,6 +1671,7 @@ PH7_PRIVATE ph7_value* PH7_ReserveMemObj(ph7_vm *pVm)
   pObj->nIdx = nIdx;
   return pObj;
 }
+
 /*
  * Insert an entry by reference (not copy) in the given hashmap.
  */
@@ -1652,6 +1691,7 @@ static sxi32 VmHashmapRefInsert(
   PH7_MemObjRelease(&sKey);
   return rc;
 }
+
 /*
  * Extract a variable value from the top active VM frame.
  * Return a pointer to the variable value on success.
@@ -1747,6 +1787,7 @@ static ph7_value* VmExtractMemObj(
   }
   return pObj;
 }
+
 /*
  * Extract a superglobal variable such as $_GET,$_POST,$_HEADERS,....
  * Return a pointer to the variable value on success.NULL otherwise.
@@ -1772,6 +1813,7 @@ static ph7_value* VmExtractSuper(
   pValue = (ph7_value *) SySetAt(&pVm->aMemObj, nIdx);
   return pValue;
 }
+
 /*
  * Perform a raw hashmap insertion.
  * Refer to the [PH7_VmConfigure()] implementation for additional information.
@@ -1807,8 +1849,10 @@ static sxi32 VmHashmapInsert(
   PH7_MemObjRelease(&sValue);
   return rc;
 }
+
 /* Forward declaration */
 static sxi32 VmHttpProcessRequest(ph7_vm *pVm, const char *zRequest, int nByte);
+
 /*
  * Configure a working virtual machine instance.
  *
@@ -2123,8 +2167,10 @@ PH7_PRIVATE sxi32 PH7_VmConfigure(
   }
   return rc;
 }
+
 /* Forward declaration */
 static const char* VmInstrToString(sxi32 nOp);
+
 /*
  * This routine is used to dump PH7 byte-code instructions to a human readable
  * format.
@@ -2171,10 +2217,12 @@ static sxi32 VmByteCodeDump(
   }
   return rc;
 }
+
 /* Forward declaration */
 static int VmObConsumer(const void *pData, unsigned int nDataLen, void *pUserData);
 static sxi32 VmUncaughtException(ph7_vm *pVm, ph7_class_instance *pThis);
 static sxi32 VmThrowException(ph7_vm *pVm, ph7_class_instance *pThis);
+
 /*
  * Consume a generated run-time error message by invoking the VM output
  * consumer callback.
@@ -2197,6 +2245,7 @@ static sxi32 VmCallErrorHandler(ph7_vm *pVm, SyBlob *pMsg)
   }
   return rc;
 }
+
 /*
  * Throw a run-time error and invoke the supplied VM output consumer callback.
  * Refer to the implementation of [ph7_context_throw_error()] for additional
@@ -2251,6 +2300,7 @@ PH7_PRIVATE sxi32 PH7_VmThrowError(
   rc = VmCallErrorHandler(&(*pVm), pWorker);
   return rc;
 }
+
 /*
  * Format and throw a run-time error and invoke the supplied VM output consumer callback.
  * Refer to the implementation of [ph7_context_throw_error_format()] for additional
@@ -2306,6 +2356,7 @@ static sxi32 VmThrowErrorAp(
   rc = VmCallErrorHandler(&(*pVm), pWorker);
   return rc;
 }
+
 /*
  * Format and throw a run-time error and invoke the supplied VM output consumer callback.
  * Refer to the implementation of [ph7_context_throw_error_format()] for additional
@@ -2323,6 +2374,7 @@ static sxi32 VmErrorFormat(ph7_vm *pVm, sxi32 iErr, const char *zFormat, ...)
   va_end(ap);
   return rc;
 }
+
 /*
  * Format and throw a run-time error and invoke the supplied VM output consumer callback.
  * Refer to the implementation of [ph7_context_throw_error_format()] for additional
@@ -2337,6 +2389,7 @@ PH7_PRIVATE sxi32 PH7_VmThrowErrorAp(ph7_vm *pVm, SyString *pFuncName, sxi32 iEr
   rc = VmThrowErrorAp(&(*pVm), &(*pFuncName), iErr, zFormat, ap);
   return rc;
 }
+
 /*
  * Execute as much of a PH7 bytecode program as we can then return.
  *
@@ -5827,6 +5880,7 @@ Exception:
   }
   return PH7_EXCEPTION;
 }
+
 /*
  * Execute as much of a local PH7 bytecode program as we can then return.
  * This function is a wrapper around [VmByteCodeExec()].
@@ -5848,6 +5902,7 @@ static sxi32 VmLocalExec(ph7_vm *pVm, SySet *pByteCode, ph7_value *pResult)
   /* Execution result */
   return rc;
 }
+
 /*
  * Invoke any installed shutdown callbacks.
  * Shutdown callbacks are kept in a stack and are registered using one
@@ -5895,6 +5950,7 @@ static void VmInvokeShutdownCallbacks(ph7_vm *pVm)
   }
   SySetReset(&pVm->aShutdown);
 }
+
 /*
  * Execute as much of a PH7 bytecode program as we can then return.
  * This function is a wrapper around [VmByteCodeExec()].
@@ -5919,6 +5975,7 @@ PH7_PRIVATE sxi32 PH7_VmByteCodeExec(ph7_vm *pVm)
    */
   return SXRET_OK;
 }
+
 /*
  * Invoke the installed VM output consumer callback to consume
  * the desired message.
@@ -5942,6 +5999,7 @@ PH7_PRIVATE sxi32 PH7_VmOutputConsume(
   }
   return rc;
 }
+
 /*
  * Format a message and invoke the installed VM output consumer
  * callback to consume the formatted message.
@@ -5972,6 +6030,7 @@ PH7_PRIVATE sxi32 PH7_VmOutputConsumeAp(
   SyBlobRelease(&sWorker);
   return rc;
 }
+
 /*
  * Return a string representation of the given PH7 OP code.
  * This function never fail and always return a pointer
@@ -6322,6 +6381,7 @@ static const char* VmInstrToString(sxi32 nOp)
   }
   return zOp;
 }
+
 /*
  * Dump PH7 bytecodes instructions to a human readable format.
  * The xConsumer() callback which is an used defined function
@@ -6337,6 +6397,7 @@ PH7_PRIVATE sxi32 PH7_VmDump(
   rc = VmByteCodeDump(pVm->pByteContainer, xConsumer, pUserData);
   return rc;
 }
+
 /*
  * Default constant expansion callback used by the 'const' statement if used
  * outside a class body [i.e: global or function scope].
@@ -6349,6 +6410,7 @@ PH7_PRIVATE void PH7_VmExpandConstantValue(ph7_value *pVal, void *pUserData)
   /* Evaluate and expand constant value */
   VmLocalExec((ph7_vm *) SySetGetUserData(pByteCode), pByteCode, (ph7_value *) pVal);
 }
+
 /*
  * Section:
  *  Function handling functions.
@@ -6391,6 +6453,7 @@ static int vm_builtin_func_num_args(ph7_context *pCtx, int nArg, ph7_value **apA
   ph7_result_int(pCtx, nArg);
   return SXRET_OK;
 }
+
 /*
  * value func_get_arg(int $arg_num)
  *   Return an item from the argument list.
@@ -6441,6 +6504,7 @@ static int vm_builtin_func_get_arg(ph7_context *pCtx, int nArg, ph7_value **apAr
   }
   return SXRET_OK;
 }
+
 /*
  * array func_get_args_byref(void)
  *   Returns an array comprising a function's argument list.
@@ -6488,6 +6552,7 @@ static int vm_builtin_func_get_args_byref(ph7_context *pCtx, int nArg, ph7_value
   ph7_result_value(pCtx, pArray);
   return SXRET_OK;
 }
+
 /*
  * array func_get_args(void)
  *   Returns an array comprising a copy of function's argument list.
@@ -6537,6 +6602,7 @@ static int vm_builtin_func_get_args(ph7_context *pCtx, int nArg, ph7_value **apA
   ph7_result_value(pCtx, pArray);
   return SXRET_OK;
 }
+
 /*
  * bool function_exists(string $name)
  *  Return TRUE if the given function has been defined.
@@ -6572,8 +6638,10 @@ static int vm_builtin_func_exists(ph7_context *pCtx, int nArg, ph7_value **apArg
   ph7_result_bool(pCtx, res);
   return SXRET_OK;
 }
+
 /* Forward declaration */
 static ph7_class* VmExtractClassFromValue(ph7_vm *pVm, ph7_value *pArg);
+
 /*
  * Verify that the contents of a variable can be called as a function.
  * [i.e: Whether it is callable or not].
@@ -6637,6 +6705,7 @@ PH7_PRIVATE int PH7_VmIsCallable(ph7_vm *pVm, ph7_value *pValue, int CallInvoke)
   }
   return res;
 }
+
 /*
  * bool is_callable(callable $name[,bool $syntax_only = false])
  * Verify that the contents of a variable can be called as a function.
@@ -6668,6 +6737,7 @@ static int vm_builtin_is_callable(ph7_context *pCtx, int nArg, ph7_value **apArg
   ph7_result_bool(pCtx, res);
   return SXRET_OK;
 }
+
 /*
  * Hash walker callback used by the [get_defined_functions()] function
  * defined below.
@@ -6685,6 +6755,7 @@ static int VmHashFuncStep(SyHashEntry *pEntry, void *pUserData)
   PH7_MemObjRelease(&sName);
   return rc;
 }
+
 /*
  * array get_defined_functions(void)
  *  Returns an array of all defined functions.
@@ -6738,6 +6809,7 @@ static int vm_builtin_get_defined_func(ph7_context *pCtx, int nArg, ph7_value **
   ph7_result_value(pCtx, pArray);
   return SXRET_OK;
 }
+
 /*
  * void register_shutdown_function(callable $callback[,mixed $param,...)
  *  Register a function for execution on shutdown.
@@ -6782,6 +6854,7 @@ static int vm_builtin_register_shutdown_function(ph7_context *pCtx, int nArg, ph
   SySetPut(&pCtx->pVm->aShutdown, (const void *) &sEntry);
   return PH7_OK;
 }
+
 /*
  * Section:
  *  Class handling functions.
@@ -6807,6 +6880,7 @@ PH7_PRIVATE ph7_class* PH7_VmPeekTopClass(ph7_vm *pVm)
   apClass = (ph7_class **) SySetBasePtr(pSet);
   return apClass[pSet->nUsed - 1];
 }
+
 /*
  * string get_class ([ object $object = NULL ] )
  *   Returns the name of the class of an object
@@ -6847,6 +6921,7 @@ static int vm_builtin_get_class(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string get_parent_class([object $object = NULL ] )
  *   Returns the name of the parent class of an object
@@ -6893,6 +6968,7 @@ static int vm_builtin_get_parent_class(ph7_context *pCtx, int nArg, ph7_value **
   }
   return PH7_OK;
 }
+
 /*
  * string get_called_class(void)
  *   Gets the name of the class the static method is called in.
@@ -6919,6 +6995,7 @@ static int vm_builtin_get_called_class(ph7_context *pCtx, int nArg, ph7_value **
   }
   return PH7_OK;
 }
+
 /*
  * Extract a ph7_class from the given ph7_value.
  * The given value must be of type object [i.e: class instance] or
@@ -6947,6 +7024,7 @@ static ph7_class* VmExtractClassFromValue(ph7_vm *pVm, ph7_value *pArg)
   }
   return pClass;
 }
+
 /*
  * bool property_exists(mixed $class,string $property)
  *   Checks if the object or class has a property.
@@ -6983,6 +7061,7 @@ static int vm_builtin_property_exists(ph7_context *pCtx, int nArg, ph7_value **a
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * bool method_exists(mixed $class,string $method)
  *   Checks if the given method is a class member.
@@ -7017,6 +7096,7 @@ static int vm_builtin_method_exists(ph7_context *pCtx, int nArg, ph7_value **apA
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * bool class_exists(string $class_name [, bool $autoload = true ] )
  *   Checks if the class has been defined.
@@ -7046,6 +7126,7 @@ static int vm_builtin_class_exists(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * bool interface_exists(string $class_name [, bool $autoload = true ] )
  *   Checks if the interface has been defined.
@@ -7087,6 +7168,7 @@ static int vm_builtin_interface_exists(ph7_context *pCtx, int nArg, ph7_value **
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * bool class_alias([string $original[,string $alias ]])
  *   Creates an alias for a class.
@@ -7144,6 +7226,7 @@ static int vm_builtin_class_alias(ph7_context *pCtx, int nArg, ph7_value **apArg
   ph7_result_bool(pCtx, rc == SXRET_OK);
   return PH7_OK;
 }
+
 /*
  * array get_declared_classes(void)
  *   Returns an array with the name of the defined classes
@@ -7186,6 +7269,7 @@ static int vm_builtin_get_declared_classes(ph7_context *pCtx, int nArg, ph7_valu
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array get_declared_interfaces(void)
  *   Returns an array with the name of the defined interfaces
@@ -7228,6 +7312,7 @@ static int vm_builtin_get_declared_interfaces(ph7_context *pCtx, int nArg, ph7_v
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array get_class_methods(string/object $class_name)
  *   Returns an array with the name of the class methods
@@ -7281,6 +7366,7 @@ static int vm_builtin_get_class_methods(ph7_context *pCtx, int nArg, ph7_value *
    */
   return PH7_OK;
 }
+
 /*
  * This function return TRUE(1) if the given class attribute stored
  * in the pAttrName parameter is visible and thus can be extracted
@@ -7328,6 +7414,7 @@ dis:
   }
   return 0;   /* Access is forbidden */
 }
+
 /*
  * array get_class_vars(string/object $class_name)
  *   Get the default properties of the class
@@ -7400,6 +7487,7 @@ static int vm_builtin_get_class_vars(ph7_context *pCtx, int nArg, ph7_value **ap
    */
   return PH7_OK;
 }
+
 /*
  * array get_object_vars(object $this)
  *   Gets the properties of the given object
@@ -7467,6 +7555,7 @@ static int vm_builtin_get_object_vars(ph7_context *pCtx, int nArg, ph7_value **a
    */
   return PH7_OK;
 }
+
 /*
  * This function returns TRUE if the given class is an implemented
  * interface.Otherwise FALSE is returned.
@@ -7489,6 +7578,7 @@ static int VmQueryInterfaceSet(ph7_class *pClass, SySet *pSet)
   }
   return FALSE;
 }
+
 /*
  * This function returns TRUE if the given class (first argument)
  * is an instance of the main class (second argument).
@@ -7525,6 +7615,7 @@ static int VmInstanceOf(ph7_class *pThis, ph7_class *pClass)
   /* Not an instance of the the given class */
   return FALSE;
 }
+
 /*
  * This function returns TRUE if the given class (first argument)
  * is a subclass of the main class (second argument).
@@ -7552,6 +7643,7 @@ static int VmSubclassOf(ph7_class *pClass, ph7_class *pBase)
   /* Not a subclass */
   return FALSE;
 }
+
 /*
  * bool is_a(object $object,string $class_name)
  *   Checks if the object is of this class or has this class as one of its parents.
@@ -7581,6 +7673,7 @@ static int vm_builtin_is_a(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * bool is_subclass_of(object/string $object,object/string $class_name)
  *   Checks if the object has this class as one of its parents.
@@ -7610,6 +7703,7 @@ static int vm_builtin_is_subclass_of(ph7_context *pCtx, int nArg, ph7_value **ap
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * Call a class method where the name of the method is stored in the pMethod
  * parameter and the given arguments are stored in the apArg[] array.
@@ -7677,6 +7771,7 @@ PH7_PRIVATE sxi32 PH7_VmCallClassMethod(
   SyMemBackendFree(&pVm->sAllocator, aStack);
   return PH7_OK;
 }
+
 /*
  * Call a user defined or foreign function where the name of the function
  * is stored in the pFunc parameter and the given arguments are stored
@@ -7793,6 +7888,7 @@ PH7_PRIVATE sxi32 PH7_VmCallUserFunction(
   SyMemBackendFree(&pVm->sAllocator, aStack);
   return PH7_OK;
 }
+
 /*
  * Call a user defined or foreign function whith a varibale number
  * of arguments where the name of the function is stored in the pFunc
@@ -7827,6 +7923,7 @@ PH7_PRIVATE sxi32 PH7_VmCallUserFunctionAp(
   SySetRelease(&aArg);
   return rc;
 }
+
 /*
  * value call_user_func(callable $callback[,value $parameter[, value $... ]])
  *  Call the callback given by the first parameter.
@@ -7861,6 +7958,7 @@ static int vm_builtin_call_user_func(ph7_context *pCtx, int nArg, ph7_value **ap
   PH7_MemObjRelease(&sResult);
   return PH7_OK;
 }
+
 /*
  * value call_user_func_array(callable $callback,array $param_arr)
  *  Call a callback with an array of parameters.
@@ -7914,6 +8012,7 @@ static int vm_builtin_call_user_func_array(ph7_context *pCtx, int nArg, ph7_valu
   SySetRelease(&aArg);
   return PH7_OK;
 }
+
 /*
  * bool defined(string $name)
  *  Checks whether a given named constant exists.
@@ -7943,6 +8042,7 @@ static int vm_builtin_defined(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, res);
   return SXRET_OK;
 }
+
 /*
  * Constant expansion callback used by the [define()] function defined
  * below.
@@ -7953,6 +8053,7 @@ static void VmExpandUserConstant(ph7_value *pVal, void *pUserData)
   /* Expand constant value */
   PH7_MemObjStore(pConstantValue, pVal);
 }
+
 /*
  * bool define(string $constant_name,expression value)
  *  Defines a named constant at runtime.
@@ -8032,6 +8133,7 @@ static int vm_builtin_define(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 1);
   return SXRET_OK;
 }
+
 /*
  * value constant(string $name)
  *  Returns the value of a constant
@@ -8074,6 +8176,7 @@ static int vm_builtin_constant(ph7_context *pCtx, int nArg, ph7_value **apArg)
   PH7_MemObjRelease(&sVal);
   return SXRET_OK;
 }
+
 /*
  * Hash walker callback used by the [get_defined_constants()] function
  * defined below.
@@ -8091,6 +8194,7 @@ static int VmHashConstStep(SyHashEntry *pEntry, void *pUserData)
   PH7_MemObjRelease(&sName);
   return rc;
 }
+
 /*
  * array get_defined_constants(void)
  *  Returns an associative array with the names of all defined
@@ -8118,6 +8222,7 @@ static int vm_builtin_get_defined_constants(ph7_context *pCtx, int nArg, ph7_val
   ph7_result_value(pCtx, pArray);
   return SXRET_OK;
 }
+
 /*
  * Section:
  *  Output Control (OB) functions.
@@ -8129,6 +8234,7 @@ static int vm_builtin_get_defined_constants(ph7_context *pCtx, int nArg, ph7_val
  */
 /* Forward declaration */
 static void VmObRestore(ph7_vm *pVm, VmObEntry *pEntry);
+
 /*
  * void ob_clean(void)
  *  This function discards the contents of the output buffer.
@@ -8151,6 +8257,7 @@ static int vm_builtin_ob_clean(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * bool ob_end_clean(void)
  *  Clean (erase) the output buffer and turn off output buffering
@@ -8184,6 +8291,7 @@ static int vm_builtin_ob_end_clean(ph7_context *pCtx, int nArg, ph7_value **apAr
   }
   return PH7_OK;
 }
+
 /*
  * string ob_get_contents(void)
  *  Gets the contents of the output buffer without clearing it.
@@ -8209,6 +8317,7 @@ static int vm_builtin_ob_get_contents(ph7_context *pCtx, int nArg, ph7_value **a
   }
   return PH7_OK;
 }
+
 /*
  * string ob_get_clean(void)
  * string ob_get_flush(void)
@@ -8237,6 +8346,7 @@ static int vm_builtin_ob_get_clean(ph7_context *pCtx, int nArg, ph7_value **apAr
   }
   return PH7_OK;
 }
+
 /*
  * int ob_get_length(void)
  *  Return the length of the output buffer.
@@ -8262,6 +8372,7 @@ static int vm_builtin_ob_get_length(ph7_context *pCtx, int nArg, ph7_value **apA
   }
   return PH7_OK;
 }
+
 /*
  * int ob_get_level(void)
  *  Returns the nesting level of the output buffering mechanism.
@@ -8282,6 +8393,7 @@ static int vm_builtin_ob_get_level(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_int(pCtx, iNest);
   return PH7_OK;
 }
+
 /*
  * Output Buffer(OB) default VM consumer routine.All VM output is now redirected
  * to a stackable internal buffer,until the user call [ob_get_clean(),ob_end_clean(),...].
@@ -8324,6 +8436,7 @@ static int VmObConsumer(const void *pData, unsigned int nDataLen, void *pUserDat
   PH7_MemObjRelease(&sResult);
   return PH7_OK;
 }
+
 /*
  * Restore the default consumer.
  * Refer to the implementation of [ob_end_clean()] for more
@@ -8341,6 +8454,7 @@ static void VmObRestore(ph7_vm *pVm, VmObEntry *pEntry)
   PH7_MemObjRelease(&pEntry->sCallback);
   SyBlobRelease(&pEntry->sOB);
 }
+
 /*
  * bool ob_start([ callback $output_callback] )
  * This function will turn output buffering on. While output buffering is active no output
@@ -8394,6 +8508,7 @@ static int vm_builtin_ob_start(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, rc == SXRET_OK);
   return PH7_OK;
 }
+
 /*
  * Flush Output buffer to the default VM output consumer.
  * Refer to the implementation of [ob_flush()] for more
@@ -8422,6 +8537,7 @@ static sxi32 VmObFlush(ph7_vm *pVm, VmObEntry *pEntry, int bRelease)
   }
   return rc;
 }
+
 /*
  * void ob_flush(void)
  * void flush(void)
@@ -8448,6 +8564,7 @@ static int vm_builtin_ob_flush(ph7_context *pCtx, int nArg, ph7_value **apArg)
   rc = VmObFlush(pVm, pOb, FALSE);
   return rc;
 }
+
 /*
  * bool ob_end_flush(void)
  *  Flush (send) the output buffer and turn off output buffering.
@@ -8478,6 +8595,7 @@ static int vm_builtin_ob_end_flush(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_bool(pCtx, 1);
   return rc;
 }
+
 /*
  * void ob_implicit_flush([int $flag = true ])
  *  ob_implicit_flush() will turn implicit flushing on or off.
@@ -8499,6 +8617,7 @@ static int vm_builtin_ob_implicit_flush(ph7_context *pCtx, int nArg, ph7_value *
   SXUNUSED(apArg);
   return PH7_OK;
 }
+
 /*
  * array ob_list_handlers(void)
  *  Lists all output handlers in use.
@@ -8553,6 +8672,7 @@ static int vm_builtin_ob_list_handlers(ph7_context *pCtx, int nArg, ph7_value **
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * Section:
  *  Random numbers/string generators.
@@ -8573,6 +8693,7 @@ PH7_PRIVATE sxu32 PH7_VmRandomNum(ph7_vm *pVm)
   SyRandomness(&pVm->sPrng, (void *) &iNum, sizeof(sxu32));
   return iNum;
 }
+
 /*
  * Generate a random string (English Alphabet) of length nLen.
  * Note that the generated string is NOT null terminated.
@@ -8590,6 +8711,7 @@ PH7_PRIVATE void PH7_VmRandomString(ph7_vm *pVm, char *zBuf, int nLen)
     zBuf[i] = zBase[zBuf[i] % (sizeof(zBase) - 1)];
   }
 }
+
 /*
  * int rand()
  * int mt_rand()
@@ -8629,6 +8751,7 @@ static int vm_builtin_rand(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int64(pCtx, (ph7_int64) iNum);
   return SXRET_OK;
 }
+
 /*
  * int getrandmax(void)
  * int mt_getrandmax(void)
@@ -8648,6 +8771,7 @@ static int vm_builtin_getrandmax(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int64(pCtx, SXU32_HIGH);
   return SXRET_OK;
 }
+
 /*
  * string rand_str()
  * string rand_str(int $len)
@@ -8680,6 +8804,7 @@ static int vm_builtin_rand_str(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_string(pCtx, zString, iLen);   /* Will make it's own copy */
   return SXRET_OK;
 }
+
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 #if !defined(PH7_DISABLE_HASH_FUNC)
 /* Unique ID private data */
@@ -8712,6 +8837,7 @@ static int HexConsumer(const void *pData, unsigned int nLen, void *pUserData)
   ph7_result_string(pUniq->pCtx, (const char *) pData, (int) nLen);
   return SXRET_OK;
 }
+
 /*
  * string uniqid([string $prefix = "" [, bool $more_entropy = false]])
  *  Generate a unique ID
@@ -8768,6 +8894,7 @@ static int vm_builtin_uniqid(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* All done */
   return PH7_OK;
 }
+
 #endif /* PH7_DISABLE_HASH_FUNC */
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
 /*
@@ -8813,6 +8940,7 @@ static int vm_builtin_echo(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return SXRET_OK;
 }
+
 /*
  * int print($string...)
  *  Output one or more messages.
@@ -8849,6 +8977,7 @@ static int vm_builtin_print(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int(pCtx, 1);
   return SXRET_OK;
 }
+
 /*
  * void exit(string $msg)
  * void exit(int $status)
@@ -8881,6 +9010,7 @@ static int vm_builtin_exit(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* Abort processing immediately */
   return PH7_ABORT;
 }
+
 /*
  * bool isset($var,...)
  *  Finds out whether a variable is set.
@@ -8919,6 +9049,7 @@ static int vm_builtin_isset(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 1);
   return SXRET_OK;
 }
+
 /*
  * Unset a memory object [i.e: a ph7_value],remove it from the current
  * frame,the reference table and discard it's contents.
@@ -8949,6 +9080,7 @@ PH7_PRIVATE sxi32 PH7_VmUnsetMemObj(ph7_vm *pVm, sxu32 nObjIdx, int bForce)
   }
   return SXRET_OK;
 }
+
 /*
  * void unset($var,...)
  *   Unset one or more given variable.
@@ -8982,6 +9114,7 @@ static int vm_builtin_unset(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return SXRET_OK;
 }
+
 /*
  * Hash walker callback used by the [get_defined_vars()] function.
  */
@@ -9009,6 +9142,7 @@ static sxi32 VmHashVarWalker(SyHashEntry *pEntry, void *pUserData)
   }
   return SXRET_OK;
 }
+
 /*
  * array get_defined_vars(void)
  *  Returns an array of all defined variables.
@@ -9038,6 +9172,7 @@ static int vm_builtin_get_defined_vars(ph7_context *pCtx, int nArg, ph7_value **
   ph7_result_value(pCtx, pArray);
   return SXRET_OK;
 }
+
 /*
  * bool gettype($var)
  *  Get the type of a variable
@@ -9057,6 +9192,7 @@ static int vm_builtin_gettype(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_string(pCtx, zType, -1 /*Compute length automatically*/ );
   return SXRET_OK;
 }
+
 /*
  * string get_resource_type(resource $handle)
  *  This function gets the type of the given resource.
@@ -9080,6 +9216,7 @@ static int vm_builtin_get_resource_type(ph7_context *pCtx, int nArg, ph7_value *
   ph7_result_string_format(pCtx, "resID_%#x", apArg[0]->x.pOther);
   return SXRET_OK;
 }
+
 /*
  * void var_dump(expression,....)
  *   var_dump � Dumps information about a variable
@@ -9109,6 +9246,7 @@ static int vm_builtin_var_dump(ph7_context *pCtx, int nArg, ph7_value **apArg)
   SyBlobRelease(&sDump);
   return SXRET_OK;
 }
+
 /*
  * string/bool print_r(expression,[bool $return = FALSE])
  *   print-r - Prints human-readable information about a variable
@@ -9150,6 +9288,7 @@ static int vm_builtin_print_r(ph7_context *pCtx, int nArg, ph7_value **apArg)
   SyBlobRelease(&sDump);
   return SXRET_OK;
 }
+
 /*
  * string/null var_export(expression,[bool $return = FALSE])
  * Same job as print_r. (see coment above)
@@ -9183,6 +9322,7 @@ static int vm_builtin_var_export(ph7_context *pCtx, int nArg, ph7_value **apArg)
   SyBlobRelease(&sDump);
   return SXRET_OK;
 }
+
 /*
  * int/bool assert_options(int $what [, mixed $value ])
  *  Set/get the various assert flags.
@@ -9250,6 +9390,7 @@ static int vm_builtin_assert_options(ph7_context *pCtx, int nArg, ph7_value **ap
   ph7_result_int(pCtx, iOld);
   return PH7_OK;
 }
+
 /*
  * bool assert(mixed $assertion)
  *  Checks if assertion is FALSE.
@@ -9327,6 +9468,7 @@ static int vm_builtin_assert(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, iResult);
   return PH7_OK;
 }
+
 /*
  * Section:
  *  Error reporting functions.
@@ -9392,6 +9534,7 @@ static int vm_builtin_trigger_error(ph7_context *pCtx, int nArg, ph7_value **apA
   }
   return rc;
 }
+
 /*
  * int error_reporting([int $level])
  *  Sets which PHP errors are reported.
@@ -9429,6 +9572,7 @@ static int vm_builtin_error_reporting(ph7_context *pCtx, int nArg, ph7_value **a
   ph7_result_int(pCtx, nOld);
   return PH7_OK;
 }
+
 /*
  * bool error_log(string $message[,int $message_type = 0 [,string $destination[,string $extra_headers]]])
  *  Send an error message somewhere.
@@ -9487,6 +9631,7 @@ static int vm_builtin_error_log(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool restore_exception_handler(void)
  *  Restores the previously defined exception handler function.
@@ -9516,6 +9661,7 @@ static int vm_builtin_restore_exception_handler(ph7_context *pCtx, int nArg, ph7
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * callable set_exception_handler(callable $exception_handler)
  *  Sets a user-defined exception handler function.
@@ -9557,6 +9703,7 @@ static int vm_builtin_set_exception_handler(ph7_context *pCtx, int nArg, ph7_val
   }
   return PH7_OK;
 }
+
 /*
  * bool restore_error_handler(void)
  *  THIS FUNCTION IS A NO-OP IN THE CURRENT RELEASE OF THE PH7 ENGINE.
@@ -9586,6 +9733,7 @@ static int vm_builtin_restore_error_handler(ph7_context *pCtx, int nArg, ph7_val
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * value set_error_handler(callable $error_handler)
  *  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -9645,6 +9793,7 @@ static int vm_builtin_set_error_handler(ph7_context *pCtx, int nArg, ph7_value *
                                  );
   return PH7_OK;
 }
+
 /*
  * array debug_backtrace([ int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT [, int $limit = 0 ]] )
  *  Generates a backtrace.
@@ -9746,6 +9895,7 @@ static int vm_builtin_debug_backtrace(ph7_context *pCtx, int nArg, ph7_value **a
    */
   return PH7_OK;
 }
+
 /*
  * Generate a small backtrace.
  * Store the generated dump in the given BLOB
@@ -9793,6 +9943,7 @@ static int VmMiniBacktrace(
   /* All done */
   return SXRET_OK;
 }
+
 /*
  * void debug_print_backtrace()
  *  Prints a backtrace
@@ -9816,6 +9967,7 @@ static int vm_builtin_debug_print_backtrace(ph7_context *pCtx, int nArg, ph7_val
   SXUNUSED(apArg);
   return PH7_OK;
 }
+
 /*
  * string debug_string_backtrace()
  *  Generate a backtrace
@@ -9840,6 +9992,7 @@ static int vm_builtin_debug_string_backtrace(ph7_context *pCtx, int nArg, ph7_va
   SXUNUSED(apArg);
   return PH7_OK;
 }
+
 /*
  * The following routine is invoked by the engine when an uncaught
  * exception is triggered.
@@ -9903,6 +10056,7 @@ static sxi32 VmUncaughtException(
   PH7_MemObjRelease(&sArg);
   return rc;
 }
+
 /*
  * Throw an user exception.
  */
@@ -9991,6 +10145,7 @@ static sxi32 VmThrowException(
    */
   return SXRET_OK;
 }
+
 /*
  * Section:
  *  Version,Credits and Copyright related functions.
@@ -10016,6 +10171,7 @@ static int vm_builtin_ph7_version(ph7_context *pCtx, int nArg, ph7_value **apArg
   ph7_result_string(pCtx, PH7_VERSION, sizeof(PH7_VERSION) - 1);
   return PH7_OK;
 }
+
 /*
  * PH7 release information HTML page used by the ph7info() and ph7credits() functions.
  */
@@ -10184,6 +10340,7 @@ static int vm_builtin_ph7_credits(ph7_context *pCtx, int nArg, ph7_value **apArg
   //ph7_result_bool(pCtx,1);
   return PH7_OK;
 }
+
 /*
  * Section:
  *    URL related routines.
@@ -10195,6 +10352,7 @@ static int vm_builtin_ph7_credits(ph7_context *pCtx, int nArg, ph7_value **apArg
  */
 /* Forward declaration */
 static sxi32 VmHttpSplitURI(SyhttpUri *pOut, const char *zUri, sxu32 nLen);
+
 /*
  * value parse_url(string $url [, int $component = -1 ])
  *  Parse a URL and return its fields.
@@ -10421,6 +10579,7 @@ static int vm_builtin_parse_url(ph7_context *pCtx, int nArg, ph7_value **apArg)
   /* All done */
   return PH7_OK;
 }
+
 /*
  * Section:
  *   Array related routines.
@@ -10474,6 +10633,7 @@ static int VmCompactCallback(ph7_value *pKey, ph7_value *pValue, void *pUserData
   }
   return SXRET_OK;
 }
+
 /*
  * array compact(mixed $varname [, mixed $... ])
  *  Create array containing variables and their values.
@@ -10540,6 +10700,7 @@ static int vm_builtin_compact(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * The [extract()] function store it's state information in an instance
  * of the following structure.
@@ -10555,6 +10716,7 @@ struct extract_aux_data {
 };
 /* Forward declaration */
 static int VmExtractCallback(ph7_value *pKey, ph7_value *pValue, void *pUserData);
+
 /*
  * int extract(array &$var_array[,int $extract_type = EXTR_OVERWRITE[,string $prefix = NULL ]])
  *   Import variables into the current symbol table from an array.
@@ -10625,6 +10787,7 @@ static int vm_builtin_extract(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int(pCtx, sAux.iCount);
   return PH7_OK;
 }
+
 /*
  * Worker callback for the [extract()] function defined
  * below.
@@ -10686,6 +10849,7 @@ static int VmExtractCallback(ph7_value *pKey, ph7_value *pValue, void *pUserData
   }
   return SXRET_OK;
 }
+
 /*
  * Worker callback for the [import_request_variables()] function
  * defined below.
@@ -10720,6 +10884,7 @@ static int VmImportRequestCallback(ph7_value *pKey, ph7_value *pValue, void *pUs
   }
   return SXRET_OK;
 }
+
 /*
  * bool import_request_variables(string $types[,string $prefix])
  *  Import GET/POST/Cookie variables into the global scope.
@@ -10792,6 +10957,7 @@ static int vm_builtin_import_request_variables(ph7_context *pCtx, int nArg, ph7_
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * Compile and evaluate a PHP chunk at run-time.
  * Refer to the eval() language construct implementation for more
@@ -10858,6 +11024,7 @@ Cleanup:
   SySetRelease(&aByteCode);
   return SXRET_OK;
 }
+
 /*
  * value eval(string $code)
  *   Evaluate a string as PHP code.
@@ -10887,6 +11054,7 @@ static int vm_builtin_eval(ph7_context *pCtx, int nArg, ph7_value **apArg)
   VmEvalChunk(pCtx->pVm, &(*pCtx), &sChunk, PH7_PHP_ONLY, FALSE);
   return SXRET_OK;
 }
+
 /*
  * Check if a file path is already included.
  */
@@ -10904,6 +11072,7 @@ static int VmIsIncludedFile(ph7_vm *pVm, SyString *pFile)
   }
   return FALSE;
 }
+
 /*
  * Push a file path in the appropriate VM container.
  */
@@ -10960,6 +11129,7 @@ PH7_PRIVATE sxi32 PH7_VmPushFilePath(ph7_vm *pVm, const char *zPath, int nLen, s
   SySetPut(&pVm->aFiles, (const void *) &sPath);
   return SXRET_OK;
 }
+
 /*
  * Compile and Execute a PHP script at run-time.
  * SXRET_OK is returned on sucessful evaluation.Any other return values
@@ -11027,6 +11197,7 @@ static sxi32 VmExecIncludedFile(
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
   return rc;
 }
+
 /*
  * string get_include_path(void)
  *  Gets the current include_path configuration option.
@@ -11062,6 +11233,7 @@ static int vm_builtin_get_include_path(ph7_context *pCtx, int nArg, ph7_value **
   }
   return PH7_OK;
 }
+
 /*
  * string get_get_included_files(void)
  *  Gets the current include_path configuration option.
@@ -11122,6 +11294,7 @@ static int vm_builtin_get_included_files(ph7_context *pCtx, int nArg, ph7_value 
    */
   return PH7_OK;
 }
+
 /*
  * include:
  * According to the PHP reference manual.
@@ -11167,6 +11340,7 @@ static int vm_builtin_include(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return SXRET_OK;
 }
+
 /*
  * include_once:
  *  According to the PHP reference manual.
@@ -11206,6 +11380,7 @@ static int vm_builtin_include_once(ph7_context *pCtx, int nArg, ph7_value **apAr
   }
   return SXRET_OK;
 }
+
 /*
  * require.
  *  According to the PHP reference manual.
@@ -11240,6 +11415,7 @@ static int vm_builtin_require(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return SXRET_OK;
 }
+
 /*
  * require_once:
  *  According to the PHP reference manual.
@@ -11279,6 +11455,7 @@ static int vm_builtin_require_once(ph7_context *pCtx, int nArg, ph7_value **apAr
   }
   return SXRET_OK;
 }
+
 /*
  * Section:
  *  Command line arguments processing.
@@ -11306,6 +11483,7 @@ static const char* VmFindShortOpt(int c, const char *zIn, const char *zEnd)
   /* No such option */
   return 0;
 }
+
 /*
  * Check if a long option argument [i.e: --opt] is available in the command
  * line string. Return a pointer to the start of the stream on success.
@@ -11337,6 +11515,7 @@ static const char* VmFindLongOpt(const char *zLong, int nByte, const char *zIn, 
   /* No such option */
   return 0;
 }
+
 /*
  * Long option [i.e: --opt] arguments private data structure.
  */
@@ -11348,6 +11527,7 @@ struct getopt_long_opt {
 };
 /* Forward declaration */
 static int VmProcessLongOpt(ph7_value *pKey, ph7_value *pValue, void *pUserData);
+
 /*
  * Extract short or long argument option values.
  */
@@ -11462,6 +11642,7 @@ static void VmExtractOptArgValue(
     }
   }
 }
+
 /*
  * array getopt(string $options[,array $longopts ])
  *   Gets options from the command line argument list.
@@ -11560,6 +11741,7 @@ static int vm_builtin_getopt(ph7_context *pCtx, int nArg, ph7_value **apArg)
    */
   return PH7_OK;
 }
+
 /*
  * Array walker callback used for processing long options values.
  */
@@ -11608,6 +11790,7 @@ static int VmProcessLongOpt(ph7_value *pKey, ph7_value *pValue, void *pUserData)
   VmExtractOptArgValue(pOpt->pArray, pOpt->pWorker, zArg, pOpt->zArgEnd, need_value, pOpt->pCtx, zOpt);
   return PH7_OK;
 }
+
 /*
  * Section:
  *  JSON encoding/decoding routines.
@@ -11620,6 +11803,7 @@ static int VmProcessLongOpt(ph7_value *pKey, ph7_value *pValue, void *pUserData)
 /* Forward reference */
 static int VmJsonArrayEncode(ph7_value *pKey, ph7_value *pValue, void *pUserData);
 static int VmJsonObjectEncode(const char *zAttr, ph7_value *pValue, void *pUserData);
+
 /*
  * JSON encoder state is stored in an instance
  * of the following structure.
@@ -11755,6 +11939,7 @@ static sxi32 VmJsonEncode(
   /* All done */
   return PH7_OK;
 }
+
 /*
  * The following walker callback is invoked each time we need
  * to encode an array to JSON.
@@ -11786,6 +11971,7 @@ static int VmJsonArrayEncode(ph7_value *pKey, ph7_value *pValue, void *pUserData
   pJson->isFirst = 0;
   return PH7_OK;
 }
+
 /*
  * The following walker callback is invoked each time we need to encode
  * a class instance [i.e: Object in the PHP jargon] to JSON.
@@ -11810,6 +11996,7 @@ static int VmJsonObjectEncode(const char *zAttr, ph7_value *pValue, void *pUserD
   pJson->isFirst = 0;
   return PH7_OK;
 }
+
 /*
  * string json_encode(mixed $value [, int $options = 0 ])
  *  Returns a string containing the JSON representation of value.
@@ -11853,6 +12040,7 @@ static int vm_builtin_json_encode(ph7_context *pCtx, int nArg, ph7_value **apArg
   /* All done */
   return PH7_OK;
 }
+
 /*
  * int json_last_error(void)
  *  Returns the last error (if any) occurred during the last JSON encoding/decoding.
@@ -11876,6 +12064,7 @@ static int vm_builtin_json_last_error(ph7_context *pCtx, int nArg, ph7_value **a
   SXUNUSED(apArg);
   return PH7_OK;
 }
+
 /* Possible tokens from the JSON tokenization process */
 #define JSON_TK_TRUE    0x001 /* Boolean true */
 #define JSON_TK_FALSE   0x002 /* Boolean false */
@@ -12060,6 +12249,7 @@ static sxi32 VmJsonTokenize(SyStream *pStream, SyToken *pToken, void *pUserData,
   /* Return to the lexer */
   return SXRET_OK;
 }
+
 /*
  * JSON decoded input consumer callback signature.
  */
@@ -12082,6 +12272,7 @@ struct json_decoder {
 #define JSON_DECODE_ASSOC 0x01 /* Decode a JSON object as an associative array */
 /* Forward declaration */
 static int VmJsonArrayDecoder(ph7_context *pCtx, ph7_value *pKey, ph7_value *pWorker, void *pUserData);
+
 /*
  * Dequote [i.e: Resolve all backslash escapes ] a JSON string and store
  * the result in the given ph7_value.
@@ -12143,6 +12334,7 @@ static void VmJsonDequoteString(const SyString *pStr, ph7_value *pWorker)
     zIn++;
   }
 }
+
 /*
  * Returns a ph7_value holding the image of a JSON string. In other word perform a JSON decoding operation.
  * According to wikipedia
@@ -12339,6 +12531,7 @@ static sxi32 VmJsonDecode(
   ph7_context_release_value(pDecoder->pCtx, pWorker);
   return SXRET_OK;
 }
+
 /*
  * The following JSON decoder callback is invoked each time
  * a JSON array representation [i.e: [15,"hello",FALSE] ]
@@ -12353,6 +12546,7 @@ static int VmJsonArrayDecoder(ph7_context *pCtx, ph7_value *pKey, ph7_value *pWo
   /* All done */
   return SXRET_OK;
 }
+
 /*
  * Standard JSON decoder callback.
  */
@@ -12365,6 +12559,7 @@ static int VmJsonDefaultDecoder(ph7_context *pCtx, ph7_value *pKey, ph7_value *p
   /* All done */
   return SXRET_OK;
 }
+
 /*
  * mixed json_decode(string $json[,bool $assoc = false[,int $depth = 32[,int $options = 0 ]]])
  *  Takes a JSON encoded string and converts it into a PHP variable.
@@ -12453,6 +12648,7 @@ static int vm_builtin_json_decode(ph7_context *pCtx, int nArg, ph7_value **apArg
   /* All done */
   return PH7_OK;
 }
+
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 /*
  * XML processing Functions.
@@ -12531,6 +12727,7 @@ static ph7_xml_engine* VmCreateXMLEngine(ph7_context *pCtx, int process_ns, int 
   pEngine->nMagic = XML_ENGINE_MAGIC;
   return pEngine;
 }
+
 /*
  * Release an XML engine.
  */
@@ -12551,6 +12748,7 @@ static void VmReleaseXMLEngine(ph7_xml_engine *pEngine)
   /* Finally,release the whole instance */
   SyMemBackendFree(&pVm->sAllocator, pEngine);
 }
+
 /*
  * resource xml_parser_create([ string $encoding ])
  *  Create an UTF-8 XML parser.
@@ -12577,6 +12775,7 @@ static int vm_builtin_xml_parser_create(ph7_context *pCtx, int nArg, ph7_value *
   ph7_result_resource(pCtx, pEngine);
   return PH7_OK;
 }
+
 /*
  * resource xml_parser_create_ns([ string $encoding[,string $separator = ':']])
  *  Create an UTF-8 XML parser with namespace support.
@@ -12610,6 +12809,7 @@ static int vm_builtin_xml_parser_create_ns(ph7_context *pCtx, int nArg, ph7_valu
   ph7_result_resource(pCtx, pEngine);
   return PH7_OK;
 }
+
 /*
  * bool xml_parser_free(resource $parser)
  *  Release an XML engine.
@@ -12641,6 +12841,7 @@ static int vm_builtin_xml_parser_free(ph7_context *pCtx, int nArg, ph7_value **a
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool xml_set_element_handler(resource $parser,callback $start_element_handler,[callback $end_element_handler])
  * Sets the element handler functions for the XML parser. start_element_handler and end_element_handler
@@ -12703,6 +12904,7 @@ static int vm_builtin_xml_set_element_handler(ph7_context *pCtx, int nArg, ph7_v
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool xml_set_character_data_handler(resource $parser,callback $handler)
  *  Sets the character data handler function for the XML parser parser.
@@ -12748,6 +12950,7 @@ static int vm_builtin_xml_set_character_data_handler(ph7_context *pCtx, int nArg
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool xml_set_default_handler(resource $parser,callback $handler)
  *  Set up default handler.
@@ -12791,6 +12994,7 @@ static int vm_builtin_xml_set_default_handler(ph7_context *pCtx, int nArg, ph7_v
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool xml_set_end_namespace_decl_handler(resource $parser,callback $handler)
  *  Set up end namespace declaration handler.
@@ -12833,6 +13037,7 @@ static int vm_builtin_xml_set_end_namespace_decl_handler(ph7_context *pCtx, int 
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool xml_set_start_namespace_decl_handler(resource $parser,callback $handler)
  *  Set up start namespace declaration handler.
@@ -12877,6 +13082,7 @@ static int vm_builtin_xml_set_start_namespace_decl_handler(ph7_context *pCtx, in
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool xml_set_processing_instruction_handler(resource $parser,callback $handler)
  *  Set up processing instruction (PI) handler.
@@ -12921,6 +13127,7 @@ static int vm_builtin_xml_set_processing_instruction_handler(ph7_context *pCtx, 
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool xml_set_unparsed_entity_decl_handler(resource $parser,callback $handler)
  *  Set up unparsed entity declaration handler.
@@ -12972,6 +13179,7 @@ static int vm_builtin_xml_set_unparsed_entity_decl_handler(ph7_context *pCtx, in
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool xml_set_notation_decl_handler(resource $parser,callback $handler)
  *  Set up notation declaration handler.
@@ -13021,6 +13229,7 @@ static int vm_builtin_xml_set_notation_decl_handler(ph7_context *pCtx, int nArg,
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool xml_set_external_entity_ref_handler(resource $parser,callback $handler)
  *  Set up external entity reference handler.
@@ -13073,6 +13282,7 @@ static int vm_builtin_xml_set_external_entity_ref_handler(ph7_context *pCtx, int
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * int xml_get_current_line_number(resource $parser)
  *  Gets the current line number for the given XML parser.
@@ -13103,6 +13313,7 @@ static int vm_builtin_xml_get_current_line_number(ph7_context *pCtx, int nArg, p
   ph7_result_int(pCtx, (int) pEngine->nLine);
   return PH7_OK;
 }
+
 /*
  * int xml_get_current_byte_index(resource $parser)
  *  Gets the current byte index of the given XML parser.
@@ -13144,6 +13355,7 @@ static int vm_builtin_xml_get_current_byte_index(ph7_context *pCtx, int nArg, ph
   ph7_result_int64(pCtx, (ph7_int64) (pToken->sData.zString - (const char *) pStream->zInput));
   return PH7_OK;
 }
+
 /*
  * bool xml_set_object(resource $parser,object &$object)
  *  Use XML Parser within an object.
@@ -13181,6 +13393,7 @@ static int vm_builtin_xml_set_object(ph7_context *pCtx, int nArg, ph7_value **ap
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * int xml_get_current_column_number(resource $parser)
  *  Gets the current column number of the given XML parser.
@@ -13222,6 +13435,7 @@ static int vm_builtin_xml_get_current_column_number(ph7_context *pCtx, int nArg,
   ph7_result_int64(pCtx, (ph7_int64) (pToken->sData.zString - (const char *) pStream->zInput) / 80);
   return PH7_OK;
 }
+
 /*
  * int xml_get_error_code(resource $parser)
  *  Get XML parser error code.
@@ -13252,6 +13466,7 @@ static int vm_builtin_xml_get_error_code(ph7_context *pCtx, int nArg, ph7_value 
   ph7_result_int(pCtx, pEngine->iErrCode);
   return PH7_OK;
 }
+
 /*
  * XML parser event callbacks
  * Each time the unserlying XML parser extract a single token
@@ -13279,6 +13494,7 @@ static ph7_value* VmXMLValue(ph7_xml_engine *pEngine, SyXMLRawStr *pXML, SyXMLRa
   ph7_value_string(pValue, pXML->zString, (int) pXML->nByte);
   return pValue;
 }
+
 /*
  * Create a 'ph7_value' of type array holding the values
  * of an XML tag attributes.
@@ -13320,6 +13536,7 @@ static ph7_value* VmXMLAttrValue(ph7_xml_engine *pEngine, SyXMLRawStr *aAttr, sx
   /* Return the freshly created array */
   return pArray;
 }
+
 /*
  * Start element handler.
  * The user defined callback must accept three parameters:
@@ -13364,6 +13581,7 @@ static sxi32 VmXMLStartElementHandler(SyXMLRawStr *pStart, SyXMLRawStr *pNS, sxu
   ph7_context_release_value(pEngine->pCtx, pAttr);
   return SXRET_OK;
 }
+
 /*
  * End element handler.
  * The user defined callback must accept two parameters:
@@ -13400,6 +13618,7 @@ static sxi32 VmXMLEndElementHandler(SyXMLRawStr *pEnd, SyXMLRawStr *pNS, void *p
   ph7_context_release_value(pEngine->pCtx, pTag);
   return SXRET_OK;
 }
+
 /*
  * Character data handler.
  *  The user defined callback must accept two parameters:
@@ -13436,6 +13655,7 @@ static sxi32 VmXMLTextHandler(SyXMLRawStr *pText, void *pUserData)
   ph7_context_release_value(pEngine->pCtx, pData);
   return SXRET_OK;
 }
+
 /*
  * Processing instruction (PI) handler.
  * The user defined callback must accept two parameters:
@@ -13474,6 +13694,7 @@ static sxi32 VmXMLPIHandler(SyXMLRawStr *pTargetStr, SyXMLRawStr *pDataStr, void
   ph7_context_release_value(pEngine->pCtx, pData);
   return SXRET_OK;
 }
+
 /*
  * Namespace declaration handler.
  * The user defined callback must accept two parameters:
@@ -13512,6 +13733,7 @@ static sxi32 VmXMLNSStartHandler(SyXMLRawStr *pUriStr, SyXMLRawStr *pPrefixStr, 
   ph7_context_release_value(pEngine->pCtx, pPrefix);
   return SXRET_OK;
 }
+
 /*
  * Namespace end declaration handler.
  * The user defined callback must accept two parameters:
@@ -13546,6 +13768,7 @@ static sxi32 VmXMLNSEndHandler(SyXMLRawStr *pPrefixStr, void *pUserData)
   ph7_context_release_value(pEngine->pCtx, pPrefix);
   return SXRET_OK;
 }
+
 /*
  * Error Message consumer handler.
  * Each time the XML parser encounter a syntaxt error or any other error
@@ -13564,6 +13787,7 @@ static sxi32 VmXMLErrorHandler(const char *zMessage, sxi32 iErrCode, SyToken *pT
   /* Abort XML processing immediately */
   return SXERR_ABORT;
 }
+
 /*
  * int xml_parse(resource $parser,string $data[,bool $is_final = false ])
  *  Parses an XML document. The handlers for the configured events are called
@@ -13638,6 +13862,7 @@ static int vm_builtin_xml_parse(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int(pCtx, pEngine->iErrCode == SXML_ERROR_NONE ? 1 : 0);
   return PH7_OK;
 }
+
 /*
  * bool xml_parser_set_option(resource $parser,int $option,mixed $value)
  *  Sets an option in an XML parser.
@@ -13678,6 +13903,7 @@ static int vm_builtin_xml_parser_set_option(ph7_context *pCtx, int nArg, ph7_val
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * mixed xml_parser_get_option(resource $parser,int $option)
  *  Get options from an XML parser.
@@ -13726,6 +13952,7 @@ static int vm_builtin_xml_parser_get_option(ph7_context *pCtx, int nArg, ph7_val
   }
   return PH7_OK;
 }
+
 /*
  * string xml_error_string(int $code)
  *  Gets the XML parser error string associated with the given code.
@@ -13781,6 +14008,7 @@ static int vm_builtin_xml_error_string(ph7_context *pCtx, int nArg, ph7_value **
   }
   return PH7_OK;
 }
+
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
 /*
  * int utf8_encode(string $input)
@@ -13858,6 +14086,7 @@ static int vm_builtin_utf8_encode(ph7_context *pCtx, int nArg, ph7_value **apArg
   /* All done */
   return PH7_OK;
 }
+
 /*
  * UTF-8 decoding routine extracted from the sqlite3 source tree.
  * Original author: D. Richard Hipp (http://www.sqlite.org)
@@ -13926,6 +14155,7 @@ PH7_PRIVATE int PH7_Utf8Read(
   *pzNext = z;
   return c;
 }
+
 /*
  * string utf8_decode(string $data)
  *  This function decodes data, assumed to be UTF-8 encoded, to unicode.
@@ -13962,6 +14192,7 @@ static int vm_builtin_utf8_decode(ph7_context *pCtx, int nArg, ph7_value **apArg
   }
   return PH7_OK;
 }
+
 /* Table of built-in VM functions. */
 static const ph7_builtin_func aVmFunc[] = {
   { "func_num_args", vm_builtin_func_num_args },
@@ -14131,6 +14362,7 @@ static sxi32 VmRegisterSpecialFunction(ph7_vm *pVm)
   }
   return SXRET_OK;
 }
+
 /*
  * Check if the given name refer to an installed class.
  * Return a pointer to that class on success. NULL on failure.
@@ -14173,6 +14405,7 @@ PH7_PRIVATE ph7_class* PH7_VmExtractClass(
   /* No such loadable class */
   return 0;
 }
+
 /*
  * Reference Table Implementation
  * Status: stable <chm@symisc.net>
@@ -14203,6 +14436,7 @@ static VmRefObj* VmNewRefObj(ph7_vm *pVm, sxu32 nIdx)
   pRef->nIdx = nIdx;
   return pRef;
 }
+
 /*
  * Default hash function used by the reference table
  * for lookup/insertion operations.
@@ -14212,6 +14446,7 @@ static sxu32 VmRefHash(sxu32 nIdx)
   /* Calculate the hash based on the memory object index */
   return nIdx ^ (nIdx << 8) ^ (nIdx >> 8);
 }
+
 /*
  * Check if a memory object [i.e: a variable] is already installed
  * in the reference table.
@@ -14246,6 +14481,7 @@ static VmRefObj* VmRefObjExtract(ph7_vm *pVm, sxu32 nObjIdx)
   /* No such entry,return NULL */
   return 0;
 }
+
 /*
  * Install a memory object [i.e: a variable] in the reference table.
  *
@@ -14304,6 +14540,7 @@ static sxi32 VmRefObjInsert(ph7_vm *pVm, VmRefObj *pRef)
   pVm->nRefUsed++;
   return SXRET_OK;
 }
+
 /*
  * Destroy a memory object [i.e: a variable] and remove it from
  * the reference table.
@@ -14351,6 +14588,7 @@ static sxi32 VmRefObjUnlink(ph7_vm *pVm, VmRefObj *pRef)
   pVm->nRefUsed--;
   return SXRET_OK;
 }
+
 /*
  * Install a memory object [i.e: a variable] in the reference table.
  * The implementation of the reference mechanism in the PH7 engine
@@ -14407,6 +14645,7 @@ PH7_PRIVATE sxi32 PH7_VmRefObjInstall(
   }
   return SXRET_OK;
 }
+
 /*
  * Remove a memory object [i.e: a variable] from the reference table.
  * The implementation of the reference mechanism in the PH7 engine
@@ -14459,6 +14698,7 @@ PH7_PRIVATE sxi32 PH7_VmRefObjRemove(
   }
   return SXRET_OK;
 }
+
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 /*
  * Extract the IO stream device associated with a given scheme.
@@ -14515,6 +14755,7 @@ PH7_PRIVATE const ph7_io_stream* PH7_VmGetStreamDevice(
   /* No such stream,return NULL */
   return 0;
 }
+
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
 /*
  * Section:
@@ -14673,6 +14914,7 @@ PathSplit:
   }
   return SXRET_OK;
 }
+
 /*
  * Extract a single line from a raw HTTP request.
  * Return SXRET_OK on success,SXERR_EOF when end of input
@@ -14701,6 +14943,7 @@ static sxi32 VmGetNextLine(SyString *pCursor, SyString *pCurrent)
   pCursor->nByte -= nPos;
   return SXRET_OK;
 }
+
 /*
  * Split a single MIME header into a name value pair.
  * This function return SXRET_OK,SXERR_CONTINUE on success.
@@ -14743,6 +14986,7 @@ static sxi32 VmHttpProcessOneHeader(SyhttpHeader *pHdr, SyhttpHeader *pLast, con
   SyStringFullTrim(&pHdr->sValue);
   return SXRET_OK;
 }
+
 /*
  * Extract all MIME headers associated with a HTTP request.
  * After processing the first line of a HTTP request,the following
@@ -14788,6 +15032,7 @@ static sxi32 VmHttpExtractHeaders(SyString *pRequest, SySet *pOut)
   }    /* for(;;) */
   return SXRET_OK;
 }
+
 /*
  * Process the first line of a HTTP request.
  * This routine perform the following operations
@@ -14872,6 +15117,7 @@ static sxi32 VmHttpProcessFirstLine(
   }
   return SXRET_OK;
 }
+
 /*
  * Tokenize,decode and split a raw query encoded as: "x-www-form-urlencoded"
  * into a name value pair.
@@ -14960,6 +15206,7 @@ static sxi32 VmHttpSplitEncodedQuery(
   /* All done*/
   return SXRET_OK;
 }
+
 /*
  * Extract MIME header value from the given set.
  * Return header value on success. NULL otherwise.
@@ -14983,6 +15230,7 @@ static SyString* VmHttpExtractHeaderValue(SySet *pSet, const char *zMime, sxu32 
   /* No such MIME header */
   return 0;
 }
+
 /*
  * Tokenize and decode a raw "Cookie:" MIME header into a name value pair
  * and insert it's fields [i.e name,value] in the $_COOKIE superglobal.
@@ -15041,6 +15289,7 @@ static sxi32 VmHttpPorcessCookie(ph7_vm *pVm, SyBlob *pWorker, const char *zIn, 
   }
   return SXRET_OK;
 }
+
 /*
  * Process a full HTTP request and populate the appropriate arrays
  * such as $_SERVER,$_GET,$_POST,$_COOKIE,$_REQUEST,... with the information

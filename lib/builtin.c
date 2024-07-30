@@ -48,6 +48,7 @@ static int PH7_builtin_is_bool(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * bool is_float($var)
  * bool is_real($var)
@@ -68,6 +69,7 @@ static int PH7_builtin_is_float(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * bool is_int($var)
  * bool is_integer($var)
@@ -88,6 +90,7 @@ static int PH7_builtin_is_int(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * bool is_string($var)
  *  Finds out whether a variable is a string.
@@ -106,6 +109,7 @@ static int PH7_builtin_is_string(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * bool is_null($var)
  *  Finds out whether a variable is NULL.
@@ -124,6 +128,7 @@ static int PH7_builtin_is_null(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * bool is_numeric($var)
  *  Find out whether a variable is NULL.
@@ -142,6 +147,7 @@ static int PH7_builtin_is_numeric(ph7_context *pCtx, int nArg, ph7_value **apArg
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * bool is_scalar($var)
  *  Find out whether a variable is a scalar.
@@ -160,6 +166,7 @@ static int PH7_builtin_is_scalar(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * bool is_array($var)
  *  Find out whether a variable is an array.
@@ -178,6 +185,7 @@ static int PH7_builtin_is_array(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * bool is_object($var)
  *  Find out whether a variable is an object.
@@ -196,6 +204,7 @@ static int PH7_builtin_is_object(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * bool is_resource($var)
  *  Find out whether a variable is a resource.
@@ -213,6 +222,7 @@ static int PH7_builtin_is_resource(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_bool(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * float floatval($var)
  *  Get float value of a variable.
@@ -234,6 +244,7 @@ static int PH7_builtin_floatval(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * int intval($var)
  *  Get integer value of a variable.
@@ -255,6 +266,7 @@ static int PH7_builtin_intval(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string strval($var)
  *  Get the string representation of a variable.
@@ -277,6 +289,7 @@ static int PH7_builtin_strval(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * bool empty($var)
  *  Determine whether a variable is empty.
@@ -295,6 +308,7 @@ static int PH7_builtin_empty(ph7_context *pCtx, int nArg, ph7_value **apArg)
   return PH7_OK;
 
 }
+
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 #ifdef PH7_ENABLE_MATH_FUNC
 /*
@@ -331,6 +345,7 @@ static int PH7_builtin_sqrt(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float exp(float $arg )
  *  Calculates the exponent of e.
@@ -354,6 +369,7 @@ static int PH7_builtin_exp(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float floor(float $arg )
  *  Round fractions down.
@@ -377,6 +393,7 @@ static int PH7_builtin_floor(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float cos(float $arg )
  *  Cosine.
@@ -400,6 +417,7 @@ static int PH7_builtin_cos(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float acos(float $arg )
  *  Arc cosine.
@@ -423,6 +441,7 @@ static int PH7_builtin_acos(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float cosh(float $arg )
  *  Hyperbolic cosine.
@@ -446,6 +465,7 @@ static int PH7_builtin_cosh(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float sin(float $arg )
  *  Sine.
@@ -469,6 +489,7 @@ static int PH7_builtin_sin(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float asin(float $arg )
  *  Arc sine.
@@ -492,6 +513,7 @@ static int PH7_builtin_asin(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float sinh(float $arg )
  *  Hyperbolic sine.
@@ -515,6 +537,7 @@ static int PH7_builtin_sinh(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float ceil(float $arg )
  *  Round fractions up.
@@ -538,6 +561,7 @@ static int PH7_builtin_ceil(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float tan(float $arg )
  *  Tangent.
@@ -561,6 +585,7 @@ static int PH7_builtin_tan(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float atan(float $arg )
  *  Arc tangent.
@@ -584,6 +609,7 @@ static int PH7_builtin_atan(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float tanh(float $arg )
  *  Hyperbolic tangent.
@@ -607,6 +633,7 @@ static int PH7_builtin_tanh(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float atan2(float $y,float $x)
  *  Arc tangent of two variable.
@@ -632,6 +659,7 @@ static int PH7_builtin_atan2(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float/int64 abs(float/int64 $arg )
  *  Absolute value.
@@ -664,6 +692,7 @@ static int PH7_builtin_abs(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * float log(float $arg,[int/float $base])
  *  Natural logarithm.
@@ -695,6 +724,7 @@ static int PH7_builtin_log(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float log10(float $arg )
  *  Base-10 logarithm.
@@ -718,6 +748,7 @@ static int PH7_builtin_log10(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * number pow(number $base,number $exp)
  *  Exponential expression.
@@ -746,6 +777,7 @@ static int PH7_builtin_pow(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float pi(void)
  *  Returns an approximation of pi.
@@ -761,6 +793,7 @@ static int PH7_builtin_pi(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, PH7_PI);
   return PH7_OK;
 }
+
 /*
  * float fmod(float $x,float $y)
  *  Returns the floating point remainder (modulo) of the division of the arguments.
@@ -789,6 +822,7 @@ static int PH7_builtin_fmod(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * float hypot(float $x,float $y)
  *  Calculate the length of the hypotenuse of a right-angle triangle .
@@ -817,6 +851,7 @@ static int PH7_builtin_hypot(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 #endif /* PH7_ENABLE_MATH_FUNC */
 /*
  * float round ( float $val [, int $precision = 0 [, int $mode = PHP_ROUND_HALF_UP ]] )
@@ -871,6 +906,7 @@ static int PH7_builtin_round(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_double(pCtx, r);
   return PH7_OK;
 }
+
 /*
  * string dechex(int $number)
  *  Decimal to hexadecimal.
@@ -894,6 +930,7 @@ static int PH7_builtin_dechex(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_string_format(pCtx, "%x", iVal);
   return PH7_OK;
 }
+
 /*
  * string decoct(int $number)
  *  Decimal to Octal.
@@ -917,6 +954,7 @@ static int PH7_builtin_decoct(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_string_format(pCtx, "%o", iVal);
   return PH7_OK;
 }
+
 /*
  * string decbin(int $number)
  *  Decimal to binary.
@@ -940,6 +978,7 @@ static int PH7_builtin_decbin(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_string_format(pCtx, "%B", iVal);
   return PH7_OK;
 }
+
 /*
  * int64 hexdec(string $hex_string)
  *  Hexadecimal to decimal.
@@ -993,6 +1032,7 @@ static int PH7_builtin_hexdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int64(pCtx, iVal);
   return PH7_OK;
 }
+
 /*
  * int64 bindec(string $bin_string)
  *  Binary to decimal.
@@ -1028,6 +1068,7 @@ static int PH7_builtin_bindec(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int64(pCtx, iVal);
   return PH7_OK;
 }
+
 /*
  * int64 octdec(string $oct_string)
  *  Octal to decimal.
@@ -1063,6 +1104,7 @@ static int PH7_builtin_octdec(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int64(pCtx, iVal);
   return PH7_OK;
 }
+
 /*
  * srand([int $seed])
  * mt_srand([int $seed])
@@ -1083,6 +1125,7 @@ static int PH7_builtin_srand(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_null(pCtx);
   return PH7_OK;
 }
+
 /*
  * string base_convert(string $number,int $frombase,int $tobase)
  *  Convert a number between arbitrary bases.
@@ -1165,6 +1208,7 @@ static int PH7_builtin_base_convert(ph7_context *pCtx, int nArg, ph7_value **apA
   }
   return PH7_OK;
 }
+
 /*
  * Section:
  *    String handling Functions.
@@ -1258,6 +1302,7 @@ static int PH7_builtin_substr(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_string(pCtx, zOfft, nLen);
   return PH7_OK;
 }
+
 /*
  * int substr_compare(string $main_str,string $str ,int $offset[,int $length[,bool $case_insensitivity = false ]])
  *  Binary safe comparison of two strings from an offset, up to length characters.
@@ -1350,6 +1395,7 @@ static int PH7_builtin_substr_compare(ph7_context *pCtx, int nArg, ph7_value **a
   ph7_result_int(pCtx, rc);
   return PH7_OK;
 }
+
 /*
  * int substr_count(string $haystack,string $needle[,int $offset = 0 [,int $length ]])
  *  Count the number of substring occurrences.
@@ -1434,6 +1480,7 @@ static int PH7_builtin_substr_count(ph7_context *pCtx, int nArg, ph7_value **apA
   ph7_result_int(pCtx, iCount);
   return PH7_OK;
 }
+
 /*
  * string chunk_split(string $body[,int $chunklen = 76 [, string $end = "\r\n" ]])
  *   Split a string into smaller chunks.
@@ -1495,6 +1542,7 @@ static int PH7_builtin_chunk_split(ph7_context *pCtx, int nArg, ph7_value **apAr
   }
   return PH7_OK;
 }
+
 /*
  * string addslashes(string $str)
  *  Quote string with slashes.
@@ -1545,6 +1593,7 @@ static int PH7_builtin_addslashes(ph7_context *pCtx, int nArg, ph7_value **apArg
   }
   return PH7_OK;
 }
+
 /*
  * Check if the given character is present in the given mask.
  * Return TRUE if present. FALSE otherwise.
@@ -1563,6 +1612,7 @@ static int cSlashCheckMask(int c, const char *zMask, int nLen)
   /* Not present */
   return 0;
 }
+
 /*
  * string addcslashes(string $str,string $charlist)
  *  Quote string with slashes in a C style.
@@ -1624,6 +1674,7 @@ static int PH7_builtin_addcslashes(ph7_context *pCtx, int nArg, ph7_value **apAr
   }
   return PH7_OK;
 }
+
 /*
  * string quotemeta(string $str)
  *  Quote meta characters.
@@ -1672,6 +1723,7 @@ static int PH7_builtin_quotemeta(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string stripslashes(string $str)
  *  Un-quotes a quoted string.
@@ -1727,6 +1779,7 @@ static int PH7_builtin_stripslashes(ph7_context *pCtx, int nArg, ph7_value **apA
   }
   return PH7_OK;
 }
+
 /*
  * string htmlspecialchars(string $string [, int $flags = ENT_COMPAT | ENT_HTML401 [, string $charset]])
  *  HTML escaping of special characters.
@@ -1819,6 +1872,7 @@ static int PH7_builtin_htmlspecialchars(ph7_context *pCtx, int nArg, ph7_value *
   }
   return PH7_OK;
 }
+
 /*
  * string htmlspecialchars_decode(string $string[,int $quote_style = ENT_COMPAT ])
  *  Unescape HTML entities.
@@ -1910,6 +1964,7 @@ static int PH7_builtin_htmlspecialchars_decode(ph7_context *pCtx, int nArg, ph7_
   }
   return PH7_OK;
 }
+
 /* HTML encoding/Decoding table
  * Source: Symisc RunTime API.[chm@symisc.net]
  */
@@ -1964,6 +2019,7 @@ static int PH7_builtin_get_html_translation_table(ph7_context *pCtx, int nArg, p
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * string htmlentities( string $string [, int $flags = ENT_COMPAT | ENT_HTML401]);
  *   Convert all applicable characters to HTML entities
@@ -2029,6 +2085,7 @@ static int PH7_builtin_htmlentities(ph7_context *pCtx, int nArg, ph7_value **apA
   }
   return PH7_OK;
 }
+
 /*
  * string html_entity_decode(string $string [, int $quote_style = ENT_COMPAT [, string $charset = 'UTF-8' ]])
  *   Perform the reverse operation of html_entity_decode().
@@ -2108,6 +2165,7 @@ static int PH7_builtin_html_entity_decode(ph7_context *pCtx, int nArg, ph7_value
   }
   return PH7_OK;
 }
+
 /*
  * int strlen($string)
  *  return the length of the given string.
@@ -2126,6 +2184,7 @@ static int PH7_builtin_strlen(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int(pCtx, iLen);
   return PH7_OK;
 }
+
 /*
  * int strcmp(string $str1,string $str2)
  *  Perform a binary safe string comparison.
@@ -2154,6 +2213,7 @@ static int PH7_builtin_strcmp(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * int strncmp(string $str1,string $str2,int n)
  *  Perform a binary safe string comparison of the first n characters.
@@ -2188,6 +2248,7 @@ static int PH7_builtin_strncmp(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * int strcasecmp(string $str1,string $str2,int n)
  *  Perform a binary safe case-insensitive string comparison.
@@ -2216,6 +2277,7 @@ static int PH7_builtin_strcasecmp(ph7_context *pCtx, int nArg, ph7_value **apArg
   ph7_result_int(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * int strncasecmp(string $str1,string $str2,int n)
  *  Perform a binary safe case-insensitive string comparison of the first n characters.
@@ -2251,6 +2313,7 @@ static int PH7_builtin_strncasecmp(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_int(pCtx, res);
   return PH7_OK;
 }
+
 /*
  * Implode context [i.e: it's private data].
  * A pointer to the following structure is forwarded
@@ -2307,6 +2370,7 @@ static int implode_callback(ph7_value *pKey, ph7_value *pValue, void *pUserData)
   }
   return PH7_OK;
 }
+
 /*
  * string implode(string $glue,array $pieces,...)
  * string implode(array $pieces,...)
@@ -2368,6 +2432,7 @@ static int PH7_builtin_implode(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * Symisc eXtension:
  * string implode_recursive(string $glue,array $pieces,...)
@@ -2433,6 +2498,7 @@ static int PH7_builtin_implode_recursive(ph7_context *pCtx, int nArg, ph7_value 
   }
   return PH7_OK;
 }
+
 /*
  * array explode(string $delimiter,string $string[,int $limit ])
  *  Returns an array of strings, each of which is a substring of string
@@ -2540,6 +2606,7 @@ static int PH7_builtin_explode(ph7_context *pCtx, int nArg, ph7_value **apArg)
    */
   return PH7_OK;
 }
+
 /*
  * string trim(string $str[,string $charlist ])
  *  Strip whitespace (or other characters) from the beginning and end of a string.
@@ -2634,6 +2701,7 @@ static int PH7_builtin_trim(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string rtrim(string $str[,string $charlist ])
  *  Strip whitespace (or other characters) from the end of a string.
@@ -2711,6 +2779,7 @@ static int PH7_builtin_rtrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string ltrim(string $str[,string $charlist ])
  *  Strip whitespace (or other characters) from the beginning and end of a string.
@@ -2788,6 +2857,7 @@ static int PH7_builtin_ltrim(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string strtolower(string $str)
  *  Make a string lowercase.
@@ -2842,6 +2912,7 @@ static int PH7_builtin_strtolower(ph7_context *pCtx, int nArg, ph7_value **apArg
   }
   return PH7_OK;
 }
+
 /*
  * string strtolower(string $str)
  *  Make a string uppercase.
@@ -2896,6 +2967,7 @@ static int PH7_builtin_strtoupper(ph7_context *pCtx, int nArg, ph7_value **apArg
   }
   return PH7_OK;
 }
+
 /*
  * string ucfirst(string $str)
  *  Returns a string with the first character of str capitalized, if that
@@ -2937,6 +3009,7 @@ static int PH7_builtin_ucfirst(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string lcfirst(string $str)
  *  Make a string's first character lowercase.
@@ -2977,6 +3050,7 @@ static int PH7_builtin_lcfirst(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * int ord(string $string)
  *  Returns the ASCII value of the first character of string.
@@ -3008,6 +3082,7 @@ static int PH7_builtin_ord(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int(pCtx, c);
   return PH7_OK;
 }
+
 /*
  * string chr(int $ascii)
  *  Returns a one-character string containing the character specified by ascii.
@@ -3031,6 +3106,7 @@ static int PH7_builtin_chr(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_string(pCtx, (const char *) &c, (int) sizeof(char));
   return PH7_OK;
 }
+
 /*
  * Binary to hex consumer callback.
  * This callback is the default consumer used by the hash functions
@@ -3042,6 +3118,7 @@ static int HashConsumer(const void *pData, unsigned int nLen, void *pUserData)
   ph7_result_string((ph7_context *) pUserData, (const char *) pData, (int) nLen);
   return SXRET_OK;
 }
+
 /*
  * string bin2hex(string $str)
  *  Convert binary data into hexadecimal representation.
@@ -3071,6 +3148,7 @@ static int PH7_builtin_bin2hex(ph7_context *pCtx, int nArg, ph7_value **apArg)
   SyBinToHexConsumer((const void *) zString, (sxu32) nLen, HashConsumer, pCtx);
   return PH7_OK;
 }
+
 /* Search callback signature */
 typedef sxi32 (*ProcStringMatch)(const void *, sxu32, const void *, sxu32, sxu32 *);
 /*
@@ -3125,6 +3203,7 @@ static sxi32 iPatternMatch(const void *pText, sxu32 nLen, const void *pPattern, 
   /* Pattern not found */
   return SXERR_NOTFOUND;
 }
+
 /*
  * string strstr(string $haystack,string $needle[,bool $before_needle = false ])
  *  Find the first occurrence of a string.
@@ -3178,6 +3257,7 @@ static int PH7_builtin_strstr(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string stristr(string $haystack,string $needle[,bool $before_needle = false ])
  *  Case-insensitive strstr().
@@ -3231,6 +3311,7 @@ static int PH7_builtin_stristr(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * int strpos(string $haystack,string $needle [,int $offset = 0 ] )
  *  Returns the numeric position of the first occurrence of needle in the haystack string.
@@ -3292,6 +3373,7 @@ static int PH7_builtin_strpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * int stripos(string $haystack,string $needle [,int $offset = 0 ] )
  *  Case-insensitive strpos.
@@ -3353,6 +3435,7 @@ static int PH7_builtin_stripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * int strrpos(string $haystack,string $needle [,int $offset = 0 ] )
  *  Find the numeric position of the last occurrence of needle in the haystack string.
@@ -3436,6 +3519,7 @@ static int PH7_builtin_strrpos(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * int strripos(string $haystack,string $needle [,int $offset = 0 ] )
  *  Case-insensitive strrpos.
@@ -3519,6 +3603,7 @@ static int PH7_builtin_strripos(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * int strrchr(string $haystack,mixed $needle)
  *  Find the last occurrence of a character in a string.
@@ -3572,6 +3657,7 @@ static int PH7_builtin_strrchr(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string strrev(string $string)
  *  Reverse a string.
@@ -3611,6 +3697,7 @@ static int PH7_builtin_strrev(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string ucwords(string $string)
  *  Uppercase the first character of each word in a string.
@@ -3680,6 +3767,7 @@ static int PH7_builtin_ucwords(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string str_repeat(string $input,int $multiplier)
  *  Returns input repeated multiplier times.
@@ -3732,6 +3820,7 @@ static int PH7_builtin_str_repeat(ph7_context *pCtx, int nArg, ph7_value **apArg
   }
   return PH7_OK;
 }
+
 /*
  * string nl2br(string $string[,bool $is_xhtml = true ])
  *  Inserts HTML line breaks before all newlines in a string.
@@ -3797,6 +3886,7 @@ static int PH7_builtin_nl2br(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * Format a given string and invoke the given callback on each processed chunk.
  *  According to the PHP reference manual.
@@ -3901,6 +3991,7 @@ static int vxGetdigit(sxlongreal *val, int *cnt)
   *val = (*val - d) * 10.0;
   return digit + '0';
 }
+
 #endif /* PH7_OMIT_FLOATING_POINT */
 /*
  * The following table is searched linearly, so it is good to put the most frequently
@@ -4447,6 +4538,7 @@ PH7_PRIVATE sxi32 PH7_InputFormat(
   }  /* for(;;) */
   return SXRET_OK;
 }
+
 /*
  * Callback [i.e: Formatted input consumer] of the sprintf function.
  */
@@ -4457,6 +4549,7 @@ static int sprintfConsumer(ph7_context *pCtx, const char *zInput, int nLen, void
   SXUNUSED(pUserData);   /* cc warning */
   return PH7_OK;
 }
+
 /*
  * string sprintf(string $format[,mixed $args [, mixed $... ]])
  *  Return a formatted string.
@@ -4486,6 +4579,7 @@ static int PH7_builtin_sprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
   PH7_InputFormat(sprintfConsumer, pCtx, zFormat, nLen, nArg, apArg, 0, FALSE);
   return PH7_OK;
 }
+
 /*
  * Callback [i.e: Formatted input consumer] of the printf function.
  */
@@ -4498,6 +4592,7 @@ static int printfConsumer(ph7_context *pCtx, const char *zInput, int nLen, void 
   *pCounter += nLen;
   return PH7_OK;
 }
+
 /*
  * int64 printf(string $format[,mixed $args[,mixed $... ]])
  *  Output a formatted string.
@@ -4530,6 +4625,7 @@ static int PH7_builtin_printf(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int64(pCtx, nCounter);
   return PH7_OK;
 }
+
 /*
  * int vprintf(string $format,array $args)
  *  Output a formatted string.
@@ -4570,6 +4666,7 @@ static int PH7_builtin_vprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
   SySetRelease(&sArg);
   return PH7_OK;
 }
+
 /*
  * int vsprintf(string $format,array $args)
  *  Output a formatted string.
@@ -4607,6 +4704,7 @@ static int PH7_builtin_vsprintf(ph7_context *pCtx, int nArg, ph7_value **apArg)
   SySetRelease(&sArg);
   return PH7_OK;
 }
+
 /*
  * Symisc eXtension.
  * string size_format(int64 $size)
@@ -4663,6 +4761,7 @@ static int PH7_builtin_size_format(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_string_format(pCtx, "%d.%d %cB", i_32, nRest, zUnit[c]);
   return PH7_OK;
 }
+
 #if !defined(PH7_DISABLE_HASH_FUNC)
 /*
  * string md5(string $str[,bool $raw_output = false])
@@ -4708,6 +4807,7 @@ static int PH7_builtin_md5(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string sha1(string $str[,bool $raw_output = false])
  *   Calculate the sha1 hash of a string.
@@ -4752,6 +4852,7 @@ static int PH7_builtin_sha1(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * int64 crc32(string $str)
  *   Calculates the crc32 polynomial of a strin.
@@ -4784,6 +4885,7 @@ static int PH7_builtin_crc32(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int64(pCtx, (ph7_int64) nCRC ^ 0xFFFFFFFF);
   return PH7_OK;
 }
+
 #endif /* PH7_DISABLE_HASH_FUNC */
 /*
  * Parse a CSV string and invoke the supplied callback for each processed xhunk.
@@ -4848,6 +4950,7 @@ PH7_PRIVATE sxi32 PH7_ProcessCsv(
   }
   return SXRET_OK;
 }
+
 /*
  * Default consumer callback for the CSV parsing routine defined above.
  * All the processed input is insereted into an array passed as the last
@@ -4870,6 +4973,7 @@ PH7_PRIVATE sxi32 PH7_CsvConsumer(const char *zToken, int nTokenLen, void *pUser
   PH7_MemObjRelease(&sEntry);
   return SXRET_OK;
 }
+
 /*
  * array str_getcsv(string $input[,string $delimiter = ','[,string $enclosure = '"' [,string $escape='\\']]])
  *  Parse a CSV string into an array.
@@ -4941,6 +5045,7 @@ static int PH7_builtin_str_getcsv(ph7_context *pCtx, int nArg, ph7_value **apArg
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * Extract a tag name from a raw HTML input and insert it in the given
  * container.
@@ -4985,6 +5090,7 @@ static sxi32 AddTag(SySet *pSet, const char *zTag, int nByte)
   }
   return SXRET_OK;
 }
+
 /*
  * Check if the given HTML tag name is present in the given container.
  * Return SXRET_OK if present.SXERR_NOTFOUND otherwise.
@@ -5035,6 +5141,7 @@ static sxi32 FindTag(SySet *pSet, const char *zTag, int nByte)
   /* No such tag */
   return SXERR_NOTFOUND;
 }
+
 /*
  * This function tries to return a string [i.e: in the call context result buffer]
  * with all NUL bytes,HTML and PHP tags stripped from a given string.
@@ -5098,6 +5205,7 @@ PH7_PRIVATE sxi32 PH7_StripTagsFromString(ph7_context *pCtx, const char *zIn, in
   SySetRelease(&sSet);
   return SXRET_OK;
 }
+
 /*
  * string strip_tags(string $str[,string $allowable_tags])
  *   Strip HTML and PHP tags from a string.
@@ -5130,6 +5238,7 @@ static int PH7_builtin_strip_tags(ph7_context *pCtx, int nArg, ph7_value **apArg
   PH7_StripTagsFromString(pCtx, zString, nLen, zTaglist, nTaglen);
   return PH7_OK;
 }
+
 /*
  * string str_shuffle(string $str)
  *  Randomly shuffles a string.
@@ -5167,6 +5276,7 @@ static int PH7_builtin_str_shuffle(ph7_context *pCtx, int nArg, ph7_value **apAr
   }
   return PH7_OK;
 }
+
 /*
  * array str_split(string $string[,int $split_length = 1 ])
  *  Convert a string to an array.
@@ -5252,6 +5362,7 @@ static int PH7_builtin_str_split(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * Tokenize a raw string and extract the first non-space token.
  * Refer to [strspn()].
@@ -5279,6 +5390,7 @@ static sxi32 ExtractNonSpaceToken(const char **pzIn, const char *zEnd, SyString 
   /* Return to the caller */
   return SXRET_OK;
 }
+
 /*
  * Check if the given string contains only characters from the given mask.
  * return the longest match.
@@ -5312,6 +5424,7 @@ static int LongestStringMask(const char *zString, int nLen, const char *zMask, i
   /* Longest match */
   return (int) (zString - zIn);
 }
+
 /*
  * Do the reverse operation of the previous function [i.e: LongestStringMask()].
  * Refer to [strcspn()].
@@ -5343,6 +5456,7 @@ static int LongestStringMask2(const char *zString, int nLen, const char *zMask, 
   /* Longest match */
   return (int) (zString - zIn);
 }
+
 /*
  * int strspn(string $str,string $mask[,int $start[,int $length]])
  *  Finds the length of the initial segment of a string consisting entirely
@@ -5436,6 +5550,7 @@ static int PH7_builtin_strspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int(pCtx, iCount);
   return PH7_OK;
 }
+
 /*
  * int strcspn(string $str,string $mask[,int $start[,int $length]])
  *  Find length of initial segment not matching mask.
@@ -5532,6 +5647,7 @@ static int PH7_builtin_strcspn(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int(pCtx, iCount);
   return PH7_OK;
 }
+
 /*
  * string strpbrk(string $haystack,string $char_list)
  *  Search a string for any of a set of characters.
@@ -5584,6 +5700,7 @@ static int PH7_builtin_strpbrk(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string soundex(string $str)
  *  Calculate the soundex key of a string.
@@ -5641,6 +5758,7 @@ static int PH7_builtin_soundex(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string wordwrap(string $str[,int $width = 75[,string $break = "\n"]])
  *  Wraps a string to a given number of characters.
@@ -5716,6 +5834,7 @@ static int PH7_builtin_wordwrap(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * Check if the given character is a member of the given mask.
  * Return TRUE on success. FALSE otherwise.
@@ -5734,6 +5853,7 @@ static int CheckMask(int c, const char *zMask, int nMasklen, int *pOfft)
   }
   return FALSE;
 }
+
 /*
  * Extract a single token from the input stream.
  * Refer to [strtok()].
@@ -5770,6 +5890,7 @@ static sxi32 ExtractToken(const char **pzIn, const char *zEnd, const char *zMask
   /* Return to the caller */
   return SXRET_OK;
 }
+
 /* strtok auxiliary private data */
 typedef struct strtok_aux_data strtok_aux_data;
 struct strtok_aux_data {
@@ -5890,6 +6011,7 @@ static int PH7_builtin_strtok(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string str_pad(string $input,int $pad_length[,string $pad_string = " " [,int $pad_type = STR_PAD_RIGHT]])
  *  Pad a string to a certain length with another string
@@ -6001,6 +6123,7 @@ static int PH7_builtin_str_pad(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * String replacement private data.
  */
@@ -6068,6 +6191,7 @@ static int StringReplace(SyBlob *pWorker, sxu32 nOfft, int nLen, const char *zRe
   }
   return SXRET_OK;
 }
+
 /*
  * String replacement walker callback.
  * The following callback is invoked for each array entry that hold
@@ -6107,6 +6231,7 @@ static int StringReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserDat
   /* All done */
   return PH7_OK;
 }
+
 /*
  * The following walker callback is invoked by the str_rplace() function inorder
  * to collect search/replace string.
@@ -6142,6 +6267,7 @@ static int StrReplaceWalker(ph7_value *pKey, ph7_value *pData, void *pUserData)
   SXUNUSED(pKey);   /* cc warning */
   return PH7_OK;
 }
+
 /*
  * mixed str_replace(mixed $search,mixed $replace,mixed $subject[,int &$count ])
  * mixed str_ireplace(mixed $search,mixed $replace,mixed $subject[,int &$count ])
@@ -6291,6 +6417,7 @@ static int PH7_builtin_str_replace(ph7_context *pCtx, int nArg, ph7_value **apAr
   SyBlobRelease(&sWorker);
   return PH7_OK;
 }
+
 /*
  * string strtr(string $str,string $from,string $to)
  * string strtr(string $str,array $replace_pairs)
@@ -6371,6 +6498,7 @@ static int PH7_builtin_strtr(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * Parse an INI string.
  * According to wikipedia
@@ -6572,6 +6700,7 @@ PH7_PRIVATE sxi32 PH7_ParseIniString(ph7_context *pCtx, const char *zIn, sxu32 n
   ph7_result_value(pCtx, pArray);
   return SXRET_OK;
 }
+
 /*
  * array parse_ini_string(string $ini[,bool $process_sections = false[,int $scanner_mode = INI_SCANNER_NORMAL ]])
  *  Parse a configuration string.
@@ -6602,6 +6731,7 @@ static int PH7_builtin_parse_ini_string(ph7_context *pCtx, int nArg, ph7_value *
   PH7_ParseIniString(pCtx, zIni, (sxu32) nByte, (nArg > 1) ? ph7_value_to_bool(apArg[1]) : 0);
   return PH7_OK;
 }
+
 /*
  * Ctype Functions.
  * Authors:
@@ -6653,6 +6783,7 @@ static int PH7_builtin_ctype_alnum(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * bool ctype_alpha(string $text)
  *  Checks if all of the characters in the provided string, text, are alphabetic.
@@ -6696,6 +6827,7 @@ static int PH7_builtin_ctype_alpha(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * bool ctype_cntrl(string $text)
  *  Checks if all of the characters in the provided string, text, are control characters.
@@ -6743,6 +6875,7 @@ static int PH7_builtin_ctype_cntrl(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * bool ctype_digit(string $text)
  *  Checks if all of the characters in the provided string, text, are numerical.
@@ -6790,6 +6923,7 @@ static int PH7_builtin_ctype_digit(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * bool ctype_xdigit(string $text)
  *  Check for character(s) representing a hexadecimal digit.
@@ -6838,6 +6972,7 @@ static int PH7_builtin_ctype_xdigit(ph7_context *pCtx, int nArg, ph7_value **apA
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * bool ctype_graph(string $text)
  *  Checks if all of the characters in the provided string, text, creates visible output.
@@ -6886,6 +7021,7 @@ static int PH7_builtin_ctype_graph(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * bool ctype_print(string $text)
  *  Checks if all of the characters in the provided string, text, are printable.
@@ -6935,6 +7071,7 @@ static int PH7_builtin_ctype_print(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * bool ctype_punct(string $text)
  *  Checks if all of the characters in the provided string, text, are punctuation character.
@@ -6983,6 +7120,7 @@ static int PH7_builtin_ctype_punct(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * bool ctype_space(string $text)
  *  Checks if all of the characters in the provided string, text, creates whitespace.
@@ -7032,6 +7170,7 @@ static int PH7_builtin_ctype_space(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * bool ctype_lower(string $text)
  *  Checks if all of the characters in the provided string, text, are lowercase letters.
@@ -7075,6 +7214,7 @@ static int PH7_builtin_ctype_lower(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * bool ctype_upper(string $text)
  *  Checks if all of the characters in the provided string, text, are uppercase letters.
@@ -7118,6 +7258,7 @@ static int PH7_builtin_ctype_upper(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * Date/Time functions
  * Authors:
@@ -7158,6 +7299,7 @@ struct tm * __cdecl localtime(const time_t *t)
   y.tm_sec = pTm.wSecond;
   return &y;
 }
+
 #endif /*_WIN32_WCE */
 #elif defined(__UNIXES__)
 #include <sys/time.h>
@@ -7182,6 +7324,7 @@ static int PH7_builtin_time(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int64(pCtx, (ph7_int64) tt);
   return PH7_OK;
 }
+
 /*
  * string/float microtime([ bool $get_as_float = false ])
  *  microtime() returns the current Unix timestamp with microseconds.
@@ -7224,6 +7367,7 @@ static int PH7_builtin_microtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * array getdate ([ int $timestamp = time() ])
  *  Get date/time information.
@@ -7342,6 +7486,7 @@ static int PH7_builtin_getdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * mixed gettimeofday([ bool $return_float = false ] )
  *   Returns an associative array containing the data returned from the system call.
@@ -7397,6 +7542,7 @@ static int PH7_builtin_gettimeofday(ph7_context *pCtx, int nArg, ph7_value **apA
   }
   return PH7_OK;
 }
+
 /* Check if the given year is leap or not */
 #define IS_LEAP_YEAR(YEAR)  (YEAR % 400 ? (YEAR % 100 ? (YEAR % 4 ? 0 : 1) : 0) : 1)
 /* ISO-8601 numeric representation of the day of the week */
@@ -7685,6 +7831,7 @@ static sxi32 DateFormat(ph7_context *pCtx, const char *zIn, int nLen, Sytm *pTm)
   }
   return SXRET_OK;
 }
+
 /*
  * PH7 implementation of the strftime() function.
  * The following formats are supported:
@@ -7954,6 +8101,7 @@ static int PH7_Strftime(
   }
   return SXRET_OK;
 }
+
 /*
  * string date(string $format [, int $timestamp = time() ] )
  *  Returns a string formatted according to the given format string using
@@ -8016,6 +8164,7 @@ static int PH7_builtin_date(ph7_context *pCtx, int nArg, ph7_value **apArg)
   DateFormat(pCtx, zFormat, nLen, &sTm);
   return PH7_OK;
 }
+
 /*
  * string strftime(string $format [, int $timestamp = time() ] )
  *  Format a local time/date (PLATFORM INDEPENDANT IMPLEENTATION NOT BASED ON LOCALE)
@@ -8081,6 +8230,7 @@ static int PH7_builtin_strftime(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * string gmdate(string $format [, int $timestamp = time() ] )
  *  Identical to the date() function except that the time returned
@@ -8142,6 +8292,7 @@ static int PH7_builtin_gmdate(ph7_context *pCtx, int nArg, ph7_value **apArg)
   DateFormat(pCtx, zFormat, nLen, &sTm);
   return PH7_OK;
 }
+
 /*
  * array localtime([ int $timestamp = time() [, bool $is_associative = false ]])
  *  Return the local time.
@@ -8291,6 +8442,7 @@ static int PH7_builtin_localtime(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * int idate(string $format [, int $timestamp = time() ])
  *  Returns a number formatted according to the given format string
@@ -8474,6 +8626,7 @@ static int PH7_builtin_idate(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int64(pCtx, iVal);
   return PH7_OK;
 }
+
 /*
  * int mktime/gmmktime([ int $hour = date("H") [, int $minute = date("i") [, int $second = date("s")
  *  [, int $month = date("n") [, int $day = date("j") [, int $year = date("Y") [, int $is_dst = -1 ]]]]]]] )
@@ -8577,6 +8730,7 @@ static int PH7_builtin_mktime(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int64(pCtx, iVal);
   return PH7_OK;
 }
+
 /*
  * Section:
  *    URL handling Functions.
@@ -8596,6 +8750,7 @@ static int Consumer(const void *pData, unsigned int nLen, void *pUserData)
   ph7_result_string((ph7_context *) pUserData, (const char *) pData, (int) nLen);
   return SXRET_OK;
 }
+
 /*
  * string base64_encode(string $data)
  * string convert_uuencode(string $data)
@@ -8626,6 +8781,7 @@ static int PH7_builtin_base64_encode(ph7_context *pCtx, int nArg, ph7_value **ap
   SyBase64Encode(zIn, (sxu32) nLen, Consumer, pCtx);
   return PH7_OK;
 }
+
 /*
  * string base64_decode(string $data)
  * string convert_uudecode(string $data)
@@ -8656,6 +8812,7 @@ static int PH7_builtin_base64_decode(ph7_context *pCtx, int nArg, ph7_value **ap
   SyBase64Decode(zIn, (sxu32) nLen, Consumer, pCtx);
   return PH7_OK;
 }
+
 /*
  * string urlencode(string $str)
  *  URL encoding
@@ -8687,6 +8844,7 @@ static int PH7_builtin_urlencode(ph7_context *pCtx, int nArg, ph7_value **apArg)
   SyUriEncode(zIn, (sxu32) nLen, Consumer, pCtx);
   return PH7_OK;
 }
+
 /*
  * string urldecode(string $str)
  *  Decodes any %## encoding in the given string.
@@ -8717,6 +8875,7 @@ static int PH7_builtin_urldecode(ph7_context *pCtx, int nArg, ph7_value **apArg)
   SyUriDecode(zIn, (sxu32) nLen, Consumer, pCtx, TRUE);
   return PH7_OK;
 }
+
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
 /* Table of the built-in functions */
 static const ph7_builtin_func aBuiltInFunc[] = {

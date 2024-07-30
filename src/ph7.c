@@ -42,6 +42,7 @@ static void Fatal(const char *zMsg)
   /* Exit immediately */
   exit(0);
 }
+
 /*
  * Banner.
  */
@@ -64,6 +65,7 @@ static void Help(void)
   /* Exit immediately */
   exit(0);
 }
+
 #ifdef __WINNT__
 #include <Windows.h>
 #else
@@ -106,6 +108,7 @@ static int Output_Consumer(const void *pOutput, unsigned int nOutputLen, void *p
   /* All done,VM output was redirected to STDOUT */
   return PH7_OK;
 }
+
 /*
  * Main program: Compile and execute the PHP file.
  */

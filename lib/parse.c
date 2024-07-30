@@ -307,6 +307,7 @@ PH7_PRIVATE const ph7_expr_op* PH7_ExprExtractOperator(SyString *pStr, SyToken *
   /* No such operator */
   return 0;
 }
+
 /*
  * Delimit a set of token stream.
  * This function take care of handling the nesting level and stops when it hit
@@ -336,6 +337,7 @@ PH7_PRIVATE void PH7_DelimitNestedTokens(SyToken *pIn, SyToken *pEnd, sxu32 nTok
   /* Point to the end of the chunk */
   *ppEnd = pCur;
 }
+
 /*
  * Retrun TRUE if the given ID represent a language construct [i.e: print,echo..]. FALSE otherwise.
  * Note on reserved keywords.
@@ -363,6 +365,7 @@ PH7_PRIVATE int PH7_IsLangConstruct(sxu32 nKeyID, sxu8 bCheckFunc)
   /* Not a language construct */
   return FALSE;
 }
+
 /*
  * Make sure we are dealing with a valid expression tree.
  * This function check for balanced parenthesis,braces,brackets and so on.
@@ -516,6 +519,7 @@ static sxi32 ExprVerifyNodes(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 
   }
   return SXRET_OK;
 }
+
 /*
  * Collect and assemble tokens holding a namespace path [i.e: namespace\to\const]
  * or a simple literal [i.e: PHP_EOL].
@@ -540,6 +544,7 @@ static void ExprAssembleLiteral(SyToken **ppCur, SyToken *pEnd)
   /* Synchronize pointers */
   *ppCur = pIn;
 }
+
 /*
  * Collect and assemble tokens holding annonymous functions/closure body.
  * When errors,PH7 take care of generating the appropriate error message.
@@ -655,6 +660,7 @@ Synchronize:
   *ppCur = pIn;
   return rc;
 }
+
 /*
  * Extract a single expression node from the input.
  * On success store the freshly extractd node in ppNode.
@@ -804,6 +810,7 @@ static sxi32 ExprExtractNode(ph7_gen_state *pGen, ph7_expr_node **ppNode)
   pGen->pIn = pCur;
   return SXRET_OK;
 }
+
 /*
  * Point to the next expression that should be evaluated shortly.
  * The cursor stops when it hit a comma ',' or a semi-colon and the nesting
@@ -831,6 +838,7 @@ PH7_PRIVATE sxi32 PH7_GetNextExpr(SyToken *pStart, SyToken *pEnd, SyToken **ppNe
   *ppNext = pCur;
   return SXRET_OK;
 }
+
 /*
  * Free an expression tree.
  */
@@ -861,6 +869,7 @@ static void ExprFreeTree(ph7_gen_state *pGen, ph7_expr_node *pNode)
   /* Finally,release this node */
   SyMemBackendPoolFree(&pGen->pVm->sAllocator, pNode);
 }
+
 /*
  * Free an expression tree.
  * This function is a wrapper around ExprFreeTree() defined above.
@@ -877,6 +886,7 @@ PH7_PRIVATE sxi32 PH7_ExprFreeTree(ph7_gen_state *pGen, SySet *pNodeSet)
   }
   return SXRET_OK;
 }
+
 /*
  * Check if the given node is a modifialbe l/r-value.
  * Return TRUE if modifiable.FALSE otherwise.
@@ -909,8 +919,10 @@ static int ExprIsModifiableValue(ph7_expr_node *pNode, sxu8 bFunc)
   /* Not a modifiable l or r-value */
   return FALSE;
 }
+
 /* Forward declaration */
 static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nToken);
+
 /* Macro to check if the given node is a terminal */
 #define NODE_ISTERM(NODE) (apNode[NODE] && (!apNode[NODE]->pOp || apNode[NODE]->pLeft))
 /*
@@ -985,6 +997,7 @@ static sxi32 ExprProcessFuncArguments(ph7_gen_state *pGen, ph7_expr_node *pOp, p
   }
   return SXRET_OK;
 }
+
 /*
  * Create an expression tree from an array of tokens.
  * If successful, the root of the tree is stored in apNode[0].
@@ -1584,6 +1597,7 @@ static sxi32 ExprMakeTree(ph7_gen_state *pGen, ph7_expr_node **apNode, sxi32 nTo
   }
   return SXRET_OK;
 }
+
 /*
  * Build an expression tree from the freshly extracted raw tokens.
  * If successful, the root of the tree is stored in ppRoot.

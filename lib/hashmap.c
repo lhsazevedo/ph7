@@ -35,6 +35,7 @@ static sxu32 IntHash(sxi64 iKey)
 {
   return (sxu32) (iKey ^ (iKey << 8) ^ (iKey >> 8));
 }
+
 /*
  * Default hash function for string/BLOB keys.
  */
@@ -68,6 +69,7 @@ static sxu32 BinHash(const void *pSrc, sxu32 nLen)
   }
   return nH;
 }
+
 /*
  * Return the total number of entries in a given hashmap.
  * If bRecurisve is set to TRUE then recurse on hashmap entries.
@@ -110,6 +112,7 @@ static sxi64 HashmapCount(ph7_hashmap *pMap, int bRecursive, int iRecCount)
   }
   return iCount;
 }
+
 /*
  * Allocate a new hashmap node with a 64-bit integer key.
  * If something goes wrong [i.e: out of memory],this function return NULL.
@@ -133,6 +136,7 @@ static ph7_hashmap_node* HashmapNewIntNode(ph7_hashmap *pMap, sxi64 iKey, sxu32 
   pNode->nValIdx = nValIdx;
   return pNode;
 }
+
 /*
  * Allocate a new hashmap node with a BLOB key.
  * If something goes wrong [i.e: out of memory],this function return NULL.
@@ -157,6 +161,7 @@ static ph7_hashmap_node* HashmapNewBlobNode(ph7_hashmap *pMap, const void *pKey,
   pNode->nValIdx = nValIdx;
   return pNode;
 }
+
 /*
  * link a hashmap node to the given bucket index (last argument to this function).
  */
@@ -178,6 +183,7 @@ static void HashmapNodeLink(ph7_hashmap *pMap, ph7_hashmap_node *pNode, sxu32 nB
   }
   ++pMap->nEntry;
 }
+
 /*
  * Unlink a node from the hashmap.
  * If the node count reaches zero then release the whole hash-bucket.
@@ -225,6 +231,7 @@ PH7_PRIVATE void PH7_HashmapUnlinkNode(ph7_hashmap_node *pNode, int bRestore)
     pMap->pFirst = pMap->pLast = pMap->pCur = 0;
   }
 }
+
 #define HASHMAP_FILL_FACTOR 3
 /*
  * Grow the hash-table and rehash all entries.
@@ -283,6 +290,7 @@ static sxi32 HashmapGrowBucket(ph7_hashmap *pMap)
   }
   return SXRET_OK;
 }
+
 /*
  * Insert a 64-bit integer key and it's associated value (if any) in the given
  * hashmap.
@@ -332,6 +340,7 @@ static sxi32 HashmapInsertIntKey(ph7_hashmap *pMap, sxi64 iKey, ph7_value *pValu
   /* All done */
   return SXRET_OK;
 }
+
 /*
  * Insert a BLOB key and it's associated value (if any) in the given
  * hashmap.
@@ -381,6 +390,7 @@ static sxi32 HashmapInsertBlobKey(ph7_hashmap *pMap, const void *pKey, sxu32 nKe
   /* All done */
   return SXRET_OK;
 }
+
 /*
  * Check if a given 64-bit integer key exists in the given hashmap.
  * Write a pointer to the target node on success. Otherwise
@@ -423,6 +433,7 @@ static sxi32 HashmapLookupIntKey(
   /* No such entry */
   return SXERR_NOTFOUND;
 }
+
 /*
  * Check if a given BLOB key exists in the given hashmap.
  * Write a pointer to the target node on success. Otherwise
@@ -467,6 +478,7 @@ static sxi32 HashmapLookupBlobKey(
   /* No such entry */
   return SXERR_NOTFOUND;
 }
+
 /*
  * Check if the given BLOB key looks like a decimal number.
  * Retrurn TRUE on success.FALSE otherwise.
@@ -494,6 +506,7 @@ static int HashmapIsIntKey(SyBlob *pKey)
   /* Key does not look like a decimal number */
   return FALSE;
 }
+
 /*
  * Check if a given key exists in the given hashmap.
  * Write a pointer to the target node on success.
@@ -536,6 +549,7 @@ result:
   /* No such entry */
   return SXERR_NOTFOUND;
 }
+
 /*
  * Insert a given key and it's associated value (if any) in the given
  * hashmap.
@@ -639,6 +653,7 @@ IntKey:
   /* Insertion result */
   return rc;
 }
+
 /*
  * Insert a given key and it's associated value (foreign index) in the given
  * hashmap.
@@ -736,6 +751,7 @@ IntKey:
   /* Insertion result */
   return rc;
 }
+
 /*
  * Extract node value.
  */
@@ -746,6 +762,7 @@ static ph7_value* HashmapExtractNodeValue(ph7_hashmap_node *pNode)
   pObj = (ph7_value *) SySetAt(&pNode->pMap->pVm->aMemObj, pNode->nValIdx);
   return pObj;
 }
+
 /*
  * Insert a node in the given hashmap.
  * If a node with the given key already exists in the database
@@ -776,6 +793,7 @@ static sxi32 HashmapInsertNode(ph7_hashmap *pMap, ph7_hashmap_node *pNode, int b
   }
   return rc;
 }
+
 /*
  * Compare two node values.
  * Return 0 if the node values are equals, > 0 if pLeft is greater than pRight
@@ -805,6 +823,7 @@ static sxi32 HashmapNodeCmp(ph7_hashmap_node *pLeft, ph7_hashmap_node *pRight, i
   PH7_MemObjRelease(&sObj2);
   return rc;
 }
+
 /*
  * Rehash a node with a 64-bit integer key.
  * Refer to [merge_sort(),array_shift()] implementations for more information.
@@ -837,6 +856,7 @@ static void HashmapRehashIntNode(ph7_hashmap_node *pEntry)
   /* Increment the automatic index */
   pMap->iNextIdx++;
 }
+
 /*
  * Perform a linear search on a given hashmap.
  * Write a pointer to the target node on success.
@@ -901,6 +921,7 @@ static int HashmapFindValue(
   /* No such entry */
   return SXERR_NOTFOUND;
 }
+
 /*
  * Perform a linear search on a given hashmap but use an user-defined callback
  * for values comparison.
@@ -962,6 +983,7 @@ static int HashmapFindValueByCallback(
   /* No such entry */
   return SXERR_NOTFOUND;
 }
+
 /*
  * Compare two hashmaps.
  * Return 0 if the hashmaps are equals.Any other value indicates inequality.
@@ -1070,6 +1092,7 @@ PH7_PRIVATE sxi32 PH7_HashmapCmp(
   }
   return 0;   /* Hashmaps are equals */
 }
+
 /*
  * Merge two hashmaps.
  * Note on the merge process
@@ -1117,6 +1140,7 @@ static sxi32 HashmapMerge(ph7_hashmap *pSrc, ph7_hashmap *pDest)
   }
   return SXRET_OK;
 }
+
 /*
  * Overwrite entries with the same key.
  * Refer to the [array_replace()] implementation for more information.
@@ -1167,6 +1191,7 @@ static sxi32 HashmapOverwrite(ph7_hashmap *pSrc, ph7_hashmap *pDest)
   }
   return SXRET_OK;
 }
+
 /*
  * Duplicate the contents of a hashmap. Store the copy in pDest.
  * Refer to the [array_pad(),array_copy(),...] implementation for more information.
@@ -1207,6 +1232,7 @@ PH7_PRIVATE sxi32 PH7_HashmapDup(ph7_hashmap *pSrc, ph7_hashmap *pDest)
   }
   return SXRET_OK;
 }
+
 /*
  * Perform the union of two hashmaps.
  * This operation is performed only if the user uses the '+' operator
@@ -1293,6 +1319,7 @@ PH7_PRIVATE sxi32 PH7_HashmapUnion(ph7_hashmap *pLeft, ph7_hashmap *pRight)
   }
   return SXRET_OK;
 }
+
 /*
  * Allocate a new hashmap.
  * Return a pointer to the freshly allocated hashmap on success.NULL otherwise.
@@ -1319,6 +1346,7 @@ PH7_PRIVATE ph7_hashmap* PH7_NewHashmap(
   pMap->xBlobHash = xBlobHash ? xBlobHash : BinHash;
   return pMap;
 }
+
 /*
  * Install superglobals in the given virtual machine.
  * Note on superglobals.
@@ -1407,6 +1435,7 @@ PH7_PRIVATE sxi32 PH7_HashmapCreateSuper(ph7_vm *pVm)
   /* All done,all super-global are installed now */
   return SXRET_OK;
 }
+
 /*
  * Release a hashmap.
  */
@@ -1459,6 +1488,7 @@ PH7_PRIVATE sxi32 PH7_HashmapRelease(ph7_hashmap *pMap, int FreeDS)
   }
   return SXRET_OK;
 }
+
 /*
  * Decrement the reference count of a given hashmap.
  * If the count reaches zero which mean no more variables
@@ -1473,6 +1503,7 @@ PH7_PRIVATE void PH7_HashmapUnref(ph7_hashmap *pMap)
     PH7_HashmapRelease(pMap, TRUE);
   }
 }
+
 /*
  * Check if a given key exists in the given hashmap.
  * Write a pointer to the target node on success.
@@ -1493,6 +1524,7 @@ PH7_PRIVATE sxi32 PH7_HashmapLookup(
   rc = HashmapLookup(&(*pMap), &(*pKey), ppNode);
   return rc;
 }
+
 /*
  * Insert a given key and it's associated value (if any) in the given
  * hashmap.
@@ -1516,6 +1548,7 @@ PH7_PRIVATE sxi32 PH7_HashmapInsert(
   rc = HashmapInsert(&(*pMap), &(*pKey), &(*pVal));
   return rc;
 }
+
 /*
  * Insert a given key and it's associated value (foreign index) in the given
  * hashmap.
@@ -1560,6 +1593,7 @@ PH7_PRIVATE sxi32 PH7_HashmapInsertByRef(
   rc = HashmapInsertByRef(&(*pMap), &(*pKey), nRefIdx);
   return rc;
 }
+
 /*
  * Reset the node cursor of a given hashmap.
  */
@@ -1568,6 +1602,7 @@ PH7_PRIVATE void PH7_HashmapResetLoopCursor(ph7_hashmap *pMap)
   /* Reset the loop cursor */
   pMap->pCur = pMap->pFirst;
 }
+
 /*
  * Return a pointer to the node currently pointed by the node cursor.
  * If the cursor reaches the end of the list,then this function
@@ -1585,6 +1620,7 @@ PH7_PRIVATE ph7_hashmap_node* PH7_HashmapGetNextEntry(ph7_hashmap *pMap)
   pMap->pCur = pCur->pPrev;   /* Reverse link */
   return pCur;
 }
+
 /*
  * Extract a node value.
  */
@@ -1601,6 +1637,7 @@ PH7_PRIVATE void PH7_HashmapExtractNodeValue(ph7_hashmap_node *pNode, ph7_value 
     PH7_MemObjRelease(pValue);
   }
 }
+
 /*
  * Extract a node key.
  */
@@ -1619,6 +1656,7 @@ PH7_PRIVATE void PH7_HashmapExtractNodeKey(ph7_hashmap_node *pNode, ph7_value *p
     MemObjSetType(pKey, MEMOBJ_STRING);
   }
 }
+
 #ifndef PH7_DISABLE_BUILTIN_FUNC
 /*
  * Store the address of nodes value in the given container.
@@ -1644,6 +1682,7 @@ PH7_PRIVATE int PH7_HashmapValuesToSet(ph7_hashmap *pMap, SySet *pOut)
   /* Total inserted entries */
   return (int) SySetUsed(pOut);
 }
+
 #endif /* PH7_DISABLE_BUILTIN_FUNC */
 /*
  * Merge sort.
@@ -1696,6 +1735,7 @@ static ph7_hashmap_node* HashmapNodeMerge(ph7_hashmap_node *pA, ph7_hashmap_node
   }
   return result.pPrev;
 }
+
 /*
 ** Inputs:
 **   Map:       Input hashmap
@@ -1746,6 +1786,7 @@ static sxi32 HashmapMergeSort(ph7_hashmap *pMap, ProcNodeCmp xCmp, void *pCmpDat
   pMap->pCur = pMap->pFirst;
   return SXRET_OK;
 }
+
 /*
  * Node comparison callback.
  * used-by: [sort(),asort(),...]
@@ -1785,6 +1826,7 @@ static sxi32 HashmapCmpCallback1(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
   PH7_MemObjRelease(&sB);
   return rc;
 }
+
 /*
  * Node comparison callback: Compare nodes by keys only.
  * used-by: [ksort()]
@@ -1827,6 +1869,7 @@ static sxi32 HashmapCmpCallback2(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
   /* Comparison result */
   return rc;
 }
+
 /*
  * Node comparison callback.
  * Used by: [rsort(),arsort()];
@@ -1866,6 +1909,7 @@ static sxi32 HashmapCmpCallback3(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
   PH7_MemObjRelease(&sB);
   return -rc;
 }
+
 /*
  * Node comparison callback: Invoke an user-defined callback for the purpose of node comparison.
  * used-by: [usort(),uasort()]
@@ -1902,6 +1946,7 @@ static sxi32 HashmapCmpCallback4(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
   /* Callback result */
   return rc;
 }
+
 /*
  * Node comparison callback: Compare nodes by keys only.
  * used-by: [krsort()]
@@ -1943,6 +1988,7 @@ static sxi32 HashmapCmpCallback5(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
   }
   return -rc;   /* Reverse result */
 }
+
 /*
  * Node comparison callback: Invoke an user-defined callback for the purpose of node comparison.
  * used-by: [uksort()]
@@ -1986,6 +2032,7 @@ static sxi32 HashmapCmpCallback6(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
   /* Callback result */
   return rc;
 }
+
 /*
  * Node comparison callback: Random node comparison.
  * used-by: [shuffle()]
@@ -2002,6 +2049,7 @@ static sxi32 HashmapCmpCallback7(ph7_hashmap_node *pA, ph7_hashmap_node *pB, voi
    */
   return n & 1 ? 1 : -1;
 }
+
 /*
  * Rehash all nodes keys after a merge-sort have been applied.
  * Used by [sort(),usort() and rsort()].
@@ -2032,6 +2080,7 @@ static void HashmapSortRehash(ph7_hashmap *pMap)
     p = p->pPrev;     /* Reverse link */
   }
 }
+
 /*
  * Array functions implementation.
  * Authors:
@@ -2085,6 +2134,7 @@ static int ph7_hashmap_sort(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool asort(array &$array[,int $sort_flags = SORT_REGULAR ] )
  *  Sort an array and maintain index association.
@@ -2131,6 +2181,7 @@ static int ph7_hashmap_asort(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool arsort(array &$array[,int $sort_flags = SORT_REGULAR ] )
  *  Sort an array in reverse order and maintain index association.
@@ -2177,6 +2228,7 @@ static int ph7_hashmap_arsort(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool ksort(array &$array[,int $sort_flags = SORT_REGULAR ] )
  *  Sort an array by key.
@@ -2223,6 +2275,7 @@ static int ph7_hashmap_ksort(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool krsort(array &$array[,int $sort_flags = SORT_REGULAR ] )
  *  Sort an array by key in reverse order.
@@ -2269,6 +2322,7 @@ static int ph7_hashmap_krsort(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool rsort(array &$array[,int $sort_flags = SORT_REGULAR ] )
  * Sort an array in reverse order.
@@ -2313,6 +2367,7 @@ static int ph7_hashmap_rsort(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool usort(array &$array,callable $cmp_function)
  *  Sort an array by values using a user-defined comparison function.
@@ -2358,6 +2413,7 @@ static int ph7_hashmap_usort(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool uasort(array &$array,callable $cmp_function)
  *  Sort an array by values using a user-defined comparison function
@@ -2406,6 +2462,7 @@ static int ph7_hashmap_uasort(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool uksort(array &$array,callable $cmp_function)
  *  Sort an array by keys using a user-defined comparison
@@ -2454,6 +2511,7 @@ static int ph7_hashmap_uksort(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * bool shuffle(array &$array)
  *  shuffles (randomizes the order of the elements in) an array.
@@ -2487,6 +2545,7 @@ static int ph7_hashmap_shuffle(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * int count(array $var [, int $mode = COUNT_NORMAL ])
  *   Count all elements in an array, or something in an object.
@@ -2525,6 +2584,7 @@ static int ph7_hashmap_count(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int64(pCtx, iCount);
   return PH7_OK;
 }
+
 /*
  * bool array_key_exists(value $key,array $search)
  *  Checks if the given key or index exists in the array.
@@ -2556,6 +2616,7 @@ static int ph7_hashmap_key_exists(ph7_context *pCtx, int nArg, ph7_value **apArg
   ph7_result_bool(pCtx, rc == SXRET_OK ? 1 : 0);
   return PH7_OK;
 }
+
 /*
  * value array_pop(array $array)
  *   POP the last inserted element from the array.
@@ -2599,6 +2660,7 @@ static int ph7_hashmap_pop(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * int array_push($array,$var,...)
  *   Push one or more elements onto the end of array. (Stack insertion)
@@ -2639,6 +2701,7 @@ static int ph7_hashmap_push(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_int64(pCtx, (sxi64) pMap->nEntry);
   return PH7_OK;
 }
+
 /*
  * value array_shift(array $array)
  *   Shift an element off the beginning of array.
@@ -2699,6 +2762,7 @@ static int ph7_hashmap_shift(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * Extract the node cursor value.
  */
@@ -2736,6 +2800,7 @@ static sxi32 HashmapCurrentValue(ph7_context *pCtx, ph7_hashmap *pMap, int iDire
   }
   return PH7_OK;
 }
+
 /*
  * value current(array $array)
  *  Return the current element in an array.
@@ -2763,6 +2828,7 @@ static int ph7_hashmap_current(ph7_context *pCtx, int nArg, ph7_value **apArg)
   HashmapCurrentValue(&(*pCtx), (ph7_hashmap *) apArg[0]->x.pOther, 0);
   return PH7_OK;
 }
+
 /*
  * value next(array $input)
  *  Advance the internal array pointer of an array.
@@ -2789,6 +2855,7 @@ static int ph7_hashmap_next(ph7_context *pCtx, int nArg, ph7_value **apArg)
   HashmapCurrentValue(&(*pCtx), (ph7_hashmap *) apArg[0]->x.pOther, 1);
   return PH7_OK;
 }
+
 /*
  * value prev(array $input)
  *  Rewind the internal array pointer.
@@ -2815,6 +2882,7 @@ static int ph7_hashmap_prev(ph7_context *pCtx, int nArg, ph7_value **apArg)
   HashmapCurrentValue(&(*pCtx), (ph7_hashmap *) apArg[0]->x.pOther, -1);
   return PH7_OK;
 }
+
 /*
  * value end(array $input)
  *  Set the internal pointer of an array to its last element.
@@ -2845,6 +2913,7 @@ static int ph7_hashmap_end(ph7_context *pCtx, int nArg, ph7_value **apArg)
   HashmapCurrentValue(&(*pCtx), pMap, 0);
   return PH7_OK;
 }
+
 /*
  * value reset(array $array )
  *  Set the internal pointer of an array to its first element.
@@ -2875,6 +2944,7 @@ static int ph7_hashmap_reset(ph7_context *pCtx, int nArg, ph7_value **apArg)
   HashmapCurrentValue(&(*pCtx), pMap, 0);
   return PH7_OK;
 }
+
 /*
  * value key(array $array)
  *   Fetch a key from an array
@@ -2919,6 +2989,7 @@ static int ph7_hashmap_simple_key(ph7_context *pCtx, int nArg, ph7_value **apArg
   }
   return PH7_OK;
 }
+
 /*
  * array each(array $input)
  *  Return the current key and value pair from an array and advance the array cursor.
@@ -2985,6 +3056,7 @@ static int ph7_hashmap_each(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array range(int $start,int $limit,int $step)
  *  Create an array containing a range of elements
@@ -3047,6 +3119,7 @@ static int ph7_hashmap_range(ph7_context *pCtx, int nArg, ph7_value **apArg)
    */
   return PH7_OK;
 }
+
 /*
  * array array_values(array $input)
  *   Returns all the values from the input array and indexes numerically the array.
@@ -3096,6 +3169,7 @@ static int ph7_hashmap_values(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_keys(array $input [, val $search_value [, bool $strict = false ]] )
  *  Return all the keys or a subset of the keys of an array.
@@ -3175,6 +3249,7 @@ static int ph7_hashmap_keys(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * bool array_same(array $arr1,array $arr2)
  *  Return TRUE if the given arrays are the same instance.
@@ -3207,6 +3282,7 @@ static int ph7_hashmap_same(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, rc);
   return PH7_OK;
 }
+
 /*
  * array array_merge(array $array1,...)
  *  Merge one or more arrays.
@@ -3252,6 +3328,7 @@ static int ph7_hashmap_merge(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_copy(array $source)
  *  Make a blind copy of the target array.
@@ -3293,6 +3370,7 @@ static int ph7_hashmap_copy(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * bool array_erase(array $source)
  *  Remove all elements from a given array.
@@ -3318,6 +3396,7 @@ static int ph7_hashmap_erase(ph7_context *pCtx, int nArg, ph7_value **apArg)
   PH7_HashmapRelease(pMap, FALSE);
   return PH7_OK;
 }
+
 /*
  * array array_slice(array $array,int $offset [,int $length [, bool $preserve_keys = false ]])
  *  Extract a slice of the array.
@@ -3416,6 +3495,7 @@ static int ph7_hashmap_slice(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_splice(array $array,int $offset [,int $length [,value $replacement ]])
  *  Remove a portion of the array and replace it with something else.
@@ -3549,6 +3629,7 @@ static int ph7_hashmap_splice(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * bool in_array(value $needle,array $haystack[,bool $strict = FALSE ])
  *  Checks if a value exists in an array.
@@ -3591,6 +3672,7 @@ static int ph7_hashmap_in_array(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, rc == SXRET_OK);
   return PH7_OK;
 }
+
 /*
  * value array_search(value $needle,array $haystack[,bool $strict = false ])
  *  Searches the array for a given value and returns the corresponding key if successful.
@@ -3672,6 +3754,7 @@ static int ph7_hashmap_search(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 0);
   return PH7_OK;
 }
+
 /*
  * array array_diff(array $array1,array $array2,...)
  *  Computes the difference of arrays.
@@ -3750,6 +3833,7 @@ static int ph7_hashmap_diff(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_udiff(array $array1,array $array2,...,$callback)
  *  Computes the difference of arrays by using a callback function for data comparison.
@@ -3837,6 +3921,7 @@ static int ph7_hashmap_udiff(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_diff_assoc(array $array1,array $array2,...)
  *  Computes the difference of arrays with additional index check.
@@ -3926,6 +4011,7 @@ static int ph7_hashmap_diff_assoc(ph7_context *pCtx, int nArg, ph7_value **apArg
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_diff_uassoc(array $array1,array $array2,...,callback $key_compare_func)
  *  Computes the difference of arrays with additional index check which is performed
@@ -4024,6 +4110,7 @@ static int ph7_hashmap_diff_uassoc(ph7_context *pCtx, int nArg, ph7_value **apAr
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_diff_key(array $array1 ,array $array2,...)
  *  Computes the difference of arrays using keys for comparison.
@@ -4103,6 +4190,7 @@ static int ph7_hashmap_diff_key(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_intersect(array $array1 ,array $array2,...)
  *  Computes the intersection of arrays.
@@ -4182,6 +4270,7 @@ static int ph7_hashmap_intersect(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_intersect_assoc(array $array1 ,array $array2,...)
  *  Computes the intersection of arrays.
@@ -4272,6 +4361,7 @@ static int ph7_hashmap_intersect_assoc(ph7_context *pCtx, int nArg, ph7_value **
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_intersect_key(array $array1 ,array $array2,...)
  *  Computes the intersection of arrays using keys for comparison.
@@ -4351,6 +4441,7 @@ static int ph7_hashmap_intersect_key(ph7_context *pCtx, int nArg, ph7_value **ap
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_uintersect(array $array1 ,array $array2,...,$callback)
  *  Computes the intersection of arrays.
@@ -4440,6 +4531,7 @@ static int ph7_hashmap_uintersect(ph7_context *pCtx, int nArg, ph7_value **apArg
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_fill(int $start_index,int $num,var $value)
  *  Fill an array with values.
@@ -4480,6 +4572,7 @@ static int ph7_hashmap_fill(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_fill_keys(array $input,var $value)
  *  Fill an array with values, specifying keys.
@@ -4527,6 +4620,7 @@ static int ph7_hashmap_fill_keys(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_combine(array $keys,array $values)
  *  Creates an array by using one array for keys and another for its values.
@@ -4584,6 +4678,7 @@ static int ph7_hashmap_combine(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_reverse(array $array [,bool $preserve_keys = false ])
  *  Return an array with elements in reverse order.
@@ -4635,6 +4730,7 @@ static int ph7_hashmap_reverse(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_unique(array $array[,int $sort_flags = SORT_STRING ])
  *  Removes duplicate values from an array
@@ -4702,6 +4798,7 @@ static int ph7_hashmap_unique(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_flip(array $input)
  *  Exchanges all keys with their associated values in an array.
@@ -4766,6 +4863,7 @@ static int ph7_hashmap_flip(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * number array_sum(array $array )
  *  Calculate the sum of values in an array.
@@ -4802,6 +4900,7 @@ static void DoubleSum(ph7_context *pCtx, ph7_hashmap *pMap)
   /* Return sum */
   ph7_result_double(pCtx, dSum);
 }
+
 static void Int64Sum(ph7_context *pCtx, ph7_hashmap *pMap)
 {
   ph7_hashmap_node *pEntry;
@@ -4830,6 +4929,7 @@ static void Int64Sum(ph7_context *pCtx, ph7_hashmap *pMap)
   /* Return sum */
   ph7_result_int64(pCtx, nSum);
 }
+
 /* number array_sum(array $array )
  * (See block-coment above)
  */
@@ -4869,6 +4969,7 @@ static int ph7_hashmap_sum(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * number array_product(array $array )
  *  Calculate the product of values in an array.
@@ -4906,6 +5007,7 @@ static void DoubleProd(ph7_context *pCtx, ph7_hashmap *pMap)
   /* Return product */
   ph7_result_double(pCtx, dProd);
 }
+
 static void Int64Prod(ph7_context *pCtx, ph7_hashmap *pMap)
 {
   ph7_hashmap_node *pEntry;
@@ -4935,6 +5037,7 @@ static void Int64Prod(ph7_context *pCtx, ph7_hashmap *pMap)
   /* Return product */
   ph7_result_int64(pCtx, nProd);
 }
+
 /* number array_product(array $array )
  * (See block-block comment above)
  */
@@ -4974,6 +5077,7 @@ static int ph7_hashmap_product(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * value array_rand(array $input[,int $num_req = 1 ])
  *  Pick one or more random entries out of an array.
@@ -5084,6 +5188,7 @@ static int ph7_hashmap_rand(ph7_context *pCtx, int nArg, ph7_value **apArg)
   }
   return PH7_OK;
 }
+
 /*
  * array array_chunk (array $input,int $size [,bool $preserve_keys = false ])
  *  Split an array into chunks.
@@ -5175,6 +5280,7 @@ static int ph7_hashmap_chunk(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_pad(array $input,int $pad_size,value $pad_value)
  *  Pad array to the specified length with a value.
@@ -5243,6 +5349,7 @@ static int ph7_hashmap_pad(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_replace(array &$array,array &$array1,...)
  *  Replaces elements from passed arrays into the first array.
@@ -5286,6 +5393,7 @@ static int ph7_hashmap_replace(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_filter(array $input [,callback $callback ])
  *  Filters elements of an array using a callback function.
@@ -5352,6 +5460,7 @@ static int ph7_hashmap_filter(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * array array_map(callback $callback,array $arr1)
  *  Applies the callback to the elements of the given arrays.
@@ -5416,6 +5525,7 @@ static int ph7_hashmap_map(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_value(pCtx, pArray);
   return PH7_OK;
 }
+
 /*
  * value array_reduce(array $input,callback $function[, value $initial = NULL ])
  *  Iteratively reduce the array to a single value using a callback function.
@@ -5466,6 +5576,7 @@ static int ph7_hashmap_reduce(ph7_context *pCtx, int nArg, ph7_value **apArg)
   PH7_MemObjRelease(&sResult);
   return PH7_OK;
 }
+
 /*
  * bool array_walk(array &$array,callback $funcname [, value $userdata ] )
  *  Apply a user function to every member of an array.
@@ -5526,6 +5637,7 @@ static int ph7_hashmap_walk(ph7_context *pCtx, int nArg, ph7_value **apArg)
   ph7_result_bool(pCtx, 1);
   return PH7_OK;
 }
+
 /*
  * Apply a user function to every member of an array.(Recurse on array's).
  * Refer to the [array_walk_recursive()] implementation for more information.
@@ -5572,6 +5684,7 @@ static int HashmapWalkRecursive(
   }
   return SXRET_OK;
 }
+
 /*
  * bool array_walk_recursive(array &$array,callback $funcname [, value $userdata ] )
  *  Apply a user function recursively to every member of an array.
@@ -5608,6 +5721,7 @@ static int ph7_hashmap_walk_recursive(ph7_context *pCtx, int nArg, ph7_value **a
   ph7_result_bool(pCtx, rc == SXRET_OK);
   return PH7_OK;
 }
+
 /*
  * Table of hashmap functions.
  */
@@ -5684,6 +5798,7 @@ PH7_PRIVATE void PH7_RegisterHashmapFunctions(ph7_vm *pVm)
     ph7_create_function(&(*pVm), aHashmapFunc[n].zName, aHashmapFunc[n].xFunc, 0);
   }
 }
+
 /*
  * Dump a hashmap instance and it's entries and the store the dump in
  * the BLOB given as the first argument.
@@ -5764,6 +5879,7 @@ PH7_PRIVATE sxi32 PH7_HashmapDump(SyBlob *pOut, ph7_hashmap *pMap, int ShowType,
   SyBlobAppend(&(*pOut), "}", sizeof(char));
   return rc;
 }
+
 /*
  * Iterate throw hashmap entries and invoke the given callback [i.e: xWalk()] for each
  * retrieved entry.

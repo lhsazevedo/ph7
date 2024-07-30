@@ -106,6 +106,7 @@ struct LangConstruct {
 #define EXPR_FLAG_COMMA_STATEMENT   0x004 /* Treat comma expression as a single statement (used by class attributes) */
 /* Forward declaration */
 static sxi32 PH7_CompileExpr(ph7_gen_state *pGen, sxi32 iFlags, sxi32 (*xTreeValidator)(ph7_gen_state *, ph7_expr_node *));
+
 /*
  * Local utility routines used in the code generation phase.
  */
@@ -133,6 +134,7 @@ static sxi32 GenStateGetLabel(ph7_gen_state *pGen, SyString *pName, Label **ppOu
   /* No such destination */
   return SXERR_NOTFOUND;
 }
+
 /*
  * Fetch a block that correspond to the given criteria from the stack of
  * compiled blocks.
@@ -159,6 +161,7 @@ static GenBlock* GenStateFetchBlock(GenBlock *pCurrent, sxi32 iBlockType, sxi32 
   /* No such block */
   return 0;
 }
+
 /*
  * Initialize a freshly allocated block instance.
  */
@@ -179,6 +182,7 @@ static void GenStateInitBlock(
   SySetInit(&pBlock->aJumpFix, &pGen->pVm->sAllocator, sizeof(JumpFixup));
   SySetInit(&pBlock->aPostContFix, &pGen->pVm->sAllocator, sizeof(JumpFixup));
 }
+
 /*
  * Allocate a new block instance.
  * Return SXRET_OK and write a pointer to the new instantiated block
@@ -217,6 +221,7 @@ static sxi32 GenStateEnterBlock(
   }
   return SXRET_OK;
 }
+
 /*
  * Release block fields without freeing the whole instance.
  */
@@ -225,6 +230,7 @@ static void GenStateReleaseBlock(GenBlock *pBlock)
   SySetRelease(&pBlock->aPostContFix);
   SySetRelease(&pBlock->aJumpFix);
 }
+
 /*
  * Release a block.
  */
@@ -235,6 +241,7 @@ static void GenStateFreeBlock(GenBlock *pBlock)
   /* Free the instance */
   SyMemBackendPoolFree(&pGen->pVm->sAllocator, pBlock);
 }
+
 /*
  * POP and release a block from the stack of compiled blocks.
  */
@@ -256,6 +263,7 @@ static sxi32 GenStateLeaveBlock(ph7_gen_state *pGen, GenBlock **ppBlock)
   }
   return SXRET_OK;
 }
+
 /*
  * Emit a forward jump.
  * Notes on forward jumps
@@ -277,6 +285,7 @@ static sxi32 GenStateNewJumpFixup(GenBlock *pBlock, sxi32 nJumpType, sxu32 nInst
   rc = SySetPut(&pBlock->aJumpFix, (const void *) &sJumpFix);
   return rc;
 }
+
 /*
  * Fix a forward jump now the jump destination is resolved.
  * Return the total number of fixed jumps.
@@ -318,6 +327,7 @@ static sxu32 GenStateFixJumps(GenBlock *pBlock, sxi32 nJumpType, sxu32 nJumpDest
   /* Total number of fixed jumps */
   return nFixed;
 }
+
 /*
  * Fix a 'goto' now the jump destination is resolved.
  * The goto statement can be used to jump to another section
@@ -370,6 +380,7 @@ static sxi32 GenStateFixGoto(ph7_gen_state *pGen, sxu32 nOfft)
   }
   return SXRET_OK;
 }
+
 /*
  * Check if a given token value is installed in the literal table.
  */
@@ -383,6 +394,7 @@ static sxi32 GenStateFindLiteral(ph7_gen_state *pGen, const SyString *pValue, sx
   *pIdx = (sxu32) SX_PTR_TO_INT(pEntry->pUserData);
   return SXRET_OK;
 }
+
 /*
  * Install a given constant index in the literal table.
  * In order to be installed, the ph7_value must be of type string.
@@ -394,6 +406,7 @@ static sxi32 GenStateInstallLiteral(ph7_gen_state *pGen, ph7_value *pObj, sxu32 
   }
   return SXRET_OK;
 }
+
 /*
  * Reserve a room for a numeric constant [i.e: 64-bit integer or real number]
  * in the constant table.
@@ -414,11 +427,13 @@ static ph7_value* GenStateInstallNumLiteral(ph7_gen_state *pGen, sxu32 *pIdx)
    */
   return pObj;
 }
+
 /*
  * Implementation of the PHP language constructs.
  */
 /* Forward declaration */
 static sxi32 GenStateCompileChunk(ph7_gen_state *pGen, sxi32 iFlags);
+
 /*
  * Compile a numeric [i.e: integer or real] literal.
  * Notes on the integer type.
@@ -466,6 +481,7 @@ static sxi32 PH7_CompileNumLiteral(ph7_gen_state *pGen, sxi32 iCompileFlag)
   /* Node successfully compiled */
   return SXRET_OK;
 }
+
 /*
  * Compile a single quoted string.
  * According to the PHP language reference manual:
@@ -548,6 +564,7 @@ PH7_PRIVATE sxi32 PH7_CompileSimpleString(ph7_gen_state *pGen, sxi32 iCompileFla
   /* Node successfully compiled */
   return SXRET_OK;
 }
+
 /*
  * Compile a nowdoc string.
  * According to the PHP language reference manual:
@@ -587,6 +604,7 @@ static sxi32 PH7_CompileNowDoc(ph7_gen_state *pGen, sxi32 iCompileFlag)
   /* Node successfully compiled */
   return SXRET_OK;
 }
+
 /*
  * Process variable expression [i.e: "$var","${var}"] embedded in a double quoted/heredoc string.
  * According to the PHP language reference manual
@@ -640,6 +658,7 @@ static sxi32 GenStateProcessStringExpression(
   /* Compilation result */
   return rc;
 }
+
 /*
  * Reserve a new constant for a double quoted/heredoc string.
  */
@@ -659,6 +678,7 @@ static ph7_value* GenStateNewStrObj(ph7_gen_state *pGen, sxi32 *pCount)
   PH7_VmEmitInstr(pGen->pVm, PH7_OP_LOADC, 0, nIdx, 0, 0);
   return pConstObj;
 }
+
 /*
  * Compile a double quoted/heredoc string.
  * According to the PHP language reference manual
@@ -985,6 +1005,7 @@ static sxi32 GenStateCompileString(ph7_gen_state *pGen)
   /* Node successfully compiled */
   return SXRET_OK;
 }
+
 /*
  * Compile a double quoted string.
  *  See the block-comment above for more information.
@@ -997,6 +1018,7 @@ PH7_PRIVATE sxi32 PH7_CompileString(ph7_gen_state *pGen, sxi32 iCompileFlag)
   /* Compilation result */
   return rc;
 }
+
 /*
  * Compile a Heredoc string.
  *  See the block-comment above for more information.
@@ -1009,6 +1031,7 @@ static sxi32 PH7_CompileHereDoc(ph7_gen_state *pGen, sxi32 iCompileFlag)
   /* Compilation result */
   return SXRET_OK;
 }
+
 /*
  * Compile an array entry whether it is a key or a value.
  *  Notes on array entries.
@@ -1046,6 +1069,7 @@ static sxi32 GenStateCompileArrayEntry(
   RE_SWAP_DELIMITER(pGen);
   return rc;
 }
+
 /*
  * Expression tree validator callback for the 'array' language construct.
  * Return SXRET_OK if the tree is valid. Any other return value indicates
@@ -1079,6 +1103,7 @@ static sxi32 GenStateArrayNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pRoo
   }
   return rc;
 }
+
 /*
  * Compile the 'array' language construct.
  *	 According to the PHP language reference manual
@@ -1193,6 +1218,7 @@ PH7_PRIVATE sxi32 PH7_CompileArray(ph7_gen_state *pGen, sxi32 iCompileFlag)
   /* Node successfully compiled */
   return SXRET_OK;
 }
+
 /*
  * Expression tree validator callback for the 'list' language construct.
  * Return SXRET_OK if the tree is valid. Any other return value indicates
@@ -1225,6 +1251,7 @@ static sxi32 GenStateListNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pRoot
   }
   return rc;
 }
+
 /*
  * Compile the 'list' language construct.
  *  According to the PHP language reference
@@ -1270,8 +1297,10 @@ PH7_PRIVATE sxi32 PH7_CompileList(ph7_gen_state *pGen, sxi32 iCompileFlag)
   /* Node successfully compiled */
   return SXRET_OK;
 }
+
 /* Forward declaration */
 static sxi32 GenStateCompileFunc(ph7_gen_state *pGen, SyString *pName, sxi32 iFlags, int bHandleClosure, ph7_vm_func **ppFunc);
+
 /*
  * Compile an annoynmous function or a closure.
  * According to the PHP language reference
@@ -1339,6 +1368,7 @@ PH7_PRIVATE sxi32 PH7_CompileAnnonFunc(ph7_gen_state *pGen, sxi32 iCompileFlag)
   /* Node successfully compiled */
   return SXRET_OK;
 }
+
 /*
  * Compile a backtick quoted string.
  */
@@ -1357,6 +1387,7 @@ static sxi32 PH7_CompileBacktic(ph7_gen_state *pGen, sxi32 iCompileFlag)
   /* Node successfully compiled */
   return SXRET_OK;
 }
+
 /*
  * Compile a function [i.e: die(),exit(),include(),...] which is a langauge
  * construct.
@@ -1433,6 +1464,7 @@ PH7_PRIVATE sxi32 PH7_CompileLangConstruct(ph7_gen_state *pGen, sxi32 iCompileFl
   /* Node successfully compiled */
   return SXRET_OK;
 }
+
 /*
  * Compile a node holding a variable declaration.
  * According to the PHP language reference
@@ -1533,6 +1565,7 @@ PH7_PRIVATE sxi32 PH7_CompileVariable(ph7_gen_state *pGen, sxi32 iCompileFlag)
   /* Node successfully compiled */
   return SXRET_OK;
 }
+
 /*
  * Load a literal.
  */
@@ -1623,6 +1656,7 @@ static sxi32 GenStateLoadLiteral(ph7_gen_state *pGen)
   PH7_VmEmitInstr(pGen->pVm, PH7_OP_LOADC, 1, nIdx, 0, 0);
   return SXRET_OK;
 }
+
 /*
  * Resolve a namespace path or simply load a literal:
  * As of this version namespace support is disabled. If you need
@@ -1648,6 +1682,7 @@ static sxi32 GenStateResolveNamespaceLiteral(ph7_gen_state *pGen)
   rc = GenStateLoadLiteral(&(*pGen));
   return rc;
 }
+
 /*
  * Compile a literal which is an identifier(name) for a simple value.
  */
@@ -1662,6 +1697,7 @@ PH7_PRIVATE sxi32 PH7_CompileLiteral(ph7_gen_state *pGen, sxi32 iCompileFlag)
   /* Node successfully compiled */
   return SXRET_OK;
 }
+
 /*
  * Recover from a compile-time error. In other words synchronize
  * the token stream cursor with the first semi-colon seen.
@@ -1674,6 +1710,7 @@ static sxi32 PH7_ErrorRecover(ph7_gen_state *pGen)
   }
   return SXRET_OK;
 }
+
 /*
  * Check if the given identifier name is reserved or not.
  * Return TRUE if reserved.FALSE otherwise.
@@ -1694,6 +1731,7 @@ static int GenStateIsReservedConstant(SyString *pName)
   /* Not a reserved constant */
   return FALSE;
 }
+
 /*
  * Compile the 'const' statement.
  * According to the PHP language reference
@@ -1791,6 +1829,7 @@ Synchronize:
   }
   return SXRET_OK;
 }
+
 /*
  * Compile the 'continue' statement.
  * According to the PHP language reference
@@ -1864,6 +1903,7 @@ static sxi32 PH7_CompileContinue(ph7_gen_state *pGen)
   /* Statement successfully compiled */
   return SXRET_OK;
 }
+
 /*
  * Compile the 'break' statement.
  * According to the PHP language reference
@@ -1916,6 +1956,7 @@ static sxi32 PH7_CompileBreak(ph7_gen_state *pGen)
   /* Statement successfully compiled */
   return SXRET_OK;
 }
+
 /*
  * Compile or record a label.
  *  A label is a target point that is specified by an identifier followed by a colon.
@@ -1971,6 +2012,7 @@ static sxi32 PH7_CompileLabel(ph7_gen_state *pGen)
   pGen->pIn += 2;   /* Jump the label name and the semi-colon*/
   return SXRET_OK;
 }
+
 /*
  * Compile the so hated 'goto' statement.
  * You've probably been taught that gotos are bad, but this sort
@@ -2051,6 +2093,7 @@ static sxi32 PH7_CompileGoto(ph7_gen_state *pGen)
   /* Statement successfully compiled */
   return SXRET_OK;
 }
+
 /*
  * Point to the next PHP chunk that will be processed shortly.
  * Return SXRET_OK on success. Any other return value indicates
@@ -2117,6 +2160,7 @@ Consume:
   }
   return SXRET_OK;
 }
+
 /*
  * Compile a PHP block.
  * A block is simply one or more PHP statements and expressions to compile
@@ -2219,6 +2263,7 @@ static sxi32 PH7_CompileBlock(
   }
   return SXRET_OK;
 }
+
 /*
  * Compile the gentle 'while' statement.
  * According to the PHP language reference
@@ -2320,6 +2365,7 @@ Synchronize:
   }
   return SXRET_OK;
 }
+
 /*
  * Compile the ugly do..while() statement.
  * According to the PHP language reference
@@ -2448,6 +2494,7 @@ Synchronize:
   }
   return SXRET_OK;
 }
+
 /*
  * Compile the complex and powerful 'for' statement.
  * According to the PHP language reference
@@ -2619,6 +2666,7 @@ static sxi32 PH7_CompileFor(ph7_gen_state *pGen)
   /* Statement successfully compiled */
   return SXRET_OK;
 }
+
 /* Expression tree validator callback used by the 'foreach' statement.
  * Note that only variable expression [i.e: $x; ${'My'.'Var'}; ${$a['key]};...]
  * are allowed.
@@ -2636,6 +2684,7 @@ static sxi32 GenStateForEachNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pR
   }
   return rc;
 }
+
 /*
  * Compile the 'foreach' statement.
  * According to the PHP language reference
@@ -2851,6 +2900,7 @@ Synchronize:
   }
   return SXRET_OK;
 }
+
 /*
  * Compile the infamous if/elseif/else if/else statements.
  * According to the PHP language reference
@@ -3007,6 +3057,7 @@ Synchronize:
   }
   return SXRET_OK;
 }
+
 /*
  * Compile the global construct.
  * According to the PHP language reference
@@ -3079,6 +3130,7 @@ static sxi32 PH7_CompileGlobal(ph7_gen_state *pGen)
   }
   return SXRET_OK;
 }
+
 /*
  * Compile the return statement.
  * According to the PHP language reference
@@ -3114,6 +3166,7 @@ static sxi32 PH7_CompileReturn(ph7_gen_state *pGen)
   PH7_VmEmitInstr(pGen->pVm, PH7_OP_DONE, nRet, 0, 0, 0);
   return SXRET_OK;
 }
+
 /*
  * Compile the die/exit language construct.
  * The role of these constructs is to terminate execution of the script.
@@ -3138,6 +3191,7 @@ static sxi32 PH7_CompileHalt(ph7_gen_state *pGen)
   PH7_VmEmitInstr(pGen->pVm, PH7_OP_HALT, nExpr, 0, 0, 0);
   return SXRET_OK;
 }
+
 /*
  * Compile the 'echo' language construct.
  */
@@ -3170,6 +3224,7 @@ static sxi32 PH7_CompileEcho(ph7_gen_state *pGen)
   pGen->pEnd = pTmp;
   return SXRET_OK;
 }
+
 /*
  * Compile the static statement.
  * According to the PHP language reference
@@ -3285,6 +3340,7 @@ Synchronize:
   }
   return SXRET_OK;
 }
+
 /*
  * Compile the var statement.
  * Symisc Extension:
@@ -3316,6 +3372,7 @@ static sxi32 PH7_CompileVar(ph7_gen_state *pGen)
   }
   return SXRET_OK;
 }
+
 /*
  * Compile a namespace statement
  * According to the PHP language reference manual
@@ -3384,6 +3441,7 @@ static sxi32 PH7_CompileNamespace(ph7_gen_state *pGen)
                       "Namespace support is disabled in the current release of the PH7(%s) engine", ph7_lib_version());
   return SXRET_OK;
 }
+
 /*
  * Compile the 'use' statement
  * According to the PHP language reference manual
@@ -3450,6 +3508,7 @@ static sxi32 PH7_CompileUse(ph7_gen_state *pGen)
                       );
   return SXRET_OK;
 }
+
 /*
  * Compile the stupid 'declare' language construct.
  *
@@ -3522,6 +3581,7 @@ Synchro:
   }
   return SXRET_OK;
 }
+
 /*
  * Process default argument values. That is,a function may define C++-style default value
  * as follows:
@@ -3594,6 +3654,7 @@ static sxi32 GenStateProcessArgValue(ph7_gen_state *pGen, ph7_vm_func_arg *pArg,
   }
   return SXRET_OK;
 }
+
 /*
  * Collect function arguments one after one.
  * According to the PHP language reference manual.
@@ -3796,6 +3857,7 @@ static sxi32 GenStateCollectFuncArgs(ph7_vm_func *pFunc, ph7_gen_state *pGen, Sy
   }
   return SXRET_OK;
 }
+
 /*
  * Compile function [i.e: standard function, annonymous function or closure ] body.
  * Return SXRET_OK on success. Any other return value indicates failure
@@ -3843,6 +3905,7 @@ static sxi32 GenStateCompileFuncBody(
   /* All done, function body compiled */
   return SXRET_OK;
 }
+
 /*
  * Compile a PHP function whether is a Standard or Annonymous function.
  * According to the PHP language reference manual.
@@ -4031,6 +4094,7 @@ OutOfMem:
   PH7_GenCompileError(&(*pGen), E_ERROR, 1, "Fatal, PH7 engine is running out-of-memory");
   return SXERR_ABORT;
 }
+
 /*
  * Compile a standard PHP function.
  *  Refer to the block-comment above for more information.
@@ -4084,6 +4148,7 @@ static sxi32 PH7_CompileFunction(ph7_gen_state *pGen)
   rc = GenStateCompileFunc(&(*pGen), pName, iFlags, FALSE, 0);
   return rc;
 }
+
 /*
  * Extract the visibility level associated with a given keyword.
  * According to the PHP language reference manual
@@ -4105,6 +4170,7 @@ static sxi32 GetProtectionLevel(sxi32 nKeyword)
   /* Assume public by default */
   return PH7_CLASS_PROT_PUBLIC;
 }
+
 /*
  * Compile a class constant.
  * According to the PHP language reference manual
@@ -4231,6 +4297,7 @@ Synchronize:
   }
   return SXERR_CORRUPT;
 }
+
 /*
  * complie a class attribute or Properties in the PHP jargon.
  * According to the PHP language reference manual
@@ -4344,6 +4411,7 @@ Synchronize:
   }
   return SXERR_CORRUPT;
 }
+
 /*
  * Compile a class method.
  *
@@ -4481,6 +4549,7 @@ Synchronize:
   }
   return SXERR_CORRUPT;
 }
+
 /*
  * Compile an object interface.
  *  According to the PHP language reference manual
@@ -4695,6 +4764,7 @@ done:
   pGen->pEnd = pTmp;
   return PH7_OK;
 }
+
 /*
  * Compile a user-defined class.
  * According to the PHP language reference manual
@@ -5107,6 +5177,7 @@ done:
   pGen->pEnd = pTmp;
   return PH7_OK;
 }
+
 /*
  * Compile a user-defined abstract class.
  *  According to the PHP language reference manual
@@ -5130,6 +5201,7 @@ static sxi32 PH7_CompileAbstractClass(ph7_gen_state *pGen)
   rc = GenStateCompileClass(&(*pGen), PH7_CLASS_ABSTRACT);
   return rc;
 }
+
 /*
  * Compile a user-defined final class.
  *  According to the PHP language reference manual
@@ -5144,6 +5216,7 @@ static sxi32 PH7_CompileFinalClass(ph7_gen_state *pGen)
   rc = GenStateCompileClass(&(*pGen), PH7_CLASS_FINAL);
   return rc;
 }
+
 /*
  * Compile a user-defined class.
  *  According to the PHP language reference manual
@@ -5159,6 +5232,7 @@ static sxi32 PH7_CompileClass(ph7_gen_state *pGen)
   rc = GenStateCompileClass(&(*pGen), 0);
   return rc;
 }
+
 /*
  * Exception handling.
  *  According to the PHP language reference manual
@@ -5205,6 +5279,7 @@ static sxi32 GenStateThrowNodeValidator(ph7_gen_state *pGen, ph7_expr_node *pRoo
   }
   return rc;
 }
+
 /*
  * Compile a 'throw' statement.
  * throw: This is how you trigger an exception.
@@ -5241,6 +5316,7 @@ static sxi32 PH7_CompileThrow(ph7_gen_state *pGen)
   GenStateNewJumpFixup(pBlock, PH7_OP_THROW, nIdx);
   return SXRET_OK;
 }
+
 /*
  * Compile a 'catch' block.
  * Catch: A "catch" block retrieves an exception and creates
@@ -5353,6 +5429,7 @@ Mem:
   PH7_GenCompileError(&(*pGen), E_ERROR, nLine, "Fatal, PH7 engine is running out of memory");
   return SXERR_ABORT;
 }
+
 /*
  * Compile a 'try' block.
  * A function using an exception should be in a "try" block.
@@ -5431,6 +5508,7 @@ static sxi32 PH7_CompileTry(ph7_gen_state *pGen)
   }
   return SXRET_OK;
 }
+
 /*
  * Compile a switch block.
  *  (See block-comment below for more information)
@@ -5500,6 +5578,7 @@ static sxi32 GenStateCompileSwitchBlock(ph7_gen_state *pGen, sxu32 iTokenDelim, 
   }
   return rc;
 }
+
 /*
  * Compile a case eXpression.
  *  (See block-comment below for more information)
@@ -5548,6 +5627,7 @@ static sxi32 GenStateCompileCaseExpr(ph7_gen_state *pGen, ph7_case_expr *pExpr)
   }
   return SXRET_OK;
 }
+
 /*
  * Compile the smart switch statement.
  * According to the PHP language reference manual
@@ -5771,6 +5851,7 @@ Synchronize:
   }
   return SXRET_OK;
 }
+
 /*
  * Generate bytecode for a given expression tree.
  * If something goes wrong while generating bytecode
@@ -5997,6 +6078,7 @@ static sxi32 GenStateEmitExprCode(
   }
   return rc;
 }
+
 /*
  * Compile a PHP expression.
  * According to the PHP language reference manual:
@@ -6093,6 +6175,7 @@ static sxi32 PH7_CompileExpr(
   SySetRelease(&sExprNode);
   return nExpr > 0 ? SXRET_OK : SXERR_EMPTY;
 }
+
 /*
  * Return a pointer to the node construct handler associated
  * with a given node type [i.e: string,integer,float,...].
@@ -6120,6 +6203,7 @@ PH7_PRIVATE ProcNodeConstruct PH7_GetNodeHandler(sxu32 nNodeType)
   }
   return 0;
 }
+
 /*
  * PHP Language construct table.
  */
@@ -6194,6 +6278,7 @@ static ProcLangConstruct GenStateGetStatementHandler(
   /* Not a language construct */
   return 0;
 }
+
 /*
  * Check if the given keyword is in fact a PHP language construct.
  * Return TRUE on success. FALSE otheriwse.
@@ -6216,6 +6301,7 @@ static int GenStateisLangConstruct(sxu32 nKeyword)
   }
   return rc;
 }
+
 /*
  * Compile a PHP chunk.
  * If something goes wrong while compiling the PHP chunk,this function
@@ -6296,6 +6382,7 @@ static sxi32 GenStateCompileChunk(
   /* Return compilation status */
   return rc;
 }
+
 /*
  * Compile a Raw PHP chunk.
  * If something goes wrong while compiling the PHP chunk,this function
@@ -6368,6 +6455,7 @@ static sxi32 PH7_CompilePHP(
   /* Compilation result */
   return rc;
 }
+
 /*
  * Compile a raw chunk. The raw chunk can contain PHP code embedded
  * in HTML, XML and so on. This function handle all the stuff.
@@ -6461,6 +6549,7 @@ cleanup:
   SySetRelease(&aPhpToken);
   return rc;
 }
+
 /*
  * Utility routines.Initialize the code generator.
  */
@@ -6491,6 +6580,7 @@ PH7_PRIVATE sxi32 PH7_InitCodeGenerator(
   pGen->pCurrent = &pGen->sGlobal;
   return SXRET_OK;
 }
+
 /*
  * Utility routines. Reset the code generator to it's initial state.
  */
@@ -6522,6 +6612,7 @@ PH7_PRIVATE sxi32 PH7_ResetCodeGenerator(
   pGen->nErr = 0;
   return SXRET_OK;
 }
+
 /*
  * Generate a compile-time error message.
  * If the error count limit is reached (usually 15 error message)

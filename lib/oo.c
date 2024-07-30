@@ -54,6 +54,7 @@ PH7_PRIVATE ph7_class* PH7_NewRawClass(ph7_vm *pVm, const SyString *pName, sxu32
   /* All done */
   return pClass;
 }
+
 /*
  * Allocate and initialize a new class attribute.
  * Return a pointer to the class attribute on success. NULL otherwise.
@@ -83,6 +84,7 @@ PH7_PRIVATE ph7_class_attr* PH7_NewClassAttr(ph7_vm *pVm, const SyString *pName,
   pAttr->nLine = nLine;
   return pAttr;
 }
+
 /*
  * Allocate and initialize a new class method.
  * Return a pointer to the class method on success. NULL otherwise
@@ -145,6 +147,7 @@ PH7_PRIVATE ph7_class_method* PH7_NewClassMethod(ph7_vm *pVm, ph7_class *pClass,
                       pName->nByte, iFuncFlags | VM_FUNC_CLASS_METHOD, pClass);
   return pMeth;
 }
+
 /*
  * Check if the given name have a class method associated with it.
  * Return the desired method [i.e: ph7_class_method instance] on success. NULL otherwise.
@@ -161,6 +164,7 @@ PH7_PRIVATE ph7_class_method* PH7_ClassExtractMethod(ph7_class *pClass, const ch
   /* Point to the desired method */
   return (ph7_class_method *) pEntry->pUserData;
 }
+
 /*
  * Check if the given name is a class attribute.
  * Return the desired attribute [i.e: ph7_class_attr instance] on success.NULL otherwise.
@@ -177,6 +181,7 @@ PH7_PRIVATE ph7_class_attr* PH7_ClassExtractAttribute(ph7_class *pClass, const c
   /* Point to the desierd method */
   return (ph7_class_attr *) pEntry->pUserData;
 }
+
 /*
  * Install a class attribute in the corresponding container.
  * Return SXRET_OK on success. Any other return value indicates failure.
@@ -188,6 +193,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstallAttr(ph7_class *pClass, ph7_class_attr *pAttr)
   rc = SyHashInsert(&pClass->hAttr, (const void *) pName->zString, pName->nByte, pAttr);
   return rc;
 }
+
 /*
  * Install a class method in the corresponding container.
  * Return SXRET_OK on success. Any other return value indicates failure.
@@ -199,6 +205,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstallMethod(ph7_class *pClass, ph7_class_method *pM
   rc = SyHashInsert(&pClass->hMethod, (const void *) pName->zString, pName->nByte, pMeth);
   return rc;
 }
+
 /*
  * Perform an inheritance operation.
  * According to the PHP language reference manual
@@ -316,6 +323,7 @@ PH7_PRIVATE sxi32 PH7_ClassInherit(ph7_gen_state *pGen, ph7_class *pSub, ph7_cla
   /* All done */
   return SXRET_OK;
 }
+
 /*
  * Inherit an object interface from another object interface.
  * According to the PHP language reference manual.
@@ -371,6 +379,7 @@ PH7_PRIVATE sxi32 PH7_ClassInterfaceInherit(ph7_class *pSub, ph7_class *pBase)
   /* All done */
   return SXRET_OK;
 }
+
 /*
  * Implements an object interface in the given main class.
  * According to the PHP language reference manual.
@@ -413,6 +422,7 @@ PH7_PRIVATE sxi32 PH7_ClassImplement(ph7_class *pMain, ph7_class *pInterface)
    */
   return SXRET_OK;
 }
+
 /*
  * Create a class instance [i.e: Object in the PHP jargon] at run-time.
  * The following function is called when an object is created at run-time
@@ -509,6 +519,7 @@ static ph7_class_instance* NewClassInstance(ph7_vm *pVm, ph7_class *pClass)
   SyHashInit(&pThis->hAttr, &pVm->sAllocator, 0, 0);
   return pThis;
 }
+
 /*
  * Wrapper around the NewClassInstance() function defined above.
  * See the block comment above for more information.
@@ -529,6 +540,7 @@ PH7_PRIVATE ph7_class_instance* PH7_NewClassInstance(ph7_vm *pVm, ph7_class *pCl
   }
   return pNew;
 }
+
 /*
  * Extract the value of a class instance [i.e: Object in the PHP jargon] attribute.
  * This function never fail.
@@ -540,6 +552,7 @@ static ph7_value* ExtractClassAttrValue(ph7_vm *pVm, VmClassAttr *pAttr)
   pValue = (ph7_value *) SySetAt(&pVm->aMemObj, pAttr->nIdx);
   return pValue;
 }
+
 /*
  * Perform a clone operation on a class instance [i.e: Object in the PHP jargon].
  * The following function is called when an object is cloned at run-time
@@ -676,6 +689,7 @@ PH7_PRIVATE ph7_class_instance* PH7_CloneClassInstance(ph7_class_instance *pSrc)
   /* Return the cloned object */
   return pClone;
 }
+
 #define CLASS_INSTANCE_DESTROYED 0x001 /* Instance is released */
 /*
  * Release a class instance [i.e: Object in the PHP jargon] and invoke any defined destructor.
@@ -719,6 +733,7 @@ static void PH7_ClassInstanceRelease(ph7_class_instance *pThis)
   SyHashRelease(&pThis->hAttr);
   SyMemBackendPoolFree(&pVm->sAllocator, pThis);
 }
+
 /*
  * Decrement the reference count of a class instance [i.e Object in the PHP jargon].
  * If the reference count reaches zero,release the whole instance.
@@ -731,6 +746,7 @@ PH7_PRIVATE void PH7_ClassInstanceUnref(ph7_class_instance *pThis)
     PH7_ClassInstanceRelease(&(*pThis));
   }
 }
+
 /*
  * Compare two class instances [i.e: Objects in the PHP jargon]
  * Note on objects comparison:
@@ -872,6 +888,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceCmp(ph7_class_instance *pLeft, ph7_class_inst
   /* Object are equals */
   return 0;
 }
+
 /*
  * Dump a class instance and the store the dump in the BLOB given
  * as the first argument.
@@ -937,6 +954,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceDump(SyBlob *pOut, ph7_class_instance *pThis,
   SyBlobAppend(&(*pOut), "}", sizeof(char));
   return rc;
 }
+
 /*
  * Call a magic method [i.e: __toString(),__toBool(),__Invoke()...]
  * Return SXRET_OK on successfull call. Any other return value indicates failure.
@@ -1014,6 +1032,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceCallMagicMethod(
   }
   return rc;
 }
+
 /*
  * Extract the value of a class instance [i.e: Object in the PHP jargon].
  * This function is simply a wrapper on ExtractClassAttrValue().
@@ -1025,6 +1044,7 @@ PH7_PRIVATE ph7_value* PH7_ClassInstanceExtractAttrValue(ph7_class_instance *pTh
   pValue = ExtractClassAttrValue(pThis->pVm, pAttr);
   return pValue;
 }
+
 /*
  * Convert a class instance [i.e: Object in the PHP jargon] into a hashmap [i.e: array in the PHP jargon].
  * Return SXRET_OK on success. Any other value indicates failure.
@@ -1082,6 +1102,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceToHashmap(ph7_class_instance *pThis, ph7_hash
   PH7_MemObjRelease(&sName);
   return SXRET_OK;
 }
+
 /*
  * Iterate throw class attributes and invoke the given callback [i.e: xWalk()] for each
  * retrieved attribute.
@@ -1125,6 +1146,7 @@ PH7_PRIVATE sxi32 PH7_ClassInstanceWalk(
   /* All done */
   return SXRET_OK;
 }
+
 /*
  * Extract a class atrribute value.
  * Return a pointer to the attribute value on success. Otherwise NULL.

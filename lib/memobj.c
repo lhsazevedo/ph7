@@ -68,6 +68,7 @@ static sxi64 MemObjRealToInt(ph7_value *pObj)
   }
 #endif
 }
+
 /*
  * Convert a raw token value typically a stream of digit [i.e: hex,octal,binary or decimal]
  * to a 64-bit integer.
@@ -100,6 +101,7 @@ PH7_PRIVATE sxi64 PH7_TokenValueToInt64(SyString *pVal)
   }
   return iVal;
 }
+
 /*
  * Return some kind of 64-bit integer value which is the best we can
  * do at representing the value that pObj describes as a string
@@ -111,6 +113,7 @@ static sxi64 MemObjStringToInt(ph7_value *pObj)
   SyStringInitFromBuf(&sVal, SyBlobData(&pObj->sBlob), SyBlobLength(&pObj->sBlob));
   return PH7_TokenValueToInt64(&sVal);
 }
+
 /*
  * Call a magic class method [i.e: __toString(),__toInt(),...]
  * Return SXRET_OK if the magic method is available and have been
@@ -136,6 +139,7 @@ static sxi32 MemObjCallClassCastMethod(
   /* Method successfully called,pResult should hold the return value */
   return SXRET_OK;
 }
+
 /*
  * Return some kind of integer value which is the best we can
  * do at representing the value that pObj describes as an integer.
@@ -184,6 +188,7 @@ static sxi64 MemObjIntValue(ph7_value *pObj)
   /* CANT HAPPEN */
   return 0;
 }
+
 /*
  * Return some kind of real value which is the best we can
  * do at representing the value that pObj describes as a real.
@@ -252,6 +257,7 @@ static ph7_real MemObjRealValue(ph7_value *pObj)
   /* NOT REACHED  */
   return 0;
 }
+
 /*
  * Return the string representation of a given ph7_value.
  * This function never fail and always return SXRET_OK.
@@ -295,6 +301,7 @@ static sxi32 MemObjStringValue(SyBlob *pOut, ph7_value *pObj, sxu8 bStrictBool)
   }
   return SXRET_OK;
 }
+
 /*
  * Return some kind of boolean value which is the best we can do
  * at representing the value that pObj describes as a boolean.
@@ -369,6 +376,7 @@ static sxi32 MemObjBooleanValue(ph7_value *pObj)
   /* NOT REACHED */
   return 0;
 }
+
 /*
  * If the ph7_value is of type real,try to make it an integer also.
  */
@@ -394,6 +402,7 @@ static sxi32 MemObjTryIntger(ph7_value *pObj)
   }
   return SXRET_OK;
 }
+
 /*
  * Convert a ph7_value to type integer.Invalidate any prior representations.
  */
@@ -408,6 +417,7 @@ PH7_PRIVATE sxi32 PH7_MemObjToInteger(ph7_value *pObj)
   }
   return SXRET_OK;
 }
+
 /*
  * Convert a ph7_value to type real (Try to get an integer representation also).
  * Invalidate any prior representations
@@ -425,6 +435,7 @@ PH7_PRIVATE sxi32 PH7_MemObjToReal(ph7_value *pObj)
   }
   return SXRET_OK;
 }
+
 /*
  * Convert a ph7_value to type boolean.Invalidate any prior representations.
  */
@@ -439,6 +450,7 @@ PH7_PRIVATE sxi32 PH7_MemObjToBool(ph7_value *pObj)
   }
   return SXRET_OK;
 }
+
 /*
  * Convert a ph7_value to type string.Prior representations are NOT invalidated.
  */
@@ -453,6 +465,7 @@ PH7_PRIVATE sxi32 PH7_MemObjToString(ph7_value *pObj)
   }
   return rc;
 }
+
 /*
  * Nullify a ph7_value.In other words invalidate any prior
  * representation.
@@ -461,6 +474,7 @@ PH7_PRIVATE sxi32 PH7_MemObjToNull(ph7_value *pObj)
 {
   return PH7_MemObjRelease(pObj);
 }
+
 /*
  * Convert a ph7_value to type array.Invalidate any prior representations.
  * According to the PHP language reference manual.
@@ -499,6 +513,7 @@ PH7_PRIVATE sxi32 PH7_MemObjToHashmap(ph7_value *pObj)
   }
   return SXRET_OK;
 }
+
 /*
  * Convert a ph7_value to type object.Invalidate any prior representations.
  * The new object is instantiated from the builtin stdClass().
@@ -557,6 +572,7 @@ PH7_PRIVATE sxi32 PH7_MemObjToObject(ph7_value *pObj)
   }
   return SXRET_OK;
 }
+
 /*
  * Return a pointer to the appropriate convertion method associated
  * with the given type.
@@ -586,6 +602,7 @@ PH7_PRIVATE ProcMemObjCast PH7_MemObjCastMethod(sxi32 iFlags)
   /* NULL cast */
   return PH7_MemObjToNull;
 }
+
 /*
  * Check whether the ph7_value is numeric [i.e: int/float/bool] or looks
  * like a numeric number [i.e: if the ph7_value is of type string.].
@@ -612,6 +629,7 @@ PH7_PRIVATE sxi32 PH7_MemObjIsNumeric(ph7_value *pObj)
   /* NOT REACHED */
   return FALSE;
 }
+
 /*
  * Check whether the ph7_value is empty.Return TRUE if empty.
  * FALSE otherwise.
@@ -658,6 +676,7 @@ PH7_PRIVATE sxi32 PH7_MemObjIsEmpty(ph7_value *pObj)
   /* Assume empty by default */
   return TRUE;
 }
+
 /*
  * Convert a ph7_value so that it has types MEMOBJ_REAL or MEMOBJ_INT
  * or both.
@@ -708,6 +727,7 @@ PH7_PRIVATE sxi32 PH7_MemObjToNumeric(ph7_value *pObj)
   }
   return SXRET_OK;
 }
+
 /*
  * Try a get an integer representation of the given ph7_value.
  * If the ph7_value is not of type real,this function is a no-op.
@@ -720,6 +740,7 @@ PH7_PRIVATE sxi32 PH7_MemObjTryInteger(ph7_value *pObj)
   }
   return SXRET_OK;
 }
+
 /*
  * Initialize a ph7_value to the null type.
  */
@@ -734,6 +755,7 @@ PH7_PRIVATE sxi32 PH7_MemObjInit(ph7_vm *pVm, ph7_value *pObj)
   pObj->iFlags = MEMOBJ_NULL;
   return SXRET_OK;
 }
+
 /*
  * Initialize a ph7_value to the integer type.
  */
@@ -749,6 +771,7 @@ PH7_PRIVATE sxi32 PH7_MemObjInitFromInt(ph7_vm *pVm, ph7_value *pObj, sxi64 iVal
   pObj->iFlags = MEMOBJ_INT;
   return SXRET_OK;
 }
+
 /*
  * Initialize a ph7_value to the boolean type.
  */
@@ -764,6 +787,7 @@ PH7_PRIVATE sxi32 PH7_MemObjInitFromBool(ph7_vm *pVm, ph7_value *pObj, sxi32 iVa
   pObj->iFlags = MEMOBJ_BOOL;
   return SXRET_OK;
 }
+
 #if 0
 /*
  * Initialize a ph7_value to the real type.
@@ -780,6 +804,7 @@ PH7_PRIVATE sxi32 PH7_MemObjInitFromReal(ph7_vm *pVm, ph7_value *pObj, ph7_real 
   pObj->iFlags = MEMOBJ_REAL;
   return SXRET_OK;
 }
+
 #endif
 /*
  * Initialize a ph7_value to the array type.
@@ -796,6 +821,7 @@ PH7_PRIVATE sxi32 PH7_MemObjInitFromArray(ph7_vm *pVm, ph7_value *pObj, ph7_hash
   pObj->x.pOther = pArray;
   return SXRET_OK;
 }
+
 /*
  * Initialize a ph7_value to the string type.
  */
@@ -814,6 +840,7 @@ PH7_PRIVATE sxi32 PH7_MemObjInitFromString(ph7_vm *pVm, ph7_value *pObj, const S
   pObj->iFlags = MEMOBJ_STRING;
   return SXRET_OK;
 }
+
 /*
  * Append some contents to the internal buffer of a given ph7_value.
  * If the given ph7_value is not of type string,this function
@@ -832,6 +859,7 @@ PH7_PRIVATE sxi32 PH7_MemObjStringAppend(ph7_value *pObj, const char *zData, sxu
   rc = SyBlobAppend(&pObj->sBlob, zData, nLen);
   return rc;
 }
+
 #if 0
 /*
  * Format and append some contents to the internal buffer of a given ph7_value.
@@ -851,6 +879,7 @@ PH7_PRIVATE sxi32 PH7_MemObjStringFormat(ph7_value *pObj, const char *zFormat, v
   rc = SyBlobFormatAp(&pObj->sBlob, zFormat, ap);
   return rc;
 }
+
 #endif
 /*
  * Duplicate the contents of a ph7_value.
@@ -890,6 +919,7 @@ PH7_PRIVATE sxi32 PH7_MemObjStore(ph7_value *pSrc, ph7_value *pDest)
   }
   return rc;
 }
+
 /*
  * Duplicate the contents of a ph7_value but do not copy internal
  * buffer contents,simply point to it.
@@ -913,6 +943,7 @@ PH7_PRIVATE sxi32 PH7_MemObjLoad(ph7_value *pSrc, ph7_value *pDest)
   }
   return SXRET_OK;
 }
+
 /*
  * Invalidate any prior representation of a given ph7_value.
  */
@@ -931,6 +962,7 @@ PH7_PRIVATE sxi32 PH7_MemObjRelease(ph7_value *pObj)
   }
   return SXRET_OK;
 }
+
 /*
  * Compare two ph7_values.
  * Return 0 if the values are equals, > 0 if pObj1 is greater than pObj2
@@ -1117,6 +1149,7 @@ Numeric:
   /* NOT REACHED */
   return 0;
 }
+
 /*
  * Perform an addition operation of two ph7_values.
  * The reason this function is implemented here rather than 'vm.c'
@@ -1213,6 +1246,7 @@ PH7_PRIVATE sxi32 PH7_MemObjAdd(ph7_value *pObj1, ph7_value *pObj2, int bAddStor
   }
   return SXRET_OK;
 }
+
 /*
  * Return a printable representation of the type of a given
  * ph7_value.
@@ -1239,6 +1273,7 @@ PH7_PRIVATE const char* PH7_MemObjTypeDump(ph7_value *pVal)
   }
   return zType;
 }
+
 /*
  * Dump a ph7_value [i.e: get a printable representation of it's type and contents.].
  * Store the dump in the given blob.
